@@ -1086,6 +1086,11 @@ ApplicationWindow {
                 section = section_speed_array[j]
                 if (section.start == item.tid) {
                     speed = section.speed;
+
+                    if ((section.timeStart === 0) || (section.measure)) {
+                        speed = '';
+                    }
+
                 }
             }
 
