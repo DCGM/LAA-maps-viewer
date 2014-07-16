@@ -12,8 +12,8 @@ ApplicationWindow {
     color: "#ffffff"
 
     property alias igcDirectory: igcDirectoryTextField.text
-    property string igcDirectory_default: "file:///home/jmlich/workspace/tucek/testovaci_data/igcFiles"
-//    property string igcDirectory_default: "file:///home/imlich/workspace/tucek/testovaci_data/igcFiles"
+//    property string igcDirectory_default: "file:///home/jmlich/workspace/tucek/testovaci_data/igcFiles"
+    property string igcDirectory_default: "file:///home/imlich/workspace/tucek/testovaci_data/igcFiles"
     //    property string igcDirectory_default: "file:///"+ QStandardPathsApplicationFilePath + "/igcFiles"
 
     property alias trackFile: trackFileTextField.text
@@ -24,8 +24,8 @@ ApplicationWindow {
     //    property string trackFile_default: "file:///"+ QStandardPathsApplicationFilePath + "/track.json";
 
     property alias resultsFolder: resultsFolderTextField.text;
-    property string resultsFolder_default: "file:///home/jmlich/workspace/tucek/testovaci_data/results"
-//    property string resultsFolder_default: "file:///home/imlich/workspace/tucek/testovaci_data/results"
+//    property string resultsFolder_default: "file:///home/jmlich/workspace/tucek/testovaci_data/results"
+    property string resultsFolder_default: "file:///home/imlich/workspace/tucek/testovaci_data/results"
     //    property string resultsFolder_default: "file:///"+ QStandardPathsApplicationFilePath +"/results";
     //    property string resultsFolder_default: "../../results"
 
