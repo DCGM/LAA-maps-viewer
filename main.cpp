@@ -60,7 +60,6 @@ int main(int argc, char *argv[])
 
     QTranslator translator;
 
-
     //    if (translator.load(QLatin1String("viewer_") + QLocale::system().name(), QLibraryInfo::location(QLibraryInfo::TranslationsPath))) {
     if (translator.load(QLatin1String("viewer_") + QLocale::system().name(), "./")) {
         app.installTranslator(&translator);
@@ -87,6 +86,8 @@ int main(int argc, char *argv[])
     engine.setNetworkAccessManagerFactory(&namFactory);
     engine.rootContext()->setContextProperty("QStandardPathsHomeLocation", QStandardPaths::standardLocations(QStandardPaths::HomeLocation)[0]);
     engine.rootContext()->setContextProperty("QStandardPathsApplicationFilePath", QFileInfo( QCoreApplication::applicationFilePath() ).dir().absolutePath() );
+//    engine.rootContext()->setContextProperty("QStandardPathsApplicationFilePath", QFileInfo( QCoreApplication::applicationFilePath() ).dir().absolutePath().left(QFileInfo( QCoreApplication::applicationFilePath() ).dir().absolutePath().size()-4) );
+
     engine.load(QUrl("qml/viewer/main.qml"));
 
 
