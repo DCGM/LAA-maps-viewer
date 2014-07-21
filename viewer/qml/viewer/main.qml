@@ -876,7 +876,7 @@ ApplicationWindow {
                                     var timeDiff = Math.abs(timeEnd - timeStart);
                                     var distance = section_speed_array[k].distance;
                                     var speed = distance / timeDiff;
-                                    section_speed_array[k].speed = (speed * 3.6);
+                                    section_speed_array[k].speed = (speed * 3.6); // m/s to km/h
                                 }
                             }
                             for (k = 0; k < section_alt_array_length; k++) {
@@ -1086,11 +1086,9 @@ ApplicationWindow {
                 section = section_speed_array[j]
                 if (section.start == item.tid) {
                     speed = section.speed;
-
-                    if ((section.timeStart === 0) || (section.measure)) {
+                    if (section.measure || (section.time_start === 0)) {
                         speed = '';
                     }
-
                 }
             }
 
@@ -1300,16 +1298,6 @@ ApplicationWindow {
                 var section_space_start = F.getFlagsByIndex(11, flags)
                 var section_space_end   = F.getFlagsByIndex(12, flags)
 
-                if (section_speed_start) {
-                    section_speed_start_pid = c.pid;
-                }
-                if (section_alt_start) {
-                    section_alt_start_pid = c.pid;
-                }
-                if (section_space_start) {
-                    section_space_start_pid = c.pid;
-                }
-
                 if (section_speed_end && (section_speed_start_pid >= 0)) {
                     var item = {
                         "start": section_speed_start_pid,
@@ -1344,6 +1332,16 @@ ApplicationWindow {
                     }
                     sections.push(item);
                     section_space_start_pid = -1;
+                }
+
+                if (section_speed_start) {
+                    section_speed_start_pid = c.pid;
+                }
+                if (section_alt_start) {
+                    section_alt_start_pid = c.pid;
+                }
+                if (section_space_start) {
+                    section_space_start_pid = c.pid;
                 }
 
 
