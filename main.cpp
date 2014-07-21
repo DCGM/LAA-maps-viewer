@@ -15,6 +15,15 @@
 #include "networkaccessmanagerfactory.h"
 #include "imagesaver.h"
 
+#ifndef BUILDTIME
+#define BUILDTIME "n/a"
+#endif
+
+#ifndef BUILDDATE
+#define BUILDDATE "n/a"
+#endif
+
+
 
 void myMessageHandler(QtMsgType type, const QMessageLogContext& context, const QString& msg) {
     QString txt;
@@ -72,8 +81,8 @@ int main(int argc, char *argv[])
         }
         engine.rootContext()->setContextProperty("locale","en");
     }
-    engine.rootContext()->setContextProperty("builddate", QString::fromLocal8Bit(BUILDDATE));
-    engine.rootContext()->setContextProperty("buildtime", QString::fromLocal8Bit(BUILDTIME));
+    engine.rootContext()->setContextProperty("builddate", QString::fromLocal8Bit(__DATE__));
+    engine.rootContext()->setContextProperty("buildtime", QString::fromLocal8Bit(__TIME__));
 
     //    IgcFile igc;
     //    igc.load("/home/imlich/workspace/tucek/igctest/laa31T01V1R1_laa31.igc");
