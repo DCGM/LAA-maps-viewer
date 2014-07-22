@@ -599,7 +599,13 @@ ApplicationWindow {
                     return;
                 }
 
-                var item = igcFilesModel.get(igcFilesTable.currentRow);
+                var current = -1;
+                igcFilesTable.selection.forEach( function(rowIndex) { current = rowIndex; } )
+                if (current < 0) {
+                    return;
+                }
+
+                var item = igcFilesModel.get(current);
                 var con = item.contestant;
                 if (con <= 0) {
                     printMapWindow.visible = false;
