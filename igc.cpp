@@ -158,7 +158,6 @@ bool IgcFile::loadOneRecord() {
     if (buffer.size() == 0 && !file->atEnd()) {
         qDebug() << "Error reading file (" << file->errorString() << ")";
         return true;
-//        return false;
     }
 
     bool ret = parseOneRecord();
