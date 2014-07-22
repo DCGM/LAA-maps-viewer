@@ -157,7 +157,8 @@ bool IgcFile::loadOneRecord() {
 
     if (buffer.size() == 0 && !file->atEnd()) {
         qDebug() << "Error reading file (" << file->errorString() << ")";
-        return false;
+        return true;
+//        return false;
     }
 
     bool ret = parseOneRecord();
@@ -286,6 +287,7 @@ QDate IgcFile::parseDate(QByteArray bytes, bool* ok) {
 
     return QDate(y, m, d);
 }
+
 
 bool IgcFile::processRecordB() {
     bool ok = true;

@@ -398,21 +398,35 @@ ApplicationWindow {
             }
 
 
-            onCurrentRowChanged: {
-                rowSelected();
 
+            Component.onCompleted: {
+                selection.selectionChanged.connect(rowSelected);
             }
 
 
+
             function rowSelected() {
+
                 if (igcFilesModel.count <= 0) {
                     return;
                 }
-                if (igcFilesTable.currentRow < 0) {
+
+                var current = -1;
+
+                igcFilesTable.selection.forEach( function(rowIndex) { current = rowIndex; } )
+
+                if (current < 0) {
                     return;
                 }
 
-                var item = model.get(igcFilesTable.currentRow)
+
+
+                var item = model.get(current)
+
+                if (item.contestant >= contestantsListModel.count) {
+                    console.log("incorrect contestant id " + item.contestant + " " + contestantsListModel.count)
+                    return;
+                }
 
                 var ctnt = contestantsListModel.get(item.contestant)
 
@@ -688,14 +702,21 @@ ApplicationWindow {
     }
 
     function computeScore(tpiData) {
-        if (igcFilesTable.currentRow < 0) {
+
+
+        var current = -1;
+
+        igcFilesTable.selection.forEach( function(rowIndex) { current = rowIndex; } )
+
+        if (current < 0) {
             console.log("computeScore, but currentRow == " + igcFilesTable.currentRow)
             return;
         }
 
-        var item = igcFilesModel.get(igcFilesTable.currentRow)
+        var item = igcFilesModel.get(current)
         if (item.score !== "") { // pokud je vypocitane, tak nepocitame znovu
             scoreTable.currentRow = -1;
+            scoreTable.selection.clear();
             wptScoreList.clear()
             var cacheArr = JSON.parse(item.score_json);
             for (var i = 0; i < cacheArr.length; i++) {
@@ -705,6 +726,11 @@ ApplicationWindow {
 
             return;
         }
+
+        if (tpiData.length > 0) {
+            printMapWindow.makeImage();
+        }
+
 
         console.time("computeScore")
 
@@ -727,7 +753,6 @@ ApplicationWindow {
 
         var distance_cumul = 0;
         var sectorCache =  map.sectorCache;
-
 
 
         for (j = 0; j < tpiData.length; j++) {
@@ -1188,12 +1213,11 @@ ApplicationWindow {
 
         }
 
-        igcFilesModel.setProperty(igcFilesTable.currentRow, "score_json", JSON.stringify(dataArr))
-        igcFilesModel.setProperty(igcFilesTable.currentRow, "score", str)
-        //        var it = igcFilesModel.get(igcFilesTable.currentRow)
+        igcFilesModel.setProperty(current, "score_json", JSON.stringify(dataArr))
+        igcFilesModel.setProperty(current, "score", str)
+
 
         writeCSV()
-        printMapWindow.makeImage();
         console.timeEnd("computeScore")
         return str;
     }
@@ -1605,14 +1629,18 @@ ApplicationWindow {
         repeat: true;
         running: false;
         onTriggered: {
-            var current = igcFilesTable.currentRow;
-            if ((current >= (igcFilesModel.count - 1)) || (igcFilesModel.count <= 0)) {
+
+            if (igcFilesModel.count <= 0) {
                 running = false;
                 return;
             }
+
+            var current = -1;
+            igcFilesTable.selection.forEach( function(rowIndex) { current = rowIndex; } )
+
             if (current < 0) {
                 current = 0
-                igcFilesTable.selection.deselect(0, igcFilesModel.count-1);
+                igcFilesTable.selection.clear();
                 igcFilesTable.selection.select(current)
                 igcFilesTable.currentRow = current;
                 return;
@@ -1621,18 +1649,16 @@ ApplicationWindow {
             var item = igcFilesModel.get(current);
 
 
-            if (item.contestant === 0) { // if (constant is not choosen) go to next
-                igcFilesTable.selection.deselect(current);
-                igcFilesTable.selection.select(current+1)
-                igcFilesTable.currentRow = current+1;
+            if ((item.contestant === 0) || (item.score !== ""))  { // if ((no contestent selected) or (already computed))
+                if (current+1 == igcFilesModel.count) { // finsihed
+                    running = false;
+                } else { // go to next
+                    igcFilesTable.selection.clear();
+                    igcFilesTable.selection.select(current+1)
+                    igcFilesTable.currentRow = current+1;
+                }
 
-                return;
-            }
 
-            if (item.score !== "") { // if (already computed) go to next
-                igcFilesTable.selection.deselect(current);
-                igcFilesTable.selection.select(current+1)
-                igcFilesTable.currentRow = current+1;
             }
 
 

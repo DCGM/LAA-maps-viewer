@@ -17,9 +17,8 @@ ApplicationWindow {
     //    property string igcDirectory_default: "file:///"+ QStandardPathsApplicationFilePath + "/igcFiles"
 
     property alias trackFile: trackFileTextField.text
-    //    property string trackFile_default: "file:///var/www/html/tucek2/2013_LKSK.json"
-//    property string trackFile_default: "file:///var/www/html/tucek2/2014-LKHB.json";
-    property string trackFile_default: "file:///var/www/html/tucek2/2012-KOTV.json";
+    property string trackFile_default: "file:///var/www/html/tucek2/2014-7-LKJH.json";
+//    property string trackFile_default: "file:///var/www/html/tucek2/2012-KOTV.json";
 //    property string trackFile_default: "file:///var/www/html/tucek2/2014-LKHK-50bodu.json";
     //    property string trackFile_default: "file:///"+ QStandardPathsApplicationFilePath + "/track.json";
 
