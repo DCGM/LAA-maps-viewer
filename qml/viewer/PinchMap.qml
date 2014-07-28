@@ -1196,7 +1196,6 @@ Rectangle {
                                              "flags": ((c.flags >= 0) ? c.flags : tracks.default_flags),
                                              "name": prevItem.name,
                                              "tp_enabled": tp_enabled,
-                                             "tg_enabled": tg_enabled,
                                              "lat": prevItem.lat,
                                              "lon": prevItem.lon,
                                              "radius": radius,
@@ -1224,6 +1223,7 @@ Rectangle {
                             var item = getPtByPid(c.pid, points);
 
                             var tp_enabled = getFlags(c.flags, tracks.default_flags, 0)
+//                            var tg_enabled = getFlags(c.flags, tracks.default_flags, 1)
                             var radius = (c.radius < 0) ? tracks.default_radius : c.radius;
                             var prev = conns[i-1];
                             var prevItem = getPtByPid(prev.pid, points)
