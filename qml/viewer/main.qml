@@ -720,7 +720,7 @@ ApplicationWindow {
         }
 
         var item = igcFilesModel.get(current)
-        if (item.score !== "") { // pokud je vypocitane, tak nepocitame znovu
+        if ((item.score !== undefined) && (item.score !== "")) { // pokud je vypocitane, tak nepocitame znovu
             scoreTable.currentRow = -1;
             scoreTable.selection.clear();
             wptScoreList.clear()
@@ -1218,6 +1218,7 @@ ApplicationWindow {
             str += "\"" + alt_max_time_spent + "\";";
 
         }
+        str += "\"\";";
 
         igcFilesModel.setProperty(current, "score_json", JSON.stringify(dataArr))
         igcFilesModel.setProperty(current, "score", str)
@@ -1644,6 +1645,7 @@ ApplicationWindow {
             var current = -1;
             igcFilesTable.selection.forEach( function(rowIndex) { current = rowIndex; } )
 
+            // select first item of list
             if (current < 0) {
                 current = 0
                 igcFilesTable.selection.clear();
