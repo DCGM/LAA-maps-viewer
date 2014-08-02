@@ -1605,15 +1605,7 @@ ApplicationWindow {
 
         }
 
-
-
-
         str += "</trkseg></trk>"
-
-
-
-
-
         str += "</gpx>"
 
         file_reader.write(Qt.resolvedUrl(filename), str);
@@ -1623,6 +1615,7 @@ ApplicationWindow {
 
     function evaluate_all_data() {
         igcFilesTable.currentRow = -1;
+        igcFilesTable.selection.clear();
         for (var i = 0; i < igcFilesModel.count; i++) {
             igcFilesModel.setProperty(i, "score", "");
         }
