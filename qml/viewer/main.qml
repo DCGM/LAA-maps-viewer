@@ -370,6 +370,7 @@ ApplicationWindow {
                     var prevRow = igcFilesTable.currentRow
                     igcFilesModel.setProperty(row, role, value)
                     if (role === "contestant") {
+                        writeCSV();
                         igcFilesModel.setProperty(row, "score", "")
                     }
 
