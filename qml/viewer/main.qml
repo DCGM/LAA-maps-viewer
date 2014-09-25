@@ -9,6 +9,7 @@ import "functions.js" as F
 import "csv.js" as CSVJS
 
 
+
 ApplicationWindow {
     id: applicationWindow
     //% "Trajectory viewer"
@@ -190,6 +191,13 @@ ApplicationWindow {
                 id: mainViewMenuTables
                 //% "&Tables"
                 text: qsTrId("main-view-menu-tables")
+                checkable: true;
+                checked: true;
+            }
+            MenuItem {
+                id: mainViewMenuAltChart
+                //% "Altitude profile";
+                text: qsTrId("main-view-menu-altchart")
                 checkable: true;
                 checked: true;
             }
@@ -452,6 +460,7 @@ ApplicationWindow {
                 igc.load( item.filePath, ctnt.startTime)
 
                 map.requestUpdate()
+                altChart.igcUpdate();
 
             }
         }
@@ -466,7 +475,11 @@ ApplicationWindow {
             clip: true;
             PinchMap {
                 id: map
-                anchors.fill: parent;
+//                anchors.fill: parent;
+                anchors.left: parent.left;
+                anchors.right: parent.right;
+                anchors.top: parent.top;
+                anchors.bottom: altChartRect.top;
                 height: parent.height
                 gpsModel: igc;
                 trackModel: tracks;
@@ -476,6 +489,27 @@ ApplicationWindow {
 
                 onTpiComputedData:  {
                     computeScore(tpi)
+                }
+            }
+
+            Rectangle {
+                id: altChartRect
+
+                visible: mainViewMenuAltChart.checked
+                color: "#ffffff"
+                height: visible ? 200 : 0;
+                anchors.bottom: parent.bottom;
+                anchors.left: parent.left;
+                anchors.right: parent.right;
+                AltChart {
+                    id: altChart
+                    anchors.margins: 10;
+                    anchors.fill: parent;
+                    gpsModel: igc;
+                    currentPositionIndex: map.currentPositionIndex;
+                    onXClicked: {
+                        map.currentPositionIndex = pos;
+                    }
                 }
             }
         }
@@ -719,6 +753,8 @@ ApplicationWindow {
             console.log("computeScore, but currentRow == " + igcFilesTable.currentRow)
             return;
         }
+
+
 
         var item = igcFilesModel.get(current)
         if ((item.score !== undefined) && (item.score !== "")) { // pokud je vypocitane, tak nepocitame znovu
@@ -1167,17 +1203,17 @@ ApplicationWindow {
                 "angle": item.angle,
                 "time": item.time,
                 "hit": (item.hit
-                            //% "YES"
-                            ? qsTrId("hit-yes")
-                            //% "NO"
-                            : qsTrId("hit-no")
+                        //% "YES"
+                        ? qsTrId("hit-yes")
+                          //% "NO"
+                        : qsTrId("hit-no")
                         ),
                 "sg_hit": (item.sg_hit
                            //% "YES"
                            ? qsTrId("sg-hit-yes")
-                           //% "NO"
+                             //% "NO"
                            : qsTrId("sg-hit-no")
-                       ),
+                           ),
                 "speed": String(Math.round(speed)),
                 "altmax": String(Math.round(alt_max)),
                 "altmaxtime": String(alt_max_time),
@@ -1742,7 +1778,7 @@ ApplicationWindow {
                         continue;
                     }
 
-//                    console.log(igc_index)
+                    //                    console.log(igc_index)
 
                     igcFilesModel.setProperty(igc_index, "contestant", contestant_index)
                     igcFilesTable.selection.clear();
@@ -1752,7 +1788,7 @@ ApplicationWindow {
 
                 }
 
-//                file_reader.write(Qt.resolvedUrl(pathConfiguration.assignFile), '');
+                //                file_reader.write(Qt.resolvedUrl(pathConfiguration.assignFile), '');
                 file_reader.delete_file(Qt.resolvedUrl(pathConfiguration.assignFile));
 
 
