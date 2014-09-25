@@ -199,7 +199,7 @@ ApplicationWindow {
                 //% "Altitude profile";
                 text: qsTrId("main-view-menu-altchart")
                 checkable: true;
-                checked: true;
+                checked: false;
             }
         }
 
