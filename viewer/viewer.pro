@@ -71,7 +71,8 @@ RESOURCES += \
     viewer.qrc
 
 OTHER_FILES += \
-    qml/viewer/csv.js
+    qml/viewer/csv.js \
+    qml/viewer/AltChart.qml
 
 # CONFIG += qtquickcompiler
 
