@@ -144,149 +144,149 @@
         <translation>Soutěžící</translation>
     </message>
     <message id="score-table-name">
-        <location filename="../qml/viewer/main.qml" line="515"/>
+        <location filename="../qml/viewer/main.qml" line="524"/>
         <source>Name</source>
         <translation>Jméno</translation>
     </message>
     <message id="score-table-time">
-        <location filename="../qml/viewer/main.qml" line="517"/>
+        <location filename="../qml/viewer/main.qml" line="526"/>
         <source>Time</source>
         <translation>Čas</translation>
     </message>
     <message id="score-table-visited">
-        <location filename="../qml/viewer/main.qml" line="521"/>
+        <location filename="../qml/viewer/main.qml" line="530"/>
         <source>Visited TP</source>
         <oldsource>Visited</oldsource>
         <translation>Navštíveno OB</translation>
     </message>
     <message id="score-table-section-speed">
-        <location filename="../qml/viewer/main.qml" line="531"/>
+        <location filename="../qml/viewer/main.qml" line="540"/>
         <source>Section speed</source>
         <translation>Úsek rychlost</translation>
     </message>
     <message id="score-table-alt-min">
-        <location filename="../qml/viewer/main.qml" line="534"/>
+        <location filename="../qml/viewer/main.qml" line="543"/>
         <source>Section min altitude</source>
         <oldsource>Section alt min</oldsource>
         <translation>Úsek min výška</translation>
     </message>
     <message id="score-table-alt-min-time">
-        <location filename="../qml/viewer/main.qml" line="536"/>
+        <location filename="../qml/viewer/main.qml" line="545"/>
         <source>Section min altitude time</source>
         <translation>Úsek čas min výšky</translation>
     </message>
     <message id="score-table-alt-max-count">
-        <location filename="../qml/viewer/main.qml" line="547"/>
+        <location filename="../qml/viewer/main.qml" line="556"/>
         <source>Section max altitude crossings</source>
         <oldsource>Section min altitude crossings</oldsource>
         <translation>Úsek počet překročení maximální výšky</translation>
     </message>
     <message id="score-table-alt-max-time-spent">
-        <location filename="../qml/viewer/main.qml" line="549"/>
+        <location filename="../qml/viewer/main.qml" line="558"/>
         <source>Section max altitude time spent out</source>
         <oldsource>Section max altitude time spent out [s]</oldsource>
         <translation>Úsek čas stráveny nad maximální výškou</translation>
     </message>
     <message id="hit-yes">
-        <location filename="../qml/viewer/main.qml" line="1198"/>
-        <location filename="../qml/viewer/main.qml" line="1229"/>
+        <location filename="../qml/viewer/main.qml" line="1207"/>
+        <location filename="../qml/viewer/main.qml" line="1238"/>
         <source>YES</source>
         <translation>ANO</translation>
     </message>
     <message id="hit-no">
-        <location filename="../qml/viewer/main.qml" line="1200"/>
-        <location filename="../qml/viewer/main.qml" line="1229"/>
+        <location filename="../qml/viewer/main.qml" line="1209"/>
+        <location filename="../qml/viewer/main.qml" line="1238"/>
         <source>NO</source>
         <translation>NE</translation>
     </message>
     <message id="sg-hit-yes">
-        <location filename="../qml/viewer/main.qml" line="1204"/>
-        <location filename="../qml/viewer/main.qml" line="1230"/>
+        <location filename="../qml/viewer/main.qml" line="1213"/>
+        <location filename="../qml/viewer/main.qml" line="1239"/>
         <source>YES</source>
         <translation>ANO</translation>
     </message>
     <message id="sg-hit-no">
-        <location filename="../qml/viewer/main.qml" line="1206"/>
-        <location filename="../qml/viewer/main.qml" line="1230"/>
+        <location filename="../qml/viewer/main.qml" line="1215"/>
+        <location filename="../qml/viewer/main.qml" line="1239"/>
         <source>NO</source>
         <translation>NE</translation>
     </message>
     <message id="section-type-speed">
-        <location filename="../qml/viewer/main.qml" line="1366"/>
+        <location filename="../qml/viewer/main.qml" line="1375"/>
         <source>speed</source>
         <translation>rychlost</translation>
     </message>
     <message id="section-type-altitude">
-        <location filename="../qml/viewer/main.qml" line="1378"/>
+        <location filename="../qml/viewer/main.qml" line="1387"/>
         <source>altitude</source>
         <translation>výška</translation>
     </message>
     <message id="section-type-space">
-        <location filename="../qml/viewer/main.qml" line="1390"/>
+        <location filename="../qml/viewer/main.qml" line="1399"/>
         <source>space</source>
         <translation>prostor</translation>
     </message>
     <message id="score-table-alt-max">
-        <location filename="../qml/viewer/main.qml" line="543"/>
+        <location filename="../qml/viewer/main.qml" line="552"/>
         <source>Section max altitude</source>
         <oldsource>Section alt max</oldsource>
         <translation>Úsek max výška</translation>
     </message>
     <message id="score-table-alt-max-time">
-        <location filename="../qml/viewer/main.qml" line="545"/>
+        <location filename="../qml/viewer/main.qml" line="554"/>
         <source>Section max altitude time</source>
         <translation>Úsek čas max výšky</translation>
     </message>
     <message id="score-table-alt-min-count">
-        <location filename="../qml/viewer/main.qml" line="538"/>
+        <location filename="../qml/viewer/main.qml" line="547"/>
         <source>Section min altitude crossings</source>
         <oldsource>Section max altitude crossings</oldsource>
         <translation>Úsek počet překročení minimální výšky</translation>
     </message>
     <message id="score-table-alt-min-time-spent">
-        <location filename="../qml/viewer/main.qml" line="540"/>
+        <location filename="../qml/viewer/main.qml" line="549"/>
         <source>Section min altitude time spent out</source>
         <oldsource>Section min altitude time spent out [s]</oldsource>
         <translation>Úsek čas stráveny pod minimální výškou</translation>
     </message>
     <message id="score-table-distance-max">
-        <location filename="../qml/viewer/main.qml" line="552"/>
+        <location filename="../qml/viewer/main.qml" line="561"/>
         <source>Section max distance</source>
         <translation>Úsek max vzdálenost</translation>
     </message>
     <message id="score-table-distance-max-time">
-        <location filename="../qml/viewer/main.qml" line="554"/>
+        <location filename="../qml/viewer/main.qml" line="563"/>
         <source>Section max distance time</source>
         <translation>Úsek čas max vzdálenosti</translation>
     </message>
     <message id="score-table-distance-out-count">
-        <location filename="../qml/viewer/main.qml" line="556"/>
+        <location filename="../qml/viewer/main.qml" line="565"/>
         <source>Section max distance crossing</source>
         <translation>Úsek počet vzdálení se od trati</translation>
     </message>
     <message id="score-table-distance-out-spent">
-        <location filename="../qml/viewer/main.qml" line="558"/>
+        <location filename="../qml/viewer/main.qml" line="567"/>
         <source>Section max distance time spent out</source>
         <oldsource>Section max distance time spent out [s]</oldsource>
         <translation>Úsek doba strávena mimo trať</translation>
     </message>
     <message id="score-table-distance-out-bi-count">
-        <location filename="../qml/viewer/main.qml" line="561"/>
+        <location filename="../qml/viewer/main.qml" line="570"/>
         <source>Section max distance crossing (both)</source>
         <translation>Úsek počet vzdálení se od trati (obě osy)</translation>
     </message>
     <message id="score-table-distance-out-bi-spent">
-        <location filename="../qml/viewer/main.qml" line="563"/>
+        <location filename="../qml/viewer/main.qml" line="572"/>
         <source>Section max distance time spent out (both)</source>
         <translation>Úsek doba strávena mimo trať (obě osy)</translation>
     </message>
     <message id="toolbar-start-time">
-        <location filename="../qml/viewer/main.qml" line="684"/>
+        <location filename="../qml/viewer/main.qml" line="693"/>
         <source>(Start time: %1)</source>
         <translation>(Čas startu: %1)</translation>
     </message>
     <message id="toolbar-invalid-fixes" numerus="yes">
-        <location filename="../qml/viewer/main.qml" line="691"/>
+        <location filename="../qml/viewer/main.qml" line="700"/>
         <source>Invalid %n</source>
         <oldsource>Invalid/Trimmed %1/%2</oldsource>
         <translation>
@@ -296,7 +296,7 @@
         </translation>
     </message>
     <message id="toolbar-trimmed-fixes" numerus="yes">
-        <location filename="../qml/viewer/main.qml" line="698"/>
+        <location filename="../qml/viewer/main.qml" line="707"/>
         <source>Trimmed %n</source>
         <translation>
             <numerusform>Oříznutých %n</numerusform>
@@ -305,32 +305,32 @@
         </translation>
     </message>
     <message id="score-table-altitude">
-        <location filename="../qml/viewer/main.qml" line="519"/>
+        <location filename="../qml/viewer/main.qml" line="528"/>
         <source>Altitude</source>
         <translation>Nadmořská výška</translation>
     </message>
     <message id="score-table-space-gate-visited">
-        <location filename="../qml/viewer/main.qml" line="523"/>
+        <location filename="../qml/viewer/main.qml" line="532"/>
         <source>Visited SG</source>
         <translation>Navštíveno PB</translation>
     </message>
     <message id="score-table-latitude">
-        <location filename="../qml/viewer/main.qml" line="525"/>
+        <location filename="../qml/viewer/main.qml" line="534"/>
         <source>Latitude</source>
         <translation>Zeměpisná šířka</translation>
     </message>
     <message id="score-table-longitude">
-        <location filename="../qml/viewer/main.qml" line="527"/>
+        <location filename="../qml/viewer/main.qml" line="536"/>
         <source>Longitude</source>
         <translation>Zeměpisná délka</translation>
     </message>
     <message id="score-table-radius">
-        <location filename="../qml/viewer/main.qml" line="529"/>
+        <location filename="../qml/viewer/main.qml" line="538"/>
         <source>Radius</source>
         <translation>Poloměr</translation>
     </message>
     <message id="status-no-track-loaded">
-        <location filename="../qml/viewer/main.qml" line="662"/>
+        <location filename="../qml/viewer/main.qml" line="671"/>
         <source>No track loaded</source>
         <translation>Není načtena trať</translation>
     </message>
