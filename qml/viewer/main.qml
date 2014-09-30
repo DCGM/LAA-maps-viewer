@@ -274,7 +274,7 @@ ApplicationWindow {
 
     FolderListModel {
         id: igcFolderModel
-        nameFilters: ["*.igc"]
+        nameFilters: ["*.igc", "*.IGC"]
         showDirs: false
         property string previousFolder;
 
