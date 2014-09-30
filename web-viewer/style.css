@@ -1,0 +1,114 @@
+body {
+  margin: 0; 
+/*  background: url("./images/woodenfloor.jpg"); //bg-theme.png */
+  background: #f1f2f2;
+}
+
+/*
+#hlavicka {
+  background: url("./images/bg-header.png");
+  height: 40px;
+}
+*/
+
+/*
+h1, h2 {
+    color: #21bedf;
+    font-style: italic;
+}
+*/
+
+a {
+  color: #21bedf;
+  font-family: hevetica;
+}
+a:hover {
+  text-decoration: none;
+}
+
+h1 {
+  background-color: #b8b8b9;
+  color: #ffffff;
+  padding: 7px;
+}
+
+h2 {
+  background-color: #21bedf;
+  color: #ffffff;
+  padding: 12px 14px 12px 14px;
+  font-size: 12pt;
+}
+
+#container {
+  background: #ffffff;
+  width: 800px;
+
+  margin-left: auto;
+  margin-right: auto;
+
+  padding: 20px;
+
+}
+#center {
+}
+
+#left {
+}
+
+#right {
+}
+
+.box {
+  background: #ffffff;
+  padding: 10px;
+  margin: 10px;
+/*
+  width: 250px;
+  height: 55px;
+*/
+  font-family: helvetica
+}
+
+.box img {
+  padding: 0 5px 0 5px;
+  float: left;
+  vertical-align: middle;
+  border: 0
+}
+
+.box .tiny {
+  font-size: 80%;
+}
+
+.loginfield { border: 0; }
+.loginfield input {
+  border: solid #aaa 1px;
+  padding: 3px 7px 3px 7px;
+  width: 200px;
+}
+
+.menu {
+  margin: 10px 0 10px 0;
+}
+
+.menu a {
+  color: #000000;
+  text-decoration: none;
+  background-color: #eeeeee;
+  border: solid #cccccc 1px;
+  padding: 3px 7px 3px 7px;
+  font-weight: bold;
+}
+
+.menu a:hover {
+  background-color: #dddddd;
+}
+
+.cbox {
+  border: solid #999999 1px;
+  width: 250px;
+  clear: left;
+  padding: 15px;
+  margin: 10px;
+
+}
