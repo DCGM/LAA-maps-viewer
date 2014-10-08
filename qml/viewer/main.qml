@@ -1291,7 +1291,8 @@ ApplicationWindow {
 
 
         str = ";"
-        for (var i = 0; i < contestantsListModel.count; i++) {
+        // polozka i = 0 je vyhrazena pro pouziti "prazdne polozky" v comboboxu; misto toho by mela jit hlavicka
+        for (var i = 1; i < contestantsListModel.count; i++) {
             var item = contestantsListModel.get(i);
 
             var line = "\"" + F.addSlashes(item.name) +"\";\""+ F.addSlashes(item.category) +"\";\""+ F.addSlashes(item.fullName) +"\";\""+ F.addSlashes(item.startTime) +"\";\""+ F.addSlashes(item.filename) +"\""
