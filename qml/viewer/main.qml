@@ -1293,7 +1293,8 @@ ApplicationWindow {
         str = ";"
         for (var i = 0; i < contestantsListModel.count; i++) {
             var item = contestantsListModel.get(i);
-            var line = "\"" + item.name +"\";\""+ item.category +"\";\""+ item.fullName +"\";\""+ item.startTime +"\";\""+ item.filename +"\""
+
+            var line = "\"" + F.addSlashes(item.name) +"\";\""+ F.addSlashes(item.category) +"\";\""+ F.addSlashes(item.fullName) +"\";\""+ F.addSlashes(item.startTime) +"\";\""+ F.addSlashes(item.filename) +"\""
             str += line + "\n";
         }
         file_reader.write(Qt.resolvedUrl(pathConfiguration.contestantsFile), str);
