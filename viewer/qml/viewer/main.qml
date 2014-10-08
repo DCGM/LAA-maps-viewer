@@ -1278,6 +1278,7 @@ ApplicationWindow {
 
             var ctnt = contestantsListModel.get(item.contestant)
 
+            contestantsListModel.setProperty(item.contestant, "filename", item.fileName);
             str += "\"" + ctnt.fullName + "\";"
             str += "\"" + item.fileName + "\";"
 
@@ -1287,6 +1288,15 @@ ApplicationWindow {
         str += ""
 
         file_reader.write(Qt.resolvedUrl(pathConfiguration.csvFile), str);
+
+
+        str = ";"
+        for (var i = 0; i < contestantsListModel.count; i++) {
+            var item = contestantsListModel.get(i);
+            var line = "\"" + item.name +"\";\""+ item.category +"\";\""+ item.fullName +"\";\""+ item.startTime +"\";\""+ item.filename +"\""
+            str += line + "\n";
+        }
+        file_reader.write(Qt.resolvedUrl(pathConfiguration.contestantsFile), str);
 
     }
 
