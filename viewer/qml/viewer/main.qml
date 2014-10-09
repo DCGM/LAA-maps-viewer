@@ -1290,7 +1290,7 @@ ApplicationWindow {
         file_reader.write(Qt.resolvedUrl(pathConfiguration.csvFile), str);
 
 
-        str = ";"
+        str = "";
         // polozka i = 0 je vyhrazena pro pouziti "prazdne polozky" v comboboxu; misto toho by mela jit hlavicka
         for (var i = 1; i < contestantsListModel.count; i++) {
             var item = contestantsListModel.get(i);
