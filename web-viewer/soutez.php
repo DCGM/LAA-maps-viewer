@@ -32,8 +32,6 @@ sort($kat_array);
 $debug = print_r($posadky, true);
 
 
-
-
 $content .= <<<EOF
 
 <h2>Celkové výsledky</h2>

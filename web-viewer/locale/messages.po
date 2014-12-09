@@ -1,112 +1,197 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Web interface to LAA Competions
+# Copyright (C) 2014 Jozef Mlich
+# This file is distributed under the same license as the web-viewer package.
+# Jozef Mlich <imlich@fit.vutbr.cz>, 2014
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-28 21:03+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2014-12-09 15:31+0100\n"
+"PO-Revision-Date: 2014-12-09 14:09+0100\n"
+"Last-Translator: Jozef Mlich <imlich@fit.vutbr.cz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: cs_CZ\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n>=2 && n<=4 ? 1 : 2;\n"
 
-#: ../admin.php:7
+#: ../admin-files.php:7
+msgid "overview"
+msgstr "přehled"
+
+#: ../admin-files.php:8
+msgid "upload"
+msgstr "Nahrát"
+
+#: ../admin-files.php:10 ../admin.php:76
+msgid "delete"
+msgstr "odstranit"
+
+#: ../admin-files.php:11
+msgid "delete all"
+msgstr "odstranit vše"
+
+#: ../admin-files.php:12 ../admin.php:8
+msgid "Are you sure?"
+msgstr "Jste si jistý?"
+
+#: ../admin-files.php:14
+msgid "Drag and Drop Files"
+msgstr "Táhnout a pustit soubory"
+
+#: ../admin-files.php:15
+msgid "Abort"
+msgstr "Přerušit"
+
+#: ../admin-files.php:16
+msgid "Cancel"
+msgstr "Zrušit"
+
+#: ../admin-files.php:17
+msgid "Done"
+msgstr "Hotovo"
+
+#: ../admin-files.php:18
+msgid "Multi Drag Error"
+msgstr "Chyba při pouštění více souborů"
+
+#: ../admin-files.php:19
+msgid "Ext Error"
+msgstr "Chyba přípony"
+
+#: ../admin-files.php:20
+msgid "Size Error"
+msgstr "Chyba velikosti"
+
+#: ../admin-files.php:21
+msgid "Error: "
+msgstr "Chyba: "
+
+#: ../admin-files.php:27
+msgid "Error: round is not set!"
+msgstr "Chyba: není nastaveno kolo!"
+
+#: ../admin-files.php:33
+msgid "Error: year not found!"
+msgstr "Chyba: není nastaven rok!"
+
+#: ../admin-files.php:42
+msgid "Error: round not found!"
+msgstr "Chyba: kolo soutěže nebylo nalezeno!"
+
+#: ../admin-files.php:91
+msgid "Count of files: "
+msgstr "Počet souborů: "
+
+#: ../admin-init.php:7
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
 msgstr ""
+"Nahrané soubory překračují velikost nastavenou v proměnné "
+"upload_max_filesize v souboru php.ini"
 
-#: ../admin.php:8
+#: ../admin-init.php:8
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr ""
+"Nahrané soubory překračují velikost nastavenou proměnno MAX_FILE_SIZE v HTML "
+"formuláři"
+
+#: ../admin-init.php:9
+msgid "The uploaded file was only partially uploaded"
+msgstr "Nahrávany soubor byl nahraný pouze částečně"
+
+#: ../admin-init.php:10
+msgid "No file was uploaded"
+msgstr "Nebyl nahrán žádný soubor"
+
+#: ../admin-init.php:11
+msgid "Missing a temporary folder"
+msgstr "Chybí dočasná složka"
+
+#: ../admin-init.php:12
+msgid "Failed to write file to disk"
+msgstr "Nepodařilo se zapsat na disk"
+
+#: ../admin-init.php:13
+msgid "File upload stopped by extension"
+msgstr "Nahrávání souboru bylo zastaveno kvůli jeho příponě"
+
+#: ../admin-init.php:65
+msgid "user"
+msgstr "uživatel"
+
+#: ../admin-init.php:68
+msgid "Login"
+msgstr "Přihlášení"
+
+#: ../admin-init.php:69
+msgid "login"
+msgstr "přihlásit"
+
+#: ../admin-init.php:81
+msgid "logout"
+msgstr "odhlásit"
+
+#: ../admin.php:5
+msgid "Administration console"
+msgstr "Rozhraní pro správce systému"
+
+#: ../admin.php:7
+msgid "save"
+msgstr "uložit"
 
 #: ../admin.php:9
-msgid "The uploaded file was only partially uploaded"
-msgstr ""
+msgid "year"
+msgstr "rok"
 
 #: ../admin.php:10
-msgid "No file was uploaded"
-msgstr ""
+msgid "round"
+msgstr "kolo"
 
 #: ../admin.php:11
-msgid "Missing a temporary folder"
-msgstr ""
+msgid "short"
+msgstr "krátké"
 
 #: ../admin.php:12
-msgid "Failed to write file to disk"
-msgstr ""
-
-#: ../admin.php:13
-msgid "File upload stopped by extension"
-msgstr ""
-
-#: ../admin.php:33
-msgid "home"
-msgstr ""
-
-#: ../admin.php:36
-msgid "login"
-msgstr ""
-
-#: ../admin.php:46
-msgid "logout"
-msgstr ""
-
-#: ../admin.php:51
-msgid "submit"
-msgstr ""
-
-#: ../admin.php:52
-msgid "year"
-msgstr ""
-
-#: ../admin.php:53
-msgid "round"
-msgstr ""
-
-#: ../admin.php:54
-msgid "short"
-msgstr ""
-
-#: ../admin.php:55
 msgid "fullname"
-msgstr ""
+msgstr "celé jméno"
 
-#: ../admin.php:56
-msgid "zip files"
-msgstr ""
-
-#: ../admin.php:58
+#: ../admin.php:14
 msgid "2014"
-msgstr ""
+msgstr "2014"
 
-#: ../admin.php:59
+#: ../admin.php:15
 msgid "1"
-msgstr ""
+msgstr "1"
 
-#: ../admin.php:60
+#: ../admin.php:16
 msgid "LKHB"
-msgstr ""
+msgstr "LKHB"
 
-#: ../admin.php:61
+#: ../admin.php:17
 msgid "Havlíčkův Brod"
-msgstr ""
+msgstr "Havlíčkův Brod"
 
-#: ../admin.php:73
+#: ../admin.php:26
 msgid "Error: cannot replace existing round"
-msgstr ""
+msgstr "Chyba: nelze přepsat existující kolo"
 
-#: ../admin.php:85
-msgid "Error: cannot open zip"
-msgstr ""
+#: ../admin.php:42
+msgid "Error: item doesn't exists"
+msgstr "Chyba: položka neexistuje"
 
-#: ../index.php:11
+#: ../admin.php:75
+msgid "files"
+msgstr "soubory"
+
+#: ../index.php:13
 msgid "No competition entered"
-msgstr ""
+msgstr "Nebyla zadána žádná soutěž"
+
+#: ../index.php:28
+msgid "admin"
+msgstr "správce"

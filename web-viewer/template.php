@@ -5,6 +5,7 @@
   <title> LAA </title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <link rel="stylesheet" href="./style.css" type="text/css" />
+  <link rel="stylesheet" href="./uploadfile.css" type="text/css" />
 </head>
 <body>
     <div id="container">
