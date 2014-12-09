@@ -1278,6 +1278,7 @@ ApplicationWindow {
 
             var ctnt = contestantsListModel.get(item.contestant)
 
+            contestantsListModel.setProperty(item.contestant, "filename", item.fileName);
             str += "\"" + ctnt.fullName + "\";"
             str += "\"" + item.fileName + "\";"
 
@@ -1287,6 +1288,17 @@ ApplicationWindow {
         str += ""
 
         file_reader.write(Qt.resolvedUrl(pathConfiguration.csvFile), str);
+
+
+        str = "";
+        // polozka i = 0 je vyhrazena pro pouziti "prazdne polozky" v comboboxu; misto toho by mela jit hlavicka
+        for (var i = 1; i < contestantsListModel.count; i++) {
+            var item = contestantsListModel.get(i);
+
+            var line = "\"" + F.addSlashes(item.name) +"\";\""+ F.addSlashes(item.category) +"\";\""+ F.addSlashes(item.fullName) +"\";\""+ F.addSlashes(item.startTime) +"\";\""+ F.addSlashes(item.filename) +"\""
+            str += line + "\n";
+        }
+        file_reader.write(Qt.resolvedUrl(pathConfiguration.contestantsFile), str);
 
     }
 
