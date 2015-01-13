@@ -5,6 +5,28 @@ require('csv.php');
 require('igc.php');
 require('geo.php');
 
+function getPoint($pid) {
+  global $track;
+  foreach ($track['points'] as $p) {
+    if ($p['pid'] == $pid) {
+      return $p;
+    }
+  }
+  return array( 'lat' => 0, 'lon' => 0, 'name' => '', 'pid' => -1 );
+}
+
+function getPoly($cid) {
+  global $track;
+  foreach ($track['poly'] as $p) {
+    if ($p['cid'] == $cid) {
+      return $p;
+    }
+  }
+  return array( 'cid' => -1, 'color' => 'FF0000', 'name' => '', 'points' => array());
+}
+
+////////////////////////////////////////////////////////////////////////////////////
+
 if (!isset($_REQUEST['id'])) {
   header('location: index.php');
   exit();
@@ -60,46 +82,44 @@ $igc = parseIGC($igc_file);
 
 
 $content =<<<EOF
+  <div id="map" style="position:absolute; top:0; left:0; width:100%; height: 600px;"></div>
+  <h1 style="position: absolute; left: 100px; top: 10px;">$posadka_nazev</h1>
+    <script src="./leaflet.js"></script>
 
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
-<script type="text/javascript">
-  function initialize() {
+    <script>
+//       var osm =  L.tileLayer('http://a.tile.openstreetmap.org/{z}/{x}/{y}.png');
+       var icao =  L.tileLayer('/map/ICAO/{z}/{x}/{y}.png');
+       var cza = L.tileLayer('/map/tiles/{z}/{x}/{y}.png');
 
-    var myLatlng = new google.maps.LatLng(49,16);
-    var myOptions = {
-      zoom: 8,
-      center: myLatlng,
-      mapTypeId: google.maps.MapTypeId.ROADMAP,
-    panControl: true,
-    zoomControl: true,
-    scaleControl: true,
 
-    }
+    var osm = L.tileLayer('http://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+      '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+      'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+    });
 
-    var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+    var google = L.tileLayer('http://mts0.google.com/vt/lyrs=m@248407269&hl=x-local&x={x}&y={y}&z={z}&s=Galileo', {
+      attribution: 'Map data &copy; Google 2012'
+    });
+
+    var satelite = L.tileLayer('http://khms1.google.com/kh/v=144&src=app&x={x}&y={y}&z={z}&s=', {
+      attribution: 'Map data &copy; Google 2012'
+    });
+
+
+
+    var map = L.map('map', {
+        zoomAnimation: false,
+        fadeAnimation: false,
+            layers: [ osm, google, satelite, icao, cza ],
+//            layers: [ cza ],
+        } ).setView([49.8043055, 15.4768055], 8);
+
+        L.control.layers({"openstreetmap" : osm, "google": google, "google satelite": satelite, "icao": icao, "aviation" : cza}, []).addTo(map);
+
 
 EOF;
 
-
-function getPoint($pid) {
-  global $track;
-  foreach ($track['points'] as $p) {
-    if ($p['pid'] == $pid) {
-      return $p;
-    }
-  }
-  return array( 'lat' => 0, 'lon' => 0, 'name' => '', 'pid' => -1 );
-}
-
-function getPoly($cid) {
-  global $track;
-  foreach ($track['poly'] as $p) {
-    if ($p['cid'] == $cid) {
-      return $p;
-    }
-  }
-  return array( 'cid' => -1, 'color' => 'FF0000', 'name' => '', 'points' => array());
-}
 
 $track = json_decode(file_get_contents($track_file), true);
 $track_kat = array(
@@ -123,16 +143,10 @@ foreach ($track_kat['poly'] as $kat_poly) {
   $color = $poly['color'];
   $content .= "var ppcoords_$ppc = [];\n";
   foreach ($poly['points'] as $polypt) {
-      $content .= "ppcoords_$ppc.push(new google.maps.LatLng(".$polypt['lat'].", ".$polypt['lon']."));\n";
+      $content .= "ppcoords_$ppc.push([".$polypt['lat'].", ".$polypt['lon']."]);\n";
   }
-      $content .= <<<EOF
-        var ptline_$ppc = new google.maps.Polyline({
-      path: ppcoords_$ppc,
-      strokeColor: "#$color",
-      strokeOpacity: 0.8,
-      strokeWeight: 2,
-      map: map
-    });
+  $content .= <<<EOF
+  var pt_line_$ppc = L.polyline(ppcoords_$ppc, { color: '#$color', weight: 2, opacity: 0.8}).addTo(map);
 EOF;
   $ppc++;
 }
@@ -153,40 +167,30 @@ foreach ($track_kat['conn'] as $c) {
     case 'line':
       
     $content .= "var ptcoords_$i = [];\n";
-    $content .= "ptcoords_$i.push(new google.maps.LatLng(".$prevPt['lat'].", ".$prevPt['lon']."));\n";
-    $content .= "ptcoords_$i.push(new google.maps.LatLng(".$pt['lat'].", ".$pt['lon']."));\n";
+    $content .= "ptcoords_$i.push([".$prevPt['lat'].", ".$prevPt['lon']."]);\n";
+    $content .= "ptcoords_$i.push([".$pt['lat'].", ".$pt['lon']."]);\n";
     $content .= <<<EOF
-    var ptline_$i = new google.maps.Polyline({
-      path: ptcoords_$i,
-      strokeColor: "#0000ff",
-      strokeOpacity: 0.8,
-      strokeWeight: 2,
-      map: map
-    });
+    var ptline_$i = L.polyline(ptcoords_$i, { color: '#0000ff', weight: 2, opacity: 0.8}).addTo(map);
+
 EOF;
 
     break;
     case 'polyline':
+
     $content .= "var ptcoords_$i = [];\n";
-    $content .= "ptcoords_$i.push(new google.maps.LatLng(".$prevPt['lat'].", ".$prevPt['lon']."));\n";
+    $content .= "ptcoords_$i.push([".$prevPt['lat'].", ".$prevPt['lon']."]);\n";
     $poly = getPoly($c['ptr']);
     foreach ($poly['points'] as $polypt) {
-      $content .= "ptcoords_$i.push(new google.maps.LatLng(".$polypt['lat'].", ".$polypt['lon']."));\n";
+      $content .= "ptcoords_$i.push([".$polypt['lat'].", ".$polypt['lon']."]);\n";
     }
-    $content .= "ptcoords_$i.push(new google.maps.LatLng(".$pt['lat'].", ".$pt['lon']."));\n";
+    $content .= "ptcoords_$i.push([".$pt['lat'].", ".$pt['lon']."]);\n";
     $content .= <<<EOF
-    var ptline_$i = new google.maps.Polyline({
-      path: ptcoords_$i,
-      strokeColor: "#0000ff",
-      strokeOpacity: 0.8,
-      strokeWeight: 2,
-      map: map
-    });
+    var ptline_$i = L.polyline(ptcoords_$i, { color: '#0000ff', weight: 2, opacity: 0.8}).addTo(map);
 EOF;
-
     break;
     case 'arc1':
     case 'arc2':
+
     $cw = $c['type'] != 'arc1';
     $center = getPoint($c['ptr']);
 
@@ -200,19 +204,13 @@ EOF;
 //print_r($arcData);
 
     $content .= "var ptcoords_$i = [];\n";
-    $content .= "ptcoords_$i.push(new google.maps.LatLng(".$prevPt['lat'].", ".$prevPt['lon']."));\n";
+    $content .= "ptcoords_$i.push([".$prevPt['lat'].", ".$prevPt['lon']."]);\n";
     foreach ($arcData as $arcPt) {
-      $content .= "ptcoords_$i.push(new google.maps.LatLng(".$arcPt['lat'].", ".$arcPt['lon']."));\n";
+      $content .= "ptcoords_$i.push([".$arcPt['lat'].", ".$arcPt['lon']."]);\n";
     }
-    $content .= "ptcoords_$i.push(new google.maps.LatLng(".$pt['lat'].", ".$pt['lon']."));\n";
+    $content .= "ptcoords_$i.push([".$pt['lat'].", ".$pt['lon']."]);\n";
     $content .= <<<EOF
-    var ptline_$i = new google.maps.Polyline({
-      path: ptcoords_$i,
-      strokeColor: "#0000ff",
-      strokeOpacity: 0.8,
-      strokeWeight: 2,
-      map: map
-    });
+    var ptline_$i = L.polyline(ptcoords_$i, { color: '#0000ff', weight: 2, opacity: 0.8}).addTo(map);
 EOF;
 //    print_r($arcData);
 
@@ -227,144 +225,47 @@ EOF;
   $show_gate = ($flags > 1);
 //  echo $tp_enabled. " ". $show_gate;
   if ($tp_enabled) {
+
     $content .= <<<EOF
-    var circle_$i = new google.maps.Circle({
-        strokeColor: '#0000ff',
-        strokeOpacity: 0.8,
-        strokeWeight: 2,
-        fillOpacity: 0,
-        map: map,
-        center: new google.maps.LatLng($lat,$lon),
-        radius: $radius,
-      }); 
+    var circle_$i = L.circle([$lat,$lon], $radius, { color: '#0000ff', weight: 2, opacity: 0.8, fill: false}).addTo(map);
 
 EOF;
+
   }
   if ($show_gate) {
     $c1 = getCoord_distance_bearing($lat, $lon, $angle%360, $radius);
     $c2 = getCoord_distance_bearing($lat, $lon, (180+$angle)%360, $radius);
     $c3 = getCoord_distance_bearing($lat, $lon, (270+$angle)%360, $radius*0.2);
+
+
     $content .= "var coords_$i = [];\n";
-    $content .= "coords_$i.push(new google.maps.LatLng(".$c1[0].", ".$c1[1]."));\n";
-    $content .= "coords_$i.push(new google.maps.LatLng(".$c2[0].", ".$c2[1]."));\n";
-    $content .= "coords_$i.push(new google.maps.LatLng(".$c3[0].", ".$c3[1]."));\n";
-    $content .= "coords_$i.push(new google.maps.LatLng(".$c1[0].", ".$c1[1]."));\n";
-//      echo "$lat $lon <br/>";
+    $content .= "coords_$i.push([".$c1[0].", ".$c1[1]."]);\n";
+    $content .= "coords_$i.push([".$c2[0].", ".$c2[1]."]);\n";
+    $content .= "coords_$i.push([".$c3[0].", ".$c3[1]."]);\n";
+    $content .= "coords_$i.push([".$c1[0].", ".$c1[1]."]);\n";
 
     $content .= <<<EOF
-    var polyline_$i = new google.maps.Polyline({
-      path: coords_$i,
-      strokeColor: "#0000ff",
-      strokeOpacity: 0.8,
-      strokeWeight: 2,
-      map: map
-    });
+  var polyline_$i = L.polyline(coords_$i, { color: '#0000ff', weight: 2, opacity: 0.8}).addTo(map);
 EOF;
+
   }
-
-/*
-    $content .= <<<EOF
-    var marker_$i = new google.maps.Marker({
-        position: new google.maps.LatLng($lat,$lon),
-        map: map,
-        title:"$name",
-    });
-EOF;
-*/
 
   $prevType = $c['type'];
   $i++;
 }
 
-//  echo $i. ": " . $name . "<br/>\n";
-
-//echo "<pre>".print_r ($track, true). "</pre>";
-/*
-    $content .= <<<EOF
-    var marker_$i = new google.maps.Marker({
-        position: new google.maps.LatLng($lat,$lon),
-        map: map,
-        title:"$name",
-    });
-EOF;
-*/
-
-/*
-    $color = substr($task->getElementsByTagName("color")->item(0)->childNodes->item(0)->wholeText, 2, 6);
-    $coords = preg_split('/\s+/', $coords);
-
-    $content .= "var coords_$i = [];\n";
-    $geom_array = array();
-
-    foreach ($coords as $c) {
-      list($lon, $lat) = explode(",",$c);
-      array_push($geom_array, array("lat" => $lat, "lon" => $lon));
-      $content .= "coords_$i.push(new google.maps.LatLng($lat, $lon));\n";
-//      echo "$lat $lon <br/>";
-    }
-
-    $content .= <<<EOF
-    var polyline_$i = new google.maps.Polyline({
-      path: coords_$i,
-      strokeColor: "#$color",
-      strokeOpacity: 0.8,
-      strokeWeight: 2,
-      map: map
-    });
-
-EOF;
-*/
-//    echo " ".print_r($coords);
-
-//  echo "<br/> <br/>\n";
-
-
-$content .= "    var gpsCoords = [];";
-
-
-foreach ($igc as $rec) {
-  if ($rec['time'] < $start_time) {
-    continue;
+  $content .= "var gpsCoords = [];\n";
+  foreach ($igc as $rec) {
+      $content .= "gpsCoords.push([".$rec['lat'].", ".$rec['lon']."]);\n";
   }
+  $content .= <<<EOF
+  var gps = L.polyline(gpsCoords, { color: '#ff0000', weight: 2, opacity: 0.8}).addTo(map);
 
-  $content .= " gpsCoords.push(new google.maps.LatLng(".$rec['lat'].", ".$rec['lon']."));\n";
-
-}
-
-
-$content .= <<<EOF
-
-  var bounds = new google.maps.LatLngBounds();
-  bounds.extend(new google.maps.LatLng($min_lat, $min_lon));
-  bounds.extend(new google.maps.LatLng($max_lat, $max_lon));
-  map.fitBounds(bounds);
-
-  // Construct the polygon
-  // Note that we don't specify an array or arrays, but instead just
-  // a simple array of LatLngs in the paths property
-  var gps = new google.maps.Polyline({
-    path: gpsCoords,
-    strokeColor: "#ff0000",
-    strokeOpacity: 0.8,
-    strokeWeight: 2,
-      map: map
-  });
+var bounds = [[$min_lat, $min_lon], [$max_lat, $max_lon]];
+map.fitBounds(bounds);
 
 
-EOF;
-
-
-
-// style="position:absolute; top:0; left:0; width:100%; height:100%;"
-$content .= <<<EOF
-  }
 </script>
-  <div id="map_canvas" style="width: 800px; height: 600px;"></div>
-  <h1 style="position: absolute; left: 100px; top: 10px;">$posadka_nazev</h1>
-
-<script type="text/javascript">initialize()</script>
-
-
 
 EOF;
 
