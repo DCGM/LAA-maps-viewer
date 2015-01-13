@@ -87,9 +87,11 @@ $content =<<<EOF
     <script src="./leaflet.js"></script>
 
     <script>
-//       var osm =  L.tileLayer('http://a.tile.openstreetmap.org/{z}/{x}/{y}.png');
-       var icao =  L.tileLayer('/map/ICAO/{z}/{x}/{y}.png');
-       var cza = L.tileLayer('/map/tiles/{z}/{x}/{y}.png');
+    var icao =  L.tileLayer('http://193.0.231.23/tiles/cz/icao/{z}/{x}/{y}.png', {
+      'tms': true,
+      'maxZoom': 11,
+    });
+    var cza = L.tileLayer('http://pcmlich.fit.vutbr.cz/map/tiles/{z}/{x}/{y}.png');
 
 
     var osm = L.tileLayer('http://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -106,16 +108,29 @@ $content =<<<EOF
       attribution: 'Map data &copy; Google 2012'
     });
 
+    var prosoar = L.tileLayer('http://prosoar.de/airspace/{z}/{x}/{y}.png');
+
+    var baseMaps = {
+      "Openstreetmap": osm, 
+      "Google Roadmap" : google,
+      "Google Satelite" : satelite,
+//      "ICAO": icao,
+//      "Aviation": cza,
+    };
+    var overlayMaps = {
+      "Airspace" : prosoar
+    }
+
 
 
     var map = L.map('map', {
         zoomAnimation: false,
         fadeAnimation: false,
-            layers: [ osm, google, satelite, icao, cza ],
-//            layers: [ cza ],
+//            layers: [ osm, google, satelite, icao, cza ],
+            layers: [ osm, prosoar ],
         } ).setView([49.8043055, 15.4768055], 8);
 
-        L.control.layers({"openstreetmap" : osm, "google": google, "google satelite": satelite, "icao": icao, "aviation" : cza}, []).addTo(map);
+        L.control.layers(baseMaps, overlayMaps).addTo(map);
 
 
 EOF;
