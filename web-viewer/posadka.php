@@ -80,9 +80,8 @@ $igc = parseIGC($igc_file);
 //  print_r($rec['time']);
 //}
 
-
 $content =<<<EOF
-  <div id="map" style="position:absolute; top:0; left:0; width:100%; height: 600px;"></div>
+  <div id="map" style="position:absolute; top:0; left:0; width:100%; height: 600px; "></div>
   <h1 style="position: absolute; left: 100px; top: 10px;">$posadka_nazev</h1>
     <script src="./leaflet.js"></script>
 
@@ -108,7 +107,9 @@ $content =<<<EOF
       attribution: 'Map data &copy; Google 2012'
     });
 
-    var prosoar = L.tileLayer('http://prosoar.de/airspace/{z}/{x}/{y}.png');
+    var prosoar = L.tileLayer('http://prosoar.de/airspace/{z}/{x}/{y}.png',{
+      attribution: 'prosoar.de'
+    });
 
     var baseMaps = {
       "Openstreetmap": osm, 
@@ -271,14 +272,19 @@ EOF;
 
   $content .= "var gpsCoords = [];\n";
   foreach ($igc as $rec) {
+      if ($rec['time'] < $start_time) {
+          continue;
+      }
+
       $content .= "gpsCoords.push([".$rec['lat'].", ".$rec['lon']."]);\n";
   }
+
+
   $content .= <<<EOF
   var gps = L.polyline(gpsCoords, { color: '#ff0000', weight: 2, opacity: 0.8}).addTo(map);
 
 var bounds = [[$min_lat, $min_lon], [$max_lat, $max_lon]];
 map.fitBounds(bounds);
-
 
 </script>
 
