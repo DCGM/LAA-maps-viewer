@@ -5,8 +5,9 @@
   <title> <?php echo isset($title) ? $title : "LAA"; ?> </title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <!-- link rel="stylesheet" href="./style.css" type="text/css" / -->
+  <link rel="stylesheet" href="./leaflet.css" type="text/css" />
 </head>
-<body>
+<body style="margin:0" >
 
 <?php 
  echo $content; 

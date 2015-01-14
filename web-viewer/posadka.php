@@ -80,9 +80,11 @@ $igc = parseIGC($igc_file);
 //  print_r($rec['time']);
 //}
 
+// 600px
 $content =<<<EOF
-  <div id="map" style="position:absolute; top:0; left:0; width:100%; height: 600px; "></div>
+  <div id="map" style="top:0; left:0; width:100%; height: 600px; "></div>
   <h1 style="position: absolute; left: 100px; top: 10px;">$posadka_nazev</h1>
+  <canvas id="alt_canvas" width="2000" height="300" style="width: 100%; height: 300px;">
     <script src="./leaflet.js"></script>
 
     <script>
@@ -271,12 +273,14 @@ EOF;
 }
 
   $content .= "var gpsCoords = [];\n";
+  $content .= "var alt_data = [];\n";
   foreach ($igc as $rec) {
       if ($rec['time'] < $start_time) {
           continue;
       }
 
       $content .= "gpsCoords.push([".$rec['lat'].", ".$rec['lon']."]);\n";
+      $content .= "alt_data.push([".$rec['time'].", ".(int)$rec['alt_gps'] ."]);\n";
   }
 
 
@@ -286,11 +290,40 @@ EOF;
 var bounds = [[$min_lat, $min_lon], [$max_lat, $max_lon]];
 map.fitBounds(bounds);
 
+
+/// draw elevation profile of flight
+
+var c = document.getElementById("alt_canvas");
+var ctx = c.getContext("2d");
+ctx.moveTo(0,0);
+
+var min_alt = alt_data[0][1];
+var max_alt = alt_data[0][1];
+for (var i = 1; i < alt_data.length; i++) {
+  var alt = alt_data[i][1];
+  min_alt = Math.min(min_alt, alt);
+  max_alt = Math.max(max_alt, alt);
+}
+
+function between(value, in_min, in_max, out_min, out_max) {
+  return ((value-in_min)/(in_max-in_min)*(out_max-out_min))+out_min
+}
+
+var alt = alt_data[0][1];
+var y = between(alt, min_alt, max_alt, 0, c.height);
+ctx.moveTo(0, c.height-y);
+
+for (var i = 1; i < alt_data.length; i++) {
+  alt = alt_data[i][1];
+  var y = between(alt, min_alt, max_alt, 0, c.height);
+  var x = between(i, 0, alt_data.length, 0, c.width);
+  ctx.lineTo(x, c.height-y);
+}
+ctx.stroke();
 </script>
 
 EOF;
 
-//  
 
 require('template-empty.php');
 //require('template.php');
