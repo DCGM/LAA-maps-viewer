@@ -74,6 +74,11 @@ if (!isset($_SESSION['auth'])) {
   <br/>
   <a href="index.php">$home_str</a>
 EOF;
+
+  if (isset($_REQUEST['user'])) {
+    $content .= "<br/> <br/>"._("Incorrect user name or password!");
+  }
+
   require('template.php'); exit();
 } else {
   $footer_buttons  = '';

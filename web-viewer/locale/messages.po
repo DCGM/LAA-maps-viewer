@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-09 15:31+0100\n"
+"POT-Creation-Date: 2015-01-26 16:25+0100\n"
 "PO-Revision-Date: 2014-12-09 14:09+0100\n"
 "Last-Translator: Jozef Mlich <imlich@fit.vutbr.cz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,7 +26,7 @@ msgstr "přehled"
 msgid "upload"
 msgstr "Nahrát"
 
-#: ../admin-files.php:10 ../admin.php:76
+#: ../admin-files.php:10 ../admin.php:82
 msgid "delete"
 msgstr "odstranit"
 
@@ -132,7 +132,11 @@ msgstr "Přihlášení"
 msgid "login"
 msgstr "přihlásit"
 
-#: ../admin-init.php:81
+#: ../admin-init.php:79
+msgid "Incorrect user name or password!"
+msgstr "Nesprávné jméno nebo heslo!"
+
+#: ../admin-init.php:86
 msgid "logout"
 msgstr "odhlásit"
 
@@ -184,7 +188,7 @@ msgstr "Chyba: nelze přepsat existující kolo"
 msgid "Error: item doesn't exists"
 msgstr "Chyba: položka neexistuje"
 
-#: ../admin.php:75
+#: ../admin.php:81
 msgid "files"
 msgstr "soubory"
 
@@ -192,6 +196,6 @@ msgstr "soubory"
 msgid "No competition entered"
 msgstr "Nebyla zadána žádná soutěž"
 
-#: ../index.php:28
+#: ../index.php:29
 msgid "admin"
 msgstr "správce"
