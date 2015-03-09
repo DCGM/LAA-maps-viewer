@@ -196,7 +196,7 @@ ApplicationWindow {
             }
             MenuItem {
                 id: mainViewMenuAltChart
-                //% "Altitude profile";
+                //% "Altitude profile"
                 text: qsTrId("main-view-menu-altchart")
                 checkable: true;
                 checked: false;
