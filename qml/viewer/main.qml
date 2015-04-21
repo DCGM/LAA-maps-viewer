@@ -723,7 +723,13 @@ ApplicationWindow {
                                         "category": "-",
                                         "fullName": "undefined",
                                         "startTime": "00:00:00",
-                                        "filename": ""
+                                        "filename": "",
+                                        "speed": "",
+                                        "aircraft_type": "",
+                                        "aircraft_registration": "",
+                                        "crew_id": "",
+                                        "pilot_id": "",
+                                        "copilot_id": ""
                                     })
         for (var i = 0; i < data.length; i++) {
             var item = data[i];
@@ -737,6 +743,12 @@ ApplicationWindow {
                                                 "fullName": item[2],
                                                 "startTime": item[3],
                                                 "filename": item[4],
+                                                "speed": item[5],
+                                                "aircraft_type": item[6],
+                                                "aircraft_registration": item[7],
+                                                "crew_id": item[8],
+                                                "pilot_id": item[9],
+                                                "copilot_id": item[10]
                                             })
             }
         }
@@ -1287,6 +1299,7 @@ ApplicationWindow {
         }
         str += ""
 
+
         file_reader.write(Qt.resolvedUrl(pathConfiguration.csvFile), str);
 
 
@@ -1295,7 +1308,18 @@ ApplicationWindow {
         for (var i = 1; i < contestantsListModel.count; i++) {
             var item = contestantsListModel.get(i);
 
-            var line = "\"" + F.addSlashes(item.name) +"\";\""+ F.addSlashes(item.category) +"\";\""+ F.addSlashes(item.fullName) +"\";\""+ F.addSlashes(item.startTime) +"\";\""+ F.addSlashes(item.filename) +"\""
+            var line = "\"" + F.addSlashes(item.name)
+                    +"\";\""+ F.addSlashes(item.category)
+                    +"\";\""+ F.addSlashes(item.fullName)
+                    +"\";\""+ F.addSlashes(item.startTime)
+                    +"\";\""+ F.addSlashes(item.filename)
+                    +"\";\""+ F.addSlashes(item.speed)
+                    +"\";\""+ F.addSlashes(item.aircraft_type)
+                    +"\";\""+ F.addSlashes(item.aircraft_registration)
+                    +"\";\""+ F.addSlashes(item.crew_id)
+                    +"\";\""+ F.addSlashes(item.pilot_id)
+                    +"\";\""+ F.addSlashes(item.copilot_id) + "\""
+
             str += line + "\n";
         }
         file_reader.write(Qt.resolvedUrl(pathConfiguration.contestantsFile), str);
