@@ -111,11 +111,11 @@ bool IgcFile::load(QIODevice *dev, QTextCodec* codec) {
         return false;
     }
 
-    if (previousRecord != 'A') {
-        qDebug() << "IGC file must start with A record.";
-        clear();
-        return false;
-    }
+//    if (previousRecord != 'A') {
+//        qDebug() << "IGC file must start with A record.";
+//        clear();
+//        return false;
+//    }
 
     while (!file->atEnd()) {
         if (!loadOneRecord()) {
