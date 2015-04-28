@@ -70,7 +70,7 @@ function parseIGC($filename) {
     }
 //    array_push($result, $line); 
   }
-  echo "<pre>".print_r($header, true)."</pre>";
+//  echo "<pre>".print_r($header, true)."</pre>";
 
   return $result;
 
