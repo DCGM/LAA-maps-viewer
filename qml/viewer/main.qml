@@ -581,6 +581,34 @@ ApplicationWindow {
                 map.tracksSelectedTid = item.tid
             }
 
+            itemDelegate: Item {
+                NativeText {
+                    width: parent.width
+                    anchors.margins: 4
+                    anchors.left: parent.left
+                    anchors.verticalCenter: parent.verticalCenter
+                    elide: styleData.elideMode
+                    text: getTextForRole(styleData.row, styleData.role, styleData.value);
+                    color: styleData.textColor;
+
+                }
+                function getTextForRole(row, role, value) {
+                    switch (role) {
+                    case "hit":
+                    case "sg_hit":
+                        return value
+                        //% "YES"
+                        ? qsTrId("hit-yes")
+                        //% "NO"
+                        : qsTrId("hit-no")
+
+                        break;
+                    default:
+                        return value;
+                    }
+                }
+            }
+
         }
     }
 
@@ -1214,18 +1242,8 @@ ApplicationWindow {
                 "radius": parseFloat(item.radius),
                 "angle": item.angle,
                 "time": item.time,
-                "hit": (item.hit
-                        //% "YES"
-                        ? qsTrId("hit-yes")
-                          //% "NO"
-                        : qsTrId("hit-no")
-                        ),
-                "sg_hit": (item.sg_hit
-                           //% "YES"
-                           ? qsTrId("sg-hit-yes")
-                             //% "NO"
-                           : qsTrId("sg-hit-no")
-                           ),
+                "hit": item.hit,
+                "sg_hit": item.sg_hit,
                 "speed": String(Math.round(speed)),
                 "altmax": String(Math.round(alt_max)),
                 "altmaxtime": String(alt_max_time),
@@ -1247,8 +1265,8 @@ ApplicationWindow {
             wptScoreList.append(newData);
             dataArr.push(newData)
             str += "\"" + item.time + "\";";
-            str += "\"" + (item.hit ? qsTrId("hit-yes") : qsTrId("hit-no") )+ "\";";
-            str += "\"" + (item.sg_hit ? qsTrId("sg-hit-yes") : qsTrId("sg-hit-no") ) + "\";";
+            str += "\"" + (item.hit ? "YES" : "NO" )+ "\";";
+            str += "\"" + (item.sg_hit ? "YES" : "NO" ) + "\";";
             str += "\"" + item.alt + "\";";
             str += "\"" + speed + "\";";
             //str += "\"" + alt_min + "\";";
