@@ -188,41 +188,35 @@
         <translation>Section max altitude time spent out</translation>
     </message>
     <message id="hit-yes">
-        <location filename="../qml/viewer/main.qml" line="1207"/>
-        <location filename="../qml/viewer/main.qml" line="1238"/>
+        <location filename="../qml/viewer/main.qml" line="601"/>
         <source>YES</source>
         <translation>YES</translation>
     </message>
     <message id="hit-no">
-        <location filename="../qml/viewer/main.qml" line="1209"/>
-        <location filename="../qml/viewer/main.qml" line="1238"/>
+        <location filename="../qml/viewer/main.qml" line="603"/>
         <source>NO</source>
         <translation>NO</translation>
     </message>
     <message id="sg-hit-yes">
-        <location filename="../qml/viewer/main.qml" line="1213"/>
-        <location filename="../qml/viewer/main.qml" line="1239"/>
         <source>YES</source>
-        <translation>YES</translation>
+        <translation type="vanished">YES</translation>
     </message>
     <message id="sg-hit-no">
-        <location filename="../qml/viewer/main.qml" line="1215"/>
-        <location filename="../qml/viewer/main.qml" line="1239"/>
         <source>NO</source>
-        <translation>NO</translation>
+        <translation type="vanished">NO</translation>
     </message>
     <message id="section-type-speed">
-        <location filename="../qml/viewer/main.qml" line="1387"/>
+        <location filename="../qml/viewer/main.qml" line="1429"/>
         <source>speed</source>
         <translation>speed</translation>
     </message>
     <message id="section-type-altitude">
-        <location filename="../qml/viewer/main.qml" line="1399"/>
+        <location filename="../qml/viewer/main.qml" line="1441"/>
         <source>altitude</source>
         <translation>altitude</translation>
     </message>
     <message id="section-type-space">
-        <location filename="../qml/viewer/main.qml" line="1411"/>
+        <location filename="../qml/viewer/main.qml" line="1453"/>
         <source>space</source>
         <translation>space</translation>
     </message>
@@ -281,12 +275,12 @@
         <translation>Section max distance time spent out (both axis)</translation>
     </message>
     <message id="toolbar-start-time">
-        <location filename="../qml/viewer/main.qml" line="693"/>
+        <location filename="../qml/viewer/main.qml" line="721"/>
         <source>(Start time: %1)</source>
         <translation>(Start time: %1)</translation>
     </message>
     <message id="toolbar-invalid-fixes" numerus="yes">
-        <location filename="../qml/viewer/main.qml" line="700"/>
+        <location filename="../qml/viewer/main.qml" line="728"/>
         <source>Invalid %n</source>
         <oldsource>Invalid/Trimmed %1/%2</oldsource>
         <translation>
@@ -295,7 +289,7 @@
         </translation>
     </message>
     <message id="toolbar-trimmed-fixes" numerus="yes">
-        <location filename="../qml/viewer/main.qml" line="707"/>
+        <location filename="../qml/viewer/main.qml" line="735"/>
         <source>Trimmed %n</source>
         <translation>
             <numerusform>Trimmed %n</numerusform>
@@ -328,7 +322,7 @@
         <translation>Radius</translation>
     </message>
     <message id="status-no-track-loaded">
-        <location filename="../qml/viewer/main.qml" line="671"/>
+        <location filename="../qml/viewer/main.qml" line="699"/>
         <source>No track loaded</source>
         <translation>No track loaded</translation>
     </message>
