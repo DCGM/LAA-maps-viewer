@@ -488,7 +488,7 @@ ApplicationWindow {
 
 
                 onTpiComputedData:  {
-                    computeScore(tpi)
+                    computeScore(tpi, polys)
                 }
             }
 
@@ -782,7 +782,7 @@ ApplicationWindow {
         }
     }
 
-    function computeScore(tpiData) {
+    function computeScore(tpiData, polys) {
 
 
         var current = -1;
@@ -935,6 +935,8 @@ ApplicationWindow {
         var section_speed_array_length = section_speed_array.length
         var section_alt_array_length = section_alt_array.length
         var section_space_array_length = section_space_array.length
+
+        var intersections = 0;
 
         if (igc.count > 0) {
             igcnext = igc.get(0);
@@ -1158,8 +1160,19 @@ ApplicationWindow {
                     }
                 }
 
+                for (j = 0; j < polys.length; j++) {
+                    var poly = polys[j];
+                    var intersection = F.pointInPolygon(poly.points, igcthis)
+                    if (intersection) {
+                        intersections++;
+                    }
+                }
+
             }
+            console.log("pip " + intersections)
+
         }
+
 
 
 

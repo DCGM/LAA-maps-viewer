@@ -899,3 +899,30 @@ function projectionPointToLine(Ax, Ay, Bx, By, Cx, Cy) {
     */
 }
 
+
+function pointInPolygon(polygon, point) {
+    var i, j, nvert = polygon.length;
+    var c = false;
+
+    for(i = 0, j = nvert - 1; i < nvert; j = i++) {
+        var aLat = polygon[i].lat;
+        var aLon = polygon[i].lon;
+        var bLat = polygon[j].lat;
+        var bLon = polygon[j].lon;
+
+        //        var aLat = parseFloat(polygon[i].lat, 10);
+        //        var aLon = parseFloat(polygon[i].lon, 10);
+        //        var bLat = parseFloat(polygon[j].lat, 10);
+        //        var bLon = parseFloat(polygon[j].lon, 10);
+
+        if (
+                ( ( (aLon) >= point.lon ) != (bLon >= point.lon) ) &&
+                (point.lat <= (bLat - aLat) * (point.lon - aLon) / (bLon - aLon) + aLat)
+                )
+            c = !c;
+    }
+
+    return c;
+}
+
+

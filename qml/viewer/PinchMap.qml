@@ -46,7 +46,7 @@ Rectangle {
     signal pointselectedFromMap(int pid);
     signal pointMovedFromMap(variant new_point)
     signal connComputedData(variant connInfo);
-    signal tpiComputedData(variant tpi)
+    signal tpiComputedData(variant tpi, variant polys)
 
     property alias angle: rot.angle
 
@@ -706,8 +706,8 @@ Rectangle {
             ctx.lineWidth = 2;
             ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-            var tpinfos = []
-
+            var tpinfos = [];
+            var tpipoly = [];
 
             var item, i, c, screenPoint;
 
@@ -1390,14 +1390,8 @@ Rectangle {
                     for (var i = 0; i < enabledPoly.length; i++) {
                         var ep = enabledPoly[i]
                         var polyId = ep.cid;
-                        for (var j = 0; j < poly.length; j++) {
-                            var global_poly = poly[j];
-                            if (global_poly.cid === polyId) {
-                                polyData = global_poly;
-                                break;
-                            }
-
-                        }
+                        polyData = getPolyByCid(polyId, poly);
+                        tpipoly.push(polyData);
 
                         var points = polyData.points;
                         if (points !== undefined && points.length > 1) {
@@ -1447,7 +1441,7 @@ Rectangle {
             }
 
             ctx.restore();
-            tpiComputedData(tpinfos);
+            tpiComputedData(tpinfos, tpipoly);
 
             console.timeEnd("canvas-onPaint")
         }
