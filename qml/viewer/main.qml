@@ -932,6 +932,21 @@ ApplicationWindow {
 
         }
 
+        var poly_alt_min = 1000000;
+        var poly_alt_max = -1000000;
+        var poly_results = [];
+        for (j = 0; j < polys.length; j++) {
+            var poly = polys[j];
+            var poly_result = {
+                "time_start": "00:00:00",
+                "time_end": "00:00:00",
+                "count": 0,
+                "alt_min": poly_alt_min,
+                "alt_max": poly_alt_max,
+            }
+            poly_results.push(poly_result);
+        }
+
         var section_speed_array_length = section_speed_array.length
         var section_alt_array_length = section_alt_array.length
         var section_space_array_length = section_space_array.length
@@ -1162,14 +1177,24 @@ ApplicationWindow {
 
                 for (j = 0; j < polys.length; j++) {
                     var poly = polys[j];
+                    var poly_result = poly_results[j];
+
                     var intersection = F.pointInPolygon(poly.points, igcthis)
                     if (intersection) {
                         intersections++;
+                        if (poly_result.count === 0) {
+                            poly_result.time_start = igcthis.time;
+                        }
+                        poly_result.time_end = igcthis.time;
+                        poly_result.alt_min = Math.min(poly_result.alt_min, igcthis.alt)
+                        poly_result.alt_max = Math.max(poly_result.alt_max, igcthis.alt)
+                        poly_result.count = poly_result.count + 1;
+                        poly_results[j] = poly_result;
                     }
                 }
 
             }
-            console.log("pip " + intersections)
+            console.log("pip " + JSON.stringify(poly_results))
 
         }
 
@@ -1296,9 +1321,17 @@ ApplicationWindow {
             str += "\"" + alt_min_time_spent + "\";";
             str += "\"" + alt_max_count + "\";";
             str += "\"" + alt_max_time_spent + "\";";
-
         }
         str += "\"\";";
+
+        for (var i = 0; i < poly_results.length; i++) {
+            var poly_result = poly_results[i];
+            str += "\"" + poly_result.count + "\";";
+            str += "\"" + poly_result.time_start + "\";";
+            str += "\"" + poly_result.time_end + "\";";
+            str += "\"" + poly_result.alt_min + "\";";
+            str += "\"" + poly_result.alt_max + "\";";
+        }
 
         igcFilesModel.setProperty(current, "score_json", JSON.stringify(dataArr))
         igcFilesModel.setProperty(current, "score", str)
@@ -1366,10 +1399,20 @@ ApplicationWindow {
         }
     }
 
+    function getPolyByCid(cid, poly) {
+        for (var i = 0; i < poly.length; i++) {
+            var item = poly[i];
+            if (item.cid == cid) {
+                return item;
+            }
+        }
+    }
+
     function storeTrackSettings(filename) {
         var str = "";
         var trks = tracks.tracks
         var points = tracks.points;
+        var polys = tracks.poly;
         for (var i = 0; i < trks.length; i++) {
             var item = trks[i]
             var category_name = F.addSlashes(item.name)
@@ -1494,6 +1537,18 @@ ApplicationWindow {
                 str += "\"" + section.type + "\";\"" + section.start + "\";\"" + F.addSlashes(pt_start.name) + "\";\"" + section.end + "\";\"" + F.addSlashes(pt_end.name) + "\";"
             }
 
+
+            var poly = item.poly;
+
+
+            str += "\n";
+            str += "\"" + category_name + "___polygons" +"\";";
+            for (var j = 0; j < poly.length; j++) {
+                var poly_info = poly[j];
+                var poly_data = getPolyByCid(poly_info.cid, polys);
+                str += "\"" +  poly_data.name +"\";"
+                str += "\"" + poly_info.score +"\";"
+            }
 
 
             str += "\n";
