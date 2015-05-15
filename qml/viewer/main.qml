@@ -1414,30 +1414,30 @@ ApplicationWindow {
         var points = tracks.points;
         var polys = tracks.poly;
         for (var i = 0; i < trks.length; i++) {
-            var item = trks[i]
-            var category_name = F.addSlashes(item.name)
+            var trk = trks[i]
+            var category_name = F.addSlashes(trk.name)
             str += "\"" + category_name + "\";";
-            str += "\"" + item.alt_penalty + "\";";
-            str += "\"" + item.gyre_penalty + "\";";
-            str += "\"" + item.marker_max_score + "\";";
-            str += "\"" + item.oposite_direction_penalty + "\";";
-            str += "\"" + item.out_of_sector_penalty + "\";";
-            str += "\"" + item.photos_max_score + "\";";
-            str += "\"" + item.speed_penalty + "\";";
-            str += "\"" + item.tg_max_score + "\";";
-            str += "\"" + item.tg_penalty + "\";";
-            str += "\"" + item.tg_tolerance + "\";";
-            str += "\"" + item.time_window_penalty + "\";";
-            str += "\"" + item.time_window_size + "\";";
-            str += "\"" + item.tp_max_score + "\";";
-            str += "\"" + item.speed_tolerance + "\";";
-            str += "\"" + item.sg_max_score + "\";";
-            str += "\"" + ((item.preparation_time !== undefined) ? item.preparation_time : 0) + "\";";
+            str += "\"" + trk.alt_penalty + "\";";
+            str += "\"" + trk.gyre_penalty + "\";";
+            str += "\"" + trk.marker_max_score + "\";";
+            str += "\"" + trk.oposite_direction_penalty + "\";";
+            str += "\"" + trk.out_of_sector_penalty + "\";";
+            str += "\"" + trk.photos_max_score + "\";";
+            str += "\"" + trk.speed_penalty + "\";";
+            str += "\"" + trk.tg_max_score + "\";";
+            str += "\"" + trk.tg_penalty + "\";";
+            str += "\"" + trk.tg_tolerance + "\";";
+            str += "\"" + trk.time_window_penalty + "\";";
+            str += "\"" + trk.time_window_size + "\";";
+            str += "\"" + trk.tp_max_score + "\";";
+            str += "\"" + trk.speed_tolerance + "\";";
+            str += "\"" + trk.sg_max_score + "\";";
+            str += "\"" + ((trk.preparation_time !== undefined) ? trk.preparation_time : 0) + "\";";
 
             //            str += "\n";
             //            str += "\"" + category_name + "___PART2" +"\";";
 
-            var conns = item.conn;
+            var conns = trk.conn;
 
 
             for (var j = 0; (j < conns.length); j++) {
@@ -1446,15 +1446,15 @@ ApplicationWindow {
                 var pt = getPtByPid(c.pid, points)
 
                 //                console.log(JSON.stringify(pt))
-                str += "\"" + ((c.flags < 0) ? item.default_flags : c.flags ) + "\";";
+                str += "\"" + ((c.flags < 0) ? trk.default_flags : c.flags ) + "\";";
                 str += "\"" + ((c.angle < 0) ? c.computed_angle : c.angle) + "\";";
                 str += "\"" + ((c.distance < 0) ? c.computed_distance : c.distance) + "\";";
-                str += "\"" + ((c.addTime < 0) ? item.default_addTime : c.addTime) + "\";";
-                str += "\"" + ((c.radius < 0) ? item.default_radius : c.radius) + "\";";
-                str += "\"" + ((c.alt_max < 0) ? item.default_alt_max : c.alt_max) + "\";";
-                str += "\"" + ((c.alt_min < 0) ? item.default_alt_min : c.alt_min) + "\";";
-                str += "\"" + ((c.speed_max < 0) ? item.default_speed_max : c.speed_max) + "\";";
-                str += "\"" + ((c.speed_min < 0) ? item.default_speed_min : c.speed_min) + "\";";
+                str += "\"" + ((c.addTime < 0) ? trk.default_addTime : c.addTime) + "\";";
+                str += "\"" + ((c.radius < 0) ? trk.default_radius : c.radius) + "\";";
+                str += "\"" + ((c.alt_max < 0) ? trk.default_alt_max : c.alt_max) + "\";";
+                str += "\"" + ((c.alt_min < 0) ? trk.default_alt_min : c.alt_min) + "\";";
+                str += "\"" + ((c.speed_max < 0) ? trk.default_speed_max : c.speed_max) + "\";";
+                str += "\"" + ((c.speed_min < 0) ? trk.default_speed_min : c.speed_min) + "\";";
                 str += "\"" + F.addSlashes(pt.name) + "\";";
             }
 
@@ -1468,7 +1468,7 @@ ApplicationWindow {
             for (var j = 0; j < conns.length; j++) {
                 var c = conns[j];
 
-                var flags = ((c.flags < 0) ? item.default_flags : c.flags );
+                var flags = ((c.flags < 0) ? trk.default_flags : c.flags );
                 var section_speed_start = F.getFlagsByIndex(7, flags)
                 var section_speed_end   = F.getFlagsByIndex(8, flags)
                 var section_alt_start   = F.getFlagsByIndex(9, flags)
@@ -1538,8 +1538,7 @@ ApplicationWindow {
             }
 
 
-            var poly = item.poly;
-
+            var poly = trk.poly;
 
             str += "\n";
             str += "\"" + category_name + "___polygons" +"\";";
