@@ -238,6 +238,7 @@ ApplicationWindow {
             //% "Ok"
             text: qsTrId("path-configuration-ok-button")
             focus: true;
+            isDefault: true;
             onClicked: {
                 ok();
                 pathConfiguration.close()
