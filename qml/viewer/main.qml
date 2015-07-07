@@ -31,12 +31,14 @@ ApplicationWindow {
                 onTriggered: {
                     pathConfiguration.show()
                 }
+                shortcut: "Ctrl+E"
             }
 
             MenuItem {
                 //% "Evaluate all data"
                 text: qsTrId("main-file-menu-process-all");
                 onTriggered: evaluate_all_data();
+                shortcut: "Ctrl+D"
             }
 
             MenuItem {
@@ -77,6 +79,7 @@ ApplicationWindow {
                 //                    map.url = ""
                 //                }
 
+                shortcut: "Ctrl+1"
             }
             MenuItem {
                 //% "&Local"
@@ -96,6 +99,7 @@ ApplicationWindow {
                     //map.url = QStandardPathsApplicationFilePath + "../../Maps/OSM/%(zoom)d/%(x)d/%(y)d.png"
                     //map.url = "../../Maps/OSM/%(zoom)d/%(x)d/%(y)d.png"
                 }
+                shortcut: "Ctrl+2"
 
             }
             MenuItem {
@@ -106,6 +110,7 @@ ApplicationWindow {
                 onTriggered: {
                     map.url = "http://a.tile.openstreetmap.org/%(zoom)d/%(x)d/%(y)d.png";
                 }
+                shortcut: "Ctrl+3"
 
             }
             MenuItem {
@@ -116,6 +121,8 @@ ApplicationWindow {
                 onTriggered: {
                     map.url = "http://mts0.google.com/vt/lyrs=m@248407269&hl=x-local&x=%(x)d&y=%(y)d&z=%(zoom)d&s=Galileo"
                 }
+                shortcut: "Ctrl+4"
+
             }
 
             MenuItem {
@@ -126,6 +133,7 @@ ApplicationWindow {
                 onTriggered: {
                     map.url = "http://mts1.google.com/vt/lyrs=t,r&x=%(x)d&y=%(y)d&z=%(zoom)d"
                 }
+                shortcut: "Ctrl+5"
             }
 
             MenuItem {
@@ -136,6 +144,7 @@ ApplicationWindow {
                 onTriggered: {
                     map.url = "http://khms1.google.com/kh/v=144&src=app&x=%(x)d&y=%(y)d&z=%(zoom)d&s="
                 }
+                shortcut: "Ctrl+6"
             }
 
             MenuItem {
@@ -165,6 +174,7 @@ ApplicationWindow {
                 //% "Zoom to &track"
                 text: qsTrId("main-view-menu-zoom-to-points")
                 onTriggered: map.pointsInBounds();
+                shortcut: "Ctrl+0"
             }
             MenuItem {
                 //% "Zoom &in"
