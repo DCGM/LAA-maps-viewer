@@ -197,6 +197,16 @@
         <source>NO</source>
         <translation>NE</translation>
     </message>
+    <message id="toolbar-igc-count" numerus="yes">
+        <location filename="../qml/viewer/main.qml" line="741"/>
+        <source>Fixes %n</source>
+        <oldsource>Igc fixes %n</oldsource>
+        <translation>
+            <numerusform>Zaměření %n</numerusform>
+            <numerusform>Zaměření %n</numerusform>
+            <numerusform>Zaměření %n</numerusform>
+        </translation>
+    </message>
     <message id="sg-hit-yes">
         <source>YES</source>
         <translation type="vanished">ANO</translation>
@@ -206,17 +216,17 @@
         <translation type="vanished">NE</translation>
     </message>
     <message id="section-type-speed">
-        <location filename="../qml/viewer/main.qml" line="1429"/>
+        <location filename="../qml/viewer/main.qml" line="1493"/>
         <source>speed</source>
         <translation>rychlost</translation>
     </message>
     <message id="section-type-altitude">
-        <location filename="../qml/viewer/main.qml" line="1441"/>
+        <location filename="../qml/viewer/main.qml" line="1505"/>
         <source>altitude</source>
         <translation>výška</translation>
     </message>
     <message id="section-type-space">
-        <location filename="../qml/viewer/main.qml" line="1453"/>
+        <location filename="../qml/viewer/main.qml" line="1517"/>
         <source>space</source>
         <translation>prostor</translation>
     </message>
@@ -451,7 +461,7 @@
         <translation>Ok</translation>
     </message>
     <message id="path-configuration-ok-cancel">
-        <location filename="../qml/viewer/PathConfiguration.qml" line="248"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="249"/>
         <source>Cancel</source>
         <oldsource>&amp;Cancel</oldsource>
         <translation>Zrušit</translation>

@@ -736,6 +736,14 @@ ApplicationWindow {
                 visible: igc.trimmedCount > 0;
             }
 
+            NativeText {
+                //% "Fixes %n"
+                text: qsTrId("toolbar-igc-count", igc.count)
+                visible: (igc.count + igc.trimmedCount + igc.invalidCount) > 0
+                font.bold: (igc.count < 500);
+                color: (igc.count < 500) ? "red" : "black"
+            }
+
 
         }
 
