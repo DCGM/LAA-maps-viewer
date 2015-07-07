@@ -15,15 +15,6 @@
 #include "networkaccessmanagerfactory.h"
 #include "imagesaver.h"
 
-#ifndef BUILDTIME
-#define BUILDTIME "n/a"
-#endif
-
-#ifndef BUILDDATE
-#define BUILDDATE "n/a"
-#endif
-
-
 
 void myMessageHandler(QtMsgType type, const QMessageLogContext& context, const QString& msg) {
     QString txt;
@@ -46,15 +37,17 @@ void myMessageHandler(QtMsgType type, const QMessageLogContext& context, const Q
     outFile.open(QIODevice::WriteOnly | QIODevice::Append);
     QTextStream ts(&outFile);
     ts << txt << endl;
+    outFile.close();
+
 }
 
 int main(int argc, char *argv[])
 {
 
     QApplication app(argc, argv);
-//    QGuiApplication app(argc, argv);
+    //    QGuiApplication app(argc, argv);
 
-//    qInstallMessageHandler(myMessageHandler); // FIXME: timto se zapina vytvareni logu do souboru
+    //    qInstallMessageHandler(myMessageHandler); // FIXME: timto se zapina vytvareni logu do souboru
 
     QQmlApplicationEngine engine;
 
@@ -95,7 +88,7 @@ int main(int argc, char *argv[])
     engine.setNetworkAccessManagerFactory(&namFactory);
     engine.rootContext()->setContextProperty("QStandardPathsHomeLocation", QStandardPaths::standardLocations(QStandardPaths::HomeLocation)[0]);
     engine.rootContext()->setContextProperty("QStandardPathsApplicationFilePath", QFileInfo( QCoreApplication::applicationFilePath() ).dir().absolutePath() );
-//    engine.rootContext()->setContextProperty("QStandardPathsApplicationFilePath", QFileInfo( QCoreApplication::applicationFilePath() ).dir().absolutePath().left(QFileInfo( QCoreApplication::applicationFilePath() ).dir().absolutePath().size()-4) );
+    //    engine.rootContext()->setContextProperty("QStandardPathsApplicationFilePath", QFileInfo( QCoreApplication::applicationFilePath() ).dir().absolutePath().left(QFileInfo( QCoreApplication::applicationFilePath() ).dir().absolutePath().size()-4) );
 
     engine.load(QUrl("qml/viewer/main.qml"));
 
