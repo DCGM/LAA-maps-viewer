@@ -203,6 +203,7 @@ ApplicationWindow {
                 text: qsTrId("main-view-menu-tables")
                 checkable: true;
                 checked: true;
+                shortcut: "Ctrl+T"
             }
             MenuItem {
                 id: mainViewMenuAltChart
@@ -210,6 +211,7 @@ ApplicationWindow {
                 text: qsTrId("main-view-menu-altchart")
                 checkable: true;
                 checked: false;
+                shortcut: "Ctrl+A"
             }
         }
 
