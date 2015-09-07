@@ -146,6 +146,17 @@ ApplicationWindow {
                 }
                 shortcut: "Ctrl+6"
             }
+            MenuItem {
+                //% "Custom tile layer"
+                text: qsTrId("main-map-menu-custom-tile-layer")
+                exclusiveGroup: mapTypeExclusive
+                checkable: true;
+                onTriggered: {
+                    mapurl_dialog.open();
+                }
+                shortcut: "Ctrl+7"
+            }
+
 
             MenuItem {
                 visible: false;
@@ -225,6 +236,23 @@ ApplicationWindow {
             }
         }
     }
+
+    TextDialog {
+        id: mapurl_dialog;
+
+        //% "Custom map tile configuration"
+        title: qsTrId("main-map-dialog-title")
+
+        //% "Enter URL";
+        question: qsTrId("main-map-dialog-question")
+
+        text: "http://m3.mapserver.mapy.cz/ophoto-m/%(zoom)d-%(x)d-%(y)d"
+        onAccepted: {
+            map.url = text;
+        }
+
+    }
+
 
     FileDialog {
         id: exportFileDialog;
@@ -487,7 +515,7 @@ ApplicationWindow {
             clip: true;
             PinchMap {
                 id: map
-//                anchors.fill: parent;
+                //                anchors.fill: parent;
                 anchors.left: parent.left;
                 anchors.right: parent.right;
                 anchors.top: parent.top;
@@ -610,9 +638,9 @@ ApplicationWindow {
                     case "sg_hit":
                         return value
                         //% "YES"
-                        ? qsTrId("hit-yes")
-                        //% "NO"
-                        : qsTrId("hit-no")
+                                ? qsTrId("hit-yes")
+                                  //% "NO"
+                                : qsTrId("hit-no")
 
                         break;
                     default:
