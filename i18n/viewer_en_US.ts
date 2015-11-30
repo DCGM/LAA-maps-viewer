@@ -75,145 +75,160 @@
         <source>Custom tile layer</source>
         <translation>Custom tile layer</translation>
     </message>
+    <message id="main-map-menu-airspace-off">
+        <location filename="../qml/viewer/main.qml" line="167"/>
+        <source>Airspace Off</source>
+        <translation>Airspace Off</translation>
+    </message>
+    <message id="main-map-menu-airspace-prosoar">
+        <location filename="../qml/viewer/main.qml" line="179"/>
+        <source>Airspace (prosoar.de)</source>
+        <translation>Airspace (prosoar.de)</translation>
+    </message>
+    <message id="main-map-menu-airspace-local">
+        <location filename="../qml/viewer/main.qml" line="190"/>
+        <source>Airspace (local)</source>
+        <translation>Airspace (local)</translation>
+    </message>
     <message id="main-map-menu-gfw">
-        <location filename="../qml/viewer/main.qml" line="165"/>
+        <location filename="../qml/viewer/main.qml" line="205"/>
         <source>Load &amp;gfw image</source>
         <translation>Load &amp;gfw image</translation>
     </message>
     <message id="main-view-menu">
-        <location filename="../qml/viewer/main.qml" line="183"/>
+        <location filename="../qml/viewer/main.qml" line="223"/>
         <source>&amp;View</source>
         <oldsource>View</oldsource>
         <translation>&amp;View</translation>
     </message>
     <message id="main-view-menu-zoom-to-points">
-        <location filename="../qml/viewer/main.qml" line="186"/>
+        <location filename="../qml/viewer/main.qml" line="226"/>
         <source>Zoom to &amp;track</source>
         <oldsource>Zoom to track</oldsource>
         <translation>Zoom to &amp;track</translation>
     </message>
     <message id="main-view-menu-zoom-in">
-        <location filename="../qml/viewer/main.qml" line="192"/>
+        <location filename="../qml/viewer/main.qml" line="232"/>
         <source>Zoom &amp;in</source>
         <oldsource>Zoom in</oldsource>
         <translation>Zoom &amp;in</translation>
     </message>
     <message id="main-view-menu-zoom-out">
-        <location filename="../qml/viewer/main.qml" line="197"/>
+        <location filename="../qml/viewer/main.qml" line="237"/>
         <source>Zoom &amp;out</source>
         <oldsource>Zoom out</oldsource>
         <translation>Zoom &amp;out</translation>
     </message>
     <message id="main-view-menu-ruler">
-        <location filename="../qml/viewer/main.qml" line="203"/>
+        <location filename="../qml/viewer/main.qml" line="243"/>
         <source>&amp;Ruler</source>
         <oldsource>Ruler</oldsource>
         <translation>&amp;Ruler</translation>
     </message>
     <message id="main-view-menu-tables">
-        <location filename="../qml/viewer/main.qml" line="214"/>
+        <location filename="../qml/viewer/main.qml" line="254"/>
         <source>&amp;Tables</source>
         <translation>&amp;Tables</translation>
     </message>
     <message id="main-view-menu-altchart">
-        <location filename="../qml/viewer/main.qml" line="222"/>
+        <location filename="../qml/viewer/main.qml" line="262"/>
         <source>Altitude profile</source>
         <oldsource>Altitude</oldsource>
         <translation>Altitude profile</translation>
     </message>
     <message id="main-help-menu">
-        <location filename="../qml/viewer/main.qml" line="231"/>
+        <location filename="../qml/viewer/main.qml" line="271"/>
         <source>&amp;Help</source>
         <oldsource>Help</oldsource>
         <translation>&amp;Help</translation>
     </message>
     <message id="main-help-menu-about">
-        <location filename="../qml/viewer/main.qml" line="234"/>
+        <location filename="../qml/viewer/main.qml" line="274"/>
         <source>&amp;About</source>
         <translation>&amp;About</translation>
     </message>
     <message id="main-map-dialog-title">
-        <location filename="../qml/viewer/main.qml" line="244"/>
+        <location filename="../qml/viewer/main.qml" line="284"/>
         <source>Custom map tile configuration</source>
         <translation>Custom map tile configuration</translation>
     </message>
     <message id="main-map-dialog-question">
-        <location filename="../qml/viewer/main.qml" line="247"/>
+        <location filename="../qml/viewer/main.qml" line="287"/>
         <source>Enter URL</source>
         <translation>Enter URL</translation>
     </message>
     <message id="path-configuration-error-contestantsFile-not-found">
-        <location filename="../qml/viewer/main.qml" line="285"/>
+        <location filename="../qml/viewer/main.qml" line="325"/>
         <source>File %1 not found</source>
         <oldsource>File %1 not exists</oldsource>
         <translation>File %1 not found</translation>
     </message>
     <message id="path-configuration-error-trackFile-not-found">
-        <location filename="../qml/viewer/main.qml" line="297"/>
+        <location filename="../qml/viewer/main.qml" line="337"/>
         <source>File %1 not found</source>
         <translation>File %1 not found</translation>
     </message>
     <message id="filelist-table-contestants">
-        <location filename="../qml/viewer/main.qml" line="445"/>
+        <location filename="../qml/viewer/main.qml" line="485"/>
         <source>Contestant</source>
         <translation>Contestant</translation>
     </message>
     <message id="score-table-name">
-        <location filename="../qml/viewer/main.qml" line="564"/>
+        <location filename="../qml/viewer/main.qml" line="604"/>
         <source>Name</source>
         <translation>Name</translation>
     </message>
     <message id="score-table-time">
-        <location filename="../qml/viewer/main.qml" line="566"/>
+        <location filename="../qml/viewer/main.qml" line="606"/>
         <source>Time</source>
         <translation>Time</translation>
     </message>
     <message id="score-table-visited">
-        <location filename="../qml/viewer/main.qml" line="570"/>
+        <location filename="../qml/viewer/main.qml" line="610"/>
         <source>Visited TP</source>
         <oldsource>Visited</oldsource>
         <translation>Visited TP</translation>
     </message>
     <message id="score-table-section-speed">
-        <location filename="../qml/viewer/main.qml" line="580"/>
+        <location filename="../qml/viewer/main.qml" line="620"/>
         <source>Section speed</source>
         <translation>Section speed</translation>
     </message>
     <message id="score-table-alt-min">
-        <location filename="../qml/viewer/main.qml" line="583"/>
+        <location filename="../qml/viewer/main.qml" line="623"/>
         <source>Section min altitude</source>
         <oldsource>Section alt min</oldsource>
         <translation>Section alt min</translation>
     </message>
     <message id="score-table-alt-min-time">
-        <location filename="../qml/viewer/main.qml" line="585"/>
+        <location filename="../qml/viewer/main.qml" line="625"/>
         <source>Section min altitude time</source>
         <translation>Section min altitude time</translation>
     </message>
     <message id="score-table-alt-max-count">
-        <location filename="../qml/viewer/main.qml" line="596"/>
+        <location filename="../qml/viewer/main.qml" line="636"/>
         <source>Section max altitude crossings</source>
         <oldsource>Section min altitude crossings</oldsource>
         <translation>Section max altitude crossings</translation>
     </message>
     <message id="score-table-alt-max-time-spent">
-        <location filename="../qml/viewer/main.qml" line="598"/>
+        <location filename="../qml/viewer/main.qml" line="638"/>
         <source>Section max altitude time spent out</source>
         <oldsource>Section max altitude time spent out [s]</oldsource>
         <translation>Section max altitude time spent out</translation>
     </message>
     <message id="hit-yes">
-        <location filename="../qml/viewer/main.qml" line="641"/>
+        <location filename="../qml/viewer/main.qml" line="681"/>
         <source>YES</source>
         <translation>YES</translation>
     </message>
     <message id="hit-no">
-        <location filename="../qml/viewer/main.qml" line="643"/>
+        <location filename="../qml/viewer/main.qml" line="683"/>
         <source>NO</source>
         <translation>NO</translation>
     </message>
     <message id="toolbar-igc-count" numerus="yes">
-        <location filename="../qml/viewer/main.qml" line="781"/>
+        <location filename="../qml/viewer/main.qml" line="821"/>
         <source>Fixes %n</source>
         <oldsource>Igc fixes %n</oldsource>
         <translation>
@@ -230,81 +245,81 @@
         <translation type="vanished">NO</translation>
     </message>
     <message id="section-type-speed">
-        <location filename="../qml/viewer/main.qml" line="1533"/>
+        <location filename="../qml/viewer/main.qml" line="1573"/>
         <source>speed</source>
         <translation>speed</translation>
     </message>
     <message id="section-type-altitude">
-        <location filename="../qml/viewer/main.qml" line="1545"/>
+        <location filename="../qml/viewer/main.qml" line="1585"/>
         <source>altitude</source>
         <translation>altitude</translation>
     </message>
     <message id="section-type-space">
-        <location filename="../qml/viewer/main.qml" line="1557"/>
+        <location filename="../qml/viewer/main.qml" line="1597"/>
         <source>space</source>
         <translation>space</translation>
     </message>
     <message id="score-table-alt-max">
-        <location filename="../qml/viewer/main.qml" line="592"/>
+        <location filename="../qml/viewer/main.qml" line="632"/>
         <source>Section max altitude</source>
         <oldsource>Section alt max</oldsource>
         <translation>Section alt max</translation>
     </message>
     <message id="score-table-alt-max-time">
-        <location filename="../qml/viewer/main.qml" line="594"/>
+        <location filename="../qml/viewer/main.qml" line="634"/>
         <source>Section max altitude time</source>
         <translation>Section max altitude time</translation>
     </message>
     <message id="score-table-alt-min-count">
-        <location filename="../qml/viewer/main.qml" line="587"/>
+        <location filename="../qml/viewer/main.qml" line="627"/>
         <source>Section min altitude crossings</source>
         <oldsource>Section max altitude crossings</oldsource>
         <translation>Section min altitude crossings</translation>
     </message>
     <message id="score-table-alt-min-time-spent">
-        <location filename="../qml/viewer/main.qml" line="589"/>
+        <location filename="../qml/viewer/main.qml" line="629"/>
         <source>Section min altitude time spent out</source>
         <oldsource>Section min altitude time spent out [s]</oldsource>
         <translation>Section min altitude time spent out</translation>
     </message>
     <message id="score-table-distance-max">
-        <location filename="../qml/viewer/main.qml" line="601"/>
+        <location filename="../qml/viewer/main.qml" line="641"/>
         <source>Section max distance</source>
         <translation>Section max distance</translation>
     </message>
     <message id="score-table-distance-max-time">
-        <location filename="../qml/viewer/main.qml" line="603"/>
+        <location filename="../qml/viewer/main.qml" line="643"/>
         <source>Section max distance time</source>
         <translation>Section max distance time</translation>
     </message>
     <message id="score-table-distance-out-count">
-        <location filename="../qml/viewer/main.qml" line="605"/>
+        <location filename="../qml/viewer/main.qml" line="645"/>
         <source>Section max distance crossing</source>
         <translation>Section max distance crossing</translation>
     </message>
     <message id="score-table-distance-out-spent">
-        <location filename="../qml/viewer/main.qml" line="607"/>
+        <location filename="../qml/viewer/main.qml" line="647"/>
         <source>Section max distance time spent out</source>
         <oldsource>Section max distance time spent out [s]</oldsource>
         <translation>Section max distance time spent out</translation>
     </message>
     <message id="score-table-distance-out-bi-count">
-        <location filename="../qml/viewer/main.qml" line="610"/>
+        <location filename="../qml/viewer/main.qml" line="650"/>
         <source>Section max distance crossing (both)</source>
         <translation>Section max distance crossing (both axis)</translation>
     </message>
     <message id="score-table-distance-out-bi-spent">
-        <location filename="../qml/viewer/main.qml" line="612"/>
+        <location filename="../qml/viewer/main.qml" line="652"/>
         <source>Section max distance time spent out (both)</source>
         <translation>Section max distance time spent out (both axis)</translation>
     </message>
     <message id="toolbar-start-time">
-        <location filename="../qml/viewer/main.qml" line="761"/>
+        <location filename="../qml/viewer/main.qml" line="801"/>
         <source>(Start time: %1)</source>
         <translation>(Start time: %1)</translation>
     </message>
     <message id="toolbar-invalid-fixes" numerus="yes">
-        <location filename="../qml/viewer/main.qml" line="768"/>
+        <location filename="../qml/viewer/main.qml" line="808"/>
         <source>Invalid %n</source>
         <oldsource>Invalid/Trimmed %1/%2</oldsource>
         <translation>
@@ -313,7 +328,7 @@
         </translation>
     </message>
     <message id="toolbar-trimmed-fixes" numerus="yes">
-        <location filename="../qml/viewer/main.qml" line="775"/>
+        <location filename="../qml/viewer/main.qml" line="815"/>
         <source>Trimmed %n</source>
         <translation>
             <numerusform>Trimmed %n</numerusform>
@@ -321,66 +336,66 @@
         </translation>
     </message>
     <message id="score-table-altitude">
-        <location filename="../qml/viewer/main.qml" line="568"/>
+        <location filename="../qml/viewer/main.qml" line="608"/>
         <source>Altitude</source>
         <translation>Altitude</translation>
     </message>
     <message id="score-table-space-gate-visited">
-        <location filename="../qml/viewer/main.qml" line="572"/>
+        <location filename="../qml/viewer/main.qml" line="612"/>
         <source>Visited SG</source>
         <translation>Visited SG</translation>
     </message>
     <message id="score-table-latitude">
-        <location filename="../qml/viewer/main.qml" line="574"/>
+        <location filename="../qml/viewer/main.qml" line="614"/>
         <source>Latitude</source>
         <translation>Latitude</translation>
     </message>
     <message id="score-table-longitude">
-        <location filename="../qml/viewer/main.qml" line="576"/>
+        <location filename="../qml/viewer/main.qml" line="616"/>
         <source>Longitude</source>
         <translation>Longitude</translation>
     </message>
     <message id="score-table-radius">
-        <location filename="../qml/viewer/main.qml" line="578"/>
+        <location filename="../qml/viewer/main.qml" line="618"/>
         <source>Radius</source>
         <translation>Radius</translation>
     </message>
     <message id="status-no-track-loaded">
-        <location filename="../qml/viewer/main.qml" line="739"/>
+        <location filename="../qml/viewer/main.qml" line="779"/>
         <source>No track loaded</source>
         <translation>No track loaded</translation>
     </message>
     <message id="filelist-table-filename">
-        <location filename="../qml/viewer/main.qml" line="440"/>
+        <location filename="../qml/viewer/main.qml" line="480"/>
         <source>File name</source>
         <translation>File name</translation>
     </message>
     <message id="pinchmap-ready">
-        <location filename="../qml/viewer/PinchMap.qml" line="507"/>
+        <location filename="../qml/viewer/PinchMap.qml" line="520"/>
         <location filename="../qml/viewer/PrintMap.qml" line="313"/>
         <source>Ready</source>
         <translation>Ready</translation>
     </message>
     <message id="pinchmap-not-set">
-        <location filename="../qml/viewer/PinchMap.qml" line="509"/>
+        <location filename="../qml/viewer/PinchMap.qml" line="522"/>
         <location filename="../qml/viewer/PrintMap.qml" line="315"/>
         <source>Not Set</source>
         <translation>Not Set</translation>
     </message>
     <message id="pinchmap-error">
-        <location filename="../qml/viewer/PinchMap.qml" line="511"/>
+        <location filename="../qml/viewer/PinchMap.qml" line="524"/>
         <location filename="../qml/viewer/PrintMap.qml" line="317"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
     <message id="pinchmap-loading">
-        <location filename="../qml/viewer/PinchMap.qml" line="513"/>
+        <location filename="../qml/viewer/PinchMap.qml" line="526"/>
         <location filename="../qml/viewer/PrintMap.qml" line="319"/>
         <source>Loading ...</source>
         <translation>Loading ...</translation>
     </message>
     <message id="pinchmap-unknown-error">
-        <location filename="../qml/viewer/PinchMap.qml" line="515"/>
+        <location filename="../qml/viewer/PinchMap.qml" line="528"/>
         <location filename="../qml/viewer/PrintMap.qml" line="321"/>
         <source>Unknown error</source>
         <translation>Unknown error</translation>

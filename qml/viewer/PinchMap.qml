@@ -5,7 +5,7 @@ import cz.mlich 1.0
 Rectangle {
     id: pinchmap;
     property bool mapTileVisible:true;
-    property bool airspaceVisible: true;
+    property bool mapAirspaceVisible: false;
 
     property real zoomLevel: 7;
     property int zoomLevelInt: Math.floor(zoomLevel);
@@ -56,6 +56,7 @@ Rectangle {
     property string url;
     // : "~/Maps/OSM/%(zoom)d/%(x)d/%(y)d.png"
     // url: "http://a.tile.openstreetmap.org/%(zoom)d/%(x)d/%(y)d.png";
+    property string airspaceUrl;
 
 
     //    property alias wfImageSource: worldFileImage.source
@@ -229,7 +230,7 @@ Rectangle {
             canvas.requestPaint()
         }
     }
-    onAirspaceVisibleChanged: {
+    onMapAirspaceVisibleChanged: {
         if (!pageActive) {
             needsUpdate = true;
         } else {
@@ -478,20 +479,33 @@ Rectangle {
     }
 
     function tileUrl(tx, ty) {
-        if ((url === undefined) || (url === "")) {
+        return tileUrlMultiple(tx, ty, url, true);
+    }
+
+
+    function tileUrlMultiple(tx, ty, baseUrl, first) {
+
+
+        if ((baseUrl === undefined) || (baseUrl === "")) {
             return Qt.resolvedUrl("./data/noimage-disabled.png")
         }
 
         if (tx < 0 || tx > maxTileNo) {
+            if (!first) {
+                return "";
+            }
             return Qt.resolvedUrl("./data/noimage.png")
         }
 
         if (ty < 0 || ty > maxTileNo) {
+            if (!first) {
+                return "";
+            }
             return Qt.resolvedUrl("./data/noimage.png")
         }
 
 
-        var res = Qt.resolvedUrl(F.getMapTile(url, tx, ty, zoomLevelInt));
+        var res = Qt.resolvedUrl(F.getMapTile(baseUrl, tx, ty, zoomLevelInt));
 
         if (filereader.is_local_file(res) && !filereader.file_exists(res)) { // do not open non existing image
             return "";
@@ -500,7 +514,6 @@ Rectangle {
         return res;
 
     }
-
     function imageStatusToString(status) {
         switch (status) {
             //% "Ready"
@@ -563,14 +576,14 @@ Rectangle {
                         width: (parent.width - 4) * progressBar.p;
                         color: "#000000";
                     }
-                    visible: mapTileVisible
+                    visible: mapTileVisible && (img.status !== Image.Ready)
                 }
                 NativeText {
                     anchors.left: parent.left
                     anchors.leftMargin: 16
                     y: parent.height/2 - 32
                     text: imageStatusToString(img.status)
-                    visible: mapTileVisible
+                    visible: mapTileVisible && (img.status !== Image.Ready)
                 }
                 Image {
                     anchors.fill: parent;
@@ -585,6 +598,12 @@ Rectangle {
                     onProgressChanged: { progressBar.p = progress }
                     source: mapTileVisible ? tileUrl(tileX, tileY) : "";
                     visible: mapTileVisible
+                }
+
+                Image {
+                    anchors.fill: parent;
+                    source: mapAirspaceVisible ? tileUrlMultiple(tileX, tileY, airspaceUrl, false) : ""
+                    visible: mapAirspaceVisible;
                 }
 
 

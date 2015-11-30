@@ -157,6 +157,46 @@ ApplicationWindow {
                 shortcut: "Ctrl+7"
             }
 
+            ExclusiveGroup {
+                id: mapTypeSecondaryExclusive
+            }
+
+
+            MenuItem {
+                //% "Airspace Off"
+                text: qsTrId("main-map-menu-airspace-off")
+                exclusiveGroup: mapTypeSecondaryExclusive
+                checkable: true;
+                checked: true;
+                onTriggered: {
+                    map.airspaceUrl = ""
+                    map.mapAirspaceVisible = false;
+                }
+            }
+
+            MenuItem {
+                //% "Airspace (prosoar.de)"
+                text: qsTrId("main-map-menu-airspace-prosoar")
+                exclusiveGroup: mapTypeSecondaryExclusive
+                checkable: true;
+                onTriggered: {
+                    map.airspaceUrl = "http://prosoar.de/airspace/%(zoom)d/%(x)d/%(y)d.png"
+                    map.mapAirspaceVisible = true;
+                }
+            }
+
+            MenuItem {
+                //% "Airspace (local)"
+                text: qsTrId("main-map-menu-airspace-local")
+                exclusiveGroup: mapTypeSecondaryExclusive
+                checkable: true;
+                onTriggered: {
+                    map.airspaceUrl = QStandardPathsHomeLocation+"/.local/share/Maps/airspace/%(zoom)d/%(x)d/%(y)d.png"
+                    map.mapAirspaceVisible = true;
+                }
+            }
+
+
 
             MenuItem {
                 visible: false;
