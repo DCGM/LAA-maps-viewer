@@ -1,8 +1,8 @@
-import QtQuick 2.1
+import QtQuick 2.5
 import QtQuick.Window 2.0
 import QtQuick.Layouts 1.1
-import QtQuick.Controls 1.1
-import QtQuick.Dialogs 1.1
+import QtQuick.Controls 1.4
+import QtQuick.Dialogs 1.2
 import Qt.labs.folderlistmodel 2.1
 import cz.mlich 1.0
 import "functions.js" as F
