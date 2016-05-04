@@ -73,6 +73,7 @@ ApplicationWindow {
                 exclusiveGroup: mapTypeExclusive
                 onTriggered: {
                     map.url = "";
+                    map.url_subdomains = [];
                 }
                 //                Component.onCompleted: { // default value
                 //                    checked = true;
@@ -91,6 +92,7 @@ ApplicationWindow {
                     map.url = QStandardPathsHomeLocation+"/.local/share/Maps/OSM/%(zoom)d/%(x)d/%(y)d.png"
                     //map.url = QStandardPathsApplicationFilePath + "/Maps/OSM/%(zoom)d/%(x)d/%(y)d.png"
                     //map.url = "../../Maps/OSM/%(zoom)d/%(x)d/%(y)d.png"
+                    map.url_subdomains = [];
 
                 }
                 Component.onCompleted: { // default value
@@ -98,6 +100,7 @@ ApplicationWindow {
                     map.url = QStandardPathsHomeLocation+"/.local/share/Maps/OSM/%(zoom)d/%(x)d/%(y)d.png"
                     //map.url = QStandardPathsApplicationFilePath + "../../Maps/OSM/%(zoom)d/%(x)d/%(y)d.png"
                     //map.url = "../../Maps/OSM/%(zoom)d/%(x)d/%(y)d.png"
+                    map.url_subdomains = [];
                 }
                 shortcut: "Ctrl+2"
 
@@ -108,7 +111,8 @@ ApplicationWindow {
                 checkable: true;
                 exclusiveGroup: mapTypeExclusive
                 onTriggered: {
-                    map.url = "http://a.tile.openstreetmap.org/%(zoom)d/%(x)d/%(y)d.png";
+                    map.url = "http://%(s)d.tile.openstreetmap.org/%(zoom)d/%(x)d/%(y)d.png";
+                    map.url_subdomains = ['a','b', 'c'];
                 }
                 shortcut: "Ctrl+3"
 
@@ -119,7 +123,8 @@ ApplicationWindow {
                 checkable: true;
                 exclusiveGroup: mapTypeExclusive
                 onTriggered: {
-                    map.url = "http://mts0.google.com/vt/lyrs=m@248407269&hl=x-local&x=%(x)d&y=%(y)d&z=%(zoom)d&s=Galileo"
+                    map.url = "http://%(s)d.google.com/vt/lyrs=m@248407269&hl=x-local&x=%(x)d&y=%(y)d&z=%(zoom)d&s=Galileo"
+                    map.url_subdomains = ['mt0','mt1','mt2','mt3']
                 }
                 shortcut: "Ctrl+4"
 
@@ -131,7 +136,8 @@ ApplicationWindow {
                 checkable: true;
                 exclusiveGroup: mapTypeExclusive
                 onTriggered: {
-                    map.url = "http://mts1.google.com/vt/lyrs=t,r&x=%(x)d&y=%(y)d&z=%(zoom)d"
+                    map.url = "http://%(s)d.google.com/vt/lyrs=t,r&x=%(x)d&y=%(y)d&z=%(zoom)d"
+                    map.url_subdomains = ['mt0','mt1','mt2','mt3']
                 }
                 shortcut: "Ctrl+5"
             }
@@ -142,7 +148,8 @@ ApplicationWindow {
                 exclusiveGroup: mapTypeExclusive
                 checkable: true;
                 onTriggered: {
-                    map.url = "http://khms1.google.com/kh/v=144&src=app&x=%(x)d&y=%(y)d&z=%(zoom)d&s="
+                    map.url = 'http://%(s)d.google.com/vt/lyrs=s&x=%(x)d&y=%(y)d&z=%(zoom)d';
+                    map.url_subdomains = ['mt0','mt1','mt2','mt3']
                 }
                 shortcut: "Ctrl+6"
             }
@@ -153,6 +160,7 @@ ApplicationWindow {
                 checkable: true;
                 onTriggered: {
                     mapurl_dialog.open();
+                    map.url_subdomains = [];
                 }
                 shortcut: "Ctrl+7"
             }
