@@ -2005,5 +2005,9 @@ ApplicationWindow {
         }
     }
 
+    ConfigFile {
+        id: config
+    }
+
 
 }

@@ -3,6 +3,7 @@ import QtQuick.Controls 1.4
 import QtQuick.Dialogs 1.2
 
 ApplicationWindow {
+
     id: pathConfiguration
     width: 600;
     height: 400;
@@ -13,18 +14,18 @@ ApplicationWindow {
 
     property alias igcDirectory: igcDirectoryTextField.text
 //    property string igcDirectory_default: "file:///home/jmlich/workspace/tucek/2015-kotvrdovice/vysledky/igcFiles"
-    property string igcDirectory_default: "file:///home/imlich/workspace/tucek/testovaci_data/igcFiles"
+    property string igcDirectory_default: config.get("igcDirectory_default", "file:///home/imlich/workspace/tucek/testovaci_data/igcFiles");
     //    property string igcDirectory_default: "file:///"+ QStandardPathsApplicationFilePath + "/igcFiles"
 
     property alias trackFile: trackFileTextField.text
 //    property string trackFile_default: "file:///home/jmlich/workspace/tucek/2015-kotvrdovice/2015-kotv2.json";
-    property string trackFile_default: "file:///var/www/html/tucek2/2012-KOTV.json";
+    property string trackFile_default: config.get("trackFile_default", "file:///var/www/html/tucek2/2012-KOTV.json");
 //    property string trackFile_default: "file:///var/www/html/tucek2/2014-LKHK-50bodu.json";
     //    property string trackFile_default: "file:///"+ QStandardPathsApplicationFilePath + "/track.json";
 
     property alias resultsFolder: resultsFolderTextField.text;
 //    property string resultsFolder_default: "file:///home/jmlich/workspace/tucek/2015-kotvrdovice/vysledky/results"
-    property string resultsFolder_default: "file:///home/imlich/workspace/tucek/testovaci_data/results"
+    property string resultsFolder_default: config.get("resultsFolder_default", "file:///home/imlich/workspace/tucek/testovaci_data/results");
     //    property string resultsFolder_default: "file:///"+ QStandardPathsApplicationFilePath +"/results";
     //    property string resultsFolder_default: "../../results"
 
@@ -240,6 +241,10 @@ ApplicationWindow {
             focus: true;
             isDefault: true;
             onClicked: {
+                config.set("igcDirectory_default", igcDirectoryTextField.text);
+                config.set("trackFile_default", trackFileTextField.text);
+                config.set("resultsFolder_default", resultsFolderTextField.text);
+
                 ok();
                 pathConfiguration.close()
             }
