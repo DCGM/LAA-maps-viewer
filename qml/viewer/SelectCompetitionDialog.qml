@@ -170,7 +170,7 @@ ApplicationWindow {
         else {
 
             competitionConfiguretion.competitionDirector = comp.manager.firstname + " " + comp.manager.surname;
-            competitionConfiguretion.competitionDirectorAvatar = comp.manager.avatar_thumb;
+            competitionConfiguretion.competitionDirectorAvatar = (comp.manager.avatar_thumb !== undefined) ? comp.manager.avatar_thumb : "";
         }
 
         competitionConfiguretion.competitionDate = comp.date;
