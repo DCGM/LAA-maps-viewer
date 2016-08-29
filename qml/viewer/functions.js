@@ -801,13 +801,15 @@ function utmXYToLatLon (x, y, zone, southhemi)
 
 }
 
-
+/*
+// function has been moved into resultscreater.cpp
 function arrayFromMask (nMask) {
     // nMask must be between -2147483648 and 2147483647
     if (nMask > 0x7fffffff || nMask < -0x80000000) { throw new TypeError("arrayFromMask - out of range"); }
     for (var nShifted = nMask, aFromMask = []; nShifted; aFromMask.push(Boolean(nShifted & 1)), nShifted >>>= 1);
     return aFromMask;
 }
+*/
 
 function basename(path) {
     return String(path).replace(/.*\/|\.[^.]*$/g, '');
@@ -830,7 +832,23 @@ function timeToUnix(str) {
 }
 
 function addSlashes(input) {
+
     return String(input).replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+}
+
+function replaceDoubleQuotes(input) {
+
+    return String(input).replace(/"/g, '\\\'');
+}
+
+function replaceSingleQuotes(input) {
+
+    return String(input).replace(/\\\'/g, '\"');
+}
+
+function removeSlashes(input) {
+
+    return String(input).replace(/\\\\/g, '\\').replace(/\\"/g, '"');
 }
 
 function latLonToMeters(lat, lon) {

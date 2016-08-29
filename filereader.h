@@ -15,6 +15,7 @@ public:
 
 
     Q_INVOKABLE void write(const QUrl &filename, QByteArray data);
+    Q_INVOKABLE void writeUTF8(const QUrl &filename, QByteArray data);
     Q_INVOKABLE bool file_exists(const QUrl &filename);
     Q_INVOKABLE QByteArray read(const QUrl &filename);
 
@@ -22,6 +23,8 @@ public:
 
     Q_INVOKABLE bool delete_file(const QUrl &filename);
     Q_INVOKABLE bool delete_file_local(const QString &filename);
+
+    Q_INVOKABLE void remove_if_exists(const QUrl &filename);
 
 
 signals:

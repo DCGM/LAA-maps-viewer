@@ -13,35 +13,49 @@ Item {
 //        console.log(key + " = " + value)
 
         var db = LocalStorage.openDatabaseSync(dbName, dbVersion, dbDisplayName, dbEstimatedSize);
-        db.transaction(
-                    function(tx) {
-                        tx.executeSql('CREATE TABLE IF NOT EXISTS Keys(key TEXT, value TEXT)');
-                        var rs = tx.executeSql('SELECT * FROM Keys WHERE key==?', [ key ]);
+        try {
 
-                        if (rs.rows.length === 0){
-                            tx.executeSql('INSERT INTO Keys VALUES(?, ?)', [ key, value ]);
-                        } else {
-                            tx.executeSql('UPDATE Keys SET value=? WHERE key==?', [value, key]);
-                        }
-                    })
+            db.transaction(
+
+                        function(tx) {
+                            tx.executeSql('CREATE TABLE IF NOT EXISTS Keys(key TEXT, value TEXT)');
+                            var rs = tx.executeSql('SELECT * FROM Keys WHERE key==?', [ key ]);
+
+                            if (rs.rows.length === 0){
+                                tx.executeSql('INSERT INTO Keys VALUES(?, ?)', [ key, value ]);
+                            } else {
+                                tx.executeSql('UPDATE Keys SET value=? WHERE key==?', [value, key]);
+                            }
+                        })
+        } catch (err) {
+                console.log("Error set table in database: " + err);
+        };
     }
 
     function get(key, default_value) {
+
+        //console.log(key)
+
         var db = LocalStorage.openDatabaseSync(dbName, dbVersion, dbDisplayName, dbEstimatedSize);
         var result = "";
-        db.transaction(
-                    function(tx) {
 
-                        tx.executeSql('CREATE TABLE IF NOT EXISTS Keys(key TEXT, value TEXT)');
-                        var rs = tx.executeSql('SELECT * FROM Keys WHERE key=?', [ key ]);
-                        if (rs.rows.length === 1 && rs.rows.item(0).value.length > 0){
-                            result = rs.rows.item(0).value
+        try {
+            db.transaction(
+                        function(tx) {
+
+                            tx.executeSql('CREATE TABLE IF NOT EXISTS Keys(key TEXT, value TEXT)');
+                            var rs = tx.executeSql('SELECT * FROM Keys WHERE key=?', [ key ]);
+                            if (rs.rows.length === 1 && rs.rows.item(0).value.length > 0){
+                                result = rs.rows.item(0).value
+                            }
+                            else {
+                                result = default_value;
+                            }
                         }
-                        else {
-                            result = default_value;
-                        }
-                    }
-                    )
+                        )
+        } catch (err) {
+                console.log("Error get table in database: " + err);
+        };
 //        console.log(key + " : " + result)
         return result;
     }

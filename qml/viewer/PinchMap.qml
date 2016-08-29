@@ -376,7 +376,7 @@ Rectangle {
         var end = getCoordFromScreenpoint(pinchmap.width,pinchmap.height)
         //         controller.updateGeocaches(start[0], start[1], end[0], end[1])
         updateGeocaches()
-        console.debug("Update requested.")
+       // console.debug("Update requested.")
     }
 
     function requestUpdateDetails() {
@@ -717,6 +717,7 @@ Rectangle {
         renderStrategy: Canvas.Cooperative
 
         onPaint: {
+
             console.time("canvas-onPaint")
 
             var ctx = canvas.getContext("2d");

@@ -18,7 +18,11 @@ SOURCES += main.cpp \
     customnetworkaccessmanager.cpp \
     networkaccessmanagerfactory.cpp \
     imagesaver.cpp \
-    igcfiltered.cpp
+    igcfiltered.cpp \
+    sortfilterproxymodel.cpp \
+    pdfwriter.cpp \
+    resultscreater.cpp \
+    worker.cpp
 
 # Installation path
 # target.path =
@@ -33,9 +37,13 @@ HEADERS += \
     customnetworkaccessmanager.h \
     networkaccessmanagerfactory.h \
     imagesaver.h \
-    igcfiltered.h
+    igcfiltered.h \
+    sortfilterproxymodel.h \
+    pdfwriter.h \
+    resultscreater.h \
+    worker.h
 
-QT += qml quick widgets
+QT += qml quick widgets printsupport
 
 
 LANGUAGES = cs_CZ en_US
@@ -58,6 +66,7 @@ QMAKE_EXTRA_COMPILERS += updateqm
 
 qmfiles.files = $$prependAll(LANGUAGES, $$OUT_PWD/viewer_,.qm)
 # qmfiles.path = /usr/share/$${TARGET}/i18n
+qmfiles.path = /$${TARGET}/i18n
 qmfiles.CONFIG += no_check_exist
 
 INSTALLS += qmfiles
@@ -72,7 +81,13 @@ RESOURCES += \
 
 OTHER_FILES += \
     qml/viewer/csv.js \
+    qml/viewer/functions.js \
+    qml/viewer/md5.js \
     qml/viewer/AltChart.qml
 
 # CONFIG += qtquickcompiler
+
+DISTFILES += \
+    ImportDialog.qml \
+    HorizontalDelimeter.qml
 

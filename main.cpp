@@ -2,11 +2,13 @@
 #include <QtDebug>
 #include <QFile>
 #include <QTextStream>
+#include <QObject>
 
 #include <QQmlApplicationEngine>
 #include <QtWidgets/QApplication>
 #include <QtQml>
 #include <QQuickWindow>
+
 
 //#include "qtquick2applicationviewer.h"
 //#include "igc.h"
@@ -14,7 +16,10 @@
 #include "filereader.h"
 #include "networkaccessmanagerfactory.h"
 #include "imagesaver.h"
-
+#include "pdfwriter.h"
+#include "sortfilterproxymodel.h"
+#include "resultscreater.h"
+#include "worker.h"
 
 void myMessageHandler(QtMsgType type, const QMessageLogContext& context, const QString& msg) {
     QString txt;
@@ -45,6 +50,7 @@ void myMessageHandler(QtMsgType type, const QMessageLogContext& context, const Q
 
 }
 
+
 int main(int argc, char *argv[])
 {
 
@@ -62,7 +68,11 @@ int main(int argc, char *argv[])
     qmlRegisterType<IgcFiltered>("cz.mlich", 1, 0, "IgcFile");
     qmlRegisterType<FileReader>("cz.mlich", 1, 0, "FileReader");
     qmlRegisterType<ImageSaver>("cz.mlich", 1, 0, "ImageSaver");
+    qmlRegisterType<PdfWriter>("cz.mlich", 1, 0, "PdfWriter");
+    qmlRegisterType<ResultsCreater>("cz.mlich", 1, 0, "ResultsCreater");
+    qmlRegisterType<Worker>("cz.mlich", 1, 0, "CppWorker");
 
+    qmlRegisterType<SortFilterProxyModel>("org.qtproject.example", 1, 0, "SortFilterProxyModel");   
 
     QTranslator translator;
 

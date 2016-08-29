@@ -5,19 +5,55 @@ import QtQuick.Controls 1.4
 import QtQuick.Dialogs 1.2
 import Qt.labs.folderlistmodel 2.1
 import cz.mlich 1.0
+import org.qtproject.example 1.0
 import "functions.js" as F
 import "csv.js" as CSVJS
-
+import "md5.js" as MD5
 
 
 ApplicationWindow {
     id: applicationWindow
     //% "Trajectory viewer"
     title: qsTrId("application-window-title")
-    width: 1024
-    height: 600
+    width: 1280
+    height: 860
 
     property variant tracks;
+    property variant trItem;
+    property variant ctnt;
+
+    property variant maxPointsArr;
+
+    property int minContestantInCategory: 3
+    property int _RAL1_count: 0
+    property int _RAL2_count: 0
+    property int _SAL1_count: 0
+    property int _SAL2_count: 0
+    property int _RWL1_count: 0
+    property int _RWL2_count: 0
+    property int _SWL1_count: 0
+    property int _SWL2_count: 0
+    property int _CUSTOM1_count: 0
+    property int _CUSTOM2_count: 0
+    property int _CUSTOM3_count: 0
+    property int _CUSTOM4_count: 0
+
+    property variant categoriesScorePoints: [];
+
+    property bool generateResultsFlag: false;
+
+    Component.onCompleted: {
+
+        // load last competition settings
+        competitionConfiguretion.competitionName = config.get("competitionName_default", "competitionName");
+        competitionConfiguretion.competitionType = config.get("competitionType_default", "competitionType");
+        competitionConfiguretion.competitionTypeText = competitionConfiguretion.getCompetitionTypeString(parseInt(competitionConfiguretion.competitionType));
+        competitionConfiguretion.competitionDirector = config.get("competitionDirector_default", "competitionDirector");
+        competitionConfiguretion.competitionDirectorAvatar = JSON.parse(config.get("competitionDirectorAvatar_default", ""));
+        competitionConfiguretion.competitionArbitr = JSON.parse(config.get("competitionArbitr_default", ["competitionArbitr"]));
+        competitionConfiguretion.competitionArbitrAvatar = JSON.parse(config.get("competitionArbitrAvatar_default", [""]));
+        competitionConfiguretion.competitionDate = config.get("competitionDate_default", Qt.formatDateTime(new Date(), "yyMMdd"));
+    }
 
     menuBar: MenuBar {
         id: menuToolBar
@@ -35,10 +71,43 @@ ApplicationWindow {
             }
 
             MenuItem {
+                //% "&Set Competition"
+                text: qsTrId("main-file-menu-set-competition")
+                onTriggered: {
+                    competitionConfiguretion.show()
+                }
+                shortcut: "Ctrl+C"
+            }
+
+            MenuItem {
+                //% "&Download application"
+                text: qsTrId("main-file-menu-download-application")
+                onTriggered: {
+                    selectCompetitionOnlineDialog.show();
+                }
+                shortcut: "Ctrl+W"
+            }
+
+            MenuItem {
                 //% "Evaluate all data"
                 text: qsTrId("main-file-menu-process-all");
                 onTriggered: evaluate_all_data();
                 shortcut: "Ctrl+D"
+            }
+
+
+            MenuItem {
+                //% "Generate continuous results"
+                text: qsTrId("main-file-menu-generate-continuous-results");
+                onTriggered: generateContinuousResults();
+                shortcut: "Ctrl+F"
+            }
+
+            MenuItem {
+                //% "Generate final results"
+                text: qsTrId("main-file-menu-generate-final-results");
+                onTriggered: generateFinalResults();
+                shortcut: "Ctrl+R"
             }
 
             MenuItem {
@@ -52,7 +121,7 @@ ApplicationWindow {
 
 
             MenuItem {
-                //% "E&xit"
+                //% "Exit"
                 text: qsTrId("main-file-menu-exit")
                 onTriggered: Qt.quit();
             }
@@ -89,17 +158,20 @@ ApplicationWindow {
                 exclusiveGroup: mapTypeExclusive
                 onTriggered: {
                     console.log("Cached OSM")
-                    map.url = QStandardPathsHomeLocation+"/.local/share/Maps/OSM/%(zoom)d/%(x)d/%(y)d.png"
+                    //map.url = QStandardPathsHomeLocation+"/.local/share/Maps/OSM/%(zoom)d/%(x)d/%(y)d.png"
                     //map.url = QStandardPathsApplicationFilePath + "/Maps/OSM/%(zoom)d/%(x)d/%(y)d.png"
                     //map.url = "../../Maps/OSM/%(zoom)d/%(x)d/%(y)d.png"
+                    map.url = "/Maps/OSM/%(zoom)d/%(x)d/%(y)d.png"
                     map.url_subdomains = [];
 
                 }
                 Component.onCompleted: { // default value
+
                     checked = true;
-                    map.url = QStandardPathsHomeLocation+"/.local/share/Maps/OSM/%(zoom)d/%(x)d/%(y)d.png"
-                    //map.url = QStandardPathsApplicationFilePath + "../../Maps/OSM/%(zoom)d/%(x)d/%(y)d.png"
+                    //map.url = QStandardPathsHomeLocation+"/.local/share/Maps/OSM/%(zoom)d/%(x)d/%(y)d.png"
+                    //map.url = QStandardPathsApplicationFilePath + "/Maps/OSM/%(zoom)d/%(x)d/%(y)d.png"
                     //map.url = "../../Maps/OSM/%(zoom)d/%(x)d/%(y)d.png"
+                    map.url = "/Maps/OSM/%(zoom)d/%(x)d/%(y)d.png"
                     map.url_subdomains = [];
                 }
                 shortcut: "Ctrl+2"
@@ -217,13 +289,9 @@ ApplicationWindow {
                         gfwDialog.show();
 
                     }
-
                     console.log("gfw + gif")
                 }
-
             }
-
-
         }
 
         Menu {
@@ -272,6 +340,23 @@ ApplicationWindow {
                 checked: false;
                 shortcut: "Ctrl+A"
             }
+
+            MenuItem {
+                id: mainViewMenuCategoryCountersStatusBar
+                //% "Category counters"
+                text: qsTrId("main-view-menu-category-counters-sb")
+                checkable: true;
+                checked: true;
+                //shortcut: "Ctrl+A"
+            }
+            MenuItem {
+                id: mainViewMenuCompetitionPropertyStatusBar
+                //% "Competition property"
+                text: qsTrId("main-view-menu-comp-property-sb")
+                checkable: true;
+                checked: true;
+                //shortcut: "Ctrl+A"
+            }
         }
 
         Menu {
@@ -285,13 +370,35 @@ ApplicationWindow {
         }
     }
 
+    SelectCompetitionDialog {
+
+        id: selectCompetitionOnlineDialog
+
+        onContestantsDownloaded: {
+
+            file_reader.write(Qt.resolvedUrl(pathConfiguration.contestantsFile), csvString);
+
+            pathConfiguration.ok();
+        }
+    }
+
+    MyTranslator {
+
+        id: qmlTranslator
+    }
+
+    ProgressBarDialog {
+
+        id: mProgressBarDialog
+    }
+
     TextDialog {
         id: mapurl_dialog;
 
         //% "Custom map tile configuration"
         title: qsTrId("main-map-dialog-title")
 
-        //% "Enter URL";
+        //% "Enter URL"
         question: qsTrId("main-map-dialog-question")
 
         text: "http://m3.mapserver.mapy.cz/ophoto-m/%(zoom)d-%(x)d-%(y)d"
@@ -322,24 +429,50 @@ ApplicationWindow {
         }
     }
 
+    ImportDialog {
+
+        id: importDataDialog
+
+        onVisibleChanged: {
+
+            if (!visible) {
+
+                pathConfiguration.close();
+
+                checkAndRemoveContestantsInvalidPrevResults();
+
+                igcFolderModel.folder = "";
+                igcFolderModel.folder = pathConfiguration.igcDirectory;
+
+                recalculateContestantsScoreOrder();
+
+                storeTrackSettings(pathConfiguration.tsFile);
+                map.requestUpdate();
+            }
+        }
+    }
+
+    CompetitionConfiguration {
+
+        id: competitionConfiguretion;
+    }
+
+
+    CppWorker {
+
+        id: cppWorker;
+    }
 
     PathConfiguration {
         id: pathConfiguration;
         onOk: {
-            if (file_reader.file_exists(Qt.resolvedUrl(pathConfiguration.contestantsFile))) {
-                loadContestants(Qt.resolvedUrl(pathConfiguration.contestantsFile))
-            } else {
-                //% "File %1 not found"
-                errorMessage.text = qsTrId("path-configuration-error-contestantsFile-not-found").arg(pathConfiguration.contestantsFile);
-                errorMessage.open();
-                return;
-            }
 
+            // clear contestant in categories counters
             if (file_reader.file_exists(Qt.resolvedUrl(pathConfiguration.trackFile ))) {
                 tracks = JSON.parse(file_reader.read(Qt.resolvedUrl(pathConfiguration.trackFile )))
             } else {
                 // cleanup
-                contestantsListModel.clear()
+                //contestantsListModel.clear()
 
                 //% "File %1 not found"
                 errorMessage.text = qsTrId("path-configuration-error-trackFile-not-found").arg(pathConfiguration.trackFile);
@@ -347,20 +480,48 @@ ApplicationWindow {
                 return;
             }
 
+            if (file_reader.file_exists(Qt.resolvedUrl(pathConfiguration.contestantsFile))) {
 
-            igcFolderModel.folder = "";
-            igcFolderModel.folder = pathConfiguration.igcDirectory;
+                importDataDialog.listModel.clear();
+                initCategoryCounters();
 
-            storeTrackSettings(pathConfiguration.tsFile);
-            map.requestUpdate();
+                console.time("load ctnt")
+                loadContestants(Qt.resolvedUrl(pathConfiguration.contestantsFile))
+                console.timeEnd("load ctnt")
+
+            } else {
+
+                //% "File %1 not found"
+                errorMessage.text = qsTrId("path-configuration-error-contestantsFile-not-found").arg(pathConfiguration.contestantsFile);
+                errorMessage.open();
+                return;
+            }
+
+            // load import dialog if needed, otherwise load IGC
+            if (importDataDialog.listModel.count > 0) {
+
+                importDataDialog.show();
+            }
+            else {
+                checkAndRemoveContestantsInvalidPrevResults();
+
+                igcFolderModel.folder = "";
+                igcFolderModel.folder = pathConfiguration.igcDirectory;
+
+                recalculateContestantsScoreOrder();
+
+                storeTrackSettings(pathConfiguration.tsFile);
+                map.requestUpdate();
+
+            }
 
         }
         onCancel: {
-            console.log("pathConfiguration Cancel")
         }
     }
 
     FolderListModel {
+
         id: igcFolderModel
         nameFilters: ["*.igc", "*.IGC"]
         showDirs: false
@@ -382,33 +543,58 @@ ApplicationWindow {
                 for (var j = 0; j < igcFilesModel.count; j++) {
                     var item = igcFilesModel.get(j);
                     if ((item.fileName === fileName) && (item.filePath === filePath)) {
+
                         found = true;
                     }
                 }
+
 
                 if (!found) {
 
                     // select item in combobox if filename match
                     var contestant_index = 0;
+                    var contestant;
                     for (var j = 0; j < contestantsListModel.count; j++) {
-                        var contestant = contestantsListModel.get(j);
+
+                        contestant = contestantsListModel.get(j);
+
                         if (fileName === contestant.filename) {
                             contestant_index = j;
                         }
 
                     }
 
-                    igcFilesModel.append({"fileName": fileName, "filePath": filePath, "score": "", "score_json": "", contestant: contestant_index})
+                    contestant = contestantsListModel.get(contestant_index);
+
+                    igcFilesModel.append({"fileName": fileName,
+                                          "filePath": filePath,
+                                          "score": "",
+                                          "score_json": "",
+                                          contestant: contestant_index,
+                                          "scorePoints" : -1,
+                                          "scorePoints1000" : -1,
+                                          "startTime" : "00:00:00",
+                                          "category" : "",
+                                          "speed" : -1,
+                                          "classify" : -1,
+                                          "aircraftRegistration" : "",
+                                          "wptScoreDetails" : "",
+                                          "trackHash": "",
+                                          "speedSectionsScoreDetails" : "",
+                                          "spaceSectionsScoreDetails" : "",
+                                          "altitudeSectionsScoreDetails" : "",
+                                          "classOrder": -1
+                                         })
+
                 }
             }
-
         }
-
     }
 
     ListModel {
         id: igcFilesModel
         onDataChanged: {
+
             if (igcFilesTable.currentRow < 0) {
                 igcFilesTable.rowSelected();
             }
@@ -419,8 +605,98 @@ ApplicationWindow {
         id: wptScoreList
     }
 
+   // ListModel {
+        //listModel of listmodels for track points score
+    //    id: wptNewScoreList
+   // }
+
+   // ListModel {
+   //     id: speedSectionsScoreList
+   // }
+
     ListModel {
         id: contestantsListModel
+    }
+
+    ListModel {// for reload prev manual values, cache
+        id: wptNewScoreListManualValuesCache
+    }
+
+    ListModel {// for reload prev manual values
+        id: speedSectionsScoreListManualValuesCache
+    }
+
+    ListModel {// for reload prev manual values
+        id: spaceSectionsScoreListManualValuesCache
+    }
+
+    ListModel {// for reload prev manual values
+        id: altSectionsScoreListManualValuesCache
+    }
+
+    ResultsWindow {
+
+        id: resultsWindow
+
+        onOk: {
+
+            //copy manual values into list models
+            var contestantIndex = igcFilesModel.get(igcFilesTable.currentRow).contestant;
+            contestantsListModel.setProperty(contestantIndex, "markersOk", curentContestant.markersOk);
+            contestantsListModel.setProperty(contestantIndex, "markersNok", curentContestant.markersNok);
+            contestantsListModel.setProperty(contestantIndex, "markersFalse", curentContestant.markersFalse);
+            contestantsListModel.setProperty(contestantIndex, "markersScore", curentContestant.markersScore);
+            contestantsListModel.setProperty(contestantIndex, "photosOk", curentContestant.photosOk);
+            contestantsListModel.setProperty(contestantIndex, "photosNok", curentContestant.photosNok);
+            contestantsListModel.setProperty(contestantIndex, "photosFalse", curentContestant.photosFalse);
+            contestantsListModel.setProperty(contestantIndex, "photosScore", curentContestant.photosScore);
+            contestantsListModel.setProperty(contestantIndex, "startTimeMeasured", curentContestant.startTimeMeasured);
+            contestantsListModel.setProperty(contestantIndex, "startTimeDifference", curentContestant.startTimeDifference);
+            contestantsListModel.setProperty(contestantIndex, "startTimeScore", curentContestant.startTimeScore);
+            contestantsListModel.setProperty(contestantIndex, "landingScore", curentContestant.landingScore);
+            contestantsListModel.setProperty(contestantIndex, "circlingCount", curentContestant.circlingCount);
+            contestantsListModel.setProperty(contestantIndex, "circlingScore", curentContestant.circlingScore);
+            contestantsListModel.setProperty(contestantIndex, "oppositeCount", curentContestant.oppositeCount);
+            contestantsListModel.setProperty(contestantIndex, "oppositeScore", curentContestant.oppositeScore);
+            contestantsListModel.setProperty(contestantIndex, "otherPoints", curentContestant.otherPoints);
+            contestantsListModel.setProperty(contestantIndex, "otherPointsNote", curentContestant.otherPointsNote);
+            contestantsListModel.setProperty(contestantIndex, "otherPenalty", curentContestant.otherPenalty);
+            contestantsListModel.setProperty(contestantIndex, "otherPenaltyNote", curentContestant.otherPenaltyNote);
+
+            // reload current contestant
+            ctnt = contestantsListModel.get(contestantIndex);
+/*
+            // load and save modified wpt score list
+            wptNewScoreList.clear();
+            var arr = resultsWindow.currentWptScoreString.split("; ")
+            for (var i = 0; i < arr.length; i++) {
+                wptNewScoreList.append(JSON.parse(arr[i]))
+            }
+*/
+
+            // load and save modified score lists
+            igcFilesModel.setProperty(igcFilesTable.currentRow, "wptScoreDetails", resultsWindow.currentWptScoreString);
+/*
+            //load and save modified speed sections score list
+            speedSectionsScoreList.clear();
+            arr = resultsWindow.currentSpeedSectionsScoreString.split("; ")
+            for (var i = 0; i < arr.length; i++) {
+                speedSectionsScoreList.append(JSON.parse(arr[i]))
+            }
+*/
+
+            igcFilesModel.setProperty(igcFilesTable.currentRow, "speedSectionsScoreDetails", resultsWindow.currentSpeedSectionsScoreString);
+            igcFilesModel.setProperty(igcFilesTable.currentRow, "altitudeSectionsScoreDetails", resultsWindow.currentAltitudeSectionsScoreString);
+            igcFilesModel.setProperty(igcFilesTable.currentRow, "spaceSectionsScoreDetails", resultsWindow.currentSpaceSectionsScoreString);
+
+            // recalculate score
+            var score = getTotalScore(ctnt, igcFilesTable.currentRow);
+            igcFilesModel.setProperty(igcFilesTable.currentRow, "scorePoints", score);
+            recalculateScoresTo1000();
+
+            // save changes into CSV
+            writeScoreManulaValToCSV();
+        }
     }
 
 
@@ -437,45 +713,258 @@ ApplicationWindow {
                 color: "#ffffff";
                 opacity: 0.7;
                 anchors.fill: parent;
-                visible: evaluateTimer.running;
+                visible: evaluateTimer.running || resultsTimer.running;
                 MouseArea {
                     anchors.fill: parent;
                     onClicked: {
 
-                        console.log("onClick is disabled when evaluateTimer.running");
-                        evaluateTimer.running = false;
+                        if (evaluateTimer.running) {
+
+                            console.log("onClick is disabled when evaluateTimer.running");
+                            evaluateTimer.running = false;
+                        }
+                        else if (resultsTimer.running) {
+
+                            console.log("onClick is disabled when resultsTimer.running");
+                            resultsTimer.running = false;
+                        }
                     }
                 }
             }
 
             id: igcFilesTable
-            width: 250;
+            width: 1110;
             visible: mainViewMenuTables.checked
+            //sortIndicatorVisible: true
+            //sortIndicatorColumn: 4 //startTime
 
             clip: true;
-            model: igcFilesModel;
+            model: igcFilesModel
+
+            /*
+            // pomale, spatne - vse se prepocitava
+            model: SortFilterProxyModel {
+                id: proxyModel
+                source: igcFilesModel.count > 0 ? igcFilesModel : null
+
+
+                sortOrder: igcFilesTable.sortIndicatorOrder
+                sortCaseSensitivity: Qt.CaseInsensitive
+                sortRole: igcFilesModel.count > 0 ? igcFilesTable.getColumn(igcFilesTable.sortIndicatorColumn).role : ""
+
+                filterSyntax: SortFilterProxyModel.Wildcard
+                filterCaseSensitivity: Qt.CaseInsensitive
+            }
+            */
+
+
+
 
             itemDelegate: IgcFilesDelegate {
+
                 comboModel: contestantsListModel
+
+                onShowResults: {
+
+                    // load contestant property
+                    ctnt = contestantsListModel.get(igcFilesModel.get(row).contestant);
+
+                    // TODO - prasarna aby byla kopie a ne stejny objekt
+                    resultsWindow.curentContestant = JSON.parse(JSON.stringify(ctnt));
+
+                    // load contestant score list
+                    resultsWindow.wptScore = igcFilesModel.get(row).wptScoreDetails;
+
+                    // load sections string
+                    resultsWindow.speedSections = igcFilesModel.get(row).speedSectionsScoreDetails;
+                    resultsWindow.altSections = igcFilesModel.get(row).altitudeSectionsScoreDetails;
+                    resultsWindow.spaceSections = igcFilesModel.get(row).spaceSectionsScoreDetails;
+
+                    // load cattegory property
+                    var arr = tracks.tracks;
+                    var currentTrck;
+
+                    var found = false;
+                    resultsWindow.time_window_penalty = 0;
+                    resultsWindow.time_window_size = 0;
+                    resultsWindow.photos_max_score = 0;
+                    resultsWindow.oposite_direction_penalty = 0;
+                    resultsWindow.marker_max_score = 0;
+                    resultsWindow.gyre_penalty = 0;
+
+                    for (var i = 0; i < arr.length; i++) {
+                        currentTrck = arr[i];
+
+                        if (currentTrck.name === ctnt.category) {
+
+                            resultsWindow.time_window_penalty = currentTrck.time_window_penalty; //penalty percent
+                            resultsWindow.time_window_size = currentTrck.time_window_size;
+                            resultsWindow.photos_max_score = currentTrck.photos_max_score;
+                            resultsWindow.oposite_direction_penalty = currentTrck.oposite_direction_penalty; //penalty percent
+                            resultsWindow.marker_max_score = currentTrck.marker_max_score;
+                            resultsWindow.gyre_penalty = currentTrck.gyre_penalty; //penalty percent
+                            break;
+                        }
+                    }
+
+                    // select row
+                    igcFilesTable.selection.clear();
+                    igcFilesTable.selection.select(row);
+                    igcFilesTable.currentRow = row;
+
+                    resultsWindow.show();
+                }
+
+                onSelectRow: {
+
+                    igcFilesTable.selection.clear();
+                    igcFilesTable.selection.select(row);
+                    igcFilesTable.currentRow = row;
+                }
+
+                onRecalculateResults: {
+
+                    igcFilesModel.setProperty(row, "score", "");        //compute new score
+                    igcFilesModel.setProperty(row, "scorePoints", -1);
+                    igcFilesModel.setProperty(row, "scorePoints1000", -1);
+
+                    igcFilesTable.selection.clear();
+                    igcFilesTable.selection.select(row);
+                    igcFilesTable.currentRow = row;
+                }
+
+                onGenerateResults: {
+
+                    igcFilesTable.selection.clear();
+                    igcFilesTable.selection.select(row);
+                    igcFilesTable.currentRow = row;
+
+                    // load contestant and igc row
+                    var item = igcFilesModel.get(row);
+                    var contestant = contestantsListModel.get(item.contestant);
+
+                    // create contestant html file
+                    results_creator.createContestantResultsHTML((pathConfiguration.resultsFolder + "/" + contestant.name + "_" + contestant.category),
+                                                                JSON.stringify(contestant),
+                                                                JSON.stringify(item),
+                                                                competitionConfiguretion.competitionName,
+                                                                competitionConfiguretion.getCompetitionTypeString(parseInt(competitionConfiguretion.competitionType)),
+                                                                competitionConfiguretion.competitionDirector,
+                                                                competitionConfiguretion.competitionDirectorAvatar,
+                                                                competitionConfiguretion.competitionArbitr,
+                                                                competitionConfiguretion.competitionArbitrAvatar,
+                                                                competitionConfiguretion.competitionDate);
+                }
+
                 onChangeModel: {
+
+                    //console.log("row: " + row + " role: " + role + " value: " + value + " count: " + igcFilesModel.count)
+
                     if (row >= igcFilesModel.count) {
                         console.log("WUT? row role value " +row + " " +role + " " +value)
                         return;
                     }
 
                     var prevRow = igcFilesTable.currentRow
+                    var contestant;
+                    var prevCategory = igcFilesModel.get(row).category;
+
                     igcFilesModel.setProperty(row, role, value)
+                    var ctIndex = igcFilesModel.get(row).contestant;
+
                     if (role === "contestant") {
-                        writeCSV();
-                        igcFilesModel.setProperty(row, "score", "")
+
+                        //copy values from contestant model into igc model
+                        updateContestantDetailsIgcListModel(row);
+                    }
+                    else if (role === "speed" || role === "startTime" || role === "category") {
+
+                        contestantsListModel.setProperty(ctIndex, role, value);
+                        contestantsListModel.setProperty(ctIndex, "fullName", contestantsListModel.get(ctIndex).name + "_" + contestantsListModel.get(ctIndex).category);
                     }
 
-                    if (prevRow === row) {
-                        igcFilesTable.currentRow = row;
-                        igcFilesTable.rowSelected();
+                    // load prev results or clear current
+                    contestant = contestantsListModel.get(ctIndex);
+
+                    if (role === "contestant" || role === "speed" || role === "startTime" || role === "category") {
+
+                        // load contestant category
+                        for (var t = 0; t < tracks.tracks.length; t++) {
+
+                            if (tracks.tracks[t].name === contestant.category)
+                                trItem = tracks.tracks[t]
+                        }
+
+                        // recalculate manual values score / markers, photos, ...
+                        recalculateContestnatManualScoreValues(row);
+
+                        // reload update ctnt
+                        contestant = contestantsListModel.get(ctIndex);
+
+                        // no results for this values
+                        if (ctIndex === 0 || !resultsExist(contestant.speed,
+                                          contestant.startTime,
+                                          contestant.category,
+                                          igcFilesModel.get(row).fileName,
+                                          MD5.MD5(JSON.stringify(trItem)),
+                                          contestant.prevResultsSpeed,
+                                          contestant.prevResultsStartTime,
+                                          contestant.prevResultsCategory,
+                                          contestant.prevResultsFileName,
+                                          contestant.prevResultsTrackHas)) {
+
+                            igcFilesModel.setProperty(row, "score", "");        //compute new score
+                            igcFilesModel.setProperty(row, "scorePoints", -1);
+                            igcFilesModel.setProperty(row, "scorePoints1000", -1);
+
+                            igcFilesModel.setProperty(row, "wptScoreDetails", contestant.prevResultsWPT);
+                            igcFilesModel.setProperty(row, "speedSectionsScoreDetails", contestant.prevResultsSpeedSec);
+                            igcFilesModel.setProperty(row, "spaceSectionsScoreDetails", contestant.prevResultsSpaceSec);
+                            igcFilesModel.setProperty(row, "altitudeSectionsScoreDetails", contestant.prevResultsAltSec);
+
+                        }
+                        // load prev results
+                        else {
+
+                            igcFilesModel.setProperty(row, "trackHash", contestant.prevResultsTrackHas);
+                            igcFilesModel.setProperty(row, "wptScoreDetails", contestant.prevResultsWPT);
+                            igcFilesModel.setProperty(row, "speedSectionsScoreDetails", contestant.prevResultsSpeedSec);
+                            igcFilesModel.setProperty(row, "spaceSectionsScoreDetails", contestant.prevResultsSpaceSec);
+                            igcFilesModel.setProperty(row, "altitudeSectionsScoreDetails", contestant.prevResultsAltSec);
+                            igcFilesModel.setProperty(row, "score_json", contestant.prevResultsScoreJson)
+                            igcFilesModel.setProperty(row, "score", contestant.prevResultsScore)
+                            igcFilesModel.setProperty(row, "scorePoints", contestant.prevResultsScorePoints);
+                        }
                     }
+
+                    // change continuous results models
+                    if (role === "category") {
+
+                        // decrease prev category counter
+                        if (prevCategory !== "-" && value !== prevCategory) {
+                            updateContestantInCategoryCounters(prevCategory, false);
+                        }
+
+                        // increase actual category counter
+                        updateContestantInCategoryCounters(value, true);
+                    }
+
+                    // select row
+                    if (prevRow === row) {
+
+                        igcFilesTable.selection.clear();
+                        igcFilesTable.selection.select(row);
+                        igcFilesTable.currentRow = row;
+
+                    }
+
+                    // save results into CSV
+                    writeCSV();
+                    recalculateScoresTo1000();
+                    writeScoreManulaValToCSV();
                 }
             }
+
 
             rowDelegate: Rectangle {
                 height: 30;
@@ -493,16 +982,63 @@ ApplicationWindow {
                 title: qsTrId("filelist-table-contestants")
                 role: "contestant"
             }
-
-
+            TableViewColumn {
+                //% "Category"
+                title: qsTrId("filelist-table-category")
+                role: "category"
+                width: 120
+            }
+            TableViewColumn {
+                //% "Speed"
+                title: qsTrId("filelist-table-speed")
+                role: "speed"
+                width: 60
+            }
+            TableViewColumn {
+                //% "StartTime"
+                title: qsTrId("filelist-table-start-time")
+                role: "startTime"
+                width: 100
+            }
+            TableViewColumn {
+                //% "Aircraft registration"
+                title: qsTrId("filelist-table-aircraft-registration")
+                role: "aircraftRegistration"
+                width: 120
+            }
+            TableViewColumn {
+                //% "Score"
+                title: qsTrId("filelist-table-score")
+                role: "scorePoints"
+                width: 120
+            }
+            TableViewColumn {
+                //% "Score to 1000"
+                title: qsTrId("filelist-table-score-to-1000")
+                role: "scorePoints1000"
+                width: 120
+            }
+            TableViewColumn {
+                //% "Class order"
+                title: qsTrId("filelist-table-class-order")
+                role: "classOrder"
+                width: 60
+            }
+            TableViewColumn {
+                //% "Classify"
+                title: qsTrId("filelist-table-classify")
+                role: "classify"
+                width: 80
+            }
 
             Component.onCompleted: {
                 selection.selectionChanged.connect(rowSelected);
             }
 
 
-
             function rowSelected() {
+
+              //  console.log("row selected")
 
                 if (igcFilesModel.count <= 0) {
                     return;
@@ -516,8 +1052,6 @@ ApplicationWindow {
                     return;
                 }
 
-
-
                 var item = model.get(current)
 
                 if (item.contestant >= contestantsListModel.count) {
@@ -525,12 +1059,15 @@ ApplicationWindow {
                     return;
                 }
 
-                var ctnt = contestantsListModel.get(item.contestant)
+                ctnt = contestantsListModel.get(item.contestant)
+
 
                 var arr = tracks.tracks;
+
                 var found = false;
                 for (var i = 0; i < arr.length; i++) {
-                    var trItem = arr[i];
+                    trItem = arr[i];
+
                     if (trItem.name === ctnt.category) {
                         map.filterCupCategory = i;
                         map.filterCupData = 2;
@@ -554,6 +1091,7 @@ ApplicationWindow {
         }
 
 
+
         ///// Map
         Rectangle {
             id: pinchMapOuter
@@ -561,6 +1099,9 @@ ApplicationWindow {
             Layout.fillWidth: true
 
             clip: true;
+
+
+
             PinchMap {
                 id: map
                 //                anchors.fill: parent;
@@ -600,12 +1141,62 @@ ApplicationWindow {
                     }
                 }
             }
+
         }
+
+        /*
+        TableView {
+
+            id: results
+            width: 400
+
+            sortIndicatorVisible: true
+            sortIndicatorColumn: 6
+
+            clip: true;
+
+            model: SortFilterProxyModel {
+                id: proxyModel
+                source: results_RAL2_listModel.count > 0 ? results_RAL2_listModel : null
+
+
+                sortOrder: results.sortIndicatorOrder
+                sortCaseSensitivity: Qt.CaseInsensitive
+                sortRole: results_RAL2_listModel.count > 0 ? results.getColumn(results.sortIndicatorColumn).role : ""
+
+                filterSyntax: SortFilterProxyModel.Wildcard
+                filterCaseSensitivity: Qt.CaseInsensitive
+            }
+
+
+            //% "Name"
+            TableViewColumn { title: qsTrId("score-table-name"); role: "ctntName"; width: 50; }
+            //% "Category"
+            TableViewColumn { title: qsTrId("score-table-category"); role: "ctntCategory"; width: 50; }
+            //% "Speed"
+            TableViewColumn { title: qsTrId("score-table-speed"); role: "ctntSpeed"; width: 50; }
+            //% "Start time"
+            TableViewColumn { title: qsTrId("score-table-startTime"); role: "ctntStartTime"; width: 50; }
+            //% "Aircraft registration"
+            TableViewColumn { title: qsTrId("score-table-aircraft-registration"); role: "ctntAircraftRegistration"; width: 50; }
+            //% "Aircraft type"
+            TableViewColumn { title: qsTrId("score-table-aircraft-type"); role: "ctntAircraftType"; width: 50; }
+            //% "Score points"
+            TableViewColumn { title: qsTrId("score-table-score"); role: "scorePoints"; width: 50; }
+            //% "Score points 1000"
+            TableViewColumn { title: qsTrId("score-table-score1000"); role: "scorePoints1000"; width: 50; }
+
+        }
+        */
+
+
+
 
         TableView {
             id: scoreTable
             model: wptScoreList
-            visible: mainViewMenuTables.checked
+            //visible: mainViewMenuTables.checked
+            visible: false
 
             width: 200
             //% "Name"
@@ -667,6 +1258,7 @@ ApplicationWindow {
 
                 var item = wptScoreList.get(currentRow)
                 map.tracksSelectedTid = item.tid
+
             }
 
             itemDelegate: Item {
@@ -706,7 +1298,10 @@ ApplicationWindow {
 
     ImageSaver {
         id: imageSaver;
+    }
 
+    ResultsCreater {
+        id: results_creator;
     }
 
     IgcFile {
@@ -777,109 +1372,932 @@ ApplicationWindow {
 
         property string startTime
 
-        Row {
-            spacing: 20;
+        Column {
 
-            NativeText {
-                text: (tracks !== undefined)
-                      ? F.basename(pathConfiguration.trackFile)
-                        //% "No track loaded"
-                      : qsTrId("status-no-track-loaded")
+            spacing: 5
+
+            Row {
+                spacing: 20;
+
+                NativeText {
+                    text: (tracks !== undefined)
+                          ? F.basename(pathConfiguration.trackFile)
+                            //% "No track loaded"
+                          : qsTrId("status-no-track-loaded")
+                }
+
+                NativeText {
+                    text: map.currentPositionTime
+                    visible: (text !== "")
+                }
+
+                NativeText {
+                    text: map.currentPositionAltitude + " m";
+                    visible: (map.currentPositionAltitude !== "");
+                }
+
+                NativeText {
+                    // text: F.formatDistance(map.rulerDistance, {'distanceUnit':'m'})
+                    text: map.rulerDistance.toFixed(1)+ " m"
+                    visible: (map.rulerDistance > 0)
+                }
+
+                NativeText {
+
+                    //% "(Start time: %1)"
+                    text: qsTrId("toolbar-start-time").arg(tool_bar.startTime);
+                    visible: tool_bar.startTime !== "";
+
+                }
+
+                NativeText {
+                    //% "Invalid %n"
+                    text: qsTrId("toolbar-invalid-fixes", igc.invalidCount);
+                    visible: igc.invalidCount > 0;
+                    color: (igc.invalidCount > 500) ? "#ff0000" : "#000000";
+                }
+
+                NativeText {
+                    //% "Trimmed %n"
+                    text: qsTrId("toolbar-trimmed-fixes", igc.trimmedCount);
+                    visible: igc.trimmedCount > 0;
+                }
+
+                NativeText {
+                    //% "Fixes %n"
+                    text: qsTrId("toolbar-igc-count", igc.count)
+                    visible: (igc.count + igc.trimmedCount + igc.invalidCount) > 0
+                    font.bold: (igc.count < 500);
+                    color: (igc.count < 500) ? "red" : "black"
+                }
             }
 
-            NativeText {
-                text: map.currentPositionTime
-                visible: (text !== "")
+            Row {
+                id: statusBarCompetitionProperty
+                visible: mainViewMenuCompetitionPropertyStatusBar.checked;
+
+                //property int columns: 5
+                spacing: 40
+
+                NativeText {/* width: applicationWindow.width/statusBarCompetitionProperty.columns; */text: competitionConfiguretion.competitionName }
+                NativeText {/* width: applicationWindow.width/statusBarCompetitionProperty.columns; */text: qsTrId("html-results-competition-type") + ": " + competitionConfiguretion.competitionTypeText}
+                NativeText {/* width: applicationWindow.width/statusBarCompetitionProperty.columns; */text: qsTrId("html-results-competition-director") + ": " +  competitionConfiguretion.competitionDirector}
+                NativeText {/* width: applicationWindow.width/statusBarCompetitionProperty.columns; */text: qsTrId("html-results-competition-arbitr") + ": " +  competitionConfiguretion.competitionArbitr.join(", ")}
+                NativeText {/* width: applicationWindow.width/statusBarCompetitionProperty.columns; */text: qsTrId("html-results-competition-date") + ": " +  competitionConfiguretion.competitionDate}
             }
 
-            NativeText {
-                text: map.currentPositionAltitude + " m";
-                visible: (map.currentPositionAltitude !== "");
+            Row {
+                id: statusBarCategoryCounters
+                visible: mainViewMenuCategoryCountersStatusBar.checked;
+
+                property int columns: 12
+
+                NativeText { width: applicationWindow.width/statusBarCategoryCounters.columns; text: 'R-AL1: ' +  applicationWindow._RAL1_count; color: applicationWindow._RAL1_count < applicationWindow.minContestantInCategory && applicationWindow._RAL1_count > 0 ? "red" : "black" }
+                NativeText { width: applicationWindow.width/statusBarCategoryCounters.columns; text: 'R-AL2: ' +  applicationWindow._RAL2_count; color: applicationWindow._RAL2_count < applicationWindow.minContestantInCategory && applicationWindow._RAL2_count > 0 ? "red" : "black" }
+                NativeText { width: applicationWindow.width/statusBarCategoryCounters.columns; text: 'S-AL1: ' +  applicationWindow._SAL1_count; color: applicationWindow._SAL1_count < applicationWindow.minContestantInCategory && applicationWindow._SAL1_count > 0 ? "red" : "black" }
+                NativeText { width: applicationWindow.width/statusBarCategoryCounters.columns; text: 'S-AL2: ' +  applicationWindow._SAL2_count; color: applicationWindow._SAL2_count < applicationWindow.minContestantInCategory && applicationWindow._SAL2_count > 0 ? "red" : "black" }
+                NativeText { width: applicationWindow.width/statusBarCategoryCounters.columns; text: 'R-WL1: ' +  applicationWindow._RWL1_count; color: applicationWindow._RWL1_count < applicationWindow.minContestantInCategory && applicationWindow._RWL1_count > 0 ? "red" : "black" }
+                NativeText { width: applicationWindow.width/statusBarCategoryCounters.columns; text: 'R-WL2: ' +  applicationWindow._RWL2_count; color: applicationWindow._RWL2_count < applicationWindow.minContestantInCategory && applicationWindow._RWL2_count > 0 ? "red" : "black" }
+                NativeText { width: applicationWindow.width/statusBarCategoryCounters.columns; text: 'S-WL1: ' +  applicationWindow._SWL1_count; color: applicationWindow._SWL1_count < applicationWindow.minContestantInCategory && applicationWindow._SWL1_count > 0 ? "red" : "black" }
+                NativeText { width: applicationWindow.width/statusBarCategoryCounters.columns; text: 'S-WL2: ' +  applicationWindow._SWL2_count; color: applicationWindow._SWL2_count < applicationWindow.minContestantInCategory && applicationWindow._SWL2_count > 0 ? "red" : "black" }
+                NativeText { width: applicationWindow.width/statusBarCategoryCounters.columns; text: 'CUSTOM1: ' +  applicationWindow._CUSTOM1_count; color: applicationWindow._CUSTOM1_count < applicationWindow.minContestantInCategory && applicationWindow._CUSTOM1_count > 0 ? "red" : "black" }
+                NativeText { width: applicationWindow.width/statusBarCategoryCounters.columns; text: 'CUSTOM2: ' +  applicationWindow._CUSTOM2_count; color: applicationWindow._CUSTOM2_count < applicationWindow.minContestantInCategory && applicationWindow._CUSTOM2_count > 0 ? "red" : "black" }
+                NativeText { width: applicationWindow.width/statusBarCategoryCounters.columns; text: 'CUSTOM3: ' +  applicationWindow._CUSTOM3_count; color: applicationWindow._CUSTOM3_count < applicationWindow.minContestantInCategory && applicationWindow._CUSTOM3_count > 0 ? "red" : "black" }
+                NativeText { width: applicationWindow.width/statusBarCategoryCounters.columns; text: 'CUSTOM4: ' +  applicationWindow._CUSTOM4_count; color: applicationWindow._CUSTOM4_count < applicationWindow.minContestantInCategory && applicationWindow._CUSTOM4_count > 0 ? "red" : "black" }
             }
-
-            NativeText {
-                //                                text: F.formatDistance(map.rulerDistance, {'distanceUnit':'m'})
-                text: map.rulerDistance.toFixed(1)+ " m"
-                visible: (map.rulerDistance > 0)
-            }
-
-            NativeText {
-
-                //% "(Start time: %1)"
-                text: qsTrId("toolbar-start-time").arg(tool_bar.startTime);
-                visible: tool_bar.startTime !== "";
-
-            }
-
-            NativeText {
-                //% "Invalid %n"
-                text: qsTrId("toolbar-invalid-fixes", igc.invalidCount);
-                visible: igc.invalidCount > 0;
-                color: (igc.invalidCount > 500) ? "#ff0000" : "#000000";
-            }
-
-            NativeText {
-                //% "Trimmed %n"
-                text: qsTrId("toolbar-trimmed-fixes", igc.trimmedCount);
-                visible: igc.trimmedCount > 0;
-            }
-
-            NativeText {
-                //% "Fixes %n"
-                text: qsTrId("toolbar-igc-count", igc.count)
-                visible: (igc.count + igc.trimmedCount + igc.invalidCount) > 0
-                font.bold: (igc.count < 500);
-                color: (igc.count < 500) ? "red" : "black"
-            }
-
-
         }
+    }
 
+
+    function generateFinalResults() {
+
+        // set flag, whitch will be check when all data would be succesfully evaluated
+        generateResultsFlag = true;
+
+        // eval all data
+        evaluate_all_data();
+    }
+
+
+    // Copy contestant details into igc file list model
+    function updateContestantDetailsIgcListModel(igcRow) {
+
+        var conntestantIndex = igcFilesModel.get(igcRow).contestant;
+        var contestant = contestantsListModel.get(conntestantIndex);
+
+        igcFilesModel.setProperty(igcRow, "startTime", contestant.startTime);
+        igcFilesModel.setProperty(igcRow, "category", conntestantIndex === 0 ? "" : contestant.category);
+        igcFilesModel.setProperty(igcRow, "speed", parseInt(contestant.speed));
+        igcFilesModel.setProperty(igcRow, "classify", conntestantIndex === 0 ? -1 : contestant.prevResultsClassify);
+        igcFilesModel.setProperty(igcRow, "aircraftRegistration", contestant.aircraft_registration);
+    }
+
+    // Compare results current and prev results property
+    function resultsExist(currentSpeed, currentStartTime, currentCategory, currentIgcFileName, currentTrackHash,
+                          prevSpeed, prevStartTime, prevCategory, prevIgcFileName, prevTrackHash) {
+
+        return (currentStartTime === prevStartTime &&
+                parseInt(currentSpeed) === parseInt(prevSpeed) &&
+                currentCategory === prevCategory &&
+                currentIgcFileName === prevIgcFileName &&
+                currentTrackHash === prevTrackHash);
 
     }
 
+    // Load contestants from CSV
     function loadContestants(filename) {
+
+        var resultsCSV = [];
+        var resCSV = [];
+        var index = -1;
+
+        // try to load manual data
+        if (file_reader.file_exists(Qt.resolvedUrl(pathConfiguration.csvResultsFile))) {
+            var cnt = file_reader.read(Qt.resolvedUrl(pathConfiguration.csvResultsFile));
+
+            // parse CSV, fast cpp variant or slow JS
+            if (String(cnt).indexOf(cppWorker.csv_join_parse_delimeter_property) == -1) {
+
+                resCSV = cppWorker.parseCSV(String(cnt));
+                for (var i = 0; i < resCSV.length; i++) {
+
+                    var resItem = resCSV[i];
+                    resultsCSV.push(resItem.split(cppWorker.csv_join_parse_delimeter_property))
+                }
+            }
+            else {
+                console.log("have to use slow variant of CSV parser for results \n")
+                resultsCSV = CSVJS.parseCSV(String(cnt))
+            }
+        }
+
+        // save current contestant values
+        var currentConteIds = [];
+        var currentConteSpeed = [];
+        var currentConteStartTimes = [];
+        var currentConteCategories = [];
+        var tmp;
+
+        for (var i = 0; i < contestantsListModel.count; i++) {
+
+            tmp = contestantsListModel.get(i);
+
+            currentConteIds.push(tmp.pilot_id)
+            currentConteCategories.push(tmp.category)
+            currentConteStartTimes.push(tmp.startTime)
+            currentConteSpeed.push(tmp.speed)
+        }
+
         var f_data = file_reader.read(filename);
-        var data = CSVJS.parseCSV(String(f_data));
+        var data = [];
+
+        // parse CSV, fast cpp variant or slow JS
+        if (String(f_data).indexOf(cppWorker.csv_join_parse_delimeter_property) == -1) {
+
+            resCSV = cppWorker.parseCSV(String(f_data));
+            for (var i = 0; i < resCSV.length; i++) {
+
+                var resItem = resCSV[i];
+                data.push(resItem.split(cppWorker.csv_join_parse_delimeter_property))
+            }
+        }
+        else {
+            console.log("have to use slow variant of CSV parser for contestant \n")
+            data = CSVJS.parseCSV(Stringf_data)
+        }
+
+
         contestantsListModel.clear()
         contestantsListModel.append({
                                         "name": "-",
-                                        "category": "-",
+                                        "category": "",
+                                        "currentCategory": "",
                                         "fullName": "undefined",
-                                        "startTime": "00:00:00",
+                                        "startTime": "",
+                                        "currentStartTime": "",
                                         "filename": "",
-                                        "speed": "",
+                                        "speed": -1,
+                                        "currentSpeed": -1,
                                         "aircraft_type": "",
                                         "aircraft_registration": "",
                                         "crew_id": "",
                                         "pilot_id": "",
-                                        "copilot_id": ""
+                                        "copilot_id": "",
+                                        "markersOk": 0,
+                                        "markersNok": 0,
+                                        "markersFalse": 0,
+                                        "markersScore": 0,
+                                        "photosOk": 0,
+                                        "photosNok": 0,
+                                        "photosFalse": 0,
+                                        "photosScore": 0,
+                                        "startTimeMeasured": "",
+                                        "startTimeDifference": "",
+                                        "startTimeScore": 0,
+                                        "landingScore": 0,
+                                        "circlingCount": 0,
+                                        "circlingScore": 0,
+                                        "oppositeCount": 0,
+                                        "oppositeScore": 0,
+                                        "otherPoints": 0,
+                                        "otherPointsNote": "",
+                                        "otherPenalty": 0,
+                                        "otherPenaltyNote": "",
+                                        "prevResultsSpeed": -1,
+                                        "prevResultsStartTime": "",
+                                        "prevResultsCategory": "",
+                                        "prevResultsWPT": "",
+                                        "prevResultsSpeedSec": "",
+                                        "prevResultsAltSec": "",
+                                        "prevResultsSpaceSec": "",
+                                        "prevResultsTrackHas": "",
+                                        "prevResultsFileName": "",
+                                        "prevResultsScorePoints": -1,
+                                        "prevResultsScore": "",
+                                        "prevResultsScoreJson": "",
+                                        "prevResultsClassify": 0
+
                                     })
+
         for (var i = 0; i < data.length; i++) {
+
             var item = data[i];
             var itemName = item[0]
+            var j;
+
+            //console.log(item)
 
             // CSV soubor ma alespon 3 Sloupce
             if ((item.length > 2) && (itemName.length > 0)) {
+
+
+                // Find contestant by id in prev results
+                for (j = 1; j < resultsCSV.length; j++) {
+
+                    index = resultsCSV[j].indexOf(item[9]);
+                    if (index !== -1) // founded
+                        break;
+                }
+
+                // check previous results validity
+                var csvFileFromOffice = false;
+                var csvFileFromViewer = false;
+                if (index !== -1 ) {
+
+                    // check CSV file status
+                    csvFileFromOffice = resultsCSV[j] !== undefined && resultsCSV[j].length >= 30; // CSV from office has only 30 columns
+                    csvFileFromViewer = resultsCSV[j] !== undefined && resultsCSV[j].length >= 48; // CSV from viewer has more then 48 columns
+                }
+
+                // load current values for this contestant
+                var currentContValuesIndex = currentConteIds.indexOf(item[9])
+
+                // check current and new speed, category and start time values, add contestant into import list model id they are different
+                if (currentContValuesIndex !== -1) {
+
+                   var currentSpeed = parseInt(currentConteSpeed[currentContValuesIndex]);
+                   var currentCategory = currentConteCategories[currentContValuesIndex];
+                   var currentStartTime = currentConteStartTimes[currentContValuesIndex];
+                   var newSpeed = parseInt(item[5]);
+                   var newCategory = item[1];
+                   var newStarTime = item[3];
+
+                   // add to list of contestants to the post processing
+                   if (currentSpeed != newSpeed || currentCategory != newCategory || currentStartTime != newStarTime) {
+
+                        importDataDialog.listModel.append({ "row": importDataDialog.listModel.count,
+                                                          "contestantOriginRow": i + 1,
+                                                          "name": itemName,
+                                                          "speed": newSpeed,
+                                                          "startTime": newStarTime,
+                                                          "category": newCategory,
+                                                          "prevResultsSpeed": currentSpeed,
+                                                          "prevResultsStartTime": currentStartTime,
+                                                          "prevResultsCategory": currentCategory,
+                                                          "speedSelector": 1,
+                                                          "categorySelector": 1,
+                                                          "startTimeSelector": 1,
+
+                                                      })
+                    }
+                }
+
                 contestantsListModel.append({
-                                                "name": itemName,
-                                                "category": item[1],
-                                                "fullName": item[2],
-                                                "startTime": item[3],
-                                                "filename": item[4],
-                                                "speed": item[5],
-                                                "aircraft_type": item[6],
-                                                "aircraft_registration": item[7],
-                                                "crew_id": item[8],
-                                                "pilot_id": item[9],
-                                                "copilot_id": item[10]
-                                            })
+
+                    "name": itemName,
+                    "category": item[1],
+                    "fullName": item[2],
+                    "startTime": item[3],
+                    "filename": csvFileFromViewer && item[4] === "" ? resultsCSV[j][38] : item[4],
+                    "speed": parseInt(item[5]),
+                    "currentCategory": currentContValuesIndex === -1 ? "" : currentConteCategories[currentContValuesIndex],
+                    "currentStartTime": currentContValuesIndex === -1 ? "" : currentConteStartTimes[currentContValuesIndex],
+                    "currentSpeed": currentContValuesIndex === -1 ? -1 : currentConteSpeed[currentContValuesIndex],
+                    "aircraft_type": item[6],
+                    "aircraft_registration": item[7],
+                    "crew_id": item[8],
+                    "pilot_id": item[9],
+                    "copilot_id": item[10],
+                    "pilotAvatarBase64" : (item.length >= 13 ? (item[11]) : ""),
+                    "copilotAvatarBase64" : (item.length >= 13 ? (item[12]) : ""),
+                    "markersOk": csvFileFromOffice ? parseInt(resultsCSV[j][1]) : 0,
+                    "markersNok": csvFileFromOffice ? parseInt(resultsCSV[j][2]) : 0,
+                    "markersFalse": csvFileFromOffice ? parseInt(resultsCSV[j][3]) : 0,
+                    "markersScore": csvFileFromViewer ? parseInt(resultsCSV[j][41]) : 0,
+                    "photosOk": csvFileFromOffice ? parseInt(resultsCSV[j][4]) : 0,
+                    "photosNok": csvFileFromOffice ? parseInt(resultsCSV[j][5]) : 0,
+                    "photosFalse": csvFileFromOffice ? parseInt(resultsCSV[j][6]) : 0,
+                    "photosScore": csvFileFromViewer ? parseInt(resultsCSV[j][42]) : 0,
+                    "startTimeMeasured": csvFileFromOffice ? resultsCSV[j][11] : "",
+                    "startTimeDifference": csvFileFromOffice ? resultsCSV[j][43] : "",
+                    "startTimeScore": csvFileFromOffice ? parseInt(resultsCSV[j][12]) * -1 : 0,
+                    "landingScore": csvFileFromOffice ? parseInt(resultsCSV[j][7]) : 0,
+
+                    "circlingCount": csvFileFromViewer ? parseInt(resultsCSV[j][44]) : (!csvFileFromOffice ? 0 : parseInt(resultsCSV[j][13])),
+                    "circlingScore": csvFileFromViewer ? parseInt(resultsCSV[j][45]) : (!csvFileFromOffice ? 0 : parseInt(resultsCSV[j][14] * -1)),
+                    "oppositeCount": csvFileFromViewer ? parseInt(resultsCSV[j][46]) : 0,
+                    "oppositeScore": csvFileFromViewer ? parseInt(resultsCSV[j][47]) : 0,
+
+                    "otherPoints": csvFileFromOffice ? parseInt(resultsCSV[j][8]) : 0,
+                    "otherPointsNote": csvFileFromOffice ? String((resultsCSV[j][20]).split("/&/")[0]) : "",
+                    "otherPenalty": csvFileFromOffice ? parseInt(resultsCSV[j][15]) : 0,
+                    "otherPenaltyNote": csvFileFromOffice ? String((resultsCSV[j][20]).split("/&/")[1]) : "",
+                    "prevResultsSpeed": csvFileFromViewer ? parseInt(resultsCSV[j][31]) : -1,
+                    "prevResultsStartTime": csvFileFromViewer ? resultsCSV[j][32] : "",
+                    "prevResultsCategory": csvFileFromViewer ? resultsCSV[j][33] : "",
+                    "prevResultsWPT": csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][34]) : "",
+                    "prevResultsSpeedSec": csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][35]) : "",
+                    "prevResultsAltSec": csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][37]) : "",
+                    "prevResultsSpaceSec": csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][36]) : "",
+                    "prevResultsTrackHas": csvFileFromViewer ? resultsCSV[j][30] : "",
+                    "prevResultsFileName": csvFileFromViewer ? resultsCSV[j][38] : "",
+                    "prevResultsScorePoints": csvFileFromOffice ? parseInt(resultsCSV[j][17]) : -1,
+                    "prevResultsScore": csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][39]) : "",
+                    "prevResultsScoreJson": csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][40]) : "",
+                    "prevResultsClassify": csvFileFromOffice ? (resultsCSV[j][19] === "yes" ? 0 : 1) : 0,
+                })
             }
         }
     }
 
+    // remove invalid results from loaded contestant
+    function checkAndRemoveContestantsInvalidPrevResults() {
+
+        for (var i = 0; i < contestantsListModel.count; i++) {
+
+            var curCnt = contestantsListModel.get(i);
+
+            // there is some prev result
+            if (curCnt.prevResultsScoreJson !== "") {
+
+                // load contestant category
+                for (var t = 0; t < tracks.tracks.length; t++) {
+
+                    if (tracks.tracks[t].name === curCnt.category)
+                        trItem = tracks.tracks[t]
+                }
+
+                // remove invalid results
+                if (!resultsExist(curCnt.speed, curCnt.startTime, curCnt.category, curCnt.filename, MD5.MD5(JSON.stringify(trItem)),
+                                  curCnt.prevResultsSpeed, curCnt.prevResultsStartTime, curCnt.prevResultsCategory, curCnt.prevResultsFileName, curCnt.prevResultsTrackHas)) {
+
+                    contestantsListModel.setProperty(i, "markersScore", 0);
+                    contestantsListModel.setProperty(i, "photosScore", 0);
+                    contestantsListModel.setProperty(i, "circlingScore", 0);
+                    contestantsListModel.setProperty(i, "oppositeScore", 0);
+                    contestantsListModel.setProperty(i, "startTimeScore", 0);
+                    contestantsListModel.setProperty(i, "prevResultsSpeed", -1);
+                    contestantsListModel.setProperty(i, "prevResultsStartTime", "");
+                    contestantsListModel.setProperty(i, "prevResultsCategory", "");
+                    contestantsListModel.setProperty(i, "prevResultsTrackHas", "");
+                    contestantsListModel.setProperty(i, "prevResultsFileName", "");
+                    contestantsListModel.setProperty(i, "prevResultsScore", "");
+                    contestantsListModel.setProperty(i, "prevResultsScoreJson", "");
+                    contestantsListModel.setProperty(i, "prevResultsScorePoints", -1);
+                }
+            }
+        }
+    }
+
+    // generate results for each category
+    function generateContinuousResults() {
+
+        var res = getContinuousResults();
+        var csvString = "";
+        var resultsFileName = "res";
+
+        var recSize = 8;
+
+        var reStringArr = [];
+        for (var key in res) {
+            reStringArr.push(JSON.stringify(res[key]));
+        }
+
+        // HTML
+        results_creator.createContinuousResultsHTML(pathConfiguration.resultsFolder + "/" + competitionConfiguretion.competitionName + "_" + resultsFileName,
+                                                    reStringArr,
+                                                    recSize,
+                                                    competitionConfiguretion.competitionName,
+                                                    competitionConfiguretion.getCompetitionTypeString(competitionConfiguretion.competitionType),
+                                                    competitionConfiguretion.competitionDirector,
+                                                    competitionConfiguretion.competitionDirectorAvatar,
+                                                    competitionConfiguretion.competitionArbitr,
+                                                    competitionConfiguretion.competitionArbitrAvatar,
+                                                    competitionConfiguretion.competitionDate);
+
+
+        // CSV
+        var catArray = [];
+        var item;
+        for(var key in res) {
+
+            catArray = res[key];
+
+            // no results, just category labels, skip
+            if (!Array.isArray(catArray))
+                continue;
+
+            // save each contestant
+            for (var i = 0; i < catArray.length; i++) {
+
+                item = catArray[i];
+
+                csvString += "\"" + i + "\";"
+
+                for(var j = 0; j < item.length; j++) {
+
+                    csvString += "\"" + F.addSlashes(item[j]) + "\";"
+                }
+                csvString += "\n";
+
+            }
+            csvString += "\n";
+        }
+
+        file_reader.write(Qt.resolvedUrl(pathConfiguration.resultsFolder + "/" + competitionConfiguretion.competitionName + "_" + resultsFileName + ".csv"), csvString);
+    }
+
+
+    // DEBUG func
+    function listProperty(item)
+    {
+        for (var p in item)
+        console.log(p + ": " + item[p]);
+    }
+
+    function getAltitudeAndSpaceSectionsPenaltyPoints(igcRow, totalPoints) {
+
+        var igcItem = igcFilesModel.get(igcRow);
+        var item;
+        var i;
+        var arr = [];
+
+        // altitude
+        if (igcItem.altitudeSectionsScoreDetails !== "") {
+
+            altSectionsScoreListManualValuesCache.clear();
+            arr = igcItem.altitudeSectionsScoreDetails.split("; ")
+            for (i = 0; i < arr.length; i++) {
+                altSectionsScoreListManualValuesCache.append(JSON.parse(arr[i]))
+            }
+
+            arr = [];
+
+            for (i = 0; i < altSectionsScoreListManualValuesCache.count; i++) {
+                item = altSectionsScoreListManualValuesCache.get(i)
+                item.altSecScore = getAltSecScore(item.manualAltMinEntriesCount, item.altMinEntriesCount, item.manualAltMaxEntriesCount, item.altMaxEntriesCount, item.penaltyPercent, totalPoints);
+
+                arr.push(JSON.stringify(item));
+            }
+
+            igcFilesModel.setProperty(igcRow, "altitudeSectionsScoreDetails", arr.join("; "));
+            altSectionsScoreListManualValuesCache.clear();
+        }
+
+        // space
+        if (igcItem.spaceSectionsScoreDetails !== "") {
+
+            spaceSectionsScoreListManualValuesCache.clear();
+            arr = igcItem.spaceSectionsScoreDetails.split("; ")
+            for (i = 0; i < arr.length; i++) {
+                spaceSectionsScoreListManualValuesCache.append(JSON.parse(arr[i]))
+            }
+
+            arr = [];
+
+            for (i = 0; i < spaceSectionsScoreListManualValuesCache.count; i++) {
+                item = spaceSectionsScoreListManualValuesCache.get(i)
+                item.spaceSecScore = getSpaceSecScore(item.manualEntries_out, item.entries_out, item.penaltyPercent, totalPoints);
+
+                arr.push(JSON.stringify(item));
+            }
+
+            igcFilesModel.setProperty(igcRow, "spaceSectionsScoreDetails", arr.join("; "));
+            spaceSectionsScoreListManualValuesCache.clear();
+        }
+    }
+
+    // get points sum from sections and gates
+    function getScorePointsSum(contestant, wptScoreListStrin, speedSecString) {
+
+        var sum = 0;
+        var p;
+        var modelItem;
+
+        // get score points from gates
+        if (wptScoreListStrin !== "") {
+
+            wptNewScoreListManualValuesCache.clear();
+            var arr = wptScoreListStrin.split("; ")
+
+            for (var i = 0; i < arr.length; i++) {
+                wptNewScoreListManualValuesCache.append(JSON.parse(arr[i]))
+            }
+
+            for (p = 0; p < wptNewScoreListManualValuesCache.count; p++) {
+                modelItem = wptNewScoreListManualValuesCache.get(p);
+                sum += Math.max(modelItem.sg_score, 0) +
+                       Math.max(modelItem.tp_score, 0) +
+                       Math.max(modelItem.tg_score, 0) +
+                       (modelItem.alt_score === -1 ? 0 : modelItem.alt_score);
+
+            }
+        }
+
+        // get score points from speed sec
+        if (speedSecString !== "") {
+
+            speedSectionsScoreListManualValuesCache.clear();
+            arr = speedSecString.split("; ")
+            for (var i = 0; i < arr.length; i++) {
+                speedSectionsScoreListManualValuesCache.append(JSON.parse(arr[i]))
+            }
+
+            for (p = 0; p < speedSectionsScoreListManualValuesCache.count; p++) {
+                sum += Math.max(speedSectionsScoreListManualValuesCache.get(p).speedSecScore, 0);
+            }
+        }
+
+        sum += contestant.markersScore +
+               contestant.photosScore +
+               contestant.landingScore +
+               contestant.otherPoints -
+               contestant.otherPenalty;
+
+        wptNewScoreListManualValuesCache.clear();
+        speedSectionsScoreListManualValuesCache.clear();
+
+        return sum;
+
+    }
+
+    // get total score points fur contestant and current igc item
+    function getTotalScore(contestant, igcRow) {
+
+        var igcItem = igcFilesModel.get(igcRow);
+
+        // get score points sum
+        var scorePoints = getScorePointsSum(contestant, igcItem.wptScoreDetails, igcItem.speedSectionsScoreDetails);
+
+        // get penalty percent points
+        var penaltyPercentPointsSum = contestant.startTimeScore +
+                                      contestant.circlingScore +
+                                      contestant.oppositeScore;
+
+        // get penalty percent points from sections
+        var penaltySumSections = 0;
+        var arr = [];
+        var i;
+        var item;
+
+        // alt sec
+        if (igcItem.altitudeSectionsScoreDetails !== "") {
+
+            altSectionsScoreListManualValuesCache.clear();
+            arr = igcItem.altitudeSectionsScoreDetails.split("; ")
+            for (i = 0; i < arr.length; i++) {
+                altSectionsScoreListManualValuesCache.append(JSON.parse(arr[i]))
+            }
+
+            for (i = 0; i < altSectionsScoreListManualValuesCache.count; i++) {
+                item = altSectionsScoreListManualValuesCache.get(i)
+                penaltySumSections += item.altSecScore;
+            }
+             altSectionsScoreListManualValuesCache.clear();
+        }
+
+        // space sec
+        if (igcItem.spaceSectionsScoreDetails !== "") {
+
+            spaceSectionsScoreListManualValuesCache.clear();
+            arr = igcItem.spaceSectionsScoreDetails.split("; ")
+            for (i = 0; i < arr.length; i++) {
+                spaceSectionsScoreListManualValuesCache.append(JSON.parse(arr[i]))
+            }
+
+            for (i = 0; i < spaceSectionsScoreListManualValuesCache.count; i++) {
+                item = spaceSectionsScoreListManualValuesCache.get(i)
+                penaltySumSections += item.spaceSecScore;
+            }
+             spaceSectionsScoreListManualValuesCache.clear();
+        }
+
+        return Math.max((scorePoints + penaltyPercentPointsSum + penaltySumSections), 0);
+    }
+
+    // recalculate score points for manual values - markers, photos, indirection flight,...
+    function recalculateContestnatManualScoreValues(igcRow) {
+
+        var igcItem = igcFilesModel.get(igcRow)
+        var ctIndex = igcItem.contestant
+        ctnt = contestantsListModel.get(ctIndex);
+
+        //calc contestant manual values score - markers, photos,..
+        ctnt.markersScore = getMarkersScore(ctnt.markersOk, ctnt.markersNok, ctnt.markersFalse, trItem.marker_max_score);
+        ctnt.photosScore = getPhotosScore(ctnt.photosOk, ctnt.photosNok, ctnt.photosFalse, trItem.photos_max_score);
+
+        var totalPointsScore = getScorePointsSum(ctnt, igcItem.wptScoreDetails, igcItem.speedSectionsScoreDetails);
+
+        ctnt.startTimeScore = getTakeOffScore(ctnt.startTimeDifference, trItem.time_window_size, trItem.time_window_penalty, totalPointsScore);
+        ctnt.circlingScore = getGyreScore(ctnt.circlingCount, trItem.gyre_penalty, totalPointsScore);
+        ctnt.oppositeScore = getOppositeDirScore(ctnt.oppositeCount, trItem.oposite_direction_penalty, totalPointsScore);
+
+        getAltitudeAndSpaceSectionsPenaltyPoints(igcRow, totalPointsScore);
+
+        // save changes into contestnat list model
+        contestantsListModel.setProperty(ctIndex, "markersScore", ctnt.markersScore);
+        contestantsListModel.setProperty(ctIndex, "photosScore", ctnt.photosScore);
+        contestantsListModel.setProperty(ctIndex, "startTimeScore", ctnt.startTimeScore);
+        contestantsListModel.setProperty(ctIndex, "circlingScore", ctnt.circlingScore);
+        contestantsListModel.setProperty(ctIndex, "oppositeScore", ctnt.oppositeScore);
+
+    }
+
+    // recalculate score points to 1000
+    function recalculateScoresTo1000() {
+
+        var i, item;
+
+        maxPointsArr = {
+                "R-AL1": 1,
+                "R-AL2": 1,
+                "S-AL1": 1,
+                "S-AL2": 1,
+                "R-WL1": 1,
+                "R-WL2": 1,
+                "S-WL1": 1,
+                "S-WL2": 1,
+                "CUSTOM1": 1,
+                "CUSTOM2": 1,
+                "CUSTOM3": 1,
+                "CUSTOM4": 1
+        };
+
+        for (i = 0; i < igcFilesModel.count; i++) {
+            item = igcFilesModel.get(i)
+
+            if (maxPointsArr[item.category] < item.scorePoints && !item.classify) {
+                maxPointsArr[item.category] = item.scorePoints;
+            }
+
+        }
+
+        for (i = 0; i < igcFilesModel.count; i++) {
+            item = igcFilesModel.get(i)
+
+            // classify set as NO
+            if (item.classify) {
+                igcFilesModel.setProperty(i, "scorePoints1000", -1);
+                continue;
+            }
+
+            if (item.scorePoints >= 0) {
+                igcFilesModel.setProperty(i, "scorePoints1000", Math.round(item.scorePoints/maxPointsArr[item.category] * 1000));
+            }
+        }
+
+        // recalculate contestant order
+        recalculateContestantsScoreOrder();
+    }
+
+    function initScorePointsArrray () {
+
+        categoriesScorePoints = {
+            "R-AL1": [],
+            "S-AL1": [],
+            "R-AL2": [],
+            "S-AL2": [],
+            "R-WL1": [],
+            "S-WL1": [],
+            "R-WL2": [],
+            "S-WL2": [],
+            "CUSTOM1": [],
+            "CUSTOM2": [],
+            "CUSTOM3": [],
+            "CUSTOM4": []
+        }
+    }
+
+    function recalculateContestantsScoreOrder () {
+
+        var item;
+        var i;
+
+        // clear score array
+        initScorePointsArrray();
+
+        // push score points
+        for (i = 0; i < igcFilesModel.count; i++) {
+            item = igcFilesModel.get(i);
+
+            if (item.scorePoints1000 >= 0)
+                pushIfNotExistScorePoints(item.category, item.scorePoints1000);
+        }
+
+        // sort arrays
+        for (var key in categoriesScorePoints) {
+            categoriesScorePoints[key].sort(function(a,b) { return b - a; });
+        }
+
+        // get order
+        for (i = 0; i < igcFilesModel.count; i++) {
+            item = igcFilesModel.get(i);
+
+            if (item.scorePoints1000 >= 0) {
+
+                item.classOrder = categoriesScorePoints[item.category].indexOf(item.scorePoints1000) + 1;
+            }
+            else {
+                item.classOrder = -1;
+            }
+        }
+    }
+
+    // function push score points value into class array of not exist
+    function pushIfNotExistScorePoints (category, score) {
+
+        if (categoriesScorePoints[category].indexOf(score) === -1)
+            categoriesScorePoints[category].push(parseInt(score));
+    }
+
+    // function calculate score points for one gate
+    function calcPointScore(scoreData) {
+
+
+        var flags = scoreData["type"];
+
+        var sg_manual = scoreData["sg_hit_manual"];
+        var category_sg_max_score = scoreData["sg_category_max_score"];
+        var sg_hit_measured = scoreData["sg_hit_measured"];
+        var tp_manual = scoreData["tp_hit_manual"];
+        var category_tp_max_score = scoreData["tp_category_max_score"];
+        var tp_hit_measured = scoreData["tp_hit_measured"];
+        var tg_time_difference = scoreData["tg_time_difference"];
+        var category_tg_penalty = scoreData["tg_category_penalty"];
+        var category_tg_tolerance = scoreData["tg_category_time_tolerance"];
+        var category_tg_max_score = scoreData["tg_category_max_score"];
+        var point_alt_max = scoreData["alt_max"];
+        var point_alt_min = scoreData["alt_min"];
+        var alt_manual = scoreData["alt_manual"];
+        var category_alt_penalty = scoreData["category_alt_penalty"];
+        var alt_measured = scoreData["alt_measured"];
+
+        var tg_score = (flags & (0x1 << 1) ? getTGScore(tg_time_difference, category_tg_max_score, category_tg_penalty, category_tg_tolerance) : -1);
+        var tp_score = (flags & (0x1 << 0)) ? getTPScore(tp_manual, tp_hit_measured, category_tp_max_score)  : -1;
+        var sg_score = (flags & (0x1 << 2)) ? getSGScore(sg_manual, sg_hit_measured, category_sg_max_score)  : -1;
+        var alt_score = getAltScore(alt_manual, alt_measured, point_alt_min, point_alt_max, flags, category_alt_penalty);
+
+        scoreData["tg_score"] = tg_score;
+        scoreData["tp_score"] = tp_score;
+        scoreData["sg_score"] = sg_score;
+        scoreData["alt_score"] = alt_score;
+
+        return scoreData;
+    }
+
+
+    function getAltScore(altManual, altAuto, altMin, altMax, flags, altPenalty) {
+
+        if (altManual < 0 && altAuto < 0)
+            return -1;
+
+        return parseInt(flags & (0x1 << 3)) ? (altManual < 0 ? ((altAuto < altMin) ? (altMin - altAuto) *  altPenalty: 0) : ((altManual < altMin) ? (altMin - altAuto) *  altPenalty: 0)) :
+               ((flags & (0x1 << 4)) ? (altManual < 0 ? ((altAuto > altMax) ? (altAuto - altMax) *  altPenalty: 0) : ((altManual > altMax) ? (altAuto - altMax) *  altPenalty: 0)) :
+                -1);
+    }
+    function getSGScore(sgManualVal, sgHitAuto, sgMaxScore) {
+
+        return parseInt(sgManualVal < 0 ? sgHitAuto * sgMaxScore : sgManualVal * sgMaxScore);
+    }
+
+    function getTPScore(tpManualVal, tpHitAuto, tpMaxScore) {
+
+        return parseInt(tpManualVal < 0 ? (tpHitAuto * tpMaxScore) : (tpManualVal * tpMaxScore));
+    }
+
+    function getTGScore(tgTimeDifference, tgMaxScore, tgPenalty, tgTolerance) {
+
+        return parseInt((tgTimeDifference > tgTolerance) ? Math.max(tgMaxScore - (tgTimeDifference - tgTolerance) * tgPenalty, 0) : tgMaxScore);
+    }
+
+    function getSpeedSectionScore(speedDiff, speedTolerance, speedMaxScore, speedPenalty) {
+
+        return parseInt(Math.max(speedDiff > speedTolerance ? (speedMaxScore - (speedDiff - speedTolerance) * speedPenalty) : speedMaxScore, 0));
+    }
+
+    function getMarkersScore(markersOk, markersNok, markersFalse, marker_max_score) {
+
+        return markersOk * marker_max_score - (markersNok + markersFalse) * marker_max_score;
+    }
+
+    function getPhotosScore(photosOk, photosNok, photosFalse, photos_max_score) {
+
+        return photosOk * photos_max_score - (photosNok + photosFalse) * photos_max_score;
+    }
+
+    function getTakeOffScore(startTimeDifferenceText, time_window_size, time_window_penalty, totalPointsScore) {
+
+       if (F.timeToUnix(startTimeDifferenceText) > time_window_size)
+            return Math.round(totalPointsScore/100 * time_window_penalty) * -1;
+       else
+            return 0;
+    }
+
+    function getGyreScore(circlingCountValue, gyre_penalty, totalPointsScore) {
+
+        return Math.round(totalPointsScore/100 * gyre_penalty * circlingCountValue) * -1;
+    }
+
+    function getOppositeDirScore(oppositeCountValue, oposite_direction_penalty, totalPointsScore) {
+
+        return Math.round(totalPointsScore/100 * oposite_direction_penalty * oppositeCountValue) * -1;
+    }
+
+    function getAltSecScore(manualAltMinEntriesCount, altMinEntriesCount, manualAltMaxEntriesCount, altMaxEntriesCount, altPenaltyPercent, totalPointsScore) {
+
+        var minCount = manualAltMinEntriesCount < 0 ? altMinEntriesCount : manualAltMinEntriesCount;
+        var maxCount = manualAltMaxEntriesCount < 0 ? altMaxEntriesCount : manualAltMaxEntriesCount;
+
+        return Math.round(((minCount + maxCount) * altPenaltyPercent * totalPointsScore/100) * -1);
+    }
+
+    function getSpaceSecScore(manualEntries_out, entries_out, spacePenaltyPercent, totalPointsScore) {
+
+        return Math.round(((manualEntries_out < 0 ? entries_out : manualEntries_out) * spacePenaltyPercent * totalPointsScore/100) * -1);
+    }
+
+    function returnListModelIndexByContent(listModel, refRole1, refRoleVal1, refRole2, refRoleVal2) {
+
+        var index = -1;
+        var item;
+
+        for (var i = 0; i < listModel.count; i++) {
+            item = listModel.get(i);
+
+            if (item[refRole1] == refRoleVal1 && item[refRole2] == refRoleVal2) {
+
+                index = i;
+                break;
+            }
+        }
+
+        return index;
+    }
+
+    // function return value from list model if exist, otherwise return implicit value
+    function returnManualValueFromListModelIfExist(listModel, retRole, retImplicitVal, refRole, refVal) {
+
+        var item;
+
+        for (var i = 0; i < listModel.count; i++) {
+            item = listModel.get(i);
+
+            if (item[refRole] == refVal) {
+                return item[retRole];
+            }
+        }
+
+        // not found, return implicit val
+        return retImplicitVal;
+    }
+
+    // function load string into list model
+    function loadStringIntoListModel(dstListModel, srcString, srcStringDelimeter) {
+
+        dstListModel.clear();
+
+        if (srcString === "") return;
+
+        var arr = srcString.split(srcStringDelimeter)
+        for (var i = 0; i < arr.length; i++) {
+            dstListModel.append(JSON.parse(arr[i]))
+        }
+    }
+
+
     function computeScore(tpiData, polys) {
 
+        console.log("computing score")
 
         var current = -1;
 
@@ -890,25 +2308,37 @@ ApplicationWindow {
             return;
         }
 
-
-
         var item = igcFilesModel.get(current)
+
         if ((item.score !== undefined) && (item.score !== "")) { // pokud je vypocitane, tak nepocitame znovu
+
+
             scoreTable.currentRow = -1;
             scoreTable.selection.clear();
             wptScoreList.clear()
+
             var cacheArr = JSON.parse(item.score_json);
+
             for (var i = 0; i < cacheArr.length; i++) {
                 var cacheItem = cacheArr[i];
+
                 wptScoreList.append(cacheItem)
             }
 
             return;
         }
 
+
         if (tpiData.length > 0) {
             printMapWindow.makeImage();
         }
+
+
+        // load manual values into list models - used when compute score
+        loadStringIntoListModel(wptNewScoreListManualValuesCache, ctnt.prevResultsWPT, "; ");
+        loadStringIntoListModel(speedSectionsScoreListManualValuesCache, ctnt.prevResultsSpeedSec, "; ");
+        loadStringIntoListModel(spaceSectionsScoreListManualValuesCache, ctnt.prevResultsSpaceSec, "; ");
+        loadStringIntoListModel(altSectionsScoreListManualValuesCache, ctnt.prevResultsAltSec, "; ");
 
 
         console.time("computeScore")
@@ -945,8 +2375,6 @@ ApplicationWindow {
             var section_space_start = F.getFlagsByIndex(11, flags)
             var section_space_end   = F.getFlagsByIndex(12, flags)
 
-            //            console.log(j + " " + flags + " " +section_speed_start + " " + section_speed_end + " " + section_alt_start + " " + section_alt_end + " " + section_space_start + " " + section_space_end)
-
             distance_cumul += ti.distance;
 
             if (section_speed_end && (section_speed_start_tid >= 0)) {
@@ -957,6 +2385,7 @@ ApplicationWindow {
                     "time_start": 0,
                     "speed": 0
                 }
+
                 section_speed_array.push(item);
                 section_speed_start_tid = -1;
             }
@@ -1058,6 +2487,8 @@ ApplicationWindow {
 
                 for (j = 0; j < tpiData.length; j++) {
                     var ti = tpiData[j]
+
+
                     var distance = F.getDistanceTo(ti.lat, ti.lon, igcnext.lat, igcnext.lon);
                     if (distance > (ti.radius + 500)) {
                         continue;
@@ -1297,15 +2728,131 @@ ApplicationWindow {
 
 
 
-        //        console.log(JSON.stringify(section_speed_array))
-        //        console.log(JSON.stringify(section_alt_array))
-        //                console.log(JSON.stringify(section_space_array))
-        //        console.log(JSON.stringify(sectorCache))
+        //console.log(JSON.stringify(section_speed_array))
+        //console.log(JSON.stringify(section_alt_array))
+        console.log(JSON.stringify(section_space_array))
+        //console.log(JSON.stringify(sectorCache))
 
 
-        wptScoreList.clear()
+        wptScoreList.clear();
+        //wptNewScoreList.clear();
+        //speedSectionsScoreList.clear();
+
+        var wptString = [];
+        igcFilesModel.setProperty(current, "trackHash", "");
+        igcFilesModel.setProperty(current, "wptScoreDetails", "");
+        igcFilesModel.setProperty(current, "speedSectionsScoreDetails", "");
+        igcFilesModel.setProperty(current, "spaceSectionsScoreDetails", "");
+        igcFilesModel.setProperty(current, "altitudeSectionsScoreDetails", "");
+
+        var category_alt_penalty = trItem.alt_penalty;
+        var category_marker_max_score = trItem.marker_max_score;
+        var category_oposite_direction_penalty = trItem.oposite_direction_penalty;
+        var category_gyre_penalty = trItem.gyre_penalty;
+        var category_out_of_sector_penalty = trItem.out_of_sector_penalty;
+        var category_photos_max_score = trItem.photos_max_score;
+        var category_preparation_time = trItem.preparation_time; //sec
+        var category_sg_max_score = trItem.sg_max_score;
+        var category_speed_penalty = trItem.speed_penalty;
+        var category_speed_tolerance = trItem.speed_tolerance;
+        var category_tg_max_score = trItem.tg_max_score;
+        var category_tg_penalty = trItem.tg_penalty;
+        var category_tg_tolerance = trItem.tg_tolerance;
+        var category_time_window_penalty = trItem.time_window_penalty;
+        var category_time_window_size = trItem.time_window_size;
+        var category_tp_max_score = trItem.tp_max_score;
+
         var str = "";
         var dataArr = [];
+        distance_cumul = 0;
+        var extra_time_cmul = F.timeToUnix(ctnt.startTime);
+
+        var new_section_speed_array = [];
+        var new_section_alt_array = [];
+        var new_section_space_array = [];
+
+        var speed_sections_score = 0;
+        var space_sections_score = 0;
+        var altitude_sections_score = 0;
+
+        // create and compute speed sections data
+        var item;
+        var arr_item;
+        var speed_sec_score = 0;
+        for (i = 0; i < section_speed_array.length; i++) {
+            item = section_speed_array[i];
+
+            // get manual val from cache if exist(index != -1)
+            var index = returnListModelIndexByContent(speedSectionsScoreListManualValuesCache, "startPointName", tracks.points[item.start - 1].name, "endPointName", tracks.points[item.end - 1].name);
+
+            arr_item = {
+                "startPointName" : tracks.points[item.start - 1].name,
+                "endPointName" : tracks.points[item.end - 1].name,
+                "distance ": item.distance,
+                "calculatedSpeed": Math.round(item.speed),
+                "speedDifference": 0,
+                "manualSpeed" : (index !== -1 ? speedSectionsScoreListManualValuesCache.get(index).manualSpeed : -1),
+                "speedSecScore": -1,
+                "maxScore" : category_tg_max_score,
+                "speedTolerance" : category_speed_tolerance,
+                "speedPenaly" : category_speed_penalty
+            }
+
+            arr_item['speedDifference'] = (arr_item.manualSpeed === -1 ? Math.abs(ctnt.speed - arr_item.calculatedSpeed) : Math.abs(ctnt.speed - arr_item.manualSpeed));
+            speed_sec_score = getSpeedSectionScore(arr_item['speedDifference'], category_speed_tolerance, category_tg_max_score, category_speed_penalty);
+            arr_item['speedSecScore'] = speed_sec_score;
+            speed_sections_score += speed_sec_score;
+
+           // speedSectionsScoreList.append(arr_item);
+            new_section_speed_array.push(arr_item);
+        }
+
+        // create and alt sections data
+        for (i = 0; i < section_alt_array.length; i++) {
+            item = section_alt_array[i];
+
+            // get manual val from cache if exist(index != -1)
+            var index = returnListModelIndexByContent(altSectionsScoreListManualValuesCache, "startPointName", tracks.points[item.start - 1].name, "endPointName", tracks.points[item.end - 1].name);
+
+            arr_item = {
+                "startPointName" : tracks.points[item.start - 1].name,
+                "endPointName" : tracks.points[item.end - 1].name,
+                "altMinEntriesCount" : item.entries_below,
+                "manualAltMinEntriesCount" : (index !== -1 ? altSectionsScoreListManualValuesCache.get(index).manualAltMinEntriesCount : -1),
+                "altMinEntriesTime" : item.time_spent_below,
+                "manualAltMinEntriesTime" : (index !== -1 ? altSectionsScoreListManualValuesCache.get(index).manualAltMinEntriesTime : -1),
+                "altMaxEntriesCount" : item.entries_above,
+                "manualAltMaxEntriesCount" : (index !== -1 ? altSectionsScoreListManualValuesCache.get(index).manualAltMaxEntriesCount : -1),
+                "altMaxEntriesTime" : item.time_spent_above,
+                "manualAltMaxEntriesTime" : (index !== -1 ? altSectionsScoreListManualValuesCache.get(index).manualAltMaxEntriesTime : -1),
+                "penaltyPercent": category_out_of_sector_penalty,
+                "altSecScore": -1
+            }
+
+            new_section_alt_array.push(arr_item);
+        }
+
+        // create and space sections data
+        for (i = 0; i < section_space_array.length; i++) {
+            item = section_space_array[i];
+
+            // get manual val from cache if exist(index != -1)
+            var index = returnListModelIndexByContent(spaceSectionsScoreListManualValuesCache, "startPointName", tracks.points[item.start - 1].name, "endPointName", tracks.points[item.end - 1].name);
+
+            arr_item = {
+                "startPointName" : tracks.points[item.start - 1].name,
+                "endPointName" : tracks.points[item.end - 1].name,
+                "entries_out": item.entries_out,
+                "manualEntries_out": (index !== -1 ? spaceSectionsScoreListManualValuesCache.get(index).manualEntries_out : -1),
+                "time_spent_out": item.time_spent_out,
+                "manualTime_spent_out": (index !== -1 ? spaceSectionsScoreListManualValuesCache.get(index).manualTime_spent_out : -1),
+                "penaltyPercent": category_out_of_sector_penalty,
+                "spaceSecScore": -1
+            }
+
+            new_section_space_array.push(arr_item);
+        }
+
         for (i = 0; i < tpiData.length; i++ ) {
             var item = tpiData[i];
             var speed = '';
@@ -1323,6 +2870,11 @@ ApplicationWindow {
             var distance_out_spent = '';
             var distance_out_bi_count = '';
             var distance_out_bi_spent = '';
+
+            // suma extra casu a vzdalenosti od VBT
+            distance_cumul += item.distance;
+            extra_time_cmul += trItem.conn[i].addTime;
+
 
             for (var j = 0; j < section_speed_array_length; j++) {
                 section = section_speed_array[j]
@@ -1393,10 +2945,65 @@ ApplicationWindow {
                 "altmintime_spent": String(F.addTimeStrFormat(alt_min_time_spent)),
                 "altmaxcount": String(alt_max_count),
                 "altmaxtime_spent": String(F.addTimeStrFormat(alt_max_time_spent)),
+            }
 
+            var tg_time_calculated = Math.round(distance_cumul * 3.6/ctnt.speed + extra_time_cmul);
+            var tg_time_measured = F.timeToUnix(item.time);
+            var tg_time_manual = returnManualValueFromListModelIfExist(wptNewScoreListManualValuesCache, "tg_time_manual", -1, "tid", item.tid);
+
+            var tg_time_difference = tg_time_manual === -1 ? Math.abs(tg_time_calculated - tg_time_measured) : Math.abs(tg_time_calculated - tg_time_manual);
+
+            var tp_manual = returnManualValueFromListModelIfExist(wptNewScoreListManualValuesCache, "tp_hit_manual", -1, "tid", item.tid);
+            var sg_manual = returnManualValueFromListModelIfExist(wptNewScoreListManualValuesCache, "sg_hit_manual", -1, "tid", item.tid);
+            var alt_manual = returnManualValueFromListModelIfExist(wptNewScoreListManualValuesCache, "alt_manual", -1, "tid", item.tid);
+            var point_alt_min = trItem.conn[i].alt_min;
+            var point_alt_max = trItem.conn[i].alt_max;
+
+
+            var newScoreData = {
+
+                "tid": item.tid,
+                "title": item.name,
+                "type": item.flags,                
+                "distance_from_vbt": distance_cumul,
+
+                "tg_time_calculated": tg_time_calculated,
+                "tg_time_measured": tg_time_measured,
+                "tg_time_manual": tg_time_manual,
+                "tg_time_difference": tg_time_difference,
+                "tg_category_time_tolerance": category_tg_tolerance,
+                "tg_category_max_score": category_tg_max_score,
+                "tg_category_penalty": category_tg_penalty,
+                "tg_score": 0,
+
+                "tp_hit_measured": item.hit,
+                "tp_hit_manual": tp_manual,
+                "tp_category_max_score": category_tp_max_score,
+                "tp_score": 0,
+
+                "sg_hit_measured": item.sg_hit,
+                "sg_hit_manual": sg_manual,
+                "sg_category_max_score": category_sg_max_score,
+                "sg_score": 0,
+
+                "alt_max": point_alt_max,
+                "alt_min": point_alt_min,
+                "alt_measured": isNaN(parseInt(item.alt)) ? -1 : parseInt(item.alt),
+                "alt_manual": alt_manual,
+                "alt_score": 0,
+                "category_alt_penalty": category_alt_penalty
 
             }
+
+            // calc score points for whole struct
+            newScoreData = calcPointScore(newScoreData);
+
+            wptString.push(JSON.stringify(newScoreData));
+
             wptScoreList.append(newData);
+            //wptNewScoreList.append(newScoreData);
+
+
             dataArr.push(newData)
             str += "\"" + item.time + "\";";
             str += "\"" + (item.hit ? "YES" : "NO" )+ "\";";
@@ -1429,17 +3036,195 @@ ApplicationWindow {
             str += "\"" + poly_result.alt_max + "\";";
         }
 
+        igcFilesModel.setProperty(current, "trackHash", MD5.MD5(JSON.stringify(trItem)));
+        igcFilesModel.setProperty(current, "wptScoreDetails", wptString.join("; "));
+        igcFilesModel.setProperty(current, "speedSectionsScoreDetails", JSON.stringify(new_section_speed_array));
+        igcFilesModel.setProperty(current, "spaceSectionsScoreDetails", JSON.stringify(new_section_space_array));
+        igcFilesModel.setProperty(current, "altitudeSectionsScoreDetails", JSON.stringify(new_section_alt_array));
+
         igcFilesModel.setProperty(current, "score_json", JSON.stringify(dataArr))
         igcFilesModel.setProperty(current, "score", str)
 
+        //calc contestant manual values score - markers, photos,..
+        recalculateContestnatManualScoreValues(current);
 
+        // no contestant selected
+        var score = -1;
+        if (igcFilesModel.get(current).contestant !== 0) {
+
+            score = getTotalScore(ctnt, current);
+        }
+
+        igcFilesModel.setProperty(current, "scorePoints", score);
+        recalculateScoresTo1000();
+
+        // save changes to CSV
+        writeScoreManulaValToCSV();
         writeCSV()
+
         console.timeEnd("computeScore")
         return str;
     }
 
 
+    function writeScoreManulaValToCSV() {
+
+        if (igcFilesTable.currentRow < 0)
+            return;
+
+        // reload current contestant
+        var contestantIndex = igcFilesModel.get(igcFilesTable.currentRow).contestant;
+        ctnt = contestantsListModel.get(contestantIndex);
+
+        // load manual values into list models - used when compute score
+        loadStringIntoListModel(wptNewScoreListManualValuesCache, ctnt.prevResultsWPT, "; ");
+        loadStringIntoListModel(speedSectionsScoreListManualValuesCache, ctnt.prevResultsSpeedSec, "; ");
+        loadStringIntoListModel(spaceSectionsScoreListManualValuesCache, ctnt.prevResultsSpaceSec, "; ");
+        loadStringIntoListModel(altSectionsScoreListManualValuesCache, ctnt.prevResultsAltSec, "; ");
+
+        //header - from office
+        var str = "\"Jmeno\";\"Znaky – ok\";\"Znaky – spatne\";\"Znaky – falesne\";\"Foto – ok\";\"Foto – spatne\";\"Foto – falesne\";\"Presnost pristani\";\"Ostatni – body\";\"Ostatni – procenta\";\"Cas startu – startovka\";\"Cas startu – zmereno\";\"Cas startu – penalizace body\";\"Krouzeni, protismerny let – pocet\";\"Krouzeni, protismerny let – penalizace body\";\"Ostatni penalizace – body\";\"Ostatni penalizace – procenta\";\"Body\";\"Body na 1000\";\"Klasifikovan\";\"Poznamka\";\"Casove brany\";\"Otocne body\";\"Prostorove brany\";\"Vyskove omezeni  penalizace\";\"Rychlostni useky\";\"Vyskove useky penalizace proc\";\"Prostorove useky penalizace proc\";\"Pilot ID\";\"Copilot ID\"";
+        str += "\n";
+
+        var igcListModelItem;
+        var tgScoreSum = 0;
+        var tpScoreSum = 0;
+        var sgScoreSum = 0;
+        var altPenaltySum = 0;
+        var speedSecScoreSum = 0;
+        var altSecScoreSum = 0;
+        var spaceSecScoreSum = 0;
+        var tg_time_manual = [];
+        var tp_hit_manual = [];
+        var sg_hit_manual = [];
+        var alt_manual = [];
+
+        var i;
+        var j;
+        var item;
+
+        // Calc wpt points sum
+        for (i = 0; i < wptNewScoreListManualValuesCache.count; i++) {
+            item = wptNewScoreListManualValuesCache.get(i);
+
+            tgScoreSum += item.tg_score === -1 ? 0 : item.tg_score;
+            tpScoreSum += item.tp_score === -1 ? 0 : item.tp_score;
+            sgScoreSum += item.sg_score === -1 ? 0 : item.sg_score;
+            altPenaltySum += item.alt_score === -1 ? 0 : item.alt_score;
+
+            tg_time_manual.push(item.tg_time_manual);
+            tp_hit_manual.push(item.tp_hit_manual);
+            sg_hit_manual.push(item.sg_hit_manual);
+            alt_manual.push(item.alt_manual);
+        }
+        wptNewScoreListManualValuesCache.clear();
+
+        // Calc sections points sum
+        for (i = 0; i < speedSectionsScoreListManualValuesCache.count; i++) {
+            item = speedSectionsScoreListManualValuesCache.get(i);
+
+            speedSecScoreSum += item.speedSecScore;
+        }
+        speedSectionsScoreListManualValuesCache.clear();
+
+        for (i = 0; i < spaceSectionsScoreListManualValuesCache.count; i++) {
+            item = spaceSectionsScoreListManualValuesCache.get(i);
+
+            spaceSecScoreSum += item.spaceSecScore;
+        }
+        spaceSectionsScoreListManualValuesCache.clear();
+
+        for (i = 0; i < altSectionsScoreListManualValuesCache.count; i++) {
+            item = altSectionsScoreListManualValuesCache.get(i);
+
+            altSecScoreSum += item.altSecScore;
+        }
+        altSectionsScoreListManualValuesCache.clear();
+
+
+        // Find classify field in igc for current contestant
+        for (j = 0; j < igcFilesModel.count; j++) {
+
+            igcListModelItem = igcFilesModel.get(j);
+
+            if (igcListModelItem.contestant <= 0 || igcListModelItem.contestant >= contestantsListModel.count)
+                continue;
+
+            // get row contestant item
+            item = contestantsListModel.get(igcListModelItem.contestant)
+
+            str += "\"" + F.addSlashes(item.name) + "\";"
+
+            str += "\"" + item.markersOk + "\";"
+            str += "\"" + item.markersNok + "\";"
+            str += "\"" + item.markersFalse + "\";"
+
+            str += "\"" + item.photosOk + "\";"
+            str += "\"" + item.photosNok + "\";"
+            str += "\"" + item.photosFalse + "\";"
+
+            str += "\"" + item.landingScore + "\";"
+
+            str += "\"" + item.otherPoints + "\";"
+            str += "\"" + 0 + "\";"
+
+            str += "\"" + item.startTime + "\";"
+            str += "\"" + item.startTimeMeasured + "\";"
+            str += "\"" + Math.abs(item.startTimeScore) + "\";"
+
+            str += "\"" + (item.circlingCount + item.oppositeCount) + "\";"
+            str += "\"" + Math.abs(item.oppositeScore + item.circlingScore) + "\";"
+
+            str += "\"" + item.otherPenalty + "\";"
+            str += "\"" + 0 + "\";"
+
+            str += "\"" + Math.max(igcListModelItem.scorePoints, 0) + "\";"
+            str += "\"" + Math.max(igcListModelItem.scorePoints1000, 0) + "\";"
+            var classify = igcListModelItem.classify === 0 ? "yes" : "no";
+
+            str += "\"" + classify + "\";"   //index 20
+
+            str += "\"" + F.addSlashes(item.otherPointsNote) + "/&/" + F.addSlashes(item.otherPenaltyNote) + "\";" //note delimeter
+
+            str += "\"" + tgScoreSum + "\";"
+            str += "\"" + tpScoreSum + "\";"
+            str += "\"" + sgScoreSum + "\";"
+            str += "\"" + altPenaltySum + "\";"
+            str += "\"" + speedSecScoreSum + "\";"
+            str += "\"" + altSecScoreSum + "\";"
+            str += "\"" + spaceSecScoreSum + "\";"
+            str += "\"" + item.pilot_id + "\";"
+            str += "\"" + item.copilot_id + "\";"
+            str += "\"" + F.addSlashes(igcListModelItem.trackHash) + "\";"
+            str += "\"" + igcListModelItem.speed + "\";"
+            str += "\"" + igcListModelItem.startTime + "\";"
+            str += "\"" + igcListModelItem.category + "\";"
+            str += "\"" + F.replaceDoubleQuotes(igcListModelItem.wptScoreDetails) + "\";"
+            str += "\"" + F.replaceDoubleQuotes(igcListModelItem.speedSectionsScoreDetails) + "\";"
+            str += "\"" + F.replaceDoubleQuotes(igcListModelItem.spaceSectionsScoreDetails) + "\";"
+            str += "\"" + F.replaceDoubleQuotes(igcListModelItem.altitudeSectionsScoreDetails) + "\";"
+            str += "\"" + F.addSlashes(igcListModelItem.fileName) + "\";"
+            str += "\"" + F.addSlashes(igcListModelItem.score) + "\";"
+            str += "\"" + F.replaceDoubleQuotes(igcListModelItem.score_json) + "\";"
+            str += "\"" + item.markersScore + "\";"
+            str += "\"" + item.photosScore + "\";"
+            str += "\"" + item.startTimeDifference + "\";"
+            str += "\"" + item.circlingCount + "\";"
+            str += "\"" + item.circlingScore + "\";"
+            str += "\"" + item.oppositeCount + "\";"
+            str += "\"" + item.oppositeScore + "\";"
+
+
+            str += "\n";
+
+
+        }
+
+        file_reader.write(Qt.resolvedUrl(pathConfiguration.csvResultsFile), str);
+    }
+
     function writeCSV() {
+
         var str = "";
 
         for (var i = 0; i < igcFilesModel.count; i++) {
@@ -1463,6 +3248,7 @@ ApplicationWindow {
         file_reader.write(Qt.resolvedUrl(pathConfiguration.csvFile), str);
 
 
+
         str = "";
         // polozka i = 0 je vyhrazena pro pouziti "prazdne polozky" v comboboxu; misto toho by mela jit hlavicka
         for (var i = 1; i < contestantsListModel.count; i++) {
@@ -1470,7 +3256,7 @@ ApplicationWindow {
 
             var line = "\"" + F.addSlashes(item.name)
                     +"\";\""+ F.addSlashes(item.category)
-                    +"\";\""+ F.addSlashes(item.fullName)
+                    +"\";\""+ F.addSlashes(item.name + "_" + item.category)//F.addSlashes(item.fullName)
                     +"\";\""+ F.addSlashes(item.startTime)
                     +"\";\""+ F.addSlashes(item.filename)
                     +"\";\""+ F.addSlashes(item.speed)
@@ -1478,7 +3264,9 @@ ApplicationWindow {
                     +"\";\""+ F.addSlashes(item.aircraft_registration)
                     +"\";\""+ F.addSlashes(item.crew_id)
                     +"\";\""+ F.addSlashes(item.pilot_id)
-                    +"\";\""+ F.addSlashes(item.copilot_id) + "\""
+                    +"\";\""+ F.addSlashes(item.copilot_id)
+                    +"\";\""+ F.addSlashes(""/*item.pilotAvatarBase64*/)
+                    +"\";\""+ F.addSlashes(""/*item.copilotAvatarBase64*/) + "\""
 
             str += line + "\n";
         }
@@ -1876,6 +3664,152 @@ ApplicationWindow {
         evaluateTimer.running = true;
     }
 
+    function compareSeventhColumn(a, b) {
+
+        if (parseInt(a[7]) === parseInt(b[7])) {
+            return 0;
+        }
+        else {
+            return (parseInt(a[7]) > parseInt(b[7])) ? -1 : 1;
+        }
+    }
+
+    function getContinuousResults() {
+
+        var igcItem;
+        var contestant;
+        var index;
+
+        var resArr = ['R-AL1', 'R-AL2', 'S-AL1', 'S-AL2', 'R-WL1', 'R-WL2', 'S-WL1', 'S-WL2', 'CUSTOM1', 'CUSTOM2', 'CUSTOM3', 'CUSTOM4'];
+
+        /// nefunguje PROC???
+        //for (var key in resArr) {
+        //    resArr[key] = [];
+        //}
+
+        // humus - viz vyse
+        resArr['R-AL1'] = [];
+        resArr['R-AL2'] = [];
+        resArr['S-AL1'] = [];
+        resArr['S-AL2'] = [];
+        resArr['R-WL1'] = [];
+        resArr['R-WL2'] = [];
+        resArr['S-WL1'] = [];
+        resArr['S-WL2'] = [];
+        resArr['CUSTOM1'] = [];
+        resArr['CUSTOM2'] = [];
+        resArr['CUSTOM3'] = [];
+        resArr['CUSTOM4'] = [];
+
+        for (var i = 0; i < igcFilesModel.count; i++) {
+
+            igcItem = igcFilesModel.get(i);
+            contestant = contestantsListModel.get(igcItem.contestant);
+
+            if (resArr.indexOf(igcItem.category) !== -1) {
+
+                resArr[igcItem.category].push([contestant.name,
+                                              igcItem.category,
+                                              contestant.startTime,
+                                              String(contestant.speed),
+                                              contestant.aircraft_registration,
+                                              contestant.aircraft_type,
+                                              String(igcItem.scorePoints),
+                                              String(igcItem.scorePoints1000)]);
+                                              //(parseInt(igcItem.scorePoints) < 0 ? "" : String(igcItem.scorePoints)),
+                                              //(parseInt(igcItem.scorePoints1000) < 0 ? "" : String(igcItem.scorePoints1000))])
+            }
+
+        }
+
+        for (var key in resArr) {
+
+            /// nefunguje PROC???
+            //resArr[key].sort(compareSeventhColumn) // score points to 1000
+
+            // humus - viz vyse
+            resArr['R-AL1'].sort(compareSeventhColumn);
+            resArr['R-AL2'].sort(compareSeventhColumn);
+            resArr['S-AL1'].sort(compareSeventhColumn);
+            resArr['S-AL2'].sort(compareSeventhColumn);
+            resArr['R-WL1'].sort(compareSeventhColumn);
+            resArr['R-WL2'].sort(compareSeventhColumn);
+            resArr['S-WL1'].sort(compareSeventhColumn);
+            resArr['S-WL2'].sort(compareSeventhColumn);
+            resArr['CUSTOM1'].sort(compareSeventhColumn);
+            resArr['CUSTOM2'].sort(compareSeventhColumn);
+            resArr['CUSTOM3'].sort(compareSeventhColumn);
+            resArr['CUSTOM4'].sort(compareSeventhColumn);
+        }
+
+        return resArr;
+    }
+
+
+    function updateContestantInCategoryCounters(category, incrementVal) {
+
+        switch(category) {
+            case "R-AL1":
+                _RAL1_count = incrementVal ? (++_RAL1_count) :  Math.max((--_RAL1_count), 0)
+                break;
+            case "R-AL2":
+                _RAL2_count = incrementVal ? (++_RAL2_count) :  Math.max((--_RAL2_count), 0)
+                break;
+            case "S-AL1":
+                _SAL1_count = incrementVal ? (++_SAL1_count) :  Math.max((--_SAL1_count), 0)
+                break;
+            case "S-AL2":
+                _SAL2_count = incrementVal ? (++_SAL2_count) :  Math.max((--_SAL2_count), 0)
+                break;
+            case "R-WL1":
+                _RWL1_count = incrementVal ? (++_RWL1_count) :  Math.max((--_RWL1_count), 0)
+                break;
+            case "R-WL2":
+                _RWL2_count = incrementVal ? (++_RWL2_count) :  Math.max((--_RWL2_count), 0)
+                break;
+            case "S-WL1":
+                _SWL1_count = incrementVal ? (++_SWL1_count) :  Math.max((--_SWL1_count), 0)
+                break;
+            case "S-WL2":
+                _SWL2_count = incrementVal ? (++_SWL2_count) :  Math.max((--_SWL2_count), 0)
+                break;
+            case "CUSTOM1":
+                _CUSTOM1_count = incrementVal ? (++_CUSTOM1_count) :  Math.max((--_CUSTOM1_count), 0)
+                break;
+            case "CUSTOM2":
+                _CUSTOM2_count = incrementVal ? (++_CUSTOM2_count) :  Math.max((--_CUSTOM2_count), 0)
+                break;
+            case "CUSTOM3":
+                _CUSTOM3_count = incrementVal ? (++_CUSTOM3_count) :  Math.max((--_CUSTOM3_count), 0)
+                break;
+            case "CUSTOM4":
+                _CUSTOM4_count = incrementVal ? (++_CUSTOM4_count) :  Math.max((--_CUSTOM4_count), 0)
+                break;
+
+            default:
+                console.log("invalid category: " + category + " in func: updateContestantInCategoryCounters")
+                break;
+        }
+    }
+
+
+    function initCategoryCounters() {
+
+        _RAL1_count = 0;
+        _RAL2_count = 0;
+        _SAL1_count = 0;
+        _SAL2_count = 0;
+        _RWL1_count = 0;
+        _RWL2_count = 0;
+        _SWL1_count = 0;
+        _SWL2_count = 0;
+        _CUSTOM1_count = 0;
+        _CUSTOM2_count = 0;
+        _CUSTOM3_count = 0;
+        _CUSTOM4_count = 0;
+
+    }
+
     Timer {
         id: evaluateTimer
         // evaluate all via timer;
@@ -1907,16 +3841,126 @@ ApplicationWindow {
             if ((item.contestant === 0) || (item.score !== ""))  { // if ((no contestent selected) or (already computed))
                 if (current+1 == igcFilesModel.count) { // finsihed
                     running = false;
+
+                    // create results if flag is set
+                    if (generateResultsFlag) {
+
+                        generateResultsFlag = false;
+
+                        igcFilesTable.currentRow = -1;
+                        igcFilesTable.selection.clear();
+
+                        resultsTimer.running = true;
+                    }
+
+
                 } else { // go to next
                     igcFilesTable.selection.clear();
                     igcFilesTable.selection.select(current+1)
                     igcFilesTable.currentRow = current+1;
                 }
+            }
+        }
+    }
 
+    Timer {
+        id: resultsTimer
+        // evaluate all via timer;
+        interval: 500;
+        repeat: true;
+        running: false;
 
+        onTriggered: {
+
+            if (igcFilesModel.count <= 0) {
+                running = false;
+
+                // category results
+                generateContinuousResults();
+
+                // save changes to CSV
+                writeScoreManulaValToCSV();
+
+                // tucek and tucek-settings CSV
+                writeCSV();
+
+                return;
             }
 
+            var current = -1;
+            var item;
+            var contestant;
 
+            igcFilesTable.selection.forEach( function(rowIndex) { current = rowIndex; } )
+
+            // select first item of list
+            if (current < 0) {
+
+                current = 0;
+                igcFilesTable.selection.clear();
+                igcFilesTable.selection.select(current);
+                igcFilesTable.currentRow = current;
+
+                // load contestant and igc row
+                item = igcFilesModel.get(current);
+                contestant = contestantsListModel.get(item.contestant);
+
+                // create contestant html file
+                results_creator.createContestantResultsHTML((pathConfiguration.resultsFolder + "/" + contestant.name + "_" + contestant.category),
+                                                            JSON.stringify(contestant),
+                                                            JSON.stringify(item),
+                                                            competitionConfiguretion.competitionName,
+                                                            competitionConfiguretion.getCompetitionTypeString(parseInt(competitionConfiguretion.competitionType)),
+                                                            competitionConfiguretion.competitionDirector,
+                                                            competitionConfiguretion.competitionDirectorAvatar,
+                                                            competitionConfiguretion.competitionArbitr,
+                                                            competitionConfiguretion.competitionArbitrAvatar,
+                                                            competitionConfiguretion.competitionDate);
+            }
+            else {
+
+                // load contestant and igc row
+                item = igcFilesModel.get(current);
+                contestant = contestantsListModel.get(item.contestant);
+
+                if (item.contestant === 0 || file_reader.file_exists(pathConfiguration.resultsFolder + "/"+ contestant.name + "_" + contestant.category + ".html"))  { //if results created or no results for this igc row
+                    if (current+1 == igcFilesModel.count) { // finsihed
+
+                        running = false;
+
+                        // category results
+                        generateContinuousResults();
+
+                        // save changes to CSV
+                        writeScoreManulaValToCSV();
+
+                        // tucek and tucek-settings CSV
+                        writeCSV();
+
+                    } else { // go to next
+                        igcFilesTable.selection.clear();
+                        igcFilesTable.selection.select(current+1)
+                        igcFilesTable.currentRow = current+1;
+
+
+                        // load contestant and igc row
+                        item = igcFilesModel.get(current + 1);
+                        contestant = contestantsListModel.get(igcFilesModel.get(current + 1).contestant);
+
+                        // create contestant html file
+                        results_creator.createContestantResultsHTML((pathConfiguration.resultsFolder + "/" + contestant.name + "_" + contestant.category),
+                                                                    JSON.stringify(contestant),
+                                                                    JSON.stringify(item),
+                                                                    competitionConfiguretion.competitionName,
+                                                                    competitionConfiguretion.getCompetitionTypeString(parseInt(competitionConfiguretion.competitionType)),
+                                                                    competitionConfiguretion.competitionDirector,
+                                                                    competitionConfiguretion.competitionDirectorAvatar,
+                                                                    competitionConfiguretion.competitionArbitr,
+                                                                    competitionConfiguretion.competitionArbitrAvatar,
+                                                                    competitionConfiguretion.competitionDate);
+                    }
+                }
+            }
         }
     }
 
@@ -1995,7 +4039,7 @@ ApplicationWindow {
                         continue;
                     }
 
-                    //                    console.log(igc_index)
+                                        console.log(igc_index + "   " + contestant_index);
 
                     igcFilesModel.setProperty(igc_index, "contestant", contestant_index)
                     igcFilesTable.selection.clear();
