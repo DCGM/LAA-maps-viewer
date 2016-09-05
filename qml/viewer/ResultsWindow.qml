@@ -201,20 +201,6 @@ ApplicationWindow {
 
             listModelsToString();
             totalPointsScore = getScorePointsSum(curentContestant, resultsMainWindow.currentWptScoreString, resultsMainWindow.currentSpeedSectionsScoreString);
-
-            /*
-            tabView.scrollView.startTimeText = curentContestant.startTimeMeasured;
-            curentContestant.startTimeScore = getTakeOffScore(tabView.scrollView.startTimeDifferenceText, time_window_size, time_window_penalty, totalPointsScore);
-            tabView.scrollView.startTimeScoreText = curentContestant.startTimeScore;
-
-            tabView.scrollView.circlingCountValue = curentContestant.circlingCount;
-            curentContestant.circlingScore = getGyreScore(tabView.scrollView.circlingCountValue, gyre_penalty, totalPointsScore);
-            tabView.scrollView.circlingScoreText = curentContestant.circlingScore;
-
-            tabView.scrollView.oppositeCountValue = curentContestant.oppositeCount;
-            curentContestant.oppositeScore = getOppositeDirScore(tabView.scrollView.oppositeCountValue, oposite_direction_penalty, totalPointsScore);
-            tabView.scrollView.oppositeScoreText = curentContestant.oppositeScore;
-            */
         }
     }
 
@@ -285,6 +271,7 @@ ApplicationWindow {
 
                 id: manualValuesTabScrollView
                 anchors.fill: parent;
+                anchors.margins: 15
 
                 property alias startTimeText: startTimeMeasuredTextField.text;
                 property alias startTimeDifferenceText: startTimeDifferenceTextField.text;
@@ -319,7 +306,6 @@ ApplicationWindow {
                     anchors.top: parent.top
                     anchors.left: parent.left
                     anchors.right: parent.right
-                    anchors.margins: 15
                     spacing: 15;
 
                     //start time
