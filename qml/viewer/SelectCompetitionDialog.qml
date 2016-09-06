@@ -258,22 +258,17 @@ ApplicationWindow {
 
         http.open(method, baseUrl + "?id=" + id + "&errors=text", true);
 
-        http.timeout = httpRequestTimeOutMs;
-        http.ontimeout = function () {
+        // set timeout
+        var timer = Qt.createQmlObject("import QtQuick 2.5; Timer {interval: 5000; repeat: false; running: true;}", competitionListWindow, "MyTimer");
+                        timer.triggered.connect(function(){
 
-            console.log("ERR getContestants http time out")
-
-            // Set and show error dialog
-            //% "Connection error dialog title"
-            errMessageDialog.title = qsTrId("contestant-download-connection-error-dialog-title")
-            //% "Can not download registrations for selected competition. Please check the network connection and try it again."
-            errMessageDialog.text = qsTrId("contestant-download-connection-error-dialog-text")
-            errMessageDialog.standardButtons = StandardButton.Close
-            errMessageDialog.open();
-        }
+                            http.abort();
+                        });
 
 
         http.onreadystatechange = function() {
+
+            timer.running = false;
 
             if (http.readyState === XMLHttpRequest.DONE) {
 
@@ -364,27 +359,20 @@ ApplicationWindow {
 
     function getCompetitionsData(url, method, model) {
 
-        console.log("getCompetitionsData")
-
         var http = new XMLHttpRequest();
 
         http.open(method, url, true);
 
-        http.timeout = httpRequestTimeOutMs;
-        http.ontimeout = function () {
+        // set timeout
+        var timer = Qt.createQmlObject("import QtQuick 2.5; Timer {interval: 5000; repeat: false; running: true;}", competitionListWindow, "MyTimer");
+                        timer.triggered.connect(function(){
 
-            console.log("ERR getCompetitionsData http time out")
-
-            // Set and show error dialog
-            //% "Connection error dialog title"
-            errMessageDialog.title = qsTrId("competitions-download-connection-error-dialog-title")
-            //% "Can not download competitions list from server. Please check the network connection and try it again."
-            errMessageDialog.text = qsTrId("competitions-download-connection-error-dialog-text")
-            errMessageDialog.standardButtons = StandardButton.Close
-            errMessageDialog.open();
-        }
+                            http.abort();
+                        });
 
         http.onreadystatechange = function() {
+
+            timer.running = false;
 
             if (http.readyState === XMLHttpRequest.DONE) {
 
