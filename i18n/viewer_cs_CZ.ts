@@ -1277,7 +1277,7 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
     <message id="track-list-delegate-section_space_end-short">
         <location filename="../qml/viewer/MyTranslator.qml" line="50"/>
         <source>swe</source>
-        <translation>KOR_E</translation>
+        <translation>KOR_K</translation>
     </message>
     <message id="track-list-delegate-secret-turn-point-short">
         <location filename="../qml/viewer/MyTranslator.qml" line="53"/>
