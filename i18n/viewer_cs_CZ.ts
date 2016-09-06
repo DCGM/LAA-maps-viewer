@@ -1272,7 +1272,7 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
     <message id="track-list-delegate-section_space_start-short">
         <location filename="../qml/viewer/MyTranslator.qml" line="47"/>
         <source>sws</source>
-        <translation>KOR_S</translation>
+        <translation>KOR_Z</translation>
     </message>
     <message id="track-list-delegate-section_space_end-short">
         <location filename="../qml/viewer/MyTranslator.qml" line="50"/>
