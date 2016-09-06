@@ -339,7 +339,7 @@ Item {
             case "tp_score":
             case "sg_score":
             case "alt_score":
-                show = show < 0 ? "" : show;
+                show = show == -1 ? "" : show;
                 break;
 
             case "type":

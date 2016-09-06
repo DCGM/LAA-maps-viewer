@@ -2175,16 +2175,29 @@ ApplicationWindow {
         return scoreData;
     }
 
+    function getMinAltScore(altManual, altAuto, altMin, altPenalty) {
+
+        return (altManual < 0 ? ((altAuto < altMin) ? ((altMin - altAuto) *  altPenalty ) * -1: 0) : ((altManual < altMin) ? (altMin - altManual) *  altPenalty * -1 : 0));
+    }
+
+    function getMaxAltScore(altManual, altAuto, altMax, altPenalty) {
+
+        return (altManual < 0 ? ((altAuto > altMax) ? (altAuto - altMax) *  altPenalty * -1: 0) : ((altManual > altMax) ? (altManual - altMax) *  altPenalty * -1: 0));
+    }
+
 
     function getAltScore(altManual, altAuto, altMin, altMax, flags, altPenalty) {
 
         if (altManual < 0 && altAuto < 0)
             return -1;
 
-        return parseInt(flags & (0x1 << 3)) ? (altManual < 0 ? ((altAuto < altMin) ? (altMin - altAuto) *  altPenalty: 0) : ((altManual < altMin) ? (altMin - altAuto) *  altPenalty: 0)) :
-               ((flags & (0x1 << 4)) ? (altManual < 0 ? ((altAuto > altMax) ? (altAuto - altMax) *  altPenalty: 0) : ((altManual > altMax) ? (altAuto - altMax) *  altPenalty: 0)) :
-                -1);
+        return parseInt(
+                (flags & (0x1 << 3)) && (flags & (0x1 << 4)) ? getMinAltScore(altManual, altAuto, altMin, altPenalty) + getMaxAltScore(altManual, altAuto, altMax, altPenalty) : (
+                (flags & (0x1 << 3)) ? getMinAltScore(altManual, altAuto, altMin, altPenalty) : (
+                (flags & (0x1 << 4)) ? getMaxAltScore(altManual, altAuto, altMax, altPenalty) :
+                -1)))
     }
+
     function getSGScore(sgManualVal, sgHitAuto, sgMaxScore) {
 
         return parseInt(sgManualVal < 0 ? sgHitAuto * sgMaxScore : sgManualVal * sgMaxScore);
@@ -2730,7 +2743,7 @@ ApplicationWindow {
 
         //console.log(JSON.stringify(section_speed_array))
         //console.log(JSON.stringify(section_alt_array))
-        console.log(JSON.stringify(section_space_array))
+        //console.log(JSON.stringify(section_space_array))
         //console.log(JSON.stringify(sectorCache))
 
 
@@ -2871,9 +2884,12 @@ ApplicationWindow {
             var distance_out_bi_count = '';
             var distance_out_bi_spent = '';
 
+            var trItemCurrentPoint = trItem.conn[i];
+
+
             // suma extra casu a vzdalenosti od VBT
             distance_cumul += item.distance;
-            extra_time_cmul += trItem.conn[i].addTime;
+            extra_time_cmul += trItemCurrentPoint.addTime;
 
 
             for (var j = 0; j < section_speed_array_length; j++) {
@@ -2956,9 +2972,8 @@ ApplicationWindow {
             var tp_manual = returnManualValueFromListModelIfExist(wptNewScoreListManualValuesCache, "tp_hit_manual", -1, "tid", item.tid);
             var sg_manual = returnManualValueFromListModelIfExist(wptNewScoreListManualValuesCache, "sg_hit_manual", -1, "tid", item.tid);
             var alt_manual = returnManualValueFromListModelIfExist(wptNewScoreListManualValuesCache, "alt_manual", -1, "tid", item.tid);
-            var point_alt_min = trItem.conn[i].alt_min;
-            var point_alt_max = trItem.conn[i].alt_max;
-
+            var point_alt_min = trItemCurrentPoint.alt_min;
+            var point_alt_max = trItemCurrentPoint.alt_max;
 
             var newScoreData = {
 

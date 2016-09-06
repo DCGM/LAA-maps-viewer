@@ -889,11 +889,11 @@ ApplicationWindow {
                 //% "SG score"
                 TableViewColumn {title: qsTrId("score-table-sg_score"); role: "sg_score"; width: 100;}
 
-                //% "Point altitude max"
-                TableViewColumn {title: qsTrId("score-table-alt_max"); role: "alt_max"; width: 100;}
-
                 //% "Point altitude min"
                 TableViewColumn {title: qsTrId("score-table-alt_min"); role: "alt_min"; width: 100;}
+
+                //% "Point altitude max"
+                TableViewColumn {title: qsTrId("score-table-alt_max"); role: "alt_max"; width: 100;}
 
                 //% "Point altitude measured"
                 //TableViewColumn {title: qsTrId("score-table-alt_measured"); role: "alt_measured"; width: 100;}
