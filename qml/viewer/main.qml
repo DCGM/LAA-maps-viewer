@@ -868,6 +868,7 @@ ApplicationWindow {
                     var prevRow = igcFilesTable.currentRow
                     var contestant;
                     var prevCategory = igcFilesModel.get(row).category;
+                    var prevName = igcFilesModel.get(row).name;
 
                     igcFilesModel.setProperty(row, role, value)
                     var ctIndex = igcFilesModel.get(row).contestant;
@@ -949,10 +950,18 @@ ApplicationWindow {
                         updateContestantInCategoryCounters(value, true);
                     }
 
+                    if (role === "startTime" || role === "contestant") sortIgcFilesModelByStartTime();
+
                     // select row
                     if (prevRow === row) {
 
                         igcFilesTable.selection.clear();
+
+                        for (var i = 0; i < igcFilesModel.count; i++) {
+                            if (igcFilesModel.get(i).name === prevName)
+                                row = i;
+                        }
+
                         igcFilesTable.selection.select(row);
                         igcFilesTable.currentRow = row;
 
@@ -1502,6 +1511,26 @@ ApplicationWindow {
                 currentIgcFileName === prevIgcFileName &&
                 currentTrackHash === prevTrackHash);
 
+    }
+
+    // Sort igc file list model by start time
+    function sortIgcFilesModelByStartTime() {
+
+        for (var i = 0; i < igcFilesModel.count - 1; i++) {
+            for (var j = 0; j < igcFilesModel.count - i - 1; j++) {
+
+                var item_j = igcFilesModel.get(j)
+                var item_j1 = igcFilesModel.get(j + 1)
+
+                var item_j_timeVal = item_j.startTime === "" || item_j.startTime === "00:00:00" ? F.timeToUnix("23:59:59") + 1 : F.timeToUnix(item_j.startTime);
+                var item_j1_timeVal = item_j1.startTime === "" || item_j1.startTime === "00:00:00" ? F.timeToUnix("23:59:59") + 1 : F.timeToUnix(item_j1.startTime);
+
+                if(item_j_timeVal > item_j1_timeVal){
+
+                    igcFilesModel.move(j, j + 1, 1);
+                }
+            }
+        }
     }
 
     // Load contestants from CSV
