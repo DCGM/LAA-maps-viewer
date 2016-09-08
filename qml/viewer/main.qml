@@ -438,6 +438,7 @@ ApplicationWindow {
             if (!visible) {
 
                 pathConfiguration.close();
+                selectCompetitionOnlineDialog.close();
 
                 checkAndRemoveContestantsInvalidPrevResults();
 
@@ -958,7 +959,7 @@ ApplicationWindow {
                         igcFilesTable.selection.clear();
 
                         for (var i = 0; i < igcFilesModel.count; i++) {
-                            if (igcFilesModel.get(i).name === prevName)
+                            if (igcFilesModel.get(i).name === prevName && prevName !== undefined)
                                 row = i;
                         }
 
