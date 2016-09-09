@@ -171,7 +171,7 @@ ApplicationWindow {
             }
 
             pilotName = (curentContestant.name).split(' – ')[0];
-            copilotName = (curentContestant.name).split(' – ')[1];
+            copilotName = (curentContestant.name).split(' – ')[1] === undefined ? "" : (curentContestant.name).split(' – ')[1];
             category = curentContestant.category;
             speed = curentContestant.speed;
             startTime = curentContestant.startTime;

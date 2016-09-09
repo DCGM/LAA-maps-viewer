@@ -869,7 +869,7 @@ ApplicationWindow {
                     var prevRow = igcFilesTable.currentRow
                     var contestant;
                     var prevCategory = igcFilesModel.get(row).category;
-                    var prevName = igcFilesModel.get(row).name;
+                    var prevName = igcFilesModel.get(row).fileName;
 
                     igcFilesModel.setProperty(row, role, value)
                     var ctIndex = igcFilesModel.get(row).contestant;
@@ -959,7 +959,7 @@ ApplicationWindow {
                         igcFilesTable.selection.clear();
 
                         for (var i = 0; i < igcFilesModel.count; i++) {
-                            if (igcFilesModel.get(i).name === prevName && prevName !== undefined)
+                            if (igcFilesModel.get(i).fileName === prevName && prevName !== undefined)
                                 row = i;
                         }
 
