@@ -35,24 +35,44 @@ Item {
         }
     }
 
-    ListModel {
+    Menu {
+        id: updateContestantMenu;
 
-        id: competitionClassModel
+        property int selectedRow: -1
+        property int contestantIndex: -1
+        property int igcRow: -1
 
-        ListElement { text: "-"}
-        ListElement { text: "R-AL1"}
-        ListElement { text: "R-AL2"}
-        ListElement { text: "S-AL1"}
-        ListElement { text: "S-AL2"}
-        ListElement { text: "R-WL1"}
-        ListElement { text: "R-WL2"}
-        ListElement { text: "S-WL1"}
-        ListElement { text: "S-WL2"}
-        ListElement { text: "CUSTOM1"}
-        ListElement { text: "CUSTOM2"}
-        ListElement { text: "CUSTOM3"}
-        ListElement { text: "CUSTOM4"}
+        onPopupVisibleChanged: {
+
+            if (visible) {
+
+                if (contestantIndex === 0 ) {
+                    //% "Append contestant"
+                    menuItem.text = qsTrId("scorelist-table-menu-append-contestant")
+                }
+                else {
+                    //% "Edit contestant"
+                    menuItem.text = qsTrId("scorelist-table-menu-edit-contestant")
+                }
+            }
+        }
+
+        MenuItem {
+            id: menuItem
+
+            onTriggered: {
+
+                if (updateContestantMenu.contestantIndex !== -1 && updateContestantMenu.igcRow !== -1) {
+
+                    createContestantDialog.comboBoxCurrentIndex = updateContestantMenu.contestantIndex;
+                    createContestantDialog.igcRow = updateContestantMenu.igcRow;
+                    createContestantDialog.show();
+                }
+            }
+        }
     }
+
+
 
     ListModel {
 
@@ -124,6 +144,13 @@ Item {
 
                 selectRow(styleData.row);
             }
+
+            onRightButtonPressed : {
+
+                updateContestantMenu.igcRow = igcRow;
+                updateContestantMenu.contestantIndex = index;
+                updateContestantMenu.popup();
+            }
         }
 
         sourceComponent: (styleData.role === "contestant") ? contestantComboComponent :
@@ -133,11 +160,14 @@ Item {
         Component {
             id: contestantComboComponent
             ComboBox {
+                id: contestatComboBox;
                 width: delegate.width - 10;
                 signal contestantSelected(int t);
                 signal categorySelected(string newVal);
                 signal classifyChanged(int index);
                 signal comboBoxSelected(int row);
+
+                signal rightButtonPressed(int index, int igcRow);
 
                 currentIndex: parseInt(styleData.value)
                 onCurrentIndexChanged: {
@@ -146,6 +176,23 @@ Item {
 
                 model: delegate.comboModel
                 textRole: "name"
+
+                MouseArea {
+
+                   // id: mouse
+                    anchors.fill: parent
+                    acceptedButtons: Qt.LeftButton | Qt.RightButton
+
+                    onPressed: {
+
+                        if (mouse.button == Qt.RightButton) {
+                            rightButtonPressed(contestatComboBox.currentIndex, styleData.row); //recalculate results
+                        }
+                        else {
+                            mouse.accepted = false; // propagate mouse event to the combobox
+                        }
+                    }
+                }
             }
         }
 
@@ -157,6 +204,8 @@ Item {
                 signal categorySelected(string newVal);
                 signal classifyChanged(int index);
                 signal comboBoxSelected(int row);
+
+                signal rightButtonPressed(int index, int igcRow);
 
                 model: scoreListClassifyListModel
                 textRole: "classify"
@@ -178,6 +227,8 @@ Item {
                 signal categorySelected(string newVal);
                 signal classifyChanged(int index);
                 signal comboBoxSelected();
+
+                signal rightButtonPressed(int index, int igcRow);
 
                 enabled: currentText !== "-"
                 model: competitionClassModel
@@ -399,21 +450,5 @@ Item {
         }
 
         return show;
-    }
-
-    function getClassIndex(compClass) {
-
-        if (compClass === "" || compClass === undefined)
-            return 0;
-
-        var index = 1;
-
-        for (; index < competitionClassModel.count; index++) {
-
-            if (compClass === competitionClassModel.get(index).text)
-                break;
-        }
-
-        return index;
     }
 }

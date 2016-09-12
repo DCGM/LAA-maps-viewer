@@ -916,7 +916,6 @@ ApplicationWindow {
                 id: newScoreTableSpeedSecions
                 model: currentSpeedSectionsScoreList
                 anchors.fill: parent
-                visible: model.count !== 0
 
                 rowDelegate: Rectangle {
                     height: 30;
@@ -987,7 +986,7 @@ ApplicationWindow {
                 id: newScoreTableAltitudeSecions
                 model: currentAltitudeSectionsScoreList
                 anchors.fill: parent
-                visible: model.count !== 0
+
 
                 rowDelegate: Rectangle {
                     height: 30;
@@ -1046,7 +1045,6 @@ ApplicationWindow {
                 id: newScoreTableSpaceSecions
                 model: currentSpaceSectionsScoreList
                 anchors.fill: parent
-                visible: model.count !== 0
 
                 rowDelegate: Rectangle {
                     height: 30;

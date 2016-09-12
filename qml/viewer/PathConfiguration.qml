@@ -17,30 +17,30 @@ ApplicationWindow {
 
     property alias igcDirectory: igcDirectoryTextField.text
 //    property string igcDirectory_default: "file:///home/jmlich/workspace/tucek/2015-kotvrdovice/vysledky/igcFiles"
-//     property string igcDirectory_default: config.get("igcDirectory_default", "file:///home/imlich/workspace/tucek/testovaci_data/igcFiles");
+     property string igcDirectory_default: config.get("igcDirectory_default", Qt.resolvedUrl("../../../igcFiles"));
 //       property string igcDirectory_default: "file:///"+ QStandardPathsApplicationFilePath + "/igcFiles"
 //    property string igcDirectory_default: "file:///"+ QStandardPathsApplicationFilePath + "/igcFiles"
 //        property string igcDirectory_default: "file:///C:/Users/adam/Desktop/laaTest/igcFiles"
-        property string igcDirectory_default: Qt.resolvedUrl("../../../igcFiles");
+//        property string igcDirectory_default: Qt.resolvedUrl("../../../igcFiles");
 
 
     property alias trackFile: trackFileTextField.text
 //    property string trackFile_default: "file:///home/jmlich/workspace/tucek/2015-kotvrdovice/2015-kotv2.json";
-//    property string trackFile_default: config.get("trackFile_default", "file:///var/www/html/tucek2/2012-KOTV.json");
+    property string trackFile_default: config.get("trackFile_default", Qt.resolvedUrl("../../../track.json"));
 //    property string trackFile_default: "file:///var/www/html/tucek2/2014-LKHK-50bodu.json";
 //    property string trackFile_default: "file:///"+ QStandardPathsApplicationFilePath + "/track.json";
 //    property string trackFile_default: "file:///"+ QStandardPathsApplicationFilePath + "/track.json";
 //    property string trackFile_default: "file:///C:/Users/adam/Desktop/laaTest/track.json"
-    property string trackFile_default: Qt.resolvedUrl("../../../track.json");
+//    property string trackFile_default: Qt.resolvedUrl("../../../track.json");
 
     property alias resultsFolder: resultsFolderTextField.text;
 //    property string resultsFolder_default: "file:///home/jmlich/workspace/tucek/2015-kotvrdovice/vysledky/results"
-//    property string resultsFolder_default: config.get("resultsFolder_default", "file:///home/imlich/workspace/tucek/testovaci_data/results");
+    property string resultsFolder_default: config.get("resultsFolder_default", Qt.resolvedUrl("../../../results"));
 //    property string resultsFolder_default: "file:///"+ QStandardPathsApplicationFilePath +"/results";
 //    property string resultsFolder_default: "../../results"
 //    property string resultsFolder_default: "file:///"+ QStandardPathsApplicationFilePath + "/results"
 //    property string resultsFolder_default: "file:///C:/Users/adam/Desktop/laaTest/results"
-    property string resultsFolder_default: Qt.resolvedUrl("../../../results");
+//    property string resultsFolder_default: Qt.resolvedUrl("../../../results");
 
     property string contestantsFile: resultsFolderTextField.text + "/posadky.csv"
     property string csvFile: resultsFolderTextField.text + "/tucek.csv"

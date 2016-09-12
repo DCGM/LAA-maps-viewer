@@ -387,11 +387,6 @@ ApplicationWindow {
         id: qmlTranslator
     }
 
-    ProgressBarDialog {
-
-        id: mProgressBarDialog
-    }
-
     TextDialog {
         id: mapurl_dialog;
 
@@ -449,6 +444,36 @@ ApplicationWindow {
 
                 storeTrackSettings(pathConfiguration.tsFile);
                 map.requestUpdate();
+            }
+        }
+    }
+
+    CreateContestantDialog {
+
+        id: createContestantDialog
+
+        onOk: {
+
+            if (createContestantDialog.comboBoxCurrentIndex === 0) {
+
+                // assign new contestant to the current igc item
+                igcFilesModel.setProperty(igcTableRow, "contestant", contestantsListModel.count - 1);
+            }
+            else {
+                // update igc
+                var igcItem = igcFilesModel.get(igcTableRow);
+                var contestantIndex = igcItem.contestant;
+                var igcName = igcItem.fileName
+
+                igcFilesModel.setProperty(igcTableRow, "contestant", 0);    // igcFilesModel is sorted after this change
+
+                for (var i = 0; i < igcFilesModel.count; i++) { // get new position of the igc item
+
+                    if (igcFilesModel.get(i).fileName === igcName) {
+                        igcFilesModel.setProperty(i, "contestant", contestantIndex);
+                        break;
+                    }
+                }
             }
         }
     }
@@ -519,6 +544,25 @@ ApplicationWindow {
         }
         onCancel: {
         }
+    }
+
+    ListModel {
+
+        id: competitionClassModel
+
+        ListElement { text: "-"}
+        ListElement { text: "R-AL1"}
+        ListElement { text: "R-AL2"}
+        ListElement { text: "S-AL1"}
+        ListElement { text: "S-AL2"}
+        ListElement { text: "R-WL1"}
+        ListElement { text: "R-WL2"}
+        ListElement { text: "S-WL1"}
+        ListElement { text: "S-WL2"}
+        ListElement { text: "CUSTOM1"}
+        ListElement { text: "CUSTOM2"}
+        ListElement { text: "CUSTOM3"}
+        ListElement { text: "CUSTOM4"}
     }
 
     FolderListModel {
@@ -666,25 +710,9 @@ ApplicationWindow {
 
             // reload current contestant
             ctnt = contestantsListModel.get(contestantIndex);
-/*
-            // load and save modified wpt score list
-            wptNewScoreList.clear();
-            var arr = resultsWindow.currentWptScoreString.split("; ")
-            for (var i = 0; i < arr.length; i++) {
-                wptNewScoreList.append(JSON.parse(arr[i]))
-            }
-*/
 
             // load and save modified score lists
             igcFilesModel.setProperty(igcFilesTable.currentRow, "wptScoreDetails", resultsWindow.currentWptScoreString);
-/*
-            //load and save modified speed sections score list
-            speedSectionsScoreList.clear();
-            arr = resultsWindow.currentSpeedSectionsScoreString.split("; ")
-            for (var i = 0; i < arr.length; i++) {
-                speedSectionsScoreList.append(JSON.parse(arr[i]))
-            }
-*/
 
             igcFilesModel.setProperty(igcFilesTable.currentRow, "speedSectionsScoreDetails", resultsWindow.currentSpeedSectionsScoreString);
             igcFilesModel.setProperty(igcFilesTable.currentRow, "altitudeSectionsScoreDetails", resultsWindow.currentAltitudeSectionsScoreString);
@@ -736,30 +764,8 @@ ApplicationWindow {
             id: igcFilesTable
             width: 1110;
             visible: mainViewMenuTables.checked
-            //sortIndicatorVisible: true
-            //sortIndicatorColumn: 4 //startTime
-
             clip: true;
             model: igcFilesModel
-
-            /*
-            // pomale, spatne - vse se prepocitava
-            model: SortFilterProxyModel {
-                id: proxyModel
-                source: igcFilesModel.count > 0 ? igcFilesModel : null
-
-
-                sortOrder: igcFilesTable.sortIndicatorOrder
-                sortCaseSensitivity: Qt.CaseInsensitive
-                sortRole: igcFilesModel.count > 0 ? igcFilesTable.getColumn(igcFilesTable.sortIndicatorColumn).role : ""
-
-                filterSyntax: SortFilterProxyModel.Wildcard
-                filterCaseSensitivity: Qt.CaseInsensitive
-            }
-            */
-
-
-
 
             itemDelegate: IgcFilesDelegate {
 
@@ -1044,7 +1050,6 @@ ApplicationWindow {
             Component.onCompleted: {
                 selection.selectionChanged.connect(rowSelected);
             }
-
 
             function rowSelected() {
 
@@ -1572,10 +1577,14 @@ ApplicationWindow {
 
             tmp = contestantsListModel.get(i);
 
-            currentConteIds.push(tmp.pilot_id)
-            currentConteCategories.push(tmp.category)
-            currentConteStartTimes.push(tmp.startTime)
-            currentConteSpeed.push(tmp.speed)
+            // dont push newly created crew without pilot id
+            if (!isNaN(parseInt(tmp.pilot_id))) {
+
+                currentConteIds.push(tmp.pilot_id)
+                currentConteCategories.push(tmp.category)
+                currentConteStartTimes.push(tmp.startTime)
+                currentConteSpeed.push(tmp.speed)
+            }
         }
 
         var f_data = file_reader.read(filename);
@@ -1654,8 +1663,6 @@ ApplicationWindow {
             var item = data[i];
             var itemName = item[0]
             var j;
-
-            //console.log(item)
 
             // CSV soubor ma alespon 3 Sloupce
             if ((item.length > 2) && (itemName.length > 0)) {
@@ -2337,6 +2344,23 @@ ApplicationWindow {
         }
     }
 
+    // function return index od string for category combobox
+    function getClassIndex(compClass) {
+
+        if (compClass === "" || compClass === undefined)
+            return 0;
+
+        var index = 1;
+
+        for (; index < competitionClassModel.count; index++) {
+
+            if (compClass === competitionClassModel.get(index).text)
+                break;
+        }
+
+        return index;
+    }
+
 
     function computeScore(tpiData, polys) {
 
@@ -2409,6 +2433,7 @@ ApplicationWindow {
 
         for (j = 0; j < tpiData.length; j++) {
             var ti = tpiData[j]
+            var startPointName;
 
             var flags = ti.flags;
             var section_speed_start = F.getFlagsByIndex(7, flags)
@@ -2426,7 +2451,10 @@ ApplicationWindow {
                     "end": ti.tid,
                     "distance": distance_cumul,
                     "time_start": 0,
-                    "speed": 0
+                    "time_end": 0,
+                    "speed": 0,
+                    "startName": startPointName,
+                    "endName": ti.name
                 }
 
                 section_speed_array.push(item);
@@ -2452,6 +2480,8 @@ ApplicationWindow {
                     "time_spent_above": 0,
                     "alt_is_above": false,
                     "alt_is_below": false,
+                    "startName": startPointName,
+                    "endName": ti.name
 
                     // defaults
                 }
@@ -2477,6 +2507,8 @@ ApplicationWindow {
                     "threshold": section_space_threshold,
                     "alt_max_threshold": section_space_alt_threshold_max,
                     "alt_min_threshold": section_space_alt_threshold_min,
+                    "startName": startPointName,
+                    "endName": ti.name
                 }
                 section_space_array.push(item);
                 section_space_start_tid = -1;
@@ -2485,17 +2517,20 @@ ApplicationWindow {
             if (section_speed_start) {
                 section_speed_start_tid = ti.tid;
                 distance_cumul = 0;
+                startPointName = ti.name;
             }
             if (section_alt_start) {
                 section_alt_start_tid = ti.tid;
                 section_alt_threshold_max = ti.alt_max;
                 section_alt_threshold_min = ti.alt_min;
+                startPointName = ti.name;
             }
             if (section_space_start) {
                 section_space_start_tid = ti.tid;
                 section_space_threshold = ti.radius;
                 section_space_alt_threshold_max = ti.alt_max;
                 section_space_alt_threshold_min = ti.alt_min;
+                startPointName = ti.name;
             }
 
         }
@@ -2559,7 +2594,6 @@ ApplicationWindow {
                             tpiData[j].sg_hit = true
                             tpiData[j].alt = parseFloat(igcthis.alt)
 
-
                             for (k = 0; k < section_speed_array_length; k++) {
                                 section = section_speed_array[k]
                                 if (section.start === ti.tid) {
@@ -2571,9 +2605,10 @@ ApplicationWindow {
                                     var timeDiff = Math.abs(timeEnd - timeStart);
                                     var distance = section_speed_array[k].distance;
                                     var speed = distance / timeDiff;
-                                    section_speed_array[k].speed = (speed * 3.6); // m/s to km/h
+                                    section_speed_array[k].speed = Math.floor(speed * 3.6); // m/s to km/h
                                 }
                             }
+
                             for (k = 0; k < section_alt_array_length; k++) {
                                 section = section_alt_array[k]
                                 if (section.start === ti.tid) {
@@ -2769,8 +2804,6 @@ ApplicationWindow {
         }
 
 
-
-
         //console.log(JSON.stringify(section_speed_array))
         //console.log(JSON.stringify(section_alt_array))
         //console.log(JSON.stringify(section_space_array))
@@ -2778,8 +2811,6 @@ ApplicationWindow {
 
 
         wptScoreList.clear();
-        //wptNewScoreList.clear();
-        //speedSectionsScoreList.clear();
 
         var wptString = [];
         igcFilesModel.setProperty(current, "trackHash", "");
@@ -2822,15 +2853,16 @@ ApplicationWindow {
         var item;
         var arr_item;
         var speed_sec_score = 0;
+
         for (i = 0; i < section_speed_array.length; i++) {
             item = section_speed_array[i];
 
             // get manual val from cache if exist(index != -1)
-            var index = returnListModelIndexByContent(speedSectionsScoreListManualValuesCache, "startPointName", tracks.points[item.start - 1].name, "endPointName", tracks.points[item.end - 1].name);
+            var index = returnListModelIndexByContent(speedSectionsScoreListManualValuesCache, "startPointName", item.startName, "endPointName", item.endName);
 
             arr_item = {
-                "startPointName" : tracks.points[item.start - 1].name,
-                "endPointName" : tracks.points[item.end - 1].name,
+                "startPointName" : item.startName,
+                "endPointName" : item.endName,
                 "distance ": item.distance,
                 "calculatedSpeed": Math.round(item.speed),
                 "speedDifference": 0,
@@ -2855,11 +2887,11 @@ ApplicationWindow {
             item = section_alt_array[i];
 
             // get manual val from cache if exist(index != -1)
-            var index = returnListModelIndexByContent(altSectionsScoreListManualValuesCache, "startPointName", tracks.points[item.start - 1].name, "endPointName", tracks.points[item.end - 1].name);
+            var index = returnListModelIndexByContent(altSectionsScoreListManualValuesCache, "startPointName", item.startName, "endPointName", item.endName);
 
             arr_item = {
-                "startPointName" : tracks.points[item.start - 1].name,
-                "endPointName" : tracks.points[item.end - 1].name,
+                "startPointName" : item.startName,
+                "endPointName" : item.endName,
                 "altMinEntriesCount" : item.entries_below,
                 "manualAltMinEntriesCount" : (index !== -1 ? altSectionsScoreListManualValuesCache.get(index).manualAltMinEntriesCount : -1),
                 "altMinEntriesTime" : item.time_spent_below,
@@ -2880,11 +2912,11 @@ ApplicationWindow {
             item = section_space_array[i];
 
             // get manual val from cache if exist(index != -1)
-            var index = returnListModelIndexByContent(spaceSectionsScoreListManualValuesCache, "startPointName", tracks.points[item.start - 1].name, "endPointName", tracks.points[item.end - 1].name);
+            var index = returnListModelIndexByContent(spaceSectionsScoreListManualValuesCache, "startPointName", item.startName, "endPointName", item.endName);
 
             arr_item = {
-                "startPointName" : tracks.points[item.start - 1].name,
-                "endPointName" : tracks.points[item.end - 1].name,
+                "startPointName" : item.startName,
+                "endPointName" : item.endName,
                 "entries_out": item.entries_out,
                 "manualEntries_out": (index !== -1 ? spaceSectionsScoreListManualValuesCache.get(index).manualEntries_out : -1),
                 "time_spent_out": item.time_spent_out,
@@ -3110,7 +3142,6 @@ ApplicationWindow {
         console.timeEnd("computeScore")
         return str;
     }
-
 
     function writeScoreManulaValToCSV() {
 
