@@ -457,6 +457,10 @@ ApplicationWindow {
             if (createContestantDialog.comboBoxCurrentIndex === 0) {
 
                 // assign new contestant to the current igc item
+                igcFilesTable.selection.clear();
+                igcFilesTable.selection.select(igcTableRow);
+                igcFilesTable.currentRow = igcTableRow;
+
                 igcFilesModel.setProperty(igcTableRow, "contestant", contestantsListModel.count - 1);
             }
             else {
@@ -470,6 +474,12 @@ ApplicationWindow {
                 for (var i = 0; i < igcFilesModel.count; i++) { // get new position of the igc item
 
                     if (igcFilesModel.get(i).fileName === igcName) {
+
+                        // select current row and assign updated contestant
+                        igcFilesTable.selection.clear();
+                        igcFilesTable.selection.select(i);
+                        igcFilesTable.currentRow = i;
+
                         igcFilesModel.setProperty(i, "contestant", contestantIndex);
                         break;
                     }
@@ -769,6 +779,7 @@ ApplicationWindow {
 
             itemDelegate: IgcFilesDelegate {
 
+                id: igcFilesDelegate
                 comboModel: contestantsListModel
 
                 onShowResults: {
@@ -904,7 +915,7 @@ ApplicationWindow {
                         }
 
                         // recalculate manual values score / markers, photos, ...
-                        recalculateContestnatManualScoreValues(row);
+                        if (ctIndex !== 0) recalculateContestnatManualScoreValues(row);
 
                         // reload update ctnt
                         contestant = contestantsListModel.get(ctIndex);

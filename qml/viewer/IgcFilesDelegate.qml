@@ -165,11 +165,16 @@ Item {
                 signal contestantSelected(int t);
                 signal categorySelected(string newVal);
                 signal classifyChanged(int index);
-                signal comboBoxSelected(int row);
+                signal comboBoxSelected();
 
                 signal rightButtonPressed(int index, int igcRow);
 
                 currentIndex: parseInt(styleData.value)
+
+                onActivated: {
+                    comboBoxSelected();
+                }
+
                 onCurrentIndexChanged: {
                     contestantSelected(currentIndex)
                 }
@@ -203,7 +208,7 @@ Item {
                 signal contestantSelected(int t);
                 signal categorySelected(string newVal);
                 signal classifyChanged(int index);
-                signal comboBoxSelected(int row);
+                signal comboBoxSelected();
 
                 signal rightButtonPressed(int index, int igcRow);
 
@@ -212,6 +217,8 @@ Item {
                 currentIndex: styleData.value === -1 ? 0 : styleData.value
 
                 enabled: styleData.value !== -1
+
+
 
                 onCurrentIndexChanged: {
                     classifyChanged(currentIndex);
