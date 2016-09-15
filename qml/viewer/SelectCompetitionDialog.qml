@@ -131,22 +131,28 @@ ApplicationWindow {
                 onClicked: {
 
                     competitionsTable.selection.clear();
-                    competitionsTable.selection.select(styleData.row);
-                    competitionsTable.currentRow = styleData.row;
+
+                    if (styleData.row !== undefined) {
+                        competitionsTable.selection.select(styleData.row);
+                        competitionsTable.currentRow = styleData.row;
+                    }
                 }
 
                 onDoubleClicked: {
 
                     competitionsTable.selection.clear();
-                    competitionsTable.selection.select(styleData.row);
-                    competitionsTable.currentRow = styleData.row;
 
-                    // get competition property
-                    setCompetitionProperty();
+                    if (styleData.row !== undefined) {
+                        competitionsTable.selection.select(styleData.row);
+                        competitionsTable.currentRow = styleData.row;
 
-                    getContestants("http://pcmlich.fit.vutbr.cz/ppt/exportCrewsApi.php", competitions.get(competitionsTable.currentRow).id, "GET");
+                        // get competition property
+                        setCompetitionProperty();
 
-                    competitionListWindow.close()
+                        getContestants("http://pcmlich.fit.vutbr.cz/ppt/exportCrewsApi.php", competitions.get(competitionsTable.currentRow).id, "GET");
+
+                        competitionListWindow.close()
+                    }
                 }
             }
         }

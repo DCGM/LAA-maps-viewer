@@ -60,6 +60,9 @@ Item {
         MenuItem {
             id: menuItem
 
+            //% "Append contestant"
+            text: qsTrId("scorelist-table-menu-append-contestant")
+
             onTriggered: {
 
                 if (updateContestantMenu.contestantIndex !== -1 && updateContestantMenu.igcRow !== -1) {

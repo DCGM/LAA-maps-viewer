@@ -528,8 +528,16 @@ ApplicationWindow {
             } else {
 
                 //% "File %1 not found"
-                errorMessage.text = qsTrId("path-configuration-error-contestantsFile-not-found").arg(pathConfiguration.contestantsFile);
-                errorMessage.open();
+                //errorMessage.text = qsTrId("path-configuration-error-contestantsFile-not-found").arg(pathConfiguration.contestantsFile);
+                //errorMessage.open();
+
+                //% "Configuration error"
+                contestnatsNotFoundMessage.title = qsTrId("path-configuration-error-contestantsFile-not-found-title");
+
+                //% "File %1 not found. Do you want to download the file from the server?"
+                contestnatsNotFoundMessage.text = qsTrId("path-configuration-error-contestantsFile-not-found-text").arg(pathConfiguration.contestantsFile.substring(8));
+                contestnatsNotFoundMessage.open();
+
                 return;
             }
 
@@ -4051,11 +4059,30 @@ ApplicationWindow {
         }
     }
 
-
     MessageDialog {
         id: errorMessage;
         icon: StandardIcon.Critical;
+    }
 
+    MessageDialog {
+        id: contestnatsNotFoundMessage;
+        icon: StandardIcon.Critical;
+
+        standardButtons: StandardButton.Yes | StandardButton.Cancel
+
+        onButtonClicked: {
+
+            if (clickedButton == StandardButton.Yes) {
+
+                visible = false;
+                pathConfiguration.close();
+                selectCompetitionOnlineDialog.show();
+            }
+            else {
+                visible = false;
+                pathConfiguration.close();
+            }
+        }
     }
 
     AboutDialog {
