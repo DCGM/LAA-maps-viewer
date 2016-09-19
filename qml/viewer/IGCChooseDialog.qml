@@ -14,10 +14,33 @@ ApplicationWindow {
 
     //% "Choose IGC File"
     title: qsTrId("igc-choose-dialog");
-    property variant datamodel
+    property variant datamodel; // igcFolderModel
+    property variant cm; // contestantsListModel
     property int row;
 
     signal choosenFilename(string filename);
+
+    onRowChanged: {
+        if (datamodel === undefined) {
+            return;
+        }
+
+        if (cm === undefined) {
+            return;
+        }
+
+        var item = cm.get(row);
+        selectionTableView.selection.clear();
+        var selectedFilename = item.fileName;
+
+        for (var i = 0; i < datamodel.count; i++) {
+            var fileName = datamodel.get(i, "fileName");
+            if (fileName === selectedFilename) {
+                selectionTableView.selection.select(i);
+            }
+        }
+
+    }
 
     TableView {
         id: selectionTableView;
@@ -49,26 +72,39 @@ ApplicationWindow {
             focus: true;
             isDefault: true;
             onClicked: {
+                if (datamodel === undefined) {
+                    return;
+                }
+
                 selectionTableView.selection.forEach(function(rowIndex) {
                     var fileName = datamodel.get(rowIndex, "fileName");
                     choosenFilename(fileName)
                 });
-                selectionTableView.selection.clear();
                 igcChooseDialog.close();
 
 
             }
         }
+
         Button {
-            //% "Cancel"
+            //% "None"
+            text: qsTrId("IGC-Choose-Dialog-deselect")
+            onClicked: {
+                choosenFilename("");
+                igcChooseDialog.close();
+            }
+        }
+
+        Button {
+            //% "Close"
             text: qsTrId("IGC-Choose-Dialog-cancel")
             onClicked: {
                 igcChooseDialog.close();
             }
-
         }
+
+
+
     }
-
-
 
 }

@@ -748,6 +748,7 @@ ApplicationWindow {
     IGCChooseDialog {
         id: igcChooseDialog
         datamodel: igcFolderModel
+        cm: contestantsListModel
         onChoosenFilename: {
             contestantsListModel.setProperty(row, "fileName", filename)
         }
