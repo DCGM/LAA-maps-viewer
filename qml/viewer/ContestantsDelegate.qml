@@ -95,7 +95,7 @@ Item {
         anchors.left: parent.left
         anchors.verticalCenter: parent.verticalCenter
         elide: styleData.elideMode
-        text: styleData.value
+        text: (styleData.value !== undefined) ? styleData.value : ""
         color: styleData.textColor
         font.bold: styleData.role === "classOrder" && ( text === "1" )
 
@@ -289,10 +289,8 @@ Item {
             Button {
                 width: delegate.width - 10;
                 height: delegate.height - 4;
-                text: styleData.value;
-                onTextChanged: {
-                    console.log("text Changed " + text)
-                }
+                text: (styleData.value !== undefined) ? styleData.value : ""
+
 
 //                enabled: styleData.value >= 0
 

@@ -751,6 +751,9 @@ ApplicationWindow {
         cm: contestantsListModel
         onChoosenFilename: {
             contestantsListModel.setProperty(row, "fileName", filename)
+            // workarround for not syncing model
+            contestantsTable.model = null;
+            contestantsTable.model = contestantsListModel;
         }
     }
 
