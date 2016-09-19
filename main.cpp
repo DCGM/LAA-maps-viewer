@@ -72,7 +72,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<ResultsCreater>("cz.mlich", 1, 0, "ResultsCreater");
     qmlRegisterType<Worker>("cz.mlich", 1, 0, "CppWorker");
 
-    qmlRegisterType<SortFilterProxyModel>("org.qtproject.example", 1, 0, "SortFilterProxyModel");   
+//    qmlRegisterType<SortFilterProxyModel>("cz.mlich", 1, 0, "SortFilterProxyModel");
 
     QTranslator translator;
 

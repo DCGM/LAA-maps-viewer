@@ -5,7 +5,6 @@ import QtQuick.Controls 1.4
 import QtQuick.Dialogs 1.2
 import Qt.labs.folderlistmodel 2.1
 import cz.mlich 1.0
-import org.qtproject.example 1.0
 import "functions.js" as F
 import "csv.js" as CSVJS
 import "md5.js" as MD5
@@ -110,14 +109,14 @@ ApplicationWindow {
                 shortcut: "Ctrl+R"
             }
 
-            MenuItem {
-                //% "Export"
-                text: qsTrId("main-file-menu-export")
-                enabled: (igcFilesTable.currentRow >= 0)
-                onTriggered: {
-                    exportFileDialog.open()
-                }
-            }
+            //            MenuItem {
+            //                //% "Export"
+            //                text: qsTrId("main-file-menu-export")
+            ////                enabled: (igcFilesTable.currentRow >= 0)
+            //                onTriggered: {
+            //                    exportFileDialog.open()
+            //                }
+            //            }
 
 
             MenuItem {
@@ -588,94 +587,94 @@ ApplicationWindow {
         id: igcFolderModel
         nameFilters: ["*.igc", "*.IGC"]
         showDirs: false
-        property string previousFolder;
+        //        property string previousFolder;
 
-        onCountChanged: {
-            if (previousFolder != igcFolderModel.folder) { // beware do not compare with !== operator (string !== object)
-                igcFilesModel.clear()
-                previousFolder = igcFolderModel.folder;
-            }
+        //        onCountChanged: {
+        //            if (previousFolder != igcFolderModel.folder) { // beware do not compare with !== operator (string !== object)
+        //                igcFilesModel.clear()
+        //                previousFolder = igcFolderModel.folder;
+        //            }
 
-            for (var i = 0; i < igcFolderModel.count; i++) {
+        //            for (var i = 0; i < igcFolderModel.count; i++) {
 
-                var fileName = igcFolderModel.get(i, "fileName")
-                var filePath = igcFolderModel.get(i, "filePath");
+        //                var fileName = igcFolderModel.get(i, "fileName")
+        //                var filePath = igcFolderModel.get(i, "filePath");
 
-                var found = false;
+        //                var found = false;
 
-                for (var j = 0; j < igcFilesModel.count; j++) {
-                    var item = igcFilesModel.get(j);
-                    if ((item.fileName === fileName) && (item.filePath === filePath)) {
+        //                for (var j = 0; j < igcFilesModel.count; j++) {
+        //                    var item = igcFilesModel.get(j);
+        //                    if ((item.fileName === fileName) && (item.filePath === filePath)) {
 
-                        found = true;
-                    }
-                }
+        //                        found = true;
+        //                    }
+        //                }
 
 
-                if (!found) {
+        //                if (!found) {
 
-                    // select item in combobox if filename match
-                    var contestant_index = 0;
-                    var contestant;
-                    for (var j = 0; j < contestantsListModel.count; j++) {
+        //                    // select item in combobox if filename match
+        //                    var contestant_index = 0;
+        //                    var contestant;
+        //                    for (var j = 0; j < contestantsListModel.count; j++) {
 
-                        contestant = contestantsListModel.get(j);
+        //                        contestant = contestantsListModel.get(j);
 
-                        if (fileName === contestant.filename) {
-                            contestant_index = j;
-                        }
+        //                        if (fileName === contestant.filename) {
+        //                            contestant_index = j;
+        //                        }
 
-                    }
+        //                    }
 
-                    contestant = contestantsListModel.get(contestant_index);
+        //                    contestant = contestantsListModel.get(contestant_index);
 
-                    igcFilesModel.append({"fileName": fileName,
-                                          "filePath": filePath,
-                                          "score": "",
-                                          "score_json": "",
-                                          contestant: contestant_index,
-                                          "scorePoints" : -1,
-                                          "scorePoints1000" : -1,
-                                          "startTime" : "00:00:00",
-                                          "category" : "",
-                                          "speed" : -1,
-                                          "classify" : -1,
-                                          "aircraftRegistration" : "",
-                                          "wptScoreDetails" : "",
-                                          "trackHash": "",
-                                          "speedSectionsScoreDetails" : "",
-                                          "spaceSectionsScoreDetails" : "",
-                                          "altitudeSectionsScoreDetails" : "",
-                                          "classOrder": -1
-                                         })
+        //                    igcFilesModel.append({"fileName": fileName,
+        //                                          "filePath": filePath,
+        //                                          "score": "",
+        //                                          "score_json": "",
+        //                                          contestant: contestant_index,
+        //                                          "scorePoints" : -1,
+        //                                          "scorePoints1000" : -1,
+        //                                          "startTime" : "00:00:00",
+        //                                          "category" : "",
+        //                                          "speed" : -1,
+        //                                          "classify" : -1,
+        //                                          "aircraftRegistration" : "",
+        //                                          "wptScoreDetails" : "",
+        //                                          "trackHash": "",
+        //                                          "speedSectionsScoreDetails" : "",
+        //                                          "spaceSectionsScoreDetails" : "",
+        //                                          "altitudeSectionsScoreDetails" : "",
+        //                                          "classOrder": -1
+        //                                         })
 
-                }
-            }
-        }
+        //                }
+        //            }
+        //        }
     }
 
-    ListModel {
-        id: igcFilesModel
-        onDataChanged: {
+    //    ListModel {
+    //        id: igcFilesModel
+    //        onDataChanged: {
 
-            if (igcFilesTable.currentRow < 0) {
-                igcFilesTable.rowSelected();
-            }
-        }
-    }
+    //            if (igcFilesTable.currentRow < 0) {
+    //                igcFilesTable.rowSelected();
+    //            }
+    //        }
+    //    }
 
     ListModel {
         id: wptScoreList
     }
 
-   // ListModel {
-        //listModel of listmodels for track points score
+    // ListModel {
+    //listModel of listmodels for track points score
     //    id: wptNewScoreList
-   // }
+    // }
 
-   // ListModel {
-   //     id: speedSectionsScoreList
-   // }
+    // ListModel {
+    //     id: speedSectionsScoreList
+    // }
 
     ListModel {
         id: contestantsListModel
@@ -746,6 +745,15 @@ ApplicationWindow {
         }
     }
 
+    IGCChooseDialog {
+        id: igcChooseDialog
+        datamodel: igcFolderModel
+        onChoosenFilename: {
+            contestantsListModel.setProperty(row, "fileName", filename)
+        }
+    }
+
+
 
     SplitView {
         id: splitView
@@ -755,248 +763,14 @@ ApplicationWindow {
         ///// IGC file list
 
         TableView {
-
-            Rectangle { // disable
-                color: "#ffffff";
-                opacity: 0.7;
-                anchors.fill: parent;
-                visible: evaluateTimer.running || resultsTimer.running;
-                MouseArea {
-                    anchors.fill: parent;
-                    onClicked: {
-
-                        if (evaluateTimer.running) {
-
-                            console.log("onClick is disabled when evaluateTimer.running");
-                            evaluateTimer.running = false;
-                        }
-                        else if (resultsTimer.running) {
-
-                            console.log("onClick is disabled when resultsTimer.running");
-                            resultsTimer.running = false;
-                        }
-                    }
-                }
-            }
-
-            id: igcFilesTable
+            id: contestantsTable;
+            model: contestantsListModel;
             width: 1110;
-            visible: mainViewMenuTables.checked
             clip: true;
-            model: igcFilesModel
-
-            itemDelegate: IgcFilesDelegate {
-
-                id: igcFilesDelegate
-                comboModel: contestantsListModel
-
-                onShowResults: {
-
-                    // load contestant property
-                    ctnt = contestantsListModel.get(igcFilesModel.get(row).contestant);
-
-                    // TODO - prasarna aby byla kopie a ne stejny objekt
-                    resultsWindow.curentContestant = JSON.parse(JSON.stringify(ctnt));
-
-                    // load contestant score list
-                    resultsWindow.wptScore = igcFilesModel.get(row).wptScoreDetails;
-
-                    // load sections string
-                    resultsWindow.speedSections = igcFilesModel.get(row).speedSectionsScoreDetails;
-                    resultsWindow.altSections = igcFilesModel.get(row).altitudeSectionsScoreDetails;
-                    resultsWindow.spaceSections = igcFilesModel.get(row).spaceSectionsScoreDetails;
-
-                    // load cattegory property
-                    var arr = tracks.tracks;
-                    var currentTrck;
-
-                    var found = false;
-                    resultsWindow.time_window_penalty = 0;
-                    resultsWindow.time_window_size = 0;
-                    resultsWindow.photos_max_score = 0;
-                    resultsWindow.oposite_direction_penalty = 0;
-                    resultsWindow.marker_max_score = 0;
-                    resultsWindow.gyre_penalty = 0;
-
-                    for (var i = 0; i < arr.length; i++) {
-                        currentTrck = arr[i];
-
-                        if (currentTrck.name === ctnt.category) {
-
-                            resultsWindow.time_window_penalty = currentTrck.time_window_penalty; //penalty percent
-                            resultsWindow.time_window_size = currentTrck.time_window_size;
-                            resultsWindow.photos_max_score = currentTrck.photos_max_score;
-                            resultsWindow.oposite_direction_penalty = currentTrck.oposite_direction_penalty; //penalty percent
-                            resultsWindow.marker_max_score = currentTrck.marker_max_score;
-                            resultsWindow.gyre_penalty = currentTrck.gyre_penalty; //penalty percent
-                            break;
-                        }
-                    }
-
-                    // select row
-                    igcFilesTable.selection.clear();
-                    igcFilesTable.selection.select(row);
-                    igcFilesTable.currentRow = row;
-
-                    resultsWindow.show();
-                }
-
-                onSelectRow: {
-
-                    igcFilesTable.selection.clear();
-                    igcFilesTable.selection.select(row);
-                    igcFilesTable.currentRow = row;
-                }
-
-                onRecalculateResults: {
-
-                    igcFilesModel.setProperty(row, "score", "");        //compute new score
-                    igcFilesModel.setProperty(row, "scorePoints", -1);
-                    igcFilesModel.setProperty(row, "scorePoints1000", -1);
-
-                    igcFilesTable.selection.clear();
-                    igcFilesTable.selection.select(row);
-                    igcFilesTable.currentRow = row;
-                }
-
-                onGenerateResults: {
-
-                    igcFilesTable.selection.clear();
-                    igcFilesTable.selection.select(row);
-                    igcFilesTable.currentRow = row;
-
-                    // load contestant and igc row
-                    var item = igcFilesModel.get(row);
-                    var contestant = contestantsListModel.get(item.contestant);
-
-                    // create contestant html file
-                    results_creator.createContestantResultsHTML((pathConfiguration.resultsFolder + "/" + contestant.name + "_" + contestant.category),
-                                                                JSON.stringify(contestant),
-                                                                JSON.stringify(item),
-                                                                competitionConfiguretion.competitionName,
-                                                                competitionConfiguretion.getCompetitionTypeString(parseInt(competitionConfiguretion.competitionType)),
-                                                                competitionConfiguretion.competitionDirector,
-                                                                competitionConfiguretion.competitionDirectorAvatar,
-                                                                competitionConfiguretion.competitionArbitr,
-                                                                competitionConfiguretion.competitionArbitrAvatar,
-                                                                competitionConfiguretion.competitionDate);
-                }
-
-                onChangeModel: {
-
-                    //console.log("row: " + row + " role: " + role + " value: " + value + " count: " + igcFilesModel.count)
-
-                    if (row >= igcFilesModel.count) {
-                        console.log("WUT? row role value " +row + " " +role + " " +value)
-                        return;
-                    }
-
-                    var prevRow = igcFilesTable.currentRow
-                    var contestant;
-                    var prevCategory = igcFilesModel.get(row).category;
-                    var prevName = igcFilesModel.get(row).fileName;
-
-                    igcFilesModel.setProperty(row, role, value)
-                    var ctIndex = igcFilesModel.get(row).contestant;
-
-                    if (role === "contestant") {
-
-                        //copy values from contestant model into igc model
-                        updateContestantDetailsIgcListModel(row);
-                    }
-                    else if (role === "speed" || role === "startTime" || role === "category") {
-
-                        contestantsListModel.setProperty(ctIndex, role, value);
-                        contestantsListModel.setProperty(ctIndex, "fullName", contestantsListModel.get(ctIndex).name + "_" + contestantsListModel.get(ctIndex).category);
-                    }
-
-                    // load prev results or clear current
-                    contestant = contestantsListModel.get(ctIndex);
-
-                    if (role === "contestant" || role === "speed" || role === "startTime" || role === "category") {
-
-                        // load contestant category
-                        for (var t = 0; t < tracks.tracks.length; t++) {
-
-                            if (tracks.tracks[t].name === contestant.category)
-                                trItem = tracks.tracks[t]
-                        }
-
-                        // recalculate manual values score / markers, photos, ...
-                        if (ctIndex !== 0) recalculateContestnatManualScoreValues(row);
-
-                        // reload update ctnt
-                        contestant = contestantsListModel.get(ctIndex);
-
-                        // no results for this values
-                        if (ctIndex === 0 || !resultsExist(contestant.speed,
-                                          contestant.startTime,
-                                          contestant.category,
-                                          igcFilesModel.get(row).fileName,
-                                          MD5.MD5(JSON.stringify(trItem)),
-                                          contestant.prevResultsSpeed,
-                                          contestant.prevResultsStartTime,
-                                          contestant.prevResultsCategory,
-                                          contestant.prevResultsFileName,
-                                          contestant.prevResultsTrackHas)) {
-
-                            igcFilesModel.setProperty(row, "score", "");        //compute new score
-                            igcFilesModel.setProperty(row, "scorePoints", -1);
-                            igcFilesModel.setProperty(row, "scorePoints1000", -1);
-
-                            igcFilesModel.setProperty(row, "wptScoreDetails", contestant.prevResultsWPT);
-                            igcFilesModel.setProperty(row, "speedSectionsScoreDetails", contestant.prevResultsSpeedSec);
-                            igcFilesModel.setProperty(row, "spaceSectionsScoreDetails", contestant.prevResultsSpaceSec);
-                            igcFilesModel.setProperty(row, "altitudeSectionsScoreDetails", contestant.prevResultsAltSec);
-
-                        }
-                        // load prev results
-                        else {
-
-                            igcFilesModel.setProperty(row, "trackHash", contestant.prevResultsTrackHas);
-                            igcFilesModel.setProperty(row, "wptScoreDetails", contestant.prevResultsWPT);
-                            igcFilesModel.setProperty(row, "speedSectionsScoreDetails", contestant.prevResultsSpeedSec);
-                            igcFilesModel.setProperty(row, "spaceSectionsScoreDetails", contestant.prevResultsSpaceSec);
-                            igcFilesModel.setProperty(row, "altitudeSectionsScoreDetails", contestant.prevResultsAltSec);
-                            igcFilesModel.setProperty(row, "score_json", contestant.prevResultsScoreJson)
-                            igcFilesModel.setProperty(row, "score", contestant.prevResultsScore)
-                            igcFilesModel.setProperty(row, "scorePoints", contestant.prevResultsScorePoints);
-                        }
-                    }
-
-                    // change continuous results models
-                    if (role === "category") {
-
-                        // decrease prev category counter
-                        if (prevCategory !== "-" && value !== prevCategory) {
-                            updateContestantInCategoryCounters(prevCategory, false);
-                        }
-
-                        // increase actual category counter
-                        updateContestantInCategoryCounters(value, true);
-                    }
-
-                    if (role === "startTime" || role === "contestant") sortIgcFilesModelByStartTime();
-
-                    // select row
-                    if (prevRow === row) {
-
-                        igcFilesTable.selection.clear();
-
-                        for (var i = 0; i < igcFilesModel.count; i++) {
-                            if (igcFilesModel.get(i).fileName === prevName && prevName !== undefined)
-                                row = i;
-                        }
-
-                        igcFilesTable.selection.select(row);
-                        igcFilesTable.currentRow = row;
-
-                    }
-
-                    // save results into CSV
-                    writeCSV();
-                    recalculateScoresTo1000();
-                    writeScoreManulaValToCSV();
+            itemDelegate: ContestantsDelegate {
+                onChangeIgc: {
+                    igcChooseDialog.row = row;
+                    igcChooseDialog.show();
                 }
             }
 
@@ -1008,14 +782,15 @@ ApplicationWindow {
 
 
             TableViewColumn {
+                //% "Contestant"
+                title: qsTrId("filelist-table-contestants")
+                role: "name"
+            }
+
+            TableViewColumn {
                 //% "File name"
                 title: qsTrId("filelist-table-filename")
                 role: "fileName";
-            }
-            TableViewColumn {
-                //% "Contestant"
-                title: qsTrId("filelist-table-contestants")
-                role: "contestant"
             }
             TableViewColumn {
                 //% "Category"
@@ -1038,7 +813,7 @@ ApplicationWindow {
             TableViewColumn {
                 //% "Aircraft registration"
                 title: qsTrId("filelist-table-aircraft-registration")
-                role: "aircraftRegistration"
+                role: "aircraft_registration"
                 width: 120
             }
             TableViewColumn {
@@ -1066,63 +841,379 @@ ApplicationWindow {
                 width: 80
             }
 
-            Component.onCompleted: {
-                selection.selectionChanged.connect(rowSelected);
-            }
 
-            function rowSelected() {
-
-              //  console.log("row selected")
-
-                if (igcFilesModel.count <= 0) {
-                    return;
-                }
-
-                var current = -1;
-
-                igcFilesTable.selection.forEach( function(rowIndex) { current = rowIndex; } )
-
-                if (current < 0) {
-                    return;
-                }
-
-                var item = model.get(current)
-
-                if (item.contestant >= contestantsListModel.count) {
-                    console.log("incorrect contestant id " + item.contestant + " " + contestantsListModel.count)
-                    return;
-                }
-
-                ctnt = contestantsListModel.get(item.contestant)
-
-
-                var arr = tracks.tracks;
-
-                var found = false;
-                for (var i = 0; i < arr.length; i++) {
-                    trItem = arr[i];
-
-                    if (trItem.name === ctnt.category) {
-                        map.filterCupCategory = i;
-                        map.filterCupData = 2;
-                        found = true;
-                        break;
-                    }
-                }
-                if (!found) {
-                    map.filterCupData = 3
-                    console.log("ctnt.category \"" + ctnt.category + "\" not found in track!")
-                }
-
-                //                console.log("setFilter" + ctnt.startTime)
-                tool_bar.startTime = ctnt.startTime
-                igc.load( item.filePath, ctnt.startTime)
-
-                map.requestUpdate()
-                altChart.igcUpdate();
-
-            }
         }
+
+        //        TableView {
+        //            visible: false;
+
+        //            Rectangle { // disable
+        //                color: "#ffffff";
+        //                opacity: 0.7;
+        //                anchors.fill: parent;
+        //                visible: evaluateTimer.running || resultsTimer.running;
+        //                MouseArea {
+        //                    anchors.fill: parent;
+        //                    onClicked: {
+
+        //                        if (evaluateTimer.running) {
+
+        //                            console.log("onClick is disabled when evaluateTimer.running");
+        //                            evaluateTimer.running = false;
+        //                        }
+        //                        else if (resultsTimer.running) {
+
+        //                            console.log("onClick is disabled when resultsTimer.running");
+        //                            resultsTimer.running = false;
+        //                        }
+        //                    }
+        //                }
+        //            }
+
+        //            id: igcFilesTable
+        //            width: 1110;
+        ////            visible: mainViewMenuTables.checked
+        //            clip: true;
+        //            model: igcFilesModel
+
+        //            itemDelegate: IgcFilesDelegate {
+
+        //                id: igcFilesDelegate
+        //                comboModel: contestantsListModel
+
+        //                onShowResults: {
+
+        //                    // load contestant property
+        //                    ctnt = contestantsListModel.get(igcFilesModel.get(row).contestant);
+
+        //                    // TODO - prasarna aby byla kopie a ne stejny objekt
+        //                    resultsWindow.curentContestant = JSON.parse(JSON.stringify(ctnt));
+
+        //                    // load contestant score list
+        //                    resultsWindow.wptScore = igcFilesModel.get(row).wptScoreDetails;
+
+        //                    // load sections string
+        //                    resultsWindow.speedSections = igcFilesModel.get(row).speedSectionsScoreDetails;
+        //                    resultsWindow.altSections = igcFilesModel.get(row).altitudeSectionsScoreDetails;
+        //                    resultsWindow.spaceSections = igcFilesModel.get(row).spaceSectionsScoreDetails;
+
+        //                    // load cattegory property
+        //                    var arr = tracks.tracks;
+        //                    var currentTrck;
+
+        //                    var found = false;
+        //                    resultsWindow.time_window_penalty = 0;
+        //                    resultsWindow.time_window_size = 0;
+        //                    resultsWindow.photos_max_score = 0;
+        //                    resultsWindow.oposite_direction_penalty = 0;
+        //                    resultsWindow.marker_max_score = 0;
+        //                    resultsWindow.gyre_penalty = 0;
+
+        //                    for (var i = 0; i < arr.length; i++) {
+        //                        currentTrck = arr[i];
+
+        //                        if (currentTrck.name === ctnt.category) {
+
+        //                            resultsWindow.time_window_penalty = currentTrck.time_window_penalty; //penalty percent
+        //                            resultsWindow.time_window_size = currentTrck.time_window_size;
+        //                            resultsWindow.photos_max_score = currentTrck.photos_max_score;
+        //                            resultsWindow.oposite_direction_penalty = currentTrck.oposite_direction_penalty; //penalty percent
+        //                            resultsWindow.marker_max_score = currentTrck.marker_max_score;
+        //                            resultsWindow.gyre_penalty = currentTrck.gyre_penalty; //penalty percent
+        //                            break;
+        //                        }
+        //                    }
+
+        //                    // select row
+        //                    igcFilesTable.selection.clear();
+        //                    igcFilesTable.selection.select(row);
+        //                    igcFilesTable.currentRow = row;
+
+        //                    resultsWindow.show();
+        //                }
+
+        //                onSelectRow: {
+
+        //                    igcFilesTable.selection.clear();
+        //                    igcFilesTable.selection.select(row);
+        //                    igcFilesTable.currentRow = row;
+        //                }
+
+        //                onRecalculateResults: {
+
+        //                    igcFilesModel.setProperty(row, "score", "");        //compute new score
+        //                    igcFilesModel.setProperty(row, "scorePoints", -1);
+        //                    igcFilesModel.setProperty(row, "scorePoints1000", -1);
+
+        //                    igcFilesTable.selection.clear();
+        //                    igcFilesTable.selection.select(row);
+        //                    igcFilesTable.currentRow = row;
+        //                }
+
+        //                onGenerateResults: {
+
+        //                    igcFilesTable.selection.clear();
+        //                    igcFilesTable.selection.select(row);
+        //                    igcFilesTable.currentRow = row;
+
+        //                    // load contestant and igc row
+        //                    var item = igcFilesModel.get(row);
+        //                    var contestant = contestantsListModel.get(item.contestant);
+
+        //                    // create contestant html file
+        //                    results_creator.createContestantResultsHTML((pathConfiguration.resultsFolder + "/" + contestant.name + "_" + contestant.category),
+        //                                                                JSON.stringify(contestant),
+        //                                                                JSON.stringify(item),
+        //                                                                competitionConfiguretion.competitionName,
+        //                                                                competitionConfiguretion.getCompetitionTypeString(parseInt(competitionConfiguretion.competitionType)),
+        //                                                                competitionConfiguretion.competitionDirector,
+        //                                                                competitionConfiguretion.competitionDirectorAvatar,
+        //                                                                competitionConfiguretion.competitionArbitr,
+        //                                                                competitionConfiguretion.competitionArbitrAvatar,
+        //                                                                competitionConfiguretion.competitionDate);
+        //                }
+
+        //                onChangeModel: {
+
+        //                    //console.log("row: " + row + " role: " + role + " value: " + value + " count: " + igcFilesModel.count)
+
+        //                    if (row >= igcFilesModel.count) {
+        //                        console.log("WUT? row role value " +row + " " +role + " " +value)
+        //                        return;
+        //                    }
+
+        //                    var prevRow = igcFilesTable.currentRow
+        //                    var contestant;
+        //                    var prevCategory = igcFilesModel.get(row).category;
+        //                    var prevName = igcFilesModel.get(row).fileName;
+
+        //                    igcFilesModel.setProperty(row, role, value)
+        //                    var ctIndex = igcFilesModel.get(row).contestant;
+
+        //                    if (role === "contestant") {
+
+        //                        //copy values from contestant model into igc model
+        //                        updateContestantDetailsIgcListModel(row);
+        //                    }
+        //                    else if (role === "speed" || role === "startTime" || role === "category") {
+
+        //                        contestantsListModel.setProperty(ctIndex, role, value);
+        //                        contestantsListModel.setProperty(ctIndex, "fullName", contestantsListModel.get(ctIndex).name + "_" + contestantsListModel.get(ctIndex).category);
+        //                    }
+
+        //                    // load prev results or clear current
+        //                    contestant = contestantsListModel.get(ctIndex);
+
+        //                    if (role === "contestant" || role === "speed" || role === "startTime" || role === "category") {
+
+        //                        // load contestant category
+        //                        for (var t = 0; t < tracks.tracks.length; t++) {
+
+        //                            if (tracks.tracks[t].name === contestant.category)
+        //                                trItem = tracks.tracks[t]
+        //                        }
+
+        //                        // recalculate manual values score / markers, photos, ...
+        //                        if (ctIndex !== 0) recalculateContestnatManualScoreValues(row);
+
+        //                        // reload update ctnt
+        //                        contestant = contestantsListModel.get(ctIndex);
+
+        //                        // no results for this values
+        //                        if (ctIndex === 0 || !resultsExist(contestant.speed,
+        //                                          contestant.startTime,
+        //                                          contestant.category,
+        //                                          igcFilesModel.get(row).fileName,
+        //                                          MD5.MD5(JSON.stringify(trItem)),
+        //                                          contestant.prevResultsSpeed,
+        //                                          contestant.prevResultsStartTime,
+        //                                          contestant.prevResultsCategory,
+        //                                          contestant.prevResultsFileName,
+        //                                          contestant.prevResultsTrackHas)) {
+
+        //                            igcFilesModel.setProperty(row, "score", "");        //compute new score
+        //                            igcFilesModel.setProperty(row, "scorePoints", -1);
+        //                            igcFilesModel.setProperty(row, "scorePoints1000", -1);
+
+        //                            igcFilesModel.setProperty(row, "wptScoreDetails", contestant.prevResultsWPT);
+        //                            igcFilesModel.setProperty(row, "speedSectionsScoreDetails", contestant.prevResultsSpeedSec);
+        //                            igcFilesModel.setProperty(row, "spaceSectionsScoreDetails", contestant.prevResultsSpaceSec);
+        //                            igcFilesModel.setProperty(row, "altitudeSectionsScoreDetails", contestant.prevResultsAltSec);
+
+        //                        }
+        //                        // load prev results
+        //                        else {
+
+        //                            igcFilesModel.setProperty(row, "trackHash", contestant.prevResultsTrackHas);
+        //                            igcFilesModel.setProperty(row, "wptScoreDetails", contestant.prevResultsWPT);
+        //                            igcFilesModel.setProperty(row, "speedSectionsScoreDetails", contestant.prevResultsSpeedSec);
+        //                            igcFilesModel.setProperty(row, "spaceSectionsScoreDetails", contestant.prevResultsSpaceSec);
+        //                            igcFilesModel.setProperty(row, "altitudeSectionsScoreDetails", contestant.prevResultsAltSec);
+        //                            igcFilesModel.setProperty(row, "score_json", contestant.prevResultsScoreJson)
+        //                            igcFilesModel.setProperty(row, "score", contestant.prevResultsScore)
+        //                            igcFilesModel.setProperty(row, "scorePoints", contestant.prevResultsScorePoints);
+        //                        }
+        //                    }
+
+        //                    // change continuous results models
+        //                    if (role === "category") {
+
+        //                        // decrease prev category counter
+        //                        if (prevCategory !== "-" && value !== prevCategory) {
+        //                            updateContestantInCategoryCounters(prevCategory, false);
+        //                        }
+
+        //                        // increase actual category counter
+        //                        updateContestantInCategoryCounters(value, true);
+        //                    }
+
+        //                    if (role === "startTime" || role === "contestant") sortIgcFilesModelByStartTime();
+
+        //                    // select row
+        //                    if (prevRow === row) {
+
+        //                        igcFilesTable.selection.clear();
+
+        //                        for (var i = 0; i < igcFilesModel.count; i++) {
+        //                            if (igcFilesModel.get(i).fileName === prevName && prevName !== undefined)
+        //                                row = i;
+        //                        }
+
+        //                        igcFilesTable.selection.select(row);
+        //                        igcFilesTable.currentRow = row;
+
+        //                    }
+
+        //                    // save results into CSV
+        //                    writeCSV();
+        //                    recalculateScoresTo1000();
+        //                    writeScoreManulaValToCSV();
+        //                }
+        //            }
+
+
+        //            rowDelegate: Rectangle {
+        //                height: 30;
+        //                color: styleData.selected ? "#0077cc" : (styleData.alternate? "#eee" : "#fff")
+        //            }
+
+
+        //            TableViewColumn {
+        //                //% "File name"
+        //                title: qsTrId("filelist-table-filename")
+        //                role: "fileName";
+        //            }
+        //            TableViewColumn {
+        //                //% "Contestant"
+        //                title: qsTrId("filelist-table-contestants")
+        //                role: "contestant"
+        //            }
+        //            TableViewColumn {
+        //                //% "Category"
+        //                title: qsTrId("filelist-table-category")
+        //                role: "category"
+        //                width: 120
+        //            }
+        //            TableViewColumn {
+        //                //% "Speed"
+        //                title: qsTrId("filelist-table-speed")
+        //                role: "speed"
+        //                width: 60
+        //            }
+        //            TableViewColumn {
+        //                //% "StartTime"
+        //                title: qsTrId("filelist-table-start-time")
+        //                role: "startTime"
+        //                width: 100
+        //            }
+        //            TableViewColumn {
+        //                //% "Aircraft registration"
+        //                title: qsTrId("filelist-table-aircraft-registration")
+        //                role: "aircraftRegistration"
+        //                width: 120
+        //            }
+        //            TableViewColumn {
+        //                //% "Score"
+        //                title: qsTrId("filelist-table-score")
+        //                role: "scorePoints"
+        //                width: 120
+        //            }
+        //            TableViewColumn {
+        //                //% "Score to 1000"
+        //                title: qsTrId("filelist-table-score-to-1000")
+        //                role: "scorePoints1000"
+        //                width: 120
+        //            }
+        //            TableViewColumn {
+        //                //% "Class order"
+        //                title: qsTrId("filelist-table-class-order")
+        //                role: "classOrder"
+        //                width: 60
+        //            }
+        //            TableViewColumn {
+        //                //% "Classify"
+        //                title: qsTrId("filelist-table-classify")
+        //                role: "classify"
+        //                width: 80
+        //            }
+
+        //            Component.onCompleted: {
+        //                selection.selectionChanged.connect(rowSelected);
+        //            }
+
+        //            function rowSelected() {
+
+        //              //  console.log("row selected")
+
+        //                if (igcFilesModel.count <= 0) {
+        //                    return;
+        //                }
+
+        //                var current = -1;
+
+        //                igcFilesTable.selection.forEach( function(rowIndex) { current = rowIndex; } )
+
+        //                if (current < 0) {
+        //                    return;
+        //                }
+
+        //                var item = model.get(current)
+
+        //                if (item.contestant >= contestantsListModel.count) {
+        //                    console.log("incorrect contestant id " + item.contestant + " " + contestantsListModel.count)
+        //                    return;
+        //                }
+
+        //                ctnt = contestantsListModel.get(item.contestant)
+
+
+        //                var arr = tracks.tracks;
+
+        //                var found = false;
+        //                for (var i = 0; i < arr.length; i++) {
+        //                    trItem = arr[i];
+
+        //                    if (trItem.name === ctnt.category) {
+        //                        map.filterCupCategory = i;
+        //                        map.filterCupData = 2;
+        //                        found = true;
+        //                        break;
+        //                    }
+        //                }
+        //                if (!found) {
+        //                    map.filterCupData = 3
+        //                    console.log("ctnt.category \"" + ctnt.category + "\" not found in track!")
+        //                }
+
+        //                //                console.log("setFilter" + ctnt.startTime)
+        //                tool_bar.startTime = ctnt.startTime
+        //                igc.load( item.filePath, ctnt.startTime)
+
+        //                map.requestUpdate()
+        //                altChart.igcUpdate();
+
+        //            }
+        //        }
 
 
 
@@ -1626,56 +1717,6 @@ ApplicationWindow {
 
 
         contestantsListModel.clear()
-        contestantsListModel.append({
-                                        "name": "-",
-                                        "category": "",
-                                        "currentCategory": "",
-                                        "fullName": "undefined",
-                                        "startTime": "",
-                                        "currentStartTime": "",
-                                        "filename": "",
-                                        "speed": -1,
-                                        "currentSpeed": -1,
-                                        "aircraft_type": "",
-                                        "aircraft_registration": "",
-                                        "crew_id": "",
-                                        "pilot_id": "",
-                                        "copilot_id": "",
-                                        "markersOk": 0,
-                                        "markersNok": 0,
-                                        "markersFalse": 0,
-                                        "markersScore": 0,
-                                        "photosOk": 0,
-                                        "photosNok": 0,
-                                        "photosFalse": 0,
-                                        "photosScore": 0,
-                                        "startTimeMeasured": "",
-                                        "startTimeDifference": "",
-                                        "startTimeScore": 0,
-                                        "landingScore": 0,
-                                        "circlingCount": 0,
-                                        "circlingScore": 0,
-                                        "oppositeCount": 0,
-                                        "oppositeScore": 0,
-                                        "otherPoints": 0,
-                                        "otherPointsNote": "",
-                                        "otherPenalty": 0,
-                                        "otherPenaltyNote": "",
-                                        "prevResultsSpeed": -1,
-                                        "prevResultsStartTime": "",
-                                        "prevResultsCategory": "",
-                                        "prevResultsWPT": "",
-                                        "prevResultsSpeedSec": "",
-                                        "prevResultsAltSec": "",
-                                        "prevResultsSpaceSec": "",
-                                        "prevResultsTrackHas": "",
-                                        "prevResultsFileName": "",
-                                        "prevResultsScorePoints": -1,
-                                        "prevResultsScore": "",
-                                        "prevResultsScoreJson": "",
-                                        "prevResultsClassify": 0
-
-                                    })
 
         for (var i = 0; i < data.length; i++) {
 
@@ -1688,7 +1729,7 @@ ApplicationWindow {
 
 
                 // Find contestant by id in prev results
-                for (j = 1; j < resultsCSV.length; j++) {
+                for (j = 0; j < resultsCSV.length; j++) {
 
                     index = resultsCSV[j].indexOf(item[9]);
                     if (index !== -1) // founded
@@ -1711,87 +1752,86 @@ ApplicationWindow {
                 // check current and new speed, category and start time values, add contestant into import list model id they are different
                 if (currentContValuesIndex !== -1) {
 
-                   var currentSpeed = parseInt(currentConteSpeed[currentContValuesIndex]);
-                   var currentCategory = currentConteCategories[currentContValuesIndex];
-                   var currentStartTime = currentConteStartTimes[currentContValuesIndex];
-                   var newSpeed = parseInt(item[5]);
-                   var newCategory = item[1];
-                   var newStarTime = item[3];
+                    var currentSpeed = parseInt(currentConteSpeed[currentContValuesIndex]);
+                    var currentCategory = currentConteCategories[currentContValuesIndex];
+                    var currentStartTime = currentConteStartTimes[currentContValuesIndex];
+                    var newSpeed = parseInt(item[5]);
+                    var newCategory = item[1];
+                    var newStarTime = item[3];
 
-                   // add to list of contestants to the post processing
-                   if (currentSpeed != newSpeed || currentCategory != newCategory || currentStartTime != newStarTime) {
+                    // add to list of contestants to the post processing
+                    if (currentSpeed != newSpeed || currentCategory != newCategory || currentStartTime != newStarTime) {
 
-                        importDataDialog.listModel.append({ "row": importDataDialog.listModel.count,
-                                                          "contestantOriginRow": i + 1,
-                                                          "name": itemName,
-                                                          "speed": newSpeed,
-                                                          "startTime": newStarTime,
-                                                          "category": newCategory,
-                                                          "prevResultsSpeed": currentSpeed,
-                                                          "prevResultsStartTime": currentStartTime,
-                                                          "prevResultsCategory": currentCategory,
-                                                          "speedSelector": 1,
-                                                          "categorySelector": 1,
-                                                          "startTimeSelector": 1,
+                        importDataDialog.listModel.append({
+                                                              "row": importDataDialog.listModel.count,
+                                                              "name": itemName,
+                                                              "speed": newSpeed,
+                                                              "startTime": newStarTime,
+                                                              "category": newCategory,
+                                                              "prevResultsSpeed": currentSpeed,
+                                                              "prevResultsStartTime": currentStartTime,
+                                                              "prevResultsCategory": currentCategory,
+                                                              "speedSelector": 1,
+                                                              "categorySelector": 1,
+                                                              "startTimeSelector": 1,
 
-                                                      })
+                                                          })
                     }
                 }
 
                 contestantsListModel.append({
+                                                "name": itemName,
+                                                "category": item[1],
+                                                "fullName": item[2],
+                                                "startTime": item[3],
+                                                "filename": (csvFileFromViewer && item[4] === "" ? resultsCSV[j][38] : item[4]),
+                                                "speed": parseInt(item[5]),
+                                                "currentCategory": (currentContValuesIndex === -1 ? "" : currentConteCategories[currentContValuesIndex]),
+                                                "currentStartTime": (currentContValuesIndex === -1 ? "" : currentConteStartTimes[currentContValuesIndex]),
+                                                "currentSpeed": (currentContValuesIndex === -1 ? -1 : currentConteSpeed[currentContValuesIndex]),
+                                                "aircraft_type": item[6],
+                                                "aircraft_registration": item[7],
+                                                "crew_id": item[8],
+                                                "pilot_id": item[9],
+                                                "copilot_id": item[10],
+                                                "pilotAvatarBase64" : (item.length >= 13 ? (item[11]) : ""),
+                                                "copilotAvatarBase64" : (item.length >= 13 ? (item[12]) : ""),
+                                                "markersOk": (csvFileFromOffice ? parseInt(resultsCSV[j][1]) : 0),
+                                                "markersNok": (csvFileFromOffice ? parseInt(resultsCSV[j][2]) : 0),
+                                                "markersFalse": (csvFileFromOffice ? parseInt(resultsCSV[j][3]) : 0),
+                                                "markersScore": (csvFileFromViewer ? parseInt(resultsCSV[j][41]) : 0),
+                                                "photosOk": (csvFileFromOffice ? parseInt(resultsCSV[j][4]) : 0),
+                                                "photosNok": (csvFileFromOffice ? parseInt(resultsCSV[j][5]) : 0),
+                                                "photosFalse": (csvFileFromOffice ? parseInt(resultsCSV[j][6]) : 0),
+                                                "photosScore": (csvFileFromViewer ? parseInt(resultsCSV[j][42]) : 0),
+                                                "startTimeMeasured": (csvFileFromOffice ? resultsCSV[j][11] : ""),
+                                                "startTimeDifference": (csvFileFromOffice ? resultsCSV[j][43] : ""),
+                                                "startTimeScore": (csvFileFromOffice ? parseInt(resultsCSV[j][12]) * -1 : 0),
+                                                "landingScore": (csvFileFromOffice ? parseInt(resultsCSV[j][7]) : 0),
 
-                    "name": itemName,
-                    "category": item[1],
-                    "fullName": item[2],
-                    "startTime": item[3],
-                    "filename": csvFileFromViewer && item[4] === "" ? resultsCSV[j][38] : item[4],
-                    "speed": parseInt(item[5]),
-                    "currentCategory": currentContValuesIndex === -1 ? "" : currentConteCategories[currentContValuesIndex],
-                    "currentStartTime": currentContValuesIndex === -1 ? "" : currentConteStartTimes[currentContValuesIndex],
-                    "currentSpeed": currentContValuesIndex === -1 ? -1 : currentConteSpeed[currentContValuesIndex],
-                    "aircraft_type": item[6],
-                    "aircraft_registration": item[7],
-                    "crew_id": item[8],
-                    "pilot_id": item[9],
-                    "copilot_id": item[10],
-                    "pilotAvatarBase64" : (item.length >= 13 ? (item[11]) : ""),
-                    "copilotAvatarBase64" : (item.length >= 13 ? (item[12]) : ""),
-                    "markersOk": csvFileFromOffice ? parseInt(resultsCSV[j][1]) : 0,
-                    "markersNok": csvFileFromOffice ? parseInt(resultsCSV[j][2]) : 0,
-                    "markersFalse": csvFileFromOffice ? parseInt(resultsCSV[j][3]) : 0,
-                    "markersScore": csvFileFromViewer ? parseInt(resultsCSV[j][41]) : 0,
-                    "photosOk": csvFileFromOffice ? parseInt(resultsCSV[j][4]) : 0,
-                    "photosNok": csvFileFromOffice ? parseInt(resultsCSV[j][5]) : 0,
-                    "photosFalse": csvFileFromOffice ? parseInt(resultsCSV[j][6]) : 0,
-                    "photosScore": csvFileFromViewer ? parseInt(resultsCSV[j][42]) : 0,
-                    "startTimeMeasured": csvFileFromOffice ? resultsCSV[j][11] : "",
-                    "startTimeDifference": csvFileFromOffice ? resultsCSV[j][43] : "",
-                    "startTimeScore": csvFileFromOffice ? parseInt(resultsCSV[j][12]) * -1 : 0,
-                    "landingScore": csvFileFromOffice ? parseInt(resultsCSV[j][7]) : 0,
+                                                "circlingCount": (csvFileFromViewer ? parseInt(resultsCSV[j][44]) : (!csvFileFromOffice ? 0 : parseInt(resultsCSV[j][13]))),
+                                                "circlingScore": (csvFileFromViewer ? parseInt(resultsCSV[j][45]) : (!csvFileFromOffice ? 0 : parseInt(resultsCSV[j][14] * -1))),
+                                                "oppositeCount": (csvFileFromViewer ? parseInt(resultsCSV[j][46]) : 0),
+                                                "oppositeScore": (csvFileFromViewer ? parseInt(resultsCSV[j][47]) : 0),
 
-                    "circlingCount": csvFileFromViewer ? parseInt(resultsCSV[j][44]) : (!csvFileFromOffice ? 0 : parseInt(resultsCSV[j][13])),
-                    "circlingScore": csvFileFromViewer ? parseInt(resultsCSV[j][45]) : (!csvFileFromOffice ? 0 : parseInt(resultsCSV[j][14] * -1)),
-                    "oppositeCount": csvFileFromViewer ? parseInt(resultsCSV[j][46]) : 0,
-                    "oppositeScore": csvFileFromViewer ? parseInt(resultsCSV[j][47]) : 0,
-
-                    "otherPoints": csvFileFromOffice ? parseInt(resultsCSV[j][8]) : 0,
-                    "otherPointsNote": csvFileFromOffice ? String((resultsCSV[j][20]).split("/&/")[0]) : "",
-                    "otherPenalty": csvFileFromOffice ? parseInt(resultsCSV[j][15]) : 0,
-                    "otherPenaltyNote": csvFileFromOffice ? String((resultsCSV[j][20]).split("/&/")[1]) : "",
-                    "prevResultsSpeed": csvFileFromViewer ? parseInt(resultsCSV[j][31]) : -1,
-                    "prevResultsStartTime": csvFileFromViewer ? resultsCSV[j][32] : "",
-                    "prevResultsCategory": csvFileFromViewer ? resultsCSV[j][33] : "",
-                    "prevResultsWPT": csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][34]) : "",
-                    "prevResultsSpeedSec": csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][35]) : "",
-                    "prevResultsAltSec": csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][37]) : "",
-                    "prevResultsSpaceSec": csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][36]) : "",
-                    "prevResultsTrackHas": csvFileFromViewer ? resultsCSV[j][30] : "",
-                    "prevResultsFileName": csvFileFromViewer ? resultsCSV[j][38] : "",
-                    "prevResultsScorePoints": csvFileFromOffice ? parseInt(resultsCSV[j][17]) : -1,
-                    "prevResultsScore": csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][39]) : "",
-                    "prevResultsScoreJson": csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][40]) : "",
-                    "prevResultsClassify": csvFileFromOffice ? (resultsCSV[j][19] === "yes" ? 0 : 1) : 0,
-                })
+                                                "otherPoints": (csvFileFromOffice ? parseInt(resultsCSV[j][8]) : 0),
+                                                "otherPointsNote": (csvFileFromOffice ? String((resultsCSV[j][20]).split("/&/")[0]) : ""),
+                                                "otherPenalty": (csvFileFromOffice ? parseInt(resultsCSV[j][15]) : 0),
+                                                "otherPenaltyNote": (csvFileFromOffice ? String((resultsCSV[j][20]).split("/&/")[1]) : ""),
+                                                "prevResultsSpeed": (csvFileFromViewer ? parseInt(resultsCSV[j][31]) : -1),
+                                                "prevResultsStartTime": (csvFileFromViewer ? resultsCSV[j][32] : ""),
+                                                "prevResultsCategory": (csvFileFromViewer ? resultsCSV[j][33] : ""),
+                                                "prevResultsWPT": (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][34]) : ""),
+                                                "prevResultsSpeedSec": (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][35]) : ""),
+                                                "prevResultsAltSec": (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][37]) : ""),
+                                                "prevResultsSpaceSec": (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][36]) : ""),
+                                                "prevResultsTrackHas": (csvFileFromViewer ? resultsCSV[j][30] : ""),
+                                                "prevResultsFileName": (csvFileFromViewer ? resultsCSV[j][38] : ""),
+                                                "prevResultsScorePoints": (csvFileFromOffice ? parseInt(resultsCSV[j][17]) : -1),
+                                                "prevResultsScore": (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][39]) : ""),
+                                                "prevResultsScoreJson": (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][40]) : ""),
+                                                "prevResultsClassify": (csvFileFromOffice ? (resultsCSV[j][19] === "yes" ? 0 : 1) : 0),
+                                            })
             }
         }
     }
@@ -1898,7 +1938,7 @@ ApplicationWindow {
     function listProperty(item)
     {
         for (var p in item)
-        console.log(p + ": " + item[p]);
+            console.log(p + ": " + item[p]);
     }
 
     function getAltitudeAndSpaceSectionsPenaltyPoints(igcRow, totalPoints) {
@@ -1973,9 +2013,9 @@ ApplicationWindow {
             for (p = 0; p < wptNewScoreListManualValuesCache.count; p++) {
                 modelItem = wptNewScoreListManualValuesCache.get(p);
                 sum += Math.max(modelItem.sg_score, 0) +
-                       Math.max(modelItem.tp_score, 0) +
-                       Math.max(modelItem.tg_score, 0) +
-                       (modelItem.alt_score === -1 ? 0 : modelItem.alt_score);
+                        Math.max(modelItem.tp_score, 0) +
+                        Math.max(modelItem.tg_score, 0) +
+                        (modelItem.alt_score === -1 ? 0 : modelItem.alt_score);
 
             }
         }
@@ -1995,10 +2035,10 @@ ApplicationWindow {
         }
 
         sum += contestant.markersScore +
-               contestant.photosScore +
-               contestant.landingScore +
-               contestant.otherPoints -
-               contestant.otherPenalty;
+                contestant.photosScore +
+                contestant.landingScore +
+                contestant.otherPoints -
+                contestant.otherPenalty;
 
         wptNewScoreListManualValuesCache.clear();
         speedSectionsScoreListManualValuesCache.clear();
@@ -2017,8 +2057,8 @@ ApplicationWindow {
 
         // get penalty percent points
         var penaltyPercentPointsSum = contestant.startTimeScore +
-                                      contestant.circlingScore +
-                                      contestant.oppositeScore;
+                contestant.circlingScore +
+                contestant.oppositeScore;
 
         // get penalty percent points from sections
         var penaltySumSections = 0;
@@ -2039,7 +2079,7 @@ ApplicationWindow {
                 item = altSectionsScoreListManualValuesCache.get(i)
                 penaltySumSections += item.altSecScore;
             }
-             altSectionsScoreListManualValuesCache.clear();
+            altSectionsScoreListManualValuesCache.clear();
         }
 
         // space sec
@@ -2055,7 +2095,7 @@ ApplicationWindow {
                 item = spaceSectionsScoreListManualValuesCache.get(i)
                 penaltySumSections += item.spaceSecScore;
             }
-             spaceSectionsScoreListManualValuesCache.clear();
+            spaceSectionsScoreListManualValuesCache.clear();
         }
 
         return Math.max((scorePoints + penaltyPercentPointsSum + penaltySumSections), 0);
@@ -2095,18 +2135,18 @@ ApplicationWindow {
         var i, item;
 
         maxPointsArr = {
-                "R-AL1": 1,
-                "R-AL2": 1,
-                "S-AL1": 1,
-                "S-AL2": 1,
-                "R-WL1": 1,
-                "R-WL2": 1,
-                "S-WL1": 1,
-                "S-WL2": 1,
-                "CUSTOM1": 1,
-                "CUSTOM2": 1,
-                "CUSTOM3": 1,
-                "CUSTOM4": 1
+            "R-AL1": 1,
+            "R-AL2": 1,
+            "S-AL1": 1,
+            "S-AL2": 1,
+            "R-WL1": 1,
+            "R-WL2": 1,
+            "S-WL1": 1,
+            "S-WL2": 1,
+            "CUSTOM1": 1,
+            "CUSTOM2": 1,
+            "CUSTOM3": 1,
+            "CUSTOM4": 1
         };
 
         for (i = 0; i < igcFilesModel.count; i++) {
@@ -2155,6 +2195,7 @@ ApplicationWindow {
     }
 
     function recalculateContestantsScoreOrder () {
+        return; // FIXME
 
         var item;
         var i;
@@ -2248,10 +2289,10 @@ ApplicationWindow {
             return -1;
 
         return parseInt(
-                (flags & (0x1 << 3)) && (flags & (0x1 << 4)) ? getMinAltScore(altManual, altAuto, altMin, altPenalty) + getMaxAltScore(altManual, altAuto, altMax, altPenalty) : (
-                (flags & (0x1 << 3)) ? getMinAltScore(altManual, altAuto, altMin, altPenalty) : (
-                (flags & (0x1 << 4)) ? getMaxAltScore(altManual, altAuto, altMax, altPenalty) :
-                -1)))
+                    (flags & (0x1 << 3)) && (flags & (0x1 << 4)) ? getMinAltScore(altManual, altAuto, altMin, altPenalty) + getMaxAltScore(altManual, altAuto, altMax, altPenalty) : (
+                                                                       (flags & (0x1 << 3)) ? getMinAltScore(altManual, altAuto, altMin, altPenalty) : (
+                                                                                                  (flags & (0x1 << 4)) ? getMaxAltScore(altManual, altAuto, altMax, altPenalty) :
+                                                                                                                         -1)))
     }
 
     function getSGScore(sgManualVal, sgHitAuto, sgMaxScore) {
@@ -2286,9 +2327,9 @@ ApplicationWindow {
 
     function getTakeOffScore(startTimeDifferenceText, time_window_size, time_window_penalty, totalPointsScore) {
 
-       if (F.timeToUnix(startTimeDifferenceText) > time_window_size)
+        if (F.timeToUnix(startTimeDifferenceText) > time_window_size)
             return Math.round(totalPointsScore/100 * time_window_penalty) * -1;
-       else
+        else
             return 0;
     }
 
@@ -2387,14 +2428,18 @@ ApplicationWindow {
 
         var current = -1;
 
-        igcFilesTable.selection.forEach( function(rowIndex) { current = rowIndex; } )
+        contestantsTable.selection.forEach( function(rowIndex) { current = rowIndex; } )
 
         if (current < 0) {
-            console.log("computeScore, but currentRow == " + igcFilesTable.currentRow)
+            console.log("computeScore, but currentRow == " + contestantsTable.currentRow)
             return;
         }
 
         var item = igcFilesModel.get(current)
+
+        // FIXME
+        return;
+
 
         if ((item.score !== undefined) && (item.score !== "")) { // pokud je vypocitane, tak nepocitame znovu
 
@@ -2897,7 +2942,7 @@ ApplicationWindow {
             arr_item['speedSecScore'] = speed_sec_score;
             speed_sections_score += speed_sec_score;
 
-           // speedSectionsScoreList.append(arr_item);
+            // speedSectionsScoreList.append(arr_item);
             new_section_speed_array.push(arr_item);
         }
 
@@ -3060,7 +3105,7 @@ ApplicationWindow {
 
                 "tid": item.tid,
                 "title": item.name,
-                "type": item.flags,                
+                "type": item.flags,
                 "distance_from_vbt": distance_cumul,
 
                 "tg_time_calculated": tg_time_calculated,
@@ -3085,9 +3130,9 @@ ApplicationWindow {
                 "alt_max": point_alt_max,
                 "alt_min": point_alt_min,
                 "alt_measured": isNaN(parseInt(item.alt)) ? -1 : parseInt(item.alt),
-                "alt_manual": alt_manual,
-                "alt_score": 0,
-                "category_alt_penalty": category_alt_penalty
+                                                            "alt_manual": alt_manual,
+                                                            "alt_score": 0,
+                                                            "category_alt_penalty": category_alt_penalty
 
             }
 
@@ -3804,15 +3849,15 @@ ApplicationWindow {
             if (resArr.indexOf(igcItem.category) !== -1) {
 
                 resArr[igcItem.category].push([contestant.name,
-                                              igcItem.category,
-                                              contestant.startTime,
-                                              String(contestant.speed),
-                                              contestant.aircraft_registration,
-                                              contestant.aircraft_type,
-                                              String(igcItem.scorePoints),
-                                              String(igcItem.scorePoints1000)]);
-                                              //(parseInt(igcItem.scorePoints) < 0 ? "" : String(igcItem.scorePoints)),
-                                              //(parseInt(igcItem.scorePoints1000) < 0 ? "" : String(igcItem.scorePoints1000))])
+                                               igcItem.category,
+                                               contestant.startTime,
+                                               String(contestant.speed),
+                                               contestant.aircraft_registration,
+                                               contestant.aircraft_type,
+                                               String(igcItem.scorePoints),
+                                               String(igcItem.scorePoints1000)]);
+                //(parseInt(igcItem.scorePoints) < 0 ? "" : String(igcItem.scorePoints)),
+                //(parseInt(igcItem.scorePoints1000) < 0 ? "" : String(igcItem.scorePoints1000))])
             }
 
         }
@@ -3844,46 +3889,46 @@ ApplicationWindow {
     function updateContestantInCategoryCounters(category, incrementVal) {
 
         switch(category) {
-            case "R-AL1":
-                _RAL1_count = incrementVal ? (++_RAL1_count) :  Math.max((--_RAL1_count), 0)
-                break;
-            case "R-AL2":
-                _RAL2_count = incrementVal ? (++_RAL2_count) :  Math.max((--_RAL2_count), 0)
-                break;
-            case "S-AL1":
-                _SAL1_count = incrementVal ? (++_SAL1_count) :  Math.max((--_SAL1_count), 0)
-                break;
-            case "S-AL2":
-                _SAL2_count = incrementVal ? (++_SAL2_count) :  Math.max((--_SAL2_count), 0)
-                break;
-            case "R-WL1":
-                _RWL1_count = incrementVal ? (++_RWL1_count) :  Math.max((--_RWL1_count), 0)
-                break;
-            case "R-WL2":
-                _RWL2_count = incrementVal ? (++_RWL2_count) :  Math.max((--_RWL2_count), 0)
-                break;
-            case "S-WL1":
-                _SWL1_count = incrementVal ? (++_SWL1_count) :  Math.max((--_SWL1_count), 0)
-                break;
-            case "S-WL2":
-                _SWL2_count = incrementVal ? (++_SWL2_count) :  Math.max((--_SWL2_count), 0)
-                break;
-            case "CUSTOM1":
-                _CUSTOM1_count = incrementVal ? (++_CUSTOM1_count) :  Math.max((--_CUSTOM1_count), 0)
-                break;
-            case "CUSTOM2":
-                _CUSTOM2_count = incrementVal ? (++_CUSTOM2_count) :  Math.max((--_CUSTOM2_count), 0)
-                break;
-            case "CUSTOM3":
-                _CUSTOM3_count = incrementVal ? (++_CUSTOM3_count) :  Math.max((--_CUSTOM3_count), 0)
-                break;
-            case "CUSTOM4":
-                _CUSTOM4_count = incrementVal ? (++_CUSTOM4_count) :  Math.max((--_CUSTOM4_count), 0)
-                break;
+        case "R-AL1":
+            _RAL1_count = incrementVal ? (++_RAL1_count) :  Math.max((--_RAL1_count), 0)
+            break;
+        case "R-AL2":
+            _RAL2_count = incrementVal ? (++_RAL2_count) :  Math.max((--_RAL2_count), 0)
+            break;
+        case "S-AL1":
+            _SAL1_count = incrementVal ? (++_SAL1_count) :  Math.max((--_SAL1_count), 0)
+            break;
+        case "S-AL2":
+            _SAL2_count = incrementVal ? (++_SAL2_count) :  Math.max((--_SAL2_count), 0)
+            break;
+        case "R-WL1":
+            _RWL1_count = incrementVal ? (++_RWL1_count) :  Math.max((--_RWL1_count), 0)
+            break;
+        case "R-WL2":
+            _RWL2_count = incrementVal ? (++_RWL2_count) :  Math.max((--_RWL2_count), 0)
+            break;
+        case "S-WL1":
+            _SWL1_count = incrementVal ? (++_SWL1_count) :  Math.max((--_SWL1_count), 0)
+            break;
+        case "S-WL2":
+            _SWL2_count = incrementVal ? (++_SWL2_count) :  Math.max((--_SWL2_count), 0)
+            break;
+        case "CUSTOM1":
+            _CUSTOM1_count = incrementVal ? (++_CUSTOM1_count) :  Math.max((--_CUSTOM1_count), 0)
+            break;
+        case "CUSTOM2":
+            _CUSTOM2_count = incrementVal ? (++_CUSTOM2_count) :  Math.max((--_CUSTOM2_count), 0)
+            break;
+        case "CUSTOM3":
+            _CUSTOM3_count = incrementVal ? (++_CUSTOM3_count) :  Math.max((--_CUSTOM3_count), 0)
+            break;
+        case "CUSTOM4":
+            _CUSTOM4_count = incrementVal ? (++_CUSTOM4_count) :  Math.max((--_CUSTOM4_count), 0)
+            break;
 
-            default:
-                console.log("invalid category: " + category + " in func: updateContestantInCategoryCounters")
-                break;
+        default:
+            console.log("invalid category: " + category + " in func: updateContestantInCategoryCounters")
+            break;
         }
     }
 
@@ -4153,7 +4198,7 @@ ApplicationWindow {
                         continue;
                     }
 
-                                        console.log(igc_index + "   " + contestant_index);
+                    console.log(igc_index + "   " + contestant_index);
 
                     igcFilesModel.setProperty(igc_index, "contestant", contestant_index)
                     igcFilesTable.selection.clear();

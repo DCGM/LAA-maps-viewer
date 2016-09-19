@@ -14,6 +14,7 @@ Item {
     signal recalculateResults(int row);
     signal selectRow(int row);
     signal generateResults(int row);
+    signal changeIgc(int row);
 
     Menu {
         id: recalculateScoreMenu;
@@ -102,7 +103,8 @@ Item {
 
         visible: (//(styleData.role === "startTime") ||
                   //(styleData.role === "speed" && styleData.value !== -1) ||
-                  styleData.role === "fileName" ||
+//                  styleData.role === "fileName" ||
+                  styleData.role === "name" ||
                   styleData.role === "category" ||
                   styleData.role === "classify" ||
                   styleData.role === "aircraftRegistration" ||
@@ -266,6 +268,39 @@ Item {
         }
     }
 
+    Loader {
+        id: loaderFilenameButton
+        anchors.left: parent.left
+        anchors.verticalCenter: parent.verticalCenter
+
+        anchors.margins: 4
+        Connections {
+            target: loaderFilenameButton.item
+            onClicked: {
+                changeIgc(styleData.row);
+            }
+        }
+        sourceComponent: styleData.role === "fileName" ? filenameButton : null;
+
+
+
+        Component {
+            id: filenameButton
+            Button {
+                width: delegate.width - 10;
+                height: delegate.height - 4;
+                text: styleData.value;
+                onTextChanged: {
+                    console.log("text Changed " + text)
+                }
+
+//                enabled: styleData.value >= 0
+
+            }
+        }
+
+    }
+
     Loader { // Initialize text editor lazily to improve performance
         id: loaderButton
         //            anchors.fill: parent
@@ -288,7 +323,8 @@ Item {
             }
         }
 
-        sourceComponent: (styleData.role === "scorePoints") ? contestantButton : null;
+        sourceComponent: styleData.role === "scorePoints"? contestantButton : null;
+
 
         Component {
             id: contestantButton
@@ -309,7 +345,7 @@ Item {
 
                     onPressed: {
 
-                        if (mouse.button == Qt.RightButton)
+                        if (mouse.button === Qt.RightButton)
                             rightButtonPressed(styleData.row); //recalculate results
                         else
                             buttonPressed(styleData.row);
@@ -355,6 +391,7 @@ Item {
 
         sourceComponent:
             (
+                styleData.role !== "name" &&
                 styleData.role !== "fileName" &&
                 styleData.role !== "category" &&
                 styleData.role !== "classify" &&
