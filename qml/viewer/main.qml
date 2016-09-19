@@ -4119,12 +4119,12 @@ ApplicationWindow {
 
             if (clickedButton == StandardButton.Yes) {
 
-                visible = false;
+                close();
                 pathConfiguration.close();
                 selectCompetitionOnlineDialog.show();
             }
             else {
-                visible = false;
+                close();
                 pathConfiguration.close();
             }
         }
