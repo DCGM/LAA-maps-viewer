@@ -24,7 +24,7 @@ ApplicationWindow {
 
         if (visible) {
 
-            createNewContestant = contestantsListModelRow > contestantsListModel.count;
+            createNewContestant = contestantsListModelRow >= contestantsListModel.count;
 
             // create new
             if (createNewContestant) {

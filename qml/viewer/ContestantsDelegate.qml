@@ -62,34 +62,23 @@ Item {
 
         property int row: -1
 
-        onPopupVisibleChanged: {
+        MenuItem {
+            //% "Edit contestant"
+            text: qsTrId("scorelist-table-menu-edit-contestant")
 
-            if (visible) {
-
-                if (row === -1 ) {
-                    //% "Append contestant"
-                    menuItem.text = qsTrId("scorelist-table-menu-append-contestant")
-                }
-                else {
-                    //% "Edit contestant"
-                    menuItem.text = qsTrId("scorelist-table-menu-edit-contestant")
-                }
+            onTriggered: {
+                createContestantDialog.contestantsListModelRow = updateContestantMenu.row;
+                createContestantDialog.show();
             }
         }
 
         MenuItem {
-            id: menuItem
-
             //% "Append contestant"
             text: qsTrId("scorelist-table-menu-append-contestant")
 
             onTriggered: {
-
-                if (updateContestantMenu.row !== -1) {
-
-                    createContestantDialog.contestantsListModelRow = updateContestantMenu.row;
-                    createContestantDialog.show();
-                }
+                createContestantDialog.contestantsListModelRow = contestantsListModel.count;
+                createContestantDialog.show();
             }
         }
     }
@@ -98,12 +87,14 @@ Item {
         width: parent.width
         anchors.margins: 4
         anchors.left: parent.left
-        anchors.verticalCenter: parent.verticalCenter
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
         elide: styleData.elideMode
         text: (styleData.value !== undefined) ? styleData.value : ""
         color: styleData.textColor
         font.bold: styleData.role === "classOrder" && ( text === "1" )
 
+        verticalAlignment: Text.AlignVCenter
         horizontalAlignment: styleData.role === "scorePoints1000" ? Text.AlignHCenter : Text.AlignLeft;
 
         visible: (styleData.role === "name" ||

@@ -447,24 +447,27 @@ ApplicationWindow {
         }
     }
 
+
     CreateContestantDialog {
 
         id: createContestantDialog
 
         onOk: {
 
-            /*
-            if (createNewContestant) {
 
+            if (createNewContestant) {
+/*
                 // assign new contestant to the current igc item
                 igcFilesTable.selection.clear();
                 igcFilesTable.selection.select(igcTableRow);
                 igcFilesTable.currentRow = igcTableRow;
 
                 igcFilesModel.setProperty(igcTableRow, "contestant", contestantsListModel.count - 1);
+*/
             }
             else {
-                // update igc
+                // update contestant
+/*
                 var igcItem = igcFilesModel.get(igcTableRow);
                 var contestantIndex = igcItem.contestant;
                 var igcName = igcItem.fileName
@@ -484,7 +487,8 @@ ApplicationWindow {
                         break;
                     }
                 }
-            }*/
+*/
+            }
         }
 
     }
