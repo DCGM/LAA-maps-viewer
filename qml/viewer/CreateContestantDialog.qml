@@ -12,9 +12,6 @@ ApplicationWindow {
     modality: "WindowModal"
     color: "#ffffff"
 
-    //property int comboBoxCurrentIndex;
-    //property int igcRow;
-
     property int contestantsListModelRow;
     property bool createNewContestant;
 
@@ -186,7 +183,7 @@ ApplicationWindow {
 
     function apendNewContestant(pilotName, copilotName, category, startTime, speed, type, registration) {
 
-        var name = copilotName === "" ? pilotName : pilotName + " - " + copilotName;
+        var name = copilotName === "" ? pilotName : pilotName + ' – ' + copilotName;
 
         contestantsListModel.append({
                                         "name": name,
@@ -284,7 +281,7 @@ ApplicationWindow {
                 // check required values
                 if (pilotName.text !== "" && speed.text !== "" && startTime.text !== "") {
 
-                    var name = copilotName.text === "" ? pilotName.text : pilotName.text + " - " + copilotName.text;
+                    var name = copilotName.text === "" ? pilotName.text : pilotName.text + ' – ' + copilotName.text;
 
                     if (createNewContestant) {
 
