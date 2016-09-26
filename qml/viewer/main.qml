@@ -613,6 +613,30 @@ ApplicationWindow {
                 createContestantDialog.show();
             }
         }
+
+        MenuItem {
+            //% "Remove contestant"
+            text: qsTrId("scorelist-table-menu-remove-contestant")
+
+            onTriggered: {
+
+                var conte = contestantsListModel.get(updateContestantMenu.row);
+
+                // deselect row
+                contestantsTable.selection.clear();
+
+                // update category counters
+                updateContestantInCategoryCounters(conte.category, false);
+
+                // remove item from listmodel
+                contestantsListModel.remove(updateContestantMenu.row, 1);
+
+                // save results into CSV
+                writeCSV();
+                recalculateScoresTo1000();
+                writeScoreManulaValToCSV();
+            }
+        }
     }
 
     ListModel {
@@ -1306,6 +1330,29 @@ ApplicationWindow {
                 title: qsTrId("filelist-table-classify")
                 role: "classify"
                 width: 80
+            }
+
+            Rectangle { // disable
+                color: "#ffffff";
+                opacity: 0.7;
+                anchors.fill: parent;
+                visible: evaluateTimer.running || resultsTimer.running;
+                MouseArea {
+                    anchors.fill: parent;
+                    onClicked: {
+
+                        if (evaluateTimer.running) {
+
+                            console.log("onClick is disabled when evaluateTimer.running");
+                            evaluateTimer.running = false;
+                        }
+                        else if (resultsTimer.running) {
+
+                            console.log("onClick is disabled when resultsTimer.running");
+                            resultsTimer.running = false;
+                        }
+                    }
+                }
             }
         }
 
@@ -2087,8 +2134,9 @@ ApplicationWindow {
         /*console.log("resultsExist: " + currentSpeed + "/" + prevSpeed + "   " +
                                        currentStartTime  + "/" + prevStartTime + "   " +
                                        currentCategory  + "/" +  prevCategory + "   " +
-                                       currentIgcFilename  + "/" +  prevIgcFilename + "   " +
-                                       currentTrackHash  + "/" + prevTrackHash)*/
+                                       currentIgcFileName  + "/" +  prevIgcFileName + "   " +
+                                       currentTrackHash  + "/" + prevTrackHash)
+                                       */
 
         return (currentStartTime === prevStartTime &&
                 parseInt(currentSpeed) === parseInt(prevSpeed) &&
@@ -2199,10 +2247,9 @@ ApplicationWindow {
 
                 // Find contestant by id in prev results (first row is the header)
                 for (j = 1; j < resultsCSV.length; j++) {
-                    index = resultsCSV[j].indexOf(item[9]);
 
-                    if (index !== -1) { // founded
-
+                    if (parseInt(resultsCSV[j][28]) === parseInt(item[9])) {
+                        index = j;
                         break;
                     }
                 }
@@ -2219,8 +2266,6 @@ ApplicationWindow {
 
                 // load current values for this contestant
                 var currentContValuesIndex = currentConteIds.indexOf(item[9])
-
-
 
                 // check current and new speed, category and start time values, add contestant into import list model id they are different
                 if (currentContValuesIndex !== -1) {
@@ -2323,6 +2368,9 @@ ApplicationWindow {
 
             }
         }
+
+        // sort list model by startTime
+        sortListModelByStartTime();
     }
 
     // remove invalid results from loaded contestant
@@ -4271,10 +4319,10 @@ ApplicationWindow {
 
 
     function evaluate_all_data() {
-        igcFilesTable.currentRow = -1;
-        igcFilesTable.selection.clear();
-        for (var i = 0; i < igcFilesModel.count; i++) {
-            igcFilesModel.setProperty(i, "score", "");
+        contestantsTable.currentRow = -1;
+        contestantsTable.selection.clear();
+        for (var i = 0; i < contestantsTable.count; i++) {
+            contestantsTable.setProperty(i, "score", "");
         }
         evaluateTimer.running = true;
     }
@@ -4316,21 +4364,20 @@ ApplicationWindow {
         resArr['CUSTOM3'] = [];
         resArr['CUSTOM4'] = [];
 
-        for (var i = 0; i < igcFilesModel.count; i++) {
+        for (var i = 0; i < contestantsTable.count; i++) {
 
-            igcItem = igcFilesModel.get(i);
-            contestant = contestantsListModel.get(igcItem.contestant);
+            contestant = contestantsListModel.get(i);
 
-            if (resArr.indexOf(igcItem.category) !== -1) {
+            if (resArr.indexOf(contestant.category) !== -1) {
 
-                resArr[igcItem.category].push([contestant.name,
-                                               igcItem.category,
+                resArr[contestant.category].push([contestant.name,
+                                               contestant.category,
                                                contestant.startTime,
                                                String(contestant.speed),
                                                contestant.aircraft_registration,
                                                contestant.aircraft_type,
-                                               String(igcItem.scorePoints),
-                                               String(igcItem.scorePoints1000)]);
+                                               String(contestant.scorePoints),
+                                               String(contestant.scorePoints1000)]);
                 //(parseInt(igcItem.scorePoints) < 0 ? "" : String(igcItem.scorePoints)),
                 //(parseInt(igcItem.scorePoints1000) < 0 ? "" : String(igcItem.scorePoints1000))])
             }
@@ -4361,7 +4408,7 @@ ApplicationWindow {
     }
 
 
-    function    updateContestantInCategoryCounters(category, incrementVal) {
+    function updateContestantInCategoryCounters(category, incrementVal) {
 
         switch(category) {
         case "R-AL1":
@@ -4433,28 +4480,28 @@ ApplicationWindow {
         running: false;
         onTriggered: {
 
-            if (igcFilesModel.count <= 0) {
+            if (contestantsListModel.count <= 0) {
                 running = false;
                 return;
             }
 
             var current = -1;
-            igcFilesTable.selection.forEach( function(rowIndex) { current = rowIndex; } )
+            contestantsTable.selection.forEach( function(rowIndex) { current = rowIndex; } )
 
             // select first item of list
             if (current < 0) {
                 current = 0
-                igcFilesTable.selection.clear();
-                igcFilesTable.selection.select(current)
-                igcFilesTable.currentRow = current;
+                contestantsTable.selection.clear();
+                contestantsTable.selection.select(current)
+                contestantsTable.currentRow = current;
                 return;
             }
 
-            var item = igcFilesModel.get(current);
+            var item = contestantsListModel.get(current);
 
 
-            if ((item.contestant === 0) || (item.score !== ""))  { // if ((no contestent selected) or (already computed))
-                if (current+1 == igcFilesModel.count) { // finsihed
+            if ((item.filename === "") || (item.score !== ""))  { // if ((no contestent selected) or (already computed))
+                if (current+1 == contestantsListModel.count) { // finsihed
                     running = false;
 
                     // create results if flag is set
@@ -4462,17 +4509,17 @@ ApplicationWindow {
 
                         generateResultsFlag = false;
 
-                        igcFilesTable.currentRow = -1;
-                        igcFilesTable.selection.clear();
+                        contestantsTable.currentRow = -1;
+                        contestantsTable.selection.clear();
 
                         resultsTimer.running = true;
                     }
 
 
                 } else { // go to next
-                    igcFilesTable.selection.clear();
-                    igcFilesTable.selection.select(current+1)
-                    igcFilesTable.currentRow = current+1;
+                    contestantsTable.selection.clear();
+                    contestantsTable.selection.select(current+1)
+                    contestantsTable.currentRow = current+1;
                 }
             }
         }
@@ -4487,7 +4534,7 @@ ApplicationWindow {
 
         onTriggered: {
 
-            if (igcFilesModel.count <= 0) {
+            if (contestantsTable.count <= 0) {
                 running = false;
 
                 // category results
@@ -4506,19 +4553,18 @@ ApplicationWindow {
             var item;
             var contestant;
 
-            igcFilesTable.selection.forEach( function(rowIndex) { current = rowIndex; } )
+            contestantsTable.selection.forEach( function(rowIndex) { current = rowIndex; } )
 
             // select first item of list
             if (current < 0) {
 
                 current = 0;
-                igcFilesTable.selection.clear();
-                igcFilesTable.selection.select(current);
-                igcFilesTable.currentRow = current;
+                contestantsTable.selection.clear();
+                contestantsTable.selection.select(current);
+                contestantsTable.currentRow = current;
 
-                // load contestant and igc row
-                item = igcFilesModel.get(current);
-                contestant = contestantsListModel.get(item.contestant);
+                // load contestant
+                contestant = contestantsListModel.get(current);
 
                 // create contestant html file
                 results_creator.createContestantResultsHTML((pathConfiguration.resultsFolder + "/" + contestant.name + "_" + contestant.category),
@@ -4536,7 +4582,7 @@ ApplicationWindow {
                 // load contestant
                 contestant = contestantsListModel.get(current);
 
-                if (item.contestant === 0 || file_reader.file_exists(pathConfiguration.resultsFolder + "/"+ contestant.name + "_" + contestant.category + ".html"))  { //if results created or no results for this igc row
+                if (item.filename === "" || file_reader.file_exists(pathConfiguration.resultsFolder + "/"+ contestant.name + "_" + contestant.category + ".html"))  { //if results created or no results for this igc row
                     if (current + 1 == contestantsListModel.count) { // finsihed
 
                         running = false;
