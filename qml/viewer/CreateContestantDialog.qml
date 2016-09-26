@@ -12,8 +12,11 @@ ApplicationWindow {
     modality: "WindowModal"
     color: "#ffffff"
 
-    property int comboBoxCurrentIndex;
-    property int igcRow;
+    //property int comboBoxCurrentIndex;
+    //property int igcRow;
+
+    property int contestantsListModelRow;
+    property bool createNewContestant;
 
     signal ok(int igcTableRow);
 
@@ -21,8 +24,10 @@ ApplicationWindow {
 
         if (visible) {
 
+            createNewContestant = contestantsListModelRow > contestantsListModel.count;
+
             // create new
-            if (comboBoxCurrentIndex === 0) {
+            if (createNewContestant) {
 
                 //% "Create new contestant"
                 createContestantWindow.title = qsTrId("create-contestant-window-title")
@@ -37,7 +42,7 @@ ApplicationWindow {
                 //% "Update contestant"
                 createContestantWindow.title = qsTrId("update-contestant-window-title")
 
-                var ct = contestantsListModel.get(comboBoxCurrentIndex);
+                var ct = contestantsListModel.get(contestantsListModelRow);
 
                 // load contestant
                 pilotName.text = (ct.name).split(' – ')[0];
@@ -274,7 +279,7 @@ ApplicationWindow {
                 // check required values
                 if (pilotName.text !== "" && speed.text !== "" && startTime.text !== "") {
 
-                    if (comboBoxCurrentIndex === 0) {
+                    if (createNewContestant) {
 
                         // add crew into listmodel
                         apendNewContestant(pilotName.text, copilotName.text, category.currentText, startTime.text, speed.text, planeType.text, planeRegistration.text)
@@ -283,16 +288,16 @@ ApplicationWindow {
                         // update current
                         var name = copilotName.text === "" ? pilotName.text : pilotName.text + " - " + copilotName.text;
 
-                        contestantsListModel.setProperty(comboBoxCurrentIndex, "name", name);
-                        contestantsListModel.setProperty(comboBoxCurrentIndex, "category", category.currentText);
-                        contestantsListModel.setProperty(comboBoxCurrentIndex, "fullName", name + "_" + category.currentText);
-                        contestantsListModel.setProperty(comboBoxCurrentIndex, "startTime", startTime.text);
-                        contestantsListModel.setProperty(comboBoxCurrentIndex, "speed", parseInt(speed.text));
-                        contestantsListModel.setProperty(comboBoxCurrentIndex, "aircraft_type", planeType.text);
-                        contestantsListModel.setProperty(comboBoxCurrentIndex, "aircraft_registration", planeRegistration.text);
+                        contestantsListModel.setProperty(contestantsListModelRow, "name", name);
+                        contestantsListModel.setProperty(contestantsListModelRow, "category", category.currentText);
+                        contestantsListModel.setProperty(contestantsListModelRow, "fullName", name + "_" + category.currentText);
+                        contestantsListModel.setProperty(contestantsListModelRow, "startTime", startTime.text);
+                        contestantsListModel.setProperty(contestantsListModelRow, "speed", parseInt(speed.text));
+                        contestantsListModel.setProperty(contestantsListModelRow, "aircraft_type", planeType.text);
+                        contestantsListModel.setProperty(contestantsListModelRow, "aircraft_registration", planeRegistration.text);
                     }
 
-                    ok(igcRow);
+                    //ok(igcRow);
                     createContestantWindow.close()
                 }
                 else {

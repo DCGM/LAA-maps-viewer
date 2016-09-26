@@ -35,7 +35,6 @@ public:
 
     Q_INVOKABLE void createContestantResultsHTML(const QString &fileName,
                                                  const QString &cntJSON,
-                                                 const QString &igcJSON,
                                                  const QString &competitionName,
                                                  const QString &competitionType,
                                                  const QString &competitionDirector,

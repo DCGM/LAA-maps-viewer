@@ -18,7 +18,7 @@ ApplicationWindow {
     property variant cm; // contestantsListModel
     property int row;
 
-    signal choosenFilename(string filename);
+    signal choosenFilename(string filename, string filePath);
 
     onRowChanged: {
         if (datamodel === undefined) {
@@ -78,7 +78,8 @@ ApplicationWindow {
 
                 selectionTableView.selection.forEach(function(rowIndex) {
                     var fileName = datamodel.get(rowIndex, "fileName");
-                    choosenFilename(fileName)
+                    var filePath = datamodel.get(rowIndex, "filePath");
+                    choosenFilename(fileName, filePath)
                 });
                 igcChooseDialog.close();
 
@@ -90,7 +91,7 @@ ApplicationWindow {
             //% "None"
             text: qsTrId("IGC-Choose-Dialog-deselect")
             onClicked: {
-                choosenFilename("");
+                choosenFilename("", "");
                 igcChooseDialog.close();
             }
         }

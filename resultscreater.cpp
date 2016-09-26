@@ -148,7 +148,6 @@ void ResultsCreater::createContinuousResultsHTML(const QString &filePath,
 
 void ResultsCreater::createContestantResultsHTML(const QString &fileName,
                                                  const QString &cntJSON,
-                                                 const QString &igcJSON,
                                                  const QString &competitionName,
                                                  const QString &competitionType,
                                                  const QString &competitionDirector,
@@ -205,8 +204,8 @@ void ResultsCreater::createContestantResultsHTML(const QString &fileName,
     rows.append(QStringList() << getTranslatedString("html-results-ctnt-aircraft-registration") << jsonObject["aircraft_registration"].toString());
     rows.append(QStringList() << getTranslatedString("html-results-ctnt-aircraft-type") << jsonObject["aircraft_type"].toString());
 
-    jsonResponse = QJsonDocument::fromJson(igcJSON.toUtf8());
-    jsonObject = jsonResponse.object();
+    //jsonResponse = QJsonDocument::fromJson(igcJSON.toUtf8());
+    //jsonObject = jsonResponse.object();
 
     rows.append(QStringList() << getTranslatedString("html-results-ctnt-classify") << (jsonObject["classify"].toDouble() == 0 ? getTranslatedString("hit-yes") : getTranslatedString("hit-no")));
     rows.append(QStringList() << getTranslatedString("html-results-ctnt-score-points") << (jsonObject["scorePoints"].toDouble() < 0 ? "" : QString::number(jsonObject["scorePoints"].toDouble())));
@@ -354,8 +353,8 @@ void ResultsCreater::createContestantResultsHTML(const QString &fileName,
 
     html += getHTMLSpace(10);
 
-    jsonResponse = QJsonDocument::fromJson(igcJSON.toUtf8());
-    jsonObject = jsonResponse.object();
+    //jsonResponse = QJsonDocument::fromJson(igcJSON.toUtf8());
+    //jsonObject = jsonResponse.object();
 
     // speed sections
     // split array
@@ -401,8 +400,8 @@ void ResultsCreater::createContestantResultsHTML(const QString &fileName,
 
     // altitude sections
     // split array
-    jsonResponse = QJsonDocument::fromJson(igcJSON.toUtf8());
-    jsonObject = jsonResponse.object();
+    //jsonResponse = QJsonDocument::fromJson(igcJSON.toUtf8());
+    //jsonObject = jsonResponse.object();
     rx = QRegularExpression("\\{.*?\\}", QRegularExpression::DotMatchesEverythingOption);
     i = rx.globalMatch(jsonObject["altitudeSectionsScoreDetails"].toString());
 
@@ -445,8 +444,8 @@ void ResultsCreater::createContestantResultsHTML(const QString &fileName,
 
     // space sections
     // split array
-    jsonResponse = QJsonDocument::fromJson(igcJSON.toUtf8());
-    jsonObject = jsonResponse.object();
+    //jsonResponse = QJsonDocument::fromJson(igcJSON.toUtf8());
+    //jsonObject = jsonResponse.object();
     rx = QRegularExpression("\\{.*?\\}", QRegularExpression::DotMatchesEverythingOption);
     i = rx.globalMatch(jsonObject["spaceSectionsScoreDetails"].toString());
 

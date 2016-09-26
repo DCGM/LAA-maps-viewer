@@ -36,18 +36,37 @@ Item {
         }
     }
 
+    IGCChooseDialog {
+        id: igcChooseDialog
+        datamodel: igcFolderModel
+        cm: contestantsListModel
+        onChoosenFilename: {
+            //contestantsListModel.setProperty(row, "filename", filename)
+            //contestantsListModel.setProperty(row, "filePath", filePath)
+            //contestantsListModel.setProperty(row, "classify", filename === "" ? -1 : contestantsListModel.get(row).prevResultsClassify);
+
+            changeModel(row, "filename", filename);
+            //contestantsListModel.setProperty(row, "filePath", filePath);
+            changeModel(row, "classify", filename === "" ? -1 : contestantsListModel.get(row).prevResultsClassify);
+
+            // workarround for not syncing model
+            //contestantsTable.model = null;
+            //contestantsTable.model = contestantsListModel;
+
+            contestantsTable.selectRow(row);
+        }
+    }
+
     Menu {
         id: updateContestantMenu;
 
-        property int selectedRow: -1
-        property int contestantIndex: -1
-        property int igcRow: -1
+        property int row: -1
 
         onPopupVisibleChanged: {
 
             if (visible) {
 
-                if (contestantIndex === 0 ) {
+                if (row === -1 ) {
                     //% "Append contestant"
                     menuItem.text = qsTrId("scorelist-table-menu-append-contestant")
                 }
@@ -66,28 +85,14 @@ Item {
 
             onTriggered: {
 
-                if (updateContestantMenu.contestantIndex !== -1 && updateContestantMenu.igcRow !== -1) {
+                if (updateContestantMenu.row !== -1) {
 
-                    createContestantDialog.comboBoxCurrentIndex = updateContestantMenu.contestantIndex;
-                    createContestantDialog.igcRow = updateContestantMenu.igcRow;
+                    createContestantDialog.contestantsListModelRow = updateContestantMenu.row;
                     createContestantDialog.show();
                 }
             }
         }
     }
-
-
-
-    ListModel {
-
-        id: scoreListClassifyListModel
-
-        ListElement { //% "yes"
-            classify: qsTrId("scorelist-table-classify-yes") }
-        ListElement { //% "no"
-            classify: qsTrId("scorelist-table-classify-no") }
-    }
-
 
     NativeText {
         width: parent.width
@@ -101,16 +106,37 @@ Item {
 
         horizontalAlignment: styleData.role === "scorePoints1000" ? Text.AlignHCenter : Text.AlignLeft;
 
-        visible: (//(styleData.role === "startTime") ||
-                  //(styleData.role === "speed" && styleData.value !== -1) ||
-//                  styleData.role === "fileName" ||
-                  styleData.role === "name" ||
+        visible: (styleData.role === "name" ||
                   styleData.role === "category" ||
                   styleData.role === "classify" ||
                   styleData.role === "aircraftRegistration" ||
                   (styleData.role === "scorePoints1000" && styleData.value !== -1) ||
                   (styleData.role === "classOrder" && styleData.value !== -1))
-                 //||(!styleData.selected && (styleData.role !== "classify"))
+
+        MouseArea {
+
+            anchors.fill: parent
+            visible: styleData.role === "name"
+            acceptedButtons: Qt.LeftButton | Qt.RightButton
+
+            onDoubleClicked: {
+
+                createContestantDialog.contestantsListModelRow = styleData.row;
+                createContestantDialog.show();
+            }
+            onClicked: {
+
+                if (mouse.button === Qt.RightButton) {
+
+                    // update contestant dialog
+                    updateContestantMenu.row = styleData.row;
+                    updateContestantMenu.popup();
+                }
+                else {
+                    selectRow(styleData.row);
+                }
+            }
+        }
     }
 
 
@@ -141,20 +167,12 @@ Item {
             }
 
             onClassifyChanged : {
-
                 changeModel(styleData.row, styleData.role, index)
             }
 
             onComboBoxSelected : {
 
                 selectRow(styleData.row);
-            }
-
-            onRightButtonPressed : {
-
-                updateContestantMenu.igcRow = igcRow;
-                updateContestantMenu.contestantIndex = index;
-                updateContestantMenu.popup();
             }
         }
 
@@ -171,8 +189,6 @@ Item {
                 signal categorySelected(string newVal);
                 signal classifyChanged(int index);
                 signal comboBoxSelected();
-
-                signal rightButtonPressed(int index, int igcRow);
 
                 currentIndex: parseInt(styleData.value)
 
@@ -215,15 +231,11 @@ Item {
                 signal classifyChanged(int index);
                 signal comboBoxSelected();
 
-                signal rightButtonPressed(int index, int igcRow);
-
                 model: scoreListClassifyListModel
                 textRole: "classify"
                 currentIndex: styleData.value === -1 ? 0 : styleData.value
 
                 enabled: styleData.value !== -1
-
-
 
                 onCurrentIndexChanged: {
                     classifyChanged(currentIndex);
@@ -239,8 +251,6 @@ Item {
                 signal categorySelected(string newVal);
                 signal classifyChanged(int index);
                 signal comboBoxSelected();
-
-                signal rightButtonPressed(int index, int igcRow);
 
                 enabled: currentText !== "-"
                 model: competitionClassModel
@@ -277,10 +287,12 @@ Item {
         Connections {
             target: loaderFilenameButton.item
             onClicked: {
-                changeIgc(styleData.row);
+                //changeIgc(styleData.row);
+                igcChooseDialog.row = styleData.row;
+                igcChooseDialog.show();
             }
         }
-        sourceComponent: styleData.role === "fileName" ? filenameButton : null;
+        sourceComponent: styleData.role === "filename" ? filenameButton : null;
 
 
 
@@ -390,7 +402,7 @@ Item {
         sourceComponent:
             (
                 styleData.role !== "name" &&
-                styleData.role !== "fileName" &&
+                styleData.role !== "filename" &&
                 styleData.role !== "category" &&
                 styleData.role !== "classify" &&
                 styleData.role !== "scorePoints" &&
