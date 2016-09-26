@@ -928,28 +928,6 @@ ApplicationWindow {
         }
     }
 
-    /*
-    IGCChooseDialog {
-        id: igcChooseDialog
-        datamodel: igcFolderModel
-        cm: contestantsListModel
-        onChoosenFilename: {
-            //contestantsListModel.setProperty(row, "filename", filename)
-            //contestantsListModel.setProperty(row, "filePath", filePath)
-            //contestantsListModel.setProperty(row, "classify", filename === "" ? -1 : contestantsListModel.get(row).prevResultsClassify);
-
-            contestantsTable.nevim.changeModel(row, "filename", filename);
-            contestantsListModel.setProperty(row, "filePath", filePath);
-
-            // workarround for not syncing model
-            //contestantsTable.model = null;
-            //contestantsTable.model = contestantsListModel;
-
-            contestantsTable.selectRow(row);
-        }
-    }
-    */
-
 
 
     SplitView {
