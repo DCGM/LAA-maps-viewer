@@ -6,9 +6,9 @@ PdfWriter::PdfWriter(QObject *parent) : QObject(parent)
 }
 
 
-void PdfWriter::createPDF(QString a_strFileName)
+void PdfWriter::createPDF(QString a_strFilename)
 {
-    QPdfWriter writer(a_strFileName);
+    QPdfWriter writer(a_strFilename);
     QPainter painter(&writer);
 
     writer.setPageSize(QPagedPaintDevice::A4);

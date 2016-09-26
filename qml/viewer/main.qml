@@ -660,14 +660,14 @@ ApplicationWindow {
 
         //            for (var i = 0; i < igcFolderModel.count; i++) {
 
-        //                var fileName = igcFolderModel.get(i, "fileName")
+        //                var filename = igcFolderModel.get(i, "fileName")
         //                var filePath = igcFolderModel.get(i, "filePath");
 
         //                var found = false;
 
         //                for (var j = 0; j < igcFilesModel.count; j++) {
         //                    var item = igcFilesModel.get(j);
-        //                    if ((item.fileName === fileName) && (item.filePath === filePath)) {
+        //                    if ((item.filename === filename) && (item.filePath === filePath)) {
 
         //                        found = true;
         //                    }
@@ -683,7 +683,7 @@ ApplicationWindow {
 
         //                        contestant = contestantsListModel.get(j);
 
-        //                        if (fileName === contestant.filename) {
+        //                        if (filename === contestant.filename) {
         //                            contestant_index = j;
         //                        }
 
@@ -691,7 +691,7 @@ ApplicationWindow {
 
         //                    contestant = contestantsListModel.get(contestant_index);
 
-        //                    igcFilesModel.append({"fileName": fileName,
+        //                    igcFilesModel.append({"filename": filename,
         //                                          "filePath": filePath,
         //                                          "score": "",
         //                                          "score_json": "",
@@ -746,7 +746,7 @@ ApplicationWindow {
 
         onChangeLisModel: {
 
-               console.log("row: " + row + " role: " + role + " value: " + value + " count: " + contestantsListModel.count)
+//               console.log("row: " + row + " role: " + role + " value: " + value + " count: " + contestantsListModel.count)
 
                if (row >= contestantsListModel.count || row < 0) {
                    console.log("WUT? row role value " +row + " " +role + " " +value)
@@ -796,7 +796,7 @@ ApplicationWindow {
                                                                     contestant.prevResultsSpeed,
                                                                     contestant.prevResultsStartTime,
                                                                     contestant.prevResultsCategory,
-                                                                    contestant.prevResultsFileName,
+                                                                    contestant.prevResultsFilename,
                                                                     contestant.prevResultsTrackHas)) {
 
                             contestantsListModel.setProperty(row, "score", "");        //compute new score
@@ -1053,7 +1053,7 @@ ApplicationWindow {
                                                                             contestant.prevResultsSpeed,
                                                                             contestant.prevResultsStartTime,
                                                                             contestant.prevResultsCategory,
-                                                                            contestant.prevResultsFileName,
+                                                                            contestant.prevResultsFilename,
                                                                             contestant.prevResultsTrackHas)) {
 
                                     contestantsListModel.setProperty(row, "score", "");        //compute new score
@@ -1224,8 +1224,8 @@ ApplicationWindow {
                 // get flePath for selected filename
                 var filePath = "";
                 for (var i = 0; i < igcFolderModel.count; i++) {
-                    var fileName = igcFolderModel.get(i, "fileName");
-                    if (fileName === ctnt.filename) {
+                    var filename = igcFolderModel.get(i, "filename");
+                    if (filename === ctnt.filename) {
 
                         filePath = igcFolderModel.get(i, "filePath");
 
@@ -1450,7 +1450,7 @@ ApplicationWindow {
         //                    var prevRow = igcFilesTable.currentRow
         //                    var contestant;
         //                    var prevCategory = igcFilesModel.get(row).category;
-        //                    var prevName = igcFilesModel.get(row).fileName;
+        //                    var prevName = igcFilesModel.get(row).filename;
 
         //                    igcFilesModel.setProperty(row, role, value)
         //                    var ctIndex = igcFilesModel.get(row).contestant;
@@ -1488,12 +1488,12 @@ ApplicationWindow {
         //                        if (ctIndex === 0 || !resultsExist(contestant.speed,
         //                                          contestant.startTime,
         //                                          contestant.category,
-        //                                          igcFilesModel.get(row).fileName,
+        //                                          igcFilesModel.get(row).filename,
         //                                          MD5.MD5(JSON.stringify(trItem)),
         //                                          contestant.prevResultsSpeed,
         //                                          contestant.prevResultsStartTime,
         //                                          contestant.prevResultsCategory,
-        //                                          contestant.prevResultsFileName,
+        //                                          contestant.prevResultsFilename,
         //                                          contestant.prevResultsTrackHas)) {
 
         //                            igcFilesModel.setProperty(row, "score", "");        //compute new score
@@ -1540,7 +1540,7 @@ ApplicationWindow {
         //                        igcFilesTable.selection.clear();
 
         //                        for (var i = 0; i < igcFilesModel.count; i++) {
-        //                            if (igcFilesModel.get(i).fileName === prevName && prevName !== undefined)
+        //                            if (igcFilesModel.get(i).filename === prevName && prevName !== undefined)
         //                                row = i;
         //                        }
 
@@ -1566,7 +1566,7 @@ ApplicationWindow {
         //            TableViewColumn {
         //                //% "File name"
         //                title: qsTrId("filelist-table-filename")
-        //                role: "fileName";
+        //                role: "filename";
         //            }
         //            TableViewColumn {
         //                //% "Contestant"
@@ -2081,19 +2081,19 @@ ApplicationWindow {
     }
 
     // Compare results current and prev results property
-    function resultsExist(currentSpeed, currentStartTime, currentCategory, currentIgcFileName, currentTrackHash,
-                          prevSpeed, prevStartTime, prevCategory, prevIgcFileName, prevTrackHash) {
+    function resultsExist(currentSpeed, currentStartTime, currentCategory, currentIgcFilename, currentTrackHash,
+                          prevSpeed, prevStartTime, prevCategory, prevIgcFilename, prevTrackHash) {
 
         /*console.log("resultsExist: " + currentSpeed + "/" + prevSpeed + "   " +
                                        currentStartTime  + "/" + prevStartTime + "   " +
                                        currentCategory  + "/" +  prevCategory + "   " +
-                                       currentIgcFileName  + "/" +  prevIgcFileName + "   " +
+                                       currentIgcFilename  + "/" +  prevIgcFilename + "   " +
                                        currentTrackHash  + "/" + prevTrackHash)*/
 
         return (currentStartTime === prevStartTime &&
                 parseInt(currentSpeed) === parseInt(prevSpeed) &&
                 currentCategory === prevCategory &&
-                currentIgcFileName === prevIgcFileName &&
+                currentIgcFilename === prevIgcFilename &&
                 currentTrackHash === prevTrackHash);
 
     }
@@ -2299,7 +2299,7 @@ ApplicationWindow {
                                                 "prevResultsAltSec": (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][37]) : ""),
                                                 "prevResultsSpaceSec": (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][36]) : ""),
                                                 "prevResultsTrackHas": (csvFileFromViewer ? resultsCSV[j][30] : ""),
-                                                "prevResultsFileName": (csvFileFromViewer ? resultsCSV[j][38] : ""),
+                                                "prevResultsFilename": (csvFileFromViewer ? resultsCSV[j][38] : ""),
                                                 "prevResultsScorePoints": (csvFileFromOffice ? parseInt(resultsCSV[j][17]) : -1),
                                                 "prevResultsScore": (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][39]) : ""),
                                                 "prevResultsScoreJson": (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][40]) : ""),
@@ -2344,7 +2344,7 @@ ApplicationWindow {
 
                 // remove invalid results
                 if (!resultsExist(curCnt.speed, curCnt.startTime, curCnt.category, curCnt.filename, MD5.MD5(JSON.stringify(trItem)),
-                                  curCnt.prevResultsSpeed, curCnt.prevResultsStartTime, curCnt.prevResultsCategory, curCnt.prevResultsFileName, curCnt.prevResultsTrackHas)) {
+                                  curCnt.prevResultsSpeed, curCnt.prevResultsStartTime, curCnt.prevResultsCategory, curCnt.prevResultsFilename, curCnt.prevResultsTrackHas)) {
 
                     contestantsListModel.setProperty(i, "markersScore", 0);
                     contestantsListModel.setProperty(i, "photosScore", 0);
@@ -2355,7 +2355,7 @@ ApplicationWindow {
                     contestantsListModel.setProperty(i, "prevResultsStartTime", "");
                     contestantsListModel.setProperty(i, "prevResultsCategory", "");
                     contestantsListModel.setProperty(i, "prevResultsTrackHas", "");
-                    contestantsListModel.setProperty(i, "prevResultsFileName", "");
+                    contestantsListModel.setProperty(i, "prevResultsFilename", "");
                     contestantsListModel.setProperty(i, "prevResultsScore", "");
                     contestantsListModel.setProperty(i, "prevResultsScoreJson", "");
                     contestantsListModel.setProperty(i, "prevResultsScorePoints", -1);
@@ -2369,7 +2369,7 @@ ApplicationWindow {
 
         var res = getContinuousResults();
         var csvString = "";
-        var resultsFileName = "res";
+        var resultsFilename = "res";
 
         var recSize = 8;
 
@@ -2379,7 +2379,7 @@ ApplicationWindow {
         }
 
         // HTML
-        results_creator.createContinuousResultsHTML(pathConfiguration.resultsFolder + "/" + competitionConfiguretion.competitionName + "_" + resultsFileName,
+        results_creator.createContinuousResultsHTML(pathConfiguration.resultsFolder + "/" + competitionConfiguretion.competitionName + "_" + resultsFilename,
                                                     reStringArr,
                                                     recSize,
                                                     competitionConfiguretion.competitionName,
@@ -2419,7 +2419,7 @@ ApplicationWindow {
             csvString += "\n";
         }
 
-        file_reader.write(Qt.resolvedUrl(pathConfiguration.resultsFolder + "/" + competitionConfiguretion.competitionName + "_" + resultsFileName + ".csv"), csvString);
+        file_reader.write(Qt.resolvedUrl(pathConfiguration.resultsFolder + "/" + competitionConfiguretion.competitionName + "_" + resultsFilename + ".csv"), csvString);
     }
 
 
@@ -4656,7 +4656,7 @@ ApplicationWindow {
                     } else {
                         for (var i = 0; i < igcFilesModel.count; i++) {
                             var item = igcFilesModel.get(i);
-                            if (item.fileName === filename) {
+                            if (item.filename === filename) {
                                 igc_index = i;
                                 break;
                             }

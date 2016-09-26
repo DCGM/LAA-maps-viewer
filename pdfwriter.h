@@ -13,7 +13,7 @@ class PdfWriter : public QObject
 public:
     explicit PdfWriter(QObject *parent = 0);
 
-    Q_INVOKABLE void createPDF(const QString a_strFileName);
+    Q_INVOKABLE void createPDF(const QString a_strFilename);
 };
 
 #endif // PDFWRITER_H

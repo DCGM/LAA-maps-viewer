@@ -228,7 +228,7 @@ ApplicationWindow {
                                         "prevResultsAltSec": "",
                                         "prevResultsSpaceSec": "",
                                         "prevResultsTrackHas": "",
-                                        "prevResultsFileName": "",
+                                        "prevResultsFilename": "",
                                         "prevResultsScorePoints": -1,
                                         "prevResultsScore": "",
                                         "prevResultsScoreJson": "",

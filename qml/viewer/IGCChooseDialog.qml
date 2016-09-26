@@ -8,8 +8,8 @@ import "functions.js" as F
 ApplicationWindow {
     id: igcChooseDialog;
     modality: "WindowModal"
-    width: 500;
-    height: 300;
+    width: 550;
+    height: 700;
 
 
     //% "Choose IGC File"
@@ -17,10 +17,17 @@ ApplicationWindow {
     property variant datamodel; // igcFolderModel
     property variant cm; // contestantsListModel
     property int row;
+    property int lateSelect
+
+    ListModel {
+        id: fileContestantPairModel
+    }
+
 
     signal choosenFilename(string filename, string filePath);
 
-    onRowChanged: {
+    function folderModelChanged() {
+
         if (datamodel === undefined) {
             return;
         }
@@ -29,17 +36,66 @@ ApplicationWindow {
             return;
         }
 
-        var item = cm.get(row);
-        selectionTableView.selection.clear();
-        var selectedFilename = item.fileName;
-
-        for (var i = 0; i < datamodel.count; i++) {
-            var fileName = datamodel.get(i, "fileName");
-            if (fileName === selectedFilename) {
-                selectionTableView.selection.select(i);
-            }
+        if (datamodel === undefined) {
+            return;
         }
 
+        var cmItem = cm.get(row); // contestant from contestant Table
+        var selectedFilename = cmItem.filename; //
+
+        lateSelect = -1;
+        fileContestantPairModel.clear();
+        for (var i = 0; i < datamodel.count; i++) {
+            var filename = datamodel.get(i, "fileName");
+            var filepath = datamodel.get(i, "filePath");
+            var matchCount = 0;
+            var contestant = "";
+            for (var j = 0; j < cm.count; j++) {
+                var item = cm.get(j);
+                if (item.filename === filename) {
+                    contestant = contestant + item.name + " ";
+                    matchCount++;
+                }
+            }
+
+            if (filename === selectedFilename) {
+                lateSelect = i;
+            }
+
+
+            fileContestantPairModel.append
+                    ({
+                         "filepath" : filepath,
+                         "filename" : filename,
+                         "contestant" : contestant,
+                         "matchCount" : matchCount,
+                     })
+        }
+
+
+    }
+
+
+    Component.onCompleted: {
+        datamodel.countChanged.connect(folderModelChanged); // FolderListModel
+        rowChanged.connect(folderModelChanged); // index of row in ContestantTable
+        selectionTableView.rowCountChanged.connect(doLateSelect);
+        selectionTableView.modelChanged.connect(doLateSelect);
+        lateSelectChanged.connect(doLateSelect);
+    }
+
+
+    function doLateSelect() {
+        if (lateSelect === -1) {
+            selectionTableView.positionViewAtRow(0, ListView.Contain)
+            return;
+        }
+
+        if (selectionTableView.rowCount > lateSelect) {
+            selectionTableView.selection.clear();
+            selectionTableView.selection.select(lateSelect);
+            selectionTableView.positionViewAtRow(lateSelect, ListView.Contain)
+        }
     }
 
     TableView {
@@ -50,12 +106,22 @@ ApplicationWindow {
         anchors.bottom: actionButtons.top;
         anchors.margins: 10
 
-        model: datamodel;
+        model: fileContestantPairModel;
         selectionMode: SelectionMode.SingleSelection;
         TableViewColumn {
             //% "Filename"
             title: qsTrId("IGC-Choose-dialog-filename")
-            role: "fileName"
+            role: "filename"
+        }
+        TableViewColumn {
+            //% "Contestant"
+            title: qsTrId("IGC-Choose-dialog-contestant")
+            role: "contestant"
+        }
+        TableViewColumn {
+            //% "Count"
+            title: qsTrId("IGC-Choose-dialog-match-count")
+            role: "matchCount"
         }
     }
     /// Action Buttons
@@ -76,11 +142,21 @@ ApplicationWindow {
                     return;
                 }
 
+                var found = false;
+
                 selectionTableView.selection.forEach(function(rowIndex) {
-                    var fileName = datamodel.get(rowIndex, "fileName");
+                    var filename = datamodel.get(rowIndex, "fileName");
                     var filePath = datamodel.get(rowIndex, "filePath");
-                    choosenFilename(fileName, filePath)
+                    choosenFilename(filename, filePath)
+                    found = true;
+                    return;
+
                 });
+
+                if (!found) {
+                    choosenFilename("","");
+                }
+
                 igcChooseDialog.close();
 
 

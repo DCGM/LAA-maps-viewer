@@ -134,7 +134,7 @@ void ResultsCreater::createContinuousResultsHTML(const QString &filePath,
     QPrinter printer(QPrinter::PrinterResolution);
     printer.setOutputFormat(QPrinter::PdfFormat);
     printer.setPaperSize(QPrinter::A4);
-    printer.setOutputFileName(QUrl(filePath + ".pdf").toLocalFile());
+    printer.setOutputFilename(QUrl(filePath + ".pdf").toLocalFile());
     qDebug() << QUrl(filePath + "/test.pdf").toLocalFile() << endl;
     printer.setPageMargins(QMarginsF(15, 15, 15, 15));
 
@@ -146,7 +146,7 @@ void ResultsCreater::createContinuousResultsHTML(const QString &filePath,
 
 
 
-void ResultsCreater::createContestantResultsHTML(const QString &fileName,
+void ResultsCreater::createContestantResultsHTML(const QString &filename,
                                                  const QString &cntJSON,
                                                  const QString &competitionName,
                                                  const QString &competitionType,
@@ -217,7 +217,7 @@ void ResultsCreater::createContestantResultsHTML(const QString &fileName,
     html += "   <div class=\"col-md-6\">";
 
     // trajectory
-    html += getHTMLResponsiveImage(getImageBase64(QUrl(fileName + ".png")));
+    html += getHTMLResponsiveImage(getImageBase64(QUrl(filename + ".png")));
 
     html += "   </div>";
     html += "</div>";
@@ -484,7 +484,7 @@ void ResultsCreater::createContestantResultsHTML(const QString &fileName,
     html += "</body>\n";
     html += "</html>\n";
 
-    file.writeUTF8(QUrl(fileName + ".html"), html.toUtf8());
+    file.writeUTF8(QUrl(filename + ".html"), html.toUtf8());
 }
 
 const inline QString ResultsCreater::getFontColorStartTag(QString color) {

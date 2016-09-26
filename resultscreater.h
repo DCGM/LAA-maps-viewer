@@ -33,7 +33,7 @@ public:
 
     explicit ResultsCreater(QObject *parent = 0);
 
-    Q_INVOKABLE void createContestantResultsHTML(const QString &fileName,
+    Q_INVOKABLE void createContestantResultsHTML(const QString &filename,
                                                  const QString &cntJSON,
                                                  const QString &competitionName,
                                                  const QString &competitionType,
