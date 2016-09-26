@@ -448,49 +448,38 @@ ApplicationWindow {
     }
 
 
+    function getContestantIndexByProperty(name, category, speed, planeType, planeRegistration) {
+
+        for (var i = 0; i < contestantsListModel.count; i++) {
+
+            var item = contestantsListModel.get(i);
+
+            if(item.name === name && item.category === category && item.speed === speed && item.aircraft_type === planeType && item.aircraft_registration === planeRegistration) {
+                return i;
+            }
+        }
+
+        return 0;
+    }
+
+
+
     CreateContestantDialog {
 
         id: createContestantDialog
 
         onOk: {
 
+            // select new or updated contestant
+            var index = getContestantIndexByProperty(name, category, speed, planeType, planeRegistration);
 
-            if (createNewContestant) {
-/*
-                // assign new contestant to the current igc item
-                igcFilesTable.selection.clear();
-                igcFilesTable.selection.select(igcTableRow);
-                igcFilesTable.currentRow = igcTableRow;
+            contestantsTable.selection.clear();
+            if (contestantsListModel.count > 0) {
 
-                igcFilesModel.setProperty(igcTableRow, "contestant", contestantsListModel.count - 1);
-*/
-            }
-            else {
-                // update contestant
-/*
-                var igcItem = igcFilesModel.get(igcTableRow);
-                var contestantIndex = igcItem.contestant;
-                var igcName = igcItem.fileName
-
-                igcFilesModel.setProperty(igcTableRow, "contestant", 0);    // igcFilesModel is sorted after this change
-
-                for (var i = 0; i < igcFilesModel.count; i++) { // get new position of the igc item
-
-                    if (igcFilesModel.get(i).fileName === igcName) {
-
-                        // select current row and assign updated contestant
-                        igcFilesTable.selection.clear();
-                        igcFilesTable.selection.select(i);
-                        igcFilesTable.currentRow = i;
-
-                        igcFilesModel.setProperty(i, "contestant", contestantIndex);
-                        break;
-                    }
-                }
-*/
+                contestantsTable.selection.select(index);
+                contestantsTable.currentRow = index;
             }
         }
-
     }
 
     CompetitionConfiguration {
@@ -566,6 +555,63 @@ ApplicationWindow {
 
         }
         onCancel: {
+        }
+    }
+
+    IGCChooseDialog {
+        id: igcChooseDialog
+        datamodel: igcFolderModel
+        cm: contestantsListModel
+        onChoosenFilename: {
+
+            contestantsListModel.changeLisModel(row, "filename", filename);
+            contestantsListModel.changeLisModel(row, "classify", filename === "" ? -1 : contestantsListModel.get(row).prevResultsClassify);
+
+            contestantsTable.selectRow(row);
+        }
+    }
+
+    Menu {
+        id: recalculateScoreMenu;
+
+        property int selectedRow: -1
+
+        MenuItem {
+            //% "Recalculate"
+            text: qsTrId("scorelist-table-menu-recalculate-score")
+            onTriggered: { contestantsTable.recalculateResults(recalculateScoreMenu.selectedRow); }
+        }
+
+        MenuItem {
+            //% "Generate contestant results"
+            text: qsTrId("scorelist-table-menu-generate-contestant-results")
+            onTriggered: { contestantsTable.generateResults(recalculateScoreMenu.selectedRow); }
+        }
+    }
+
+    Menu {
+        id: updateContestantMenu;
+
+        property int row: -1
+
+        MenuItem {
+            //% "Edit contestant"
+            text: qsTrId("scorelist-table-menu-edit-contestant")
+
+            onTriggered: {
+                createContestantDialog.contestantsListModelRow = updateContestantMenu.row;
+                createContestantDialog.show();
+            }
+        }
+
+        MenuItem {
+            //% "Append contestant"
+            text: qsTrId("scorelist-table-menu-append-contestant")
+
+            onTriggered: {
+                createContestantDialog.contestantsListModelRow = contestantsListModel.count;
+                createContestantDialog.show();
+            }
         }
     }
 
@@ -695,6 +741,125 @@ ApplicationWindow {
 
     ListModel {
         id: contestantsListModel
+
+        signal changeLisModel(int row, string role, variant value);
+
+        onChangeLisModel: {
+
+               console.log("row: " + row + " role: " + role + " value: " + value + " count: " + contestantsListModel.count)
+
+               if (row >= contestantsListModel.count || row < 0) {
+                   console.log("WUT? row role value " +row + " " +role + " " +value)
+                   return;
+               }
+
+               var prevRow = contestantsTable.currentRow;
+               var prevItem = contestantsListModel.get(row);
+               var prevCategory = prevItem.category;
+               var prevName = prevItem.name;
+
+               contestantsListModel.setProperty(row, role, value)
+               var contestant = contestantsListModel.get(row);
+
+               // init classify combobox for contestant
+               if (parseInt(contestant.classify) === -1) {
+                    contestantsListModel.setProperty(row, "classify", contestant.filename === "" ? -1 : contestant.prevResultsClassify);
+               }
+
+                if (role === "category") {
+
+                    // change full name and reload item
+                    contestantsListModel.setProperty(row, "fullName", contestant.name + "_" + contestant.category);
+                    contestant = contestantsListModel.get(row);
+                }
+                if (role === "filename" || role === "speed" || role === "startTime" || role === "category") {
+
+                    // load contestant category
+                    for (var t = 0; t < tracks.tracks.length; t++) {
+
+                        if (tracks.tracks[t].name === contestant.category)
+                            trItem = tracks.tracks[t]
+                    }
+
+                // recalculate manual values score / markers, photos, ...
+                if (contestant.filename !== "") recalculateContestnatManualScoreValues(row);
+
+                    // reload update ctnt
+                    contestant = contestantsListModel.get(row);
+
+                    // no results for this values
+                    if (contestant.filename === "" || !resultsExist(contestant.speed,
+                                                                    contestant.startTime,
+                                                                    contestant.category,
+                                                                    contestant.filename,
+                                                                    MD5.MD5(JSON.stringify(trItem)),
+                                                                    contestant.prevResultsSpeed,
+                                                                    contestant.prevResultsStartTime,
+                                                                    contestant.prevResultsCategory,
+                                                                    contestant.prevResultsFileName,
+                                                                    contestant.prevResultsTrackHas)) {
+
+                            contestantsListModel.setProperty(row, "score", "");        //compute new score
+                            contestantsListModel.setProperty(row, "scorePoints", -1);
+                            contestantsListModel.setProperty(row, "scorePoints1000", -1);
+                            contestantsListModel.setProperty(row, "wptScoreDetails", contestant.prevResultsWPT);
+                            contestantsListModel.setProperty(row, "speedSectionsScoreDetails", contestant.prevResultsSpeedSec);
+                            contestantsListModel.setProperty(row, "spaceSectionsScoreDetails", contestant.prevResultsSpaceSec);
+                            contestantsListModel.setProperty(row, "altitudeSectionsScoreDetails", contestant.prevResultsAltSec);
+
+                    }
+                    // load prev results
+                    else {
+
+                        contestantsListModel.setProperty(row, "trackHash", contestant.prevResultsTrackHas);
+                        contestantsListModel.setProperty(row, "wptScoreDetails", contestant.prevResultsWPT);
+                        contestantsListModel.setProperty(row, "speedSectionsScoreDetails", contestant.prevResultsSpeedSec);
+                        contestantsListModel.setProperty(row, "spaceSectionsScoreDetails", contestant.prevResultsSpaceSec);
+                        contestantsListModel.setProperty(row, "altitudeSectionsScoreDetails", contestant.prevResultsAltSec);
+                        contestantsListModel.setProperty(row, "score_json", contestant.prevResultsScoreJson)
+                        contestantsListModel.setProperty(row, "score", contestant.prevResultsScore)
+                        contestantsListModel.setProperty(row, "scorePoints", contestant.prevResultsScorePoints);
+                    }
+                }
+
+                // change continuous results models
+                if (role === "category") {
+
+                    // decrease prev category counter
+                    if (prevCategory !== "-" && value !== prevCategory) {
+                        updateContestantInCategoryCounters(prevCategory, false);
+                    }
+
+                    // increase actual category counter
+                    updateContestantInCategoryCounters(value, true);
+                }
+
+                if (role === "startTime") sortListModelByStartTime();
+
+                // select row
+                if (prevRow === row) {
+
+                    contestantsTable.selection.clear();
+
+                    for (var i = 0; i < contestantsListModel.count; i++) {
+                        var ctIt = contestantsListModel.get(i);
+
+                        // find and select current item (after sort)
+                        if (ctIt.name === prevName && prevName !== undefined) {
+                            row = i;
+                            break;
+                        }
+                    }
+
+                    contestantsTable.selection.select(row);
+                    contestantsTable.currentRow = row;
+                }
+
+                // save results into CSV
+                writeCSV();
+                recalculateScoresTo1000();
+                writeScoreManulaValToCSV();
+        }
     }
 
     ListModel {// for reload prev manual values, cache
@@ -801,6 +966,37 @@ ApplicationWindow {
             clip: true;
 
             signal selectRow(int row);
+            signal generateResults(int row);
+            signal recalculateResults(int row);
+
+            onRecalculateResults: {
+
+                contestantsListModel.setProperty(row, "score", "");        //compute new score
+                contestantsListModel.setProperty(row, "scorePoints", -1);
+                contestantsListModel.setProperty(row, "scorePoints1000", -1);
+
+                contestantsTable.selectRow(row);
+            }
+
+            onGenerateResults: {
+
+                contestantsTable.selection.clear();
+                contestantsTable.selection.select(row);
+                contestantsTable.currentRow = row;
+
+                var contestant = contestantsListModel.get(row);
+
+                // create contestant html file
+                results_creator.createContestantResultsHTML((pathConfiguration.resultsFolder + "/" + contestant.name + "_" + contestant.category),
+                                                            JSON.stringify(contestant),
+                                                            competitionConfiguretion.competitionName,
+                                                            competitionConfiguretion.getCompetitionTypeString(parseInt(competitionConfiguretion.competitionType)),
+                                                            competitionConfiguretion.competitionDirector,
+                                                            competitionConfiguretion.competitionDirectorAvatar,
+                                                            competitionConfiguretion.competitionArbitr,
+                                                            competitionConfiguretion.competitionArbitrAvatar,
+                                                            competitionConfiguretion.competitionDate);
+            }
 
             onSelectRow: {
 
@@ -824,38 +1020,12 @@ ApplicationWindow {
                     contestantsTable.selectRow(row);
                 }
 
-                onRecalculateResults: {
-
-                    contestantsListModel.setProperty(row, "score", "");        //compute new score
-                    contestantsListModel.setProperty(row, "scorePoints", -1);
-                    contestantsListModel.setProperty(row, "scorePoints1000", -1);
-
-                    contestantsTable.selectRow(row);
-                }
-
-                onGenerateResults: {
-
-                    contestantsTable.selection.clear();
-                    contestantsTable.selection.select(row);
-                    contestantsTable.currentRow = row;
-
-                    var contestant = contestantsListModel.get(row);
-
-                    // create contestant html file
-                    results_creator.createContestantResultsHTML((pathConfiguration.resultsFolder + "/" + contestant.name + "_" + contestant.category),
-                                                                JSON.stringify(contestant),
-                                                                competitionConfiguretion.competitionName,
-                                                                competitionConfiguretion.getCompetitionTypeString(parseInt(competitionConfiguretion.competitionType)),
-                                                                competitionConfiguretion.competitionDirector,
-                                                                competitionConfiguretion.competitionDirectorAvatar,
-                                                                competitionConfiguretion.competitionArbitr,
-                                                                competitionConfiguretion.competitionArbitrAvatar,
-                                                                competitionConfiguretion.competitionDate);
-                }
-
                 onChangeModel: {
 
-                       console.log("row: " + row + " role: " + role + " value: " + value + " count: " + contestantsListModel.count)
+                       contestantsListModel.changeLisModel(row, role, value);
+                       return;
+
+                      /* console.log("row: " + row + " role: " + role + " value: " + value + " count: " + contestantsListModel.count)
 
                        if (row >= contestantsListModel.count || row < 0) {
                            console.log("WUT? row role value " +row + " " +role + " " +value)
@@ -968,6 +1138,7 @@ ApplicationWindow {
                         writeCSV();
                         recalculateScoresTo1000();
                         writeScoreManulaValToCSV();
+                        */
                 }
 
                 onShowResults: {
@@ -3625,8 +3796,6 @@ ApplicationWindow {
                 altSecScoreSum += item.altSecScore;
             }
             altSectionsScoreListManualValuesCache.clear();
-
-            console.log(item.name + "   " + item.classify)
 
             str += "\"" + F.addSlashes(item.name) + "\";"
 

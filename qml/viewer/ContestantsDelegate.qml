@@ -11,77 +11,7 @@ Item {
 
     signal changeModel(int row, string role, variant value);
     signal showResults(int row);
-    signal recalculateResults(int row);
     signal selectRow(int row);
-    signal generateResults(int row);
-    signal changeIgc(int row);
-
-    Menu {
-        id: recalculateScoreMenu;
-
-        property int selectedRow: -1
-
-        MenuItem {
-            //% "Recalculate"
-            text: qsTrId("scorelist-table-menu-recalculate-score")
-
-            onTriggered: { recalculateResults(recalculateScoreMenu.selectedRow); }
-        }
-
-        MenuItem {
-            //% "Generate contestant results"
-            text: qsTrId("scorelist-table-menu-generate-contestant-results")
-
-            onTriggered: { generateResults(recalculateScoreMenu.selectedRow); }
-        }
-    }
-
-    IGCChooseDialog {
-        id: igcChooseDialog
-        datamodel: igcFolderModel
-        cm: contestantsListModel
-        onChoosenFilename: {
-            //contestantsListModel.setProperty(row, "filename", filename)
-            //contestantsListModel.setProperty(row, "filePath", filePath)
-            //contestantsListModel.setProperty(row, "classify", filename === "" ? -1 : contestantsListModel.get(row).prevResultsClassify);
-
-            changeModel(row, "filename", filename);
-            //contestantsListModel.setProperty(row, "filePath", filePath);
-            changeModel(row, "classify", filename === "" ? -1 : contestantsListModel.get(row).prevResultsClassify);
-
-            // workarround for not syncing model
-            //contestantsTable.model = null;
-            //contestantsTable.model = contestantsListModel;
-
-            contestantsTable.selectRow(row);
-        }
-    }
-
-    Menu {
-        id: updateContestantMenu;
-
-        property int row: -1
-
-        MenuItem {
-            //% "Edit contestant"
-            text: qsTrId("scorelist-table-menu-edit-contestant")
-
-            onTriggered: {
-                createContestantDialog.contestantsListModelRow = updateContestantMenu.row;
-                createContestantDialog.show();
-            }
-        }
-
-        MenuItem {
-            //% "Append contestant"
-            text: qsTrId("scorelist-table-menu-append-contestant")
-
-            onTriggered: {
-                createContestantDialog.contestantsListModelRow = contestantsListModel.count;
-                createContestantDialog.show();
-            }
-        }
-    }
 
     NativeText {
         width: parent.width
@@ -141,17 +71,6 @@ Item {
         Connections {
             target: loaderCombobox.item
 
-            onContestantSelected: {
-
-                if (t < 0 ) {
-// FIXME
-//                    console.log("comboSet: " +styleData.row+", "+styleData.role+", "+t)
-                    return;
-                }
-
-                changeModel(styleData.row, styleData.role, t)
-            }
-
             onCategorySelected: {
 
                 changeModel(styleData.row, styleData.role, newVal)
@@ -167,57 +86,14 @@ Item {
             }
         }
 
-        sourceComponent: (styleData.role === "contestant") ? contestantComboComponent :
-                         (styleData.role === "classify" ? contestantClassifyComboComponent :
+        sourceComponent: (styleData.role === "classify" ? contestantClassifyComboComponent :
                          (styleData.role === "category" ? contestantCattegoryComboComponent : null))
-
-        Component {
-            id: contestantComboComponent
-            ComboBox {
-                id: contestatComboBox;
-                width: delegate.width - 10;
-                signal contestantSelected(int t);
-                signal categorySelected(string newVal);
-                signal classifyChanged(int index);
-                signal comboBoxSelected();
-
-                currentIndex: parseInt(styleData.value)
-
-                onActivated: {
-                    comboBoxSelected();
-                }
-
-                onCurrentIndexChanged: {
-                    contestantSelected(currentIndex)
-                }
-
-                model: delegate.comboModel
-                textRole: "name"
-
-                MouseArea {
-
-                   // id: mouse
-                    anchors.fill: parent
-                    acceptedButtons: Qt.LeftButton | Qt.RightButton
-
-                    onPressed: {
-
-                        if (mouse.button == Qt.RightButton) {
-                            rightButtonPressed(contestatComboBox.currentIndex, styleData.row); //recalculate results
-                        }
-                        else {
-                            mouse.accepted = false; // propagate mouse event to the combobox
-                        }
-                    }
-                }
-            }
-        }
 
         Component {
             id: contestantClassifyComboComponent
             ComboBox {
                 width: delegate.width - 10;
-                signal contestantSelected(int t);
+
                 signal categorySelected(string newVal);
                 signal classifyChanged(int index);
                 signal comboBoxSelected();
@@ -238,7 +114,7 @@ Item {
             id: contestantCattegoryComboComponent
             ComboBox {
                 width: delegate.width - 10;
-                signal contestantSelected(int t);
+
                 signal categorySelected(string newVal);
                 signal classifyChanged(int index);
                 signal comboBoxSelected();
@@ -278,7 +154,7 @@ Item {
         Connections {
             target: loaderFilenameButton.item
             onClicked: {
-                //changeIgc(styleData.row);
+
                 igcChooseDialog.row = styleData.row;
                 igcChooseDialog.show();
             }

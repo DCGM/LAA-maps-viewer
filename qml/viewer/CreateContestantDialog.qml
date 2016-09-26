@@ -18,7 +18,7 @@ ApplicationWindow {
     property int contestantsListModelRow;
     property bool createNewContestant;
 
-    signal ok(int igcTableRow);
+    signal ok(string name, string category, string startTime, int speed, string planeType, string planeRegistration);
 
     onVisibleChanged: {
 
@@ -193,7 +193,7 @@ ApplicationWindow {
                                         "category": category,
                                         "currentCategory": category,
                                         "fullName": name + "_" + category,
-                                        "startTime": startTime,
+                                        "startTime": "",
                                         "currentStartTime": startTime,
                                         "filename": "",
                                         "speed": parseInt(speed),
@@ -238,6 +238,11 @@ ApplicationWindow {
                                         "prevResultsClassify": 0
 
                                     })
+
+        // used instead of the append due to some post processing
+        contestantsListModel.changeLisModel(contestantsListModel.count - 1, "category", category);
+        contestantsListModel.changeLisModel(contestantsListModel.count - 1, "speed", parseInt(speed));
+        contestantsListModel.changeLisModel(contestantsListModel.count - 1, "startTime", startTime);
     }
 
     MessageDialog {
@@ -279,6 +284,8 @@ ApplicationWindow {
                 // check required values
                 if (pilotName.text !== "" && speed.text !== "" && startTime.text !== "") {
 
+                    var name = copilotName.text === "" ? pilotName.text : pilotName.text + " - " + copilotName.text;
+
                     if (createNewContestant) {
 
                         // add crew into listmodel
@@ -286,18 +293,17 @@ ApplicationWindow {
                     }
                     else {
                         // update current
-                        var name = copilotName.text === "" ? pilotName.text : pilotName.text + " - " + copilotName.text;
-
                         contestantsListModel.setProperty(contestantsListModelRow, "name", name);
-                        contestantsListModel.setProperty(contestantsListModelRow, "category", category.currentText);
-                        contestantsListModel.setProperty(contestantsListModelRow, "fullName", name + "_" + category.currentText);
-                        contestantsListModel.setProperty(contestantsListModelRow, "startTime", startTime.text);
-                        contestantsListModel.setProperty(contestantsListModelRow, "speed", parseInt(speed.text));
                         contestantsListModel.setProperty(contestantsListModelRow, "aircraft_type", planeType.text);
                         contestantsListModel.setProperty(contestantsListModelRow, "aircraft_registration", planeRegistration.text);
+
+                        // used instead of the "setProperty" due to some post processing
+                        contestantsListModel.changeLisModel(contestantsListModelRow, "category", category.currentText);
+                        contestantsListModel.changeLisModel(contestantsListModelRow, "speed", parseInt(speed.text));
+                        contestantsListModel.changeLisModel(contestantsListModelRow, "startTime", startTime.text);
                     }
 
-                    //ok(igcRow);
+                    ok(name, category.currentText, startTime.text, parseInt(speed.text), planeType.text, planeRegistration.text);
                     createContestantWindow.close()
                 }
                 else {
