@@ -44,6 +44,7 @@ ApplicationWindow {
     Component.onCompleted: {
 
         // load last competition settings
+        /*
         competitionConfiguretion.competitionName = config.get("competitionName_default", "competitionName");
         competitionConfiguretion.competitionType = config.get("competitionType_default", "competitionType");
         competitionConfiguretion.competitionTypeText = competitionConfiguretion.getCompetitionTypeString(parseInt(competitionConfiguretion.competitionType));
@@ -52,6 +53,22 @@ ApplicationWindow {
         competitionConfiguretion.competitionArbitr = JSON.parse(config.get("competitionArbitr_default", ["competitionArbitr"]));
         competitionConfiguretion.competitionArbitrAvatar = JSON.parse(config.get("competitionArbitrAvatar_default", [""]));
         competitionConfiguretion.competitionDate = config.get("competitionDate_default", Qt.formatDateTime(new Date(), "yyMMdd"));
+        */
+
+        pathConfiguration.competitionName = config.get("competitionName_default", "competitionName");
+        pathConfiguration.competitionType = config.get("competitionType_default", "competitionType");
+        pathConfiguration.competitionTypeText = pathConfiguration.getCompetitionTypeString(parseInt(pathConfiguration.competitionType));
+        pathConfiguration.competitionDirector = config.get("competitionDirector_default", "competitionDirector");
+        pathConfiguration.competitionDirectorAvatar = JSON.parse(config.get("competitionDirectorAvatar_default", ""));
+        pathConfiguration.competitionArbitr = JSON.parse(config.get("competitionArbitr_default", ["competitionArbitr"]));
+        pathConfiguration.competitionArbitrAvatar = JSON.parse(config.get("competitionArbitrAvatar_default", [""]));
+        pathConfiguration.competitionDate = config.get("competitionDate_default", Qt.formatDateTime(new Date(), "yyMMdd"));
+    }
+
+    // function download appplications for previouslz selected competition
+    function refreshApplications() {
+
+
     }
 
     menuBar: MenuBar {
@@ -79,21 +96,23 @@ ApplicationWindow {
             }
 
             MenuItem {
-                //% "&Download application"
-                text: qsTrId("main-file-menu-download-application")
+                //% "&Refresh application"
+                text: qsTrId("main-file-menu-refresh-application")
+                enabled: (pathConfiguration.selectedCompetition != "")
                 onTriggered: {
-                    selectCompetitionOnlineDialog.show();
+                    //selectCompetitionOnlineDialog.show();
+                    selectCompetitionOnlineDialog.refreshApplications();
                 }
                 shortcut: "Ctrl+W"
             }
-
+            /*
             MenuItem {
                 //% "Evaluate all data"
                 text: qsTrId("main-file-menu-process-all");
                 onTriggered: evaluate_all_data();
                 shortcut: "Ctrl+D"
             }
-
+            */
 
             MenuItem {
                 //% "Generate continuous results"
@@ -377,7 +396,10 @@ ApplicationWindow {
 
             file_reader.write(Qt.resolvedUrl(pathConfiguration.contestantsFile), csvString);
 
-            pathConfiguration.ok();
+            importDataDialog.listModel.clear();
+            initCategoryCounters();
+
+            loadContestants(Qt.resolvedUrl(pathConfiguration.contestantsFile))
         }
     }
 
@@ -497,6 +519,12 @@ ApplicationWindow {
         id: pathConfiguration;
         onOk: {
 
+            // save downloaded applications
+            if (contestantsDownloadedString !== "") {
+
+                file_reader.write(Qt.resolvedUrl(pathConfiguration.contestantsFile), contestantsDownloadedString);
+            }
+
             // clear contestant in categories counters
             if (file_reader.file_exists(Qt.resolvedUrl(pathConfiguration.trackFile ))) {
                 tracks = JSON.parse(file_reader.read(Qt.resolvedUrl(pathConfiguration.trackFile )))
@@ -522,15 +550,15 @@ ApplicationWindow {
             } else {
 
                 //% "File %1 not found"
-                //errorMessage.text = qsTrId("path-configuration-error-contestantsFile-not-found").arg(pathConfiguration.contestantsFile);
-                //errorMessage.open();
+                errorMessage.text = qsTrId("path-configuration-error-contestantsFile-not-found").arg(pathConfiguration.contestantsFile);
+                errorMessage.open();
 
                 //% "Configuration error"
-                contestnatsNotFoundMessage.title = qsTrId("path-configuration-error-contestantsFile-not-found-title");
+                //contestnatsNotFoundMessage.title = qsTrId("path-configuration-error-contestantsFile-not-found-title");
 
                 //% "File %1 not found. Do you want to download the file from the server?"
-                contestnatsNotFoundMessage.text = qsTrId("path-configuration-error-contestantsFile-not-found-text").arg(pathConfiguration.contestantsFile.substring(8));
-                contestnatsNotFoundMessage.open();
+                //contestnatsNotFoundMessage.text = qsTrId("path-configuration-error-contestantsFile-not-found-text").arg(pathConfiguration.contestantsFile.substring(8));
+                //contestnatsNotFoundMessage.open();
 
                 return;
             }
@@ -989,7 +1017,7 @@ ApplicationWindow {
                 var contestant = contestantsListModel.get(row);
 
                 // create contestant html file
-                results_creator.createContestantResultsHTML((pathConfiguration.resultsFolder + "/" + contestant.name + "_" + contestant.category),
+                /*results_creator.createContestantResultsHTML((pathConfiguration.resultsFolder + "/" + contestant.name + "_" + contestant.category),
                                                             JSON.stringify(contestant),
                                                             competitionConfiguretion.competitionName,
                                                             competitionConfiguretion.getCompetitionTypeString(parseInt(competitionConfiguretion.competitionType)),
@@ -998,6 +1026,16 @@ ApplicationWindow {
                                                             competitionConfiguretion.competitionArbitr,
                                                             competitionConfiguretion.competitionArbitrAvatar,
                                                             competitionConfiguretion.competitionDate);
+                */
+                results_creator.createContestantResultsHTML((pathConfiguration.resultsFolder + "/" + contestant.name + "_" + contestant.category),
+                                                                            JSON.stringify(contestant),
+                                                                            pathConfiguration.competitionName,
+                                                                            pathConfiguration.getCompetitionTypeString(parseInt(pathConfiguration.competitionType)),
+                                                                            pathConfiguration.competitionDirector,
+                                                                            pathConfiguration.competitionDirectorAvatar,
+                                                                            pathConfiguration.competitionArbitr,
+                                                                            pathConfiguration.competitionArbitrAvatar,
+                                                                            pathConfiguration.competitionDate);
             }
 
             onSelectRow: {
@@ -2074,11 +2112,17 @@ ApplicationWindow {
                 //property int columns: 5
                 spacing: 40
 
-                NativeText {/* width: applicationWindow.width/statusBarCompetitionProperty.columns; */text: competitionConfiguretion.competitionName }
-                NativeText {/* width: applicationWindow.width/statusBarCompetitionProperty.columns; */text: qsTrId("html-results-competition-type") + ": " + competitionConfiguretion.competitionTypeText}
-                NativeText {/* width: applicationWindow.width/statusBarCompetitionProperty.columns; */text: qsTrId("html-results-competition-director") + ": " +  competitionConfiguretion.competitionDirector}
-                NativeText {/* width: applicationWindow.width/statusBarCompetitionProperty.columns; */text: qsTrId("html-results-competition-arbitr") + ": " +  competitionConfiguretion.competitionArbitr.join(", ")}
-                NativeText {/* width: applicationWindow.width/statusBarCompetitionProperty.columns; */text: qsTrId("html-results-competition-date") + ": " +  competitionConfiguretion.competitionDate}
+                //NativeText {/* width: applicationWindow.width/statusBarCompetitionProperty.columns; */text: competitionConfiguretion.competitionName }
+                //NativeText {/* width: applicationWindow.width/statusBarCompetitionProperty.columns; */text: qsTrId("html-results-competition-type") + ": " + competitionConfiguretion.competitionTypeText}
+                //NativeText {/* width: applicationWindow.width/statusBarCompetitionProperty.columns; */text: qsTrId("html-results-competition-director") + ": " +  competitionConfiguretion.competitionDirector}
+                //NativeText {/* width: applicationWindow.width/statusBarCompetitionProperty.columns; */text: qsTrId("html-results-competition-arbitr") + ": " +  competitionConfiguretion.competitionArbitr.join(", ")}
+                //NativeText {/* width: applicationWindow.width/statusBarCompetitionProperty.columns; */text: qsTrId("html-results-competition-date") + ": " +  competitionConfiguretion.competitionDate}
+
+                NativeText {/* width: applicationWindow.width/statusBarCompetitionProperty.columns; */text: pathConfiguration.competitionName }
+                NativeText {/* width: applicationWindow.width/statusBarCompetitionProperty.columns; */text: qsTrId("html-results-competition-type") + ": " + pathConfiguration.competitionTypeText}
+                NativeText {/* width: applicationWindow.width/statusBarCompetitionProperty.columns; */text: qsTrId("html-results-competition-director") + ": " +  pathConfiguration.competitionDirector}
+                NativeText {/* width: applicationWindow.width/statusBarCompetitionProperty.columns; */text: qsTrId("html-results-competition-arbitr") + ": " +  pathConfiguration.competitionArbitr.join(", ")}
+                NativeText {/* width: applicationWindow.width/statusBarCompetitionProperty.columns; */text: qsTrId("html-results-competition-date") + ": " +  pathConfiguration.competitionDate}
             }
 
             Row {
@@ -2427,7 +2471,7 @@ ApplicationWindow {
         }
 
         // HTML
-        results_creator.createContinuousResultsHTML(pathConfiguration.resultsFolder + "/" + competitionConfiguretion.competitionName + "_" + resultsFilename,
+        /*results_creator.createContinuousResultsHTML(pathConfiguration.resultsFolder + "/" + competitionConfiguretion.competitionName + "_" + resultsFilename,
                                                     reStringArr,
                                                     recSize,
                                                     competitionConfiguretion.competitionName,
@@ -2437,7 +2481,17 @@ ApplicationWindow {
                                                     competitionConfiguretion.competitionArbitr,
                                                     competitionConfiguretion.competitionArbitrAvatar,
                                                     competitionConfiguretion.competitionDate);
-
+        */
+        results_creator.createContinuousResultsHTML(pathConfiguration.resultsFolder + "/" + pathConfiguration.competitionName + "_" + resultsFilename,
+                                                            reStringArr,
+                                                            recSize,
+                                                            pathConfiguration.competitionName,
+                                                            pathConfiguration.getCompetitionTypeString(pathConfiguration.competitionType),
+                                                            pathConfiguration.competitionDirector,
+                                                            pathConfiguration.competitionDirectorAvatar,
+                                                            pathConfiguration.competitionArbitr,
+                                                            pathConfiguration.competitionArbitrAvatar,
+                                                            pathConfiguration.competitionDate);
 
         // CSV
         var catArray = [];
@@ -2467,7 +2521,8 @@ ApplicationWindow {
             csvString += "\n";
         }
 
-        file_reader.write(Qt.resolvedUrl(pathConfiguration.resultsFolder + "/" + competitionConfiguretion.competitionName + "_" + resultsFilename + ".csv"), csvString);
+        //file_reader.write(Qt.resolvedUrl(pathConfiguration.resultsFolder + "/" + competitionConfiguretion.competitionName + "_" + resultsFilename + ".csv"), csvString);
+        file_reader.write(Qt.resolvedUrl(pathConfiguration.resultsFolder + "/" + pathConfiguration.competitionName + "_" + resultsFilename + ".csv"), csvString);
     }
 
 

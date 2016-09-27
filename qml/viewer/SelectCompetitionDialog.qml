@@ -18,6 +18,9 @@ ApplicationWindow {
     signal competitionsDownloaded();
     property string selectedCompetition: "";
 
+    property variant selectedCompetitionId;
+    property bool refresh: false;
+
     property int httpRequestTimeOutMs: 5000
 
 
@@ -35,6 +38,9 @@ ApplicationWindow {
 
             competitionsTable.selection.select(0);
             competitionsTable.currentRow = 0;
+
+            // get competition id
+            selectedCompetitionId  = competitions.get(competitionsTable.currentRow).id;
         }
 
         // select previously selected if not empty
@@ -45,6 +51,9 @@ ApplicationWindow {
                 competitionsTable.selection.clear();
                 competitionsTable.selection.select(i);
                 competitionsTable.currentRow = i;
+
+                // get competition id
+                selectedCompetitionId  = competitions.get(competitionsTable.currentRow).id;
             }
         }
     }
@@ -53,6 +62,30 @@ ApplicationWindow {
 
         id: competitions
     }
+
+    onVisibleChanged: {
+
+        // get competitions list
+        if (visible) {
+
+            // clear refresh flag
+            refresh = false;
+
+            // clear competitions list
+            competitions.clear();
+
+            // download competitions list
+            getCompetitionsData("http://pcmlich.fit.vutbr.cz/ppt/competitionListApi.php", "GET", competitions);
+        }
+
+        // switch to offline state - nothing selected or connection error
+        if(!visible && pathConfiguration.downloadedCompetitionNameAlias === "") {
+
+            pathConfiguration.onlineOfflineUserDefinedCheckBoxAlias = false;
+            pathConfiguration.onlineOfflineDefaultCheckBoxAlias = true;
+        }
+    }
+
 
     MessageDialog {
 
@@ -135,6 +168,9 @@ ApplicationWindow {
                     if (styleData.row !== undefined) {
                         competitionsTable.selection.select(styleData.row);
                         competitionsTable.currentRow = styleData.row;
+
+                        // get competition id
+                        selectedCompetitionId  = competitions.get(competitionsTable.currentRow).id;
                     }
                 }
 
@@ -146,10 +182,13 @@ ApplicationWindow {
                         competitionsTable.selection.select(styleData.row);
                         competitionsTable.currentRow = styleData.row;
 
+                        // get competition id
+                        selectedCompetitionId  = competitions.get(competitionsTable.currentRow).id;
+
                         // get competition property
                         setCompetitionProperty();
 
-                        getContestants("http://pcmlich.fit.vutbr.cz/ppt/exportCrewsApi.php", competitions.get(competitionsTable.currentRow).id, "GET");
+                        getContestants("http://pcmlich.fit.vutbr.cz/ppt/exportCrewsApi.php", selectedCompetitionId, "GET");
 
                         competitionListWindow.close()
                     }
@@ -158,6 +197,60 @@ ApplicationWindow {
         }
     }
 
+    function setCompetitionProperty() {
+
+        var comp = competitions.get(competitionsTable.currentRow);
+
+        selectedCompetition = comp.name;
+        pathConfiguration.downloadedCompetitionNameAlias = comp.name;
+
+        pathConfiguration.competitionNameTextAlias = comp.name;
+        pathConfiguration.competitionTypeIndexAlias = parseInt(comp.type);
+
+        // load manager
+        if (comp.manager === null || comp.manager === undefined || comp.manager.firstname === undefined || comp.manager.firstname === null) {
+
+            pathConfiguration.competitionDirectorTextAlias = "";
+            pathConfiguration.competitionDirectorAvatar = "";
+        }
+        else {
+
+            pathConfiguration.competitionDirectorTextAlias = comp.manager.firstname + " " + comp.manager.surname;
+            pathConfiguration.competitionDirectorAvatar = (comp.manager.avatar_thumb !== undefined) ? comp.manager.avatar_thumb : "";
+        }
+
+        pathConfiguration.competitionDateTextAlias = comp.date;
+
+        // load arbiters
+        pathConfiguration.competitionArbitrTextAlias = "";
+        pathConfiguration.competitionArbitrAvatar = [];
+
+        var item;
+        var arr = [];
+        var arrAvatar = [];
+        for (var i = 0; i < comp.referees.count; i++ ) {
+
+            item = comp.referees.get(i);
+            arr.push(item.firstname + " " + item.surname);
+            arrAvatar.push(item.avatar_thumb);
+        }
+
+        pathConfiguration.competitionArbitrTextAlias = arr.join(", ");
+        pathConfiguration.competitionArbitrAvatar = arrAvatar;
+
+        // save changes into DB
+        /*
+        config.set("competitionName_default", pathConfiguration.competitionName);
+        config.set("competitionType_default", pathConfiguration.competitionType);
+        config.set("competitionDirector_default", pathConfiguration.competitionDirector);
+        config.set("competitionDirectorAvatar_default", JSON.stringify(pathConfiguration.competitionDirectorAvatar));
+        config.set("competitionArbitr_default", JSON.stringify(pathConfiguration.competitionArbitr));
+        config.set("competitionArbitrAvatar_default", JSON.stringify(pathConfiguration.competitionArbitrAvatar));
+        config.set("competitionDate_default", pathConfiguration.competitionDate);
+        */
+    }
+
+    /*
     function setCompetitionProperty() {
 
         var comp = competitions.get(competitionsTable.currentRow);
@@ -207,6 +300,7 @@ ApplicationWindow {
         config.set("competitionArbitrAvatar_default", JSON.stringify(competitionConfiguretion.competitionArbitrAvatar));
         config.set("competitionDate_default", competitionConfiguretion.competitionDate);
     }
+    */
 
     /// Action Buttons
 
@@ -228,7 +322,7 @@ ApplicationWindow {
 
                     selectedCompetition = competitions.get(competitionsTable.currentRow).name;
                     setCompetitionProperty();
-                    getContestants("http://pcmlich.fit.vutbr.cz/ppt/exportCrewsApi.php", competitions.get(competitionsTable.currentRow).id, "GET");
+                    getContestants("http://pcmlich.fit.vutbr.cz/ppt/exportCrewsApi.php", selectedCompetitionId, "GET");
                 }
             }
         }
@@ -242,22 +336,12 @@ ApplicationWindow {
         }
     }
 
+    function refreshApplications() {
 
+        // set refresh flag - downloaded applications will be saved and reloaded
+        refresh = true;
 
-    onVisibleChanged: {
-
-        if (visible) {
-
-            competitions.clear();
-
-            getCompetitionsData("http://pcmlich.fit.vutbr.cz/ppt/competitionListApi.php", "GET", competitions);
-        }
-    }
-
-    function listProperty(item)
-    {
-        for (var p in item)
-        console.log(p + ": " + item[p]);
+        getContestants("http://pcmlich.fit.vutbr.cz/ppt/exportCrewsApi.php", selectedCompetitionId, "GET");
     }
 
     function getContestants(baseUrl, id, method) {
@@ -301,7 +385,6 @@ ApplicationWindow {
                         else {
 
                             var result = (http.responseText);
-                            console.log(result)
 
                             var resultObject = JSON.parse(result);
                             var csvArrr = [];
@@ -338,7 +421,13 @@ ApplicationWindow {
                                 str += line + "\n";
                             }
 
-                            contestantsDownloaded(str);
+                            if (refresh) {
+                                contestantsDownloaded(str);
+                            }
+                            else {
+                                pathConfiguration.contestantsDownloadedString = str;
+                            }
+
                             competitionListWindow.close();
                         }
 
