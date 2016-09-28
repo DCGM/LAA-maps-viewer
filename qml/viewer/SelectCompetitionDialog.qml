@@ -63,6 +63,7 @@ ApplicationWindow {
         id: competitions
     }
 
+
     onVisibleChanged: {
 
         // get competitions list
@@ -79,13 +80,12 @@ ApplicationWindow {
         }
 
         // switch to offline state - nothing selected or connection error
-        if(!visible && pathConfiguration.downloadedCompetitionNameAlias === "") {
+        if(!visible && pathConfiguration.tabViewAlias.pathTabAlias.downloadedCompetitionNameAlias === "") {
 
-            pathConfiguration.onlineOfflineUserDefinedCheckBoxAlias = false;
-            pathConfiguration.onlineOfflineDefaultCheckBoxAlias = true;
+            pathConfiguration.tabViewAlias.pathTabAlias.onlineOfflineUserDefinedCheckBoxAlias = false;
+            pathConfiguration.tabViewAlias.pathTabAlias.onlineOfflineDefaultCheckBoxAlias = true;
         }
     }
-
 
     MessageDialog {
 
@@ -197,32 +197,33 @@ ApplicationWindow {
         }
     }
 
+
     function setCompetitionProperty() {
 
         var comp = competitions.get(competitionsTable.currentRow);
 
         selectedCompetition = comp.name;
-        pathConfiguration.downloadedCompetitionNameAlias = comp.name;
+        pathConfiguration.tabViewAlias.pathTabAlias.downloadedCompetitionNameAlias = comp.name;
 
-        pathConfiguration.competitionNameTextAlias = comp.name;
-        pathConfiguration.competitionTypeIndexAlias = parseInt(comp.type);
+        pathConfiguration.tabViewAlias.competitionTabAlias.competitionNameTextAlias = comp.name;
+        pathConfiguration.tabViewAlias.competitionTabAlias.competitionTypeIndexAlias = parseInt(comp.type);
 
         // load manager
         if (comp.manager === null || comp.manager === undefined || comp.manager.firstname === undefined || comp.manager.firstname === null) {
 
-            pathConfiguration.competitionDirectorTextAlias = "";
+            pathConfiguration.tabViewAlias.competitionTabAlias.competitionDirectorTextAlias = "";
             pathConfiguration.competitionDirectorAvatar = "";
         }
         else {
 
-            pathConfiguration.competitionDirectorTextAlias = comp.manager.firstname + " " + comp.manager.surname;
+            pathConfiguration.tabViewAlias.competitionTabAlias.competitionDirectorTextAlias = comp.manager.firstname + " " + comp.manager.surname;
             pathConfiguration.competitionDirectorAvatar = (comp.manager.avatar_thumb !== undefined) ? comp.manager.avatar_thumb : "";
         }
 
-        pathConfiguration.competitionDateTextAlias = comp.date;
+        pathConfiguration.tabViewAlias.competitionTabAlias.competitionDateTextAlias = comp.date;
 
         // load arbiters
-        pathConfiguration.competitionArbitrTextAlias = "";
+        pathConfiguration.tabViewAlias.competitionTabAlias.competitionArbitrTextAlias = "";
         pathConfiguration.competitionArbitrAvatar = [];
 
         var item;
@@ -235,7 +236,7 @@ ApplicationWindow {
             arrAvatar.push(item.avatar_thumb);
         }
 
-        pathConfiguration.competitionArbitrTextAlias = arr.join(", ");
+        pathConfiguration.tabViewAlias.competitionTabAlias.competitionArbitrTextAlias = arr.join(", ");
         pathConfiguration.competitionArbitrAvatar = arrAvatar;
 
         // save changes into DB

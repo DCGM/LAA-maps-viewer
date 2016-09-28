@@ -459,7 +459,7 @@ ApplicationWindow {
                 checkAndRemoveContestantsInvalidPrevResults();
 
                 igcFolderModel.folder = "";
-                igcFolderModel.folder = pathConfiguration.igcDirectory;
+                igcFolderModel.folder = pathConfiguration.tabView.pathTab.igcDirectory;
 
                 recalculateContestantsScoreOrder();
 
@@ -526,14 +526,14 @@ ApplicationWindow {
             }
 
             // clear contestant in categories counters
-            if (file_reader.file_exists(Qt.resolvedUrl(pathConfiguration.trackFile ))) {
-                tracks = JSON.parse(file_reader.read(Qt.resolvedUrl(pathConfiguration.trackFile )))
+            if (file_reader.file_exists(Qt.resolvedUrl(pathConfiguration.tabView.pathTab.trackFile ))) {
+                tracks = JSON.parse(file_reader.read(Qt.resolvedUrl(pathConfiguration.tabView.pathTab.trackFile )))
             } else {
                 // cleanup
                 //contestantsListModel.clear()
 
                 //% "File %1 not found"
-                errorMessage.text = qsTrId("path-configuration-error-trackFile-not-found").arg(pathConfiguration.trackFile);
+                errorMessage.text = qsTrId("path-configuration-error-trackFile-not-found").arg(pathConfiguration.tabView.pathTab.trackFile);
                 errorMessage.open();
                 return;
             }
@@ -572,7 +572,7 @@ ApplicationWindow {
                 checkAndRemoveContestantsInvalidPrevResults();
 
                 igcFolderModel.folder = "";
-                igcFolderModel.folder = pathConfiguration.igcDirectory;
+                igcFolderModel.folder = pathConfiguration.tabView.pathTab.igcDirectory;
 
                 recalculateContestantsScoreOrder();
 
@@ -1027,7 +1027,7 @@ ApplicationWindow {
                                                             competitionConfiguretion.competitionArbitrAvatar,
                                                             competitionConfiguretion.competitionDate);
                 */
-                results_creator.createContestantResultsHTML((pathConfiguration.resultsFolder + "/" + contestant.name + "_" + contestant.category),
+                results_creator.createContestantResultsHTML((pathConfiguration.tabView.pathTab.resultsFolder + "/" + contestant.name + "_" + contestant.category),
                                                                             JSON.stringify(contestant),
                                                                             pathConfiguration.competitionName,
                                                                             pathConfiguration.getCompetitionTypeString(parseInt(pathConfiguration.competitionType)),
@@ -2032,7 +2032,7 @@ ApplicationWindow {
                     return;
                 }
 
-                imageSaver.save(printMap, Qt.resolvedUrl(pathConfiguration.resultsFolder+"/"+con.fullName+".png"))
+                imageSaver.save(printMap, Qt.resolvedUrl(pathConfiguration.tabView.pathTab.resultsFolder+"/"+con.fullName+".png"))
                 printMapWindow.visible = false;
             }
         }
@@ -2054,7 +2054,7 @@ ApplicationWindow {
 
                 NativeText {
                     text: (tracks !== undefined)
-                          ? F.basename(pathConfiguration.trackFile)
+                          ? F.basename(pathConfiguration.tabView.pathTab.trackFile)
                             //% "No track loaded"
                           : qsTrId("status-no-track-loaded")
                 }
@@ -2482,7 +2482,7 @@ ApplicationWindow {
                                                     competitionConfiguretion.competitionArbitrAvatar,
                                                     competitionConfiguretion.competitionDate);
         */
-        results_creator.createContinuousResultsHTML(pathConfiguration.resultsFolder + "/" + pathConfiguration.competitionName + "_" + resultsFilename,
+        results_creator.createContinuousResultsHTML(pathConfiguration.tabView.pathTab.resultsFolder + "/" + pathConfiguration.competitionName + "_" + resultsFilename,
                                                             reStringArr,
                                                             recSize,
                                                             pathConfiguration.competitionName,
@@ -2522,7 +2522,7 @@ ApplicationWindow {
         }
 
         //file_reader.write(Qt.resolvedUrl(pathConfiguration.resultsFolder + "/" + competitionConfiguretion.competitionName + "_" + resultsFilename + ".csv"), csvString);
-        file_reader.write(Qt.resolvedUrl(pathConfiguration.resultsFolder + "/" + pathConfiguration.competitionName + "_" + resultsFilename + ".csv"), csvString);
+        file_reader.write(Qt.resolvedUrl(pathConfiguration.tabView.pathTab.resultsFolder + "/" + pathConfiguration.competitionName + "_" + resultsFilename + ".csv"), csvString);
     }
 
 
@@ -4622,7 +4622,7 @@ ApplicationWindow {
                 contestant = contestantsListModel.get(current);
 
                 // create contestant html file
-                results_creator.createContestantResultsHTML((pathConfiguration.resultsFolder + "/" + contestant.name + "_" + contestant.category),
+                results_creator.createContestantResultsHTML((pathConfiguration.tabView.pathTab.resultsFolder + "/" + contestant.name + "_" + contestant.category),
                                                             JSON.stringify(contestant),
                                                             competitionConfiguretion.competitionName,
                                                             competitionConfiguretion.getCompetitionTypeString(parseInt(competitionConfiguretion.competitionType)),
@@ -4637,7 +4637,7 @@ ApplicationWindow {
                 // load contestant
                 contestant = contestantsListModel.get(current);
 
-                if (item.filename === "" || file_reader.file_exists(pathConfiguration.resultsFolder + "/"+ contestant.name + "_" + contestant.category + ".html"))  { //if results created or no results for this igc row
+                if (item.filename === "" || file_reader.file_exists(pathConfiguration.tabView.pathTab.resultsFolder + "/"+ contestant.name + "_" + contestant.category + ".html"))  { //if results created or no results for this igc row
                     if (current + 1 == contestantsListModel.count) { // finsihed
 
                         running = false;
@@ -4660,7 +4660,7 @@ ApplicationWindow {
                         contestant = contestantsListModel.get(current + 1);
 
                         // create contestant html file
-                        results_creator.createContestantResultsHTML((pathConfiguration.resultsFolder + "/" + contestant.name + "_" + contestant.category),
+                        results_creator.createContestantResultsHTML((pathConfiguration.tabView.pathTab.resultsFolder + "/" + contestant.name + "_" + contestant.category),
                                                                     JSON.stringify(contestant),
                                                                     competitionConfiguretion.competitionName,
                                                                     competitionConfiguretion.getCompetitionTypeString(parseInt(competitionConfiguretion.competitionType)),
