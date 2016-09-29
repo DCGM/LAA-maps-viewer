@@ -7,9 +7,11 @@ ApplicationWindow {
 
     id: pathConfiguration
     width: 700;
-    height: 700;//500;
+    height: 500;
+    minimumHeight: 500
+    minimumWidth: 700
     modality: "WindowModal"
-    //% "Environment configuration"
+    //% "Configuration"
     title: qsTrId("path-configuration-dialog-title")
     color: "#ffffff"
 
@@ -32,8 +34,7 @@ ApplicationWindow {
     signal cancel();
 
     property string contestantsDownloadedString;
-    property bool online: tabView.pathTabAlias.onlineOfflineUserDefinedCheckBoxAlias;
-
+    property bool online;   // changed when checkbox changed
 
     property string competitionName: qsTrId("competition-configuration-competition-name");
     property string competitionType: "0";
@@ -51,8 +52,148 @@ ApplicationWindow {
     property int igcFolderCheckBox: 0;
     property int resultsFolderCheckBox: 0;
 
+    function getEnviromentTabContent() {
 
-    property alias tabViewAlias: tabView;
+        var ret = [];
+
+        // get tab status
+        var tabPrevActived = tabView.isPathTabActive();
+
+        // set tab active
+        if (!tabPrevActived) tabView.activatePathTab();
+
+        // load data into array
+        ret.push(tabView.pathTabAlias.downloadedCompetitionNameAlias)
+        ret.push(tabView.pathTabAlias.trackUserDefinedCheckBoxAlias)
+        ret.push(tabView.pathTabAlias.igcFolderUserDefinedCheckBoxAlias)
+        ret.push(tabView.pathTabAlias.resultsFolderUserDefinedCheckBoxAlias)
+        ret.push(tabView.pathTabAlias.onlineOfflineUserDefinedCheckBoxAlias)
+
+        // recover tab status
+        if (!tabPrevActived) tabView.activateCompetitionTab();
+
+        return ret;
+    }
+
+    function setFilesTabContent(selectedCompetition, trackCheckBox, igcFolderCheckBox, resultsFolderCheckBox, onlineOfflineCheckBox) {
+
+        // get tab status
+        var tabPrevActived = tabView.isPathTabActive();
+
+        // set tab active
+        if (!tabPrevActived) tabView.activatePathTab();
+
+        tabView.pathTabAlias.downloadedCompetitionNameAlias = selectedCompetition; // must be set, when checkbox changed
+
+        tabView.pathTabAlias.trackUserDefinedCheckBoxAlias = trackCheckBox === 1;
+        tabView.pathTabAlias.trackDefaultCheckBoxAlias = !tabView.pathTabAlias.trackUserDefinedCheckBoxAlias;
+
+        tabView.pathTabAlias.igcFolderUserDefinedCheckBoxAlias = igcFolderCheckBox === 1;
+        tabView.pathTabAlias.igcFolderDefaultCheckBoxAlias = !tabView.pathTabAlias.igcFolderUserDefinedCheckBoxAlias;
+
+        tabView.pathTabAlias.resultsFolderUserDefinedCheckBoxAlias = resultsFolderCheckBox === 1;
+        tabView.pathTabAlias.resultsFolderDefaultCheckBoxAlias = !tabView.pathTabAlias.resultsFolderUserDefinedCheckBoxAlias;
+
+        tabView.pathTabAlias.onlineOfflineUserDefinedCheckBoxAlias = onlineOfflineCheckBox === 1;
+        tabView.pathTabAlias.onlineOfflineDefaultCheckBoxAlias = !tabView.pathTabAlias.onlineOfflineUserDefinedCheckBoxAlias;
+
+        tabView.pathTabAlias.downloadedCompetitionNameAlias = selectedCompetition; //reinit value, checkbox deleted textfield value
+
+        // recover tab status
+        if (!tabPrevActived) tabView.activateCompetitionTab();
+    }
+
+    function getEnviromentTabCompName() {
+
+        var ret = "";
+
+        // get tab status
+        var tabPrevActived = tabView.isPathTabActive();
+
+        // set tab active
+        if (!tabPrevActived) tabView.activatePathTab();
+
+        // load data into array
+        ret = tabView.pathTabAlias.downloadedCompetitionNameAlias;
+
+        // recover tab status
+        if (!tabPrevActived) tabView.activateCompetitionTab();
+
+        return ret;
+    }
+
+    function setEnviromentTabCompName(selectedCompetition) {
+
+        // get tab status
+        var tabPrevActived = tabView.isPathTabActive();
+
+        // set tab active
+        if (!tabPrevActived) tabView.activatePathTab();
+
+        tabView.pathTabAlias.downloadedCompetitionNameAlias = selectedCompetition;
+
+        // recover tab status
+        if (!tabPrevActived) tabView.activateCompetitionTab();
+    }
+
+    function setEnviromentTabOnlineCheckBox(value) {
+
+        // get tab status
+        var tabPrevActived = tabView.isPathTabActive();
+
+        // set tab active
+        if (!tabPrevActived) tabView.activatePathTab();
+
+        tabView.pathTabAlias.onlineOfflineUserDefinedCheckBoxAlias = value;
+        tabView.pathTabAlias.onlineOfflineDefaultCheckBoxAlias = !value;
+
+        // recover tab status
+        if (!tabPrevActived) tabView.activateCompetitionTab();
+    }
+
+
+    function getCompetitionTabContent() {
+
+        var ret = [];
+
+        // get tab status
+        var tabPrevActived = tabView.isCompetitionTabActive();
+
+        // set tab active
+        if (!tabPrevActived) tabView.activateCompetitionTab();
+
+        // load data into array
+        ret.push(tabView.competitionTabAlias.competitionNameTextAlias);
+        ret.push(String(tabView.competitionTabAlias.competitionTypeIndexAlias));
+        ret.push(tabView.competitionTabAlias.competitionTyoeTextAlias);
+        ret.push(tabView.competitionTabAlias.competitionDirectorTextAlias);
+        ret.push(tabView.competitionTabAlias.competitionArbitrTextAlias);
+        ret.push(tabView.competitionTabAlias.competitionDateTextAlias);
+
+        // recover tab status
+        if (!tabPrevActived) tabView.activatePathTab();
+
+        return ret;
+    }
+
+    function setCompetitionTabContent(competitionName, competitionType, competitionDirector, competitionArbitr, competitionDate) {
+
+        // get tab status
+        var tabPrevActived = tabView.isCompetitionTabActive();
+
+        // set tab active
+        if (!tabPrevActived) tabView.activateCompetitionTab();
+
+        // competition property
+        tabView.competitionTabAlias.competitionNameTextAlias = competitionName;
+        tabView.competitionTabAlias.competitionTypeIndexAlias = parseInt(competitionType);
+        tabView.competitionTabAlias.competitionDirectorTextAlias = competitionDirector;
+        tabView.competitionTabAlias.competitionArbitrTextAlias = competitionArbitr;
+        tabView.competitionTabAlias.competitionDateTextAlias = competitionDate;
+
+        // recover tab status
+        if (!tabPrevActived) tabView.activatePathTab();
+    }
 
 
     onVisibleChanged: {
@@ -60,177 +201,39 @@ ApplicationWindow {
         // set current competition property
         if (visible) {
 
-            // checkboxs and selected comp name
-            tabView.pathTabAlias.downloadedCompetitionNameAlias = pathConfiguration.selectedCompetition; // must be set, when checkbox changed
-
-            tabView.pathTabAlias.trackUserDefinedCheckBoxAlias = trackCheckBox === 1;
-            tabView.pathTabAlias.trackDefaultCheckBoxAlias = !tabView.pathTabAlias.trackUserDefinedCheckBoxAlias;
-
-            tabView.pathTabAlias.igcFolderUserDefinedCheckBoxAlias = igcFolderCheckBox === 1;
-            tabView.pathTabAlias.igcFolderDefaultCheckBoxAlias = !tabView.pathTabAlias.igcFolderUserDefinedCheckBoxAlias;
-
-            tabView.pathTabAlias.resultsFolderUserDefinedCheckBoxAlias = resultsFolderCheckBox === 1;
-            tabView.pathTabAlias.resultsFolderDefaultCheckBoxAlias = !tabView.pathTabAlias.resultsFolderUserDefinedCheckBoxAlias;
-
-            tabView.pathTabAlias.onlineOfflineUserDefinedCheckBoxAlias = onlineOfflineCheckBox === 1;
-            tabView.pathTabAlias.onlineOfflineDefaultCheckBoxAlias = !tabView.pathTabAlias.onlineOfflineUserDefinedCheckBoxAlias;
-
-            tabView.pathTabAlias.downloadedCompetitionNameAlias = pathConfiguration.selectedCompetition; //reinit value, checkbox deleted textfield value
+            // set previous enviroment tab values
+            setFilesTabContent(pathConfiguration.selectedCompetition,
+                               pathConfiguration.trackCheckBox,
+                               pathConfiguration.igcFolderCheckBox,
+                               pathConfiguration.resultsFolderCheckBox,
+                               pathConfiguration.onlineOfflineCheckBox);
 
             // competition property
-            console.log(pathConfiguration.competitionName)
-            console.log(tabView.competitionTabAlias.competitionNameTextAlias)
+            setCompetitionTabContent(pathConfiguration.competitionName,
+                                     pathConfiguration.competitionType,
+                                     pathConfiguration.competitionDirector,
+                                     pathConfiguration.competitionArbitr.join(", "),
+                                     pathConfiguration.competitionDate);
+        }
+        else {
 
-            /*
-            tady to nefunguje!!!!
-
-            - vzdy ten druhy alias je nefunkcni
-            - pokud prohodim radky 243 a 244, nefungujou druhy aliasy
-            */
-
-            tabView.competitionTabAlias.competitionNameTextAlias = pathConfiguration.competitionName;
-            tabView.competitionTabAlias.competitionTypeIndexAlias = parseInt(pathConfiguration.competitionType);
-            tabView.competitionTabAlias.competitionDirectorTextAlias = pathConfiguration.competitionDirector;
-            tabView.competitionTabAlias.competitionArbitrTextAlias = pathConfiguration.competitionArbitr.join(", ");
-            tabView.competitionTabAlias.competitionDateTextAlias = pathConfiguration.competitionDate;
+            // igc folder and others property must be accesible from outside
+            tabView.activatePathTab();
         }
     }
 
     // remove downloaded values and init text field
     function initCompetitionPropertyOffline() {
 
-        tabView.competitionTabAlias.competitionNameTextAlias = qsTrId("competition-configuration-competition-name");
-        tabView.competitionTabAlias.competitionTypeIndexAlias =  0;
-        tabView.competitionTabAlias.competitionDirectorTextAlias = qsTrId("competition-configuration-competition-director");
-        tabView.competitionTabAlias.competitionArbitrTextAlias = [qsTrId("competition-configuration-competition-arbitr")].join(", ");
-        tabView.competitionTabAlias.competitionDateTextAlias = Qt.formatDateTime(new Date(), "dd.MM.yyyy");
+        setCompetitionTabContent(qsTrId("competition-configuration-competition-name"),
+                                 0,
+                                 qsTrId("competition-configuration-competition-director"),
+                                 [qsTrId("competition-configuration-competition-arbitr")].join(", "),
+                                 Qt.formatDateTime(new Date(), "dd.MM.yyyy"));
 
         contestantsDownloadedString = "";
-        tabView.pathTabAlias.downloadedCompetitionNameAlias = "";
     }
 
-//tabView.pathTabAlias.
-//tabView.competitionTabAlias.
-
-    FileDialog {
-        id: igcFolderDialog
-        selectFolder: true;
-        selectMultiple: false
-        //% "IGC Folder"
-        title: qsTrId("path-configuration-dialog-title-igc-folder")
-        folder:  Qt.resolvedUrl("../../..");
-
-        onRejected: {
-
-            // set to default - nothing selected
-            if (tabView.competitionTabAlias.igcDirectoryTextFieldAlias === "") {
-                tabView.competitionTabAlias.igcFolderDefaultCheckBoxAlias = true;
-            }
-        }
-    }
-
-    FileDialog {
-        id: trackFileDialog
-        selectFolder: false;
-        selectMultiple: false
-        //% "Track"
-        title: qsTrId("path-configuration-dialog-title-")
-        nameFilters: [ "Tucek json (*.json)", "All files (*)" ]
-        folder:  Qt.resolvedUrl("../../..");
-
-        onRejected: {
-
-            // set to default - nothing selected
-            if (tabView.competitionTabAlias.trackFileTextFieldAlias === "") {
-                tabView.competitionTabAlias.trackDefaultCheckBoxAlias = true;
-            }
-        }
-    }
-
-    FileDialog {
-        id: resultsDirectoryDialog
-        selectFolder: true;
-        selectMultiple: false;
-        //% "Flight results"
-        title: qsTrId("path-configuration-dialog-title-filight-results")
-
-        folder:  Qt.resolvedUrl("../../..");
-
-        onRejected: {
-
-            // set to default - nothing selected
-            if (tabView.competitionTabAlias.resultsFolderTextFieldAlias === "") {
-                tabView.competitionTabAlias.resultsFolderDefaultCheckBoxAlias = true;
-            }
-        }
-    }
-
-    function getCompetitionTypeString(type) {
-
-        var str = "";
-
-        switch(parseInt(type)) {
-
-            case(0):
-                //% "Navigation along known track"
-                str = qsTrId("competition-type-navigation-along-known-track")
-                break;
-            case(1):
-                //% "Navigation along unknown track"
-                str = qsTrId("competition-type-navigation-along-unknown-track")
-                break;
-            case(2):
-                //% "Economy"
-                str = qsTrId("competition-type-economy")
-                break;
-            case(3):
-                //% "Search of objects"
-                str = qsTrId("competition-type-search-of-objects")
-                break;
-            case(4):
-                //% "Triangle"
-                str = qsTrId("competition-type-Triangle")
-                break;
-            case(5):
-                //% "Landing"
-                str = qsTrId("competition-type-landing")
-                break;
-            case(6):
-                //% "Other"
-                str = qsTrId("competition-type-other")
-                break;
-            default:
-                str = "unknown competition type";
-
-        }
-
-        return str;
-    }
-
-    ListModel {
-
-        id: competitionTypeListModel
-
-        ListElement { text: qsTrId("competition-type-navigation-along-known-track") }
-        ListElement { text: qsTrId("competition-type-navigation-along-unknown-track") }
-        ListElement { text: qsTrId("competition-type-economy") }
-        ListElement { text: qsTrId("competition-type-search-of-objects") }
-        ListElement { text: qsTrId("competition-type-Triangle") }
-        ListElement { text: qsTrId("competition-type-landing") }
-        ListElement { text: qsTrId("competition-type-other") }
-    }
-
-    CalendarWindow {
-
-        id: celandar
-
-        onAccepted: {
-
-            competitionDate.text = date;
-        }
-    }
-
-    visible: true
 
     TabView {
         id: tabView
@@ -243,8 +246,28 @@ ApplicationWindow {
         property alias pathTabAlias: pathTab.item;
         property alias competitionTabAlias: competitionTab.item;
 
+        function isPathTabActive() {
+            return pathTab.visible
+        }
+
+        function isCompetitionTabActive() {
+            return competitionTab.visible
+        }
+
+        function activatePathTab() {
+            pathTab.visible = true;
+            competitionTab.visible = false;
+        }
+
+        function activateCompetitionTab() {
+            competitionTab.visible = true;
+            pathTab.visible = false;
+        }
+
         Tab {
             id: pathTab
+            //% "Environment"
+            title: qsTrId("path-configuration-environment-tab-title")
 
             ColumnLayout {
                 id: mainColumn
@@ -279,7 +302,10 @@ ApplicationWindow {
                     if(onOnlineOfflineDefaultCheckBoxAliasChanged) {
 
                         initCompetitionPropertyOffline();
+                        downloadedCompetitionNameAlias = "";
                     }
+
+                    pathConfiguration.online = onlineOfflineUserDefinedCheckBoxAlias;
                 }
 
                 ///// Track
@@ -446,8 +472,8 @@ ApplicationWindow {
                 ExclusiveGroup { id: statusGroup }
 
                 NativeText {
-                    //% "Competition"
-                    text: qsTrId("path-configuration-competition")
+                    //% "Online offline regime"
+                    text: qsTrId("path-configuration-online-offline-regime")
                 }
 
                 Row {
@@ -475,7 +501,6 @@ ApplicationWindow {
                         text: qsTrId("path-configuration-competition-online")
                         exclusiveGroup: statusGroup
                         anchors.verticalCenter: parent.verticalCenter
-
                         onCheckedChanged: {
 
                             if (checked && pathConfiguration.downloadedCompetitionNameAlias === "") {
@@ -507,6 +532,8 @@ ApplicationWindow {
 
         Tab {
             id: competitionTab
+            //% "Competition"
+            title: qsTrId("path-configuration-competition-tab-title")
 
             GridLayout {
 
@@ -622,31 +649,36 @@ ApplicationWindow {
             isDefault: true;
             onClicked: {
 
+                // get current values from competition property tab
+                var competitionTabValues = getCompetitionTabContent();
+
                 // split string into array od arbiters
                 var arr = [];
                 var re = /\s*[,;]\s*/;
-                arr = tabView.competitionTabAlias.competitionArbitrTextAlias.split(re);
+                arr = competitionTabValues[4].split(re);
 
                 // push empty string for default avatar
                 var arrAvatar = [];
                 for (var i = 0; i < arr.length; i++) { arrAvatar.push(""); }
 
                 // save current values
-                pathConfiguration.competitionName = tabView.competitionTabAlias.competitionNameTextAlias;
-                pathConfiguration.competitionType = String(tabView.competitionTabAlias.competitionTypeIndexAlias);
-                pathConfiguration.competitionTypeText = tabView.competitionTabAlias.competitionTyoeTextAlias;
-                pathConfiguration.competitionDirector = tabView.competitionTabAlias.competitionDirectorTextAlias;
+                pathConfiguration.competitionName = competitionTabValues[0];
+                pathConfiguration.competitionType = competitionTabValues[1];
+                pathConfiguration.competitionTypeText = competitionTabValues[2];
+                pathConfiguration.competitionDirector = competitionTabValues[3];
                 pathConfiguration.competitionDirectorAvatar = online ? competitionDirectorAvatar : "";    // online - field already set/offline clear item
                 pathConfiguration.competitionArbitr = arr;
                 pathConfiguration.competitionArbitrAvatar = online ? competitionArbitrAvatar : arrAvatar; // online - field already set/offline set array of empty strings
-                pathConfiguration.competitionDate = tabView.competitionTabAlias.competitionDateTextAlias;
+                pathConfiguration.competitionDate = competitionTabValues[5];
 
-                pathConfiguration.selectedCompetition = tabView.pathTab.downloadedCompetitionNameAlias;
+                // get current values from enviroment tab
+                var enviromentTabValues = getEnviromentTabContent();
 
-                pathConfiguration.onlineOfflineCheckBox = tabView.pathTab.onlineOfflineUserDefinedCheckBoxAlias ? 1 : 0;
-                pathConfiguration.trackCheckBox = tabView.pathTab.trackUserDefinedCheckBoxAlias ? 1 : 0;
-                pathConfiguration.igcFolderCheckBox = tabView.pathTab.igcFolderUserDefinedCheckBoxAlias ? 1 : 0;
-                pathConfiguration.resultsFolderCheckBox = tabView.pathTab.resultsFolderUserDefinedCheckBoxAlias ? 1 : 0;
+                pathConfiguration.selectedCompetition = enviromentTabValues[0];
+                pathConfiguration.onlineOfflineCheckBox = enviromentTabValues[4] ? 1 : 0;
+                pathConfiguration.trackCheckBox = enviromentTabValues[1] ? 1 : 0;
+                pathConfiguration.igcFolderCheckBox = enviromentTabValues[2] ? 1 : 0;
+                pathConfiguration.resultsFolderCheckBox = enviromentTabValues[3] ? 1 : 0;
 
                 config.set("igcDirectory_default", igcDirectoryTextField.text);
                 config.set("trackFile_default", trackFileTextField.text);
@@ -666,4 +698,123 @@ ApplicationWindow {
             }
         }
     }
+
+    FileDialog {
+        id: igcFolderDialog
+        selectFolder: true;
+        selectMultiple: false
+        //% "IGC Folder"
+        title: qsTrId("path-configuration-dialog-title-igc-folder")
+        folder:  Qt.resolvedUrl("../../..");
+
+        onRejected: {
+
+            // set to default - nothing selected
+            if (tabView.competitionTabAlias.igcDirectoryTextFieldAlias === "") {
+                tabView.competitionTabAlias.igcFolderDefaultCheckBoxAlias = true;
+            }
+        }
+    }
+
+    FileDialog {
+        id: trackFileDialog
+        selectFolder: false;
+        selectMultiple: false
+        //% "Track"
+        title: qsTrId("path-configuration-dialog-title-")
+        nameFilters: [ "Tucek json (*.json)", "All files (*)" ]
+        folder:  Qt.resolvedUrl("../../..");
+
+        onRejected: {
+
+            // set to default - nothing selected
+            if (tabView.competitionTabAlias.trackFileTextFieldAlias === "") {
+                tabView.competitionTabAlias.trackDefaultCheckBoxAlias = true;
+            }
+        }
+    }
+
+    FileDialog {
+        id: resultsDirectoryDialog
+        selectFolder: true;
+        selectMultiple: false;
+        //% "Flight results"
+        title: qsTrId("path-configuration-dialog-title-filight-results")
+
+        folder:  Qt.resolvedUrl("../../..");
+
+        onRejected: {
+
+            // set to default - nothing selected
+            if (tabView.competitionTabAlias.resultsFolderTextFieldAlias === "") {
+                tabView.competitionTabAlias.resultsFolderDefaultCheckBoxAlias = true;
+            }
+        }
+    }
+
+    function getCompetitionTypeString(type) {
+
+        var str = "";
+
+        switch(parseInt(type)) {
+
+            case(0):
+                //% "Navigation along known track"
+                str = qsTrId("competition-type-navigation-along-known-track")
+                break;
+            case(1):
+                //% "Navigation along unknown track"
+                str = qsTrId("competition-type-navigation-along-unknown-track")
+                break;
+            case(2):
+                //% "Economy"
+                str = qsTrId("competition-type-economy")
+                break;
+            case(3):
+                //% "Search of objects"
+                str = qsTrId("competition-type-search-of-objects")
+                break;
+            case(4):
+                //% "Triangle"
+                str = qsTrId("competition-type-Triangle")
+                break;
+            case(5):
+                //% "Landing"
+                str = qsTrId("competition-type-landing")
+                break;
+            case(6):
+                //% "Other"
+                str = qsTrId("competition-type-other")
+                break;
+            default:
+                str = "unknown competition type";
+
+        }
+
+        return str;
+    }
+
+    ListModel {
+
+        id: competitionTypeListModel
+
+        ListElement { text: qsTrId("competition-type-navigation-along-known-track") }
+        ListElement { text: qsTrId("competition-type-navigation-along-unknown-track") }
+        ListElement { text: qsTrId("competition-type-economy") }
+        ListElement { text: qsTrId("competition-type-search-of-objects") }
+        ListElement { text: qsTrId("competition-type-Triangle") }
+        ListElement { text: qsTrId("competition-type-landing") }
+        ListElement { text: qsTrId("competition-type-other") }
+    }
+
+    CalendarWindow {
+
+        id: celandar
+
+        onAccepted: {
+
+            competitionDate.text = date;
+        }
+    }
+
 }

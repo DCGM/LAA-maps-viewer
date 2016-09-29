@@ -80,10 +80,9 @@ ApplicationWindow {
         }
 
         // switch to offline state - nothing selected or connection error
-        if(!visible && pathConfiguration.tabViewAlias.pathTabAlias.downloadedCompetitionNameAlias === "") {
+        if(!visible && pathConfiguration.getEnviromentTabCompName() === "") {
 
-            pathConfiguration.tabViewAlias.pathTabAlias.onlineOfflineUserDefinedCheckBoxAlias = false;
-            pathConfiguration.tabViewAlias.pathTabAlias.onlineOfflineDefaultCheckBoxAlias = true;
+            pathConfiguration.setEnviromentTabOnlineCheckBox(false);
         }
     }
 
@@ -201,31 +200,25 @@ ApplicationWindow {
     function setCompetitionProperty() {
 
         var comp = competitions.get(competitionsTable.currentRow);
+        var director = "";
+        var arbitr = "";
 
         selectedCompetition = comp.name;
-        pathConfiguration.tabViewAlias.pathTabAlias.downloadedCompetitionNameAlias = comp.name;
-
-        pathConfiguration.tabViewAlias.competitionTabAlias.competitionNameTextAlias = comp.name;
-        pathConfiguration.tabViewAlias.competitionTabAlias.competitionTypeIndexAlias = parseInt(comp.type);
+        pathConfiguration.setEnviromentTabCompName(comp.name);
 
         // load manager
         if (comp.manager === null || comp.manager === undefined || comp.manager.firstname === undefined || comp.manager.firstname === null) {
 
-            pathConfiguration.tabViewAlias.competitionTabAlias.competitionDirectorTextAlias = "";
+            director = "";
             pathConfiguration.competitionDirectorAvatar = "";
         }
         else {
 
-            pathConfiguration.tabViewAlias.competitionTabAlias.competitionDirectorTextAlias = comp.manager.firstname + " " + comp.manager.surname;
+            director = comp.manager.firstname + " " + comp.manager.surname;
             pathConfiguration.competitionDirectorAvatar = (comp.manager.avatar_thumb !== undefined) ? comp.manager.avatar_thumb : "";
         }
 
-        pathConfiguration.tabViewAlias.competitionTabAlias.competitionDateTextAlias = comp.date;
-
         // load arbiters
-        pathConfiguration.tabViewAlias.competitionTabAlias.competitionArbitrTextAlias = "";
-        pathConfiguration.competitionArbitrAvatar = [];
-
         var item;
         var arr = [];
         var arrAvatar = [];
@@ -236,8 +229,10 @@ ApplicationWindow {
             arrAvatar.push(item.avatar_thumb);
         }
 
-        pathConfiguration.tabViewAlias.competitionTabAlias.competitionArbitrTextAlias = arr.join(", ");
+        arbitr = arr.join(", ");
         pathConfiguration.competitionArbitrAvatar = arrAvatar;
+
+        pathConfiguration.setCompetitionTabContent(comp.name, parseInt(comp.type), director, arbitr, comp.date);
 
         // save changes into DB
         /*

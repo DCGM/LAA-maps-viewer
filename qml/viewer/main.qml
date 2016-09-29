@@ -78,14 +78,14 @@ ApplicationWindow {
             title: qsTrId("main-file-menu")
 
             MenuItem {
-                //% "&Set Environment"
-                text: qsTrId("main-file-menu-set-environment")
+                //% "&Settings"
+                text: qsTrId("main-file-menu-settings")
                 onTriggered: {
                     pathConfiguration.show()
                 }
                 shortcut: "Ctrl+E"
             }
-
+            /*
             MenuItem {
                 //% "&Set Competition"
                 text: qsTrId("main-file-menu-set-competition")
@@ -94,7 +94,7 @@ ApplicationWindow {
                 }
                 shortcut: "Ctrl+C"
             }
-
+            */
             MenuItem {
                 //% "&Refresh application"
                 text: qsTrId("main-file-menu-refresh-application")
