@@ -43,32 +43,79 @@ ApplicationWindow {
 
     Component.onCompleted: {
 
+        console.log(config.get("competitionName", pathConfiguration.competitionName_default));
+        console.log(config.get("competitionType", pathConfiguration.competitionType_default));
+        console.log(config.get("competitionDirector", pathConfiguration.competitionDirector_default));
+
+        console.log(config.get("competitionArbitr", pathConfiguration.competitionArbitr_default));
+        console.log(JSON.parse(config.get("competitionArbitr", pathConfiguration.competitionArbitr_default)));
+
+        console.log(config.get("competitionDate", pathConfiguration.competitionDate_default));
+
+        console.log(config.get("competitionDirectorAvatar", pathConfiguration.competitionDirectorAvatar_default));
+        console.log(JSON.parse(config.get("competitionDirectorAvatar", pathConfiguration.competitionDirectorAvatar_default)));
+
+        console.log(config.get("competitionArbitrAvatar", pathConfiguration.competitionArbitrAvatar_default));
+        console.log(JSON.parse(config.get("competitionArbitrAvatar", pathConfiguration.competitionArbitrAvatar_default)));
+
+
         // load last competition settings
-        /*
-        competitionConfiguretion.competitionName = config.get("competitionName_default", "competitionName");
-        competitionConfiguretion.competitionType = config.get("competitionType_default", "competitionType");
-        competitionConfiguretion.competitionTypeText = competitionConfiguretion.getCompetitionTypeString(parseInt(competitionConfiguretion.competitionType));
-        competitionConfiguretion.competitionDirector = config.get("competitionDirector_default", "competitionDirector");
-        competitionConfiguretion.competitionDirectorAvatar = JSON.parse(config.get("competitionDirectorAvatar_default", ""));
-        competitionConfiguretion.competitionArbitr = JSON.parse(config.get("competitionArbitr_default", ["competitionArbitr"]));
-        competitionConfiguretion.competitionArbitrAvatar = JSON.parse(config.get("competitionArbitrAvatar_default", [""]));
-        competitionConfiguretion.competitionDate = config.get("competitionDate_default", Qt.formatDateTime(new Date(), "yyMMdd"));
-        */
+        // try to load prev settings from database
+        if (config.get("competitionName_default", "") === "") {
 
-        pathConfiguration.competitionName = config.get("competitionName_default", "competitionName");
-        pathConfiguration.competitionType = config.get("competitionType_default", "competitionType");
-        pathConfiguration.competitionTypeText = pathConfiguration.getCompetitionTypeString(parseInt(pathConfiguration.competitionType));
-        pathConfiguration.competitionDirector = config.get("competitionDirector_default", "competitionDirector");
-        pathConfiguration.competitionDirectorAvatar = JSON.parse(config.get("competitionDirectorAvatar_default", ""));
-        pathConfiguration.competitionArbitr = JSON.parse(config.get("competitionArbitr_default", ["competitionArbitr"]));
-        pathConfiguration.competitionArbitrAvatar = JSON.parse(config.get("competitionArbitrAvatar_default", [""]));
-        pathConfiguration.competitionDate = config.get("competitionDate_default", Qt.formatDateTime(new Date(), "yyMMdd"));
-    }
+            // nothing in DB, load defaults
+            pathConfiguration.competitionName = pathConfiguration.competitionName_default;
+            pathConfiguration.competitionType = pathConfiguration.competitionType_default;
+            pathConfiguration.competitionTypeText = pathConfiguration.competitionType_default;
+            pathConfiguration.competitionDirector = pathConfiguration.competitionDirector_default;
+            pathConfiguration.competitionArbitr = pathConfiguration.competitionArbitr_default;
+            pathConfiguration.competitionDate = pathConfiguration.competitionDate_default;
+            pathConfiguration.competitionDirectorAvatar = pathConfiguration.competitionDirectorAvatar_default;
+            pathConfiguration.competitionArbitrAvatar = pathConfiguration.competitionArbitrAvatar_default;
+        }
+        else {
 
-    // function download appplications for previouslz selected competition
-    function refreshApplications() {
+            // set values from DB
+            pathConfiguration.competitionName = config.get("competitionName", pathConfiguration.competitionName_default);
+            pathConfiguration.competitionType = config.get("competitionType", pathConfiguration.competitionType_default);
+            pathConfiguration.competitionDirector = config.get("competitionDirector", pathConfiguration.competitionDirector_default);
+            pathConfiguration.competitionArbitr = JSON.parse(config.get("competitionArbitr", pathConfiguration.competitionArbitr_default));
+            pathConfiguration.competitionDate = config.get("competitionDate", pathConfiguration.competitionDate_default);
+            pathConfiguration.competitionDirectorAvatar = JSON.parse(config.get("competitionDirectorAvatar", pathConfiguration.competitionDirectorAvatar_default));
+            pathConfiguration.competitionArbitrAvatar = JSON.parse(config.get("competitionArbitrAvatar", pathConfiguration.competitionArbitrAvatar_default));
+        }
 
+        console.log(pathConfiguration.competitionArbitr)
 
+        // init tmp var
+        pathConfiguration.contestantsDownloadedString = "";
+
+        // try to load last path settings
+        var igcPrevCheckBox = 0;
+        var trackPrevCheckBox = 0;
+        var resultsFolderPrevCheckBox = 0;
+
+        pathConfiguration.igcDirectory_user_defined = config.get("igcDirectory_user_defined", "");
+        pathConfiguration.resultsFolder_user_defined = config.get("resultsFolder_user_defined", "");
+        pathConfiguration.trackFile_user_defined = config.get("trackFile_user_defined", "");
+
+        if (pathConfiguration.igcDirectory_user_defined !== null) {
+            igcPrevCheckBox = 1;    // set combobox to user defined
+        }
+
+        if (pathConfiguration.trackFile_user_defined !== null) {
+            trackPrevCheckBox = 1;  // set combobox to user defined
+        }
+
+        if (pathConfiguration.resultsFolder_user_defined !== null) {
+            resultsFolderPrevCheckBox = 1;  // set combobox to user defined
+        }
+
+        pathConfiguration.selectedCompetition = "";
+        pathConfiguration.trackCheckBox = trackPrevCheckBox;
+        pathConfiguration.igcFolderCheckBox = igcPrevCheckBox;
+        pathConfiguration.resultsFolderCheckBox = resultsFolderPrevCheckBox;
+        pathConfiguration.onlineOfflineCheckBox = 0; // switch to offline state
     }
 
     menuBar: MenuBar {
@@ -459,7 +506,7 @@ ApplicationWindow {
                 checkAndRemoveContestantsInvalidPrevResults();
 
                 igcFolderModel.folder = "";
-                igcFolderModel.folder = pathConfiguration.tabView.pathTab.igcDirectory;
+                igcFolderModel.folder = pathConfiguration.tabView.pathTabAlias.igcDirectory;
 
                 recalculateContestantsScoreOrder();
 
@@ -526,14 +573,14 @@ ApplicationWindow {
             }
 
             // clear contestant in categories counters
-            if (file_reader.file_exists(Qt.resolvedUrl(pathConfiguration.tabView.pathTab.trackFile ))) {
-                tracks = JSON.parse(file_reader.read(Qt.resolvedUrl(pathConfiguration.tabView.pathTab.trackFile )))
+            if (file_reader.file_exists(Qt.resolvedUrl(pathConfiguration.trackFile ))) {
+                tracks = JSON.parse(file_reader.read(Qt.resolvedUrl(pathConfiguration.trackFile )))
             } else {
                 // cleanup
                 //contestantsListModel.clear()
 
                 //% "File %1 not found"
-                errorMessage.text = qsTrId("path-configuration-error-trackFile-not-found").arg(pathConfiguration.tabView.pathTab.trackFile);
+                errorMessage.text = qsTrId("path-configuration-error-trackFile-not-found").arg(pathConfiguration.trackFile);
                 errorMessage.open();
                 return;
             }
@@ -572,7 +619,7 @@ ApplicationWindow {
                 checkAndRemoveContestantsInvalidPrevResults();
 
                 igcFolderModel.folder = "";
-                igcFolderModel.folder = pathConfiguration.tabView.pathTab.igcDirectory;
+                igcFolderModel.folder = pathConfiguration.igcDirectory;
 
                 recalculateContestantsScoreOrder();
 
@@ -1027,7 +1074,7 @@ ApplicationWindow {
                                                             competitionConfiguretion.competitionArbitrAvatar,
                                                             competitionConfiguretion.competitionDate);
                 */
-                results_creator.createContestantResultsHTML((pathConfiguration.tabView.pathTab.resultsFolder + "/" + contestant.name + "_" + contestant.category),
+                results_creator.createContestantResultsHTML((pathConfiguration.resultsFolder + "/" + contestant.name + "_" + contestant.category),
                                                                             JSON.stringify(contestant),
                                                                             pathConfiguration.competitionName,
                                                                             pathConfiguration.getCompetitionTypeString(parseInt(pathConfiguration.competitionType)),
@@ -2032,7 +2079,7 @@ ApplicationWindow {
                     return;
                 }
 
-                imageSaver.save(printMap, Qt.resolvedUrl(pathConfiguration.tabView.pathTab.resultsFolder+"/"+con.fullName+".png"))
+                imageSaver.save(printMap, Qt.resolvedUrl(pathConfiguration.resultsFolder+"/"+con.fullName+".png"))
                 printMapWindow.visible = false;
             }
         }
@@ -2054,7 +2101,7 @@ ApplicationWindow {
 
                 NativeText {
                     text: (tracks !== undefined)
-                          ? F.basename(pathConfiguration.tabView.pathTab.trackFile)
+                          ? F.basename(pathConfiguration.trackFile)
                             //% "No track loaded"
                           : qsTrId("status-no-track-loaded")
                 }
@@ -2482,7 +2529,7 @@ ApplicationWindow {
                                                     competitionConfiguretion.competitionArbitrAvatar,
                                                     competitionConfiguretion.competitionDate);
         */
-        results_creator.createContinuousResultsHTML(pathConfiguration.tabView.pathTab.resultsFolder + "/" + pathConfiguration.competitionName + "_" + resultsFilename,
+        results_creator.createContinuousResultsHTML(pathConfiguration.resultsFolder + "/" + pathConfiguration.competitionName + "_" + resultsFilename,
                                                             reStringArr,
                                                             recSize,
                                                             pathConfiguration.competitionName,
@@ -2522,7 +2569,7 @@ ApplicationWindow {
         }
 
         //file_reader.write(Qt.resolvedUrl(pathConfiguration.resultsFolder + "/" + competitionConfiguretion.competitionName + "_" + resultsFilename + ".csv"), csvString);
-        file_reader.write(Qt.resolvedUrl(pathConfiguration.tabView.pathTab.resultsFolder + "/" + pathConfiguration.competitionName + "_" + resultsFilename + ".csv"), csvString);
+        file_reader.write(Qt.resolvedUrl(pathConfiguration.resultsFolder + "/" + pathConfiguration.competitionName + "_" + resultsFilename + ".csv"), csvString);
     }
 
 
@@ -4622,7 +4669,7 @@ ApplicationWindow {
                 contestant = contestantsListModel.get(current);
 
                 // create contestant html file
-                results_creator.createContestantResultsHTML((pathConfiguration.tabView.pathTab.resultsFolder + "/" + contestant.name + "_" + contestant.category),
+                results_creator.createContestantResultsHTML((pathConfiguration.resultsFolder + "/" + contestant.name + "_" + contestant.category),
                                                             JSON.stringify(contestant),
                                                             competitionConfiguretion.competitionName,
                                                             competitionConfiguretion.getCompetitionTypeString(parseInt(competitionConfiguretion.competitionType)),
@@ -4637,7 +4684,7 @@ ApplicationWindow {
                 // load contestant
                 contestant = contestantsListModel.get(current);
 
-                if (item.filename === "" || file_reader.file_exists(pathConfiguration.tabView.pathTab.resultsFolder + "/"+ contestant.name + "_" + contestant.category + ".html"))  { //if results created or no results for this igc row
+                if (item.filename === "" || file_reader.file_exists(pathConfiguration.resultsFolder + "/"+ contestant.name + "_" + contestant.category + ".html"))  { //if results created or no results for this igc row
                     if (current + 1 == contestantsListModel.count) { // finsihed
 
                         running = false;
@@ -4660,7 +4707,7 @@ ApplicationWindow {
                         contestant = contestantsListModel.get(current + 1);
 
                         // create contestant html file
-                        results_creator.createContestantResultsHTML((pathConfiguration.tabView.pathTab.resultsFolder + "/" + contestant.name + "_" + contestant.category),
+                        results_creator.createContestantResultsHTML((pathConfiguration.resultsFolder + "/" + contestant.name + "_" + contestant.category),
                                                                     JSON.stringify(contestant),
                                                                     competitionConfiguretion.competitionName,
                                                                     competitionConfiguretion.getCompetitionTypeString(parseInt(competitionConfiguretion.competitionType)),

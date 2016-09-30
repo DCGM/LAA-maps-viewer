@@ -17,18 +17,25 @@ ApplicationWindow {
 
     property string igcDirectory_default: Qt.resolvedUrl("../../../igcFiles");
     //property string igcDirectory_default: config.get("igcDirectory_default", Qt.resolvedUrl("../../../igcFiles"));
+    property string igcDirectory_user_defined;
 
     property string trackFile_default: Qt.resolvedUrl("../../../track.json");
     //property string trackFile_default: config.get("trackFile_default", Qt.resolvedUrl("../../../track.json"));
+    property string trackFile_user_defined;
 
     property string resultsFolder_default: Qt.resolvedUrl("../../../results");
     //property string resultsFolder_default: config.get("resultsFolder_default", Qt.resolvedUrl("../../../results"));
+    property string resultsFolder_user_defined;
 
-    property string contestantsFile: tabView.pathTabAlias.resultsFolderTextFieldAlias + "/posadky.csv"
-    property string csvFile: tabView.pathTabAlias.resultsFolderTextFieldAlias + "/tucek.csv"
-    property string tsFile: tabView.pathTabAlias.resultsFolderTextFieldAlias + "/tucek-settings.csv"
-    property string assignFile: tabView.pathTabAlias.resultsFolderTextFieldAlias + "/assign.csv"
-    property string csvResultsFile: tabView.pathTabAlias.resultsFolderTextFieldAlias + "/results.csv"
+    property string contestantsFile: pathConfiguration.resultsFolder + "/posadky.csv"
+    property string csvFile: pathConfiguration.resultsFolder + "/tucek.csv"
+    property string tsFile: pathConfiguration.resultsFolder + "/tucek-settings.csv"
+    property string assignFile: pathConfiguration.resultsFolder + "/assign.csv"
+    property string csvResultsFile: pathConfiguration.resultsFolder + "/results.csv"
+
+    property string igcDirectory;
+    property string trackFile;
+    property string resultsFolder;
 
     signal ok();
     signal cancel();
@@ -44,6 +51,20 @@ ApplicationWindow {
     property variant competitionArbitr: [qsTrId("competition-configuration-competition-arbitr")];
     property variant competitionArbitrAvatar: [""];
     property string competitionDate: Qt.formatDateTime(new Date(), "dd.MM.yyyy");
+
+    onCompetitionTypeChanged: {
+
+        pathConfiguration.competitionTypeText = getCompetitionTypeString(parseInt(pathConfiguration.competitionType));
+    }
+
+    property string competitionName_default: qsTrId("competition-configuration-competition-name");
+    property string competitionType_default: "0";
+    property string competitionTypeText_default: "";
+    property string competitionDirector_default: qsTrId("competition-configuration-competition-director");
+    property string competitionDirectorAvatar_default: "";
+    property variant competitionArbitr_default: [qsTrId("competition-configuration-competition-arbitr")];
+    property variant competitionArbitrAvatar_default: [""];
+    property string competitionDate_default: Qt.formatDateTime(new Date(), "dd.MM.yyyy");
 
     property string selectedCompetition: "";    
 
@@ -68,6 +89,9 @@ ApplicationWindow {
         ret.push(tabView.pathTabAlias.igcFolderUserDefinedCheckBoxAlias)
         ret.push(tabView.pathTabAlias.resultsFolderUserDefinedCheckBoxAlias)
         ret.push(tabView.pathTabAlias.onlineOfflineUserDefinedCheckBoxAlias)
+        ret.push(tabView.pathTabAlias.trackFileTextFieldAlias);
+        ret.push(tabView.pathTabAlias.igcDirectoryTextFieldAlias);
+        ret.push(tabView.pathTabAlias.resultsFolderTextFieldAlias);
 
         // recover tab status
         if (!tabPrevActived) tabView.activateCompetitionTab();
@@ -195,6 +219,21 @@ ApplicationWindow {
         if (!tabPrevActived) tabView.activatePathTab();
     }
 
+    function setCompetitionTabDate(competitionDate) {
+
+        // get tab status
+        var tabPrevActived = tabView.isCompetitionTabActive();
+
+        // set tab active
+        if (!tabPrevActived) tabView.activateCompetitionTab();
+
+        // competition property
+        tabView.competitionTabAlias.competitionDateTextAlias = competitionDate;
+
+        // recover tab status
+        if (!tabPrevActived) tabView.activatePathTab();
+    }
+
 
     onVisibleChanged: {
 
@@ -215,21 +254,19 @@ ApplicationWindow {
                                      pathConfiguration.competitionArbitr.join(", "),
                                      pathConfiguration.competitionDate);
         }
-        else {
-
-            // igc folder and others property must be accesible from outside
-            tabView.activatePathTab();
-        }
     }
 
     // remove downloaded values and init text field
     function initCompetitionPropertyOffline() {
 
-        setCompetitionTabContent(qsTrId("competition-configuration-competition-name"),
-                                 0,
-                                 qsTrId("competition-configuration-competition-director"),
-                                 [qsTrId("competition-configuration-competition-arbitr")].join(", "),
-                                 Qt.formatDateTime(new Date(), "dd.MM.yyyy"));
+        setCompetitionTabContent(competitionName_default,
+                                 parseInt(competitionType_default),
+                                 competitionDirector_default,
+                                 competitionArbitr_default.join(", "),
+                                 competitionDate_default);
+
+        competitionDirectorAvatar = competitionDirectorAvatar_default;
+        competitionArbitrAvatar = competitionArbitrAvatar_default;
 
         contestantsDownloadedString = "";
     }
@@ -292,10 +329,6 @@ ApplicationWindow {
                 property alias onlineOfflineUserDefinedCheckBoxAlias: status_online.checked;
                 property alias onlineOfflineDefaultCheckBoxAlias: status_default.checked;
 
-                property alias igcDirectory: igcDirectoryTextField.text
-                property alias trackFile: trackFileTextField.text
-                property alias resultsFolder: resultsFolderTextField.text;
-
                 onOnlineOfflineDefaultCheckBoxAliasChanged: {
 
                     // remove downloaded data
@@ -344,11 +377,15 @@ ApplicationWindow {
                     }
                     TextField {
                         id: trackFileTextField
-                        text: track_user_defined.checked ? trackFileDialog.fileUrl : trackFile_default
+                        text: track_user_defined.checked ? pathConfiguration.trackFile_user_defined : trackFile_default
                         readOnly: !track_user_defined.checked
                         Layout.fillWidth:true;
                         Layout.preferredWidth: parent.width/2
                         anchors.verticalCenter: parent.verticalCenter
+
+                        onTextChanged: {
+                            pathConfiguration.trackFile = text;
+                        }
                     }
                     Button {
                         //% "Browse ..."
@@ -398,11 +435,15 @@ ApplicationWindow {
                     }
                     TextField {
                         id: igcDirectoryTextField
-                        text: igc_user_defined.checked ? igcFolderDialog.fileUrl : igcDirectory_default
+                        text: igc_user_defined.checked ? pathConfiguration.igcDirectory_user_defined : igcDirectory_default
                         readOnly: !igc_user_defined.checked
                         Layout.fillWidth:true;
                         Layout.preferredWidth: parent.width/2
                         anchors.verticalCenter: parent.verticalCenter
+
+                        onTextChanged: {
+                            pathConfiguration.igcDirectory = text;
+                        }
                     }
                     Button {
                         //% "Browse ..."
@@ -451,11 +492,15 @@ ApplicationWindow {
                     }
                     TextField {
                         id: resultsFolderTextField
-                        text: resultsFolder_user_defined.checked ? resultsDirectoryDialog.fileUrl : resultsFolder_default
+                        text: resultsFolder_user_defined.checked ? pathConfiguration.resultsFolder_user_defined : resultsFolder_default
                         readOnly: !resultsFolder_user_defined.checked
                         Layout.fillWidth:true;
                         Layout.preferredWidth: parent.width/2
                         anchors.verticalCenter: parent.verticalCenter
+
+                        onTextChanged: {
+                            pathConfiguration.resultsFolder = text;
+                        }
                     }
                     Button {
                         //% "Browse ..."
@@ -503,7 +548,7 @@ ApplicationWindow {
                         anchors.verticalCenter: parent.verticalCenter
                         onCheckedChanged: {
 
-                            if (checked && pathConfiguration.downloadedCompetitionNameAlias === "") {
+                            if (checked && pathConfiguration.getEnviromentTabCompName() === "") {
 
                                 selectCompetitionOnlineDialog.show();
                             }
@@ -674,15 +719,27 @@ ApplicationWindow {
                 // get current values from enviroment tab
                 var enviromentTabValues = getEnviromentTabContent();
 
+                console.log(enviromentTabValues)
+
                 pathConfiguration.selectedCompetition = enviromentTabValues[0];
                 pathConfiguration.onlineOfflineCheckBox = enviromentTabValues[4] ? 1 : 0;
                 pathConfiguration.trackCheckBox = enviromentTabValues[1] ? 1 : 0;
                 pathConfiguration.igcFolderCheckBox = enviromentTabValues[2] ? 1 : 0;
                 pathConfiguration.resultsFolderCheckBox = enviromentTabValues[3] ? 1 : 0;
 
-                config.set("igcDirectory_default", igcDirectoryTextField.text);
-                config.set("trackFile_default", trackFileTextField.text);
-                config.set("resultsFolder_default", resultsFolderTextField.text);
+                // save path values to DB - for default save empty string
+                config.set("igcDirectory_user_defined", pathConfiguration.igcFolderCheckBox === 0 ? "" : enviromentTabValues[6]);
+                config.set("trackFile_user_defined", pathConfiguration.trackCheckBox === 0 ? "" : enviromentTabValues[5]);
+                config.set("resultsFolder_user_defined", pathConfiguration.resultsFolderCheckBox === 0 ? "" : enviromentTabValues[7]);
+
+                // save competition values to DB
+                config.set("competitionName", competitionTabValues[0]);
+                config.set("competitionType", competitionTabValues[1]);
+                config.set("competitionDirector", competitionTabValues[3]);
+                config.set("competitionDirectorAvatar", pathConfiguration.online ? JSON.stringify(competitionDirectorAvatar) : JSON.stringify(""));
+                config.set("competitionArbitr", JSON.stringify(arr));
+                config.set("competitionArbitrAvatar", pathConfiguration.online ? JSON.stringify(competitionArbitrAvatar) : JSON.stringify(arrAvatar));
+                config.set("competitionDate", competitionTabValues[5]);
 
                 ok();
                 pathConfiguration.close();
@@ -707,6 +764,11 @@ ApplicationWindow {
         title: qsTrId("path-configuration-dialog-title-igc-folder")
         folder:  Qt.resolvedUrl("../../..");
 
+        onAccepted: {
+
+            pathConfiguration.igcDirectory_user_defined = fileUrl;
+        }
+
         onRejected: {
 
             // set to default - nothing selected
@@ -725,6 +787,11 @@ ApplicationWindow {
         nameFilters: [ "Tucek json (*.json)", "All files (*)" ]
         folder:  Qt.resolvedUrl("../../..");
 
+        onAccepted: {
+
+            pathConfiguration.trackFile_user_defined = fileUrl;
+        }
+
         onRejected: {
 
             // set to default - nothing selected
@@ -742,6 +809,11 @@ ApplicationWindow {
         title: qsTrId("path-configuration-dialog-title-filight-results")
 
         folder:  Qt.resolvedUrl("../../..");
+
+        onAccepted: {
+
+            pathConfiguration.resultsFolder_user_defined = fileUrl;
+        }
 
         onRejected: {
 
@@ -810,11 +882,12 @@ ApplicationWindow {
     CalendarWindow {
 
         id: celandar
+        //% "Competition date"
+        title: qsTrId("calendar-title-competiton-data")
 
         onAccepted: {
 
-            competitionDate.text = date;
+            pathConfiguration.setCompetitionTabDate(date);
         }
     }
-
 }

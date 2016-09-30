@@ -106,6 +106,11 @@ int main(int argc, char *argv[])
 
     engine.load(QUrl("qml/viewer/main.qml"));
 
+    // NEFUNGUJE - vytvori slozku Databases, soubory ale sype dal do stareho umisteni
+    engine.setOfflineStoragePath( QFileInfo( QCoreApplication::applicationFilePath() ).dir().absolutePath());
+    QString str = engine.offlineStoragePath();
+    qDebug() << str;
+
 
     QObject *topLevel = engine.rootObjects().value(0);
     QQuickWindow *window = qobject_cast<QQuickWindow *>(topLevel);
