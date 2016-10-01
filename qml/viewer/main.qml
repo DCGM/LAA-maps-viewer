@@ -41,7 +41,19 @@ ApplicationWindow {
 
     property bool generateResultsFlag: false;
 
+    onVisibleChanged: {
+
+        if(visible) {
+            startUpMessage.open();
+        }
+    }
+
     Component.onCompleted: {
+
+        // Show dialog - restore or discard prev settings
+
+
+        /*
 
         // load last competition settings
         // try to load prev settings from database
@@ -97,6 +109,7 @@ ApplicationWindow {
         pathConfiguration.igcFolderCheckBox = igcPrevCheckBox;
         pathConfiguration.resultsFolderCheckBox = resultsFolderPrevCheckBox;
         pathConfiguration.onlineOfflineCheckBox = 0; // switch to offline state
+        */
     }
 
     menuBar: MenuBar {
@@ -4706,6 +4719,103 @@ ApplicationWindow {
     MessageDialog {
         id: errorMessage;
         icon: StandardIcon.Critical;
+    }
+
+    MessageDialog {
+        id: startUpMessage;
+        icon: StandardIcon.Question;
+        standardButtons: StandardButton.Yes | StandardButton.No
+
+        //% "Viewer"
+        title: qsTrId("start-up-message-dialog-title");
+
+        //% "Do you want to load previous enviroment settings?"
+        text: qsTrId("start-up-message-dialog-text");
+
+        // Try to load prev settings from DB
+        onYes: {
+
+            // load last competition settings
+            // try to load prev settings from database
+            if (config.get("competitionName_default", "") === "") {
+
+                // nothing in DB, load defaults
+                pathConfiguration.competitionName = pathConfiguration.competitionName_default;
+                pathConfiguration.competitionType = pathConfiguration.competitionType_default;
+                pathConfiguration.competitionDirector = pathConfiguration.competitionDirector_default;
+                pathConfiguration.competitionArbitr = pathConfiguration.competitionArbitr_default;
+                pathConfiguration.competitionDate = pathConfiguration.competitionDate_default;
+                pathConfiguration.competitionDirectorAvatar = pathConfiguration.competitionDirectorAvatar_default;
+                pathConfiguration.competitionArbitrAvatar = pathConfiguration.competitionArbitrAvatar_default;
+            }
+            else {
+
+                // set values from DB
+                pathConfiguration.competitionName = config.get("competitionName", pathConfiguration.competitionName_default);
+                pathConfiguration.competitionType = config.get("competitionType", pathConfiguration.competitionType_default);
+                pathConfiguration.competitionDirector = config.get("competitionDirector", pathConfiguration.competitionDirector_default);
+                pathConfiguration.competitionArbitr = JSON.parse(config.get("competitionArbitr", pathConfiguration.competitionArbitr_default));
+                pathConfiguration.competitionDate = config.get("competitionDate", pathConfiguration.competitionDate_default);
+                pathConfiguration.competitionDirectorAvatar = JSON.parse(config.get("competitionDirectorAvatar", pathConfiguration.competitionDirectorAvatar_default));
+                pathConfiguration.competitionArbitrAvatar = JSON.parse(config.get("competitionArbitrAvatar", pathConfiguration.competitionArbitrAvatar_default));
+            }
+
+            // init tmp var
+            pathConfiguration.contestantsDownloadedString = "";
+
+            // try to load last path settings
+            var igcPrevCheckBox = 0;
+            var trackPrevCheckBox = 0;
+            var resultsFolderPrevCheckBox = 0;
+console.log("***")
+            pathConfiguration.igcDirectory_user_defined = config.get("igcDirectory_user_defined", "");
+console.log("***")
+            pathConfiguration.resultsFolder_user_defined = config.get("resultsFolder_user_defined", "");
+console.log("***")
+            pathConfiguration.trackFile_user_defined = config.get("trackFile_user_defined", "");
+console.log("***")
+
+            if (pathConfiguration.igcDirectory_user_defined !== "") {
+                igcPrevCheckBox = 1;    // set combobox to user defined
+            }
+
+            if (pathConfiguration.trackFile_user_defined !== "") {
+                trackPrevCheckBox = 1;  // set combobox to user defined
+            }
+
+            if (pathConfiguration.resultsFolder_user_defined !== "") {
+                resultsFolderPrevCheckBox = 1;  // set combobox to user defined
+            }
+
+            pathConfiguration.selectedCompetition = "";
+            pathConfiguration.trackCheckBox = trackPrevCheckBox;
+            pathConfiguration.igcFolderCheckBox = igcPrevCheckBox;
+            pathConfiguration.resultsFolderCheckBox = resultsFolderPrevCheckBox;
+            pathConfiguration.onlineOfflineCheckBox = 0; // switch to offline state
+        }
+
+        // Discard prev settings
+        onNo: {
+
+            //competition settings - load defaults
+            pathConfiguration.competitionName = pathConfiguration.competitionName_default;
+            pathConfiguration.competitionType = pathConfiguration.competitionType_default;
+            pathConfiguration.competitionDirector = pathConfiguration.competitionDirector_default;
+            pathConfiguration.competitionArbitr = pathConfiguration.competitionArbitr_default;
+            pathConfiguration.competitionDate = pathConfiguration.competitionDate_default;
+            pathConfiguration.competitionDirectorAvatar = pathConfiguration.competitionDirectorAvatar_default;
+            pathConfiguration.competitionArbitrAvatar = pathConfiguration.competitionArbitrAvatar_default;
+
+            // init tmp var
+            pathConfiguration.contestantsDownloadedString = "";
+
+            //path settings - load defaults
+            pathConfiguration.selectedCompetition = "";
+            pathConfiguration.trackCheckBox = 0;
+            pathConfiguration.igcFolderCheckBox = 0;
+            pathConfiguration.resultsFolderCheckBox = 0;
+            pathConfiguration.onlineOfflineCheckBox = 0; // switch to offline state
+        }
     }
 
     MessageDialog {

@@ -34,7 +34,7 @@ Item {
 
     function get(key, default_value) {
 
-        //console.log(key)
+        console.log(key)
 
         var db = LocalStorage.openDatabaseSync(dbName, dbVersion, dbDisplayName, dbEstimatedSize);
         var result = "";
@@ -46,9 +46,8 @@ Item {
                             tx.executeSql('CREATE TABLE IF NOT EXISTS Keys(key TEXT, value TEXT)');
                             var rs = tx.executeSql('SELECT * FROM Keys WHERE key=?', [ key ]);
 
-                            var len = rs.rows.length;
-
-                            if (len === 0) {
+                            // nefunguje na "" v DB
+                            if (rs.rows === null || rs.rows === undefined || rs.rows.length === 0) {
                                 result = "";
                             }
                             else {
