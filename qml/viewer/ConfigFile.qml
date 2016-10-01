@@ -45,11 +45,20 @@ Item {
 
                             tx.executeSql('CREATE TABLE IF NOT EXISTS Keys(key TEXT, value TEXT)');
                             var rs = tx.executeSql('SELECT * FROM Keys WHERE key=?', [ key ]);
-                            if (rs.rows.length === 1 && rs.rows.item(0).value.length > 0){
-                                result = rs.rows.item(0).value
+
+                            var len = rs.rows.length;
+
+                            if (len === 0) {
+                                result = "";
                             }
                             else {
-                                result = default_value;
+
+                                if (rs.rows.length === 1 && rs.rows.item(0).value.length > 0){
+                                    result = rs.rows.item(0).value
+                                }
+                                else {
+                                    result = default_value;
+                                }
                             }
                         }
                         )

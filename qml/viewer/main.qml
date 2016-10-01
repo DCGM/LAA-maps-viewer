@@ -43,22 +43,6 @@ ApplicationWindow {
 
     Component.onCompleted: {
 
-        console.log(config.get("competitionName", pathConfiguration.competitionName_default));
-        console.log(config.get("competitionType", pathConfiguration.competitionType_default));
-        console.log(config.get("competitionDirector", pathConfiguration.competitionDirector_default));
-
-        console.log(config.get("competitionArbitr", pathConfiguration.competitionArbitr_default));
-        console.log(JSON.parse(config.get("competitionArbitr", pathConfiguration.competitionArbitr_default)));
-
-        console.log(config.get("competitionDate", pathConfiguration.competitionDate_default));
-
-        console.log(config.get("competitionDirectorAvatar", pathConfiguration.competitionDirectorAvatar_default));
-        console.log(JSON.parse(config.get("competitionDirectorAvatar", pathConfiguration.competitionDirectorAvatar_default)));
-
-        console.log(config.get("competitionArbitrAvatar", pathConfiguration.competitionArbitrAvatar_default));
-        console.log(JSON.parse(config.get("competitionArbitrAvatar", pathConfiguration.competitionArbitrAvatar_default)));
-
-
         // load last competition settings
         // try to load prev settings from database
         if (config.get("competitionName_default", "") === "") {
@@ -66,7 +50,6 @@ ApplicationWindow {
             // nothing in DB, load defaults
             pathConfiguration.competitionName = pathConfiguration.competitionName_default;
             pathConfiguration.competitionType = pathConfiguration.competitionType_default;
-            pathConfiguration.competitionTypeText = pathConfiguration.competitionType_default;
             pathConfiguration.competitionDirector = pathConfiguration.competitionDirector_default;
             pathConfiguration.competitionArbitr = pathConfiguration.competitionArbitr_default;
             pathConfiguration.competitionDate = pathConfiguration.competitionDate_default;
@@ -85,8 +68,6 @@ ApplicationWindow {
             pathConfiguration.competitionArbitrAvatar = JSON.parse(config.get("competitionArbitrAvatar", pathConfiguration.competitionArbitrAvatar_default));
         }
 
-        console.log(pathConfiguration.competitionArbitr)
-
         // init tmp var
         pathConfiguration.contestantsDownloadedString = "";
 
@@ -99,15 +80,15 @@ ApplicationWindow {
         pathConfiguration.resultsFolder_user_defined = config.get("resultsFolder_user_defined", "");
         pathConfiguration.trackFile_user_defined = config.get("trackFile_user_defined", "");
 
-        if (pathConfiguration.igcDirectory_user_defined !== null) {
+        if (pathConfiguration.igcDirectory_user_defined !== "") {
             igcPrevCheckBox = 1;    // set combobox to user defined
         }
 
-        if (pathConfiguration.trackFile_user_defined !== null) {
+        if (pathConfiguration.trackFile_user_defined !== "") {
             trackPrevCheckBox = 1;  // set combobox to user defined
         }
 
-        if (pathConfiguration.resultsFolder_user_defined !== null) {
+        if (pathConfiguration.resultsFolder_user_defined !== "") {
             resultsFolderPrevCheckBox = 1;  // set combobox to user defined
         }
 

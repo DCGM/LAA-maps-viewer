@@ -45,7 +45,7 @@ ApplicationWindow {
 
     property string competitionName: qsTrId("competition-configuration-competition-name");
     property string competitionType: "0";
-    property string competitionTypeText: "";
+    property string competitionTypeText: getCompetitionTypeString(parseInt(pathConfiguration.competitionType));
     property string competitionDirector: qsTrId("competition-configuration-competition-director");
     property string competitionDirectorAvatar: "";
     property variant competitionArbitr: [qsTrId("competition-configuration-competition-arbitr")];
@@ -374,6 +374,14 @@ ApplicationWindow {
                         text: qsTrId("path-configuration-track-user-defined")
                         exclusiveGroup: trackGroup
                         anchors.verticalCenter: parent.verticalCenter
+
+                        onCheckedChanged: {
+
+                            if(checked && pathConfiguration.trackFile_user_defined === "") {
+
+                                trackFileDialog.open();
+                            }
+                        }
                     }
                     TextField {
                         id: trackFileTextField
@@ -719,8 +727,6 @@ ApplicationWindow {
                 // get current values from enviroment tab
                 var enviromentTabValues = getEnviromentTabContent();
 
-                console.log(enviromentTabValues)
-
                 pathConfiguration.selectedCompetition = enviromentTabValues[0];
                 pathConfiguration.onlineOfflineCheckBox = enviromentTabValues[4] ? 1 : 0;
                 pathConfiguration.trackCheckBox = enviromentTabValues[1] ? 1 : 0;
@@ -772,8 +778,8 @@ ApplicationWindow {
         onRejected: {
 
             // set to default - nothing selected
-            if (tabView.competitionTabAlias.igcDirectoryTextFieldAlias === "") {
-                tabView.competitionTabAlias.igcFolderDefaultCheckBoxAlias = true;
+            if (pathConfiguration.igcDirectory_user_defined === "") {
+                tabView.pathTabAlias.igcFolderDefaultCheckBoxAlias = true;
             }
         }
     }
@@ -795,8 +801,8 @@ ApplicationWindow {
         onRejected: {
 
             // set to default - nothing selected
-            if (tabView.competitionTabAlias.trackFileTextFieldAlias === "") {
-                tabView.competitionTabAlias.trackDefaultCheckBoxAlias = true;
+            if (pathConfiguration.trackFile_user_defined === "") {
+                tabView.pathTabAlias.trackDefaultCheckBoxAlias = true;
             }
         }
     }
@@ -818,8 +824,8 @@ ApplicationWindow {
         onRejected: {
 
             // set to default - nothing selected
-            if (tabView.competitionTabAlias.resultsFolderTextFieldAlias === "") {
-                tabView.competitionTabAlias.resultsFolderDefaultCheckBoxAlias = true;
+            if (pathConfiguration.resultsFolder_user_defined === "") {
+                tabView.pathTabAlias.resultsFolderDefaultCheckBoxAlias = true;
             }
         }
     }
