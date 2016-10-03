@@ -1323,6 +1323,12 @@ ApplicationWindow {
                 tool_bar.startTime = ctnt.startTime
 
                 var filePath = pathConfiguration.igcDirectory + "/" + ctnt.filename;
+                if (!file_reader.file_exists(filePath)) {
+                    //% "File \"%1\" not found"
+                    errorMessage.text = qsTrId("contestant-table-row-selected-file-not-found").arg(filePath)
+                    errorMessage.open();
+                }
+
                 igc.load( filePath, ctnt.startTime)
                 map.requestUpdate()
                 altChart.igcUpdate();
