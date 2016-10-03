@@ -4782,7 +4782,7 @@ console.log("***")
             pathConfiguration.resultsFolderCheckBox = resultsFolderPrevCheckBox;
             pathConfiguration.onlineOfflineCheckBox = 0; // switch to offline state
 
-//            pathConfiguration.show(); // call onVisibleChanged functions
+            pathConfiguration.show(); // call onVisibleChanged functions
 //            pathConfiguration.ok();
         }
 
