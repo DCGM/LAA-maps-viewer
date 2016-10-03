@@ -158,6 +158,7 @@ ApplicationWindow {
                 }
 
                 igcChooseDialog.close();
+                folderModelChanged();
 
 
             }
