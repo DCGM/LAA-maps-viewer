@@ -1322,30 +1322,11 @@ ApplicationWindow {
                 //                console.log("setFilter" + ctnt.startTime)
                 tool_bar.startTime = ctnt.startTime
 
-                //igc.load( ctnt.filePath, ctnt.startTime)
-
-                // get flePath for selected filename
-                var filePath = "";
-                for (var i = 0; i < igcFolderModel.count; i++) {
-                    var filename = igcFolderModel.get(i, "filename");
-                    if (filename === ctnt.filename) {
-
-                        filePath = igcFolderModel.get(i, "filePath");
-
-                        igc.load( filePath, ctnt.startTime)
-
-                        map.requestUpdate()
-                        altChart.igcUpdate();
-                        break;
-                    }
-                }
-                /*
+                var filePath = pathConfiguration.igcDirectory + "/" + ctnt.filename;
                 igc.load( filePath, ctnt.startTime)
-
-
                 map.requestUpdate()
                 altChart.igcUpdate();
-                */
+
 
             }
 
