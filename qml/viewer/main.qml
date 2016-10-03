@@ -4706,6 +4706,7 @@ ApplicationWindow {
     MessageDialog {
         id: errorMessage;
         icon: StandardIcon.Critical;
+        modality: "ApplicationModal"
     }
 
     MessageDialog {
