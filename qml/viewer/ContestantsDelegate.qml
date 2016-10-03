@@ -42,6 +42,7 @@ Item {
 
             onDoubleClicked: {
 
+                selectRow(styleData.row);
                 createContestantDialog.contestantsListModelRow = styleData.row;
                 createContestantDialog.show();
             }
@@ -50,6 +51,7 @@ Item {
                 if (mouse.button === Qt.RightButton) {
 
                     // update contestant dialog
+                    selectRow(styleData.row);
                     updateContestantMenu.row = styleData.row;
                     updateContestantMenu.popup();
                 }

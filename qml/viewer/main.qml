@@ -4633,7 +4633,7 @@ ApplicationWindow {
             }
 
             var current = -1;
-            var item;
+//            var item;
             var contestant;
 
             contestantsTable.selection.forEach( function(rowIndex) { current = rowIndex; } )
@@ -4664,10 +4664,10 @@ ApplicationWindow {
 
                 // load contestant
                 contestant = contestantsListModel.get(current);
+                console.log("current "  + current + " / " + contestantsListModel.count)
 
-                if (item.filename === "" || file_reader.file_exists(pathConfiguration.resultsFolder + "/"+ contestant.name + "_" + contestant.category + ".html"))  { //if results created or no results for this igc row
+                if (contestant.filename === "" || file_reader.file_exists(pathConfiguration.resultsFolder + "/"+ contestant.name + "_" + contestant.category + ".html"))  { //if results created or no results for this igc row
                     if (current + 1 == contestantsListModel.count) { // finsihed
-
                         running = false;
 
                         // category results
@@ -4712,6 +4712,7 @@ ApplicationWindow {
     MessageDialog {
         id: startUpMessage;
         icon: StandardIcon.Question;
+        modality: "ApplicationModal"
         standardButtons: StandardButton.Yes | StandardButton.No
 
         //% "Viewer"
@@ -4780,6 +4781,9 @@ console.log("***")
             pathConfiguration.igcFolderCheckBox = igcPrevCheckBox;
             pathConfiguration.resultsFolderCheckBox = resultsFolderPrevCheckBox;
             pathConfiguration.onlineOfflineCheckBox = 0; // switch to offline state
+
+//            pathConfiguration.show(); // call onVisibleChanged functions
+//            pathConfiguration.ok();
         }
 
         // Discard prev settings
@@ -4803,6 +4807,7 @@ console.log("***")
             pathConfiguration.igcFolderCheckBox = 0;
             pathConfiguration.resultsFolderCheckBox = 0;
             pathConfiguration.onlineOfflineCheckBox = 0; // switch to offline state
+            pathConfiguration.show();
         }
     }
 
