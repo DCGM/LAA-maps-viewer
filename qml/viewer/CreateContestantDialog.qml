@@ -31,7 +31,7 @@ ApplicationWindow {
 
                 // load implicit val
                 category.currentIndex = category.prevIndex < 0 ? 1 : category.prevIndex;
-                startTime.text = startTime.prevVal;
+                //startTime.text = startTime.prevVal;
             }
             // update current
             else {
@@ -75,6 +75,7 @@ ApplicationWindow {
             id: pilotName
             Layout.fillWidth:true;
             Layout.preferredWidth: parent.width/2
+            placeholderText: qsTrId("create-contestant-pilot-name")
         }
 
         NativeText {
@@ -86,6 +87,7 @@ ApplicationWindow {
             id: copilotName
             Layout.fillWidth:true;
             Layout.preferredWidth: parent.width/2
+            placeholderText: qsTrId("create-contestant-copilot-name")
         }
 
         NativeText {
@@ -122,6 +124,7 @@ ApplicationWindow {
             id: startTime
             Layout.fillWidth:true;
             Layout.preferredWidth: parent.width/2
+            placeholderText: qsTrId("create-contestant-start-time")
 
             property string prevVal: "08:00:00";
 
@@ -154,6 +157,7 @@ ApplicationWindow {
             id: speed
             Layout.fillWidth:true;
             Layout.preferredWidth: parent.width/2
+            placeholderText: qsTrId("create-contestant-speed")
 
             validator: IntValidator {bottom: 10; top: 1000;}
         }
@@ -167,6 +171,7 @@ ApplicationWindow {
             id: planeRegistration
             Layout.fillWidth:true;
             Layout.preferredWidth: parent.width/2
+            placeholderText: qsTrId("create-contestant-plane-registration")
         }
 
         NativeText {
@@ -178,6 +183,7 @@ ApplicationWindow {
             id: planeType
             Layout.fillWidth:true;
             Layout.preferredWidth: parent.width/2
+            placeholderText: qsTrId("create-contestant-plane-type")
         }
     }
 

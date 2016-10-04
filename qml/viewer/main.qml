@@ -663,6 +663,20 @@ ApplicationWindow {
 
         property int row: -1
 
+        signal showMenu();
+
+        onShowMenu: {
+
+            if (row < 0) return;
+
+            // dont popUp menu if igc file not exist - otherwise problem with focus when error dialog is opened
+            var filePath = pathConfiguration.igcDirectory + "/" + contestantsListModel.get(row).filename;
+            if (file_reader.file_exists(filePath)) {
+
+                popup();
+            }
+        }
+
         MenuItem {
             //% "Edit contestant"
             text: qsTrId("scorelist-table-menu-edit-contestant")

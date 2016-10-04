@@ -44,7 +44,8 @@ Item {
 
                 selectRow(styleData.row);
                 createContestantDialog.contestantsListModelRow = styleData.row;
-                createContestantDialog.show();
+                //createContestantDialog.show();
+                updateContestantMenu.showMenu();
             }
             onClicked: {
 
@@ -53,7 +54,8 @@ Item {
                     // update contestant dialog
                     selectRow(styleData.row);
                     updateContestantMenu.row = styleData.row;
-                    updateContestantMenu.popup();
+                    //updateContestantMenu.popup();
+                    updateContestantMenu.showMenu();
                 }
                 else {
                     selectRow(styleData.row);
