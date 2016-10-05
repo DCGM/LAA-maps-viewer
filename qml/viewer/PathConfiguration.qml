@@ -594,9 +594,7 @@ ApplicationWindow {
                 anchors.fill: parent
                 anchors.margins: 10
                 columnSpacing: 10;
-                rowSpacing: 10;
                 columns: 2
-                rows: 5
 
                 property alias competitionNameTextAlias: competitionName.text;
                 property alias competitionTypeIndexAlias: competitionType.currentIndex;
@@ -615,6 +613,7 @@ ApplicationWindow {
                     //text: competitionName_default
                     Layout.fillWidth:true;
                     Layout.preferredWidth: parent.width/2
+                    readOnly: online
                 }
 
                 NativeText {
@@ -628,6 +627,7 @@ ApplicationWindow {
                     model: competitionTypeListModel
                     Layout.fillWidth:true;
                     Layout.preferredWidth: parent.width/2
+                    enabled: !online;
                 }
 
 
@@ -641,6 +641,7 @@ ApplicationWindow {
                     //text: competitionDirector_default
                     Layout.fillWidth:true;
                     Layout.preferredWidth: parent.width/2
+                    readOnly: online
                 }
 
                 NativeText {
@@ -653,6 +654,7 @@ ApplicationWindow {
                     //text: competitionArbitr_default
                     Layout.fillWidth:true;
                     Layout.preferredWidth: parent.width/2
+                    readOnly: online
                 }
 
                 NativeText {
@@ -665,6 +667,7 @@ ApplicationWindow {
                     //text: competitionDate_default
                     Layout.fillWidth:true;
                     Layout.preferredWidth: parent.width/2
+                    readOnly: online
 
                     MouseArea {
                         anchors.fill: parent
@@ -674,6 +677,23 @@ ApplicationWindow {
                             celandar.visible = true;
                         }
                     }
+                }
+
+                Image {
+                   id: readOnlyImg
+                   source: "./data/emblem_readonly.png"
+                   //http://findicons.com/icon/115472/emblem_readonly?id=115472#
+                   visible: online
+                }
+
+                NativeText {
+                    //% "Note: Online state - read-only"
+                    text: qsTrId("competition-configuration-read-only-note")
+                    font.italic: true
+                    color: "grey"
+                    anchors.left: readOnlyImg.right
+                    anchors.leftMargin: 10
+                    visible: online
                 }
             }
         }
