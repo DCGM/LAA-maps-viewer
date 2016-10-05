@@ -34,7 +34,7 @@ Item {
 
     function get(key, default_value) {
 
-        console.log(key)
+        //console.log(key)
 
         var db = LocalStorage.openDatabaseSync(dbName, dbVersion, dbDisplayName, dbEstimatedSize);
         var result = "";
@@ -47,11 +47,10 @@ Item {
                             var rs = tx.executeSql('SELECT * FROM Keys WHERE key=?', [ key ]);
 
                             // nefunguje na "" v DB
-                            if (rs.rows === null || rs.rows === undefined || rs.rows.length === 0) {
+                            if (rs.rows.length === 1 && rs.rows.item(0).value === null) {
                                 result = "";
                             }
                             else {
-
                                 if (rs.rows.length === 1 && rs.rows.item(0).value.length > 0){
                                     result = rs.rows.item(0).value
                                 }

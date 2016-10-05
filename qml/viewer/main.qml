@@ -4770,13 +4770,10 @@ ApplicationWindow {
             var igcPrevCheckBox = 0;
             var trackPrevCheckBox = 0;
             var resultsFolderPrevCheckBox = 0;
-console.log("***")
+
             pathConfiguration.igcDirectory_user_defined = config.get("igcDirectory_user_defined", "");
-console.log("***")
             pathConfiguration.resultsFolder_user_defined = config.get("resultsFolder_user_defined", "");
-console.log("***")
             pathConfiguration.trackFile_user_defined = config.get("trackFile_user_defined", "");
-console.log("***")
 
             if (pathConfiguration.igcDirectory_user_defined !== "") {
                 igcPrevCheckBox = 1;    // set combobox to user defined
