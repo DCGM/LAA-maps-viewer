@@ -571,7 +571,7 @@ ApplicationWindow {
                         anchors.verticalCenter: parent.verticalCenter
                     }
                     Button {
-                        //% "Connect ..."
+                        //% "Browse ..."
                         text: qsTrId("path-configuration-competition-connect");
                         enabled: status_online.checked
                         onClicked: {
