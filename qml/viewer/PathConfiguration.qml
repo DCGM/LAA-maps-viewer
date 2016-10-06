@@ -697,109 +697,117 @@ ApplicationWindow {
                         }
                     }
                 }
-
-                Image {
-                   id: readOnlyImg
-                   source: "./data/emblem_readonly.png"
-                   //http://findicons.com/icon/115472/emblem_readonly?id=115472#
-                   visible: online
-                }
-
-                NativeText {
-                    //% "Note: Online state - read-only"
-                    text: qsTrId("competition-configuration-read-only-note")
-                    font.italic: true
-                    color: "grey"
-                    anchors.left: readOnlyImg.right
-                    anchors.leftMargin: 10
-                    visible: online
-                }
             }
         }
     }
 
      // Item visible false
 
-
     /// Action Buttons
 
-    Row {
+    RowLayout {
         id: actionButtons;
         anchors.bottom: parent.bottom
         anchors.right: parent.right
+        anchors.left: parent.left
         anchors.margins: 10
         anchors.topMargin: 20
         anchors.bottomMargin: 10
         anchors.leftMargin: 10
         anchors.rightMargin: 10
-        spacing: 10;
 
-        Button {
-            id: okButton;
-            //% "Ok"
-            text: qsTrId("path-configuration-ok-button")
-            focus: true;
-            isDefault: true;
-            onClicked: {
+        Row {
 
-                // get current values from competition property tab
-                var competitionTabValues = getCompetitionTabContent();
+            Layout.fillWidth: true
+            spacing: 10;
 
-                // split string into array od arbiters
-                var arr = [];
-                var re = /\s*[,;]\s*/;
-                arr = competitionTabValues[4].split(re);
+            Image {
+               source: "./data/emblem_readonly.png"
+               //http://findicons.com/icon/115472/emblem_readonly?id=115472#
+               visible: online && tabView.competitionTabAlias.visible
+            }
 
-                // push empty string for default avatar
-                var arrAvatar = [];
-                for (var i = 0; i < arr.length; i++) { arrAvatar.push(""); }
-
-                // save current values
-                pathConfiguration.competitionName = competitionTabValues[0];
-                pathConfiguration.competitionType = competitionTabValues[1];
-                pathConfiguration.competitionTypeText = competitionTabValues[2];
-                pathConfiguration.competitionDirector = competitionTabValues[3];
-                pathConfiguration.competitionDirectorAvatar = online ? competitionDirectorAvatar : "";    // online - field already set/offline clear item
-                pathConfiguration.competitionArbitr = arr;
-                pathConfiguration.competitionArbitrAvatar = online ? competitionArbitrAvatar : arrAvatar; // online - field already set/offline set array of empty strings
-                pathConfiguration.competitionDate = competitionTabValues[5];
-
-                // get current values from enviroment tab
-                var enviromentTabValues = getEnviromentTabContent();
-
-                pathConfiguration.selectedCompetition = enviromentTabValues[0];
-                pathConfiguration.onlineOfflineCheckBox = enviromentTabValues[4] ? 1 : 0;
-                pathConfiguration.trackCheckBox = enviromentTabValues[1] ? 1 : 0;
-                pathConfiguration.igcFolderCheckBox = enviromentTabValues[2] ? 1 : 0;
-                pathConfiguration.resultsFolderCheckBox = enviromentTabValues[3] ? 1 : 0;
-
-                // save path values to DB - for default save empty string
-                config.set("igcDirectory_user_defined", pathConfiguration.igcFolderCheckBox === 0 ? "" : enviromentTabValues[6]);
-                config.set("trackFile_user_defined", pathConfiguration.trackCheckBox === 0 ? "" : enviromentTabValues[5]);
-                config.set("resultsFolder_user_defined", pathConfiguration.resultsFolderCheckBox === 0 ? "" : enviromentTabValues[7]);
-                config.set("onlineOffline_user_defined", pathConfiguration.onlineOfflineCheckBox === 0 ? "" : enviromentTabValues[8]);
-                config.set("selectedCompetitionId", selectCompetitionOnlineDialog.selectedCompetitionId);
-
-                // save competition values to DB
-                config.set("competitionName", competitionTabValues[0]);
-                config.set("competitionType", competitionTabValues[1]);
-                config.set("competitionDirector", competitionTabValues[3]);
-                config.set("competitionDirectorAvatar", pathConfiguration.online ? JSON.stringify(competitionDirectorAvatar) : JSON.stringify(""));
-                config.set("competitionArbitr", JSON.stringify(arr));
-                config.set("competitionArbitrAvatar", pathConfiguration.online ? JSON.stringify(competitionArbitrAvatar) : JSON.stringify(arrAvatar));
-                config.set("competitionDate", competitionTabValues[5]);
-
-                ok();
-                pathConfiguration.close();
+            NativeText {
+                //% "Note: Online state - read-only"
+                text: qsTrId("competition-configuration-read-only-note")
+                font.italic: true
+                color: "grey"
+                anchors.verticalCenter: parent.verticalCenter
+                visible: online && tabView.competitionTabAlias.visible
             }
         }
-        Button {
-            //% "Cancel"
-            text: qsTrId("path-configuration-ok-cancel")
-            onClicked: {
 
-                cancel();
-                pathConfiguration.close()
+        Row {
+            spacing: 10;
+
+            Button {
+                id: okButton;
+                //% "Ok"
+                text: qsTrId("path-configuration-ok-button")
+                focus: true;
+                isDefault: true;
+                onClicked: {
+
+                    // get current values from competition property tab
+                    var competitionTabValues = getCompetitionTabContent();
+
+                    // split string into array od arbiters
+                    var arr = [];
+                    var re = /\s*[,;]\s*/;
+                    arr = competitionTabValues[4].split(re);
+
+                    // push empty string for default avatar
+                    var arrAvatar = [];
+                    for (var i = 0; i < arr.length; i++) { arrAvatar.push(""); }
+
+                    // save current values
+                    pathConfiguration.competitionName = competitionTabValues[0];
+                    pathConfiguration.competitionType = competitionTabValues[1];
+                    pathConfiguration.competitionTypeText = competitionTabValues[2];
+                    pathConfiguration.competitionDirector = competitionTabValues[3];
+                    pathConfiguration.competitionDirectorAvatar = online ? competitionDirectorAvatar : "";    // online - field already set/offline clear item
+                    pathConfiguration.competitionArbitr = arr;
+                    pathConfiguration.competitionArbitrAvatar = online ? competitionArbitrAvatar : arrAvatar; // online - field already set/offline set array of empty strings
+                    pathConfiguration.competitionDate = competitionTabValues[5];
+
+                    // get current values from enviroment tab
+                    var enviromentTabValues = getEnviromentTabContent();
+
+                    pathConfiguration.selectedCompetition = enviromentTabValues[0];
+                    pathConfiguration.onlineOfflineCheckBox = enviromentTabValues[4] ? 1 : 0;
+                    pathConfiguration.trackCheckBox = enviromentTabValues[1] ? 1 : 0;
+                    pathConfiguration.igcFolderCheckBox = enviromentTabValues[2] ? 1 : 0;
+                    pathConfiguration.resultsFolderCheckBox = enviromentTabValues[3] ? 1 : 0;
+
+                    // save path values to DB - for default save empty string
+                    config.set("igcDirectory_user_defined", pathConfiguration.igcFolderCheckBox === 0 ? "" : enviromentTabValues[6]);
+                    config.set("trackFile_user_defined", pathConfiguration.trackCheckBox === 0 ? "" : enviromentTabValues[5]);
+                    config.set("resultsFolder_user_defined", pathConfiguration.resultsFolderCheckBox === 0 ? "" : enviromentTabValues[7]);
+                    config.set("onlineOffline_user_defined", pathConfiguration.onlineOfflineCheckBox === 0 ? "" : enviromentTabValues[8]);
+                    config.set("selectedCompetitionId", selectCompetitionOnlineDialog.selectedCompetitionId);
+
+                    // save competition values to DB
+                    config.set("competitionName", competitionTabValues[0]);
+                    config.set("competitionType", competitionTabValues[1]);
+                    config.set("competitionDirector", competitionTabValues[3]);
+                    config.set("competitionDirectorAvatar", pathConfiguration.online ? JSON.stringify(competitionDirectorAvatar) : JSON.stringify(""));
+                    config.set("competitionArbitr", JSON.stringify(arr));
+                    config.set("competitionArbitrAvatar", pathConfiguration.online ? JSON.stringify(competitionArbitrAvatar) : JSON.stringify(arrAvatar));
+                    config.set("competitionDate", competitionTabValues[5]);
+
+                    ok();
+                    pathConfiguration.close();
+                }
+            }
+            Button {
+                //% "Cancel"
+                text: qsTrId("path-configuration-ok-cancel")
+
+                onClicked: {
+
+                    cancel();
+                    pathConfiguration.close()
+                }
             }
         }
     }

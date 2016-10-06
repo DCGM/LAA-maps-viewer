@@ -24,6 +24,8 @@ ApplicationWindow {
     property variant maxPointsArr;
 
     property int minContestantInCategory: 3
+
+    // Tohohle bychom se meli zbavit, humus
     property int _RAL1_count: 0
     property int _RAL2_count: 0
     property int _SAL1_count: 0
