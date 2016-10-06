@@ -4793,8 +4793,9 @@ ApplicationWindow {
             pathConfiguration.resultsFolderCheckBox = resultsFolderPrevCheckBox;
             pathConfiguration.onlineOfflineCheckBox = 0; // switch to offline state
 
+            // dialog will be automatically confirmed after show and synchronization
+            pathConfiguration.autoConfirmFlag = true;
             pathConfiguration.show(); // call onVisibleChanged functions
-//            pathConfiguration.ok();
         }
 
         // Discard prev settings
@@ -4818,6 +4819,9 @@ ApplicationWindow {
             pathConfiguration.igcFolderCheckBox = 0;
             pathConfiguration.resultsFolderCheckBox = 0;
             pathConfiguration.onlineOfflineCheckBox = 0; // switch to offline state
+
+            // dialog will NOT be automatically confirmed
+            pathConfiguration.autoConfirmFlag = false;
             pathConfiguration.show();
         }
     }

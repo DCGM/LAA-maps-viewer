@@ -15,6 +15,17 @@ ApplicationWindow {
     title: qsTrId("path-configuration-dialog-title")
     color: "#ffffff"
 
+
+    onAfterSynchronizing: {
+
+        if(visible && autoConfirmFlag) {
+
+            okButton.clicked();
+        }
+    }
+
+    property bool autoConfirmFlag: false;
+
     property string igcDirectory_default: Qt.resolvedUrl("../../../igcFiles");
     //property string igcDirectory_default: config.get("igcDirectory_default", Qt.resolvedUrl("../../../igcFiles"));
     property string igcDirectory_user_defined;
@@ -253,6 +264,9 @@ ApplicationWindow {
                                      pathConfiguration.competitionDirector,
                                      pathConfiguration.competitionArbitr.join(", "),
                                      pathConfiguration.competitionDate);
+        }
+        else {
+            autoConfirmFlag = false;
         }
     }
 
@@ -716,6 +730,7 @@ ApplicationWindow {
         spacing: 10;
 
         Button {
+            id: okButton;
             //% "Ok"
             text: qsTrId("path-configuration-ok-button")
             focus: true;
