@@ -4681,7 +4681,7 @@ ApplicationWindow {
 
             // load last competition settings
             // try to load prev settings from database
-            if (config.get("competitionName_default", "") === "") {
+            if (config.get("competitionName", "") === "") {
 
                 // nothing in DB, load defaults
                 pathConfiguration.competitionName = pathConfiguration.competitionName_default;

@@ -45,28 +45,28 @@ ApplicationWindow {
     property string contestantsDownloadedString;
     property bool online;   // changed when checkbox changed
 
-    property string competitionName: qsTrId("competition-configuration-competition-name");
+    property string competitionName: "";
     property string competitionType: "0";
     property string competitionTypeText: getCompetitionTypeString(parseInt(pathConfiguration.competitionType));
-    property string competitionDirector: qsTrId("competition-configuration-competition-director");
+    property string competitionDirector: "";
     property string competitionDirectorAvatar: "";
-    property variant competitionArbitr: [qsTrId("competition-configuration-competition-arbitr")];
+    property variant competitionArbitr: [""];
     property variant competitionArbitrAvatar: [""];
-    property string competitionDate: Qt.formatDateTime(new Date(), "dd.MM.yyyy");
+    property string competitionDate: "";
 
     onCompetitionTypeChanged: {
 
         pathConfiguration.competitionTypeText = getCompetitionTypeString(parseInt(pathConfiguration.competitionType));
     }
 
-    property string competitionName_default: qsTrId("competition-configuration-competition-name");
+    property string competitionName_default: "";//qsTrId("competition-configuration-competition-name");
     property string competitionType_default: "0";
     property string competitionTypeText_default: "";
-    property string competitionDirector_default: qsTrId("competition-configuration-competition-director");
+    property string competitionDirector_default: ""//qsTrId("competition-configuration-competition-director");
     property string competitionDirectorAvatar_default: "";
-    property variant competitionArbitr_default: [qsTrId("competition-configuration-competition-arbitr")];
+    property variant competitionArbitr_default: [""]//[qsTrId("competition-configuration-competition-arbitr")];
     property variant competitionArbitrAvatar_default: [""];
-    property string competitionDate_default: Qt.formatDateTime(new Date(), "dd.MM.yyyy");
+    property string competitionDate_default: ""//Qt.formatDateTime(new Date(), "dd.MM.yyyy");
 
     property string selectedCompetition: "";    
 
@@ -628,6 +628,7 @@ ApplicationWindow {
                     //text: competitionName_default
                     Layout.fillWidth:true;
                     Layout.preferredWidth: parent.width/2
+                    placeholderText: qsTrId("competition-configuration-competition-name")
                     readOnly: online
                 }
 
@@ -656,6 +657,7 @@ ApplicationWindow {
                     //text: competitionDirector_default
                     Layout.fillWidth:true;
                     Layout.preferredWidth: parent.width/2
+                    placeholderText: qsTrId("competition-configuration-competition-director")
                     readOnly: online
                 }
 
@@ -669,6 +671,7 @@ ApplicationWindow {
                     //text: competitionArbitr_default
                     Layout.fillWidth:true;
                     Layout.preferredWidth: parent.width/2
+                    placeholderText: qsTrId("competition-configuration-competition-arbitr")
                     readOnly: online
                 }
 
@@ -682,6 +685,7 @@ ApplicationWindow {
                     //text: competitionDate_default
                     Layout.fillWidth:true;
                     Layout.preferredWidth: parent.width/2
+                    placeholderText: Qt.formatDateTime(new Date(), "dd.MM.yyyy");
                     readOnly: online
 
                     MouseArea {
