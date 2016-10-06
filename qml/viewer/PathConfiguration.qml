@@ -94,6 +94,7 @@ ApplicationWindow {
         ret.push(tabView.pathTabAlias.trackFileTextFieldAlias);
         ret.push(tabView.pathTabAlias.igcDirectoryTextFieldAlias);
         ret.push(tabView.pathTabAlias.resultsFolderTextFieldAlias);
+        ret.push(tabView.pathTabAlias.downloadedCompetitionNameAlias);
 
         // recover tab status
         if (!tabPrevActived) tabView.activateCompetitionTab();
@@ -772,6 +773,8 @@ ApplicationWindow {
                 config.set("igcDirectory_user_defined", pathConfiguration.igcFolderCheckBox === 0 ? "" : enviromentTabValues[6]);
                 config.set("trackFile_user_defined", pathConfiguration.trackCheckBox === 0 ? "" : enviromentTabValues[5]);
                 config.set("resultsFolder_user_defined", pathConfiguration.resultsFolderCheckBox === 0 ? "" : enviromentTabValues[7]);
+                config.set("onlineOffline_user_defined", pathConfiguration.onlineOfflineCheckBox === 0 ? "" : enviromentTabValues[8]);
+                config.set("selectedCompetitionId", selectCompetitionOnlineDialog.selectedCompetitionId);
 
                 // save competition values to DB
                 config.set("competitionName", competitionTabValues[0]);

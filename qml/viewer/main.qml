@@ -4711,10 +4711,13 @@ ApplicationWindow {
             var igcPrevCheckBox = 0;
             var trackPrevCheckBox = 0;
             var resultsFolderPrevCheckBox = 0;
+            var onlineOfflinePrevCheckBox = 0;
 
             pathConfiguration.igcDirectory_user_defined = config.get("igcDirectory_user_defined", "");
             pathConfiguration.resultsFolder_user_defined = config.get("resultsFolder_user_defined", "");
             pathConfiguration.trackFile_user_defined = config.get("trackFile_user_defined", "");
+            pathConfiguration.selectedCompetition = config.get("onlineOffline_user_defined", "");
+            selectCompetitionOnlineDialog.selectedCompetitionId = config.get("selectedCompetitionId", 0);
 
             if (pathConfiguration.igcDirectory_user_defined !== "") {
                 igcPrevCheckBox = 1;    // set combobox to user defined
@@ -4728,11 +4731,14 @@ ApplicationWindow {
                 resultsFolderPrevCheckBox = 1;  // set combobox to user defined
             }
 
-            pathConfiguration.selectedCompetition = "";
+            if (pathConfiguration.selectedCompetition !== "") {
+                onlineOfflinePrevCheckBox = 1;  // set combobox to user defined
+            }
+
             pathConfiguration.trackCheckBox = trackPrevCheckBox;
             pathConfiguration.igcFolderCheckBox = igcPrevCheckBox;
             pathConfiguration.resultsFolderCheckBox = resultsFolderPrevCheckBox;
-            pathConfiguration.onlineOfflineCheckBox = 0; // switch to offline state
+            pathConfiguration.onlineOfflineCheckBox = onlineOfflinePrevCheckBox;
 
             // dialog will be automatically confirmed after show and synchronization
             pathConfiguration.autoConfirmFlag = true;
