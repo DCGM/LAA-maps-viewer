@@ -15,15 +15,6 @@ ApplicationWindow {
     title: qsTrId("path-configuration-dialog-title")
     color: "#ffffff"
 
-
-    onAfterSynchronizing: {
-
-        if(visible && autoConfirmFlag) {
-
-            okButton.clicked();
-        }
-    }
-
     property bool autoConfirmFlag: false;
 
     property string igcDirectory_default: Qt.resolvedUrl("../../../igcFiles");
@@ -270,6 +261,15 @@ ApplicationWindow {
         }
     }
 
+    // confirm and close automatically dialog - used when prev enviroment settings is loaded from DB
+    onAfterSynchronizing: {
+
+        if(visible && autoConfirmFlag) {
+
+            okButton.clicked();
+        }
+    }
+
     // remove downloaded values and init text field
     function initCompetitionPropertyOffline() {
 
@@ -400,7 +400,7 @@ ApplicationWindow {
                     TextField {
                         id: trackFileTextField
                         text: track_user_defined.checked ? pathConfiguration.trackFile_user_defined : trackFile_default
-                        readOnly: !track_user_defined.checked
+                        readOnly: true//!track_user_defined.checked
                         Layout.fillWidth:true;
                         Layout.preferredWidth: parent.width/2
                         anchors.verticalCenter: parent.verticalCenter
@@ -458,7 +458,7 @@ ApplicationWindow {
                     TextField {
                         id: igcDirectoryTextField
                         text: igc_user_defined.checked ? pathConfiguration.igcDirectory_user_defined : igcDirectory_default
-                        readOnly: !igc_user_defined.checked
+                        readOnly: true//!igc_user_defined.checked
                         Layout.fillWidth:true;
                         Layout.preferredWidth: parent.width/2
                         anchors.verticalCenter: parent.verticalCenter
@@ -515,7 +515,7 @@ ApplicationWindow {
                     TextField {
                         id: resultsFolderTextField
                         text: resultsFolder_user_defined.checked ? pathConfiguration.resultsFolder_user_defined : resultsFolder_default
-                        readOnly: !resultsFolder_user_defined.checked
+                        readOnly: true//!resultsFolder_user_defined.checked
                         Layout.fillWidth:true;
                         Layout.preferredWidth: parent.width/2
                         anchors.verticalCenter: parent.verticalCenter
