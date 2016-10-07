@@ -46,13 +46,8 @@ ApplicationWindow {
     onVisibleChanged: {
 
         if(visible) {
-            startUpMessage.open();
+            startUpMessage.open();  // clean or reload prev settings
         }
-    }
-
-    Component.onCompleted: {
-
-
     }
 
     menuBar: MenuBar {
@@ -69,16 +64,6 @@ ApplicationWindow {
                 }
                 shortcut: "Ctrl+E"
             }
-            /*
-            MenuItem {
-                //% "&Set Competition"
-                text: qsTrId("main-file-menu-set-competition")
-                onTriggered: {
-                    competitionConfiguretion.show()
-                }
-                shortcut: "Ctrl+C"
-            }
-            */
             MenuItem {
                 //% "&Refresh application"
                 text: qsTrId("main-file-menu-refresh-application")
@@ -87,16 +72,8 @@ ApplicationWindow {
                     //selectCompetitionOnlineDialog.show();
                     selectCompetitionOnlineDialog.refreshApplications();
                 }
-                shortcut: "Ctrl+W"
+                shortcut: "F5"//"Ctrl+W"
             }
-            /*
-            MenuItem {
-                //% "Evaluate all data"
-                text: qsTrId("main-file-menu-process-all");
-                onTriggered: evaluate_all_data();
-                shortcut: "Ctrl+D"
-            }
-            */
 
             MenuItem {
                 //% "Generate continuous results"
@@ -111,16 +88,6 @@ ApplicationWindow {
                 onTriggered: generateFinalResults();
                 shortcut: "Ctrl+R"
             }
-
-            //            MenuItem {
-            //                //% "Export"
-            //                text: qsTrId("main-file-menu-export")
-            ////                enabled: (igcFilesTable.currentRow >= 0)
-            //                onTriggered: {
-            //                    exportFileDialog.open()
-            //                }
-            //            }
-
 
             MenuItem {
                 //% "Exit"
@@ -146,10 +113,6 @@ ApplicationWindow {
                     map.url = "";
                     map.url_subdomains = [];
                 }
-                //                Component.onCompleted: { // default value
-                //                    checked = true;
-                //                    map.url = ""
-                //                }
 
                 shortcut: "Ctrl+1"
             }
@@ -243,7 +206,6 @@ ApplicationWindow {
                 id: mapTypeSecondaryExclusive
             }
 
-
             MenuItem {
                 //% "Airspace Off"
                 text: qsTrId("main-map-menu-airspace-off")
@@ -277,8 +239,6 @@ ApplicationWindow {
                     map.mapAirspaceVisible = true;
                 }
             }
-
-
 
             MenuItem {
                 visible: false;
@@ -349,7 +309,7 @@ ApplicationWindow {
                 text: qsTrId("main-view-menu-category-counters-sb")
                 checkable: true;
                 checked: true;
-                //shortcut: "Ctrl+A"
+                shortcut: "Ctrl+C"
             }
             MenuItem {
                 id: mainViewMenuCompetitionPropertyStatusBar
@@ -357,7 +317,7 @@ ApplicationWindow {
                 text: qsTrId("main-view-menu-comp-property-sb")
                 checkable: true;
                 checked: true;
-                //shortcut: "Ctrl+A"
+                shortcut: "Ctrl+P"
             }
         }
 
@@ -405,9 +365,7 @@ ApplicationWindow {
         onAccepted: {
             map.url = text;
         }
-
     }
-
 
     FileDialog {
         id: exportFileDialog;
@@ -464,11 +422,8 @@ ApplicationWindow {
                 return i;
             }
         }
-
         return 0;
     }
-
-
 
     CreateContestantDialog {
 
@@ -487,12 +442,6 @@ ApplicationWindow {
             }
         }
     }
-
-    CompetitionConfiguration {
-
-        id: competitionConfiguretion;
-    }
-
 
     CppWorker {
 
@@ -513,8 +462,6 @@ ApplicationWindow {
             if (file_reader.file_exists(Qt.resolvedUrl(pathConfiguration.trackFile ))) {
                 tracks = JSON.parse(file_reader.read(Qt.resolvedUrl(pathConfiguration.trackFile )))
             } else {
-                // cleanup
-                //contestantsListModel.clear()
 
                 //% "File %1 not found"
                 errorMessage.text = qsTrId("path-configuration-error-trackFile-not-found").arg(pathConfiguration.trackFile);
@@ -536,14 +483,6 @@ ApplicationWindow {
                 //% "File %1 not found"
                 errorMessage.text = qsTrId("path-configuration-error-contestantsFile-not-found").arg(pathConfiguration.contestantsFile);
                 errorMessage.open();
-
-                //% "Configuration error"
-                //contestnatsNotFoundMessage.title = qsTrId("path-configuration-error-contestantsFile-not-found-title");
-
-                //% "File %1 not found. Do you want to download the file from the server?"
-                //contestnatsNotFoundMessage.text = qsTrId("path-configuration-error-contestantsFile-not-found-text").arg(pathConfiguration.contestantsFile.substring(8));
-                //contestnatsNotFoundMessage.open();
-
                 return;
             }
 
@@ -562,9 +501,7 @@ ApplicationWindow {
 
                 storeTrackSettings(pathConfiguration.tsFile);
                 map.requestUpdate();
-
             }
-
         }
         onCancel: {
         }
@@ -615,7 +552,6 @@ ApplicationWindow {
             // dont popUp menu if igc file not exist - otherwise problem with focus when error dialog is opened
             var filePath = pathConfiguration.igcDirectory + "/" + contestantsListModel.get(row).filename;
             if (file_reader.file_exists(filePath)) {
-
                 popup();
             }
         }
@@ -669,7 +605,7 @@ ApplicationWindow {
 
         id: competitionClassModel
 
-        ListElement { text: "-"}
+        ListElement { text: "-"}    // proc to tu je???
         ListElement { text: "R-AL1"}
         ListElement { text: "R-AL2"}
         ListElement { text: "S-AL1"}
@@ -685,7 +621,6 @@ ApplicationWindow {
     }
 
     ListModel {
-
         id: scoreListClassifyListModel
 
         ListElement { //% "yes"
@@ -696,98 +631,10 @@ ApplicationWindow {
 
 
     FolderListModel {
-
         id: igcFolderModel
         nameFilters: ["*.igc", "*.IGC"]
         showDirs: false
-        //        property string previousFolder;
-
-        //        onCountChanged: {
-        //            if (previousFolder != igcFolderModel.folder) { // beware do not compare with !== operator (string !== object)
-        //                igcFilesModel.clear()
-        //                previousFolder = igcFolderModel.folder;
-        //            }
-
-        //            for (var i = 0; i < igcFolderModel.count; i++) {
-
-        //                var filename = igcFolderModel.get(i, "fileName")
-        //                var filePath = igcFolderModel.get(i, "filePath");
-
-        //                var found = false;
-
-        //                for (var j = 0; j < igcFilesModel.count; j++) {
-        //                    var item = igcFilesModel.get(j);
-        //                    if ((item.filename === filename) && (item.filePath === filePath)) {
-
-        //                        found = true;
-        //                    }
-        //                }
-
-
-        //                if (!found) {
-
-        //                    // select item in combobox if filename match
-        //                    var contestant_index = 0;
-        //                    var contestant;
-        //                    for (var j = 0; j < contestantsListModel.count; j++) {
-
-        //                        contestant = contestantsListModel.get(j);
-
-        //                        if (filename === contestant.filename) {
-        //                            contestant_index = j;
-        //                        }
-
-        //                    }
-
-        //                    contestant = contestantsListModel.get(contestant_index);
-
-        //                    igcFilesModel.append({"filename": filename,
-        //                                          "filePath": filePath,
-        //                                          "score": "",
-        //                                          "score_json": "",
-        //                                          contestant: contestant_index,
-        //                                          "scorePoints" : -1,
-        //                                          "scorePoints1000" : -1,
-        //                                          "startTime" : "00:00:00",
-        //                                          "category" : "",
-        //                                          "speed" : -1,
-        //                                          "classify" : -1,
-        //                                          "aircraftRegistration" : "",
-        //                                          "wptScoreDetails" : "",
-        //                                          "trackHash": "",
-        //                                          "speedSectionsScoreDetails" : "",
-        //                                          "spaceSectionsScoreDetails" : "",
-        //                                          "altitudeSectionsScoreDetails" : "",
-        //                                          "classOrder": -1
-        //                                         })
-
-        //                }
-        //            }
-        //        }
     }
-
-    //    ListModel {
-    //        id: igcFilesModel
-    //        onDataChanged: {
-
-    //            if (igcFilesTable.currentRow < 0) {
-    //                igcFilesTable.rowSelected();
-    //            }
-    //        }
-    //    }
-
-    ListModel {
-        id: wptScoreList
-    }
-
-    // ListModel {
-    //listModel of listmodels for track points score
-    //    id: wptNewScoreList
-    // }
-
-    // ListModel {
-    //     id: speedSectionsScoreList
-    // }
 
     ListModel {
         id: contestantsListModel
@@ -1015,16 +862,6 @@ ApplicationWindow {
                 var contestant = contestantsListModel.get(row);
 
                 // create contestant html file
-                /*results_creator.createContestantResultsHTML((pathConfiguration.resultsFolder + "/" + contestant.name + "_" + contestant.category),
-                                                            JSON.stringify(contestant),
-                                                            competitionConfiguretion.competitionName,
-                                                            competitionConfiguretion.getCompetitionTypeString(parseInt(competitionConfiguretion.competitionType)),
-                                                            competitionConfiguretion.competitionDirector,
-                                                            competitionConfiguretion.competitionDirectorAvatar,
-                                                            competitionConfiguretion.competitionArbitr,
-                                                            competitionConfiguretion.competitionArbitrAvatar,
-                                                            competitionConfiguretion.competitionDate);
-                */
                 results_creator.createContestantResultsHTML((pathConfiguration.resultsFolder + "/" + contestant.name + "_" + contestant.category),
                                                                             JSON.stringify(contestant),
                                                                             pathConfiguration.competitionName,
@@ -1047,12 +884,6 @@ ApplicationWindow {
 
                 id: contestantsTableDelegate
 
-                /*onChangeIgc: {
-
-                    igcChooseDialog.row = row;
-                    igcChooseDialog.show();
-                }*/
-
                 onSelectRow: {
 
                     contestantsTable.selectRow(row);
@@ -1060,123 +891,7 @@ ApplicationWindow {
 
                 onChangeModel: {
 
-                       contestantsListModel.changeLisModel(row, role, value);
-                       return;
-
-                      /* console.log("row: " + row + " role: " + role + " value: " + value + " count: " + contestantsListModel.count)
-
-                       if (row >= contestantsListModel.count || row < 0) {
-                           console.log("WUT? row role value " +row + " " +role + " " +value)
-                           return;
-                       }
-
-                       var prevRow = contestantsTable.currentRow;
-                       var prevItem = contestantsListModel.get(row);
-                       var prevCategory = prevItem.category;
-                       var prevName = prevItem.name;
-
-                       contestantsListModel.setProperty(row, role, value)
-                       var contestant = contestantsListModel.get(row);
-
-                       // init classify combobox for contestant
-                       if (parseInt(contestant.classify) === -1) {
-                            contestantsListModel.setProperty(row, "classify", contestant.filename === "" ? -1 : contestant.prevResultsClassify);
-                       }
-
-                        if (role === "category") {
-
-                            // change full name and reload item
-                            contestantsListModel.setProperty(row, "fullName", contestant.name + "_" + contestant.category);
-                            contestant = contestantsListModel.get(row);
-                        }
-                        if (role === "filename" || role === "speed" || role === "startTime" || role === "category") {
-
-                            // load contestant category
-                            for (var t = 0; t < tracks.tracks.length; t++) {
-
-                                if (tracks.tracks[t].name === contestant.category)
-                                    trItem = tracks.tracks[t]
-                            }
-
-                        // recalculate manual values score / markers, photos, ...
-                        if (contestant.filename !== "") recalculateContestnatManualScoreValues(row);
-
-                            // reload update ctnt
-                            contestant = contestantsListModel.get(row);
-
-                            // no results for this values
-                            if (contestant.filename === "" || !resultsExist(contestant.speed,
-                                                                            contestant.startTime,
-                                                                            contestant.category,
-                                                                            contestant.filename,
-                                                                            MD5.MD5(JSON.stringify(trItem)),
-                                                                            contestant.prevResultsSpeed,
-                                                                            contestant.prevResultsStartTime,
-                                                                            contestant.prevResultsCategory,
-                                                                            contestant.prevResultsFilename,
-                                                                            contestant.prevResultsTrackHas)) {
-
-                                    contestantsListModel.setProperty(row, "score", "");        //compute new score
-                                    contestantsListModel.setProperty(row, "scorePoints", -1);
-                                    contestantsListModel.setProperty(row, "scorePoints1000", -1);
-                                    contestantsListModel.setProperty(row, "wptScoreDetails", contestant.prevResultsWPT);
-                                    contestantsListModel.setProperty(row, "speedSectionsScoreDetails", contestant.prevResultsSpeedSec);
-                                    contestantsListModel.setProperty(row, "spaceSectionsScoreDetails", contestant.prevResultsSpaceSec);
-                                    contestantsListModel.setProperty(row, "altitudeSectionsScoreDetails", contestant.prevResultsAltSec);
-
-                            }
-                            // load prev results
-                            else {
-
-                                contestantsListModel.setProperty(row, "trackHash", contestant.prevResultsTrackHas);
-                                contestantsListModel.setProperty(row, "wptScoreDetails", contestant.prevResultsWPT);
-                                contestantsListModel.setProperty(row, "speedSectionsScoreDetails", contestant.prevResultsSpeedSec);
-                                contestantsListModel.setProperty(row, "spaceSectionsScoreDetails", contestant.prevResultsSpaceSec);
-                                contestantsListModel.setProperty(row, "altitudeSectionsScoreDetails", contestant.prevResultsAltSec);
-                                contestantsListModel.setProperty(row, "score_json", contestant.prevResultsScoreJson)
-                                contestantsListModel.setProperty(row, "score", contestant.prevResultsScore)
-                                contestantsListModel.setProperty(row, "scorePoints", contestant.prevResultsScorePoints);
-                            }
-                        }
-
-                        // change continuous results models
-                        if (role === "category") {
-
-                            // decrease prev category counter
-                            if (prevCategory !== "-" && value !== prevCategory) {
-                                updateContestantInCategoryCounters(prevCategory, false);
-                            }
-
-                            // increase actual category counter
-                            updateContestantInCategoryCounters(value, true);
-                        }
-
-                        if (role === "startTime") sortListModelByStartTime();
-
-                        // select row
-                        if (prevRow === row) {
-
-                            contestantsTable.selection.clear();
-
-                            for (var i = 0; i < contestantsListModel.count; i++) {
-                                var ctIt = contestantsListModel.get(i);
-
-                                // find and select current item (after sort)
-                                if (ctIt.name === prevName && prevName !== undefined) {
-                                    row = i;
-                                    break;
-                                }
-                            }
-
-                            contestantsTable.selection.select(row);
-                            contestantsTable.currentRow = row;
-                        }
-
-                        // save results into CSV
-                        writeCSV();
-                        recalculateScoresTo1000();
-                        writeScoreManulaValToCSV();
-                        */
+                    contestantsListModel.changeLisModel(row, role, value);
                 }
 
                 onShowResults: {
@@ -1289,11 +1004,7 @@ ApplicationWindow {
                 igc.load( filePath.substring(8), ctnt.startTime)
                 map.requestUpdate()
                 altChart.igcUpdate();
-
-
             }
-
-
 
             TableViewColumn {
                 //% "Contestant"
@@ -1379,379 +1090,6 @@ ApplicationWindow {
             }
         }
 
-        //        TableView {
-        //            visible: false;
-
-        //            Rectangle { // disable
-        //                color: "#ffffff";
-        //                opacity: 0.7;
-        //                anchors.fill: parent;
-        //                visible: evaluateTimer.running || resultsTimer.running;
-        //                MouseArea {
-        //                    anchors.fill: parent;
-        //                    onClicked: {
-
-        //                        if (evaluateTimer.running) {
-
-        //                            console.log("onClick is disabled when evaluateTimer.running");
-        //                            evaluateTimer.running = false;
-        //                        }
-        //                        else if (resultsTimer.running) {
-
-        //                            console.log("onClick is disabled when resultsTimer.running");
-        //                            resultsTimer.running = false;
-        //                        }
-        //                    }
-        //                }
-        //            }
-
-        //            id: igcFilesTable
-        //            width: 1110;
-        ////            visible: mainViewMenuTables.checked
-        //            clip: true;
-        //            model: igcFilesModel
-
-        //            itemDelegate: IgcFilesDelegate {
-
-        //                id: igcFilesDelegate
-        //                comboModel: contestantsListModel
-
-        //                onShowResults: {
-
-        //                    // load contestant property
-        //                    ctnt = contestantsListModel.get(igcFilesModel.get(row).contestant);
-
-        //                    // TODO - prasarna aby byla kopie a ne stejny objekt
-        //                    resultsWindow.curentContestant = JSON.parse(JSON.stringify(ctnt));
-
-        //                    // load contestant score list
-        //                    resultsWindow.wptScore = igcFilesModel.get(row).wptScoreDetails;
-
-        //                    // load sections string
-        //                    resultsWindow.speedSections = igcFilesModel.get(row).speedSectionsScoreDetails;
-        //                    resultsWindow.altSections = igcFilesModel.get(row).altitudeSectionsScoreDetails;
-        //                    resultsWindow.spaceSections = igcFilesModel.get(row).spaceSectionsScoreDetails;
-
-        //                    // load cattegory property
-        //                    var arr = tracks.tracks;
-        //                    var currentTrck;
-
-        //                    var found = false;
-        //                    resultsWindow.time_window_penalty = 0;
-        //                    resultsWindow.time_window_size = 0;
-        //                    resultsWindow.photos_max_score = 0;
-        //                    resultsWindow.oposite_direction_penalty = 0;
-        //                    resultsWindow.marker_max_score = 0;
-        //                    resultsWindow.gyre_penalty = 0;
-
-        //                    for (var i = 0; i < arr.length; i++) {
-        //                        currentTrck = arr[i];
-
-        //                        if (currentTrck.name === ctnt.category) {
-
-        //                            resultsWindow.time_window_penalty = currentTrck.time_window_penalty; //penalty percent
-        //                            resultsWindow.time_window_size = currentTrck.time_window_size;
-        //                            resultsWindow.photos_max_score = currentTrck.photos_max_score;
-        //                            resultsWindow.oposite_direction_penalty = currentTrck.oposite_direction_penalty; //penalty percent
-        //                            resultsWindow.marker_max_score = currentTrck.marker_max_score;
-        //                            resultsWindow.gyre_penalty = currentTrck.gyre_penalty; //penalty percent
-        //                            break;
-        //                        }
-        //                    }
-
-        //                    // select row
-        //                    igcFilesTable.selection.clear();
-        //                    igcFilesTable.selection.select(row);
-        //                    igcFilesTable.currentRow = row;
-
-        //                    resultsWindow.show();
-        //                }
-
-        //                onSelectRow: {
-
-        //                    igcFilesTable.selection.clear();
-        //                    igcFilesTable.selection.select(row);
-        //                    igcFilesTable.currentRow = row;
-        //                }
-
-        //                onRecalculateResults: {
-
-        //                    igcFilesModel.setProperty(row, "score", "");        //compute new score
-        //                    igcFilesModel.setProperty(row, "scorePoints", -1);
-        //                    igcFilesModel.setProperty(row, "scorePoints1000", -1);
-
-        //                    igcFilesTable.selection.clear();
-        //                    igcFilesTable.selection.select(row);
-        //                    igcFilesTable.currentRow = row;
-        //                }
-
-        //                onGenerateResults: {
-
-        //                    igcFilesTable.selection.clear();
-        //                    igcFilesTable.selection.select(row);
-        //                    igcFilesTable.currentRow = row;
-
-        //                    // load contestant and igc row
-        //                    var item = igcFilesModel.get(row);
-        //                    var contestant = contestantsListModel.get(item.contestant);
-
-        //                    // create contestant html file
-        //                    results_creator.createContestantResultsHTML((pathConfiguration.resultsFolder + "/" + contestant.name + "_" + contestant.category),
-        //                                                                JSON.stringify(contestant),
-        //                                                                JSON.stringify(item),
-        //                                                                competitionConfiguretion.competitionName,
-        //                                                                competitionConfiguretion.getCompetitionTypeString(parseInt(competitionConfiguretion.competitionType)),
-        //                                                                competitionConfiguretion.competitionDirector,
-        //                                                                competitionConfiguretion.competitionDirectorAvatar,
-        //                                                                competitionConfiguretion.competitionArbitr,
-        //                                                                competitionConfiguretion.competitionArbitrAvatar,
-        //                                                                competitionConfiguretion.competitionDate);
-        //                }
-
-        //                onChangeModel: {
-
-        //                    //console.log("row: " + row + " role: " + role + " value: " + value + " count: " + igcFilesModel.count)
-
-        //                    if (row >= igcFilesModel.count) {
-        //                        console.log("WUT? row role value " +row + " " +role + " " +value)
-        //                        return;
-        //                    }
-
-        //                    var prevRow = igcFilesTable.currentRow
-        //                    var contestant;
-        //                    var prevCategory = igcFilesModel.get(row).category;
-        //                    var prevName = igcFilesModel.get(row).filename;
-
-        //                    igcFilesModel.setProperty(row, role, value)
-        //                    var ctIndex = igcFilesModel.get(row).contestant;
-
-        //                    if (role === "contestant") {
-
-        //                        //copy values from contestant model into igc model
-        //                        updateContestantDetailsIgcListModel(row);
-        //                    }
-        //                    else if (role === "speed" || role === "startTime" || role === "category") {
-
-        //                        contestantsListModel.setProperty(ctIndex, role, value);
-        //                        contestantsListModel.setProperty(ctIndex, "fullName", contestantsListModel.get(ctIndex).name + "_" + contestantsListModel.get(ctIndex).category);
-        //                    }
-
-        //                    // load prev results or clear current
-        //                    contestant = contestantsListModel.get(ctIndex);
-
-        //                    if (role === "contestant" || role === "speed" || role === "startTime" || role === "category") {
-
-        //                        // load contestant category
-        //                        for (var t = 0; t < tracks.tracks.length; t++) {
-
-        //                            if (tracks.tracks[t].name === contestant.category)
-        //                                trItem = tracks.tracks[t]
-        //                        }
-
-        //                        // recalculate manual values score / markers, photos, ...
-        //                        if (ctIndex !== 0) recalculateContestnatManualScoreValues(row);
-
-        //                        // reload update ctnt
-        //                        contestant = contestantsListModel.get(ctIndex);
-
-        //                        // no results for this values
-        //                        if (ctIndex === 0 || !resultsExist(contestant.speed,
-        //                                          contestant.startTime,
-        //                                          contestant.category,
-        //                                          igcFilesModel.get(row).filename,
-        //                                          MD5.MD5(JSON.stringify(trItem)),
-        //                                          contestant.prevResultsSpeed,
-        //                                          contestant.prevResultsStartTime,
-        //                                          contestant.prevResultsCategory,
-        //                                          contestant.prevResultsFilename,
-        //                                          contestant.prevResultsTrackHas)) {
-
-        //                            igcFilesModel.setProperty(row, "score", "");        //compute new score
-        //                            igcFilesModel.setProperty(row, "scorePoints", -1);
-        //                            igcFilesModel.setProperty(row, "scorePoints1000", -1);
-
-        //                            igcFilesModel.setProperty(row, "wptScoreDetails", contestant.prevResultsWPT);
-        //                            igcFilesModel.setProperty(row, "speedSectionsScoreDetails", contestant.prevResultsSpeedSec);
-        //                            igcFilesModel.setProperty(row, "spaceSectionsScoreDetails", contestant.prevResultsSpaceSec);
-        //                            igcFilesModel.setProperty(row, "altitudeSectionsScoreDetails", contestant.prevResultsAltSec);
-
-        //                        }
-        //                        // load prev results
-        //                        else {
-
-        //                            igcFilesModel.setProperty(row, "trackHash", contestant.prevResultsTrackHas);
-        //                            igcFilesModel.setProperty(row, "wptScoreDetails", contestant.prevResultsWPT);
-        //                            igcFilesModel.setProperty(row, "speedSectionsScoreDetails", contestant.prevResultsSpeedSec);
-        //                            igcFilesModel.setProperty(row, "spaceSectionsScoreDetails", contestant.prevResultsSpaceSec);
-        //                            igcFilesModel.setProperty(row, "altitudeSectionsScoreDetails", contestant.prevResultsAltSec);
-        //                            igcFilesModel.setProperty(row, "score_json", contestant.prevResultsScoreJson)
-        //                            igcFilesModel.setProperty(row, "score", contestant.prevResultsScore)
-        //                            igcFilesModel.setProperty(row, "scorePoints", contestant.prevResultsScorePoints);
-        //                        }
-        //                    }
-
-        //                    // change continuous results models
-        //                    if (role === "category") {
-
-        //                        // decrease prev category counter
-        //                        if (prevCategory !== "-" && value !== prevCategory) {
-        //                            updateContestantInCategoryCounters(prevCategory, false);
-        //                        }
-
-        //                        // increase actual category counter
-        //                        updateContestantInCategoryCounters(value, true);
-        //                    }
-
-        //                    if (role === "startTime" || role === "contestant") sortListModelByStartTime();
-
-        //                    // select row
-        //                    if (prevRow === row) {
-
-        //                        igcFilesTable.selection.clear();
-
-        //                        for (var i = 0; i < igcFilesModel.count; i++) {
-        //                            if (igcFilesModel.get(i).filename === prevName && prevName !== undefined)
-        //                                row = i;
-        //                        }
-
-        //                        igcFilesTable.selection.select(row);
-        //                        igcFilesTable.currentRow = row;
-
-        //                    }
-
-        //                    // save results into CSV
-        //                    writeCSV();
-        //                    recalculateScoresTo1000();
-        //                    writeScoreManulaValToCSV();
-        //                }
-        //            }
-
-
-        //            rowDelegate: Rectangle {
-        //                height: 30;
-        //                color: styleData.selected ? "#0077cc" : (styleData.alternate? "#eee" : "#fff")
-        //            }
-
-
-        //            TableViewColumn {
-        //                //% "File name"
-        //                title: qsTrId("filelist-table-filename")
-        //                role: "filename";
-        //            }
-        //            TableViewColumn {
-        //                //% "Contestant"
-        //                title: qsTrId("filelist-table-contestants")
-        //                role: "contestant"
-        //            }
-        //            TableViewColumn {
-        //                //% "Category"
-        //                title: qsTrId("filelist-table-category")
-        //                role: "category"
-        //                width: 120
-        //            }
-        //            TableViewColumn {
-        //                //% "Speed"
-        //                title: qsTrId("filelist-table-speed")
-        //                role: "speed"
-        //                width: 60
-        //            }
-        //            TableViewColumn {
-        //                //% "StartTime"
-        //                title: qsTrId("filelist-table-start-time")
-        //                role: "startTime"
-        //                width: 100
-        //            }
-        //            TableViewColumn {
-        //                //% "Aircraft registration"
-        //                title: qsTrId("filelist-table-aircraft-registration")
-        //                role: "aircraftRegistration"
-        //                width: 120
-        //            }
-        //            TableViewColumn {
-        //                //% "Score"
-        //                title: qsTrId("filelist-table-score")
-        //                role: "scorePoints"
-        //                width: 120
-        //            }
-        //            TableViewColumn {
-        //                //% "Score to 1000"
-        //                title: qsTrId("filelist-table-score-to-1000")
-        //                role: "scorePoints1000"
-        //                width: 120
-        //            }
-        //            TableViewColumn {
-        //                //% "Class order"
-        //                title: qsTrId("filelist-table-class-order")
-        //                role: "classOrder"
-        //                width: 60
-        //            }
-        //            TableViewColumn {
-        //                //% "Classify"
-        //                title: qsTrId("filelist-table-classify")
-        //                role: "classify"
-        //                width: 80
-        //            }
-
-        //            Component.onCompleted: {
-        //                selection.selectionChanged.connect(rowSelected);
-        //            }
-
-        //            function rowSelected() {
-
-        //              //  console.log("row selected")
-
-        //                if (igcFilesModel.count <= 0) {
-        //                    return;
-        //                }
-
-        //                var current = -1;
-
-        //                igcFilesTable.selection.forEach( function(rowIndex) { current = rowIndex; } )
-
-        //                if (current < 0) {
-        //                    return;
-        //                }
-
-        //                var item = model.get(current)
-
-        //                if (item.contestant >= contestantsListModel.count) {
-        //                    console.log("incorrect contestant id " + item.contestant + " " + contestantsListModel.count)
-        //                    return;
-        //                }
-
-        //                ctnt = contestantsListModel.get(item.contestant)
-
-
-        //                var arr = tracks.tracks;
-
-        //                var found = false;
-        //                for (var i = 0; i < arr.length; i++) {
-        //                    trItem = arr[i];
-
-        //                    if (trItem.name === ctnt.category) {
-        //                        map.filterCupCategory = i;
-        //                        map.filterCupData = 2;
-        //                        found = true;
-        //                        break;
-        //                    }
-        //                }
-        //                if (!found) {
-        //                    map.filterCupData = 3
-        //                    console.log("ctnt.category \"" + ctnt.category + "\" not found in track!")
-        //                }
-
-        //                //                console.log("setFilter" + ctnt.startTime)
-        //                tool_bar.startTime = ctnt.startTime
-        //                igc.load( item.filePath, ctnt.startTime)
-
-        //                map.requestUpdate()
-        //                altChart.igcUpdate();
-
-        //            }
-        //        }
-
-
-
         ///// Map
         Rectangle {
             id: pinchMapOuter
@@ -1803,153 +1141,6 @@ ApplicationWindow {
             }
 
         }
-
-        /*
-        TableView {
-
-            id: results
-            width: 400
-
-            sortIndicatorVisible: true
-            sortIndicatorColumn: 6
-
-            clip: true;
-
-            model: SortFilterProxyModel {
-                id: proxyModel
-                source: results_RAL2_listModel.count > 0 ? results_RAL2_listModel : null
-
-
-                sortOrder: results.sortIndicatorOrder
-                sortCaseSensitivity: Qt.CaseInsensitive
-                sortRole: results_RAL2_listModel.count > 0 ? results.getColumn(results.sortIndicatorColumn).role : ""
-
-                filterSyntax: SortFilterProxyModel.Wildcard
-                filterCaseSensitivity: Qt.CaseInsensitive
-            }
-
-
-            //% "Name"
-            TableViewColumn { title: qsTrId("score-table-name"); role: "ctntName"; width: 50; }
-            //% "Category"
-            TableViewColumn { title: qsTrId("score-table-category"); role: "ctntCategory"; width: 50; }
-            //% "Speed"
-            TableViewColumn { title: qsTrId("score-table-speed"); role: "ctntSpeed"; width: 50; }
-            //% "Start time"
-            TableViewColumn { title: qsTrId("score-table-startTime"); role: "ctntStartTime"; width: 50; }
-            //% "Aircraft registration"
-            TableViewColumn { title: qsTrId("score-table-aircraft-registration"); role: "ctntAircraftRegistration"; width: 50; }
-            //% "Aircraft type"
-            TableViewColumn { title: qsTrId("score-table-aircraft-type"); role: "ctntAircraftType"; width: 50; }
-            //% "Score points"
-            TableViewColumn { title: qsTrId("score-table-score"); role: "scorePoints"; width: 50; }
-            //% "Score points 1000"
-            TableViewColumn { title: qsTrId("score-table-score1000"); role: "scorePoints1000"; width: 50; }
-
-        }
-        */
-
-
-
-
-        TableView {
-            id: scoreTable
-            model: wptScoreList
-            //visible: mainViewMenuTables.checked
-            visible: false
-
-            width: 200
-            //% "Name"
-            TableViewColumn { title: qsTrId("score-table-name"); role: "title"; width: 100; }
-            //% "Time"
-            TableViewColumn { title: qsTrId("score-table-time"); role: "time"; width: 100; }
-            //% "Altitude"
-            TableViewColumn { title: qsTrId("score-table-altitude"); role: "alt"; width: 50;}
-            //% "Visited TP"
-            TableViewColumn { title: qsTrId("score-table-visited"); role: "hit"; width: 50;}
-            //% "Visited SG"
-            TableViewColumn { title: qsTrId("score-table-space-gate-visited"); role: "sg_hit"; width: 50;}
-            //% "Latitude"
-            TableViewColumn { title: qsTrId("score-table-latitude"); role: "lat"; width: 100;}
-            //% "Longitude"
-            TableViewColumn { title: qsTrId("score-table-longitude"); role: "lon"; width: 100;}
-            //% "Radius"
-            TableViewColumn { title: qsTrId("score-table-radius"); role: "radius"; width: 100;}
-            //% "Section speed"
-            TableViewColumn { title: qsTrId("score-table-section-speed"); role: "speed"; width: 100; }
-
-            //% "Section min altitude"
-            TableViewColumn { title: qsTrId("score-table-alt-min"); role: "altmin"; width: 100; }
-            //% "Section min altitude time"
-            TableViewColumn { title: qsTrId("score-table-alt-min-time"); role: "altmintime"; width: 100; }
-            //% "Section min altitude crossings"
-            TableViewColumn { title: qsTrId("score-table-alt-min-count"); role: "altmincount"; width: 100; }
-            //% "Section min altitude time spent out"
-            TableViewColumn { title: qsTrId("score-table-alt-min-time-spent"); role: "altmintime_spent"; width: 100; }
-
-            //% "Section max altitude"
-            TableViewColumn { title: qsTrId("score-table-alt-max"); role: "altmax"; width: 100; }
-            //% "Section max altitude time"
-            TableViewColumn { title: qsTrId("score-table-alt-max-time"); role: "altmaxtime"; width: 100; }
-            //% "Section max altitude crossings"
-            TableViewColumn { title: qsTrId("score-table-alt-max-count"); role: "altmaxcount"; width: 100; }
-            //% "Section max altitude time spent out"
-            TableViewColumn { title: qsTrId("score-table-alt-max-time-spent"); role: "altmaxtime_spent"; width: 100; }
-
-            //% "Section max distance"
-            TableViewColumn { title: qsTrId("score-table-distance-max"); role: "distance"; width: 100; }
-            //% "Section max distance time"
-            TableViewColumn { title: qsTrId("score-table-distance-max-time"); role: "distancetime"; width: 100; }
-            //% "Section max distance crossing"
-            TableViewColumn { title: qsTrId("score-table-distance-out-count"); role: "distanceoutcount"; width: 100; }
-            //% "Section max distance time spent out"
-            TableViewColumn { title: qsTrId("score-table-distance-out-spent"); role: "distanceoutspent"; width: 100; }
-
-            //% "Section max distance crossing (both)"
-            TableViewColumn { title: qsTrId("score-table-distance-out-bi-count"); role: "distanceoutbicount"; width: 100; }
-            //% "Section max distance time spent out (both)"
-            TableViewColumn { title: qsTrId("score-table-distance-out-bi-spent"); role: "distanceoutbispent"; width: 100; }
-
-
-            onCurrentRowChanged: {
-                if ((scoreTable.currentRow < 0) || (wptScoreList.count <= scoreTable.currentRow)) {
-                    return;
-                }
-
-                var item = wptScoreList.get(currentRow)
-                map.tracksSelectedTid = item.tid
-
-            }
-
-            itemDelegate: Item {
-                NativeText {
-                    width: parent.width
-                    anchors.margins: 4
-                    anchors.left: parent.left
-                    anchors.verticalCenter: parent.verticalCenter
-                    elide: styleData.elideMode
-                    text: getTextForRole(styleData.row, styleData.role, styleData.value);
-                    color: styleData.textColor;
-
-                }
-                function getTextForRole(row, role, value) {
-                    switch (role) {
-                    case "hit":
-                    case "sg_hit":
-                        return value
-                        //% "YES"
-                                ? qsTrId("hit-yes")
-                                  //% "NO"
-                                : qsTrId("hit-no")
-
-                        break;
-                    default:
-                        return value;
-                    }
-                }
-            }
-
-        }
     }
 
     FileReader {
@@ -1970,10 +1161,8 @@ ApplicationWindow {
             if (count === 0) {
                 return;
             }
-
         }
     }
-
 
     Item {
         id: printMapWindow
@@ -2022,8 +1211,6 @@ ApplicationWindow {
             }
         }
     }
-
-
 
     statusBar: StatusBar {
         id: tool_bar
@@ -2096,12 +1283,6 @@ ApplicationWindow {
 
                 //property int columns: 5
                 spacing: 40
-
-                //NativeText {/* width: applicationWindow.width/statusBarCompetitionProperty.columns; */text: competitionConfiguretion.competitionName }
-                //NativeText {/* width: applicationWindow.width/statusBarCompetitionProperty.columns; */text: qsTrId("html-results-competition-type") + ": " + competitionConfiguretion.competitionTypeText}
-                //NativeText {/* width: applicationWindow.width/statusBarCompetitionProperty.columns; */text: qsTrId("html-results-competition-director") + ": " +  competitionConfiguretion.competitionDirector}
-                //NativeText {/* width: applicationWindow.width/statusBarCompetitionProperty.columns; */text: qsTrId("html-results-competition-arbitr") + ": " +  competitionConfiguretion.competitionArbitr.join(", ")}
-                //NativeText {/* width: applicationWindow.width/statusBarCompetitionProperty.columns; */text: qsTrId("html-results-competition-date") + ": " +  competitionConfiguretion.competitionDate}
 
                 NativeText {/* width: applicationWindow.width/statusBarCompetitionProperty.columns; */text: pathConfiguration.competitionName }
                 NativeText {/* width: applicationWindow.width/statusBarCompetitionProperty.columns; */text: qsTrId("html-results-competition-type") + ": " + pathConfiguration.competitionTypeText}
@@ -2456,17 +1637,6 @@ ApplicationWindow {
         }
 
         // HTML
-        /*results_creator.createContinuousResultsHTML(pathConfiguration.resultsFolder + "/" + competitionConfiguretion.competitionName + "_" + resultsFilename,
-                                                    reStringArr,
-                                                    recSize,
-                                                    competitionConfiguretion.competitionName,
-                                                    competitionConfiguretion.getCompetitionTypeString(competitionConfiguretion.competitionType),
-                                                    competitionConfiguretion.competitionDirector,
-                                                    competitionConfiguretion.competitionDirectorAvatar,
-                                                    competitionConfiguretion.competitionArbitr,
-                                                    competitionConfiguretion.competitionArbitrAvatar,
-                                                    competitionConfiguretion.competitionDate);
-        */
         results_creator.createContinuousResultsHTML(pathConfiguration.resultsFolder + "/" + pathConfiguration.competitionName + "_" + resultsFilename,
                                                             reStringArr,
                                                             recSize,
@@ -2506,7 +1676,6 @@ ApplicationWindow {
             csvString += "\n";
         }
 
-        //file_reader.write(Qt.resolvedUrl(pathConfiguration.resultsFolder + "/" + competitionConfiguretion.competitionName + "_" + resultsFilename + ".csv"), csvString);
         file_reader.write(Qt.resolvedUrl(pathConfiguration.resultsFolder + "/" + pathConfiguration.competitionName + "_" + resultsFilename + ".csv"), csvString);
     }
 
@@ -3019,20 +2188,6 @@ ApplicationWindow {
         if (item.filename === "") return;
 
         if ((item.score !== undefined) && (item.score !== "")) { // pokud je vypocitane, tak nepocitame znovu
-
-
-            scoreTable.currentRow = -1;
-            scoreTable.selection.clear();
-            wptScoreList.clear()
-
-            var cacheArr = JSON.parse(item.score_json);
-
-            for (var i = 0; i < cacheArr.length; i++) {
-                var cacheItem = cacheArr[i];
-
-                wptScoreList.append(cacheItem)
-            }
-
             return;
         }
 
@@ -3443,15 +2598,6 @@ ApplicationWindow {
 
         }
 
-
-        //console.log(JSON.stringify(section_speed_array))
-        //console.log(JSON.stringify(section_alt_array))
-        //console.log(JSON.stringify(section_space_array))
-        //console.log(JSON.stringify(sectorCache))
-
-
-        wptScoreList.clear();
-
         var wptString = [];
         contestantsListModel.setProperty(current, "trackHash", "");
         contestantsListModel.setProperty(current, "wptScoreDetails", "");
@@ -3717,9 +2863,6 @@ ApplicationWindow {
 
             wptString.push(JSON.stringify(newScoreData));
 
-            wptScoreList.append(newData);
-            //wptNewScoreList.append(newScoreData);
-
 
             dataArr.push(newData)
             str += "\"" + item.time + "\";";
@@ -3772,7 +2915,6 @@ ApplicationWindow {
 
         // save changes to CSV
         writeScoreManulaValToCSV();
-
         writeCSV()
 
         console.timeEnd("computeScore")
@@ -3783,7 +2925,6 @@ ApplicationWindow {
 
         if (contestantsTable.currentRow < 0)
             return;
-
 
         //header - from office
         var str = "\"Jmeno\";\"Znaky – ok\";\"Znaky – spatne\";\"Znaky – falesne\";\"Foto – ok\";\"Foto – spatne\";\"Foto – falesne\";\"Presnost pristani\";\"Ostatni – body\";\"Ostatni – procenta\";\"Cas startu – startovka\";\"Cas startu – zmereno\";\"Cas startu – penalizace body\";\"Krouzeni, protismerny let – pocet\";\"Krouzeni, protismerny let – penalizace body\";\"Ostatni penalizace – body\";\"Ostatni penalizace – procenta\";\"Body\";\"Body na 1000\";\"Klasifikovan\";\"Poznamka\";\"Casove brany\";\"Otocne body\";\"Prostorove brany\";\"Vyskove omezeni  penalizace\";\"Rychlostni useky\";\"Vyskove useky penalizace proc\";\"Prostorove useky penalizace proc\";\"Pilot ID\";\"Copilot ID\"";
@@ -3949,8 +3090,6 @@ ApplicationWindow {
 
 
         file_reader.write(Qt.resolvedUrl(pathConfiguration.csvFile), str);
-
-
 
         str = "";
         // polozka i = 0 je vyhrazena pro pouziti "prazdne polozky" v comboboxu; misto toho by mela jit hlavicka
@@ -4609,13 +3748,13 @@ ApplicationWindow {
                 // create contestant html file
                 results_creator.createContestantResultsHTML((pathConfiguration.resultsFolder + "/" + contestant.name + "_" + contestant.category),
                                                             JSON.stringify(contestant),
-                                                            competitionConfiguretion.competitionName,
-                                                            competitionConfiguretion.getCompetitionTypeString(parseInt(competitionConfiguretion.competitionType)),
-                                                            competitionConfiguretion.competitionDirector,
-                                                            competitionConfiguretion.competitionDirectorAvatar,
-                                                            competitionConfiguretion.competitionArbitr,
-                                                            competitionConfiguretion.competitionArbitrAvatar,
-                                                            competitionConfiguretion.competitionDate);
+                                                            pathConfiguration.competitionName,
+                                                            pathConfiguration.getCompetitionTypeString(parseInt(pathConfiguration.competitionType)),
+                                                            pathConfiguration.competitionDirector,
+                                                            pathConfiguration.competitionDirectorAvatar,
+                                                            pathConfiguration.competitionArbitr,
+                                                            pathConfiguration.competitionArbitrAvatar,
+                                                            pathConfiguration.competitionDate);
             }
             else {
 
@@ -4647,13 +3786,13 @@ ApplicationWindow {
                         // create contestant html file
                         results_creator.createContestantResultsHTML((pathConfiguration.resultsFolder + "/" + contestant.name + "_" + contestant.category),
                                                                     JSON.stringify(contestant),
-                                                                    competitionConfiguretion.competitionName,
-                                                                    competitionConfiguretion.getCompetitionTypeString(parseInt(competitionConfiguretion.competitionType)),
-                                                                    competitionConfiguretion.competitionDirector,
-                                                                    competitionConfiguretion.competitionDirectorAvatar,
-                                                                    competitionConfiguretion.competitionArbitr,
-                                                                    competitionConfiguretion.competitionArbitrAvatar,
-                                                                    competitionConfiguretion.competitionDate);
+                                                                    pathConfiguration.competitionName,
+                                                                    pathConfiguration.getCompetitionTypeString(parseInt(pathConfiguration.competitionType)),
+                                                                    pathConfiguration.competitionDirector,
+                                                                    pathConfiguration.competitionDirectorAvatar,
+                                                                    pathConfiguration.competitionArbitr,
+                                                                    pathConfiguration.competitionArbitrAvatar,
+                                                                    pathConfiguration.competitionDate);
                     }
                 }
             }
@@ -4885,6 +4024,4 @@ ApplicationWindow {
     ConfigFile {
         id: config
     }
-
-
 }

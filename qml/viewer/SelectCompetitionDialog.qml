@@ -233,70 +233,7 @@ ApplicationWindow {
         pathConfiguration.competitionArbitrAvatar = arrAvatar;
 
         pathConfiguration.setCompetitionTabContent(comp.name, parseInt(comp.type), director, arbitr, comp.date);
-
-        // save changes into DB
-        /*
-        config.set("competitionName_default", pathConfiguration.competitionName);
-        config.set("competitionType_default", pathConfiguration.competitionType);
-        config.set("competitionDirector_default", pathConfiguration.competitionDirector);
-        config.set("competitionDirectorAvatar_default", JSON.stringify(pathConfiguration.competitionDirectorAvatar));
-        config.set("competitionArbitr_default", JSON.stringify(pathConfiguration.competitionArbitr));
-        config.set("competitionArbitrAvatar_default", JSON.stringify(pathConfiguration.competitionArbitrAvatar));
-        config.set("competitionDate_default", pathConfiguration.competitionDate);
-        */
     }
-
-    /*
-    function setCompetitionProperty() {
-
-        var comp = competitions.get(competitionsTable.currentRow);
-
-        selectedCompetition = comp.name;
-
-        competitionConfiguretion.competitionName = comp.name;
-        competitionConfiguretion.competitionType = parseInt(comp.type);
-
-        // load manager
-        if (comp.manager === null || comp.manager === undefined || comp.manager.firstname === undefined || comp.manager.firstname === null) {
-
-            competitionConfiguretion.competitionDirector = "";
-            competitionConfiguretion.competitionDirectorAvatar = "";
-        }
-        else {
-
-            competitionConfiguretion.competitionDirector = comp.manager.firstname + " " + comp.manager.surname;
-            competitionConfiguretion.competitionDirectorAvatar = (comp.manager.avatar_thumb !== undefined) ? comp.manager.avatar_thumb : "";
-        }
-
-        competitionConfiguretion.competitionDate = comp.date;
-
-        // load arbiters
-        competitionConfiguretion.competitionArbitr = [];
-        competitionConfiguretion.competitionArbitrAvatar = [];
-
-        var item;
-        var arr = [];
-        var arrAvatar = [];
-        for (var i = 0; i < comp.referees.count; i++ ) {
-
-            item = comp.referees.get(i);
-            arr.push(item.firstname + " " + item.surname);
-            arrAvatar.push(item.avatar_thumb);
-        }
-
-        competitionConfiguretion.competitionArbitr = arr;
-        competitionConfiguretion.competitionArbitrAvatar = arrAvatar;
-
-        // save changes into DB
-        config.set("competitionName_default", competitionConfiguretion.competitionName);
-        config.set("competitionType_default", competitionConfiguretion.competitionType);
-        config.set("competitionDirector_default", competitionConfiguretion.competitionDirector);
-        config.set("competitionDirectorAvatar_default", JSON.stringify(competitionConfiguretion.competitionDirectorAvatar));
-        config.set("competitionArbitr_default", JSON.stringify(competitionConfiguretion.competitionArbitr));
-        config.set("competitionArbitrAvatar_default", JSON.stringify(competitionConfiguretion.competitionArbitrAvatar));
-        config.set("competitionDate_default", competitionConfiguretion.competitionDate);
-    }
-    */
 
     /// Action Buttons
 
