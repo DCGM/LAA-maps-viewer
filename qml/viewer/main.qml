@@ -685,7 +685,7 @@ ApplicationWindow {
                     contestant = contestantsListModel.get(row);
 
                     // no results for this values
-                    if (contestant.filename === "" || !resultsExist(contestant.speed,
+                    if (contestant.filename === "" || !resultsValid(contestant.speed,
                                                                     contestant.startTime,
                                                                     contestant.category,
                                                                     contestant.filename,
@@ -1338,10 +1338,10 @@ ApplicationWindow {
     }
 
     // Compare results current and prev results property
-    function resultsExist(currentSpeed, currentStartTime, currentCategory, currentIgcFilename, currentTrackHash,
+    function resultsValid(currentSpeed, currentStartTime, currentCategory, currentIgcFilename, currentTrackHash,
                           prevSpeed, prevStartTime, prevCategory, prevIgcFilename, prevTrackHash) {
 
-        /*console.log("resultsExist: " + currentSpeed + "/" + prevSpeed + "   " +
+        /*console.log("resultsValid: " + currentSpeed + "/" + prevSpeed + "   " +
                                        currentStartTime  + "/" + prevStartTime + "   " +
                                        currentCategory  + "/" +  prevCategory + "   " +
                                        currentIgcFileName  + "/" +  prevIgcFileName + "   " +
@@ -1439,7 +1439,7 @@ ApplicationWindow {
         }
         else {
             console.log("have to use slow variant of CSV parser for contestant \n")
-            data = CSVJS.parseCSV(Stringf_data)
+            data = CSVJS.parseCSV(String(f_data));
         }
 
 
@@ -1574,6 +1574,15 @@ ApplicationWindow {
                                                 "altitudeSectionsScoreDetails" : "",
                                                 "classOrder": -1,
 
+                                                "newName": "",
+                                                "newCategory": "",
+                                                "newStartTime": "",
+                                                "newSpeed": -1,
+                                                "newAircraft_type": "",
+                                                "newAircraft_registration": "",
+                                                "newPilot_id": -1,
+                                                "newCopilot_id": -1,
+
                                             })
 
             }
@@ -1581,6 +1590,292 @@ ApplicationWindow {
 
         // sort list model by startTime
         sortListModelByStartTime();
+    }
+
+    ListModel {
+        id: updatedContestants
+    }
+
+    ListModel {
+        id: removedContestants
+    }
+
+    ListModel {
+        id: addedContestants
+    }
+
+    // Load contestants from CSV
+    function reloadContestants(filename) {
+
+        // clear import models
+        updatedContestants.clear();
+        removedContestants.clear();
+        addedContestants.clear();
+
+        var f_data = file_reader.read(filename);
+        var data = [];
+
+        // parse CSV, fast cpp variant or slow JS
+        if (String(f_data).indexOf(cppWorker.csv_join_parse_delimeter_property) == -1) {
+
+            resCSV = cppWorker.parseCSV(String(f_data));
+            for (var i = 0; i < resCSV.length; i++) {
+
+                var resItem = resCSV[i];
+                data.push(resItem.split(cppWorker.csv_join_parse_delimeter_property))
+            }
+        }
+        else {
+            console.log("have to use slow variant of CSV parser for contestant \n")
+            data = CSVJS.parseCSV(String(f_data));
+        }
+
+
+        // iterate through new data
+        // exists in new and current > remove from both, add to updated crew
+        // exists only in new        > remove from new, add to removed crew
+        // exists only in current    > rest of the current on the end of this loop, add to added
+        while (data.length > 0) {
+
+            var item = data[0];
+            var itemName = item[0]
+            var index = -1;
+
+            // CSV soubor ma alespon 3 Sloupce
+            if ((item.length > 2) && (itemName.length > 0)) {
+
+                // exists in current model?
+                for(var i = 0; i < contestantsListModel.count; i++) {
+
+                    if(parseInt(contestantsListModel.get(i).crew_id) === parseInt(item[8])) {
+                        index = i;
+                        break;
+                    }
+                }
+
+                // this crew is new
+                if (index === -1) {
+
+                    removedContestants.append({
+                            "name": itemName,
+                            "category": item[1],
+                            "fullName": item[2],
+                            "startTime": item[3],
+                            "filename": item[4],
+                            "speed": parseInt(item[5]),
+                            "currentCategory": "",
+                            "currentStartTime": "",
+                            "currentSpeed": -1,
+                            "aircraft_type": item[6],
+                            "aircraft_registration": item[7],
+                            "crew_id": item[8],
+                            "pilot_id": item[9],
+                            "copilot_id": item[10],
+                            "pilotAvatarBase64" : (item.length >= 13 ? (item[11]) : ""),
+                            "copilotAvatarBase64" : (item.length >= 13 ? (item[12]) : ""),
+                            "markersOk": 0,
+                            "markersNok": 0,
+                            "markersFalse": 0,
+                            "markersScore": 0,
+                            "photosOk": 0,
+                            "photosNok": 0,
+                            "photosFalse": 0,
+                            "photosScore": 0,
+                            "startTimeMeasured": "",
+                            "startTimeDifference": "",
+                            "startTimeScore": 0,
+                            "landingScore": 0,
+
+                            "circlingCount": 0,
+                            "circlingScore": 0,
+                            "oppositeCount": 0,
+                            "oppositeScore": 0,
+
+                            "otherPoints": 0,
+                            "otherPointsNote": "",
+                            "otherPenalty": 0,
+                            "otherPenaltyNote": "",
+                            "prevResultsSpeed": -1,
+                            "prevResultsStartTime": "",
+                            "prevResultsCategory": "",
+                            "prevResultsWPT": "",
+                            "prevResultsSpeedSec": "",
+                            "prevResultsAltSec": "",
+                            "prevResultsSpaceSec": "",
+                            "prevResultsTrackHas": "",
+                            "prevResultsFilename": "",
+                            "prevResultsScorePoints": -1,
+                            "prevResultsScore": "",
+                            "prevResultsScoreJson": "",
+                            "prevResultsClassify": 0,
+
+                            "filePath": "",             // items from igc files model
+                            "score": "",
+                            "score_json": "",
+                            "scorePoints" : -1,
+                            "scorePoints1000" : -1,
+                            "classify" : -1,
+                            "wptScoreDetails" : "",
+                            "trackHash": "",
+                            "speedSectionsScoreDetails" : "",
+                            "spaceSectionsScoreDetails" : "",
+                            "altitudeSectionsScoreDetails" : "",
+                            "classOrder": -1,
+
+                            "newName": "",              // items used for update
+                            "newCategory": "",
+                            "newStartTime": "",
+                            "newSpeed": -1,
+                            "newAircraft_type": "",
+                            "newAircraft_registration": "",
+                            "newPilot_id": -1,
+                            "newCopilot_id": -1,
+                        })
+                }
+                // updated crew
+                else {
+
+                    var currentCrew = contestantsListModel.get(index);
+
+                    // save new values
+                    currentCrew.newName = itemName;
+                    currentCrew.newCategory = item[1];
+                    currentCrew.newStartTime = item[3];
+                    currentCrew.newSpeed = parseInt(item[5]);
+                    currentCrew.newAircraft_type = item[6];
+                    currentCrew.newAircraft_registration = item[7];
+                    currentCrew.newPilot_id = item[9];
+                    currentCrew.newCopilot_id = item[10];
+
+                    // add modified crew into updated list model
+                    updatedContestants.append(currentCrew);
+
+                    contestantsListModel.remove(i); // remove ct from current list model
+                }
+
+                data.shift();                   // remove first item
+            }
+        }
+
+        // these crews exists only in current listmodel
+        for (var i = 0; i < contestantsListModel.count; i++) {
+
+            removedContestants.append(contestantsListModel.get(i));
+        }
+    }
+
+
+    // function iterate through results file and load valid results
+    function loadPrevResults() {
+
+        // load results.csv
+        var resultsCSV = [];
+        var resCSV = [];
+        var index = -1;
+
+        // try to load manual data
+        if (file_reader.file_exists(Qt.resolvedUrl(pathConfiguration.csvResultsFile))) {
+            var cnt = file_reader.read(Qt.resolvedUrl(pathConfiguration.csvResultsFile));
+
+            // parse CSV, fast cpp variant or slow JS
+            if (String(cnt).indexOf(cppWorker.csv_join_parse_delimeter_property) == -1) {
+
+                resCSV = cppWorker.parseCSV(String(cnt));
+                for (var i = 0; i < resCSV.length; i++) {
+
+                    var resItem = resCSV[i];
+                    resultsCSV.push(resItem.split(cppWorker.csv_join_parse_delimeter_property))
+                }
+            }
+            else {
+                console.log("have to use slow variant of CSV parser for results \n")
+                resultsCSV = CSVJS.parseCSV(String(cnt))
+            }
+        }
+
+        // Iterate through old results
+        for (var j = 1; j < resultsCSV.length; j++) {
+
+            var pilotID_resCSV = parseInt(resultsCSV[j][28]);
+            var curCnt;
+            var i;
+
+            // Find contestant for this result
+            for (i = 0; i < contestantsListModel.count; i++) {
+
+                curCnt = contestantsListModel.get(i);
+                if (pilotID_resCSV === parsInt(curCnt.pilot_id)) {
+                    index = j;
+                    break;
+                }
+            }
+
+            // contestant found?
+            if(index !== -1) {
+
+                // load contestant category
+                for (var t = 0; t < tracks.tracks.length; t++) {
+
+                    if (tracks.tracks[t].name === curCnt.category)
+                        trItem = tracks.tracks[t]
+                }
+
+                // check previous results state
+                var csvFileFromOffice = resultsCSV[j] !== undefined && resultsCSV[j].length >= 30; // CSV from office has only 30 columns;
+                var csvFileFromViewer = resultsCSV[j] !== undefined && resultsCSV[j].length >= 48; // CSV from viewer has more then 48 columns;
+
+                curCnt.prevResultsSpeed = (csvFileFromViewer ? parseInt(resultsCSV[j][31]) : -1);
+                curCnt.prevResultsStartTime = (csvFileFromViewer ? resultsCSV[j][32] : "");
+                curCnt.prevResultsCategory = (csvFileFromViewer ? resultsCSV[j][33] : "");
+                curCnt.prevResultsFilename = (csvFileFromViewer ? resultsCSV[j][38] : "");
+                curCnt.prevResultsTrackHas = (csvFileFromViewer ? resultsCSV[j][30] : "");
+
+                // check results validity due to the contestant values
+                if (resultsValid(curCnt.speed, curCnt.startTime, curCnt.category, curCnt.filename, MD5.MD5(JSON.stringify(trItem)),
+                                 curCnt.prevResultsSpeed, curCnt.prevResultsStartTime, curCnt.prevResultsCategory, curCnt.prevResultsFilename, curCnt.prevResultsTrackHas)) {
+
+
+                    curCnt.markersOk = (csvFileFromOffice ? parseInt(resultsCSV[j][1]) : 0);
+                    curCnt.markersNok = (csvFileFromOffice ? parseInt(resultsCSV[j][2]) : 0);
+                    curCnt.markersFalse = (csvFileFromOffice ? parseInt(resultsCSV[j][3]) : 0);
+                    curCnt.markersScore = (csvFileFromViewer ? parseInt(resultsCSV[j][41]) : 0);
+                    curCnt.photosOk = (csvFileFromOffice ? parseInt(resultsCSV[j][4]) : 0);
+                    curCnt.photosNok = (csvFileFromOffice ? parseInt(resultsCSV[j][5]) : 0);
+                    curCnt.photosFalse = (csvFileFromOffice ? parseInt(resultsCSV[j][6]) : 0);
+                    curCnt.photosScore = (csvFileFromViewer ? parseInt(resultsCSV[j][42]) : 0);
+                    curCnt.startTimeMeasured = (csvFileFromOffice ? resultsCSV[j][11] : "");
+                    curCnt.startTimeDifference = (csvFileFromOffice ? resultsCSV[j][43] : "");
+                    curCnt.startTimeScore = (csvFileFromOffice ? parseInt(resultsCSV[j][12]) * -1 : 0);
+                    curCnt.landingScore = (csvFileFromOffice ? parseInt(resultsCSV[j][7]) : 0);
+
+                    curCnt.circlingCount = (csvFileFromViewer ? parseInt(resultsCSV[j][44]) : (!csvFileFromOffice ? 0 : parseInt(resultsCSV[j][13])));
+                    curCnt.circlingScore = (csvFileFromViewer ? parseInt(resultsCSV[j][45]) : (!csvFileFromOffice ? 0 : parseInt(resultsCSV[j][14] * -1)));
+                    curCnt.oppositeCount = (csvFileFromViewer ? parseInt(resultsCSV[j][46]) : 0);
+                    curCnt.oppositeScore = (csvFileFromViewer ? parseInt(resultsCSV[j][47]) : 0);
+
+                    curCnt.otherPoints = (csvFileFromOffice ? parseInt(resultsCSV[j][8]) : 0);
+                    curCnt.otherPointsNote = (csvFileFromOffice ? String((resultsCSV[j][20]).split("/&/")[0]) : "");
+                    curCnt.otherPenalty = (csvFileFromOffice ? parseInt(resultsCSV[j][15]) : 0);
+                    curCnt.otherPenaltyNote = (csvFileFromOffice ? String((resultsCSV[j][20]).split("/&/")[1]) : "");
+                    curCnt.prevResultsSpeed = (csvFileFromViewer ? parseInt(resultsCSV[j][31]) : -1);
+                    curCnt.prevResultsStartTime = (csvFileFromViewer ? resultsCSV[j][32] : "");
+                    curCnt.prevResultsCategory = (csvFileFromViewer ? resultsCSV[j][33] : "");
+                    curCnt.prevResultsWPT = (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][34]) : "");
+                    curCnt.prevResultsSpeedSec = (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][35]) : "");
+                    curCnt.prevResultsAltSec = (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][37]) : "");
+                    curCnt.prevResultsSpaceSec = (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][36]) : "");
+                    curCnt.prevResultsTrackHas = (csvFileFromViewer ? resultsCSV[j][30] : "");
+                    curCnt.prevResultsFilename = (csvFileFromViewer ? resultsCSV[j][38] : "");
+                    curCnt.prevResultsScorePoints = (csvFileFromOffice ? parseInt(resultsCSV[j][17]) : -1);
+                    curCnt.prevResultsScore = (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][39]) : "");
+                    curCnt.prevResultsScoreJson = (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][40]) : "");
+                    curCnt.prevResultsClassify = (csvFileFromOffice ? (resultsCSV[j][19] === "yes" ? 0 : 1) : 0);
+
+                    // save changes
+                    contestantsListModel.set(i, curCnt);
+                }
+            }
+        }
     }
 
     // remove invalid results from loaded contestant
@@ -1601,7 +1896,7 @@ ApplicationWindow {
                 }
 
                 // remove invalid results
-                if (!resultsExist(curCnt.speed, curCnt.startTime, curCnt.category, curCnt.filename, MD5.MD5(JSON.stringify(trItem)),
+                if (!resultsValid(curCnt.speed, curCnt.startTime, curCnt.category, curCnt.filename, MD5.MD5(JSON.stringify(trItem)),
                                   curCnt.prevResultsSpeed, curCnt.prevResultsStartTime, curCnt.prevResultsCategory, curCnt.prevResultsFilename, curCnt.prevResultsTrackHas)) {
 
                     contestantsListModel.setProperty(i, "markersScore", 0);
