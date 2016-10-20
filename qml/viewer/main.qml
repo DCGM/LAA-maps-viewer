@@ -47,6 +47,7 @@ ApplicationWindow {
 
         if(visible) {
             startUpMessage.open();  // clean or reload prev settings
+            //pathConfiguration.ok();
         }
     }
 
@@ -67,10 +68,12 @@ ApplicationWindow {
             MenuItem {
                 //% "&Refresh application"
                 text: qsTrId("main-file-menu-refresh-application")
-                enabled: (pathConfiguration.selectedCompetition != "")
+                enabled: true//(pathConfiguration.selectedCompetition != "")
                 onTriggered: {
                     //selectCompetitionOnlineDialog.show();
-                    selectCompetitionOnlineDialog.refreshApplications();
+                    //selectCompetitionOnlineDialog.refreshApplications();
+                    reloadContestants(Qt.resolvedUrl(pathConfiguration.contestantsFile));
+                    refreshContestantsDialog.visible = true;
                 }
                 shortcut: "F5"//"Ctrl+W"
             }
@@ -343,7 +346,7 @@ ApplicationWindow {
             importDataDialog.listModel.clear();
             initCategoryCounters();
 
-            loadContestants(Qt.resolvedUrl(pathConfiguration.contestantsFile))
+            loadContestants(Qt.resolvedUrl(pathConfiguration.contestantsFile));
         }
     }
 
@@ -386,6 +389,77 @@ ApplicationWindow {
             }
         }
     }
+
+    RefreshContestantsDialog {
+
+        id: refreshContestantsDialog
+
+        onOk: {
+
+            joinContestantsListModels();
+            loadPrevResults();
+
+            unmodifiedContestants.clear();
+            updatedContestants.clear();
+            addedContestants.clear();
+            removedContestants.clear();
+        }
+
+        onCancel: {
+
+            unmodifiedContestants.clear();
+            updatedContestants.clear();
+            addedContestants.clear();
+            removedContestants.clear();
+        }
+
+        // join
+        function joinContestantsListModels() {
+
+            contestantsListModel.clear();
+
+            var i = 0;
+            var item;
+
+            for(i = 0; i < unmodifiedContestants.count; i++) {
+                item = unmodifiedContestants.get(i);
+
+                if (item.selected)
+                    contestantsListModel.append(item);
+            }
+
+            for(i = 0; i < removedContestants.count; i++) {
+                item = removedContestants.get(i);
+
+                if (item.selected)
+                    contestantsListModel.append(item);
+            }
+
+            for(i = 0; i < addedContestants.count; i++) {
+                item = addedContestants.get(i);
+
+                if (item.selected)
+                    contestantsListModel.append(item);
+            }
+
+            for(i = 0; i < updatedContestants.count; i++) {
+                item = updatedContestants.get(i);
+
+                if (item.selected) {
+
+                    if(item.nameSelector) item.name = item.newName;
+                    if(item.speedSelector) item.speed = item.newSpeed;
+                    if(item.categorySelector) item.category = item.newCategory;
+                    if(item.startTimeSelector) item.startTime = item.newStartTime;
+                    if(item.planeTypeSelector) item.aircraft_type = item.newAircraft_type;
+                    if(item.planeRegSelector) item.aircraft_registration = item.newAircraft_registration;
+
+                    contestantsListModel.append(item);
+                }
+            }
+        }
+    }
+
 
     ImportDialog {
 
@@ -1580,8 +1654,14 @@ ApplicationWindow {
                                                 "newSpeed": -1,
                                                 "newAircraft_type": "",
                                                 "newAircraft_registration": "",
-                                                "newPilot_id": -1,
-                                                "newCopilot_id": -1,
+
+                                                "selected": 1,
+                                                "nameSelector": 1,
+                                                "speedSelector": 1,
+                                                "categorySelector": 1,
+                                                "startTimeSelector": 1,
+                                                "planeTypeSelector": 1,
+                                                "planeRegSelector": 1,
 
                                             })
 
@@ -1594,26 +1674,109 @@ ApplicationWindow {
 
     ListModel {
         id: updatedContestants
+
+        property int selected: 0
+        property bool selectedAll: false
+        property bool readOnly: false // import dialog - editable/noneditable delegate
+
+        onCountChanged: {
+            selected = getSelectedCrewsCount(updatedContestants);
+            selectedAll = selected === count
+        }
+        onDataChanged: {
+
+            selected = getSelectedCrewsCount(updatedContestants);
+            selectedAll = selected === count
+        }
+    }
+
+    ListModel {
+        id: unmodifiedContestants
+
+        property int selected: 0
+        property bool selectedAll: false
+        property bool readOnly: true // import dialog - editable/noneditable delegate
+
+        onCountChanged: {
+            selected = getSelectedCrewsCount(unmodifiedContestants);
+            selectedAll = selected === count
+        }
+        onDataChanged: {
+
+            selected = getSelectedCrewsCount(unmodifiedContestants);
+            selectedAll = selected === count
+        }
     }
 
     ListModel {
         id: removedContestants
+
+        property int selected: 0
+        property bool selectedAll: false
+        property bool readOnly: true // import dialog - editable/noneditable delegate
+
+        onCountChanged: {
+            selected = getSelectedCrewsCount(removedContestants);
+            selectedAll = selected === count
+        }
+        onDataChanged: {
+
+            selected = getSelectedCrewsCount(removedContestants);
+            selectedAll = selected === count
+        }
     }
 
     ListModel {
         id: addedContestants
+
+        property int selected: 0
+        property bool selectedAll: false
+        property bool readOnly: true // import dialog - editable/noneditable delegate
+
+        onCountChanged: {
+            selected = getSelectedCrewsCount(addedContestants);
+            selectedAll = selected === count
+        }
+        onDataChanged: {
+
+            selected = getSelectedCrewsCount(addedContestants);
+            selectedAll = selected === count
+        }
+    }
+
+    ListModel {
+        id: currentContestantsLocalCopy
+    }
+
+    function getSelectedCrewsCount(model) {
+
+        var s = 0;
+        for(var i = 0; i < model.count; i++) {
+            if (model.get(i).selected)
+                s++;
+        }
+
+        return s;
     }
 
     // Load contestants from CSV
     function reloadContestants(filename) {
 
+        // copy current contestnats listmodel into local cache
+        currentContestantsLocalCopy.clear();
+        for(var i = 0; i < contestantsListModel.count; i++) {
+            currentContestantsLocalCopy.append(contestantsListModel.get(i))
+        }
+
         // clear import models
         updatedContestants.clear();
+        unmodifiedContestants.clear();
         removedContestants.clear();
         addedContestants.clear();
 
         var f_data = file_reader.read(filename);
         var data = [];
+        var resCSV = [];
 
         // parse CSV, fast cpp variant or slow JS
         if (String(f_data).indexOf(cppWorker.csv_join_parse_delimeter_property) == -1) {
@@ -1632,7 +1795,7 @@ ApplicationWindow {
 
 
         // iterate through new data
-        // exists in new and current > remove from both, add to updated crew
+        // exists in new and current > remove from both, add to updated/unmodified crew
         // exists only in new        > remove from new, add to removed crew
         // exists only in current    > rest of the current on the end of this loop, add to added
         while (data.length > 0) {
@@ -1645,9 +1808,9 @@ ApplicationWindow {
             if ((item.length > 2) && (itemName.length > 0)) {
 
                 // exists in current model?
-                for(var i = 0; i < contestantsListModel.count; i++) {
+                for(var i = 0; i < currentContestantsLocalCopy.count; i++) {
 
-                    if(parseInt(contestantsListModel.get(i).crew_id) === parseInt(item[8])) {
+                    if(parseInt(currentContestantsLocalCopy.get(i).crew_id) === parseInt(item[8])) {
                         index = i;
                         break;
                     }
@@ -1728,14 +1891,21 @@ ApplicationWindow {
                             "newSpeed": -1,
                             "newAircraft_type": "",
                             "newAircraft_registration": "",
-                            "newPilot_id": -1,
-                            "newCopilot_id": -1,
+
+                            "selected": 1,
+                            "nameSelector": 1,
+                            "speedSelector": 1,
+                            "categorySelector": 1,
+                            "startTimeSelector": 1,
+                            "planeTypeSelector": 1,
+                            "planeRegSelector": 1,
+
                         })
                 }
                 // updated crew
                 else {
 
-                    var currentCrew = contestantsListModel.get(index);
+                    var currentCrew = currentContestantsLocalCopy.get(index);
 
                     // save new values
                     currentCrew.newName = itemName;
@@ -1744,13 +1914,27 @@ ApplicationWindow {
                     currentCrew.newSpeed = parseInt(item[5]);
                     currentCrew.newAircraft_type = item[6];
                     currentCrew.newAircraft_registration = item[7];
-                    currentCrew.newPilot_id = item[9];
-                    currentCrew.newCopilot_id = item[10];
+                    currentCrew.pilot_id = item[9];
+                    currentCrew.copilot_id = item[10];
+
 
                     // add modified crew into updated list model
-                    updatedContestants.append(currentCrew);
+                    if (currentCrew.name !== currentCrew.newName ||
+                        currentCrew.category !== currentCrew.newCategory ||
+                        currentCrew.startTime !== currentCrew.newStartTime ||
+                        currentCrew.speed !== currentCrew.newSpeed ||
+                        currentCrew.aircraft_type !== currentCrew.newAircraft_type ||
+                        currentCrew.aircraft_registration !== currentCrew.newAircraft_registration) {
 
-                    contestantsListModel.remove(i); // remove ct from current list model
+                        updatedContestants.append(currentCrew);
+                    }
+                    // add unmodified crew into not modified list model
+                    else {
+
+                        unmodifiedContestants.append(currentCrew);
+                    }
+
+                    currentContestantsLocalCopy.remove(i); // remove ct from current list model
                 }
 
                 data.shift();                   // remove first item
@@ -1758,9 +1942,10 @@ ApplicationWindow {
         }
 
         // these crews exists only in current listmodel
-        for (var i = 0; i < contestantsListModel.count; i++) {
+        for (var i = 0; i < currentContestantsLocalCopy.count; i++) {
 
-            removedContestants.append(contestantsListModel.get(i));
+            addedContestants.append(currentContestantsLocalCopy.get(i));
+            currentContestantsLocalCopy.remove(i); // remove ct from current list model
         }
     }
 
@@ -1804,7 +1989,7 @@ ApplicationWindow {
             for (i = 0; i < contestantsListModel.count; i++) {
 
                 curCnt = contestantsListModel.get(i);
-                if (pilotID_resCSV === parsInt(curCnt.pilot_id)) {
+                if (pilotID_resCSV === parseInt(curCnt.pilot_id)) {
                     index = j;
                     break;
                 }
