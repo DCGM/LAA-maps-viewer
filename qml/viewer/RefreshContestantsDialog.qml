@@ -17,7 +17,8 @@ ApplicationWindow {
     onVisibleChanged: {
         if(visible) {
 
-           /* updatedContestants.append(unmodifiedContestants.get(1))
+            /**/
+            updatedContestants.append(unmodifiedContestants.get(1))
             updatedContestants.append(unmodifiedContestants.get(2))
             updatedContestants.append(unmodifiedContestants.get(3))
 
@@ -27,7 +28,7 @@ ApplicationWindow {
             removedContestants.append(unmodifiedContestants.get(1))
             removedContestants.append(unmodifiedContestants.get(2))
             removedContestants.append(unmodifiedContestants.get(3))
-            */
+
 
             console.log("unmodifiedContestants: " + unmodifiedContestants.count)
             console.log("updatedContestants: " + updatedContestants.count)
@@ -44,269 +45,291 @@ ApplicationWindow {
         anchors.top: parent.top
         anchors.bottom: actionButtons.top
         anchors.margins: 20
+        //horizontalScrollBarPolicy: Qt.ScrollBarAlwaysOff
 
-        ColumnLayout {
+        Column {
 
-            id: column
+            width: Math.max(column1.width, column2.width)
             spacing: 20
-            width: 2000 // picovina, ale co s tim
-            height: children.height
 
-            NativeText {
-                id: updatedLabel
-                //% Updated crews
-                text: qsTr("refresh-dialog-updated-crews-title %1/%2").arg(updatedContestants.selected).arg(updatedContestants.count)
-                visible: updatedContestants.count > 0
+            Column {
+
+                id: column1
+                width: visibleCol ? 2000 : 0
+                height: visibleCol ? children.height : 0
+                spacing: 20
+
+                property bool visibleCol: updatedContestants.count > 0
+
+                NativeText {
+                    id: updatedLabel
+                    //% Updated crews %1/%2
+                    text: qsTr("refresh-dialog-updated-crews-title %1/%2").arg(updatedContestants.selected).arg(updatedContestants.count)
+                    visible: updatedContestants.count > 0
+                }
+
+
+                RefreshDialogListViewWithCheckBox {
+
+                    id: modifiedCrewListViewCheckBox
+                    visible: updatedContestants.count > 0
+                    model: updatedContestants
+                }
             }
 
-            RefreshDialogListViewWithCheckBox {
 
-                id: modifiedCrewListViewCheckBox
-                visible: updatedContestants.count > 0
-                model: updatedContestants
-            }
+            //ColumnLayout {
+            Column {
 
-            NativeText {
-                id: unmodifiedLabel
-                //% Unmodified crews
-                text: qsTr("refresh-dialog-unmodified-crews-title %1/%2").arg(unmodifiedContestants.selected).arg(unmodifiedContestants.count)
-                visible: unmodifiedContestants.count > 0
-            }
+                id: column2
+                spacing: 20
+                width: refreshDialogMainWindow.width - scrollView.anchors.margins * 2//updatedContestants.count > 0 ? 2000 : scrollView.width // picovina, ale co s tim
+                height: children.height
 
-            RefreshDialogListViewWithCheckBox {
+                NativeText {
+                    id: unmodifiedLabel
+                    //% Unmodified crews %1/%2
+                    text: qsTr("refresh-dialog-unmodified-crews-title %1/%2").arg(unmodifiedContestants.selected).arg(unmodifiedContestants.count)
+                    visible: unmodifiedContestants.count > 0
+                }
 
-                id: unmodifiedCrewListViewCheckBox
-                visible: unmodifiedContestants.count > 0
-                model: unmodifiedContestants
-            }
+                RefreshDialogListViewWithCheckBox {
+                    id: unmodifiedCrewListViewCheckBox
+                    visible: unmodifiedContestants.count > 0
+                    model: unmodifiedContestants
+                }
 
-            NativeText {
-                id: addedLabel
-                //% Added crews
-                text: qsTr("refresh-dialog-added-crews-title %1/%2").arg(addedContestants.selected).arg(addedContestants.count)
-                visible: addedContestants.count > 0
-            }
+                NativeText {
+                    id: addedLabel
+                    //% Added crews %1/%2
+                    text: qsTr("refresh-dialog-added-crews-title %1/%2").arg(addedContestants.selected).arg(addedContestants.count)
+                    visible: addedContestants.count > 0
+                }
 
-            RefreshDialogListViewWithCheckBox {
+                RefreshDialogListViewWithCheckBox {
 
-                id: addedCrewListViewCheckBox
-                visible: addedContestants.count > 0
-                model: addedContestants
-            }
+                    id: addedCrewListViewCheckBox
+                    visible: addedContestants.count > 0
+                    model: addedContestants
+                }
 
-            NativeText {
-                id: missingLabel
-                //% Missing crews
-                text: qsTr("refresh-dialog-missing-crews-title %1/%2").arg(removedContestants.selected).arg(removedContestants.count)
-                visible: removedContestants.count > 0
-            }
+                NativeText {
+                    id: missingLabel
+                    //% Missing crews %1/%2
+                    text: qsTr("refresh-dialog-missing-crews-title %1/%2").arg(removedContestants.selected).arg(removedContestants.count)
+                    visible: removedContestants.count > 0
+                }
 
-            RefreshDialogListViewWithCheckBox {
+                RefreshDialogListViewWithCheckBox {
 
-                id: removedCrewListViewCheckBox
-                visible: removedContestants.count > 0
-                model: removedContestants
-            }
+                    id: removedCrewListViewCheckBox
+                    visible: removedContestants.count > 0
+                    model: removedContestants
+                    //anchors.bottom: parent.bottom
+                    //anchors.bottomMargin: 10
+                }
 
-            /*
-                        Column {
 
-                            id: unmodifiedView
-                            anchors.left: parent.left
-                            anchors.right: parent.right
-                            anchors.leftMargin: 10
-                            anchors.rightMargin: 10
+                /*
+                            Column {
 
-                            height: unmodifiedContestantsListView.height + unmodifiedContestantsListView.topMargin + selectAllCheckBox.height + spacing
-                            spacing: 10
-
-                            CheckBox {
-
-                                id: selectAllCheckBox
+                                id: unmodifiedView
                                 anchors.left: parent.left
-                                anchors.leftMargin: 5
                                 anchors.right: parent.right
-                            }
+                                anchors.leftMargin: 10
+                                anchors.rightMargin: 10
 
-                            ListView {
+                                height: unmodifiedContestantsListView.height + unmodifiedContestantsListView.topMargin + selectAllCheckBox.height + spacing
+                                spacing: 10
 
-                                id: unmodifiedContestantsListView
-                                model: unmodifiedContestants
-                                delegate: listModelDelegate
-                                anchors.left: parent.left
-                                anchors.right: parent.right
-                                height: unmodifiedContestants.count * 30
-                            }
-                        }*/
+                                CheckBox {
 
-            /*TableView {
-                id: updatedContestantsTableView;
-                model: updatedContestants;
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.leftMargin:  10
-                //height: updatedContestants.count * 30 + 50    // tohle se taky sere > vyska se nastavi sama na 150...???
+                                    id: selectAllCheckBox
+                                    anchors.left: parent.left
+                                    anchors.leftMargin: 5
+                                    anchors.right: parent.right
+                                }
 
-                clip: true;
+                                ListView {
 
-                rowDelegate: Rectangle {
-                    height: 30;
-                    color: styleData.selected ? "#0077cc" : (styleData.alternate? "#eee" : "#fff")
-                }
+                                    id: unmodifiedContestantsListView
+                                    model: unmodifiedContestants
+                                    delegate: listModelDelegate
+                                    anchors.left: parent.left
+                                    anchors.right: parent.right
+                                    height: unmodifiedContestants.count * 30
+                                }
+                            }*/
 
-                property int selectorColumnWidth: 70
-                property int nameColumnWidth: 150
-                property int speedColumnWidth: 50
-                property int categoryColumnWidth: 60
-                property int startTimeColumnWidth: 60
-                property int planeRegColumnWidth: 60
-                property int planeTypeColumnWidth: 60
-                property int spacerColumnWidth: 30
-                property int checkBoxColumnWidth: 30
+                /*TableView {
+                    id: updatedContestantsTableView;
+                    model: updatedContestants;
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.leftMargin:  10
+                    //height: updatedContestants.count * 30 + 50    // tohle se taky sere > vyska se nastavi sama na 150...???
 
-                TableViewColumn {
-                    role: "selected"
-                    width: updatedContestantsTableView.checkBoxColumnWidth
-                    delegate: checkBoxDelegate
-                    movable: false
-                }
+                    clip: true;
 
-                TableViewColumn {
-                    role: "name"
-                    width: updatedContestantsTableView.nameColumnWidth
-                    delegate: textDelegate
-                    movable: false
-                }
+                    rowDelegate: Rectangle {
+                        height: 30;
+                        color: styleData.selected ? "#0077cc" : (styleData.alternate? "#eee" : "#fff")
+                    }
 
-                TableViewColumn {
-                    role: "nameSelector"
-                    width: updatedContestantsTableView.selectorColumnWidth
-                    delegate: switchDelegate
-                    movable: false
-                }
+                    property int selectorColumnWidth: 70
+                    property int nameColumnWidth: 150
+                    property int speedColumnWidth: 50
+                    property int categoryColumnWidth: 60
+                    property int startTimeColumnWidth: 60
+                    property int planeRegColumnWidth: 60
+                    property int planeTypeColumnWidth: 60
+                    property int spacerColumnWidth: 30
+                    property int checkBoxColumnWidth: 30
 
-                TableViewColumn {
-                    role: "newName"
-                    width: updatedContestantsTableView.nameColumnWidth
-                    delegate: textDelegate
-                    movable: false
-                }
+                    TableViewColumn {
+                        role: "selected"
+                        width: updatedContestantsTableView.checkBoxColumnWidth
+                        delegate: checkBoxDelegate
+                        movable: false
+                    }
 
-                TableViewColumn { role: "spacer"; width: updatedContestantsTableView.spacerColumnWidth; delegate: textDelegate; movable: false }
+                    TableViewColumn {
+                        role: "name"
+                        width: updatedContestantsTableView.nameColumnWidth
+                        delegate: textDelegate
+                        movable: false
+                    }
 
-                TableViewColumn {
-                    role: "category"
-                    width: updatedContestantsTableView.categoryColumnWidth
-                    delegate: textDelegate
-                    movable: false
-                }
+                    TableViewColumn {
+                        role: "nameSelector"
+                        width: updatedContestantsTableView.selectorColumnWidth
+                        delegate: switchDelegate
+                        movable: false
+                    }
 
-                TableViewColumn {
-                    role: "categorySelector"
-                    width: updatedContestantsTableView.selectorColumnWidth
-                    delegate: switchDelegate
-                    movable: false
-                }
+                    TableViewColumn {
+                        role: "newName"
+                        width: updatedContestantsTableView.nameColumnWidth
+                        delegate: textDelegate
+                        movable: false
+                    }
 
-                TableViewColumn {
-                    role: "newCategory"
-                    width: updatedContestantsTableView.categoryColumnWidth
-                    delegate: textDelegate
-                    movable: false
-                }
+                    TableViewColumn { role: "spacer"; width: updatedContestantsTableView.spacerColumnWidth; delegate: textDelegate; movable: false }
 
-                TableViewColumn { role: "spacer"; width: updatedContestantsTableView.spacerColumnWidth; delegate: textDelegate; movable: false}
+                    TableViewColumn {
+                        role: "category"
+                        width: updatedContestantsTableView.categoryColumnWidth
+                        delegate: textDelegate
+                        movable: false
+                    }
 
-                TableViewColumn {
-                    role: "speed"
-                    width: updatedContestantsTableView.speedColumnWidth
-                    delegate: textDelegate
-                    movable: false
-                }
+                    TableViewColumn {
+                        role: "categorySelector"
+                        width: updatedContestantsTableView.selectorColumnWidth
+                        delegate: switchDelegate
+                        movable: false
+                    }
 
-                TableViewColumn {
-                    role: "speedSelector"
-                    width: updatedContestantsTableView.selectorColumnWidth
-                    delegate: switchDelegate
-                    movable: false
-                }
+                    TableViewColumn {
+                        role: "newCategory"
+                        width: updatedContestantsTableView.categoryColumnWidth
+                        delegate: textDelegate
+                        movable: false
+                    }
 
-                TableViewColumn {
-                    role: "newSpeed"
-                    width: updatedContestantsTableView.speedColumnWidth
-                    delegate: textDelegate
-                    movable: false
-                }
+                    TableViewColumn { role: "spacer"; width: updatedContestantsTableView.spacerColumnWidth; delegate: textDelegate; movable: false}
 
-                TableViewColumn { role: "spacer"; width: updatedContestantsTableView.spacerColumnWidth; delegate: textDelegate; movable: false }
+                    TableViewColumn {
+                        role: "speed"
+                        width: updatedContestantsTableView.speedColumnWidth
+                        delegate: textDelegate
+                        movable: false
+                    }
 
-                TableViewColumn {
-                    role: "startTime"
-                    width: updatedContestantsTableView.startTimeColumnWidth
-                    delegate: textDelegate
-                    movable: false
-                }
+                    TableViewColumn {
+                        role: "speedSelector"
+                        width: updatedContestantsTableView.selectorColumnWidth
+                        delegate: switchDelegate
+                        movable: false
+                    }
 
-                TableViewColumn {
-                    role: "startTimeSelector"
-                    width: updatedContestantsTableView.selectorColumnWidth
-                    delegate: switchDelegate
-                    movable: false
-                }
+                    TableViewColumn {
+                        role: "newSpeed"
+                        width: updatedContestantsTableView.speedColumnWidth
+                        delegate: textDelegate
+                        movable: false
+                    }
 
-                TableViewColumn {
-                    role: "newStartTime"
-                    width: updatedContestantsTableView.startTimeColumnWidth
-                    delegate: textDelegate
-                    movable: false
-                }
+                    TableViewColumn { role: "spacer"; width: updatedContestantsTableView.spacerColumnWidth; delegate: textDelegate; movable: false }
 
-                TableViewColumn { role: "spacer"; width: updatedContestantsTableView.spacerColumnWidth; delegate: textDelegate; movable: false }
+                    TableViewColumn {
+                        role: "startTime"
+                        width: updatedContestantsTableView.startTimeColumnWidth
+                        delegate: textDelegate
+                        movable: false
+                    }
 
-                TableViewColumn {
-                    role: "aircraft_registration"
-                    width: updatedContestantsTableView.planeRegColumnWidth
-                    delegate: textDelegate
-                    movable: false
-                }
+                    TableViewColumn {
+                        role: "startTimeSelector"
+                        width: updatedContestantsTableView.selectorColumnWidth
+                        delegate: switchDelegate
+                        movable: false
+                    }
 
-                TableViewColumn {
-                    role: "planeRegSelector"
-                    width: updatedContestantsTableView.selectorColumnWidth
-                    delegate: switchDelegate
-                    movable: false
-                }
+                    TableViewColumn {
+                        role: "newStartTime"
+                        width: updatedContestantsTableView.startTimeColumnWidth
+                        delegate: textDelegate
+                        movable: false
+                    }
 
-                TableViewColumn {
-                    role: "newAircraft_registration"
-                    width: updatedContestantsTableView.planeRegColumnWidth
-                    delegate: textDelegate
-                    movable: false
-                }
+                    TableViewColumn { role: "spacer"; width: updatedContestantsTableView.spacerColumnWidth; delegate: textDelegate; movable: false }
 
-                TableViewColumn { role: "spacer"; width: updatedContestantsTableView.spacerColumnWidth; delegate: textDelegate; movable: false}
+                    TableViewColumn {
+                        role: "aircraft_registration"
+                        width: updatedContestantsTableView.planeRegColumnWidth
+                        delegate: textDelegate
+                        movable: false
+                    }
 
-                TableViewColumn {
-                    role: "aircraft_type"
-                    width: updatedContestantsTableView.planeTypeColumnWidth
-                    delegate: textDelegate
-                    movable: false
-                }
+                    TableViewColumn {
+                        role: "planeRegSelector"
+                        width: updatedContestantsTableView.selectorColumnWidth
+                        delegate: switchDelegate
+                        movable: false
+                    }
 
-                TableViewColumn {
-                    role: "planeTypeSelector"
-                    width: updatedContestantsTableView.selectorColumnWidth
-                    delegate: switchDelegate
-                    movable: false
-                }
+                    TableViewColumn {
+                        role: "newAircraft_registration"
+                        width: updatedContestantsTableView.planeRegColumnWidth
+                        delegate: textDelegate
+                        movable: false
+                    }
 
-                TableViewColumn {
-                    role: "newAircraft_type"
-                    width: updatedContestantsTableView.planeTypeColumnWidth
-                    delegate: textDelegate
-                    movable: false
-                }
-            }*/
+                    TableViewColumn { role: "spacer"; width: updatedContestantsTableView.spacerColumnWidth; delegate: textDelegate; movable: false}
+
+                    TableViewColumn {
+                        role: "aircraft_type"
+                        width: updatedContestantsTableView.planeTypeColumnWidth
+                        delegate: textDelegate
+                        movable: false
+                    }
+
+                    TableViewColumn {
+                        role: "planeTypeSelector"
+                        width: updatedContestantsTableView.selectorColumnWidth
+                        delegate: switchDelegate
+                        movable: false
+                    }
+
+                    TableViewColumn {
+                        role: "newAircraft_type"
+                        width: updatedContestantsTableView.planeTypeColumnWidth
+                        delegate: textDelegate
+                        movable: false
+                    }
+                }*/
+            }
         }
     }
 

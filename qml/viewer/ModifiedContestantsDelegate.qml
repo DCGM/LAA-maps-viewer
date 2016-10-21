@@ -14,6 +14,8 @@ Component {
         width: readOnly ? rowReadOnly.width : row.width
         color: index % 2 ? "#eee" : "#fff"
 
+        onWidthChanged: console.log("rowDelegate " + width)
+
         property bool readOnly: rowDelegate.ListView.view.model.readOnly
 
         // line when not selected
@@ -35,6 +37,7 @@ Component {
             height: parent.height
             spacing: 50
             visible: rowDelegate.readOnly
+            width: listView.width// - 22// - 40
 
             Item {
                 height: parent.height

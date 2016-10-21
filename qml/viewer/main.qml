@@ -46,8 +46,8 @@ ApplicationWindow {
     onVisibleChanged: {
 
         if(visible) {
-            startUpMessage.open();  // clean or reload prev settings
-            //pathConfiguration.ok();
+            //startUpMessage.open();  // clean or reload prev settings
+            pathConfiguration.ok();
         }
     }
 
