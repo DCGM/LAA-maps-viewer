@@ -11,10 +11,8 @@ Component {
 
         id: rowDelegate
         height: 30
-        width: readOnly ? rowReadOnly.width : row.width
+        width: parent.width
         color: index % 2 ? "#eee" : "#fff"
-
-        onWidthChanged: console.log("rowDelegate " + width)
 
         property bool readOnly: rowDelegate.ListView.view.model.readOnly
 
@@ -37,24 +35,30 @@ Component {
             height: parent.height
             spacing: 50
             visible: rowDelegate.readOnly
-            width: listView.width// - 22// - 40
+            width: listView.width
 
             Item {
                 height: parent.height
                 Layout.preferredWidth: 330;
                 Layout.fillWidth: true;
 
+                property int checkedData: selected
+
+                onCheckedDataChanged: {
+                    checkBoxReadOnlyDelegate.checked = checkedData;
+                }
+
                 CheckBox {
                     id: checkBoxReadOnlyDelegate
                     anchors.left: parent.left
                     anchors.leftMargin: 5
-                    checked: selected
                     anchors.verticalCenter: parent.verticalCenter
 
-                    onClicked: {
+                    onCheckedStateChanged: {
                         rowDelegate.ListView.view.model.setProperty(index, "selected", checked ? 1 : 0);
                     }
                 }
+
                 NativeText {
                     anchors.left: checkBoxReadOnlyDelegate.right;
                     anchors.leftMargin: 10;
@@ -75,15 +79,15 @@ Component {
         RowLayout {
 
             id: row
+            width: parent.width
             height: parent.height
             spacing: 50
             visible: !rowDelegate.readOnly
 
             Row {
                 id: nameRow
-                Layout.preferredWidth: 500
 
-                Layout.fillWidth: true // nefunguje, ale uz na to fakt mrdam
+                Layout.fillWidth: true
 
                 Item {
                     id: checkBox
@@ -92,14 +96,20 @@ Component {
                     anchors.left: parent.left
                     anchors.leftMargin: 5
 
+                    property int checkedData: selected
+
+                    onCheckedDataChanged: {
+                        checkBoxCompo.checked = checkedData;
+                    }
+
                     CheckBox {
-                        checked: selected
+                        id: checkBoxCompo
                         anchors.verticalCenter: parent.verticalCenter
 
-                        onClicked: {
+                        onCheckedStateChanged: {
                             rowDelegate.ListView.view.model.setProperty(index, "selected", checked ? 1 : 0);
                         }
-                    }
+                    }                    
                 }
 
                 Item {
@@ -251,7 +261,7 @@ Component {
             Row {
                 Layout.preferredWidth: 350
                 anchors.right: parent.right
-                anchors.rightMargin: 20
+                anchors.rightMargin: 10
 
                 NativeText { text: aircraft_type; width: parent.width * 2/5; color: planeTypeSwitch.checked || !selected ? "#aaa" : "black"}
 
