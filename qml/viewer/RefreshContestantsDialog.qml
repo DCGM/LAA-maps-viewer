@@ -55,12 +55,13 @@ ApplicationWindow {
             Column {
 
                 id: column1
-                width: visibleCol ? (parent.width > minWidth ? parent.width : minWidth) : 0
+                width: visibleCol ? columnWidth : 0
                 height: visibleCol ? children.height : 0
                 spacing: 20
 
                 property bool visibleCol: updatedContestants.count > 0
                 property int minWidth: 1990 //pix
+                property int columnWidth: (refreshDialogMainWindow.visibility === Qt.WindowFullScreen || scrollView.width > column1.minWidth) ? scrollView.width : column1.minWidth
 
                 NativeText {
                     id: updatedLabel
