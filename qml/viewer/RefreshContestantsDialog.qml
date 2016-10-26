@@ -17,7 +17,7 @@ ApplicationWindow {
     onVisibleChanged: {
         if(visible) {
 
-            /**/
+            /*
             updatedContestants.append(unmodifiedContestants.get(1))
             updatedContestants.append(unmodifiedContestants.get(2))
             updatedContestants.append(unmodifiedContestants.get(3))
@@ -28,7 +28,7 @@ ApplicationWindow {
             removedContestants.append(unmodifiedContestants.get(1))
             removedContestants.append(unmodifiedContestants.get(2))
             removedContestants.append(unmodifiedContestants.get(3))
-
+*/
 
             console.log("unmodifiedContestants: " + unmodifiedContestants.count)
             console.log("updatedContestants: " + updatedContestants.count)

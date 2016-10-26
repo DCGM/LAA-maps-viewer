@@ -46,8 +46,8 @@ ApplicationWindow {
     onVisibleChanged: {
 
         if(visible) {
-            //startUpMessage.open();  // clean or reload prev settings
-            pathConfiguration.ok();
+            startUpMessage.open();  // clean or reload prev settings
+            //pathConfiguration.ok();
         }
     }
 
@@ -68,12 +68,12 @@ ApplicationWindow {
             MenuItem {
                 //% "&Refresh application"
                 text: qsTrId("main-file-menu-refresh-application")
-                enabled: true//(pathConfiguration.selectedCompetition != "")
+                enabled: (pathConfiguration.selectedCompetition != "")
                 onTriggered: {
-                    //selectCompetitionOnlineDialog.show();
-                    //selectCompetitionOnlineDialog.refreshApplications();
-                    reloadContestants(Qt.resolvedUrl(pathConfiguration.contestantsFile));
-                    refreshContestantsDialog.visible = true;
+                    selectCompetitionOnlineDialog.show();
+                    selectCompetitionOnlineDialog.refreshApplications();
+                    //reloadContestants(Qt.resolvedUrl(pathConfiguration.contestantsFile));
+                    //refreshContestantsDialog.visible = true;
                 }
                 shortcut: "F5"//"Ctrl+W"
             }
@@ -339,14 +339,17 @@ ApplicationWindow {
 
         id: selectCompetitionOnlineDialog
 
-        onContestantsDownloaded: {
+        onRefreshDataDownloaded: {
 
-            file_reader.write(Qt.resolvedUrl(pathConfiguration.contestantsFile), csvString);
+            //file_reader.write(Qt.resolvedUrl(pathConfiguration.contestantsFile), csvString);
 
-            importDataDialog.listModel.clear();
-            initCategoryCounters();
+            //importDataDialog.listModel.clear();
+            //initCategoryCounters();
 
-            loadContestants(Qt.resolvedUrl(pathConfiguration.contestantsFile));
+            reloadContestants(csvString);
+            refreshContestantsDialog.show();
+
+            //loadContestants(Qt.resolvedUrl(pathConfiguration.contestantsFile));
         }
     }
 
@@ -403,6 +406,9 @@ ApplicationWindow {
             updatedContestants.clear();
             addedContestants.clear();
             removedContestants.clear();
+
+            // sort list model by startTime
+            sortListModelByStartTime();
         }
 
         onCancel: {
@@ -717,14 +723,14 @@ ApplicationWindow {
 
         onChangeLisModel: {
 
-//               console.log("row: " + row + " role: " + role + " value: " + value + " count: " + contestantsListModel.count)
+               //console.log("row: " + row + " role: " + role + " value: " + value + " count: " + contestantsListModel.count)
 
                if (row >= contestantsListModel.count || row < 0) {
                    console.log("WUT? row role value " +row + " " +role + " " +value)
                    return;
                }
 
-               var prevRow = contestantsTable.currentRow;
+               var prevRow = contestantsTable.selection.count === 1 ? contestantsTable.currentRow : -1;
                var prevItem = contestantsListModel.get(row);
                var prevCategory = prevItem.category;
                var prevName = prevItem.name;
@@ -1453,6 +1459,8 @@ ApplicationWindow {
     // Load contestants from CSV
     function loadContestants(filename) {
 
+        contestantsTable.selection.clear();
+
         var resultsCSV = [];
         var resCSV = [];
         var index = -1;
@@ -1760,7 +1768,9 @@ ApplicationWindow {
     }
 
     // Load contestants from CSV
-    function reloadContestants(filename) {
+    function reloadContestants(f_data) {
+
+        contestantsTable.selection.clear();
 
         // copy current contestnats listmodel into local cache
         currentContestantsLocalCopy.clear();
@@ -1774,7 +1784,7 @@ ApplicationWindow {
         removedContestants.clear();
         addedContestants.clear();
 
-        var f_data = file_reader.read(filename);
+        //var f_data = file_reader.read(filename);
         var data = [];
         var resCSV = [];
 
@@ -1782,6 +1792,8 @@ ApplicationWindow {
         if (String(f_data).indexOf(cppWorker.csv_join_parse_delimeter_property) == -1) {
 
             resCSV = cppWorker.parseCSV(String(f_data));
+
+            console.log(resCSV)
             for (var i = 0; i < resCSV.length; i++) {
 
                 var resItem = resCSV[i];
@@ -1815,6 +1827,8 @@ ApplicationWindow {
                         break;
                     }
                 }
+
+                console.log(itemName + "    " + index)
 
                 // this crew is new
                 if (index === -1) {

@@ -14,7 +14,7 @@ ApplicationWindow {
     title: qsTrId("select-competition-window-dialog-title")
     color: "#ffffff"
 
-    signal contestantsDownloaded(string csvString);
+    signal refreshDataDownloaded(string csvString);
     signal competitionsDownloaded();
     property string selectedCompetition: "";
 
@@ -355,7 +355,7 @@ ApplicationWindow {
                             }
 
                             if (refresh) {
-                                contestantsDownloaded(str);
+                                refreshDataDownloaded(str);
                             }
                             else {
                                 pathConfiguration.contestantsDownloadedString = str;

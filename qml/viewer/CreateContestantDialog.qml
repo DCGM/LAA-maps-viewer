@@ -190,7 +190,7 @@ ApplicationWindow {
     function apendNewContestant(pilotName, copilotName, category, startTime, speed, type, registration) {
 
         var name = copilotName === "" ? pilotName : pilotName + ' – ' + copilotName;
-
+// na tohle by to chtelo jednu funkci - kdyz se pak zmeni pocet atributu, je to oser, menit tu a v main.qml loadContestants()
         contestantsListModel.append({
                                         "name": name,
                                         "category": category,
@@ -238,8 +238,36 @@ ApplicationWindow {
                                         "prevResultsScorePoints": -1,
                                         "prevResultsScore": "",
                                         "prevResultsScoreJson": "",
-                                        "prevResultsClassify": 0
+                                        "prevResultsClassify": 0,
 
+                                        // items from igc files model
+                                        "filePath": "",
+                                        "score": "",
+                                        "score_json": "",
+                                        "scorePoints" : -1,
+                                        "scorePoints1000" : -1,
+                                        "classify" : -1,
+                                        "wptScoreDetails" : "",
+                                        "trackHash": "",
+                                        "speedSectionsScoreDetails" : "",
+                                        "spaceSectionsScoreDetails" : "",
+                                        "altitudeSectionsScoreDetails" : "",
+                                        "classOrder": -1,
+
+                                        "newName": "",
+                                        "newCategory": "",
+                                        "newStartTime": "",
+                                        "newSpeed": -1,
+                                        "newAircraft_type": "",
+                                        "newAircraft_registration": "",
+
+                                        "selected": 1,
+                                        "nameSelector": 1,
+                                        "speedSelector": 1,
+                                        "categorySelector": 1,
+                                        "startTimeSelector": 1,
+                                        "planeTypeSelector": 1,
+                                        "planeRegSelector": 1,
                                     })
 
         // used instead of the append due to some post processing
