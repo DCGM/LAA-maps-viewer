@@ -347,6 +347,7 @@ ApplicationWindow {
             //initCategoryCounters();
 
             reloadContestants(csvString);
+            selectCompetitionOnlineDialog.close();
             refreshContestantsDialog.show();
 
             //loadContestants(Qt.resolvedUrl(pathConfiguration.contestantsFile));
