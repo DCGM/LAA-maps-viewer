@@ -409,6 +409,9 @@ ApplicationWindow {
 
             // sort list model by startTime
             sortListModelByStartTime();
+
+            // load prev results
+            loadPrevResults();
         }
 
         onCancel: {
@@ -622,6 +625,7 @@ ApplicationWindow {
         id: updateContestantMenu;
 
         property int row: -1
+        property bool menuVisible: false
 
         signal showMenu();
 
@@ -634,6 +638,13 @@ ApplicationWindow {
             if (file_reader.file_exists(filePath)) {
                 popup();
             }
+        }
+
+        onAboutToShow: {
+            menuVisible = true;
+        }
+        onAboutToHide: {
+            menuVisible = false;
         }
 
         MenuItem {
@@ -1195,7 +1206,10 @@ ApplicationWindow {
 
 
                 onTpiComputedData:  {
-                    computeScore(tpi, polys)
+
+                    if (!updateContestantMenu.menuVisible) {
+                        computeScore(tpi, polys)
+                    }
                 }
             }
 
@@ -1792,8 +1806,6 @@ ApplicationWindow {
         if (String(f_data).indexOf(cppWorker.csv_join_parse_delimeter_property) == -1) {
 
             resCSV = cppWorker.parseCSV(String(f_data));
-
-            console.log(resCSV)
             for (var i = 0; i < resCSV.length; i++) {
 
                 var resItem = resCSV[i];
@@ -1827,8 +1839,6 @@ ApplicationWindow {
                         break;
                     }
                 }
-
-                console.log(itemName + "    " + index)
 
                 // this crew is new
                 if (index === -1) {
