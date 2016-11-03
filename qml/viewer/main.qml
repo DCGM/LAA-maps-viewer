@@ -1471,6 +1471,95 @@ ApplicationWindow {
         }
     }
 
+    // function return contestant template struct
+    function createBlankUserObject() {
+
+        var user = {
+            "name": "",
+            "category": "",
+            "currentCategory": "",
+            "fullName": "" + "_" + "",
+            "startTime": "",
+            "currentStartTime": "",
+            "filename": "",
+            "speed": -1,
+            "currentSpeed": -1,
+            "aircraft_type": "",
+            "aircraft_registration": "",
+            "crew_id": "",
+            "pilot_id": "",
+            "copilot_id": "",
+            "pilotAvatarBase64": "",
+            "copilotAvatarBase64": "",
+            "markersOk": 0,
+            "markersNok": 0,
+            "markersFalse": 0,
+            "markersScore": 0,
+            "photosOk": 0,
+            "photosNok": 0,
+            "photosFalse": 0,
+            "photosScore": 0,
+            "startTimeMeasured": "",
+            "startTimeDifference": "",
+            "startTimeScore": 0,
+            "landingScore": 0,
+            "circlingCount": 0,
+            "circlingScore": 0,
+            "oppositeCount": 0,
+            "oppositeScore": 0,
+            "otherPoints": 0,
+            "otherPointsNote": "",
+            "otherPenalty": 0,
+            "otherPenaltyNote": "",
+            "prevResultsSpeed": -1,
+            "prevResultsStartTime": "",
+            "prevResultsCategory": "",
+            "prevResultsWPT": "",
+            "prevResultsSpeedSec": "",
+            "prevResultsAltSec": "",
+            "prevResultsSpaceSec": "",
+            "prevResultsTrackHas": "",
+            "prevResultsFilename": "",
+            "prevResultsScorePoints": -1,
+            "prevResultsScore": "",
+            "prevResultsScoreJson": "",
+            "prevResultsClassify": 0,
+
+            // items from igc files model
+            "filePath": "",
+            "score": "",
+            "score_json": "",
+            "scorePoints" : -1,
+            "scorePoints1000" : -1,
+            "classify" : -1,
+            "wptScoreDetails" : "",
+            "trackHash": "",
+            "speedSectionsScoreDetails" : "",
+            "spaceSectionsScoreDetails" : "",
+            "altitudeSectionsScoreDetails" : "",
+            "classOrder": -1,
+
+            "newName": "",
+            "newCategory": "",
+            "newStartTime": "",
+            "newSpeed": -1,
+            "newAircraft_type": "",
+            "newAircraft_registration": "",
+
+            "selected": 1,
+            "nameSelector": 1,
+            "speedSelector": 1,
+            "categorySelector": 1,
+            "startTimeSelector": 1,
+            "planeTypeSelector": 1,
+            "planeRegSelector": 1,
+
+        }
+
+        return user;
+    }
+
+
     // Load contestants from CSV
     function loadContestants(filename) {
 
@@ -1604,90 +1693,64 @@ ApplicationWindow {
                     }
                 }
 
-                contestantsListModel.append({
-                                                "name": itemName,
-                                                "category": item[1],
-                                                "fullName": item[2],
-                                                "startTime": item[3],
-                                                "filename": (csvFileFromViewer && item[4] === "" ? resultsCSV[j][38] : item[4]),
-                                                "speed": parseInt(item[5]),
-                                                "currentCategory": (currentContValuesIndex === -1 ? "" : currentConteCategories[currentContValuesIndex]),
-                                                "currentStartTime": (currentContValuesIndex === -1 ? "" : currentConteStartTimes[currentContValuesIndex]),
-                                                "currentSpeed": (currentContValuesIndex === -1 ? -1 : currentConteSpeed[currentContValuesIndex]),
-                                                "aircraft_type": item[6],
-                                                "aircraft_registration": item[7],
-                                                "crew_id": item[8],
-                                                "pilot_id": item[9],
-                                                "copilot_id": item[10],
-                                                "pilotAvatarBase64" : (item.length >= 13 ? (item[11]) : ""),
-                                                "copilotAvatarBase64" : (item.length >= 13 ? (item[12]) : ""),
-                                                "markersOk": (csvFileFromOffice ? parseInt(resultsCSV[j][1]) : 0),
-                                                "markersNok": (csvFileFromOffice ? parseInt(resultsCSV[j][2]) : 0),
-                                                "markersFalse": (csvFileFromOffice ? parseInt(resultsCSV[j][3]) : 0),
-                                                "markersScore": (csvFileFromViewer ? parseInt(resultsCSV[j][41]) : 0),
-                                                "photosOk": (csvFileFromOffice ? parseInt(resultsCSV[j][4]) : 0),
-                                                "photosNok": (csvFileFromOffice ? parseInt(resultsCSV[j][5]) : 0),
-                                                "photosFalse": (csvFileFromOffice ? parseInt(resultsCSV[j][6]) : 0),
-                                                "photosScore": (csvFileFromViewer ? parseInt(resultsCSV[j][42]) : 0),
-                                                "startTimeMeasured": (csvFileFromOffice ? resultsCSV[j][11] : ""),
-                                                "startTimeDifference": (csvFileFromOffice ? resultsCSV[j][43] : ""),
-                                                "startTimeScore": (csvFileFromOffice ? parseInt(resultsCSV[j][12]) * -1 : 0),
-                                                "landingScore": (csvFileFromOffice ? parseInt(resultsCSV[j][7]) : 0),
+                // create blank user
+                var new_contestant = createBlankUserObject();
 
-                                                "circlingCount": (csvFileFromViewer ? parseInt(resultsCSV[j][44]) : (!csvFileFromOffice ? 0 : parseInt(resultsCSV[j][13]))),
-                                                "circlingScore": (csvFileFromViewer ? parseInt(resultsCSV[j][45]) : (!csvFileFromOffice ? 0 : parseInt(resultsCSV[j][14] * -1))),
-                                                "oppositeCount": (csvFileFromViewer ? parseInt(resultsCSV[j][46]) : 0),
-                                                "oppositeScore": (csvFileFromViewer ? parseInt(resultsCSV[j][47]) : 0),
+                // fill user params
+                new_contestant.name = itemName;
+                new_contestant.category = item[1];
+                new_contestant.fullName = item[2];
+                new_contestant.startTime = item[3];
+                new_contestant.filename = (csvFileFromViewer && item[4] === "" ? resultsCSV[j][38] : item[4]);
+                new_contestant.speed = parseInt(item[5]);
+                new_contestant.currentCategory = (currentContValuesIndex === -1 ? "" : currentConteCategories[currentContValuesIndex]);
+                new_contestant.currentStartTime = (currentContValuesIndex === -1 ? "" : currentConteStartTimes[currentContValuesIndex]);
+                new_contestant.currentSpeed = (currentContValuesIndex === -1 ? -1 : currentConteSpeed[currentContValuesIndex]);
+                new_contestant.aircraft_type = item[6];
+                new_contestant.aircraft_registration = item[7];
+                new_contestant.crew_id = item[8];
+                new_contestant.pilot_id = item[9];
+                new_contestant.copilot_id = item[10];
+                new_contestant.pilotAvatarBase64 = (item.length >= 13 ? (item[11]) : "");
+                new_contestant.copilotAvatarBase64 = (item.length >= 13 ? (item[12]) : "");
+                new_contestant.markersOk = (csvFileFromOffice ? parseInt(resultsCSV[j][1]) : 0);
+                new_contestant.markersNok = (csvFileFromOffice ? parseInt(resultsCSV[j][2]) : 0);
+                new_contestant.markersFalse = (csvFileFromOffice ? parseInt(resultsCSV[j][3]) : 0);
+                new_contestant.markersScore = (csvFileFromViewer ? parseInt(resultsCSV[j][41]) : 0);
+                new_contestant.photosOk = (csvFileFromOffice ? parseInt(resultsCSV[j][4]) : 0);
+                new_contestant.photosNok = (csvFileFromOffice ? parseInt(resultsCSV[j][5]) : 0);
+                new_contestant.photosFalse = (csvFileFromOffice ? parseInt(resultsCSV[j][6]) : 0);
+                new_contestant.photosScore = (csvFileFromViewer ? parseInt(resultsCSV[j][42]) : 0);
+                new_contestant.startTimeMeasured = (csvFileFromOffice ? resultsCSV[j][11] : "");
+                new_contestant.startTimeDifference = (csvFileFromOffice ? resultsCSV[j][43] : "");
+                new_contestant.startTimeScore = (csvFileFromOffice ? parseInt(resultsCSV[j][12]) * -1 : 0);
+                new_contestant.landingScore = (csvFileFromOffice ? parseInt(resultsCSV[j][7]) : 0);
 
-                                                "otherPoints": (csvFileFromOffice ? parseInt(resultsCSV[j][8]) : 0),
-                                                "otherPointsNote": (csvFileFromOffice ? String((resultsCSV[j][20]).split("/&/")[0]) : ""),
-                                                "otherPenalty": (csvFileFromOffice ? parseInt(resultsCSV[j][15]) : 0),
-                                                "otherPenaltyNote": (csvFileFromOffice ? String((resultsCSV[j][20]).split("/&/")[1]) : ""),
-                                                "prevResultsSpeed": (csvFileFromViewer ? parseInt(resultsCSV[j][31]) : -1),
-                                                "prevResultsStartTime": (csvFileFromViewer ? resultsCSV[j][32] : ""),
-                                                "prevResultsCategory": (csvFileFromViewer ? resultsCSV[j][33] : ""),
-                                                "prevResultsWPT": (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][34]) : ""),
-                                                "prevResultsSpeedSec": (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][35]) : ""),
-                                                "prevResultsAltSec": (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][37]) : ""),
-                                                "prevResultsSpaceSec": (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][36]) : ""),
-                                                "prevResultsTrackHas": (csvFileFromViewer ? resultsCSV[j][30] : ""),
-                                                "prevResultsFilename": (csvFileFromViewer ? resultsCSV[j][38] : ""),
-                                                "prevResultsScorePoints": (csvFileFromOffice ? parseInt(resultsCSV[j][17]) : -1),
-                                                "prevResultsScore": (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][39]) : ""),
-                                                "prevResultsScoreJson": (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][40]) : ""),
-                                                "prevResultsClassify": (csvFileFromOffice ? (resultsCSV[j][19] === "yes" ? 0 : 1) : 0),
+                new_contestant.circlingCount = (csvFileFromViewer ? parseInt(resultsCSV[j][44]) : (!csvFileFromOffice ? 0 : parseInt(resultsCSV[j][13])));
+                new_contestant.circlingScore = (csvFileFromViewer ? parseInt(resultsCSV[j][45]) : (!csvFileFromOffice ? 0 : parseInt(resultsCSV[j][14] * -1)));
+                new_contestant.oppositeCount = (csvFileFromViewer ? parseInt(resultsCSV[j][46]) : 0);
+                new_contestant.oppositeScore = (csvFileFromViewer ? parseInt(resultsCSV[j][47]) : 0);
 
-                                                // items from igc files model
-                                                "filePath": "",
-                                                "score": "",
-                                                "score_json": "",
-                                                "scorePoints" : -1,
-                                                "scorePoints1000" : -1,
-                                                "classify" : -1,
-                                                "wptScoreDetails" : "",
-                                                "trackHash": "",
-                                                "speedSectionsScoreDetails" : "",
-                                                "spaceSectionsScoreDetails" : "",
-                                                "altitudeSectionsScoreDetails" : "",
-                                                "classOrder": -1,
+                new_contestant.otherPoints = (csvFileFromOffice ? parseInt(resultsCSV[j][8]) : 0);
+                new_contestant.otherPointsNote = (csvFileFromOffice ? String((resultsCSV[j][20]).split("/&/")[0]) : "");
+                new_contestant.otherPenalty = (csvFileFromOffice ? parseInt(resultsCSV[j][15]) : 0);
+                new_contestant.otherPenaltyNote = (csvFileFromOffice ? String((resultsCSV[j][20]).split("/&/")[1]) : "");
+                new_contestant.prevResultsSpeed = (csvFileFromViewer ? parseInt(resultsCSV[j][31]) : -1);
+                new_contestant.prevResultsStartTime = (csvFileFromViewer ? resultsCSV[j][32] : "");
+                new_contestant.prevResultsCategory = (csvFileFromViewer ? resultsCSV[j][33] : "");
+                new_contestant.prevResultsWPT = (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][34]) : "");
+                new_contestant.prevResultsSpeedSec = (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][35]) : "");
+                new_contestant.prevResultsAltSec = (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][37]) : "");
+                new_contestant.prevResultsSpaceSec = (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][36]) : "");
+                new_contestant.prevResultsTrackHas = (csvFileFromViewer ? resultsCSV[j][30] : "");
+                new_contestant.prevResultsFilename = (csvFileFromViewer ? resultsCSV[j][38] : "");
+                new_contestant.prevResultsScorePoints = (csvFileFromOffice ? parseInt(resultsCSV[j][17]) : -1);
+                new_contestant.prevResultsScore = (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][39]) : "");
+                new_contestant.prevResultsScoreJson = (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][40]) : "");
+                new_contestant.prevResultsClassify = (csvFileFromOffice ? (resultsCSV[j][19] === "yes" ? 0 : 1) : 0);
 
-                                                "newName": "",
-                                                "newCategory": "",
-                                                "newStartTime": "",
-                                                "newSpeed": -1,
-                                                "newAircraft_type": "",
-                                                "newAircraft_registration": "",
-
-                                                "selected": 1,
-                                                "nameSelector": 1,
-                                                "speedSelector": 1,
-                                                "categorySelector": 1,
-                                                "startTimeSelector": 1,
-                                                "planeTypeSelector": 1,
-                                                "planeRegSelector": 1,
-
-                                            })
-
+                // append into list model
+                contestantsListModel.append(new_contestant);
             }
         }
 
@@ -1844,88 +1907,29 @@ ApplicationWindow {
                 // this crew is new
                 if (index === -1) {
 
-                    removedContestants.append({
-                            "name": itemName,
-                            "category": item[1],
-                            "fullName": item[2],
-                            "startTime": item[3],
-                            "filename": item[4],
-                            "speed": parseInt(item[5]),
-                            "currentCategory": "",
-                            "currentStartTime": "",
-                            "currentSpeed": -1,
-                            "aircraft_type": item[6],
-                            "aircraft_registration": item[7],
-                            "crew_id": item[8],
-                            "pilot_id": item[9],
-                            "copilot_id": item[10],
-                            "pilotAvatarBase64" : (item.length >= 13 ? (item[11]) : ""),
-                            "copilotAvatarBase64" : (item.length >= 13 ? (item[12]) : ""),
-                            "markersOk": 0,
-                            "markersNok": 0,
-                            "markersFalse": 0,
-                            "markersScore": 0,
-                            "photosOk": 0,
-                            "photosNok": 0,
-                            "photosFalse": 0,
-                            "photosScore": 0,
-                            "startTimeMeasured": "",
-                            "startTimeDifference": "",
-                            "startTimeScore": 0,
-                            "landingScore": 0,
+                    // create blank user
+                    var new_contestant = createBlankUserObject();
 
-                            "circlingCount": 0,
-                            "circlingScore": 0,
-                            "oppositeCount": 0,
-                            "oppositeScore": 0,
+                    // fill user params
+                    new_contestant.name = itemName;
+                    new_contestant.category = item[1];
+                    new_contestant.fullName = item[2];
+                    new_contestant.startTime = item[3];
+                    new_contestant.filename = item[4];
+                    new_contestant.speed = parseInt(item[5]);
+                    new_contestant.currentCategory = "";
+                    new_contestant.currentStartTime = "";
+                    new_contestant.currentSpeed = -1;
+                    new_contestant.aircraft_type = item[6];
+                    new_contestant.aircraft_registration = item[7];
+                    new_contestant.crew_id = item[8];
+                    new_contestant.pilot_id = item[9];
+                    new_contestant.copilot_id = item[10];
+                    new_contestant.pilotAvatarBase64 = (item.length >= 13 ? (item[11]) : "");
+                    new_contestant.copilotAvatarBase64 = (item.length >= 13 ? (item[12]) : "");
 
-                            "otherPoints": 0,
-                            "otherPointsNote": "",
-                            "otherPenalty": 0,
-                            "otherPenaltyNote": "",
-                            "prevResultsSpeed": -1,
-                            "prevResultsStartTime": "",
-                            "prevResultsCategory": "",
-                            "prevResultsWPT": "",
-                            "prevResultsSpeedSec": "",
-                            "prevResultsAltSec": "",
-                            "prevResultsSpaceSec": "",
-                            "prevResultsTrackHas": "",
-                            "prevResultsFilename": "",
-                            "prevResultsScorePoints": -1,
-                            "prevResultsScore": "",
-                            "prevResultsScoreJson": "",
-                            "prevResultsClassify": 0,
-
-                            "filePath": "",             // items from igc files model
-                            "score": "",
-                            "score_json": "",
-                            "scorePoints" : -1,
-                            "scorePoints1000" : -1,
-                            "classify" : -1,
-                            "wptScoreDetails" : "",
-                            "trackHash": "",
-                            "speedSectionsScoreDetails" : "",
-                            "spaceSectionsScoreDetails" : "",
-                            "altitudeSectionsScoreDetails" : "",
-                            "classOrder": -1,
-
-                            "newName": "",              // items used for update
-                            "newCategory": "",
-                            "newStartTime": "",
-                            "newSpeed": -1,
-                            "newAircraft_type": "",
-                            "newAircraft_registration": "",
-
-                            "selected": 1,
-                            "nameSelector": 1,
-                            "speedSelector": 1,
-                            "categorySelector": 1,
-                            "startTimeSelector": 1,
-                            "planeTypeSelector": 1,
-                            "planeRegSelector": 1,
-
-                        })
+                    // append into list model
+                    removedContestants.append(new_contestant);
                 }
                 // updated crew
                 else {
@@ -1941,7 +1945,6 @@ ApplicationWindow {
                     currentCrew.newAircraft_registration = item[7];
                     currentCrew.pilot_id = item[9];
                     currentCrew.copilot_id = item[10];
-
 
                     // add modified crew into updated list model
                     if (currentCrew.name !== currentCrew.newName ||

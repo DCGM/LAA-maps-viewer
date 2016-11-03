@@ -190,87 +190,25 @@ ApplicationWindow {
     function apendNewContestant(pilotName, copilotName, category, startTime, speed, type, registration) {
 
         var name = copilotName === "" ? pilotName : pilotName + ' – ' + copilotName;
-// na tohle by to chtelo jednu funkci - kdyz se pak zmeni pocet atributu, je to oser, menit tu a v main.qml loadContestants()
-        contestantsListModel.append({
-                                        "name": name,
-                                        "category": category,
-                                        "currentCategory": category,
-                                        "fullName": name + "_" + category,
-                                        "startTime": "",
-                                        "currentStartTime": startTime,
-                                        "filename": "",
-                                        "speed": parseInt(speed),
-                                        "currentSpeed": parseInt(speed),
-                                        "aircraft_type": type,
-                                        "aircraft_registration": registration,
-                                        "crew_id": "",
-                                        "pilot_id": "",
-                                        "copilot_id": "",
-                                        "markersOk": 0,
-                                        "markersNok": 0,
-                                        "markersFalse": 0,
-                                        "markersScore": 0,
-                                        "photosOk": 0,
-                                        "photosNok": 0,
-                                        "photosFalse": 0,
-                                        "photosScore": 0,
-                                        "startTimeMeasured": "",
-                                        "startTimeDifference": "",
-                                        "startTimeScore": 0,
-                                        "landingScore": 0,
-                                        "circlingCount": 0,
-                                        "circlingScore": 0,
-                                        "oppositeCount": 0,
-                                        "oppositeScore": 0,
-                                        "otherPoints": 0,
-                                        "otherPointsNote": "",
-                                        "otherPenalty": 0,
-                                        "otherPenaltyNote": "",
-                                        "prevResultsSpeed": -1,
-                                        "prevResultsStartTime": "",
-                                        "prevResultsCategory": "",
-                                        "prevResultsWPT": "",
-                                        "prevResultsSpeedSec": "",
-                                        "prevResultsAltSec": "",
-                                        "prevResultsSpaceSec": "",
-                                        "prevResultsTrackHas": "",
-                                        "prevResultsFilename": "",
-                                        "prevResultsScorePoints": -1,
-                                        "prevResultsScore": "",
-                                        "prevResultsScoreJson": "",
-                                        "prevResultsClassify": 0,
 
-                                        // items from igc files model
-                                        "filePath": "",
-                                        "score": "",
-                                        "score_json": "",
-                                        "scorePoints" : -1,
-                                        "scorePoints1000" : -1,
-                                        "classify" : -1,
-                                        "wptScoreDetails" : "",
-                                        "trackHash": "",
-                                        "speedSectionsScoreDetails" : "",
-                                        "spaceSectionsScoreDetails" : "",
-                                        "altitudeSectionsScoreDetails" : "",
-                                        "classOrder": -1,
+        // create blank user
+        var new_contestant = createBlankUserObject();
 
-                                        "newName": "",
-                                        "newCategory": "",
-                                        "newStartTime": "",
-                                        "newSpeed": -1,
-                                        "newAircraft_type": "",
-                                        "newAircraft_registration": "",
+        // fill user params
+        new_contestant.name = name;
+        new_contestant.category = category;
+        new_contestant.currentCategory = category;
+        new_contestant.fullName = name + "_" + category;
+        new_contestant.currentStartTime = startTime;
+        new_contestant.speed = parseInt(speed);
+        new_contestant.currentSpeed = parseInt(speed);
+        new_contestant.aircraft_type = type;
+        new_contestant.aircraft_registration = registration;
 
-                                        "selected": 1,
-                                        "nameSelector": 1,
-                                        "speedSelector": 1,
-                                        "categorySelector": 1,
-                                        "startTimeSelector": 1,
-                                        "planeTypeSelector": 1,
-                                        "planeRegSelector": 1,
-                                    })
+        // append into list model
+        contestantsListModel.append(new_contestant);
 
-        // used instead of the append due to some post processing
+        // used instead of the append due to some post processing (call some on change method)
         contestantsListModel.changeLisModel(contestantsListModel.count - 1, "category", category);
         contestantsListModel.changeLisModel(contestantsListModel.count - 1, "speed", parseInt(speed));
         contestantsListModel.changeLisModel(contestantsListModel.count - 1, "startTime", startTime);
