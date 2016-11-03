@@ -1825,13 +1825,33 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
         <source>Refresh window title</source>
         <translation>Import posadek</translation>
     </message>
+    <message id="refresh-dialog-unmodified-crews-title %1/%2">
+        <location filename="../qml/viewer/RefreshContestantsDialog.qml" line="93"/>
+        <source>Unmodified crews %1/%2</source>
+        <translation>Beze změny   %1/%2</translation>
+    </message>
+    <message id="refresh-dialog-updated-crews-title %1/%2">
+        <location filename="../qml/viewer/RefreshContestantsDialog.qml" line="71"/>
+        <source>Updated crews %1/%2</source>
+        <translation>Upravené   %1/%2</translation>
+    </message>
+    <message id="refresh-dialog-added-crews-title %1/%2">
+        <location filename="../qml/viewer/RefreshContestantsDialog.qml" line="107"/>
+        <source>Added crews %1/%2</source>
+        <translation>Nové (lokálně)   %1/%2</translation>
+    </message>
+    <message id="refresh-dialog-missing-crews-title %1/%2">
+        <location filename="../qml/viewer/RefreshContestantsDialog.qml" line="121"/>
+        <source>Missing crews %1/%2</source>
+        <translation>Nové (server)   %1/%2</translation>
+    </message>
     <message id="refresh-dialog-ok-button">
-        <location filename="../qml/viewer/RefreshContestantsDialog.qml" line="152"/>
+        <location filename="../qml/viewer/RefreshContestantsDialog.qml" line="153"/>
         <source>Ok</source>
         <translation>Ok</translation>
     </message>
     <message id="refresh-dialog-cancel-button">
-        <location filename="../qml/viewer/RefreshContestantsDialog.qml" line="162"/>
+        <location filename="../qml/viewer/RefreshContestantsDialog.qml" line="163"/>
         <source>Cancel</source>
         <translation>Zrušit</translation>
     </message>
@@ -1842,29 +1862,6 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
         <location filename="../qml/viewer/CalendarWindow.qml" line="12"/>
         <source>calendar</source>
         <translation>Kalendář</translation>
-    </message>
-</context>
-<context>
-    <name>RefreshContestantsDialog</name>
-    <message>
-        <location filename="../qml/viewer/RefreshContestantsDialog.qml" line="71"/>
-        <source>refresh-dialog-updated-crews-title %1/%2</source>
-        <translation>Upravené %1/%2</translation>
-    </message>
-    <message>
-        <location filename="../qml/viewer/RefreshContestantsDialog.qml" line="93"/>
-        <source>refresh-dialog-unmodified-crews-title %1/%2</source>
-        <translation>Beze změny %1/%2</translation>
-    </message>
-    <message>
-        <location filename="../qml/viewer/RefreshContestantsDialog.qml" line="106"/>
-        <source>refresh-dialog-added-crews-title %1/%2</source>
-        <translation>Odstraněné(lokálně přidané) %1/%2</translation>
-    </message>
-    <message>
-        <location filename="../qml/viewer/RefreshContestantsDialog.qml" line="120"/>
-        <source>refresh-dialog-missing-crews-title %1/%2</source>
-        <translation>Nové %1/%2</translation>
     </message>
 </context>
 </TS>

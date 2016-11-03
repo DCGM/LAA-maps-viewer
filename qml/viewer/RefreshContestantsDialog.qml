@@ -67,8 +67,8 @@ ApplicationWindow {
 
                 NativeText {
                     id: updatedLabel
-                    //% Updated crews %1/%2
-                    text: qsTr("refresh-dialog-updated-crews-title %1/%2").arg(updatedContestants.selected).arg(updatedContestants.count)
+                    //% "Updated crews %1/%2"
+                    text: qsTrId("refresh-dialog-updated-crews-title %1/%2").arg(updatedContestants.selected).arg(updatedContestants.count);
                     visible: updatedContestants.count > 0
                 }
 
@@ -89,8 +89,9 @@ ApplicationWindow {
 
                 NativeText {
                     id: unmodifiedLabel
-                    //% Unmodified crews %1/%2
-                    text: qsTr("refresh-dialog-unmodified-crews-title %1/%2").arg(unmodifiedContestants.selected).arg(unmodifiedContestants.count)
+                    //% "Unmodified crews %1/%2"
+                    text: qsTrId("refresh-dialog-unmodified-crews-title %1/%2").arg(unmodifiedContestants.selected).arg(unmodifiedContestants.count)
+
                     visible: unmodifiedContestants.count > 0
                 }
 
@@ -102,8 +103,8 @@ ApplicationWindow {
 
                 NativeText {
                     id: addedLabel
-                    //% Added crews %1/%2
-                    text: qsTr("refresh-dialog-added-crews-title %1/%2").arg(addedContestants.selected).arg(addedContestants.count)
+                    //% "Added crews %1/%2"
+                    text: qsTrId("refresh-dialog-added-crews-title %1/%2").arg(addedContestants.selected).arg(addedContestants.count)
                     visible: addedContestants.count > 0
                 }
 
@@ -116,8 +117,8 @@ ApplicationWindow {
 
                 NativeText {
                     id: missingLabel
-                    //% Missing crews %1/%2
-                    text: qsTr("refresh-dialog-missing-crews-title %1/%2").arg(removedContestants.selected).arg(removedContestants.count)
+                    //% "Missing crews %1/%2"
+                    text: qsTrId("refresh-dialog-missing-crews-title %1/%2").arg(removedContestants.selected).arg(removedContestants.count)
                     visible: removedContestants.count > 0
                 }
 

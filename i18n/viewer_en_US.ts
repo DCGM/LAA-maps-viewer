@@ -1811,13 +1811,38 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
         <source>Refresh window title</source>
         <translation>Import contestants</translation>
     </message>
+    <message id="AAA">
+        <source>aaaaaaa</source>
+        <oldsource>AAA</oldsource>
+        <translation type="vanished">MRDAT</translation>
+    </message>
+    <message id="refresh-dialog-updated-crews-title %1/%2">
+        <location filename="../qml/viewer/RefreshContestantsDialog.qml" line="71"/>
+        <source>Updated crews %1/%2</source>
+        <translation>Modified   %1/%2</translation>
+    </message>
+    <message id="refresh-dialog-unmodified-crews-title %1/%2">
+        <location filename="../qml/viewer/RefreshContestantsDialog.qml" line="93"/>
+        <source>Unmodified crews %1/%2</source>
+        <translation>Unmodified   %1/%2</translation>
+    </message>
+    <message id="refresh-dialog-added-crews-title %1/%2">
+        <location filename="../qml/viewer/RefreshContestantsDialog.qml" line="107"/>
+        <source>Added crews %1/%2</source>
+        <translation>New (locally)   %1/%2</translation>
+    </message>
+    <message id="refresh-dialog-missing-crews-title %1/%2">
+        <location filename="../qml/viewer/RefreshContestantsDialog.qml" line="121"/>
+        <source>Missing crews %1/%2</source>
+        <translation>New (server)   %1/%2</translation>
+    </message>
     <message id="refresh-dialog-ok-button">
-        <location filename="../qml/viewer/RefreshContestantsDialog.qml" line="152"/>
+        <location filename="../qml/viewer/RefreshContestantsDialog.qml" line="153"/>
         <source>Ok</source>
         <translation>Ok</translation>
     </message>
     <message id="refresh-dialog-cancel-button">
-        <location filename="../qml/viewer/RefreshContestantsDialog.qml" line="162"/>
+        <location filename="../qml/viewer/RefreshContestantsDialog.qml" line="163"/>
         <source>Cancel</source>
         <translation>Cancel</translation>
     </message>
@@ -1828,29 +1853,6 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
         <location filename="../qml/viewer/CalendarWindow.qml" line="12"/>
         <source>calendar</source>
         <translation>Calendar</translation>
-    </message>
-</context>
-<context>
-    <name>RefreshContestantsDialog</name>
-    <message>
-        <location filename="../qml/viewer/RefreshContestantsDialog.qml" line="93"/>
-        <source>refresh-dialog-unmodified-crews-title %1/%2</source>
-        <translation>Unmodified %1/%2</translation>
-    </message>
-    <message>
-        <location filename="../qml/viewer/RefreshContestantsDialog.qml" line="71"/>
-        <source>refresh-dialog-updated-crews-title %1/%2</source>
-        <translation>Modified %1/%2</translation>
-    </message>
-    <message>
-        <location filename="../qml/viewer/RefreshContestantsDialog.qml" line="106"/>
-        <source>refresh-dialog-added-crews-title %1/%2</source>
-        <translation>Removec(locally added)  %1/%2</translation>
-    </message>
-    <message>
-        <location filename="../qml/viewer/RefreshContestantsDialog.qml" line="120"/>
-        <source>refresh-dialog-missing-crews-title %1/%2</source>
-        <translation>New %1/%2</translation>
     </message>
 </context>
 </TS>
