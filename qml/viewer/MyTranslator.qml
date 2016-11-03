@@ -178,7 +178,7 @@ Item {
                 //% "point name"
                 retVal = qsTrId("html-results-point-name"); break;
             case("html-results-point-sg-hit"):
-                //% "sg hit
+                //% "sg hit"
                 retVal = qsTrId("html-results-point-sg-hit"); break;
             case("html-results-point-tg-difference"):
                 //% "tg difference"

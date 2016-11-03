@@ -623,6 +623,22 @@ ApplicationWindow {
     }
 
     Menu {
+        id: createContestantMenu;
+
+        property bool menuVisible: false
+
+        MenuItem {
+            //% "Append contestant"
+            text: qsTrId("scorelist-table-menu-append-contestant")
+
+            onTriggered: {
+                createContestantDialog.contestantsListModelRow = contestantsListModel.count;
+                createContestantDialog.show();
+            }
+        }
+    }
+
+    Menu {
         id: updateContestantMenu;
 
         property int row: -1
@@ -1041,6 +1057,27 @@ ApplicationWindow {
             rowDelegate: Rectangle {
                 height: 30;
                 color: styleData.selected ? "#0077cc" : (styleData.alternate? "#eee" : "#fff")
+
+                MouseArea {
+                    anchors.fill: parent
+                    acceptedButtons: Qt.LeftButton | Qt.RightButton
+
+                    onClicked: {
+
+                        var row = isNaN(parseInt(styleData.row)) ? -1 : parseInt(styleData.row);
+
+                        // create new contestant
+                        if (mouse.button === Qt.RightButton) {
+
+                            createContestantMenu.popup();
+                        }
+                        else {
+                            if (row >= 0 && row < contestantsListModel.count) {
+                                contestantsTable.selectRow(row);
+                            }
+                        }
+                    }
+                }
             }
 
             Component.onCompleted: {
@@ -1092,6 +1129,7 @@ ApplicationWindow {
                     errorMessage.text = qsTrId("contestant-table-row-selected-file-not-found").arg(filePath)
                     errorMessage.open();
                 }
+                console.log("filePath is: " + filePath)
                 // remove suffix file:///
                 igc.load( filePath.substring(8), ctnt.startTime)
                 map.requestUpdate()

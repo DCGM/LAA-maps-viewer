@@ -83,7 +83,6 @@ OTHER_FILES += \
     qml/viewer/csv.js \
     qml/viewer/functions.js \
     qml/viewer/md5.js \
-    qml/viewer/AltChart.qml
 
 # CONFIG += qtquickcompiler
 

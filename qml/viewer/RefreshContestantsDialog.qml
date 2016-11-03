@@ -10,6 +10,8 @@ ApplicationWindow {
     height: applicationWindow.height;
     modality: "WindowModal"
     color: "#ffffff"
+    //% "Refresh window title"
+    title: qsTrId("refresh-window-dialog-title")
 
     signal ok();
     signal cancel();

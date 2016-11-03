@@ -174,44 +174,44 @@
         <translation>&amp;About</translation>
     </message>
     <message id="main-map-dialog-title">
-        <location filename="../qml/viewer/main.qml" line="362"/>
+        <location filename="../qml/viewer/main.qml" line="366"/>
         <source>Custom map tile configuration</source>
         <translation>Custom map tile configuration</translation>
     </message>
     <message id="main-map-dialog-question">
-        <location filename="../qml/viewer/main.qml" line="365"/>
+        <location filename="../qml/viewer/main.qml" line="369"/>
         <source>Enter URL</source>
         <translation>Enter URL</translation>
     </message>
     <message id="path-configuration-error-contestantsFile-not-found">
-        <location filename="../qml/viewer/main.qml" line="558"/>
+        <location filename="../qml/viewer/main.qml" line="568"/>
         <source>File %1 not found</source>
         <oldsource>File %1 not exists</oldsource>
         <translation>File %1 not found</translation>
     </message>
     <message id="contestant-table-row-selected-file-not-found">
-        <location filename="../qml/viewer/main.qml" line="1074"/>
+        <location filename="../qml/viewer/main.qml" line="1129"/>
         <source>File \&quot;%1\&quot; not found</source>
         <oldsource>File \&quot;%s\&quot; not found</oldsource>
         <translation>File &quot;%1&quot; not found</translation>
     </message>
     <message id="start-up-message-dialog-title">
-        <location filename="../qml/viewer/main.qml" line="4295"/>
+        <location filename="../qml/viewer/main.qml" line="4361"/>
         <source>Viewer</source>
         <translation>Viewer</translation>
     </message>
     <message id="start-up-message-dialog-text">
-        <location filename="../qml/viewer/main.qml" line="4298"/>
+        <location filename="../qml/viewer/main.qml" line="4364"/>
         <source>Do you want to load previous enviroment settings?</source>
         <translation>Do you want to load previous enviroment settings?</translation>
     </message>
     <message id="path-configuration-error-trackFile-not-found">
-        <location filename="../qml/viewer/main.qml" line="541"/>
+        <location filename="../qml/viewer/main.qml" line="551"/>
         <source>File %1 not found</source>
         <translation>File %1 not found</translation>
     </message>
     <message id="filelist-table-contestants">
-        <location filename="../qml/viewer/main.qml" line="1085"/>
+        <location filename="../qml/viewer/main.qml" line="1141"/>
         <source>Contestant</source>
         <translation>Contestant</translation>
     </message>
@@ -576,16 +576,16 @@
         <location filename="../qml/viewer/MyTranslator.qml" line="68"/>
         <source>hit yes</source>
         <oldsource>YES</oldsource>
-        <translation type="unfinished">Yes</translation>
+        <translation>Yes</translation>
     </message>
     <message id="hit-no">
         <location filename="../qml/viewer/MyTranslator.qml" line="65"/>
         <source>hit no</source>
         <oldsource>NO</oldsource>
-        <translation type="unfinished">No</translation>
+        <translation>No</translation>
     </message>
     <message id="toolbar-igc-count" numerus="yes">
-        <location filename="../qml/viewer/main.qml" line="1347"/>
+        <location filename="../qml/viewer/main.qml" line="1406"/>
         <source>Fixes %n</source>
         <oldsource>Igc fixes %n</oldsource>
         <translation>
@@ -602,17 +602,17 @@
         <translation type="vanished">NO</translation>
     </message>
     <message id="section-type-speed">
-        <location filename="../qml/viewer/main.qml" line="3691"/>
+        <location filename="../qml/viewer/main.qml" line="3757"/>
         <source>speed</source>
         <translation>speed</translation>
     </message>
     <message id="section-type-altitude">
-        <location filename="../qml/viewer/main.qml" line="3703"/>
+        <location filename="../qml/viewer/main.qml" line="3769"/>
         <source>altitude</source>
         <translation>altitude</translation>
     </message>
     <message id="section-type-space">
-        <location filename="../qml/viewer/main.qml" line="3715"/>
+        <location filename="../qml/viewer/main.qml" line="3781"/>
         <source>space</source>
         <translation>space</translation>
     </message>
@@ -639,42 +639,42 @@
         <translation type="vanished">File %1 not found. Do you want to download the file from the server?</translation>
     </message>
     <message id="filelist-table-category">
-        <location filename="../qml/viewer/main.qml" line="1096"/>
+        <location filename="../qml/viewer/main.qml" line="1152"/>
         <source>Category</source>
         <translation>Category</translation>
     </message>
     <message id="filelist-table-speed">
-        <location filename="../qml/viewer/main.qml" line="1102"/>
+        <location filename="../qml/viewer/main.qml" line="1158"/>
         <source>Speed</source>
         <translation>Speed</translation>
     </message>
     <message id="filelist-table-start-time">
-        <location filename="../qml/viewer/main.qml" line="1108"/>
+        <location filename="../qml/viewer/main.qml" line="1164"/>
         <source>StartTime</source>
         <translation>Start time</translation>
     </message>
     <message id="filelist-table-aircraft-registration">
-        <location filename="../qml/viewer/main.qml" line="1114"/>
+        <location filename="../qml/viewer/main.qml" line="1170"/>
         <source>Aircraft registration</source>
         <translation>Registration</translation>
     </message>
     <message id="filelist-table-score">
-        <location filename="../qml/viewer/main.qml" line="1120"/>
+        <location filename="../qml/viewer/main.qml" line="1176"/>
         <source>Score</source>
         <translation>Score</translation>
     </message>
     <message id="filelist-table-score-to-1000">
-        <location filename="../qml/viewer/main.qml" line="1126"/>
+        <location filename="../qml/viewer/main.qml" line="1182"/>
         <source>Score to 1000</source>
         <translation>Score to 1000</translation>
     </message>
     <message id="filelist-table-class-order">
-        <location filename="../qml/viewer/main.qml" line="1132"/>
+        <location filename="../qml/viewer/main.qml" line="1188"/>
         <source>Class order</source>
         <translation>Order</translation>
     </message>
     <message id="filelist-table-classify">
-        <location filename="../qml/viewer/main.qml" line="1138"/>
+        <location filename="../qml/viewer/main.qml" line="1194"/>
         <source>Classify</source>
         <translation>Classify</translation>
     </message>
@@ -709,12 +709,12 @@
         <translation type="vanished">Section max distance time spent out (both axis)</translation>
     </message>
     <message id="toolbar-start-time">
-        <location filename="../qml/viewer/main.qml" line="1327"/>
+        <location filename="../qml/viewer/main.qml" line="1386"/>
         <source>(Start time: %1)</source>
         <translation>(Start time: %1)</translation>
     </message>
     <message id="toolbar-invalid-fixes" numerus="yes">
-        <location filename="../qml/viewer/main.qml" line="1334"/>
+        <location filename="../qml/viewer/main.qml" line="1393"/>
         <source>Invalid %n</source>
         <oldsource>Invalid/Trimmed %1/%2</oldsource>
         <translation>
@@ -723,7 +723,7 @@
         </translation>
     </message>
     <message id="toolbar-trimmed-fixes" numerus="yes">
-        <location filename="../qml/viewer/main.qml" line="1341"/>
+        <location filename="../qml/viewer/main.qml" line="1400"/>
         <source>Trimmed %n</source>
         <translation>
             <numerusform>Trimmed %n</numerusform>
@@ -745,7 +745,7 @@
         <translation>Reload applications</translation>
     </message>
     <message id="scorelist-table-menu-remove-contestant">
-        <location filename="../qml/viewer/main.qml" line="655"/>
+        <location filename="../qml/viewer/main.qml" line="689"/>
         <source>Remove contestant</source>
         <translation>Remove crew</translation>
     </message>
@@ -766,12 +766,12 @@
         <translation type="vanished">Radius</translation>
     </message>
     <message id="status-no-track-loaded">
-        <location filename="../qml/viewer/main.qml" line="1305"/>
+        <location filename="../qml/viewer/main.qml" line="1364"/>
         <source>No track loaded</source>
         <translation>No track loaded</translation>
     </message>
     <message id="filelist-table-filename">
-        <location filename="../qml/viewer/main.qml" line="1091"/>
+        <location filename="../qml/viewer/main.qml" line="1147"/>
         <source>File name</source>
         <translation>File name</translation>
     </message>
@@ -1098,33 +1098,34 @@ User is not responsible for enforcing terms of this agreement by third parties. 
 BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, TO THE EXTENT PERMITTED BY APPLICABLE LAW. EXCEPT WHEN OTHERWISE STATED IN WRITING, BUT PROVIDES SOFTWARE </translation>
     </message>
     <message id="scorelist-table-menu-recalculate-score">
-        <location filename="../qml/viewer/main.qml" line="604"/>
+        <location filename="../qml/viewer/main.qml" line="614"/>
         <source>Recalculate</source>
         <oldsource>yes</oldsource>
         <translation>Recalculate</translation>
     </message>
     <message id="scorelist-table-menu-generate-contestant-results">
-        <location filename="../qml/viewer/main.qml" line="610"/>
+        <location filename="../qml/viewer/main.qml" line="620"/>
         <source>Generate contestant results</source>
         <translation>Generate results</translation>
     </message>
     <message id="scorelist-table-menu-append-contestant">
-        <location filename="../qml/viewer/main.qml" line="645"/>
+        <location filename="../qml/viewer/main.qml" line="632"/>
+        <location filename="../qml/viewer/main.qml" line="679"/>
         <source>Append contestant</source>
         <translation>Create crew</translation>
     </message>
     <message id="scorelist-table-menu-edit-contestant">
-        <location filename="../qml/viewer/main.qml" line="635"/>
+        <location filename="../qml/viewer/main.qml" line="669"/>
         <source>Edit contestant</source>
         <translation>Edit crew</translation>
     </message>
     <message id="scorelist-table-classify-yes">
-        <location filename="../qml/viewer/main.qml" line="701"/>
+        <location filename="../qml/viewer/main.qml" line="735"/>
         <source>yes</source>
         <translation>Yes</translation>
     </message>
     <message id="scorelist-table-classify-no">
-        <location filename="../qml/viewer/main.qml" line="703"/>
+        <location filename="../qml/viewer/main.qml" line="737"/>
         <source>no</source>
         <translation>No</translation>
     </message>
@@ -1371,25 +1372,25 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
     </message>
     <message id="html-results-competition-arbitr">
         <location filename="../qml/viewer/MyTranslator.qml" line="77"/>
-        <location filename="../qml/viewer/main.qml" line="1364"/>
+        <location filename="../qml/viewer/main.qml" line="1423"/>
         <source>competition referee</source>
         <translation>Main referee</translation>
     </message>
     <message id="html-results-competition-date">
         <location filename="../qml/viewer/MyTranslator.qml" line="80"/>
-        <location filename="../qml/viewer/main.qml" line="1365"/>
+        <location filename="../qml/viewer/main.qml" line="1424"/>
         <source>competition date</source>
         <translation>Date</translation>
     </message>
     <message id="html-results-competition-director">
         <location filename="../qml/viewer/MyTranslator.qml" line="83"/>
-        <location filename="../qml/viewer/main.qml" line="1363"/>
+        <location filename="../qml/viewer/main.qml" line="1422"/>
         <source>competition director</source>
         <translation>Competition director</translation>
     </message>
     <message id="html-results-competition-type">
         <location filename="../qml/viewer/MyTranslator.qml" line="86"/>
-        <location filename="../qml/viewer/main.qml" line="1362"/>
+        <location filename="../qml/viewer/main.qml" line="1421"/>
         <source>competition type</source>
         <translation>Type</translation>
     </message>
@@ -1751,22 +1752,22 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
         <translation>Type</translation>
     </message>
     <message id="ok-button">
-        <location filename="../qml/viewer/CreateContestantDialog.qml" line="273"/>
+        <location filename="../qml/viewer/CreateContestantDialog.qml" line="239"/>
         <source>Ok</source>
         <translation>Ok</translation>
     </message>
     <message id="contestant-update-error-dialog-title">
-        <location filename="../qml/viewer/CreateContestantDialog.qml" line="318"/>
+        <location filename="../qml/viewer/CreateContestantDialog.qml" line="284"/>
         <source>Contestant update error dialog title</source>
         <translation>Invalid values</translation>
     </message>
     <message id="contestant-update-error-dialog-text">
-        <location filename="../qml/viewer/CreateContestantDialog.qml" line="320"/>
+        <location filename="../qml/viewer/CreateContestantDialog.qml" line="286"/>
         <source>Invalid values. Can not update or create contestant. Please check the values for: pilot name, speed and start time.</source>
         <translation>Can not update or create contestant. Please check the values for: pilot name, speed and start time.</translation>
     </message>
     <message id="cancel-button">
-        <location filename="../qml/viewer/CreateContestantDialog.qml" line="327"/>
+        <location filename="../qml/viewer/CreateContestantDialog.qml" line="293"/>
         <source>Cancel</source>
         <translation>Cancel</translation>
     </message>
@@ -1805,15 +1806,20 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
         <source>Close</source>
         <translation>Close</translation>
     </message>
+    <message id="refresh-window-dialog-title">
+        <location filename="../qml/viewer/RefreshContestantsDialog.qml" line="14"/>
+        <source>Refresh window title</source>
+        <translation>Import contestants</translation>
+    </message>
     <message id="refresh-dialog-ok-button">
-        <location filename="../qml/viewer/RefreshContestantsDialog.qml" line="331"/>
+        <location filename="../qml/viewer/RefreshContestantsDialog.qml" line="152"/>
         <source>Ok</source>
-        <translation type="unfinished">Ok</translation>
+        <translation>Ok</translation>
     </message>
     <message id="refresh-dialog-cancel-button">
-        <location filename="../qml/viewer/RefreshContestantsDialog.qml" line="341"/>
+        <location filename="../qml/viewer/RefreshContestantsDialog.qml" line="162"/>
         <source>Cancel</source>
-        <translation type="unfinished">Cancel</translation>
+        <translation>Cancel</translation>
     </message>
 </context>
 <context>
@@ -1825,151 +1831,26 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
     </message>
 </context>
 <context>
-    <name>ProgressBarDialog</name>
-    <message>
-        <source>cancel</source>
-        <translation type="vanished">Cancel</translation>
-    </message>
-</context>
-<context>
-    <name>QObject</name>
-    <message>
-        <source>html-results-ctnt-name</source>
-        <translation type="obsolete">Name</translation>
-    </message>
-    <message>
-        <source>html-results-ctnt-category</source>
-        <translation type="vanished">Category</translation>
-    </message>
-    <message>
-        <source>html-results-ctnt-startTime</source>
-        <translation type="vanished">Start time</translation>
-    </message>
-    <message>
-        <source>html-results-ctnt-speed</source>
-        <translation type="vanished">Speed</translation>
-    </message>
-    <message>
-        <source>html-results-ctnt-aircraft-registration</source>
-        <translation type="vanished">Registration</translation>
-    </message>
-    <message>
-        <source>html-results-ctnt-aircraft-type</source>
-        <translation type="vanished">Aircraft type</translation>
-    </message>
-    <message>
-        <source>html-results-ctnt-classify</source>
-        <translation type="vanished">Classify</translation>
-    </message>
-    <message>
-        <source>yes</source>
-        <translation type="vanished">Yes</translation>
-    </message>
-    <message>
-        <source>no</source>
-        <translation type="vanished">No</translation>
-    </message>
-    <message>
-        <source>hit-yes</source>
-        <translation type="vanished">Yes</translation>
-    </message>
-    <message>
-        <source>hit-no</source>
-        <translation type="vanished">No</translation>
-    </message>
-    <message>
-        <source>test</source>
-        <translation type="vanished">testEN</translation>
-    </message>
-</context>
-<context>
     <name>RefreshContestantsDialog</name>
     <message>
-        <location filename="../qml/viewer/RefreshContestantsDialog.qml" line="73"/>
+        <location filename="../qml/viewer/RefreshContestantsDialog.qml" line="93"/>
         <source>refresh-dialog-unmodified-crews-title %1/%2</source>
         <translation>Unmodified %1/%2</translation>
     </message>
     <message>
-        <location filename="../qml/viewer/RefreshContestantsDialog.qml" line="59"/>
+        <location filename="../qml/viewer/RefreshContestantsDialog.qml" line="71"/>
         <source>refresh-dialog-updated-crews-title %1/%2</source>
         <translation>Modified %1/%2</translation>
     </message>
     <message>
-        <location filename="../qml/viewer/RefreshContestantsDialog.qml" line="86"/>
+        <location filename="../qml/viewer/RefreshContestantsDialog.qml" line="106"/>
         <source>refresh-dialog-added-crews-title %1/%2</source>
         <translation>Removec(locally added)  %1/%2</translation>
     </message>
     <message>
-        <location filename="../qml/viewer/RefreshContestantsDialog.qml" line="100"/>
+        <location filename="../qml/viewer/RefreshContestantsDialog.qml" line="120"/>
         <source>refresh-dialog-missing-crews-title %1/%2</source>
         <translation>New %1/%2</translation>
-    </message>
-    <message>
-        <source>refresh-dialog-updated-crews-title</source>
-        <translation type="vanished">Modified %1 / %2</translation>
-    </message>
-    <message>
-        <source>refresh-dialog-unmodified-crews-title</source>
-        <translation type="vanished">Unmodified %1 / %2</translation>
-    </message>
-    <message>
-        <source>refresh-dialog-added-crews-title</source>
-        <translation type="vanished">Extra  %1 / %2</translation>
-    </message>
-    <message>
-        <source>refresh-dialog-missing-crews-title</source>
-        <translation type="vanished">New %1 / %2</translation>
-    </message>
-    <message>
-        <source>refresh-dialog-updated-crews-title %1 %2</source>
-        <translation type="obsolete">Modified %1 %2</translation>
-    </message>
-    <message>
-        <source>refresh-dialog-unmodified-crews-title %1 %2</source>
-        <translation type="obsolete">Unmodified %1 %2</translation>
-    </message>
-    <message>
-        <source>refresh-dialog-added-crews-title %1 %2</source>
-        <translation type="obsolete">Removec(locally added)  %1 %2</translation>
-    </message>
-    <message>
-        <source>refresh-dialog-missing-crews-title %1 %2</source>
-        <translation type="obsolete">New %1 %2</translation>
-    </message>
-</context>
-<context>
-    <name>ResultsCreater</name>
-    <message>
-        <source>html-results-ctnt-name</source>
-        <translation type="vanished">Name</translation>
-    </message>
-    <message>
-        <source>html-results-ctnt-category</source>
-        <translation type="vanished">Category</translation>
-    </message>
-    <message>
-        <source>html-results-ctnt-startTime</source>
-        <translation type="vanished">Start time</translation>
-    </message>
-    <message>
-        <source>html-results-ctnt-speed</source>
-        <translation type="vanished">Speed</translation>
-    </message>
-    <message>
-        <source>html-results-ctnt-aircraft-registration</source>
-        <translation type="vanished">Registration</translation>
-    </message>
-    <message>
-        <source>html-results-ctnt-aircraft-type</source>
-        <translation type="vanished">Aircraft type</translation>
-    </message>
-    <message>
-        <source>yes</source>
-        <translation type="obsolete">Yes</translation>
-    </message>
-    <message>
-        <source>no</source>
-        <translation type="obsolete">No</translation>
     </message>
 </context>
 </TS>
