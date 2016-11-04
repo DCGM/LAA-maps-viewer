@@ -4318,7 +4318,6 @@ ApplicationWindow {
 
                 // load contestant
                 contestant = contestantsListModel.get(current);
-                console.log("current "  + current + " / " + contestantsListModel.count)
 
                 if (contestant.filename === "" || file_reader.file_exists(pathConfiguration.resultsFolder + "/"+ contestant.name + "_" + contestant.category + ".html"))  { //if results created or no results for this igc row
                     if (current + 1 == contestantsListModel.count) { // finsihed

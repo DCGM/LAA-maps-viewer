@@ -289,69 +289,73 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
     html += getHTMLSpace(10);
 
     // track points
-    trackPointsList = jsonObject["wptScoreDetails"].toString().split("; ");
+    if(jsonObject["wptScoreDetails"].toString() != "") {
 
-    html += getHTMLH3(getTranslatedString("html-results-track-points"));
+        trackPointsList = jsonObject["wptScoreDetails"].toString().split("; ");
 
-    // track points header row
-    rows.append(getTranslatedStringList(QStringList() << ("html-results-point-name")
-                                                      << ("html-results-point-type")
-                                                      << ("html-results-point-distance")
-                                                      << ("html-results-point-tg-expected")
-                                                      << ("html-results-point-tg-measured")
-                                                      << ("html-results-point-tg-difference")
-                                                      << ("html-results-tg-score")
-                                                      << ("html-results-point-tp-hit")
-                                                      << ("html-results-tp-score")
-                                                      << ("html-results-point-sg-hit")
-                                                      << ("html-results-sg-score")
-                                                      << ("html-results-point-alt-type")
-                                                      << ("html-results-point-alt-min")
-                                                      << ("html-results-point-alt-max")
-                                                      << ("html-results-point-alt-measured")
-                                                      << ("html-results-alt-score")
-                                                      ));
+        html += getHTMLH3(getTranslatedString("html-results-track-points"));
 
-    // track points content
-    for (int k = 0; k < trackPointsList.size(); ++k) {
-        jsonResponse = QJsonDocument::fromJson(trackPointsList.at(k).toUtf8());
-        jsonObject = jsonResponse.object();
+        // track points header row
+        rows.append(getTranslatedStringList(QStringList() << ("html-results-point-name")
+                                                          << ("html-results-point-type")
+                                                          << ("html-results-point-distance")
+                                                          << ("html-results-point-tg-expected")
+                                                          << ("html-results-point-tg-measured")
+                                                          << ("html-results-point-tg-difference")
+                                                          << ("html-results-tg-score")
+                                                          << ("html-results-point-tp-hit")
+                                                          << ("html-results-tp-score")
+                                                          << ("html-results-point-sg-hit")
+                                                          << ("html-results-sg-score")
+                                                          << ("html-results-point-alt-type")
+                                                          << ("html-results-point-alt-min")
+                                                          << ("html-results-point-alt-max")
+                                                          << ("html-results-point-alt-measured")
+                                                          << ("html-results-alt-score")
+                                                          ));
 
-        tg_time_measured = jsonObject["tg_time_manual"].toDouble() < 0 ? jsonObject["tg_time_measured"].toDouble() : jsonObject["tg_time_manual"].toDouble();
-        sg_hit_measured = jsonObject["sg_hit_manual"].toDouble() < 0 ? jsonObject["sg_hit_measured"].toBool() : jsonObject["sg_hit_manual"].toBool();
-        tp_hit_measured = jsonObject["tp_hit_manual"].toDouble() < 0 ? jsonObject["tp_hit_measured"].toBool() : jsonObject["tp_hit_manual"].toBool();
-        alt_measured = jsonObject["alt_manual"].toDouble() < 0 ? jsonObject["alt_measured"].toDouble() : jsonObject["alt_manual"].toDouble();
+        // track points content
+        for (int k = 0; k < trackPointsList.size(); ++k) {
+            jsonResponse = QJsonDocument::fromJson(trackPointsList.at(k).toUtf8());
+            jsonObject = jsonResponse.object();
 
-        //check point type
-        bool isTG = (int(jsonObject["type"].toDouble()) & 2) == 2;
-        bool isTP = (int(jsonObject["type"].toDouble()) & 1) == 1;
-        bool isSG = (int(jsonObject["type"].toDouble()) & 3) == 3;
+            tg_time_measured = jsonObject["tg_time_manual"].toDouble() < 0 ? jsonObject["tg_time_measured"].toDouble() : jsonObject["tg_time_manual"].toDouble();
+            sg_hit_measured = jsonObject["sg_hit_manual"].toDouble() < 0 ? jsonObject["sg_hit_measured"].toBool() : jsonObject["sg_hit_manual"].toBool();
+            tp_hit_measured = jsonObject["tp_hit_manual"].toDouble() < 0 ? jsonObject["tp_hit_measured"].toBool() : jsonObject["tp_hit_manual"].toBool();
+            alt_measured = jsonObject["alt_manual"].toDouble() < 0 ? jsonObject["alt_measured"].toDouble() : jsonObject["alt_manual"].toDouble();
 
-        rows.append(QStringList() << jsonObject["title"].toString()
-                                  << pointFlagToString(jsonObject["type"].toDouble())
-                                  << QString::number(jsonObject["distance_from_vbt"].toDouble() / 1000, 'f', 2)
-                                  << (isTG ? "" : getFontColorStartTag("grey")) + QTime(0,0,0).addSecs(jsonObject["tg_time_calculated"].toDouble()).toString("hh:mm:ss") + (isTG ? "" : getFontColorEndTag())
-                                  << (isTG ? "" : getFontColorStartTag("grey")) + QTime(0,0,0).addSecs(tg_time_measured).toString() + (isTG ? "" : getFontColorEndTag())
-                                  << (isTG ? "" : getFontColorStartTag("grey")) + QTime(0,0,0).addSecs(jsonObject["tg_time_difference"].toDouble()).toString() + (isTG ? "" : getFontColorEndTag())
-                                  << (isTG ? "" : getFontColorStartTag("grey")) + (jsonObject["tg_score"].toDouble() < 0 ? "" : QString::number(jsonObject["tg_score"].toDouble())) + (isTG ? "" : getFontColorEndTag())
+            //check point type
+            bool isTG = (int(jsonObject["type"].toDouble()) & 2) == 2;
+            bool isTP = (int(jsonObject["type"].toDouble()) & 1) == 1;
+            bool isSG = (int(jsonObject["type"].toDouble()) & 3) == 3;
 
-                                  << (isTP ? "" : getFontColorStartTag("grey")) + (tp_hit_measured ? getTranslatedString("hit-yes") : getTranslatedString("hit-no")) + (isTP ? "" : getFontColorEndTag())
-                                  << (isTP ? "" : getFontColorStartTag("grey")) + (jsonObject["tp_score"].toDouble() < 0 ? "" : QString::number(jsonObject["tp_score"].toDouble())) + (isTP ? "" : getFontColorEndTag())
+            rows.append(QStringList() << jsonObject["title"].toString()
+                                      << pointFlagToString(jsonObject["type"].toDouble())
+                                      << QString::number(jsonObject["distance_from_vbt"].toDouble() / 1000, 'f', 2)
+                                      << (isTG ? "" : getFontColorStartTag("grey")) + QTime(0,0,0).addSecs(jsonObject["tg_time_calculated"].toDouble()).toString("hh:mm:ss") + (isTG ? "" : getFontColorEndTag())
+                                      << (isTG ? "" : getFontColorStartTag("grey")) + QTime(0,0,0).addSecs(tg_time_measured).toString() + (isTG ? "" : getFontColorEndTag())
+                                      << (isTG ? "" : getFontColorStartTag("grey")) + QTime(0,0,0).addSecs(jsonObject["tg_time_difference"].toDouble()).toString() + (isTG ? "" : getFontColorEndTag())
+                                      << (isTG ? "" : getFontColorStartTag("grey")) + (jsonObject["tg_score"].toDouble() < 0 ? "" : QString::number(jsonObject["tg_score"].toDouble())) + (isTG ? "" : getFontColorEndTag())
 
-                                  << (isSG ? "" : getFontColorStartTag("grey")) + (sg_hit_measured ? getTranslatedString("hit-yes") : getTranslatedString("hit-no")) + (isSG ? "" : getFontColorEndTag())
-                                  << (isSG ? "" : getFontColorStartTag("grey")) + (jsonObject["sg_score"].toDouble() < 0 ? "" : QString::number(jsonObject["sg_score"].toDouble())) + (isSG ? "" : getFontColorEndTag())
+                                      << (isTP ? "" : getFontColorStartTag("grey")) + (tp_hit_measured ? getTranslatedString("hit-yes") : getTranslatedString("hit-no")) + (isTP ? "" : getFontColorEndTag())
+                                      << (isTP ? "" : getFontColorStartTag("grey")) + (jsonObject["tp_score"].toDouble() < 0 ? "" : QString::number(jsonObject["tp_score"].toDouble())) + (isTP ? "" : getFontColorEndTag())
 
-                                  << point_alt_type
-                                  << (jsonObject["alt_min"].toDouble() < 0 ? "" : QString::number(jsonObject["alt_min"].toDouble()))
-                                  << (jsonObject["alt_max"].toDouble() < 0 ? "" : QString::number(jsonObject["alt_max"].toDouble()))
-                                  << (alt_measured < 0 ? "" : QString::number(alt_measured))
-                                  << (jsonObject["alt_score"].toDouble() < 0 ? "" : QString::number(jsonObject["alt_score"].toDouble()))
-                    );
+                                      << (isSG ? "" : getFontColorStartTag("grey")) + (sg_hit_measured ? getTranslatedString("hit-yes") : getTranslatedString("hit-no")) + (isSG ? "" : getFontColorEndTag())
+                                      << (isSG ? "" : getFontColorStartTag("grey")) + (jsonObject["sg_score"].toDouble() < 0 ? "" : QString::number(jsonObject["sg_score"].toDouble())) + (isSG ? "" : getFontColorEndTag())
+
+                                      << point_alt_type
+                                      << (jsonObject["alt_min"].toDouble() < 0 ? "" : QString::number(jsonObject["alt_min"].toDouble()))
+                                      << (jsonObject["alt_max"].toDouble() < 0 ? "" : QString::number(jsonObject["alt_max"].toDouble()))
+                                      << (alt_measured < 0 ? "" : QString::number(alt_measured))
+                                      << (jsonObject["alt_score"].toDouble() < 0 ? "" : QString::number(jsonObject["alt_score"].toDouble()))
+                        );
+        }
+
+
+        html += getHTMLHorizontalTable(rows);
+
+        html += getHTMLSpace(10);
     }
-
-    html += getHTMLHorizontalTable(rows);
-
-    html += getHTMLSpace(10);
 
     //jsonResponse = QJsonDocument::fromJson(igcJSON.toUtf8());
     //jsonObject = jsonResponse.object();
