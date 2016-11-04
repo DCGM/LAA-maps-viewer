@@ -4101,7 +4101,7 @@ ApplicationWindow {
         resArr['CUSTOM3'] = [];
         resArr['CUSTOM4'] = [];
 
-        for (var i = 0; i < contestantsTable.count; i++) {
+        for (var i = 0; i < contestantsListModel.count; i++) {
 
             contestant = contestantsListModel.get(i);
 
