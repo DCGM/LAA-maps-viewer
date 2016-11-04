@@ -197,11 +197,8 @@ ApplicationWindow {
         // fill user params
         new_contestant.name = name;
         new_contestant.category = category;
-        new_contestant.currentCategory = category;
         new_contestant.fullName = name + "_" + category;
-        new_contestant.currentStartTime = startTime;
         new_contestant.speed = parseInt(speed);
-        new_contestant.currentSpeed = parseInt(speed);
         new_contestant.aircraft_type = type;
         new_contestant.aircraft_registration = registration;
 

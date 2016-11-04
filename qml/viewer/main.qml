@@ -341,16 +341,9 @@ ApplicationWindow {
 
         onRefreshDataDownloaded: {
 
-            //file_reader.write(Qt.resolvedUrl(pathConfiguration.contestantsFile), csvString);
-
-            //importDataDialog.listModel.clear();
-            //initCategoryCounters();
-
             reloadContestants(csvString);
             selectCompetitionOnlineDialog.close();
             refreshContestantsDialog.show();
-
-            //loadContestants(Qt.resolvedUrl(pathConfiguration.contestantsFile));
         }
     }
 
@@ -470,32 +463,6 @@ ApplicationWindow {
         }
     }
 
-
-    ImportDialog {
-
-        id: importDataDialog
-
-        onVisibleChanged: {
-
-            if (!visible) {
-
-                pathConfiguration.close();
-                selectCompetitionOnlineDialog.close();
-
-                checkAndRemoveContestantsInvalidPrevResults();
-
-                igcFolderModel.folder = "";
-                igcFolderModel.folder = pathConfiguration.tabView.pathTabAlias.igcDirectory;
-
-                recalculateContestantsScoreOrder();
-
-                storeTrackSettings(pathConfiguration.tsFile);
-                map.requestUpdate();
-            }
-        }
-    }
-
-
     function getContestantIndexByProperty(name, category, speed, planeType, planeRegistration) {
 
         for (var i = 0; i < contestantsListModel.count; i++) {
@@ -555,11 +522,11 @@ ApplicationWindow {
 
             if (file_reader.file_exists(Qt.resolvedUrl(pathConfiguration.contestantsFile))) {
 
-                importDataDialog.listModel.clear();
                 initCategoryCounters();
 
                 console.time("load ctnt")
                 loadContestants(Qt.resolvedUrl(pathConfiguration.contestantsFile))
+                loadPrevResults();
                 console.timeEnd("load ctnt")
 
             } else {
@@ -570,22 +537,16 @@ ApplicationWindow {
                 return;
             }
 
-            // load import dialog if needed, otherwise load IGC
-            if (importDataDialog.listModel.count > 0) {
 
-                importDataDialog.show();
-            }
-            else {
-                checkAndRemoveContestantsInvalidPrevResults();
+            // load igc
+            igcFolderModel.folder = "";
+            igcFolderModel.folder = pathConfiguration.igcDirectory;
 
-                igcFolderModel.folder = "";
-                igcFolderModel.folder = pathConfiguration.igcDirectory;
+            recalculateContestantsScoreOrder();
 
-                recalculateContestantsScoreOrder();
+            storeTrackSettings(pathConfiguration.tsFile);
+            map.requestUpdate();
 
-                storeTrackSettings(pathConfiguration.tsFile);
-                map.requestUpdate();
-            }
         }
         onCancel: {
         }
@@ -1598,59 +1559,13 @@ ApplicationWindow {
         return user;
     }
 
-
-    // Load contestants from CSV
     function loadContestants(filename) {
 
         contestantsTable.selection.clear();
 
-        var resultsCSV = [];
-        var resCSV = [];
-        var index = -1;
-
-        // try to load manual data
-        if (file_reader.file_exists(Qt.resolvedUrl(pathConfiguration.csvResultsFile))) {
-            var cnt = file_reader.read(Qt.resolvedUrl(pathConfiguration.csvResultsFile));
-
-            // parse CSV, fast cpp variant or slow JS
-            if (String(cnt).indexOf(cppWorker.csv_join_parse_delimeter_property) == -1) {
-
-                resCSV = cppWorker.parseCSV(String(cnt));
-                for (var i = 0; i < resCSV.length; i++) {
-
-                    var resItem = resCSV[i];
-                    resultsCSV.push(resItem.split(cppWorker.csv_join_parse_delimeter_property))
-                }
-            }
-            else {
-                console.log("have to use slow variant of CSV parser for results \n")
-                resultsCSV = CSVJS.parseCSV(String(cnt))
-            }
-        }
-
-        // save current contestant values
-        var currentConteIds = [];
-        var currentConteSpeed = [];
-        var currentConteStartTimes = [];
-        var currentConteCategories = [];
-        var tmp;
-
-        for (var i = 0; i < contestantsListModel.count; i++) {
-
-            tmp = contestantsListModel.get(i);
-
-            // dont push newly created crew without pilot id
-            if (!isNaN(parseInt(tmp.pilot_id))) {
-
-                currentConteIds.push(tmp.pilot_id)
-                currentConteCategories.push(tmp.category)
-                currentConteStartTimes.push(tmp.startTime)
-                currentConteSpeed.push(tmp.speed)
-            }
-        }
-
         var f_data = file_reader.read(filename);
         var data = [];
+        var resCSV = [];
 
         // parse CSV, fast cpp variant or slow JS
         if (String(f_data).indexOf(cppWorker.csv_join_parse_delimeter_property) == -1) {
@@ -1667,7 +1582,6 @@ ApplicationWindow {
             data = CSVJS.parseCSV(String(f_data));
         }
 
-
         contestantsListModel.clear()
 
         for (var i = 0; i < data.length; i++) {
@@ -1679,58 +1593,9 @@ ApplicationWindow {
             // CSV soubor ma alespon 3 Sloupce
             if ((item.length > 2) && (itemName.length > 0)) {
 
-
-                // Find contestant by id in prev results (first row is the header)
-                for (j = 1; j < resultsCSV.length; j++) {
-
-                    if (parseInt(resultsCSV[j][28]) === parseInt(item[9])) {
-                        index = j;
-                        break;
-                    }
-                }
-
                 // check previous results validity
                 var csvFileFromOffice = false;
                 var csvFileFromViewer = false;
-                if (index !== -1 ) {
-
-                    // check CSV file status
-                    csvFileFromOffice = resultsCSV[j] !== undefined && resultsCSV[j].length >= 30; // CSV from office has only 30 columns
-                    csvFileFromViewer = resultsCSV[j] !== undefined && resultsCSV[j].length >= 48; // CSV from viewer has more then 48 columns
-                }
-
-                // load current values for this contestant
-                var currentContValuesIndex = currentConteIds.indexOf(item[9])
-
-                // check current and new speed, category and start time values, add contestant into import list model id they are different
-                if (currentContValuesIndex !== -1) {
-
-                    var currentSpeed = parseInt(currentConteSpeed[currentContValuesIndex]);
-                    var currentCategory = currentConteCategories[currentContValuesIndex];
-                    var currentStartTime = currentConteStartTimes[currentContValuesIndex];
-                    var newSpeed = parseInt(item[5]);
-                    var newCategory = item[1];
-                    var newStarTime = item[3];
-
-                    // add to list of contestants to the post processing
-                    if (currentSpeed != newSpeed || currentCategory != newCategory || currentStartTime != newStarTime) {
-
-                        importDataDialog.listModel.append({
-                                                              "row": importDataDialog.listModel.count,
-                                                              "name": itemName,
-                                                              "speed": newSpeed,
-                                                              "startTime": newStarTime,
-                                                              "category": newCategory,
-                                                              "prevResultsSpeed": currentSpeed,
-                                                              "prevResultsStartTime": currentStartTime,
-                                                              "prevResultsCategory": currentCategory,
-                                                              "speedSelector": 1,
-                                                              "categorySelector": 1,
-                                                              "startTimeSelector": 1,
-
-                                                          })
-                    }
-                }
 
                 // create blank user
                 var new_contestant = createBlankUserObject();
@@ -1742,9 +1607,6 @@ ApplicationWindow {
                 new_contestant.startTime = item[3];
                 new_contestant.filename = (csvFileFromViewer && item[4] === "" ? resultsCSV[j][38] : item[4]);
                 new_contestant.speed = parseInt(item[5]);
-                new_contestant.currentCategory = (currentContValuesIndex === -1 ? "" : currentConteCategories[currentContValuesIndex]);
-                new_contestant.currentStartTime = (currentContValuesIndex === -1 ? "" : currentConteStartTimes[currentContValuesIndex]);
-                new_contestant.currentSpeed = (currentContValuesIndex === -1 ? -1 : currentConteSpeed[currentContValuesIndex]);
                 new_contestant.aircraft_type = item[6];
                 new_contestant.aircraft_registration = item[7];
                 new_contestant.crew_id = item[8];
@@ -1752,41 +1614,6 @@ ApplicationWindow {
                 new_contestant.copilot_id = item[10];
                 new_contestant.pilotAvatarBase64 = (item.length >= 13 ? (item[11]) : "");
                 new_contestant.copilotAvatarBase64 = (item.length >= 13 ? (item[12]) : "");
-                new_contestant.markersOk = (csvFileFromOffice ? parseInt(resultsCSV[j][1]) : 0);
-                new_contestant.markersNok = (csvFileFromOffice ? parseInt(resultsCSV[j][2]) : 0);
-                new_contestant.markersFalse = (csvFileFromOffice ? parseInt(resultsCSV[j][3]) : 0);
-                new_contestant.markersScore = (csvFileFromViewer ? parseInt(resultsCSV[j][41]) : 0);
-                new_contestant.photosOk = (csvFileFromOffice ? parseInt(resultsCSV[j][4]) : 0);
-                new_contestant.photosNok = (csvFileFromOffice ? parseInt(resultsCSV[j][5]) : 0);
-                new_contestant.photosFalse = (csvFileFromOffice ? parseInt(resultsCSV[j][6]) : 0);
-                new_contestant.photosScore = (csvFileFromViewer ? parseInt(resultsCSV[j][42]) : 0);
-                new_contestant.startTimeMeasured = (csvFileFromOffice ? resultsCSV[j][11] : "");
-                new_contestant.startTimeDifference = (csvFileFromOffice ? resultsCSV[j][43] : "");
-                new_contestant.startTimeScore = (csvFileFromOffice ? parseInt(resultsCSV[j][12]) * -1 : 0);
-                new_contestant.landingScore = (csvFileFromOffice ? parseInt(resultsCSV[j][7]) : 0);
-
-                new_contestant.circlingCount = (csvFileFromViewer ? parseInt(resultsCSV[j][44]) : (!csvFileFromOffice ? 0 : parseInt(resultsCSV[j][13])));
-                new_contestant.circlingScore = (csvFileFromViewer ? parseInt(resultsCSV[j][45]) : (!csvFileFromOffice ? 0 : parseInt(resultsCSV[j][14] * -1)));
-                new_contestant.oppositeCount = (csvFileFromViewer ? parseInt(resultsCSV[j][46]) : 0);
-                new_contestant.oppositeScore = (csvFileFromViewer ? parseInt(resultsCSV[j][47]) : 0);
-
-                new_contestant.otherPoints = (csvFileFromOffice ? parseInt(resultsCSV[j][8]) : 0);
-                new_contestant.otherPointsNote = (csvFileFromOffice ? String((resultsCSV[j][20]).split("/&/")[0]) : "");
-                new_contestant.otherPenalty = (csvFileFromOffice ? parseInt(resultsCSV[j][15]) : 0);
-                new_contestant.otherPenaltyNote = (csvFileFromOffice ? String((resultsCSV[j][20]).split("/&/")[1]) : "");
-                new_contestant.prevResultsSpeed = (csvFileFromViewer ? parseInt(resultsCSV[j][31]) : -1);
-                new_contestant.prevResultsStartTime = (csvFileFromViewer ? resultsCSV[j][32] : "");
-                new_contestant.prevResultsCategory = (csvFileFromViewer ? resultsCSV[j][33] : "");
-                new_contestant.prevResultsWPT = (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][34]) : "");
-                new_contestant.prevResultsSpeedSec = (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][35]) : "");
-                new_contestant.prevResultsAltSec = (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][37]) : "");
-                new_contestant.prevResultsSpaceSec = (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][36]) : "");
-                new_contestant.prevResultsTrackHas = (csvFileFromViewer ? resultsCSV[j][30] : "");
-                new_contestant.prevResultsFilename = (csvFileFromViewer ? resultsCSV[j][38] : "");
-                new_contestant.prevResultsScorePoints = (csvFileFromOffice ? parseInt(resultsCSV[j][17]) : -1);
-                new_contestant.prevResultsScore = (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][39]) : "");
-                new_contestant.prevResultsScoreJson = (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][40]) : "");
-                new_contestant.prevResultsClassify = (csvFileFromOffice ? (resultsCSV[j][19] === "yes" ? 0 : 1) : 0);
 
                 // append into list model
                 contestantsListModel.append(new_contestant);
@@ -1956,9 +1783,6 @@ ApplicationWindow {
                     new_contestant.startTime = item[3];
                     new_contestant.filename = item[4];
                     new_contestant.speed = parseInt(item[5]);
-                    new_contestant.currentCategory = "";
-                    new_contestant.currentStartTime = "";
-                    new_contestant.currentSpeed = -1;
                     new_contestant.aircraft_type = item[6];
                     new_contestant.aircraft_registration = item[7];
                     new_contestant.crew_id = item[8];
@@ -2092,6 +1916,8 @@ ApplicationWindow {
                 curCnt.prevResultsCategory = (csvFileFromViewer ? resultsCSV[j][33] : "");
                 curCnt.prevResultsFilename = (csvFileFromViewer ? resultsCSV[j][38] : "");
                 curCnt.prevResultsTrackHas = (csvFileFromViewer ? resultsCSV[j][30] : "");
+
+                curCnt.filename = (csvFileFromViewer && curCnt.filename === "" ? resultsCSV[j][38] : curCnt.filename);
 
                 // check results validity due to the contestant values
                 if (resultsValid(curCnt.speed, curCnt.startTime, curCnt.category, curCnt.filename, MD5.MD5(JSON.stringify(trItem)),
