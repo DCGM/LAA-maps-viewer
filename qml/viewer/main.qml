@@ -2047,7 +2047,8 @@ ApplicationWindow {
         // Iterate through old results
         for (var j = 1; j < resultsCSV.length; j++) {
 
-            var pilotID_resCSV = parseInt(resultsCSV[j][28]);
+            var pilotID_resCSV = isNaN(parseInt(resultsCSV[j][28])) ? -1 : parseInt(resultsCSV[j][28]);
+            var pilotName_resCSV = resultsCSV[j][0];
             var curCnt;
             var i;
 
@@ -2055,9 +2056,19 @@ ApplicationWindow {
             for (i = 0; i < contestantsListModel.count; i++) {
 
                 curCnt = contestantsListModel.get(i);
-                if (pilotID_resCSV === parseInt(curCnt.pilot_id)) {
-                    index = j;
-                    break;
+
+                if(pilotID_resCSV !== -1) { // search by id
+                    if (pilotID_resCSV === parseInt(curCnt.pilot_id)) {
+                        index = j;
+                        break;
+                    }
+                }
+                else { // locally added crew - search by name (id should by -1)
+
+                    if (pilotName_resCSV === curCnt.name && pilotID_resCSV === -1) {
+                        index = j;
+                        break;
+                    }
                 }
             }
 
