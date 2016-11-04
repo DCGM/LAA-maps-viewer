@@ -652,10 +652,9 @@ const inline QString ResultsCreater::getHTMLHeader(const QString title) {
           "<title>" + title + "</title>\n"
 
           "<!-- Bootstrap core CSS -->\n"
-          "<link href=\"../bin/www/css/bootstrap.min.css\" rel=\"stylesheet\">\n"
-          "<link href=\"../bin/www/css/selectize.bootstrap3.css\" rel=\"stylesheet\"/>\n"
-          "<link href=\"../bin/www/css/font-awesome.min.css\" rel=\"stylesheet\">\n"
+          "<link rel=\"stylesheet\" type=\"text/css\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css\">\n"
           "<link href=\"../bin/www/css/style.css\" rel=\"stylesheet\">\n"
+
         "</head>\n"
         "\n"
     ;
@@ -665,9 +664,16 @@ const inline QString ResultsCreater::getHTMLBodyScript() {
 
     return
             "<!-- Placed at the end of the document so the pages load faster -->\n"
-            "<script type=\"text/javascript\" src=\"../bin/www/js/jquery.min.js\"></script>\n"
-            "<script type=\"text/javascript\" src=\"../bin/www/js/bootstrap.min.js\"></script>\n"
-            "<script type=\"text/javascript\" src=\"../bin/www/js/selectize.min.js\"></script>\n"
+
+            "<script>\n"
+            "<type=\"text/javascript\" src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js\">\n"
+            "<type=\"text/javascript\" src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js\">\n"
+            "<type=\"text/javascript\" src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/selectize.min.js\">\n"
+            "<type=\"text/javascript\" src=\"../bin/www/js/jquery.min.js\">\n"
+            "<type=\"text/javascript\" src=\"../bin/www/js/bootstrap.min.js\">\n"
+            "<type=\"text/javascript\" src=\"../bin/www/js/selectize.min.js\">\n"
+            "</script>\n"
+
             "<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->\n"
             "\n"
     ;
