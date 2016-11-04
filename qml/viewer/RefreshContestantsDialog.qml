@@ -20,22 +20,11 @@ ApplicationWindow {
         if(visible) {
 
             /*
-            updatedContestants.append(unmodifiedContestants.get(1))
-            updatedContestants.append(unmodifiedContestants.get(2))
-            updatedContestants.append(unmodifiedContestants.get(3))
-
-            addedContestants.append(unmodifiedContestants.get(1))
-            addedContestants.append(unmodifiedContestants.get(2))
-
-            removedContestants.append(unmodifiedContestants.get(1))
-            removedContestants.append(unmodifiedContestants.get(2))
-            removedContestants.append(unmodifiedContestants.get(3))
-*/
-
             console.log("unmodifiedContestants: " + unmodifiedContestants.count)
             console.log("updatedContestants: " + updatedContestants.count)
             console.log("addedContestants: " + addedContestants.count)
             console.log("removedContestants: " + removedContestants.count)
+            */
         }
     }
 

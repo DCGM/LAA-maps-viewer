@@ -4405,6 +4405,7 @@ ApplicationWindow {
             pathConfiguration.trackFile_user_defined = config.get("trackFile_user_defined", "");
             pathConfiguration.selectedCompetition = config.get("onlineOffline_user_defined", "");
             selectCompetitionOnlineDialog.selectedCompetitionId = config.get("selectedCompetitionId", 0);
+            selectCompetitionOnlineDialog.selectedCompetition = pathConfiguration.selectedCompetition;
 
             if (pathConfiguration.igcDirectory_user_defined !== "") {
                 igcPrevCheckBox = 1;    // set combobox to user defined
