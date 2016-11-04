@@ -811,7 +811,8 @@ ApplicationWindow {
                             contestantsListModel.setProperty(row, "speedSectionsScoreDetails", contestant.prevResultsSpeedSec);
                             contestantsListModel.setProperty(row, "spaceSectionsScoreDetails", contestant.prevResultsSpaceSec);
                             contestantsListModel.setProperty(row, "altitudeSectionsScoreDetails", contestant.prevResultsAltSec);
-
+                            contestantsListModel.setProperty(row, "score_json", "");
+                            contestantsListModel.setProperty(row, "trackHash", "");
                     }
                     // load prev results
                     else {
@@ -1129,7 +1130,7 @@ ApplicationWindow {
                     errorMessage.text = qsTrId("contestant-table-row-selected-file-not-found").arg(filePath)
                     errorMessage.open();
                 }
-                console.log("filePath is: " + filePath)
+
                 // remove suffix file:///
                 igc.load( filePath.substring(8), ctnt.startTime)
                 map.requestUpdate()
@@ -2095,7 +2096,6 @@ ApplicationWindow {
                 // check results validity due to the contestant values
                 if (resultsValid(curCnt.speed, curCnt.startTime, curCnt.category, curCnt.filename, MD5.MD5(JSON.stringify(trItem)),
                                  curCnt.prevResultsSpeed, curCnt.prevResultsStartTime, curCnt.prevResultsCategory, curCnt.prevResultsFilename, curCnt.prevResultsTrackHas)) {
-
 
                     curCnt.markersOk = (csvFileFromOffice ? parseInt(resultsCSV[j][1]) : 0);
                     curCnt.markersNok = (csvFileFromOffice ? parseInt(resultsCSV[j][2]) : 0);
@@ -3502,13 +3502,14 @@ ApplicationWindow {
 
         var i;
         var j;
+        var ct;
         var item;
 
         // Find classify field in igc for current contestant
         for (j = 0; j < contestantsListModel.count; j++) {
 
              // contestant item
-            item = contestantsListModel.get(j);
+            ct = contestantsListModel.get(j);
 
             //console.log(item.name)
             //console.log(item.prevResultsWPT)
@@ -3517,10 +3518,10 @@ ApplicationWindow {
             //console.log(item.prevResultsAltSec)
 
             // load manual values into list models
-            loadStringIntoListModel(wptNewScoreListManualValuesCache, item.prevResultsWPT, "; ");
-            loadStringIntoListModel(speedSectionsScoreListManualValuesCache, item.prevResultsSpeedSec, "; ");
-            loadStringIntoListModel(spaceSectionsScoreListManualValuesCache, item.prevResultsSpaceSec, "; ");
-            loadStringIntoListModel(altSectionsScoreListManualValuesCache, item.prevResultsAltSec, "; ");
+            loadStringIntoListModel(wptNewScoreListManualValuesCache, ct.prevResultsWPT, "; ");
+            loadStringIntoListModel(speedSectionsScoreListManualValuesCache, ct.prevResultsSpeedSec, "; ");
+            loadStringIntoListModel(spaceSectionsScoreListManualValuesCache, ct.prevResultsSpaceSec, "; ");
+            loadStringIntoListModel(altSectionsScoreListManualValuesCache, ct.prevResultsAltSec, "; ");
 
             // Calc wpt points sum
             for (i = 0; i < wptNewScoreListManualValuesCache.count; i++) {
@@ -3561,39 +3562,39 @@ ApplicationWindow {
             }
             altSectionsScoreListManualValuesCache.clear();
 
-            str += "\"" + F.addSlashes(item.name) + "\";"
+            str += "\"" + F.addSlashes(ct.name) + "\";"
 
-            str += "\"" + item.markersOk + "\";"
-            str += "\"" + item.markersNok + "\";"
-            str += "\"" + item.markersFalse + "\";"
+            str += "\"" + ct.markersOk + "\";"
+            str += "\"" + ct.markersNok + "\";"
+            str += "\"" + ct.markersFalse + "\";"
 
-            str += "\"" + item.photosOk + "\";"
-            str += "\"" + item.photosNok + "\";"
-            str += "\"" + item.photosFalse + "\";"
+            str += "\"" + ct.photosOk + "\";"
+            str += "\"" + ct.photosNok + "\";"
+            str += "\"" + ct.photosFalse + "\";"
 
-            str += "\"" + item.landingScore + "\";"
+            str += "\"" + ct.landingScore + "\";"
 
-            str += "\"" + item.otherPoints + "\";"
+            str += "\"" + ct.otherPoints + "\";"
             str += "\"" + 0 + "\";"
 
-            str += "\"" + item.startTime + "\";"
-            str += "\"" + item.startTimeMeasured + "\";"
-            str += "\"" + Math.abs(item.startTimeScore) + "\";"
+            str += "\"" + ct.startTime + "\";"
+            str += "\"" + ct.startTimeMeasured + "\";"
+            str += "\"" + Math.abs(ct.startTimeScore) + "\";"
 
-            str += "\"" + (item.circlingCount + item.oppositeCount) + "\";"
-            str += "\"" + Math.abs(item.oppositeScore + item.circlingScore) + "\";"
+            str += "\"" + (ct.circlingCount + ct.oppositeCount) + "\";"
+            str += "\"" + Math.abs(ct.oppositeScore + ct.circlingScore) + "\";"
 
-            str += "\"" + item.otherPenalty + "\";"
+            str += "\"" + ct.otherPenalty + "\";"
             str += "\"" + 0 + "\";"
 
-            str += "\"" + Math.max(item.scorePoints, 0) + "\";"
-            str += "\"" + Math.max(item.scorePoints1000, 0) + "\";"
+            str += "\"" + Math.max(ct.scorePoints, 0) + "\";"
+            str += "\"" + Math.max(ct.scorePoints1000, 0) + "\";"
 
-            var classify = item.classify === 0 ? "yes" : "no";
+            var classify = ct.classify === 0 ? "yes" : "no";
 
             str += "\"" + classify + "\";"   //index 20
 
-            str += "\"" + F.addSlashes(item.otherPointsNote) + "/&/" + F.addSlashes(item.otherPenaltyNote) + "\";" //note delimeter
+            str += "\"" + F.addSlashes(ct.otherPointsNote) + "/&/" + F.addSlashes(ct.otherPenaltyNote) + "\";" //note delimeter
 
             str += "\"" + tgScoreSum + "\";"
             str += "\"" + tpScoreSum + "\";"
@@ -3602,26 +3603,26 @@ ApplicationWindow {
             str += "\"" + speedSecScoreSum + "\";"
             str += "\"" + altSecScoreSum + "\";"
             str += "\"" + spaceSecScoreSum + "\";"
-            str += "\"" + item.pilot_id + "\";"
-            str += "\"" + item.copilot_id + "\";"
-            str += "\"" + F.addSlashes(item.trackHash) + "\";"
-            str += "\"" + item.speed + "\";"
-            str += "\"" + item.startTime + "\";"
-            str += "\"" + item.category + "\";"
-            str += "\"" + F.replaceDoubleQuotes(item.wptScoreDetails) + "\";"
-            str += "\"" + F.replaceDoubleQuotes(item.speedSectionsScoreDetails) + "\";"
-            str += "\"" + F.replaceDoubleQuotes(item.spaceSectionsScoreDetails) + "\";"
-            str += "\"" + F.replaceDoubleQuotes(item.altitudeSectionsScoreDetails) + "\";"
-            str += "\"" + F.addSlashes(item.filename) + "\";"
-            str += "\"" + F.addSlashes(item.score) + "\";"
-            str += "\"" + F.replaceDoubleQuotes(item.score_json) + "\";"
-            str += "\"" + item.markersScore + "\";"
-            str += "\"" + item.photosScore + "\";"
-            str += "\"" + item.startTimeDifference + "\";"
-            str += "\"" + item.circlingCount + "\";"
-            str += "\"" + item.circlingScore + "\";"
-            str += "\"" + item.oppositeCount + "\";"
-            str += "\"" + item.oppositeScore + "\";"
+            str += "\"" + ct.pilot_id + "\";"
+            str += "\"" + ct.copilot_id + "\";"
+            str += "\"" + F.addSlashes(ct.trackHash) + "\";"
+            str += "\"" + ct.speed + "\";"
+            str += "\"" + ct.startTime + "\";"
+            str += "\"" + ct.category + "\";"
+            str += "\"" + F.replaceDoubleQuotes(ct.wptScoreDetails) + "\";"
+            str += "\"" + F.replaceDoubleQuotes(ct.speedSectionsScoreDetails) + "\";"
+            str += "\"" + F.replaceDoubleQuotes(ct.spaceSectionsScoreDetails) + "\";"
+            str += "\"" + F.replaceDoubleQuotes(ct.altitudeSectionsScoreDetails) + "\";"
+            str += "\"" + F.addSlashes(ct.filename) + "\";"
+            str += "\"" + F.addSlashes(ct.score) + "\";"
+            str += "\"" + F.replaceDoubleQuotes(ct.score_json) + "\";"
+            str += "\"" + ct.markersScore + "\";"
+            str += "\"" + ct.photosScore + "\";"
+            str += "\"" + ct.startTimeDifference + "\";"
+            str += "\"" + ct.circlingCount + "\";"
+            str += "\"" + ct.circlingScore + "\";"
+            str += "\"" + ct.oppositeCount + "\";"
+            str += "\"" + ct.oppositeScore + "\";"
 
             str += "\n";
         }
