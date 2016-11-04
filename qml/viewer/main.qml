@@ -4369,7 +4369,7 @@ ApplicationWindow {
         modality: "ApplicationModal"
         standardButtons: StandardButton.Yes | StandardButton.No
 
-        //% "Viewer"
+        //% "Recovery settings"
         title: qsTrId("start-up-message-dialog-title");
 
         //% "Do you want to load previous enviroment settings?"
