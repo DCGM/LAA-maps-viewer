@@ -1159,10 +1159,18 @@ ApplicationWindow {
             }
 
             Rectangle { // disable
+                id: workingStatusRectangle
                 color: "#ffffff";
                 opacity: 0.7;
                 anchors.fill: parent;
-                visible: evaluateTimer.running || resultsTimer.running;
+                visible: evaluateTimer.running ||
+                         resultsTimer.running ||
+                         computingTimer.running ||
+                         pathConfiguration.visible ||
+                         selectCompetitionOnlineDialog.visible ||
+                         refreshContestantsDialog.visible ||
+                         startUpMessage.visible;
+
                 MouseArea {
                     anchors.fill: parent;
                     onClicked: {
@@ -1194,7 +1202,6 @@ ApplicationWindow {
 
             PinchMap {
                 id: map
-                //                anchors.fill: parent;
                 anchors.left: parent.left;
                 anchors.right: parent.right;
                 anchors.top: parent.top;
@@ -1205,11 +1212,14 @@ ApplicationWindow {
                 filterCupData: 2
                 currentPositionShow: true;
 
-
                 onTpiComputedData:  {
 
                     if (!updateContestantMenu.menuVisible) {
-                        computeScore(tpi, polys)
+                        //computeScore(tpi, polys)
+                        computingTimer.tpi = tpi;
+                        computingTimer.polys = polys;
+
+                        computingTimer.running = true;
                     }
                 }
             }
@@ -4033,6 +4043,23 @@ ApplicationWindow {
         _CUSTOM3_count = 0;
         _CUSTOM4_count = 0;
 
+    }
+
+    Timer {
+
+        id: computingTimer
+        interval: 1;
+        repeat: false;
+        running: false;
+
+        property variant tpi;
+        property variant polys;
+
+        onTriggered: {
+
+            computeScore(tpi, polys);
+            running = false;
+        }
     }
 
     Timer {
