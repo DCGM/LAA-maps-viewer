@@ -87,13 +87,13 @@ ApplicationWindow {
         Menu {
             //% "&Results"
             title: qsTrId("main-results-menu")
-
+            /*
             MenuItem {
                 //% "Generate continuous results"
                 text: qsTrId("main-results-menu-generate-continuous-results");
                 onTriggered: generateContinuousResults();
                 shortcut: "Ctrl+F"
-            }
+            }*/
             MenuItem {
                 //% "Generate final results"
                 text: qsTrId("main-results-menu-generate-final-results");
@@ -834,6 +834,9 @@ ApplicationWindow {
                 writeCSV();
                 recalculateScoresTo1000();
                 writeScoreManulaValToCSV();
+
+                // gen continuous results
+                generateContinuousResults();
         }
     }
 
