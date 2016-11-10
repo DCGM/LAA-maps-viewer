@@ -43,7 +43,6 @@ Item {
             onDoubleClicked: {
 
                 createContestantDialog.contestantsListModelRow = styleData.row;
-                //createContestantDialog.show();
                 updateContestantMenu.showMenu();
 
                 selectRow(styleData.row);
@@ -54,7 +53,6 @@ Item {
 
                     // update contestant dialog
                     updateContestantMenu.row = styleData.row;
-                    //updateContestantMenu.popup();
                     updateContestantMenu.showMenu();
 
                     selectRow(styleData.row);

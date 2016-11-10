@@ -306,6 +306,13 @@ ApplicationWindow {
                 shortcut: "Ctrl+T"
             }
             MenuItem {
+                id: mainViewMenuContinuousResults
+                //% "Continuous results"
+                text: qsTrId("main-view-menu-continuous-results")
+                checkable: true;
+                checked: true;
+            }
+            MenuItem {
                 id: mainViewMenuAltChart
                 //% "Altitude profile"
                 text: qsTrId("main-view-menu-altchart")
@@ -834,9 +841,6 @@ ApplicationWindow {
                 writeCSV();
                 recalculateScoresTo1000();
                 writeScoreManulaValToCSV();
-
-                // gen continuous results
-                generateContinuousResults();
         }
     }
 
@@ -913,294 +917,309 @@ ApplicationWindow {
         anchors.fill: parent;
         orientation: Qt.Horizontal
 
-        ///// IGC file list
-
-        TableView {
-            id: contestantsTable;
-            model: contestantsListModel;
+        SplitView {
+            id: splitViewIgcResults
             width: 1110;
-            clip: true;
+            height: parent.height
+            orientation: Qt.Vertical
+            visible: mainViewMenuTables.checked
 
-            signal selectRow(int row);
-            signal generateResults(int row);
-            signal recalculateResults(int row);
+            ///// IGC file list
+            TableView {
+                id: contestantsTable;
+                model: contestantsListModel;
+                width: parent.width;
+                Layout.fillHeight: true;
+                clip: true;
 
-            onRecalculateResults: {
+                signal selectRow(int row);
+                signal generateResults(int row);
+                signal recalculateResults(int row);
 
-                contestantsListModel.setProperty(row, "score", "");        //compute new score
-                contestantsListModel.setProperty(row, "scorePoints", -1);
-                contestantsListModel.setProperty(row, "scorePoints1000", -1);
+                onRecalculateResults: {
 
-                contestantsTable.selectRow(row);
-            }
+                    contestantsListModel.setProperty(row, "score", "");        //compute new score
+                    contestantsListModel.setProperty(row, "scorePoints", -1);
+                    contestantsListModel.setProperty(row, "scorePoints1000", -1);
 
-            onGenerateResults: {
+                    contestantsTable.selectRow(row);
+                }
 
-                contestantsTable.selection.clear();
-                contestantsTable.selection.select(row);
-                contestantsTable.currentRow = row;
+                onGenerateResults: {
 
-                var contestant = contestantsListModel.get(row);
+                    contestantsTable.selection.clear();
+                    contestantsTable.selection.select(row);
+                    contestantsTable.currentRow = row;
 
-                // create contestant html file
-                results_creator.createContestantResultsHTML((pathConfiguration.resultsFolder + "/" + contestant.name + "_" + contestant.category),
-                                                                            JSON.stringify(contestant),
-                                                                            pathConfiguration.competitionName,
-                                                                            pathConfiguration.getCompetitionTypeString(parseInt(pathConfiguration.competitionType)),
-                                                                            pathConfiguration.competitionDirector,
-                                                                            pathConfiguration.competitionDirectorAvatar,
-                                                                            pathConfiguration.competitionArbitr,
-                                                                            pathConfiguration.competitionArbitrAvatar,
-                                                                            pathConfiguration.competitionDate);
-            }
+                    var contestant = contestantsListModel.get(row);
 
-            onSelectRow: {
-
-                contestantsTable.selection.clear();
-                contestantsTable.selection.select(row);
-                contestantsTable.currentRow = row;
-            }
-
-            itemDelegate: ContestantsDelegate {
-
-                id: contestantsTableDelegate
+                    // create contestant html file
+                    results_creator.createContestantResultsHTML((pathConfiguration.resultsFolder + "/" + contestant.name + "_" + contestant.category),
+                                                                                JSON.stringify(contestant),
+                                                                                pathConfiguration.competitionName,
+                                                                                pathConfiguration.getCompetitionTypeString(parseInt(pathConfiguration.competitionType)),
+                                                                                pathConfiguration.competitionDirector,
+                                                                                pathConfiguration.competitionDirectorAvatar,
+                                                                                pathConfiguration.competitionArbitr,
+                                                                                pathConfiguration.competitionArbitrAvatar,
+                                                                                pathConfiguration.competitionDate);
+                }
 
                 onSelectRow: {
 
-                    contestantsTable.selectRow(row);
+                    contestantsTable.selection.clear();
+                    contestantsTable.selection.select(row);
+                    contestantsTable.currentRow = row;
                 }
 
-                onChangeModel: {
+                itemDelegate: ContestantsDelegate {
 
-                    contestantsListModel.changeLisModel(row, role, value);
+                    id: contestantsTableDelegate
+
+                    onSelectRow: {
+
+                        contestantsTable.selectRow(row);
+                    }
+
+                    onChangeModel: {
+
+                        contestantsListModel.changeLisModel(row, role, value);
+                    }
+
+                    onShowResults: {
+
+                        // load contestant property
+                        ctnt = contestantsListModel.get(row);
+
+                        // TODO - prasarna aby byla kopie a ne stejny objekt
+                        resultsWindow.curentContestant = JSON.parse(JSON.stringify(ctnt));
+
+                        // load contestant score list
+                        resultsWindow.wptScore = ctnt.wptScoreDetails;
+
+                        // load sections string
+                        resultsWindow.speedSections = ctnt.speedSectionsScoreDetails;
+                        resultsWindow.altSections = ctnt.altitudeSectionsScoreDetails;
+                        resultsWindow.spaceSections = ctnt.spaceSectionsScoreDetails;
+
+                        // load cattegory property
+                        var arr = tracks.tracks;
+                        var currentTrck;
+
+                        var found = false;
+                        resultsWindow.time_window_penalty = 0;
+                        resultsWindow.time_window_size = 0;
+                        resultsWindow.photos_max_score = 0;
+                        resultsWindow.oposite_direction_penalty = 0;
+                        resultsWindow.marker_max_score = 0;
+                        resultsWindow.gyre_penalty = 0;
+
+                        for (var i = 0; i < arr.length; i++) {
+                            currentTrck = arr[i];
+
+                            if (currentTrck.name === ctnt.category) {
+
+                                resultsWindow.time_window_penalty = currentTrck.time_window_penalty; //penalty percent
+                                resultsWindow.time_window_size = currentTrck.time_window_size;
+                                resultsWindow.photos_max_score = currentTrck.photos_max_score;
+                                resultsWindow.oposite_direction_penalty = currentTrck.oposite_direction_penalty; //penalty percent
+                                resultsWindow.marker_max_score = currentTrck.marker_max_score;
+                                resultsWindow.gyre_penalty = currentTrck.gyre_penalty; //penalty percent
+                                break;
+                            }
+                        }
+
+                        // select row
+                        contestantsTable.selectRow(row);
+
+                        resultsWindow.show();
+
+                    }
                 }
 
-                onShowResults: {
 
-                    // load contestant property
-                    ctnt = contestantsListModel.get(row);
+                rowDelegate: Rectangle {
+                    height: 30;
+                    color: styleData.selected ? "#0077cc" : (styleData.alternate? "#eee" : "#fff")
 
-                    // TODO - prasarna aby byla kopie a ne stejny objekt
-                    resultsWindow.curentContestant = JSON.parse(JSON.stringify(ctnt));
+                    MouseArea {
+                        anchors.fill: parent
+                        acceptedButtons: Qt.LeftButton | Qt.RightButton
 
-                    // load contestant score list
-                    resultsWindow.wptScore = ctnt.wptScoreDetails;
+                        onClicked: {
 
-                    // load sections string
-                    resultsWindow.speedSections = ctnt.speedSectionsScoreDetails;
-                    resultsWindow.altSections = ctnt.altitudeSectionsScoreDetails;
-                    resultsWindow.spaceSections = ctnt.spaceSectionsScoreDetails;
+                            var row = isNaN(parseInt(styleData.row)) ? -1 : parseInt(styleData.row);
 
-                    // load cattegory property
+                            // create new contestant
+                            if (mouse.button === Qt.RightButton) {
+
+                                createContestantMenu.popup();
+                            }
+                            else {
+                                if (row >= 0 && row < contestantsListModel.count) {
+                                    contestantsTable.selectRow(row);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                Component.onCompleted: {
+                    selection.selectionChanged.connect(rowSelected);
+                }
+
+                function rowSelected() {
+
+                    //  console.log("row selected")
+
+                    if (contestantsListModel.count <= 0) {
+                        return;
+                    }
+
+                    var current = -1;
+
+                    contestantsTable.selection.forEach( function(rowIndex) { current = rowIndex; } )
+
+                    if (current < 0) {
+                        return;
+                    }
+
+                    ctnt = contestantsListModel.get(current)
+
                     var arr = tracks.tracks;
-                    var currentTrck;
 
                     var found = false;
-                    resultsWindow.time_window_penalty = 0;
-                    resultsWindow.time_window_size = 0;
-                    resultsWindow.photos_max_score = 0;
-                    resultsWindow.oposite_direction_penalty = 0;
-                    resultsWindow.marker_max_score = 0;
-                    resultsWindow.gyre_penalty = 0;
-
                     for (var i = 0; i < arr.length; i++) {
-                        currentTrck = arr[i];
+                        trItem = arr[i];
 
-                        if (currentTrck.name === ctnt.category) {
-
-                            resultsWindow.time_window_penalty = currentTrck.time_window_penalty; //penalty percent
-                            resultsWindow.time_window_size = currentTrck.time_window_size;
-                            resultsWindow.photos_max_score = currentTrck.photos_max_score;
-                            resultsWindow.oposite_direction_penalty = currentTrck.oposite_direction_penalty; //penalty percent
-                            resultsWindow.marker_max_score = currentTrck.marker_max_score;
-                            resultsWindow.gyre_penalty = currentTrck.gyre_penalty; //penalty percent
+                        if (trItem.name === ctnt.category) {
+                            map.filterCupCategory = i;
+                            map.filterCupData = 2;
+                            found = true;
                             break;
                         }
                     }
+                    if (!found) {
+                        map.filterCupData = 3
+                        console.log("ctnt.category \"" + ctnt.category + "\" not found in track!")
+                    }
 
-                    // select row
-                    contestantsTable.selectRow(row);
+                    //                console.log("setFilter" + ctnt.startTime)
+                    tool_bar.startTime = ctnt.startTime
 
-                    resultsWindow.show();
+                    var filePath = pathConfiguration.igcDirectory + "/" + ctnt.filename;
+                    if (!file_reader.file_exists(filePath)) {
+                        //% "File \"%1\" not found"
+                        errorMessage.text = qsTrId("contestant-table-row-selected-file-not-found").arg(filePath)
+                        errorMessage.open();
+                    }
 
+                    // remove suffix file:///
+                    igc.load( filePath.substring(8), ctnt.startTime)
+                    map.requestUpdate()
+                    altChart.igcUpdate();
                 }
-            }
 
+                TableViewColumn {
+                    //% "Contestant"
+                    title: qsTrId("filelist-table-contestants")
+                    role: "name"
+                }
 
-            rowDelegate: Rectangle {
-                height: 30;
-                color: styleData.selected ? "#0077cc" : (styleData.alternate? "#eee" : "#fff")
+                TableViewColumn {
+                    //% "File name"
+                    title: qsTrId("filelist-table-filename")
+                    role: "filename";
+                }
+                TableViewColumn {
+                    //% "Category"
+                    title: qsTrId("filelist-table-category")
+                    role: "category"
+                    width: 120
+                }
+                TableViewColumn {
+                    //% "StartTime"
+                    title: qsTrId("filelist-table-start-time")
+                    role: "startTime"
+                    width: 100
+                }
+                TableViewColumn {
+                    //% "Speed"
+                    title: qsTrId("filelist-table-speed")
+                    role: "speed"
+                    width: 60
+                }
+                TableViewColumn {
+                    //% "Aircraft registration"
+                    title: qsTrId("filelist-table-aircraft-registration")
+                    role: "aircraft_registration"
+                    width: 120
+                }
+                TableViewColumn {
+                    //% "Score"
+                    title: qsTrId("filelist-table-score")
+                    role: "scorePoints"
+                    width: 120
+                }
+                TableViewColumn {
+                    //% "Score to 1000"
+                    title: qsTrId("filelist-table-score-to-1000")
+                    role: "scorePoints1000"
+                    width: 120
+                }
+                TableViewColumn {
+                    //% "Class order"
+                    title: qsTrId("filelist-table-class-order")
+                    role: "classOrder"
+                    width: 60
+                }
+                TableViewColumn {
+                    //% "Classify"
+                    title: qsTrId("filelist-table-classify")
+                    role: "classify"
+                    width: 80
+                }
 
-                MouseArea {
-                    anchors.fill: parent
-                    acceptedButtons: Qt.LeftButton | Qt.RightButton
+                Rectangle { // disable
+                    id: workingStatusRectangle
+                    color: "#ffffff";
+                    opacity: 0.7;
+                    anchors.fill: parent;
+                    visible: evaluateTimer.running ||
+                             resultsTimer.running ||
+                             computingTimer.running ||
+                             pathConfiguration.visible ||
+                             selectCompetitionOnlineDialog.visible ||
+                             refreshContestantsDialog.visible ||
+                             startUpMessage.visible;
 
-                    onClicked: {
+                    MouseArea {
+                        anchors.fill: parent;
+                        onClicked: {
 
-                        var row = isNaN(parseInt(styleData.row)) ? -1 : parseInt(styleData.row);
+                            if (evaluateTimer.running) {
 
-                        // create new contestant
-                        if (mouse.button === Qt.RightButton) {
+                                console.log("onClick is disabled when evaluateTimer.running");
+                                evaluateTimer.running = false;
+                            }
+                            else if (resultsTimer.running) {
 
-                            createContestantMenu.popup();
-                        }
-                        else {
-                            if (row >= 0 && row < contestantsListModel.count) {
-                                contestantsTable.selectRow(row);
+                                console.log("onClick is disabled when resultsTimer.running");
+                                resultsTimer.running = false;
                             }
                         }
                     }
                 }
             }
 
-            Component.onCompleted: {
-                selection.selectionChanged.connect(rowSelected);
-            }
+            ContinuousResultsView {
 
-            function rowSelected() {
-
-                //  console.log("row selected")
-
-                if (contestantsListModel.count <= 0) {
-                    return;
-                }
-
-                var current = -1;
-
-                contestantsTable.selection.forEach( function(rowIndex) { current = rowIndex; } )
-
-                if (current < 0) {
-                    return;
-                }
-
-                ctnt = contestantsListModel.get(current)
-
-                var arr = tracks.tracks;
-
-                var found = false;
-                for (var i = 0; i < arr.length; i++) {
-                    trItem = arr[i];
-
-                    if (trItem.name === ctnt.category) {
-                        map.filterCupCategory = i;
-                        map.filterCupData = 2;
-                        found = true;
-                        break;
-                    }
-                }
-                if (!found) {
-                    map.filterCupData = 3
-                    console.log("ctnt.category \"" + ctnt.category + "\" not found in track!")
-                }
-
-                //                console.log("setFilter" + ctnt.startTime)
-                tool_bar.startTime = ctnt.startTime
-
-                var filePath = pathConfiguration.igcDirectory + "/" + ctnt.filename;
-                if (!file_reader.file_exists(filePath)) {
-                    //% "File \"%1\" not found"
-                    errorMessage.text = qsTrId("contestant-table-row-selected-file-not-found").arg(filePath)
-                    errorMessage.open();
-                }
-
-                // remove suffix file:///
-                igc.load( filePath.substring(8), ctnt.startTime)
-                map.requestUpdate()
-                altChart.igcUpdate();
-            }
-
-            TableViewColumn {
-                //% "Contestant"
-                title: qsTrId("filelist-table-contestants")
-                role: "name"
-            }
-
-            TableViewColumn {
-                //% "File name"
-                title: qsTrId("filelist-table-filename")
-                role: "filename";
-            }
-            TableViewColumn {
-                //% "Category"
-                title: qsTrId("filelist-table-category")
-                role: "category"
-                width: 120
-            }
-            TableViewColumn {
-                //% "Speed"
-                title: qsTrId("filelist-table-speed")
-                role: "speed"
-                width: 60
-            }
-            TableViewColumn {
-                //% "StartTime"
-                title: qsTrId("filelist-table-start-time")
-                role: "startTime"
-                width: 100
-            }
-            TableViewColumn {
-                //% "Aircraft registration"
-                title: qsTrId("filelist-table-aircraft-registration")
-                role: "aircraft_registration"
-                width: 120
-            }
-            TableViewColumn {
-                //% "Score"
-                title: qsTrId("filelist-table-score")
-                role: "scorePoints"
-                width: 120
-            }
-            TableViewColumn {
-                //% "Score to 1000"
-                title: qsTrId("filelist-table-score-to-1000")
-                role: "scorePoints1000"
-                width: 120
-            }
-            TableViewColumn {
-                //% "Class order"
-                title: qsTrId("filelist-table-class-order")
-                role: "classOrder"
-                width: 60
-            }
-            TableViewColumn {
-                //% "Classify"
-                title: qsTrId("filelist-table-classify")
-                role: "classify"
-                width: 80
-            }
-
-            Rectangle { // disable
-                id: workingStatusRectangle
-                color: "#ffffff";
-                opacity: 0.7;
-                anchors.fill: parent;
-                visible: evaluateTimer.running ||
-                         resultsTimer.running ||
-                         computingTimer.running ||
-                         pathConfiguration.visible ||
-                         selectCompetitionOnlineDialog.visible ||
-                         refreshContestantsDialog.visible ||
-                         startUpMessage.visible;
-
-                MouseArea {
-                    anchors.fill: parent;
-                    onClicked: {
-
-                        if (evaluateTimer.running) {
-
-                            console.log("onClick is disabled when evaluateTimer.running");
-                            evaluateTimer.running = false;
-                        }
-                        else if (resultsTimer.running) {
-
-                            console.log("onClick is disabled when resultsTimer.running");
-                            resultsTimer.running = false;
-                        }
-                    }
-                }
+                id: continuousResultsView
+                width: parent.width
+                height: applicationWindow.height/2
+                visible: mainViewMenuContinuousResults.checked
             }
         }
-
         ///// Map
         Rectangle {
             id: pinchMapOuter
@@ -1987,51 +2006,14 @@ ApplicationWindow {
         }
     }
 
-    // remove invalid results from loaded contestant
-    function checkAndRemoveContestantsInvalidPrevResults() {
-
-        for (var i = 0; i < contestantsListModel.count; i++) {
-
-            var curCnt = contestantsListModel.get(i);
-
-            // there is some prev result
-            if (curCnt.prevResultsScoreJson !== "") {
-
-                // load contestant category
-                for (var t = 0; t < tracks.tracks.length; t++) {
-
-                    if (tracks.tracks[t].name === curCnt.category)
-                        trItem = tracks.tracks[t]
-                }
-
-                // remove invalid results
-                if (!resultsValid(curCnt.speed, curCnt.startTime, curCnt.category, curCnt.filename, MD5.MD5(JSON.stringify(trItem)),
-                                  curCnt.prevResultsSpeed, curCnt.prevResultsStartTime, curCnt.prevResultsCategory, curCnt.prevResultsFilename, curCnt.prevResultsTrackHas)) {
-
-                    contestantsListModel.setProperty(i, "markersScore", 0);
-                    contestantsListModel.setProperty(i, "photosScore", 0);
-                    contestantsListModel.setProperty(i, "circlingScore", 0);
-                    contestantsListModel.setProperty(i, "oppositeScore", 0);
-                    contestantsListModel.setProperty(i, "startTimeScore", 0);
-                    contestantsListModel.setProperty(i, "prevResultsSpeed", -1);
-                    contestantsListModel.setProperty(i, "prevResultsStartTime", "");
-                    contestantsListModel.setProperty(i, "prevResultsCategory", "");
-                    contestantsListModel.setProperty(i, "prevResultsTrackHas", "");
-                    contestantsListModel.setProperty(i, "prevResultsFilename", "");
-                    contestantsListModel.setProperty(i, "prevResultsScore", "");
-                    contestantsListModel.setProperty(i, "prevResultsScoreJson", "");
-                    contestantsListModel.setProperty(i, "prevResultsScorePoints", -1);
-                }
-            }
-        }
-    }
-
     // generate results for each category
     function generateContinuousResults() {
 
         var res = getContinuousResults();
         var csvString = "";
-        var resultsFilename = "res";
+
+        //% "Continuous results"
+        var resultsFilename = qsTrId("file-name-ontinuous-results");
 
         var recSize = 8;
 
@@ -2052,9 +2034,11 @@ ApplicationWindow {
                                                             pathConfiguration.competitionArbitrAvatar,
                                                             pathConfiguration.competitionDate);
 
-        // CSV
+        // CSV and local listmodels
         var catArray = [];
         var item;
+        continuousResultsView.initLists();
+
         for(var key in res) {
 
             catArray = res[key];
@@ -2067,6 +2051,9 @@ ApplicationWindow {
             for (var i = 0; i < catArray.length; i++) {
 
                 item = catArray[i];
+
+                // add data into local list
+                continuousResultsView.appendToList(item[1], item);
 
                 csvString += "\"" + i + "\";"
 
@@ -2326,6 +2313,9 @@ ApplicationWindow {
 
         // recalculate contestant order
         recalculateContestantsScoreOrder();
+
+        // gen continuous results
+        generateContinuousResults();
     }
 
     function initScorePointsArrray () {

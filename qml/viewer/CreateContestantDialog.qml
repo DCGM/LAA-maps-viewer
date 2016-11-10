@@ -31,7 +31,13 @@ ApplicationWindow {
 
                 // load implicit val
                 category.currentIndex = category.prevIndex < 0 ? 1 : category.prevIndex;
-                //startTime.text = startTime.prevVal;
+                pilotName.text = "";
+                copilotName.text = "";
+                startTime.text = "";
+                speed.text = "";
+                planeType.text = "";
+                planeRegistration.text = "";
+
             }
             // update current
             else {
