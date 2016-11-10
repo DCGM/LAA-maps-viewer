@@ -77,27 +77,35 @@ ApplicationWindow {
                 }
                 shortcut: "F5"//"Ctrl+W"
             }
-
-            MenuItem {
-                //% "Generate continuous results"
-                text: qsTrId("main-file-menu-generate-continuous-results");
-                onTriggered: generateContinuousResults();
-                shortcut: "Ctrl+F"
-            }
-
-            MenuItem {
-                //% "Generate final results"
-                text: qsTrId("main-file-menu-generate-final-results");
-                onTriggered: generateFinalResults();
-                shortcut: "Ctrl+R"
-            }
-
             MenuItem {
                 //% "Exit"
                 text: qsTrId("main-file-menu-exit")
                 onTriggered: Qt.quit();
             }
+        }
 
+        Menu {
+            //% "&Results"
+            title: qsTrId("main-results-menu")
+
+            MenuItem {
+                //% "Generate continuous results"
+                text: qsTrId("main-results-menu-generate-continuous-results");
+                onTriggered: generateContinuousResults();
+                shortcut: "Ctrl+F"
+            }
+            MenuItem {
+                //% "Generate final results"
+                text: qsTrId("main-results-menu-generate-final-results");
+                onTriggered: generateFinalResults();
+                shortcut: "Ctrl+R"
+            }
+            MenuItem {
+                //% "Export results"
+                text: qsTrId("main-results-menu-export-final-results");
+                //onTriggered: exportFinalResults();
+                shortcut: "Ctrl+X"
+            }
         }
 
         Menu {
