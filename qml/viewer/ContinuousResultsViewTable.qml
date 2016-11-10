@@ -3,83 +3,100 @@ import QtQuick.Window 2.0
 import QtQuick.Layouts 1.1
 import QtQuick.Controls 1.4
 
-ListView {
 
-    id: listView
+Rectangle {
+
+    property variant model;
+
     Layout.fillWidth: true
-    Layout.preferredWidth: continuousResultsScrollView.viewport.width
-    Layout.preferredHeight: Math.max(30, (model.count + 1) * 30 + 20);
+    Layout.preferredWidth: continuousResultsScrollView.viewport.width - 10
+    Layout.preferredHeight: Math.max(listView.rowHeight, (model.count + 1) * listView.rowHeight + 20);
+    border.color: "grey"
+    border.width: 1
+    visible: listView.model.count > 0
 
-    interactive: false
+    ListView {
 
-    delegate: contResDelegate
+        id: listView
+        anchors.fill: parent
+        anchors.margins: 1
+        model: parent.model
 
-    property int nameColumnWidth: width - 850 - 30
+        interactive: false
 
-    Component {
-            id: contResDelegate
+        delegate: contResDelegate
 
-            Rectangle {
-                width: listView.width;
-                height: 30
-                color: order % 2? "#fff" : "#eee"
+        property int nameColumnWidth: width - 850 - 30
+        property int rowHeight: 30
 
-                RowLayout {
-                    anchors.fill: parent;
-                    anchors.leftMargin: 5
-                    spacing: 5
+        Component {
+                id: contResDelegate
 
-                    NativeText {
-                        anchors.verticalCenter: parent.verticalCenter
-                        text: order
-                        Layout.preferredWidth: 50
-                    }
-                    NativeText {
-                        anchors.verticalCenter: parent.verticalCenter
-                        text: name
-                        Layout.preferredWidth: 200
-                        Layout.minimumWidth: 200
-                        Layout.fillWidth: true
-                    }
-                    NativeText {
-                        anchors.verticalCenter: parent.verticalCenter
-                        text: category
-                        Layout.preferredWidth: 100
-                    }
-                    NativeText {
-                        anchors.verticalCenter: parent.verticalCenter
-                        text: startTime == -1 ? "" : startTime
-                        Layout.preferredWidth: 100
-                    }
-                    NativeText {
-                        anchors.verticalCenter: parent.verticalCenter
-                        text: speed == -1 ? "" : speed
-                        Layout.preferredWidth: 50
-                    }
-                    NativeText {
-                        anchors.verticalCenter: parent.verticalCenter
-                        text: planeReg == -1 ? "" : planeReg
-                        Layout.preferredWidth: 150
-                    }
-                    NativeText {
-                        anchors.verticalCenter: parent.verticalCenter
-                        text: planeType == -1 ? "" : planeType
-                        Layout.preferredWidth: 150
-                    }
-                    NativeText {
-                        anchors.verticalCenter: parent.verticalCenter
-                        text: points == -1 ? "" : points
-                        Layout.preferredWidth: 50
-                    }
-                    NativeText {
-                        anchors.verticalCenter: parent.verticalCenter
-                        text: points1000 == -1 ? "" : points1000
-                        Layout.preferredWidth: 50
+                Rectangle {
+                    id: contResDelegateRectangle
+                    width: listView.width;
+                    height: listView.rowHeight
+                    color: order % 2? "#fff" : "#eee"
+
+                    RowLayout {
+                        anchors.fill: parent;
+                        anchors.leftMargin: 5
+                        spacing: 5
+
+                        NativeText {
+                            anchors.verticalCenter: parent.verticalCenter
+                            text: order
+                            Layout.preferredWidth: 50
+                        }
+                        NativeText {
+                            anchors.verticalCenter: parent.verticalCenter
+                            text: name
+                            Layout.preferredWidth: 200
+                            Layout.minimumWidth: 200
+                            Layout.fillWidth: true
+                        }
+                        NativeText {
+                            anchors.verticalCenter: parent.verticalCenter
+                            text: category
+                            Layout.preferredWidth: 100
+                        }
+                        NativeText {
+                            anchors.verticalCenter: parent.verticalCenter
+                            text: startTime == -1 ? "" : startTime
+                            Layout.preferredWidth: 100
+                        }
+                        NativeText {
+                            anchors.verticalCenter: parent.verticalCenter
+                            text: speed == -1 ? "" : speed
+                            Layout.preferredWidth: 50
+                        }
+                        NativeText {
+                            anchors.verticalCenter: parent.verticalCenter
+                            text: planeReg == -1 ? "" : planeReg
+                            Layout.preferredWidth: 150
+                        }
+                        NativeText {
+                            anchors.verticalCenter: parent.verticalCenter
+                            text: planeType == -1 ? "" : planeType
+                            Layout.preferredWidth: 150
+                        }
+                        NativeText {
+                            anchors.verticalCenter: parent.verticalCenter
+                            text: points == -1 ? "" : points
+                            Layout.preferredWidth: 50
+                        }
+                        NativeText {
+                            anchors.verticalCenter: parent.verticalCenter
+                            text: points1000 == -1 ? "" : points1000
+                            Layout.preferredWidth: 50
+                        }
                     }
                 }
-            }
+        }
     }
 }
+
+
 
 
 /*
