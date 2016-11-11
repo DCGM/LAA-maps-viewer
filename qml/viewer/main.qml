@@ -310,7 +310,7 @@ ApplicationWindow {
                 //% "Continuous results"
                 text: qsTrId("main-view-menu-continuous-results")
                 checkable: true;
-                checked: true;
+                checked: false;
             }
             MenuItem {
                 id: mainViewMenuAltChart

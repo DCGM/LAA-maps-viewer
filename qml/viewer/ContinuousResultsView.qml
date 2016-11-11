@@ -110,6 +110,14 @@ Rectangle {
             ContinuousResultsViewTable { model: ral2 }
             ContinuousResultsViewTable { model: sal1 }
             ContinuousResultsViewTable { model: sal2 }
+            ContinuousResultsViewTable { model: rwl1 }
+            ContinuousResultsViewTable { model: rwl2 }
+            ContinuousResultsViewTable { model: swl1 }
+            ContinuousResultsViewTable { model: swl2 }
+            ContinuousResultsViewTable { model: custom1 }
+            ContinuousResultsViewTable { model: custom2 }
+            ContinuousResultsViewTable { model: custom3 }
+            ContinuousResultsViewTable { model: custom4 }
         }
     }
 }
