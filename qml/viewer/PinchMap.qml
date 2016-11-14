@@ -172,7 +172,7 @@ Rectangle {
             plat = parseFloat(p.lat)
             plon = parseFloat(p.lon)
 
-            console.log("pointsInBounds " + i + " " + plat + " " + plon)
+//            console.log("pointsInBounds " + i + " " + plat + " " + plon)
 
             if (plat > max_lat) {
                 max_lat = plat
