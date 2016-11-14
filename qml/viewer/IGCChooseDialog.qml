@@ -123,6 +123,23 @@ ApplicationWindow {
             title: qsTrId("IGC-Choose-dialog-match-count")
             role: "matchCount"
         }
+        onDoubleClicked: {
+            console.log(row)
+
+                var filename = datamodel.get(row, "fileName");
+                var filePath = datamodel.get(row, "filePath");
+                choosenFilename(filename, filePath)
+
+//            if (!found) {
+//                choosenFilename("","");
+//            }
+            selectionTableView.selection.clear();
+
+            igcChooseDialog.close();
+            folderModelChanged();
+
+
+        }
     }
     /// Action Buttons
     Row {
