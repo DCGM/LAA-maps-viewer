@@ -159,7 +159,7 @@ Item {
             target: loaderFilenameButton.item
             onClicked: {
 
-                igcChooseDialog.row = styleData.row;
+                igcChooseDialog.crow = styleData.row;
                 igcChooseDialog.show();
             }
         }

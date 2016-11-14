@@ -573,10 +573,10 @@ ApplicationWindow {
         cm: contestantsListModel
         onChoosenFilename: {
 
-            contestantsListModel.changeLisModel(row, "filename", filename);
-            contestantsListModel.changeLisModel(row, "classify", filename === "" ? -1 : contestantsListModel.get(row).prevResultsClassify);
+            contestantsListModel.changeLisModel(crow, "filename", filename);
+            contestantsListModel.changeLisModel(crow, "classify", filename === "" ? -1 : contestantsListModel.get(crow).prevResultsClassify);
 
-            contestantsTable.selectRow(row);
+            contestantsTable.selectRow(crow);
         }
     }
 

@@ -16,7 +16,7 @@ ApplicationWindow {
     title: qsTrId("igc-choose-dialog");
     property variant datamodel; // igcFolderModel
     property variant cm; // contestantsListModel
-    property int row;
+    property int crow;
     property int lateSelect
 
     ListModel {
@@ -40,7 +40,7 @@ ApplicationWindow {
             return;
         }
 
-        var cmItem = cm.get(row); // contestant from contestant Table
+        var cmItem = cm.get(crow); // contestant from contestant Table
         var selectedFilename = cmItem.filename; //
 
         lateSelect = -1;
@@ -78,7 +78,7 @@ ApplicationWindow {
 
     Component.onCompleted: {
         datamodel.countChanged.connect(folderModelChanged); // FolderListModel
-        rowChanged.connect(folderModelChanged); // index of row in ContestantTable
+        crowChanged.connect(folderModelChanged); // index of row in ContestantTable
         selectionTableView.rowCountChanged.connect(doLateSelect);
         selectionTableView.modelChanged.connect(doLateSelect);
         lateSelectChanged.connect(doLateSelect);
@@ -124,16 +124,22 @@ ApplicationWindow {
             role: "matchCount"
         }
         onDoubleClicked: {
-            console.log(row)
 
-                var filename = datamodel.get(row, "fileName");
-                var filePath = datamodel.get(row, "filePath");
+            var filename = datamodel.get(row, "fileName");
+            var filePath = datamodel.get(row, "filePath");
+
+            // read previous filename
+            var cmItem = cm.get(crow); // contestant from contestant Table
+            var selectedFilename = cmItem.filename; //
+
+            if (selectedFilename === filename) {
+                // same
+                choosenFilename("", "")
+            } else {
+                // different
                 choosenFilename(filename, filePath)
+            }
 
-//            if (!found) {
-//                choosenFilename("","");
-//            }
-            selectionTableView.selection.clear();
 
             igcChooseDialog.close();
             folderModelChanged();
