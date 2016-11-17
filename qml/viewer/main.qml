@@ -117,38 +117,37 @@ ApplicationWindow {
 
             MenuItem {
                 //% "&None"
+                id: mapNone
                 text: qsTrId("main-map-menu-none")
                 checkable: true;
                 exclusiveGroup: mapTypeExclusive
                 onTriggered: {
-                    map.url = "";
-                    map.url_subdomains = [];
+                    config.set("mapTypeExclusive", "main-map-menu-none");
+                }
+                onCheckedChanged: {
+                    if (checked) {
+                        map.url = "";
+                        map.url_subdomains = [];
+                    }
                 }
 
                 shortcut: "Ctrl+1"
             }
             MenuItem {
                 //% "&Local"
+                id: mapLocal
                 text: qsTrId("main-map-menu-local")
                 checkable: true;
                 exclusiveGroup: mapTypeExclusive
                 onTriggered: {
                     console.log("Cached OSM")
-                    //map.url = QStandardPathsHomeLocation+"/.local/share/Maps/OSM/%(zoom)d/%(x)d/%(y)d.png"
-                    //map.url = QStandardPathsApplicationFilePath + "/Maps/OSM/%(zoom)d/%(x)d/%(y)d.png"
-                    //map.url = "../../Maps/OSM/%(zoom)d/%(x)d/%(y)d.png"
-                    map.url = "/Maps/OSM/%(zoom)d/%(x)d/%(y)d.png"
-                    map.url_subdomains = [];
-
+                    config.set("mapTypeExclusive", "main-map-menu-local");
                 }
-                Component.onCompleted: { // default value
-
-                    checked = true;
-                    //map.url = QStandardPathsHomeLocation+"/.local/share/Maps/OSM/%(zoom)d/%(x)d/%(y)d.png"
-                    //map.url = QStandardPathsApplicationFilePath + "/Maps/OSM/%(zoom)d/%(x)d/%(y)d.png"
-                    //map.url = "../../Maps/OSM/%(zoom)d/%(x)d/%(y)d.png"
-                    map.url = "/Maps/OSM/%(zoom)d/%(x)d/%(y)d.png"
-                    map.url_subdomains = [];
+                onCheckedChanged: {
+                    if (checked) {
+                        map.url = "/Maps/OSM/%(zoom)d/%(x)d/%(y)d.png"
+                        map.url_subdomains = [];
+                    }
                 }
                 shortcut: "Ctrl+2"
 
@@ -199,17 +198,26 @@ ApplicationWindow {
                     map.url = 'http://%(s)d.google.com/vt/lyrs=s&x=%(x)d&y=%(y)d&z=%(zoom)d';
                     map.url_subdomains = ['mt0','mt1','mt2','mt3']
                 }
+
                 shortcut: "Ctrl+6"
             }
             MenuItem {
                 //% "Custom tile layer"
+                id: mapCustom
                 text: qsTrId("main-map-menu-custom-tile-layer")
                 exclusiveGroup: mapTypeExclusive
                 checkable: true;
                 onTriggered: {
-                    mapurl_dialog.open();
-                    map.url_subdomains = [];
+                    config.set("mapTypeExclusive", "main-map-menu-custom-tile-layer");
                 }
+
+                onCheckedChanged: {
+                    if (checked) {
+                        mapurl_dialog.open();
+                        map.url_subdomains = [];
+                    }
+                }
+
                 shortcut: "Ctrl+7"
             }
 
@@ -219,35 +227,53 @@ ApplicationWindow {
 
             MenuItem {
                 //% "Airspace Off"
+                id: airspaceOff
                 text: qsTrId("main-map-menu-airspace-off")
                 exclusiveGroup: mapTypeSecondaryExclusive
                 checkable: true;
                 checked: true;
                 onTriggered: {
-                    map.airspaceUrl = ""
-                    map.mapAirspaceVisible = false;
+                    config.set("mapTypeSecondaryExclusive", "main-map-menu-airspace-off");
+                }
+                onCheckedChanged: {
+                    if (checked) {
+                        map.airspaceUrl = ""
+                        map.mapAirspaceVisible = false;
+                    }
                 }
             }
 
             MenuItem {
                 //% "Airspace (prosoar.de)"
+                id: airspaceProsoar
                 text: qsTrId("main-map-menu-airspace-prosoar")
                 exclusiveGroup: mapTypeSecondaryExclusive
                 checkable: true;
                 onTriggered: {
-                    map.airspaceUrl = "http://prosoar.de/airspace/%(zoom)d/%(x)d/%(y)d.png"
-                    map.mapAirspaceVisible = true;
+                    config.set("mapTypeSecondaryExclusive", "main-map-menu-airspace-prosoar");
+                }
+                onCheckedChanged: {
+                    if (checked) {
+                        map.airspaceUrl = "http://prosoar.de/airspace/%(zoom)d/%(x)d/%(y)d.png"
+                        map.mapAirspaceVisible = true;
+                    }
                 }
             }
 
             MenuItem {
                 //% "Airspace (local)"
+                id: airspaceLocal
                 text: qsTrId("main-map-menu-airspace-local")
                 exclusiveGroup: mapTypeSecondaryExclusive
                 checkable: true;
                 onTriggered: {
-                    map.airspaceUrl = QStandardPathsHomeLocation+"/.local/share/Maps/airspace/%(zoom)d/%(x)d/%(y)d.png"
-                    map.mapAirspaceVisible = true;
+                    config.set("mapTypeSecondaryExclusive", "main-map-menu-airspace-local");
+                }
+                onCheckedChanged: {
+                    if (checked) {
+                        map.airspaceUrl = QStandardPathsHomeLocation+"/.local/share/Maps/airspace/%(zoom)d/%(x)d/%(y)d.png"
+                        map.mapAirspaceVisible = true;
+                    }
                 }
             }
 
@@ -304,6 +330,10 @@ ApplicationWindow {
                 checkable: true;
                 checked: true;
                 shortcut: "Ctrl+T"
+
+                onCheckedChanged: {
+                    config.set("mainViewMenuTables_checked", checked);
+                }
             }
             MenuItem {
                 id: mainViewMenuContinuousResults
@@ -311,6 +341,10 @@ ApplicationWindow {
                 text: qsTrId("main-view-menu-continuous-results")
                 checkable: true;
                 checked: false;
+
+                onCheckedChanged: {
+                    config.set("mainViewMenuContinuousResults_checked", checked);
+                }
             }
             MenuItem {
                 id: mainViewMenuAltChart
@@ -319,6 +353,10 @@ ApplicationWindow {
                 checkable: true;
                 checked: false;
                 shortcut: "Ctrl+A"
+
+                onCheckedChanged: {
+                    config.set("mainViewMenuAltChart_checked", checked);
+                }
             }
 
             MenuItem {
@@ -328,6 +366,10 @@ ApplicationWindow {
                 checkable: true;
                 checked: true;
                 shortcut: "Ctrl+C"
+
+                onCheckedChanged: {
+                    config.set("mainViewMenuCategoryCountersStatusBar_checked", checked);
+                }
             }
             MenuItem {
                 id: mainViewMenuCompetitionPropertyStatusBar
@@ -336,6 +378,10 @@ ApplicationWindow {
                 checkable: true;
                 checked: true;
                 shortcut: "Ctrl+P"
+
+                onCheckedChanged: {
+                    config.set("mainViewMenuCompetitionPropertyStatusBar_checked", checked);
+                }
             }
         }
 
@@ -4296,6 +4342,19 @@ ApplicationWindow {
             // dialog will be automatically confirmed after show and synchronization
             pathConfiguration.autoConfirmFlag = true;
             pathConfiguration.show(); // call onVisibleChanged functions
+
+            // view settings
+            mainViewMenuCompetitionPropertyStatusBar.checked = config.get("mainViewMenuCompetitionPropertyStatusBar_checked", false);
+            mainViewMenuCategoryCountersStatusBar.checked = config.get("mainViewMenuCategoryCountersStatusBar_checked", false);
+            mainViewMenuAltChart.checked = config.get("mainViewMenuAltChart_checked", false);
+            mainViewMenuContinuousResults.checked = config.get("mainViewMenuContinuousResults_checked", false);
+            mainViewMenuTables.checked = config.get("mainViewMenuTables_checked", true);
+
+            // map view settings
+            setMapView(config.get("mapTypeExclusive", "main-map-menu-local"));
+
+            // air space settings
+            setAirspaceView(config.get("mapTypeSecondaryExclusive", "main-map-menu-airspace-off"));
         }
 
         // Discard prev settings
@@ -4323,6 +4382,77 @@ ApplicationWindow {
             // dialog will NOT be automatically confirmed
             pathConfiguration.autoConfirmFlag = false;
             pathConfiguration.show();
+
+            // view settings
+            mainViewMenuCompetitionPropertyStatusBar.checked = false;
+            mainViewMenuCategoryCountersStatusBar.checked = false;
+            mainViewMenuAltChart.checked = false;
+            mainViewMenuContinuousResults.checked = false;
+            mainViewMenuTables.checked = true;
+
+            // map view settings
+            setMapView("main-map-menu-local");
+            config.set("mapTypeExclusive", "main-map-menu-local"); // set default as last selected value
+
+            // air space settings
+            setAirspaceView("main-map-menu-airspace-off");
+            config.set("mapTypeSecondaryExclusive", "main-map-menu-airspace-off"); // set default as last selected value
+        }
+    }
+
+    function setAirspaceView(airSpaceSettings) {
+
+        airspaceOff.checked = false;
+        airspaceProsoar.checked = false;
+        airspaceLocal.checked = false;
+
+        switch(airSpaceSettings) {
+            case "main-map-menu-airspace-off":
+                airspaceOff.checked = true;
+                break;
+            case "main-map-menu-airspace-prosoar":
+                airspaceProsoar.checked = true;
+                break;
+            case "main-map-menu-airspace-local":
+                airspaceLocal.checked = true;
+                break;
+            default:
+        }
+    }
+
+    function setMapView(mapSettings) {
+
+        mapNone.checked = false;
+        mapLocal.checked = false;
+        mapOsm.checked = false;
+        mapGoogleRoadmap.checked = false;
+        mapGoogleTerrain.checked = false;
+        mapGoogleSatelite.checked = false;
+        mapCustom.checked = false;
+
+        switch(mapSettings) {
+            case "main-map-menu-none":
+                mapNone.checked = true;
+                break;
+            case "main-map-menu-local":
+                mapLocal.checked = true;
+                break;
+            case "main-map-menu-osm":
+                mapOsm.checked = true;
+                break;
+            case "main-map-menu-google-roadmap":
+                mapGoogleRoadmap.checked = true;
+                break;
+            case "main-map-menu-google-terrain":
+                mapGoogleTerrain.checked = true;
+                break;
+            case "main-map-menu-google-satellite":
+                mapGoogleSatelite.checked = true;
+                break;
+            case "main-map-menu-custom-tile-layer":
+                mapCustom.checked = true;
+                break;
+            default:
         }
     }
 
