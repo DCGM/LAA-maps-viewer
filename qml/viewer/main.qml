@@ -122,7 +122,7 @@ ApplicationWindow {
                 checkable: true;
                 exclusiveGroup: mapTypeExclusive
                 onTriggered: {
-                    config.set("mapTypeExclusive", "main-map-menu-none");
+                    config.set("v2_mapTypeExclusive", "main-map-menu-none");
                 }
                 onCheckedChanged: {
                     if (checked) {
@@ -141,7 +141,7 @@ ApplicationWindow {
                 exclusiveGroup: mapTypeExclusive
                 onTriggered: {
                     console.log("Cached OSM")
-                    config.set("mapTypeExclusive", "main-map-menu-local");
+                    config.set("v2_mapTypeExclusive", "main-map-menu-local");
                 }
                 onCheckedChanged: {
                     if (checked) {
@@ -160,7 +160,7 @@ ApplicationWindow {
                 checkable: true;
                 exclusiveGroup: mapTypeExclusive
                 onTriggered: {
-                    config.set("mapTypeExclusive", "main-map-menu-osm");
+                    config.set("v2_mapTypeExclusive", "main-map-menu-osm");
                 }
                 onCheckedChanged: {
                     if (checked) {
@@ -179,7 +179,7 @@ ApplicationWindow {
                 checkable: true;
                 exclusiveGroup: mapTypeExclusive
                 onTriggered: {
-                    config.set("mapTypeExclusive", "main-map-menu-google-roadmap");
+                    config.set("v2_mapTypeExclusive", "main-map-menu-google-roadmap");
                 }
                 onCheckedChanged: {
                     if (checked) {
@@ -199,7 +199,7 @@ ApplicationWindow {
                 checkable: true;
                 exclusiveGroup: mapTypeExclusive
                 onTriggered: {
-                    config.set("mapTypeExclusive", "main-map-menu-google-terrain");
+                    config.set("v2_mapTypeExclusive", "main-map-menu-google-terrain");
                 }
                 onCheckedChanged: {
                     if (checked) {
@@ -218,7 +218,7 @@ ApplicationWindow {
                 exclusiveGroup: mapTypeExclusive
                 checkable: true;
                 onTriggered: {
-                    config.set("mapTypeExclusive", "main-map-menu-google-satellite");
+                    config.set("v2_mapTypeExclusive", "main-map-menu-google-satellite");
                 }
                 onCheckedChanged: {
                     if (checked) {
@@ -236,7 +236,7 @@ ApplicationWindow {
                 exclusiveGroup: mapTypeExclusive
                 checkable: true;
                 onTriggered: {
-                    config.set("mapTypeExclusive", "main-map-menu-custom-tile-layer");
+                    config.set("v2_mapTypeExclusive", "main-map-menu-custom-tile-layer");
                 }
 
                 onCheckedChanged: {
@@ -261,7 +261,7 @@ ApplicationWindow {
                 checkable: true;
                 checked: true;
                 onTriggered: {
-                    config.set("mapTypeSecondaryExclusive", "main-map-menu-airspace-off");
+                    config.set("v2_mapTypeSecondaryExclusive", "main-map-menu-airspace-off");
                 }
                 onCheckedChanged: {
                     if (checked) {
@@ -278,7 +278,7 @@ ApplicationWindow {
                 exclusiveGroup: mapTypeSecondaryExclusive
                 checkable: true;
                 onTriggered: {
-                    config.set("mapTypeSecondaryExclusive", "main-map-menu-airspace-prosoar");
+                    config.set("v2_mapTypeSecondaryExclusive", "main-map-menu-airspace-prosoar");
                 }
                 onCheckedChanged: {
                     if (checked) {
@@ -295,7 +295,7 @@ ApplicationWindow {
                 exclusiveGroup: mapTypeSecondaryExclusive
                 checkable: true;
                 onTriggered: {
-                    config.set("mapTypeSecondaryExclusive", "main-map-menu-airspace-local");
+                    config.set("v2_mapTypeSecondaryExclusive", "main-map-menu-airspace-local");
                 }
                 onCheckedChanged: {
                     if (checked) {
@@ -360,7 +360,7 @@ ApplicationWindow {
                 shortcut: "Ctrl+T"
 
                 onCheckedChanged: {
-                    config.set("mainViewMenuTables_checked", checked);
+                    config.set("v2_mainViewMenuTables_checked", checked);
                 }
             }
             MenuItem {
@@ -371,7 +371,7 @@ ApplicationWindow {
                 checked: false;
 
                 onCheckedChanged: {
-                    config.set("mainViewMenuContinuousResults_checked", checked);
+                    config.set("v2_mainViewMenuContinuousResults_checked", checked);
                 }
             }
             MenuItem {
@@ -383,7 +383,7 @@ ApplicationWindow {
                 shortcut: "Ctrl+A"
 
                 onCheckedChanged: {
-                    config.set("mainViewMenuAltChart_checked", checked);
+                    config.set("v2_mainViewMenuAltChart_checked", checked);
                 }
             }
 
@@ -396,7 +396,7 @@ ApplicationWindow {
                 shortcut: "Ctrl+C"
 
                 onCheckedChanged: {
-                    config.set("mainViewMenuCategoryCountersStatusBar_checked", checked);
+                    config.set("v2_mainViewMenuCategoryCountersStatusBar_checked", checked);
                 }
             }
             MenuItem {
@@ -408,7 +408,7 @@ ApplicationWindow {
                 shortcut: "Ctrl+P"
 
                 onCheckedChanged: {
-                    config.set("mainViewMenuCompetitionPropertyStatusBar_checked", checked);
+                    config.set("v2_mainViewMenuCompetitionPropertyStatusBar_checked", checked);
                 }
             }
         }
@@ -4309,7 +4309,7 @@ ApplicationWindow {
 
             // load last competition settings
             // try to load prev settings from database
-            if (config.get("competitionName", "") === "") {
+            if (config.get("v2_competitionName", "") === "") {
 
                 // nothing in DB, load defaults
                 pathConfiguration.competitionName = pathConfiguration.competitionName_default;
@@ -4323,13 +4323,13 @@ ApplicationWindow {
             else {
 
                 // set values from DB
-                pathConfiguration.competitionName = config.get("competitionName", pathConfiguration.competitionName_default);
-                pathConfiguration.competitionType = config.get("competitionType", pathConfiguration.competitionType_default);
-                pathConfiguration.competitionDirector = config.get("competitionDirector", pathConfiguration.competitionDirector_default);
-                pathConfiguration.competitionArbitr = JSON.parse(config.get("competitionArbitr", pathConfiguration.competitionArbitr_default));
-                pathConfiguration.competitionDate = config.get("competitionDate", pathConfiguration.competitionDate_default);
-                pathConfiguration.competitionDirectorAvatar = JSON.parse(config.get("competitionDirectorAvatar", pathConfiguration.competitionDirectorAvatar_default));
-                pathConfiguration.competitionArbitrAvatar = JSON.parse(config.get("competitionArbitrAvatar", pathConfiguration.competitionArbitrAvatar_default));
+                pathConfiguration.competitionName = config.get("v2_competitionName", pathConfiguration.competitionName_default);
+                pathConfiguration.competitionType = config.get("v2_competitionType", pathConfiguration.competitionType_default);
+                pathConfiguration.competitionDirector = config.get("v2_competitionDirector", pathConfiguration.competitionDirector_default);
+                pathConfiguration.competitionArbitr = JSON.parse(config.get("v2_competitionArbitr", pathConfiguration.competitionArbitr_default));
+                pathConfiguration.competitionDate = config.get("v2_competitionDate", pathConfiguration.competitionDate_default);
+                pathConfiguration.competitionDirectorAvatar = JSON.parse(config.get("v2_competitionDirectorAvatar", pathConfiguration.competitionDirectorAvatar_default));
+                pathConfiguration.competitionArbitrAvatar = JSON.parse(config.get("v2_competitionArbitrAvatar", pathConfiguration.competitionArbitrAvatar_default));
             }
 
             // init tmp var
@@ -4341,11 +4341,11 @@ ApplicationWindow {
             var resultsFolderPrevCheckBox = 0;
             var onlineOfflinePrevCheckBox = 0;
 
-            pathConfiguration.igcDirectory_user_defined = config.get("igcDirectory_user_defined", "");
-            pathConfiguration.resultsFolder_user_defined = config.get("resultsFolder_user_defined", "");
-            pathConfiguration.trackFile_user_defined = config.get("trackFile_user_defined", "");
-            pathConfiguration.selectedCompetition = config.get("onlineOffline_user_defined", "");
-            selectCompetitionOnlineDialog.selectedCompetitionId = config.get("selectedCompetitionId", 0);
+            pathConfiguration.igcDirectory_user_defined = config.get("v2_igcDirectory_user_defined", "");
+            pathConfiguration.resultsFolder_user_defined = config.get("v2_resultsFolder_user_defined", "");
+            pathConfiguration.trackFile_user_defined = config.get("v2_trackFile_user_defined", "");
+            pathConfiguration.selectedCompetition = config.get("v2_onlineOffline_user_defined", "");
+            selectCompetitionOnlineDialog.selectedCompetitionId = config.get("v2_selectedCompetitionId", 0);
             selectCompetitionOnlineDialog.selectedCompetition = pathConfiguration.selectedCompetition;
 
             if (pathConfiguration.igcDirectory_user_defined !== "") {
@@ -4374,17 +4374,17 @@ ApplicationWindow {
             pathConfiguration.show(); // call onVisibleChanged functions
 
             // view settings
-            mainViewMenuCompetitionPropertyStatusBar.checked = config.get("mainViewMenuCompetitionPropertyStatusBar_checked", false);
-            mainViewMenuCategoryCountersStatusBar.checked = config.get("mainViewMenuCategoryCountersStatusBar_checked", false);
-            mainViewMenuAltChart.checked = config.get("mainViewMenuAltChart_checked", false);
-            mainViewMenuContinuousResults.checked = config.get("mainViewMenuContinuousResults_checked", false);
-            mainViewMenuTables.checked = config.get("mainViewMenuTables_checked", true);
+            mainViewMenuCompetitionPropertyStatusBar.checked = config.get("v2_mainViewMenuCompetitionPropertyStatusBar_checked", false);
+            mainViewMenuCategoryCountersStatusBar.checked = config.get("v2_mainViewMenuCategoryCountersStatusBar_checked", false);
+            mainViewMenuAltChart.checked = config.get("v2_mainViewMenuAltChart_checked", false);
+            mainViewMenuContinuousResults.checked = config.get("v2_mainViewMenuContinuousResults_checked", false);
+            mainViewMenuTables.checked = config.get("v2_mainViewMenuTables_checked", true);
 
             // map view settings
-            setMapView(config.get("mapTypeExclusive", "main-map-menu-local"));
+            setMapView(config.get("v2_mapTypeExclusive", "main-map-menu-local"));
 
             // air space settings
-            setAirspaceView(config.get("mapTypeSecondaryExclusive", "main-map-menu-airspace-off"));
+            setAirspaceView(config.get("v2_mapTypeSecondaryExclusive", "main-map-menu-airspace-off"));
         }
 
         // Discard prev settings
@@ -4422,11 +4422,11 @@ ApplicationWindow {
 
             // map view settings
             setMapView("main-map-menu-local");
-            config.set("mapTypeExclusive", "main-map-menu-local"); // set default as last selected value
+            config.set("v2_mapTypeExclusive", "main-map-menu-local"); // set default as last selected value
 
             // air space settings
             setAirspaceView("main-map-menu-airspace-off");
-            config.set("mapTypeSecondaryExclusive", "main-map-menu-airspace-off"); // set default as last selected value
+            config.set("v2_mapTypeSecondaryExclusive", "main-map-menu-airspace-off"); // set default as last selected value
         }
     }
 

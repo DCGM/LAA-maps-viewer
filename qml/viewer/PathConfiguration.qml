@@ -18,15 +18,12 @@ ApplicationWindow {
     property bool autoConfirmFlag: false;
 
     property string igcDirectory_default: Qt.resolvedUrl("../../../igcFiles");
-    //property string igcDirectory_default: config.get("igcDirectory_default", Qt.resolvedUrl("../../../igcFiles"));
     property string igcDirectory_user_defined;
 
     property string trackFile_default: Qt.resolvedUrl("../../../track.json");
-    //property string trackFile_default: config.get("trackFile_default", Qt.resolvedUrl("../../../track.json"));
     property string trackFile_user_defined;
 
     property string resultsFolder_default: Qt.resolvedUrl("../../../results");
-    //property string resultsFolder_default: config.get("resultsFolder_default", Qt.resolvedUrl("../../../results"));
     property string resultsFolder_user_defined;
 
     property string contestantsFile: pathConfiguration.resultsFolder + "/posadky.csv"
@@ -779,20 +776,20 @@ ApplicationWindow {
                     pathConfiguration.resultsFolderCheckBox = enviromentTabValues[3] ? 1 : 0;
 
                     // save path values to DB - for default save empty string
-                    config.set("igcDirectory_user_defined", pathConfiguration.igcFolderCheckBox === 0 ? "" : enviromentTabValues[6]);
-                    config.set("trackFile_user_defined", pathConfiguration.trackCheckBox === 0 ? "" : enviromentTabValues[5]);
-                    config.set("resultsFolder_user_defined", pathConfiguration.resultsFolderCheckBox === 0 ? "" : enviromentTabValues[7]);
-                    config.set("onlineOffline_user_defined", pathConfiguration.onlineOfflineCheckBox === 0 ? "" : enviromentTabValues[0]);
-                    config.set("selectedCompetitionId", selectCompetitionOnlineDialog.selectedCompetitionId);
+                    config.set("v2_igcDirectory_user_defined", pathConfiguration.igcFolderCheckBox === 0 ? "" : enviromentTabValues[6]);
+                    config.set("v2_trackFile_user_defined", pathConfiguration.trackCheckBox === 0 ? "" : enviromentTabValues[5]);
+                    config.set("v2_resultsFolder_user_defined", pathConfiguration.resultsFolderCheckBox === 0 ? "" : enviromentTabValues[7]);
+                    config.set("v2_onlineOffline_user_defined", pathConfiguration.onlineOfflineCheckBox === 0 ? "" : enviromentTabValues[0]);
+                    config.set("v2_selectedCompetitionId", selectCompetitionOnlineDialog.selectedCompetitionId);
 
                     // save competition values to DB
-                    config.set("competitionName", competitionTabValues[0]);
-                    config.set("competitionType", competitionTabValues[1]);
-                    config.set("competitionDirector", competitionTabValues[3]);
-                    config.set("competitionDirectorAvatar", pathConfiguration.online ? JSON.stringify(competitionDirectorAvatar) : JSON.stringify(""));
-                    config.set("competitionArbitr", JSON.stringify(arr));
-                    config.set("competitionArbitrAvatar", pathConfiguration.online ? JSON.stringify(competitionArbitrAvatar) : JSON.stringify(arrAvatar));
-                    config.set("competitionDate", competitionTabValues[5]);
+                    config.set("v2_competitionName", competitionTabValues[0]);
+                    config.set("v2_competitionType", competitionTabValues[1]);
+                    config.set("v2_competitionDirector", competitionTabValues[3]);
+                    config.set("v2_competitionDirectorAvatar", pathConfiguration.online ? JSON.stringify(competitionDirectorAvatar) : JSON.stringify(""));
+                    config.set("v2_competitionArbitr", JSON.stringify(arr));
+                    config.set("v2_competitionArbitrAvatar", pathConfiguration.online ? JSON.stringify(competitionArbitrAvatar) : JSON.stringify(arrAvatar));
+                    config.set("v2_competitionDate", competitionTabValues[5]);
 
                     ok();
                     pathConfiguration.close();
