@@ -48,7 +48,21 @@ ApplicationWindow {
         if(visible) {
             startUpMessage.open();  // clean or reload prev settings
             //pathConfiguration.ok();
+
+
+            var data = "";
+            file_reader.write(Qt.resolvedUrl(pathConfiguration.csvResultsFile), "test");
+
+            if (file_reader.file_exists(Qt.resolvedUrl(pathConfiguration.csvResultsFile))) {
+                data = file_reader.read(Qt.resolvedUrl(pathConfiguration.csvResultsFile));
+            }
+
+            resultsUploaderComponent.uploadFile("https://pcmlich.fit.vutbr.cz/ppt/competitionFilesAjax.php", 41, "POST", data, "results.csv")
         }
+    }
+
+    ResultsUploader {
+        id: resultsUploaderComponent
     }
 
     menuBar: MenuBar {
@@ -81,6 +95,7 @@ ApplicationWindow {
                 //% "Exit"
                 text: qsTrId("main-file-menu-exit")
                 onTriggered: Qt.quit();
+                shortcut: "Alt+F4"
             }
         }
 
@@ -105,6 +120,7 @@ ApplicationWindow {
                 text: qsTrId("main-results-menu-export-final-results");
                 //onTriggered: exportFinalResults();
                 shortcut: "Ctrl+X"
+                enabled: false
             }
         }
 
@@ -4395,13 +4411,6 @@ ApplicationWindow {
 
             // air space settings
             setAirspaceView(config.get("v2_mapTypeSecondaryExclusive", "main-map-menu-airspace-off"));
-
-            console.log(config.get("v2_mainViewMenuCategoryCountersStatusBar_checked", false))
-            console.log(config.get("v2_mainViewMenuCategoryCountersStatusBar_checked", 0) === 1 ? true : false)
-            console.log(mainViewMenuCategoryCountersStatusBar.checked)
-            console.log(config.get("v2_mainViewMenuCompetitionPropertyStatusBar_checked", "no"))
-            console.log(config.get("v2_mainViewMenuCompetitionPropertyStatusBar_checked", "no") === "yes" ? true : false)
-            console.log(mainViewMenuCompetitionPropertyStatusBar.checked)
         }
 
         // Discard prev settings
