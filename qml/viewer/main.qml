@@ -1553,7 +1553,7 @@ ApplicationWindow {
         /*console.log("resultsValid: " + currentSpeed + "/" + prevSpeed + "   " +
                                        currentStartTime  + "/" + prevStartTime + "   " +
                                        currentCategory  + "/" +  prevCategory + "   " +
-                                       currentIgcFileName  + "/" +  prevIgcFileName + "   " +
+                                       currentIgcFilename  + "/" +  prevIgcFilename + "   " +
                                        currentTrackHash  + "/" + prevTrackHash)
                                        */
 
@@ -1990,6 +1990,8 @@ ApplicationWindow {
             var pilotName_resCSV = resultsCSV[j][0];
             var curCnt;
             var i;
+
+            index = -1;
 
             // Find contestant for this result
             for (i = 0; i < contestantsListModel.count; i++) {
@@ -3514,8 +3516,8 @@ ApplicationWindow {
             str += "\"" + speedSecScoreSum + "\";"
             str += "\"" + altSecScoreSum + "\";"
             str += "\"" + spaceSecScoreSum + "\";"
-            str += "\"" + ct.pilot_id + "\";"
-            str += "\"" + ct.copilot_id + "\";"
+            str += "\"" + (isNaN(parseInt(ct.pilot_id)) ? "-1" : ct.pilot_id) + "\";"
+            str += "\"" + (isNaN(parseInt(ct.copilot_id)) ? "-1" : ct.copilot_id) + "\";"
             str += "\"" + F.addSlashes(ct.trackHash) + "\";"
             str += "\"" + ct.speed + "\";"
             str += "\"" + ct.startTime + "\";"
@@ -3573,9 +3575,9 @@ ApplicationWindow {
                     +"\";\""+ F.addSlashes(item.speed)
                     +"\";\""+ F.addSlashes(item.aircraft_type)
                     +"\";\""+ F.addSlashes(item.aircraft_registration)
-                    +"\";\""+ F.addSlashes(item.crew_id)
-                    +"\";\""+ F.addSlashes(item.pilot_id)
-                    +"\";\""+ F.addSlashes(item.copilot_id)
+                    +"\";\""+ F.addSlashes(isNaN(parseInt(item.crew_id)) ? "-1" : item.crew_id)
+                    +"\";\""+ F.addSlashes(isNaN(parseInt(item.pilot_id)) ? "-1" : item.pilot_id)
+                    +"\";\""+ F.addSlashes(isNaN(parseInt(item.copilot_id)) ? "-1" : item.copilot_id)
                     +"\";\""+ F.addSlashes(""/*item.pilotAvatarBase64*/)
                     +"\";\""+ F.addSlashes(""/*item.copilotAvatarBase64*/) + "\""
 
