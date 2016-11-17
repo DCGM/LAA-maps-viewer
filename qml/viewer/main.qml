@@ -356,11 +356,11 @@ ApplicationWindow {
                 //% "&Tables"
                 text: qsTrId("main-view-menu-tables")
                 checkable: true;
-                checked: true;
+                //checked: true;
                 shortcut: "Ctrl+T"
 
-                onCheckedChanged: {
-                    config.set("v2_mainViewMenuTables_checked", checked);
+                onTriggered: {
+                    config.set("v2_mainViewMenuTables_checked", checked ? "yes" : "no");
                 }
             }
             MenuItem {
@@ -368,10 +368,10 @@ ApplicationWindow {
                 //% "Continuous results"
                 text: qsTrId("main-view-menu-continuous-results")
                 checkable: true;
-                checked: false;
+                //checked: false;
 
-                onCheckedChanged: {
-                    config.set("v2_mainViewMenuContinuousResults_checked", checked);
+                onTriggered: {
+                    config.set("v2_mainViewMenuContinuousResults_checked", checked ? "yes" : "no");
                 }
             }
             MenuItem {
@@ -379,11 +379,11 @@ ApplicationWindow {
                 //% "Altitude profile"
                 text: qsTrId("main-view-menu-altchart")
                 checkable: true;
-                checked: false;
+                //checked: false;
                 shortcut: "Ctrl+A"
 
-                onCheckedChanged: {
-                    config.set("v2_mainViewMenuAltChart_checked", checked);
+                onTriggered: {
+                    config.set("v2_mainViewMenuAltChart_checked", checked ? "yes" : "no");
                 }
             }
 
@@ -392,11 +392,16 @@ ApplicationWindow {
                 //% "Category counters"
                 text: qsTrId("main-view-menu-category-counters-sb")
                 checkable: true;
-                checked: true;
+                //checked: true;
                 shortcut: "Ctrl+C"
 
+                onTriggered: {
+                    console.log(checked + "onTriggered cat")
+                    config.set("v2_mainViewMenuCategoryCountersStatusBar_checked", checked ? "yes" : "no");
+                }
+
                 onCheckedChanged: {
-                    config.set("v2_mainViewMenuCategoryCountersStatusBar_checked", checked);
+                    console.log(checked + " cat")
                 }
             }
             MenuItem {
@@ -404,11 +409,16 @@ ApplicationWindow {
                 //% "Competition property"
                 text: qsTrId("main-view-menu-comp-property-sb")
                 checkable: true;
-                checked: true;
+                //checked: true;
                 shortcut: "Ctrl+P"
 
+                onTriggered: {
+                    console.log(checked + "onTriggered comp")
+                    config.set("v2_mainViewMenuCompetitionPropertyStatusBar_checked", checked ? "yes" : "no");
+                }
+
                 onCheckedChanged: {
-                    config.set("v2_mainViewMenuCompetitionPropertyStatusBar_checked", checked);
+                    console.log(checked + " comp")
                 }
             }
         }
@@ -4374,17 +4384,24 @@ ApplicationWindow {
             pathConfiguration.show(); // call onVisibleChanged functions
 
             // view settings
-            mainViewMenuCompetitionPropertyStatusBar.checked = config.get("v2_mainViewMenuCompetitionPropertyStatusBar_checked", false);
-            mainViewMenuCategoryCountersStatusBar.checked = config.get("v2_mainViewMenuCategoryCountersStatusBar_checked", false);
-            mainViewMenuAltChart.checked = config.get("v2_mainViewMenuAltChart_checked", false);
-            mainViewMenuContinuousResults.checked = config.get("v2_mainViewMenuContinuousResults_checked", false);
-            mainViewMenuTables.checked = config.get("v2_mainViewMenuTables_checked", true);
+            mainViewMenuCompetitionPropertyStatusBar.checked = config.get("v2_mainViewMenuCompetitionPropertyStatusBar_checked", "no") === "yes" ? true : false;
+            mainViewMenuCategoryCountersStatusBar.checked = config.get("v2_mainViewMenuCategoryCountersStatusBar_checked", "no") === "yes" ? true : false;
+            mainViewMenuAltChart.checked = config.get("v2_mainViewMenuAltChart_checked", "no") === "yes" ? true : false;
+            mainViewMenuContinuousResults.checked = config.get("v2_mainViewMenuContinuousResults_checked", "no") === "yes" ? true : false;
+            mainViewMenuTables.checked = config.get("v2_mainViewMenuTables_checked", "yes") === "yes" ? true : false;
 
             // map view settings
             setMapView(config.get("v2_mapTypeExclusive", "main-map-menu-local"));
 
             // air space settings
             setAirspaceView(config.get("v2_mapTypeSecondaryExclusive", "main-map-menu-airspace-off"));
+
+            console.log(config.get("v2_mainViewMenuCategoryCountersStatusBar_checked", false))
+            console.log(config.get("v2_mainViewMenuCategoryCountersStatusBar_checked", 0) === 1 ? true : false)
+            console.log(mainViewMenuCategoryCountersStatusBar.checked)
+            console.log(config.get("v2_mainViewMenuCompetitionPropertyStatusBar_checked", "no"))
+            console.log(config.get("v2_mainViewMenuCompetitionPropertyStatusBar_checked", "no") === "yes" ? true : false)
+            console.log(mainViewMenuCompetitionPropertyStatusBar.checked)
         }
 
         // Discard prev settings
@@ -4419,6 +4436,11 @@ ApplicationWindow {
             mainViewMenuAltChart.checked = false;
             mainViewMenuContinuousResults.checked = false;
             mainViewMenuTables.checked = true;
+            config.set("v2_mainViewMenuTables_checked", mainViewMenuTables.checked ? "yes" : "no"); // set default as last selected value
+            config.set("v2_mainViewMenuContinuousResults_checked", mainViewMenuContinuousResults.checked ? "yes" : "no"); // set default as last selected value
+            config.set("v2_mainViewMenuAltChart_checked", mainViewMenuAltChart.checked ? "yes" : "no"); // set default as last selected value
+            config.set("v2_mainViewMenuCategoryCountersStatusBar_checked", mainViewMenuCategoryCountersStatusBar.checked ? "yes" : "no"); // set default as last selected value
+            config.set("v2_mainViewMenuCompetitionPropertyStatusBar_checked", mainViewMenuCompetitionPropertyStatusBar.checked ? "yes" : "no"); // set default as last selected value
 
             // map view settings
             setMapView("main-map-menu-local");
