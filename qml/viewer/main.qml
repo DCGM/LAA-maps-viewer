@@ -149,54 +149,82 @@ ApplicationWindow {
                         map.url_subdomains = [];
                     }
                 }
+
                 shortcut: "Ctrl+2"
 
             }
             MenuItem {
                 //% "&OSM Mapnik"
+                id: mapOsm
                 text: qsTrId("main-map-menu-osm")
                 checkable: true;
                 exclusiveGroup: mapTypeExclusive
                 onTriggered: {
-                    map.url = "http://%(s)d.tile.openstreetmap.org/%(zoom)d/%(x)d/%(y)d.png";
-                    map.url_subdomains = ['a','b', 'c'];
+                    config.set("mapTypeExclusive", "main-map-menu-osm");
                 }
+                onCheckedChanged: {
+                    if (checked) {
+                        map.url = "http://%(s)d.tile.openstreetmap.org/%(zoom)d/%(x)d/%(y)d.png";
+                        map.url_subdomains = ['a','b', 'c'];
+                    }
+                }
+
                 shortcut: "Ctrl+3"
 
             }
             MenuItem {
                 //% "Google &Roadmap"
+                id: mapGoogleRoadmap
                 text: qsTrId("main-map-menu-google-roadmap")
                 checkable: true;
                 exclusiveGroup: mapTypeExclusive
                 onTriggered: {
-                    map.url = "http://%(s)d.google.com/vt/lyrs=m@248407269&hl=x-local&x=%(x)d&y=%(y)d&z=%(zoom)d&s=Galileo"
-                    map.url_subdomains = ['mt0','mt1','mt2','mt3']
+                    config.set("mapTypeExclusive", "main-map-menu-google-roadmap");
                 }
+                onCheckedChanged: {
+                    if (checked) {
+                        map.url = "http://%(s)d.google.com/vt/lyrs=m@248407269&hl=x-local&x=%(x)d&y=%(y)d&z=%(zoom)d&s=Galileo"
+                        map.url_subdomains = ['mt0','mt1','mt2','mt3']
+                    }
+                }
+
                 shortcut: "Ctrl+4"
 
             }
 
             MenuItem {
                 //% "Google &Terrain"
+                id: mapGoogleTerrain
                 text: qsTrId("main-map-menu-google-terrain")
                 checkable: true;
                 exclusiveGroup: mapTypeExclusive
                 onTriggered: {
-                    map.url = "http://%(s)d.google.com/vt/lyrs=t,r&x=%(x)d&y=%(y)d&z=%(zoom)d"
-                    map.url_subdomains = ['mt0','mt1','mt2','mt3']
+                    config.set("mapTypeExclusive", "main-map-menu-google-terrain");
                 }
+                onCheckedChanged: {
+                    if (checked) {
+                        map.url = "http://%(s)d.google.com/vt/lyrs=t,r&x=%(x)d&y=%(y)d&z=%(zoom)d"
+                        map.url_subdomains = ['mt0','mt1','mt2','mt3']
+                    }
+                }
+
                 shortcut: "Ctrl+5"
             }
 
             MenuItem {
                 //% "Google &Satellite"
+                id: mapGoogleSatelite
                 text: qsTrId("main-map-menu-google-satellite")
                 exclusiveGroup: mapTypeExclusive
                 checkable: true;
                 onTriggered: {
-                    map.url = 'http://%(s)d.google.com/vt/lyrs=s&x=%(x)d&y=%(y)d&z=%(zoom)d';
-                    map.url_subdomains = ['mt0','mt1','mt2','mt3']
+                    config.set("mapTypeExclusive", "main-map-menu-google-satellite");
+                }
+                onCheckedChanged: {
+                    if (checked) {
+                        map.url = 'http://%(s)d.google.com/vt/lyrs=s&x=%(x)d&y=%(y)d&z=%(zoom)d';
+                        map.url_subdomains = ['mt0','mt1','mt2','mt3']
+                    }
                 }
 
                 shortcut: "Ctrl+6"

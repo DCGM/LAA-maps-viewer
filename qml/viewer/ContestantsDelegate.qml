@@ -40,15 +40,7 @@ Item {
             visible: styleData.role === "name"
             acceptedButtons: Qt.LeftButton | Qt.RightButton
 
-            onDoubleClicked: {
-
-                createContestantDialog.contestantsListModelRow = styleData.row;
-                updateContestantMenu.showMenu();
-
-                selectRow(styleData.row);
-            }
             onClicked: {
-
                 if (mouse.button === Qt.RightButton) {
 
                     // update contestant dialog
