@@ -56,6 +56,6 @@ Item {
         console.log (body)
         http.setRequestHeader('Content-length', body.length);
 
-        http.send()
+        http.send(body)
     }
 }
