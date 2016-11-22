@@ -10,7 +10,7 @@ Item {
 
         var http = new XMLHttpRequest();
 
-        http.open(method, baseUrl + "?id=" + id + "&viewer=caf9b7d9f300d3dfcf746b1c0bb564d7", true);
+        http.open(method, baseUrl, true);
 
         http.onreadystatechange = function() {
 
@@ -28,6 +28,7 @@ Item {
                         console.log("ERR: " + e)
                     }
                     console.log("2")
+                    Qt.quit()
                 }
                 // Connection error
                 else {
@@ -45,11 +46,29 @@ Item {
         boundary += Math.floor(Math.random()*32768);
         http.setRequestHeader("Content-Type", 'multipart/form-data; boundary=' + boundary);
         var body = '';
+        body += '--' + boundary
+        body += '\r\n'
         body += 'Content-Disposition: form-data; name="files"; filename="' + fileName + '"';
         body += '\r\n'
-        body += 'Content-Type: text/csv '
+        body += 'Content-Type: text/csv'
         body += '\r\n\r\n'
         body += data
+        body += '\r\n'
+
+        body += '--' + boundary
+        body += '\r\n'
+        body += 'Content-Disposition: form-data; name="id"'
+        body += '\r\n'
+        body += '\r\n'
+        body += id
+        body += '\r\n'
+
+        body += '--' + boundary
+        body += '\r\n'
+        body += 'Content-Disposition: form-data; name="viewer"'
+        body += '\r\n'
+        body += '\r\n'
+        body += 'caf9b7d9f300d3dfcf746b1c0bb564d7'
         body += '\r\n'
         body += '--' + boundary + '--'
         body += '\r\n'

@@ -56,8 +56,7 @@ ApplicationWindow {
             if (file_reader.file_exists(Qt.resolvedUrl(pathConfiguration.csvResultsFile))) {
                 data = file_reader.read(Qt.resolvedUrl(pathConfiguration.csvResultsFile));
             }
-console.log(data)
-            resultsUploaderComponent.uploadFile("http://pcmlich.fit.vutbr.cz/ppt/competitionFilesAjax.php", 41, "POST", data, "results.csv")
+            resultsUploaderComponent.uploadFile("https://pcmlich.fit.vutbr.cz/ppt/competitionFilesAjax.php", 41, "POST", data, "results.csv")
         }
     }
 
