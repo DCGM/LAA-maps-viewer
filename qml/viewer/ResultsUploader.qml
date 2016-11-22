@@ -21,23 +21,29 @@ Item {
                 if (http.status === 200) {
 
                     try{
-                        console.log(http.responseText)
-                        console.log("1")
+
+                        var response = JSON.parse(http.responseText);
+                        console.log(response)
+
+                        if (http.responseText.indexOf('"status":0') != -1) {
+                            console.log("upload file: " + fileName +  ", status: OK");
+                        }
+                        else {
+                            console.log("upload file: " + fileName +  ", status: NOK");
+                        }
 
                     } catch (e) {
                         console.log("ERR: " + e)
                     }
-                    console.log("2")
                 }
                 // Connection error
                 else {
                     console.log("ERR: " + http.status)
                 }
-                console.log("3")
             }
-            console.log("4")
+
         }
-        console.log("5")
+
 
         var boundary = '---------------------------';
         boundary += Math.floor(Math.random()*32768);

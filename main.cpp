@@ -8,6 +8,7 @@
 #include <QtWidgets/QApplication>
 #include <QtQml>
 #include <QQuickWindow>
+#include <QLoggingCategory>
 
 
 //#include "qtquick2applicationviewer.h"
@@ -53,6 +54,7 @@ void myMessageHandler(QtMsgType type, const QMessageLogContext& context, const Q
 
 int main(int argc, char *argv[])
 {
+    QLoggingCategory::setFilterRules("qt.network.ssl.w arning=false");  // disable SSL warnings
 
     QApplication app(argc, argv);
     //    QGuiApplication app(argc, argv);
