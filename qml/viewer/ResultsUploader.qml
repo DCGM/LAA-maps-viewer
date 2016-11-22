@@ -64,7 +64,7 @@ Item {
 
         body += '--' + boundary
         body += '\r\n'
-        body += 'Content-Disposition: form-data; name="viewer"'
+        body += 'Content-Disposition: form-data; name="api_key"'
         body += '\r\n'
         body += '\r\n'
         body += 'caf9b7d9f300d3dfcf746b1c0bb564d7'
