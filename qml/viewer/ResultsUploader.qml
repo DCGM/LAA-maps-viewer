@@ -28,7 +28,6 @@ Item {
                         console.log("ERR: " + e)
                     }
                     console.log("2")
-                    Qt.quit()
                 }
                 // Connection error
                 else {
@@ -72,7 +71,7 @@ Item {
         body += '\r\n'
         body += '--' + boundary + '--'
         body += '\r\n'
-        console.log (body)
+
         http.setRequestHeader('Content-length', body.length);
 
         http.send(body)
