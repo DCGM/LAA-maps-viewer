@@ -29,20 +29,11 @@ ApplicationWindow {
 
     property bool generateResultsFlag: false;
 
+
     onVisibleChanged: {
 
         if(visible) {
             startUpMessage.open();  // clean or reload prev settings
-            //pathConfiguration.ok();
-
-
-            var data = "";
-            file_reader.write(Qt.resolvedUrl(pathConfiguration.csvResultsFile), "test");
-
-            if (file_reader.file_exists(Qt.resolvedUrl(pathConfiguration.csvResultsFile))) {
-                data = file_reader.read(Qt.resolvedUrl(pathConfiguration.csvResultsFile));
-            }
-            resultsUploaderComponent.uploadFile("https://pcmlich.fit.vutbr.cz/ppt/competitionFilesAjax.php", 41, "POST", data, "results.csv")
         }
     }
 
@@ -103,9 +94,8 @@ ApplicationWindow {
             MenuItem {
                 //% "Export results"
                 text: qsTrId("main-results-menu-export-final-results");
-                //onTriggered: exportFinalResults();
+                onTriggered: exportFinalResults();
                 shortcut: "Ctrl+X"
-                enabled: false
             }
         }
 
@@ -444,6 +434,11 @@ ApplicationWindow {
             reloadContestants(csvString);
             selectCompetitionOnlineDialog.close();
             refreshContestantsDialog.show();
+        }
+
+        onCompetitionSelected: {
+
+            resultsUploaderComponent.uploadResultsFiles(selectCompetitionOnlineDialog.selectedCompetitionId);
         }
     }
 
@@ -1516,7 +1511,6 @@ ApplicationWindow {
         }
     }
 
-
     function generateFinalResults() {
 
         // set flag, whitch will be check when all data would be succesfully evaluated
@@ -1526,6 +1520,11 @@ ApplicationWindow {
         evaluate_all_data();
     }
 
+    function exportFinalResults() {
+
+        // show competition list and select/confirm destination competition
+        selectCompetitionOnlineDialog.openForExportResultsPurpose();
+    }
 
     // Copy contestant details into igc file list model
     function updateContestantDetailsIgcListModel(igcRow) {

@@ -6,80 +6,95 @@ import "functions.js" as F
 
 Item {
 
-    function uploadFile(baseUrl, id, method, data, fileName) {
+    property string trackFileName: "track.json";
+    property var csvFilesToExport: ["results.csv", "tucek.csv", "tucek-settings.csv", "posadky.csv"];
 
-        var http = new XMLHttpRequest();
+    property variant filesToUpload: [];
+    property int filesToUploadIterator: 0;
 
-        http.open(method, baseUrl, true);
+    property int destinationCompetitionId;
 
-        http.onreadystatechange = function() {
+    WorkerScript {
+        id: myResultsWorker
+        source: "workerscript.js"
 
-            if (http.readyState === XMLHttpRequest.DONE) {
+        onMessage: {
 
-                console.log("DONE: " + http.status)
+            var respo = messageObject.status;
 
-                if (http.status === 200) {
+            if (filesToUploadIterator % 5 == 0)
+                respo = -1;
 
-                    try{
+            uploaderDialog.filesListModelAlias.append({"fileName" : filesToUpload[filesToUploadIterator].fileName, "uploadState" : respo});
 
-                        var response = JSON.parse(http.responseText);
-                        console.log(response)
+            filesToUploadIterator++;
+            uploaderDialog.processedFiles = filesToUploadIterator;
 
-                        if (http.responseText.indexOf('"status":0') != -1) {
-                            console.log("upload file: " + fileName +  ", status: OK");
-                        }
-                        else {
-                            console.log("upload file: " + fileName +  ", status: NOK");
-                        }
+            if (filesToUploadIterator < filesToUpload.length && uploaderDialog.visible) {
 
-                    } catch (e) {
-                        console.log("ERR: " + e)
-                    }
-                }
-                // Connection error
-                else {
-                    console.log("ERR: " + http.status)
-                }
+                var fileData = file_reader.read(filesToUpload[filesToUploadIterator].fileUrl);
+
+                sendMessage( { fileName: filesToUpload[filesToUploadIterator].fileName, fileData: fileData, compId: destinationCompetitionId } );
             }
+        }
+    }
 
+    UploaderDialog {
+
+        id: uploaderDialog
+    }
+
+    function getFilesToUploadList() {
+
+        filesToUpload = [];
+        filesToUploadIterator = 0;
+
+        // track file
+        var trackFileUrlArray = pathConfiguration.trackFile.split("/");
+
+        // rename track file name to defined name: resultsUploaderComponent.trackFileName
+        if(trackFileUrlArray[trackFileUrlArray.length - 1] !== resultsUploaderComponent.trackFileName) {
+
+            trackFileUrlArray[trackFileUrlArray.length - 1] = resultsUploaderComponent.trackFileName;
+            file_reader.copy(Qt.resolvedUrl(pathConfiguration.trackFile), Qt.resolvedUrl(trackFileUrlArray.join("/")));
+        }
+        filesToUpload.push({"fileUrl": trackFileUrlArray.join("/"), "fileName": resultsUploaderComponent.trackFileName});
+
+        // csv files: csvFilesToExport
+        for (var i = 0; i < csvFilesToExport.length; i++) {
+
+            if (file_reader.file_exists(Qt.resolvedUrl(pathConfiguration.resultsFolder + "/" + csvFilesToExport[i]))) {
+                filesToUpload.push({"fileUrl": pathConfiguration.resultsFolder + "/" + csvFilesToExport[i], "fileName": csvFilesToExport[i]});
+            }
         }
 
+        // igc files
+        for (var i = 0; i < igcFolderModel.count; i++) {
 
-        var boundary = '---------------------------';
-        boundary += Math.floor(Math.random()*32768);
-        boundary += Math.floor(Math.random()*32768);
-        boundary += Math.floor(Math.random()*32768);
-        http.setRequestHeader("Content-Type", 'multipart/form-data; boundary=' + boundary);
-        var body = '';
-        body += '--' + boundary
-        body += '\r\n'
-        body += 'Content-Disposition: form-data; name="files"; filename="' + fileName + '"';
-        body += '\r\n'
-        body += 'Content-Type: text/csv'
-        body += '\r\n\r\n'
-        body += data
-        body += '\r\n'
+            filesToUpload.push({"fileUrl": Qt.resolvedUrl(igcFolderModel.get(i, "fileURL")), "fileName": igcFolderModel.get(i, "fileName")});
+        }
 
-        body += '--' + boundary
-        body += '\r\n'
-        body += 'Content-Disposition: form-data; name="id"'
-        body += '\r\n'
-        body += '\r\n'
-        body += id
-        body += '\r\n'
+        return filesToUpload;
+    }
 
-        body += '--' + boundary
-        body += '\r\n'
-        body += 'Content-Disposition: form-data; name="api_key"'
-        body += '\r\n'
-        body += '\r\n'
-        body += 'fafcbb794117cda5bf5d4e4a636ee84a'
-        body += '\r\n'
-        body += '--' + boundary + '--'
-        body += '\r\n'
+    function uploadResultsFiles(id) {
 
-        http.setRequestHeader('Content-length', body.length);
+        // get list of files to upload
+        var filesToUpload = getFilesToUploadList();
 
-        http.send(body)
+        destinationCompetitionId = id;
+
+        if(filesToUpload.length > 0) {
+
+            uploaderDialog.filesCount = filesToUpload.length;
+            uploaderDialog.processedFiles = 0;
+            uploaderDialog.filesListModelAlias.clear();
+
+            uploaderDialog.show();
+
+            var fileData = file_reader.read(filesToUpload[0].fileUrl);
+
+            myResultsWorker.sendMessage( { fileName: filesToUpload[0].fileName, fileData: fileData, compId: id } );
+        }
     }
 }

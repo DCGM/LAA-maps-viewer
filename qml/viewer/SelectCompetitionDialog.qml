@@ -17,9 +17,11 @@ ApplicationWindow {
     signal refreshDataDownloaded(string csvString);
     signal competitionsDownloaded();
     property string selectedCompetition: "";
+    signal competitionSelected();
 
     property variant selectedCompetitionId;
     property bool refresh: false;
+    property bool exportResultsMode: false; // used in export results for destination competition selection
 
     property int httpRequestTimeOutMs: 5000
 
@@ -71,6 +73,9 @@ ApplicationWindow {
 
             // clear refresh flag
             refresh = false;
+
+            // clear export results flag
+            exportResultsMode = false;
 
             // clear competitions list
             competitions.clear();
@@ -180,22 +185,36 @@ ApplicationWindow {
                     if (styleData.row !== undefined) {
                         competitionsTable.selection.select(styleData.row);
                         competitionsTable.currentRow = styleData.row;
+                        competitionsTable.positionViewAtRow(styleData.row, ListView.Contain)
 
                         // get competition id
                         selectedCompetitionId  = competitions.get(competitionsTable.currentRow).id;
 
-                        // get competition property
-                        setCompetitionProperty();
+                        if (exportResultsMode) {
 
-                        getContestants("https://pcmlich.fit.vutbr.cz/ppt/exportCrewsApi.php", selectedCompetitionId, "GET");
+                            competitionListWindow.close()
+                            competitionSelected();
+                        }
+                        else {
+                            // get competition property
+                            setCompetitionProperty();
 
-                        competitionListWindow.close()
+                            getContestants("https://pcmlich.fit.vutbr.cz/ppt/exportCrewsApi.php", selectedCompetitionId, "GET");
+
+                            competitionListWindow.close()
+                        }
                     }
                 }
             }
         }
     }
 
+    function openForExportResultsPurpose() {
+
+        show();
+
+        exportResultsMode = true;
+    }
 
     function setCompetitionProperty() {
 
@@ -254,8 +273,19 @@ ApplicationWindow {
                 if (competitionsTable.currentRow !== -1) {
 
                     selectedCompetition = competitions.get(competitionsTable.currentRow).name;
-                    setCompetitionProperty();
-                    getContestants("https://pcmlich.fit.vutbr.cz/ppt/exportCrewsApi.php", selectedCompetitionId, "GET");
+
+                    if (exportResultsMode) {
+
+                        competitionListWindow.close();
+                        competitionSelected();
+
+                    }
+                    else {
+                        // get competition property
+                        setCompetitionProperty();
+
+                        getContestants("https://pcmlich.fit.vutbr.cz/ppt/exportCrewsApi.php", selectedCompetitionId, "GET");
+                    }
                 }
             }
         }
@@ -276,6 +306,8 @@ ApplicationWindow {
 
         getContestants("https://pcmlich.fit.vutbr.cz/ppt/exportCrewsApi.php", selectedCompetitionId, "GET");
     }
+
+
 
     function getContestants(baseUrl, id, method) {
 

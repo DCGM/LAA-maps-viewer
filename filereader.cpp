@@ -31,6 +31,10 @@ void FileReader::write(const QUrl &filename, QByteArray data) {
     write_local(filename.toLocalFile(), data);
 }
 
+void FileReader::copy_file(const QUrl &filename, const QUrl &newFilename) {
+    QFile::copy(filename.toLocalFile(), newFilename.toLocalFile());
+}
+
 void FileReader::remove_if_exists(const QUrl &filename) {
 
     if (file_exists(filename))
