@@ -25,20 +25,6 @@ ApplicationWindow {
 
     property int minContestantInCategory: 3
 
-    // Tohohle bychom se meli zbavit, humus
-    property int _RAL1_count: 0
-    property int _RAL2_count: 0
-    property int _SAL1_count: 0
-    property int _SAL2_count: 0
-    property int _RWL1_count: 0
-    property int _RWL2_count: 0
-    property int _SWL1_count: 0
-    property int _SWL2_count: 0
-    property int _CUSTOM1_count: 0
-    property int _CUSTOM2_count: 0
-    property int _CUSTOM3_count: 0
-    property int _CUSTOM4_count: 0
-
     property variant categoriesScorePoints: [];
 
     property bool generateResultsFlag: false;
@@ -636,8 +622,6 @@ ApplicationWindow {
 
             if (file_reader.file_exists(Qt.resolvedUrl(pathConfiguration.contestantsFile))) {
 
-                initCategoryCounters();
-
                 console.time("load ctnt")
                 loadContestants(Qt.resolvedUrl(pathConfiguration.contestantsFile))
                 loadPrevResults();
@@ -770,9 +754,6 @@ ApplicationWindow {
                 // deselect row
                 contestantsTable.selection.clear();
 
-                // update category counters
-                updateContestantInCategoryCounters(conte.category, false);
-
                 // remove item from listmodel
                 contestantsListModel.remove(updateContestantMenu.row, 1);
 
@@ -835,7 +816,6 @@ ApplicationWindow {
 
                var prevRow = contestantsTable.selection.count === 1 ? contestantsTable.currentRow : -1;
                var prevItem = contestantsListModel.get(row);
-               var prevCategory = prevItem.category;
                var prevName = prevItem.name;
 
                contestantsListModel.setProperty(row, role, value)
@@ -903,17 +883,6 @@ ApplicationWindow {
                     }
                 }
 
-                // change continuous results models
-                if (role === "category") {
-
-                    // decrease prev category counter
-                    if (prevCategory !== "-" && value !== prevCategory) {
-                        updateContestantInCategoryCounters(prevCategory, false);
-                    }
-
-                    // increase actual category counter
-                    updateContestantInCategoryCounters(value, true);
-                }
 
                 if (role === "startTime") sortListModelByStartTime();
 
@@ -1531,18 +1500,18 @@ ApplicationWindow {
 
                 property int columns: 12
 
-                NativeText { width: applicationWindow.width/statusBarCategoryCounters.columns; text: 'R-AL1: ' +  applicationWindow._RAL1_count; color: applicationWindow._RAL1_count < applicationWindow.minContestantInCategory && applicationWindow._RAL1_count > 0 ? "red" : "black" }
-                NativeText { width: applicationWindow.width/statusBarCategoryCounters.columns; text: 'R-AL2: ' +  applicationWindow._RAL2_count; color: applicationWindow._RAL2_count < applicationWindow.minContestantInCategory && applicationWindow._RAL2_count > 0 ? "red" : "black" }
-                NativeText { width: applicationWindow.width/statusBarCategoryCounters.columns; text: 'S-AL1: ' +  applicationWindow._SAL1_count; color: applicationWindow._SAL1_count < applicationWindow.minContestantInCategory && applicationWindow._SAL1_count > 0 ? "red" : "black" }
-                NativeText { width: applicationWindow.width/statusBarCategoryCounters.columns; text: 'S-AL2: ' +  applicationWindow._SAL2_count; color: applicationWindow._SAL2_count < applicationWindow.minContestantInCategory && applicationWindow._SAL2_count > 0 ? "red" : "black" }
-                NativeText { width: applicationWindow.width/statusBarCategoryCounters.columns; text: 'R-WL1: ' +  applicationWindow._RWL1_count; color: applicationWindow._RWL1_count < applicationWindow.minContestantInCategory && applicationWindow._RWL1_count > 0 ? "red" : "black" }
-                NativeText { width: applicationWindow.width/statusBarCategoryCounters.columns; text: 'R-WL2: ' +  applicationWindow._RWL2_count; color: applicationWindow._RWL2_count < applicationWindow.minContestantInCategory && applicationWindow._RWL2_count > 0 ? "red" : "black" }
-                NativeText { width: applicationWindow.width/statusBarCategoryCounters.columns; text: 'S-WL1: ' +  applicationWindow._SWL1_count; color: applicationWindow._SWL1_count < applicationWindow.minContestantInCategory && applicationWindow._SWL1_count > 0 ? "red" : "black" }
-                NativeText { width: applicationWindow.width/statusBarCategoryCounters.columns; text: 'S-WL2: ' +  applicationWindow._SWL2_count; color: applicationWindow._SWL2_count < applicationWindow.minContestantInCategory && applicationWindow._SWL2_count > 0 ? "red" : "black" }
-                NativeText { width: applicationWindow.width/statusBarCategoryCounters.columns; text: 'CUSTOM1: ' +  applicationWindow._CUSTOM1_count; color: applicationWindow._CUSTOM1_count < applicationWindow.minContestantInCategory && applicationWindow._CUSTOM1_count > 0 ? "red" : "black" }
-                NativeText { width: applicationWindow.width/statusBarCategoryCounters.columns; text: 'CUSTOM2: ' +  applicationWindow._CUSTOM2_count; color: applicationWindow._CUSTOM2_count < applicationWindow.minContestantInCategory && applicationWindow._CUSTOM2_count > 0 ? "red" : "black" }
-                NativeText { width: applicationWindow.width/statusBarCategoryCounters.columns; text: 'CUSTOM3: ' +  applicationWindow._CUSTOM3_count; color: applicationWindow._CUSTOM3_count < applicationWindow.minContestantInCategory && applicationWindow._CUSTOM3_count > 0 ? "red" : "black" }
-                NativeText { width: applicationWindow.width/statusBarCategoryCounters.columns; text: 'CUSTOM4: ' +  applicationWindow._CUSTOM4_count; color: applicationWindow._CUSTOM4_count < applicationWindow.minContestantInCategory && applicationWindow._CUSTOM4_count > 0 ? "red" : "black" }
+                NativeText { width: applicationWindow.width/statusBarCategoryCounters.columns; text: 'R-AL1: ' +  continuousResultsView.listModelRal1.count; color: continuousResultsView.listModelRal1.count < applicationWindow.minContestantInCategory && continuousResultsView.listModelRal1.count > 0 ? "red" : "black" }
+                NativeText { width: applicationWindow.width/statusBarCategoryCounters.columns; text: 'R-AL2: ' +  continuousResultsView.listModelRal2.count; color: continuousResultsView.listModelRal2.count < applicationWindow.minContestantInCategory && continuousResultsView.listModelRal2.count > 0 ? "red" : "black" }
+                NativeText { width: applicationWindow.width/statusBarCategoryCounters.columns; text: 'S-AL1: ' +  continuousResultsView.listModelSal1.count; color: continuousResultsView.listModelSal1.count < applicationWindow.minContestantInCategory && continuousResultsView.listModelSal1.count > 0 ? "red" : "black" }
+                NativeText { width: applicationWindow.width/statusBarCategoryCounters.columns; text: 'S-AL2: ' +  continuousResultsView.listModelSal2.count; color: continuousResultsView.listModelSal2.count < applicationWindow.minContestantInCategory && continuousResultsView.listModelSal2.count > 0 ? "red" : "black" }
+                NativeText { width: applicationWindow.width/statusBarCategoryCounters.columns; text: 'R-WL1: ' +  continuousResultsView.listModelRwl1.count; color: continuousResultsView.listModelRwl1.count < applicationWindow.minContestantInCategory && continuousResultsView.listModelRwl1.count > 0 ? "red" : "black" }
+                NativeText { width: applicationWindow.width/statusBarCategoryCounters.columns; text: 'R-WL2: ' +  continuousResultsView.listModelRwl2.count; color: continuousResultsView.listModelRwl2.count < applicationWindow.minContestantInCategory && continuousResultsView.listModelRwl2.count > 0 ? "red" : "black" }
+                NativeText { width: applicationWindow.width/statusBarCategoryCounters.columns; text: 'S-WL1: ' +  continuousResultsView.listModelSwl1.count; color: continuousResultsView.listModelSwl1.count < applicationWindow.minContestantInCategory && continuousResultsView.listModelSwl1.count > 0 ? "red" : "black" }
+                NativeText { width: applicationWindow.width/statusBarCategoryCounters.columns; text: 'S-WL2: ' +  continuousResultsView.listModelSwl2.count; color: continuousResultsView.listModelSwl2.count < applicationWindow.minContestantInCategory && continuousResultsView.listModelSwl2.count > 0 ? "red" : "black" }
+                NativeText { width: applicationWindow.width/statusBarCategoryCounters.columns; text: 'CUSTOM1: ' +  continuousResultsView.listModelCustom1.count; color: continuousResultsView.listModelCustom1.count < applicationWindow.minContestantInCategory && continuousResultsView.listModelCustom1.count > 0 ? "red" : "black" }
+                NativeText { width: applicationWindow.width/statusBarCategoryCounters.columns; text: 'CUSTOM2: ' +  continuousResultsView.listModelCustom2.count; color: continuousResultsView.listModelCustom2.count < applicationWindow.minContestantInCategory && continuousResultsView.listModelCustom2.count > 0 ? "red" : "black" }
+                NativeText { width: applicationWindow.width/statusBarCategoryCounters.columns; text: 'CUSTOM3: ' +  continuousResultsView.listModelCustom3.count; color: continuousResultsView.listModelCustom3.count < applicationWindow.minContestantInCategory && continuousResultsView.listModelCustom3.count > 0 ? "red" : "black" }
+                NativeText { width: applicationWindow.width/statusBarCategoryCounters.columns; text: 'CUSTOM4: ' +  continuousResultsView.listModelCustom4.count; color: continuousResultsView.listModelCustom4.count < applicationWindow.minContestantInCategory && continuousResultsView.listModelCustom4.count > 0 ? "red" : "black" }
             }
         }
     }
@@ -4080,71 +4049,6 @@ ApplicationWindow {
         }
 
         return resArr;
-    }
-
-
-    function updateContestantInCategoryCounters(category, incrementVal) {
-
-        switch(category) {
-        case "R-AL1":
-            _RAL1_count = incrementVal ? (++_RAL1_count) :  Math.max((--_RAL1_count), 0)
-            break;
-        case "R-AL2":
-            _RAL2_count = incrementVal ? (++_RAL2_count) :  Math.max((--_RAL2_count), 0)
-            break;
-        case "S-AL1":
-            _SAL1_count = incrementVal ? (++_SAL1_count) :  Math.max((--_SAL1_count), 0)
-            break;
-        case "S-AL2":
-            _SAL2_count = incrementVal ? (++_SAL2_count) :  Math.max((--_SAL2_count), 0)
-            break;
-        case "R-WL1":
-            _RWL1_count = incrementVal ? (++_RWL1_count) :  Math.max((--_RWL1_count), 0)
-            break;
-        case "R-WL2":
-            _RWL2_count = incrementVal ? (++_RWL2_count) :  Math.max((--_RWL2_count), 0)
-            break;
-        case "S-WL1":
-            _SWL1_count = incrementVal ? (++_SWL1_count) :  Math.max((--_SWL1_count), 0)
-            break;
-        case "S-WL2":
-            _SWL2_count = incrementVal ? (++_SWL2_count) :  Math.max((--_SWL2_count), 0)
-            break;
-        case "CUSTOM1":
-            _CUSTOM1_count = incrementVal ? (++_CUSTOM1_count) :  Math.max((--_CUSTOM1_count), 0)
-            break;
-        case "CUSTOM2":
-            _CUSTOM2_count = incrementVal ? (++_CUSTOM2_count) :  Math.max((--_CUSTOM2_count), 0)
-            break;
-        case "CUSTOM3":
-            _CUSTOM3_count = incrementVal ? (++_CUSTOM3_count) :  Math.max((--_CUSTOM3_count), 0)
-            break;
-        case "CUSTOM4":
-            _CUSTOM4_count = incrementVal ? (++_CUSTOM4_count) :  Math.max((--_CUSTOM4_count), 0)
-            break;
-
-        default:
-            console.log("invalid category: " + category + " in func: updateContestantInCategoryCounters")
-            break;
-        }
-    }
-
-
-    function initCategoryCounters() {
-
-        _RAL1_count = 0;
-        _RAL2_count = 0;
-        _SAL1_count = 0;
-        _SAL2_count = 0;
-        _RWL1_count = 0;
-        _RWL2_count = 0;
-        _SWL1_count = 0;
-        _SWL2_count = 0;
-        _CUSTOM1_count = 0;
-        _CUSTOM2_count = 0;
-        _CUSTOM3_count = 0;
-        _CUSTOM4_count = 0;
-
     }
 
     Timer {

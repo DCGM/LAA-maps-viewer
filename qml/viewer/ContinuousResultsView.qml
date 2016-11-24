@@ -9,6 +9,19 @@ Rectangle {
     clip: true
     color: "transparent"
 
+    property alias listModelRal1: ral1;
+    property alias listModelRal2: ral2;
+    property alias listModelSal1: sal1;
+    property alias listModelSal2: sal2;
+    property alias listModelRwl1: rwl1;
+    property alias listModelRwl2: rwl2;
+    property alias listModelSwl1: swl1;
+    property alias listModelSwl2: swl2;
+    property alias listModelCustom1: custom1;
+    property alias listModelCustom2: custom2;
+    property alias listModelCustom3: custom3;
+    property alias listModelCustom4: custom4;
+
     ListModel { id: ral1 }
     ListModel { id: ral2 }
     ListModel { id: sal1 }
