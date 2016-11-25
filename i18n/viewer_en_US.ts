@@ -1800,7 +1800,7 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
     <message id="igc-choose-dialog">
         <location filename="../qml/viewer/IGCChooseDialog.qml" line="16"/>
         <source>Choose IGC File</source>
-        <translation>Choose IGC File</translation>
+        <translation>Choose IGC file</translation>
     </message>
     <message id="IGC-Choose-dialog-filename">
         <location filename="../qml/viewer/IGCChooseDialog.qml" line="113"/>
