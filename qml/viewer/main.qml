@@ -37,6 +37,11 @@ ApplicationWindow {
         }
     }
 
+    UploaderDialog {
+
+        id: uploaderDialog
+    }
+
     ResultsUploader {
         id: resultsUploaderComponent
     }
@@ -1254,7 +1259,10 @@ ApplicationWindow {
                              pathConfiguration.visible ||
                              selectCompetitionOnlineDialog.visible ||
                              refreshContestantsDialog.visible ||
-                             startUpMessage.visible;
+                             startUpMessage.visible ||
+                             uploaderDialog.visible ||
+                             resultsWindow.visible ||
+                             createContestantDialog.visible;
 
                     MouseArea {
                         anchors.fill: parent;

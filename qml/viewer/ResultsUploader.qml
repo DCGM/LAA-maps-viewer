@@ -41,11 +41,6 @@ Item {
         }
     }
 
-    UploaderDialog {
-
-        id: uploaderDialog
-    }
-
     // create list of files to upload
     function getFilesToUploadList() {
 
