@@ -660,6 +660,8 @@ ApplicationWindow {
             contestantsListModel.changeLisModel(crow, "classify", filename === "" ? -1 : contestantsListModel.get(crow).prevResultsClassify);
 
             contestantsTable.selectRow(crow);
+
+            visible = false;
         }
     }
 
@@ -1262,7 +1264,8 @@ ApplicationWindow {
                              startUpMessage.visible ||
                              uploaderDialog.visible ||
                              resultsWindow.visible ||
-                             createContestantDialog.visible;
+                             createContestantDialog.visible ||
+                             igcChooseDialog.visible;
 
                     MouseArea {
                         anchors.fill: parent;

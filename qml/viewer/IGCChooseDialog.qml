@@ -11,7 +11,6 @@ ApplicationWindow {
     width: 550;
     height: 700;
 
-
     //% "Choose IGC File"
     title: qsTrId("igc-choose-dialog");
     property variant datamodel; // igcFolderModel
@@ -22,7 +21,6 @@ ApplicationWindow {
     ListModel {
         id: fileContestantPairModel
     }
-
 
     signal choosenFilename(string filename, string filePath);
 
@@ -58,11 +56,6 @@ ApplicationWindow {
                 }
             }
 
-            if (filename === selectedFilename) {
-                lateSelect = i;
-            }
-
-
             fileContestantPairModel.append
                     ({
                          "filepath" : filepath,
@@ -70,11 +63,12 @@ ApplicationWindow {
                          "contestant" : contestant,
                          "matchCount" : matchCount,
                      })
+
+            if (filename === selectedFilename) {
+                lateSelect = i;
+            }
         }
-
-
     }
-
 
     Component.onCompleted: {
         datamodel.countChanged.connect(folderModelChanged); // FolderListModel
@@ -86,17 +80,23 @@ ApplicationWindow {
 
 
     function doLateSelect() {
+
         if (lateSelect === -1) {
             selectionTableView.positionViewAtRow(0, ListView.Contain)
             return;
         }
 
         if (selectionTableView.rowCount > lateSelect) {
+
             selectionTableView.selection.clear();
             selectionTableView.selection.select(lateSelect);
+            selectionTableView.currentRow = lateSelect;
             selectionTableView.positionViewAtRow(lateSelect, ListView.Contain)
+
+            //console.log("doen for " + lateSelect + "    " + selectionTableView.rowCount + " " + selectionTableView.currentRow)
         }
     }
+
 
     TableView {
         id: selectionTableView;
@@ -105,6 +105,8 @@ ApplicationWindow {
         anchors.right: parent.right;
         anchors.bottom: actionButtons.top;
         anchors.margins: 10
+
+        signal selectRow(int row);
 
         model: fileContestantPairModel;
         selectionMode: SelectionMode.SingleSelection;
@@ -123,28 +125,25 @@ ApplicationWindow {
             title: qsTrId("IGC-Choose-dialog-match-count")
             role: "matchCount"
         }
+
         onDoubleClicked: {
 
-            var filename = datamodel.get(row, "fileName");
-            var filePath = datamodel.get(row, "filePath");
+            var found = false;
 
-            // read previous filename
-            var cmItem = cm.get(crow); // contestant from contestant Table
-            var selectedFilename = cmItem.filename; //
-
-            if (selectedFilename === filename) {
-                // same
-                choosenFilename("", "")
-            } else {
-                // different
+            selectionTableView.selection.forEach(function(rowIndex) {
+                var filename = datamodel.get(rowIndex, "fileName");
+                var filePath = datamodel.get(rowIndex, "filePath");
                 choosenFilename(filename, filePath)
+                found = true;
+                return;
+
+            });
+
+            if (!found) {
+                choosenFilename("","");
             }
 
-
-            igcChooseDialog.close();
             folderModelChanged();
-
-
         }
     }
     /// Action Buttons
@@ -182,8 +181,6 @@ ApplicationWindow {
 
                 igcChooseDialog.close();
                 folderModelChanged();
-
-
             }
         }
 
@@ -203,9 +200,5 @@ ApplicationWindow {
                 igcChooseDialog.close();
             }
         }
-
-
-
     }
-
 }
