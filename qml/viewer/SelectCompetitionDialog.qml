@@ -25,7 +25,6 @@ ApplicationWindow {
 
     property int httpRequestTimeOutMs: 5000
 
-
     // select previously selected competition
     onCompetitionsDownloaded: {
 
@@ -190,6 +189,7 @@ ApplicationWindow {
                         // get competition id
                         selectedCompetitionId  = competitions.get(competitionsTable.currentRow).id;
 
+                        // select destination competition - upload results
                         if (exportResultsMode) {
 
                             competitionListWindow.close()
@@ -209,6 +209,7 @@ ApplicationWindow {
         }
     }
 
+    // open dialog for selectiion of the destination competition (upload files)
     function openForExportResultsPurpose() {
 
         show();
@@ -274,6 +275,7 @@ ApplicationWindow {
 
                     selectedCompetition = competitions.get(competitionsTable.currentRow).name;
 
+                    // select destination competition - upload results
                     if (exportResultsMode) {
 
                         competitionListWindow.close();
@@ -306,8 +308,6 @@ ApplicationWindow {
 
         getContestants("https://pcmlich.fit.vutbr.cz/ppt/exportCrewsApi.php", selectedCompetitionId, "GET");
     }
-
-
 
     function getContestants(baseUrl, id, method) {
 
@@ -386,6 +386,7 @@ ApplicationWindow {
                                 str += line + "\n";
                             }
 
+                            // refresh applications
                             if (refresh) {
                                 refreshDataDownloaded(str);
                             }

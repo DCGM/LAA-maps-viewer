@@ -14,19 +14,21 @@ Item {
 
     property int destinationCompetitionId;
 
+
     WorkerScript {
         id: myResultsWorker
         source: "workerscript.js"
 
+        // file uploaded
         onMessage: {
 
+            // get respons - 0 OK, <0 Err
             var respo = messageObject.status;
 
-            if (filesToUploadIterator % 5 == 0)
-                respo = -1;
-
+            // add current file into list od processed files
             uploaderDialog.filesListModelAlias.append({"fileName" : filesToUpload[filesToUploadIterator].fileName, "uploadState" : respo});
 
+            // upload next file
             filesToUploadIterator++;
             uploaderDialog.processedFiles = filesToUploadIterator;
 
@@ -44,6 +46,7 @@ Item {
         id: uploaderDialog
     }
 
+    // create list of files to upload
     function getFilesToUploadList() {
 
         filesToUpload = [];
@@ -77,6 +80,7 @@ Item {
         return filesToUpload;
     }
 
+    // init uploading procedure
     function uploadResultsFiles(id) {
 
         // get list of files to upload
@@ -94,6 +98,7 @@ Item {
 
             var fileData = file_reader.read(filesToUpload[0].fileUrl);
 
+            // start uploading in another thread
             myResultsWorker.sendMessage( { fileName: filesToUpload[0].fileName, fileData: fileData, compId: id } );
         }
     }
