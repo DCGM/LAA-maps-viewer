@@ -1533,8 +1533,15 @@ ApplicationWindow {
 
     function exportFinalResults() {
 
-        // show competition list and select/confirm destination competition
-        selectCompetitionOnlineDialog.openForExportResultsPurpose();
+        // offline - show competition list and select/confirm destination competition
+        if (pathConfiguration.selectedCompetition == "" || isNaN(parseInt(pathConfiguration.selectedCompetitionId))) {
+
+            selectCompetitionOnlineDialog.openForExportResultsPurpose();
+        }
+        // online - init upload
+        else {
+            resultsUploaderComponent.uploadResultsFiles(selectCompetitionOnlineDialog.selectedCompetitionId);
+        }
     }
 
     // Copy contestant details into igc file list model
