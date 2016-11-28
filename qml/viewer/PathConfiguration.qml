@@ -2,6 +2,7 @@ import QtQuick 2.5
 import QtQuick.Controls 1.4
 import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.1
+import "functions.js" as F
 
 ApplicationWindow {
 
@@ -51,7 +52,7 @@ ApplicationWindow {
     property variant competitionArbitrAvatar: [""];
     property string competitionDate: "";
 
-    property string api_key_get_url: "http://ppt.laacr.cz" + "/apiKeys.php?id=101&action=create"
+    property string api_key_get_url: F.base_url + "/apiKeys.php?id=101&action=create"
 
     onCompetitionTypeChanged: {
 
