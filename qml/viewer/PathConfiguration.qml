@@ -52,7 +52,7 @@ ApplicationWindow {
     property variant competitionArbitrAvatar: [""];
     property string competitionDate: "";
 
-    property string api_key_get_url: F.base_url + "/apiKeys.php?id=101&action=create"
+    property string api_key_get_url: F.base_url + "/apiKeys.php?action=create"
 
     onCompetitionTypeChanged: {
 
