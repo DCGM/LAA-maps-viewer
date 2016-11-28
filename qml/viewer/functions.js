@@ -1,5 +1,7 @@
 .pragma library
 
+var base_url = 'https://pcmlich.fit.vutbr.cz/ppt'
+
 var earth_radius = 6371000;
 var global_center_lat = 0;
 var global_center_lon = 0;

@@ -80,7 +80,7 @@ ApplicationWindow {
             competitions.clear();
 
             // download competitions list
-            getCompetitionsData("https://pcmlich.fit.vutbr.cz/ppt/competitionListApi.php", "GET", competitions);
+            getCompetitionsData(F.base_url + "/competitionListApi.php", "GET", competitions);
         }
 
         // switch to offline state - nothing selected or connection error
@@ -101,7 +101,7 @@ ApplicationWindow {
              if (clickedButton == StandardButton.Open) {
 
                  // open url with errors
-                 Qt.openUrlExternally("https://pcmlich.fit.vutbr.cz/ppt/exportCrews.php" + "?id=" + String(competitions.get(competitionsTable.currentRow).id) + "&errors=normal");
+                 Qt.openUrlExternally(F.base_url + "/exportCrews.php" + "?id=" + String(competitions.get(competitionsTable.currentRow).id) + "&errors=normal");
                  visible = false;
              }
              else {
@@ -199,7 +199,7 @@ ApplicationWindow {
                             // get competition property
                             setCompetitionProperty();
 
-                            getContestants("https://pcmlich.fit.vutbr.cz/ppt/exportCrewsApi.php", selectedCompetitionId, "GET");
+                            getContestants(F.base_url + "/exportCrewsApi.php", selectedCompetitionId, "GET");
 
                             competitionListWindow.close()
                         }
@@ -286,7 +286,7 @@ ApplicationWindow {
                         // get competition property
                         setCompetitionProperty();
 
-                        getContestants("https://pcmlich.fit.vutbr.cz/ppt/exportCrewsApi.php", selectedCompetitionId, "GET");
+                        getContestants(F.base_url + "/exportCrewsApi.php", selectedCompetitionId, "GET");
                     }
                 }
             }
@@ -306,7 +306,7 @@ ApplicationWindow {
         // set refresh flag - downloaded applications will be saved and reloaded
         refresh = true;
 
-        getContestants("https://pcmlich.fit.vutbr.cz/ppt/exportCrewsApi.php", selectedCompetitionId, "GET");
+        getContestants(F.base_url + "/exportCrewsApi.php", selectedCompetitionId, "GET");
     }
 
     function getContestants(baseUrl, id, method) {

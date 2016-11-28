@@ -1,11 +1,14 @@
+//.import "functions.js" as Functions // doesn't work in workerscript
 
+function sendFile(fileName, fileData, compId, api_key) {
 
-function sendFile(fileName, fileData, compId) {
+    console.log("api_key = " + api_key)
 
     var status = 0;
 
     var http = new XMLHttpRequest();
 
+    //    http.open("POST", F.base_url + "/competitionFilesAjax.php", true);
     http.open("POST", "https://pcmlich.fit.vutbr.cz/ppt/competitionFilesAjax.php", true);
 
     http.onreadystatechange = function() {
@@ -63,7 +66,7 @@ function sendFile(fileName, fileData, compId) {
     body += 'Content-Disposition: form-data; name="api_key"'
     body += '\r\n'
     body += '\r\n'
-    body += 'fafcbb794117cda5bf5d4e4a636ee84a'
+    body += api_key
     body += '\r\n'
     body += '--' + boundary + '--'
     body += '\r\n'
@@ -76,7 +79,7 @@ function sendFile(fileName, fileData, compId) {
 
 WorkerScript.onMessage = function(message) {
 
-    var retVal = sendFile(message.fileName, message.fileData, message.compId);
+    var retVal = sendFile(message.fileName, message.fileData, message.compId, message.api_key);
 
     console.log("WorkerScript.onMessage retVal = " + retVal);
 
