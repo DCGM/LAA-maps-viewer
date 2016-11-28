@@ -10,246 +10,203 @@
         <translation>Trajectory Viewer</translation>
     </message>
     <message id="main-file-menu">
-        <location filename="../qml/viewer/main.qml" line="48"/>
+        <location filename="../qml/viewer/main.qml" line="53"/>
         <source>&amp;File</source>
         <translation>&amp;File</translation>
     </message>
-    <message id="main-file-menu-set-environment">
-        <source>&amp;Set Environment</source>
-        <oldsource>Set Environment</oldsource>
-        <translation type="vanished">&amp;Set Environment</translation>
-    </message>
-    <message id="main-file-menu-set-competition">
-        <source>&amp;Set Competition</source>
-        <translation type="vanished">Set Competition</translation>
-    </message>
-    <message id="main-file-menu-download-application">
-        <source>&amp;Download application</source>
-        <translation type="vanished">Download application</translation>
-    </message>
-    <message id="main-file-menu-process-all">
-        <source>Evaluate all data</source>
-        <translation type="vanished">Evaluate all data</translation>
-    </message>
-    <message id="main-file-menu-generate-continuous-results">
-        <source>Generate continuous results</source>
-        <translation type="vanished">Generate continuous results</translation>
-    </message>
-    <message id="main-file-menu-generate-final-results">
-        <source>Generate final results</source>
-        <translation type="obsolete">Generate results</translation>
-    </message>
-    <message id="main-file-menu-export">
-        <source>Export</source>
-        <translation type="vanished">Export</translation>
-    </message>
     <message id="main-file-menu-exit">
-        <location filename="../qml/viewer/main.qml" line="72"/>
+        <location filename="../qml/viewer/main.qml" line="77"/>
         <source>Exit</source>
         <oldsource>E&amp;xit</oldsource>
         <translation>E&amp;xit</translation>
     </message>
     <message id="main-results-menu">
-        <location filename="../qml/viewer/main.qml" line="80"/>
+        <location filename="../qml/viewer/main.qml" line="85"/>
         <source>&amp;Results</source>
         <translation>Results</translation>
     </message>
-    <message id="main-results-menu-generate-continuous-results">
-        <source>Generate continuous results</source>
-        <translation type="vanished">Generate continuous results</translation>
-    </message>
     <message id="main-results-menu-generate-final-results">
-        <location filename="../qml/viewer/main.qml" line="90"/>
+        <location filename="../qml/viewer/main.qml" line="95"/>
         <source>Generate final results</source>
         <translation>Generate results</translation>
     </message>
     <message id="main-results-menu-export-final-results">
-        <location filename="../qml/viewer/main.qml" line="96"/>
+        <location filename="../qml/viewer/main.qml" line="101"/>
         <source>Export results</source>
         <translation>Export results</translation>
     </message>
     <message id="main-map-menu">
-        <location filename="../qml/viewer/main.qml" line="104"/>
+        <location filename="../qml/viewer/main.qml" line="109"/>
         <source>&amp;Map</source>
         <translation>&amp;Map</translation>
     </message>
     <message id="main-map-menu-none">
-        <location filename="../qml/viewer/main.qml" line="112"/>
-        <source></source>
-        <oldsource>&amp;None</oldsource>
+        <location filename="../qml/viewer/main.qml" line="117"/>
+        <source>&amp;None</source>
         <translation>&amp;None</translation>
     </message>
     <message id="main-map-menu-local">
-        <location filename="../qml/viewer/main.qml" line="130"/>
-        <source></source>
-        <oldsource>&amp;Local</oldsource>
+        <location filename="../qml/viewer/main.qml" line="135"/>
+        <source>&amp;Local</source>
         <translation>&amp;Local</translation>
     </message>
     <message id="main-map-menu-osm">
-        <location filename="../qml/viewer/main.qml" line="150"/>
-        <source></source>
-        <oldsource>&amp;OSM Mapnik</oldsource>
-        <translation type="unfinished">&amp;OSM Mapnik</translation>
+        <location filename="../qml/viewer/main.qml" line="155"/>
+        <source>&amp;OSM Mapnik</source>
+        <translation>&amp;OSM Mapnik</translation>
     </message>
     <message id="main-map-menu-google-roadmap">
-        <location filename="../qml/viewer/main.qml" line="169"/>
-        <source></source>
-        <oldsource>Google &amp;Roadmap</oldsource>
-        <translation type="unfinished">Google &amp;Roadmap</translation>
+        <location filename="../qml/viewer/main.qml" line="174"/>
+        <source>Google &amp;Roadmap</source>
+        <translation>Google &amp;Roadmap</translation>
     </message>
     <message id="main-map-menu-google-terrain">
-        <location filename="../qml/viewer/main.qml" line="189"/>
-        <source></source>
-        <oldsource>Google &amp;Terrain</oldsource>
-        <translation type="unfinished">Google &amp;Terrain</translation>
+        <location filename="../qml/viewer/main.qml" line="194"/>
+        <source>Google &amp;Terrain</source>
+        <translation>Google &amp;Terrain</translation>
     </message>
     <message id="main-map-menu-google-satellite">
-        <location filename="../qml/viewer/main.qml" line="208"/>
-        <source></source>
-        <oldsource>Google &amp;Satellite</oldsource>
-        <translation type="unfinished">Google &amp;Satellite</translation>
+        <location filename="../qml/viewer/main.qml" line="213"/>
+        <source>Google &amp;Satellite</source>
+        <translation>Google &amp;Satellite</translation>
     </message>
     <message id="main-map-menu-custom-tile-layer">
-        <location filename="../qml/viewer/main.qml" line="226"/>
-        <source></source>
-        <oldsource>Custom tile layer</oldsource>
-        <translation type="unfinished">Custom tile layer</translation>
+        <location filename="../qml/viewer/main.qml" line="231"/>
+        <source>Custom tile layer</source>
+        <translation>Custom tile layer</translation>
     </message>
     <message id="main-map-menu-airspace-off">
-        <location filename="../qml/viewer/main.qml" line="250"/>
-        <source></source>
-        <oldsource>Airspace Off</oldsource>
-        <translation type="unfinished">Airspace Off</translation>
+        <location filename="../qml/viewer/main.qml" line="255"/>
+        <source>Airspace Off</source>
+        <translation>Airspace Off</translation>
     </message>
     <message id="main-map-menu-airspace-prosoar">
-        <location filename="../qml/viewer/main.qml" line="268"/>
-        <source></source>
-        <oldsource>Airspace (prosoar.de)</oldsource>
-        <translation type="unfinished">Airspace (prosoar.de)</translation>
+        <location filename="../qml/viewer/main.qml" line="273"/>
+        <source>Airspace (prosoar.de)</source>
+        <translation>Airspace (prosoar.de)</translation>
     </message>
     <message id="main-map-menu-airspace-local">
-        <location filename="../qml/viewer/main.qml" line="285"/>
-        <source></source>
-        <oldsource>Airspace (local)</oldsource>
-        <translation type="unfinished">Airspace (local)</translation>
+        <location filename="../qml/viewer/main.qml" line="290"/>
+        <source>Airspace (local)</source>
+        <translation>Airspace (local)</translation>
     </message>
     <message id="main-map-menu-gfw">
-        <location filename="../qml/viewer/main.qml" line="303"/>
+        <location filename="../qml/viewer/main.qml" line="308"/>
         <source>Load &amp;gfw image</source>
         <translation>Load &amp;gfw image</translation>
     </message>
     <message id="main-view-menu">
-        <location filename="../qml/viewer/main.qml" line="317"/>
+        <location filename="../qml/viewer/main.qml" line="322"/>
         <source>&amp;View</source>
         <oldsource>View</oldsource>
         <translation>&amp;View</translation>
     </message>
     <message id="main-view-menu-zoom-to-points">
-        <location filename="../qml/viewer/main.qml" line="320"/>
+        <location filename="../qml/viewer/main.qml" line="325"/>
         <source>Zoom to &amp;track</source>
         <oldsource>Zoom to track</oldsource>
         <translation>Zoom to &amp;track</translation>
     </message>
     <message id="main-view-menu-zoom-in">
-        <location filename="../qml/viewer/main.qml" line="326"/>
+        <location filename="../qml/viewer/main.qml" line="331"/>
         <source>Zoom &amp;in</source>
         <oldsource>Zoom in</oldsource>
         <translation>Zoom &amp;in</translation>
     </message>
     <message id="main-view-menu-zoom-out">
-        <location filename="../qml/viewer/main.qml" line="331"/>
+        <location filename="../qml/viewer/main.qml" line="336"/>
         <source>Zoom &amp;out</source>
         <oldsource>Zoom out</oldsource>
         <translation>Zoom &amp;out</translation>
     </message>
     <message id="main-view-menu-ruler">
-        <location filename="../qml/viewer/main.qml" line="337"/>
+        <location filename="../qml/viewer/main.qml" line="342"/>
         <source>&amp;Ruler</source>
         <oldsource>Ruler</oldsource>
         <translation>&amp;Ruler</translation>
     </message>
     <message id="main-view-menu-tables">
-        <location filename="../qml/viewer/main.qml" line="348"/>
+        <location filename="../qml/viewer/main.qml" line="353"/>
         <source>&amp;Tables</source>
         <translation>&amp;Tables</translation>
     </message>
     <message id="main-view-menu-continuous-results">
-        <location filename="../qml/viewer/main.qml" line="360"/>
+        <location filename="../qml/viewer/main.qml" line="365"/>
         <source>Continuous results</source>
         <translation>Continuous results</translation>
     </message>
     <message id="main-view-menu-altchart">
-        <location filename="../qml/viewer/main.qml" line="371"/>
+        <location filename="../qml/viewer/main.qml" line="376"/>
         <source>Altitude profile</source>
         <oldsource>Altitude</oldsource>
         <translation>Altitude profile</translation>
     </message>
     <message id="main-view-menu-category-counters-sb">
-        <location filename="../qml/viewer/main.qml" line="384"/>
+        <location filename="../qml/viewer/main.qml" line="389"/>
         <source>Category counters</source>
         <translation>Contestants count</translation>
     </message>
     <message id="main-view-menu-comp-property-sb">
-        <location filename="../qml/viewer/main.qml" line="401"/>
+        <location filename="../qml/viewer/main.qml" line="406"/>
         <source>Competition property</source>
         <translation>Competition property</translation>
     </message>
     <message id="main-help-menu">
-        <location filename="../qml/viewer/main.qml" line="419"/>
+        <location filename="../qml/viewer/main.qml" line="424"/>
         <source>&amp;Help</source>
         <oldsource>Help</oldsource>
         <translation>&amp;Help</translation>
     </message>
     <message id="main-help-menu-about">
-        <location filename="../qml/viewer/main.qml" line="422"/>
+        <location filename="../qml/viewer/main.qml" line="427"/>
         <source>&amp;About</source>
         <translation>&amp;About</translation>
     </message>
     <message id="main-map-dialog-title">
-        <location filename="../qml/viewer/main.qml" line="454"/>
+        <location filename="../qml/viewer/main.qml" line="459"/>
         <source>Custom map tile configuration</source>
         <translation>Custom map tile configuration</translation>
     </message>
     <message id="main-map-dialog-question">
-        <location filename="../qml/viewer/main.qml" line="457"/>
+        <location filename="../qml/viewer/main.qml" line="462"/>
         <source>Enter URL</source>
         <translation>Enter URL</translation>
     </message>
     <message id="path-configuration-error-contestantsFile-not-found">
-        <location filename="../qml/viewer/main.qml" line="628"/>
+        <location filename="../qml/viewer/main.qml" line="633"/>
         <source>File %1 not found</source>
         <oldsource>File %1 not exists</oldsource>
         <translation>File %1 not found</translation>
     </message>
     <message id="contestant-table-row-selected-file-not-found">
-        <location filename="../qml/viewer/main.qml" line="1176"/>
+        <location filename="../qml/viewer/main.qml" line="1183"/>
         <source>File \&quot;%1\&quot; not found</source>
         <oldsource>File \&quot;%s\&quot; not found</oldsource>
         <translation>File &quot;%1&quot; not found</translation>
     </message>
     <message id="file-name-ontinuous-results">
-        <location filename="../qml/viewer/main.qml" line="2085"/>
+        <location filename="../qml/viewer/main.qml" line="2096"/>
         <source>Continuous results</source>
         <translation>results</translation>
     </message>
     <message id="start-up-message-dialog-title">
-        <location filename="../qml/viewer/main.qml" line="4230"/>
+        <location filename="../qml/viewer/main.qml" line="4241"/>
         <source>Recovery settings</source>
         <oldsource>Viewer</oldsource>
         <translation>Recovery settings</translation>
     </message>
     <message id="start-up-message-dialog-text">
-        <location filename="../qml/viewer/main.qml" line="4233"/>
+        <location filename="../qml/viewer/main.qml" line="4244"/>
         <source>Do you want to load previous enviroment settings?</source>
         <translation>Do you want to load previous enviroment settings?</translation>
     </message>
     <message id="path-configuration-error-trackFile-not-found">
-        <location filename="../qml/viewer/main.qml" line="613"/>
+        <location filename="../qml/viewer/main.qml" line="618"/>
         <source>File %1 not found</source>
         <translation>File %1 not found</translation>
     </message>
     <message id="filelist-table-contestants">
-        <location filename="../qml/viewer/main.qml" line="1188"/>
+        <location filename="../qml/viewer/main.qml" line="1195"/>
         <source>Contestant</source>
         <translation>Contestant</translation>
     </message>
@@ -578,52 +535,20 @@
         <source>Space sections score points</source>
         <translation>Points</translation>
     </message>
-    <message id="score-table-time">
-        <source>Time</source>
-        <translation type="vanished">Time</translation>
-    </message>
-    <message id="score-table-visited">
-        <source>Visited TP</source>
-        <oldsource>Visited</oldsource>
-        <translation type="vanished">Visited TP</translation>
-    </message>
-    <message id="score-table-section-speed">
-        <source>Section speed</source>
-        <translation type="vanished">Section speed</translation>
-    </message>
-    <message id="score-table-alt-min">
-        <source>Section min altitude</source>
-        <oldsource>Section alt min</oldsource>
-        <translation type="vanished">Section alt min</translation>
-    </message>
-    <message id="score-table-alt-min-time">
-        <source>Section min altitude time</source>
-        <translation type="vanished">Section min altitude time</translation>
-    </message>
-    <message id="score-table-alt-max-count">
-        <source>Section max altitude crossings</source>
-        <oldsource>Section min altitude crossings</oldsource>
-        <translation type="vanished">Section max altitude crossings</translation>
-    </message>
-    <message id="score-table-alt-max-time-spent">
-        <source>Section max altitude time spent out</source>
-        <oldsource>Section max altitude time spent out [s]</oldsource>
-        <translation type="vanished">Section max altitude time spent out</translation>
-    </message>
     <message id="hit-yes">
-        <location filename="../qml/viewer/MyTranslator.qml" line="68"/>
-        <source>hit yes</source>
-        <oldsource>YES</oldsource>
+        <location filename="../qml/viewer/ScoreListTableDelegate.qml" line="333"/>
+        <source>YES</source>
+        <oldsource>hit yes</oldsource>
         <translation>Yes</translation>
     </message>
     <message id="hit-no">
-        <location filename="../qml/viewer/MyTranslator.qml" line="65"/>
-        <source>hit no</source>
-        <oldsource>NO</oldsource>
+        <location filename="../qml/viewer/ScoreListTableDelegate.qml" line="335"/>
+        <source>NO</source>
+        <oldsource>hit no</oldsource>
         <translation>No</translation>
     </message>
     <message id="toolbar-igc-count" numerus="yes">
-        <location filename="../qml/viewer/main.qml" line="1471"/>
+        <location filename="../qml/viewer/main.qml" line="1482"/>
         <source>Fixes %n</source>
         <oldsource>Igc fixes %n</oldsource>
         <translation>
@@ -631,128 +556,68 @@
             <numerusform>Fixes %n</numerusform>
         </translation>
     </message>
-    <message id="sg-hit-yes">
-        <source>YES</source>
-        <translation type="vanished">YES</translation>
-    </message>
-    <message id="sg-hit-no">
-        <source>NO</source>
-        <translation type="vanished">NO</translation>
-    </message>
     <message id="section-type-speed">
-        <location filename="../qml/viewer/main.qml" line="3675"/>
+        <location filename="../qml/viewer/main.qml" line="3686"/>
         <source>speed</source>
         <translation>speed</translation>
     </message>
     <message id="section-type-altitude">
-        <location filename="../qml/viewer/main.qml" line="3687"/>
+        <location filename="../qml/viewer/main.qml" line="3698"/>
         <source>altitude</source>
         <translation>altitude</translation>
     </message>
     <message id="section-type-space">
-        <location filename="../qml/viewer/main.qml" line="3699"/>
+        <location filename="../qml/viewer/main.qml" line="3710"/>
         <source>space</source>
         <translation>space</translation>
     </message>
-    <message id="score-table-alt-max">
-        <source>Section max altitude</source>
-        <oldsource>Section alt max</oldsource>
-        <translation type="vanished">Section alt max</translation>
-    </message>
-    <message id="score-table-alt-max-time">
-        <source>Section max altitude time</source>
-        <translation type="vanished">Section max altitude time</translation>
-    </message>
-    <message id="score-table-alt-min-count">
-        <source>Section min altitude crossings</source>
-        <oldsource>Section max altitude crossings</oldsource>
-        <translation type="vanished">Section min altitude crossings</translation>
-    </message>
-    <message id="path-configuration-error-contestantsFile-not-found-title">
-        <source>File %1 not foundConfiguration error</source>
-        <translation type="vanished">Configuration error</translation>
-    </message>
-    <message id="path-configuration-error-contestantsFile-not-found-text">
-        <source>File %1 not found. Do you want to download the file from the server?</source>
-        <translation type="vanished">File %1 not found. Do you want to download the file from the server?</translation>
-    </message>
     <message id="filelist-table-category">
-        <location filename="../qml/viewer/main.qml" line="1199"/>
+        <location filename="../qml/viewer/main.qml" line="1206"/>
         <source>Category</source>
         <translation>Category</translation>
     </message>
     <message id="filelist-table-speed">
-        <location filename="../qml/viewer/main.qml" line="1211"/>
+        <location filename="../qml/viewer/main.qml" line="1218"/>
         <source>Speed</source>
         <translation>Speed</translation>
     </message>
     <message id="filelist-table-start-time">
-        <location filename="../qml/viewer/main.qml" line="1205"/>
+        <location filename="../qml/viewer/main.qml" line="1212"/>
         <source>StartTime</source>
         <translation>Start time</translation>
     </message>
     <message id="filelist-table-aircraft-registration">
-        <location filename="../qml/viewer/main.qml" line="1217"/>
+        <location filename="../qml/viewer/main.qml" line="1224"/>
         <source>Aircraft registration</source>
         <translation>Registration</translation>
     </message>
     <message id="filelist-table-score">
-        <location filename="../qml/viewer/main.qml" line="1223"/>
+        <location filename="../qml/viewer/main.qml" line="1230"/>
         <source>Score</source>
         <translation>Score</translation>
     </message>
     <message id="filelist-table-score-to-1000">
-        <location filename="../qml/viewer/main.qml" line="1229"/>
+        <location filename="../qml/viewer/main.qml" line="1236"/>
         <source>Score to 1000</source>
         <translation>Score to 1000</translation>
     </message>
     <message id="filelist-table-class-order">
-        <location filename="../qml/viewer/main.qml" line="1235"/>
+        <location filename="../qml/viewer/main.qml" line="1242"/>
         <source>Class order</source>
         <translation>Order</translation>
     </message>
     <message id="filelist-table-classify">
-        <location filename="../qml/viewer/main.qml" line="1241"/>
+        <location filename="../qml/viewer/main.qml" line="1248"/>
         <source>Classify</source>
         <translation>Classify</translation>
     </message>
-    <message id="score-table-alt-min-time-spent">
-        <source>Section min altitude time spent out</source>
-        <oldsource>Section min altitude time spent out [s]</oldsource>
-        <translation type="vanished">Section min altitude time spent out</translation>
-    </message>
-    <message id="score-table-distance-max">
-        <source>Section max distance</source>
-        <translation type="vanished">Section max distance</translation>
-    </message>
-    <message id="score-table-distance-max-time">
-        <source>Section max distance time</source>
-        <translation type="vanished">Section max distance time</translation>
-    </message>
-    <message id="score-table-distance-out-count">
-        <source>Section max distance crossing</source>
-        <translation type="vanished">Section max distance crossing</translation>
-    </message>
-    <message id="score-table-distance-out-spent">
-        <source>Section max distance time spent out</source>
-        <oldsource>Section max distance time spent out [s]</oldsource>
-        <translation type="vanished">Section max distance time spent out</translation>
-    </message>
-    <message id="score-table-distance-out-bi-count">
-        <source>Section max distance crossing (both)</source>
-        <translation type="vanished">Section max distance crossing (both axis)</translation>
-    </message>
-    <message id="score-table-distance-out-bi-spent">
-        <source>Section max distance time spent out (both)</source>
-        <translation type="vanished">Section max distance time spent out (both axis)</translation>
-    </message>
     <message id="toolbar-start-time">
-        <location filename="../qml/viewer/main.qml" line="1451"/>
+        <location filename="../qml/viewer/main.qml" line="1462"/>
         <source>(Start time: %1)</source>
         <translation>(Start time: %1)</translation>
     </message>
     <message id="toolbar-invalid-fixes" numerus="yes">
-        <location filename="../qml/viewer/main.qml" line="1458"/>
+        <location filename="../qml/viewer/main.qml" line="1469"/>
         <source>Invalid %n</source>
         <oldsource>Invalid/Trimmed %1/%2</oldsource>
         <translation>
@@ -761,55 +626,35 @@
         </translation>
     </message>
     <message id="toolbar-trimmed-fixes" numerus="yes">
-        <location filename="../qml/viewer/main.qml" line="1465"/>
+        <location filename="../qml/viewer/main.qml" line="1476"/>
         <source>Trimmed %n</source>
         <translation>
             <numerusform>Trimmed %n</numerusform>
             <numerusform>Trimmed %n</numerusform>
         </translation>
     </message>
-    <message id="score-table-altitude">
-        <source>Altitude</source>
-        <translation type="vanished">Altitude</translation>
-    </message>
     <message id="main-file-menu-settings">
-        <location filename="../qml/viewer/main.qml" line="52"/>
+        <location filename="../qml/viewer/main.qml" line="57"/>
         <source>&amp;Settings</source>
         <translation>Settings</translation>
     </message>
     <message id="main-file-menu-refresh-application">
-        <location filename="../qml/viewer/main.qml" line="60"/>
+        <location filename="../qml/viewer/main.qml" line="65"/>
         <source>&amp;Refresh application</source>
         <translation>Reload applications</translation>
     </message>
     <message id="scorelist-table-menu-remove-contestant">
-        <location filename="../qml/viewer/main.qml" line="743"/>
+        <location filename="../qml/viewer/main.qml" line="750"/>
         <source>Remove contestant</source>
         <translation>Remove crew</translation>
     </message>
-    <message id="score-table-space-gate-visited">
-        <source>Visited SG</source>
-        <translation type="vanished">Visited SG</translation>
-    </message>
-    <message id="score-table-latitude">
-        <source>Latitude</source>
-        <translation type="vanished">Latitude</translation>
-    </message>
-    <message id="score-table-longitude">
-        <source>Longitude</source>
-        <translation type="vanished">Longitude</translation>
-    </message>
-    <message id="score-table-radius">
-        <source>Radius</source>
-        <translation type="vanished">Radius</translation>
-    </message>
     <message id="status-no-track-loaded">
-        <location filename="../qml/viewer/main.qml" line="1429"/>
+        <location filename="../qml/viewer/main.qml" line="1440"/>
         <source>No track loaded</source>
         <translation>No track loaded</translation>
     </message>
     <message id="filelist-table-filename">
-        <location filename="../qml/viewer/main.qml" line="1194"/>
+        <location filename="../qml/viewer/main.qml" line="1201"/>
         <source>File name</source>
         <translation>File name</translation>
     </message>
@@ -853,10 +698,6 @@
         <location filename="../qml/viewer/PathConfiguration.qml" line="318"/>
         <source>Environment</source>
         <translation>Environment</translation>
-    </message>
-    <message id="path-configuration-competition">
-        <source>Competition</source>
-        <translation type="vanished">Competition</translation>
     </message>
     <message id="path-configuration-online-offline-regime">
         <location filename="../qml/viewer/PathConfiguration.qml" line="540"/>
@@ -934,22 +775,6 @@
         <source>Track</source>
         <translation>Track</translation>
     </message>
-    <message id="path-configuration-regime">
-        <source>Regime</source>
-        <translation type="vanished">Regime</translation>
-    </message>
-    <message id="path-configuration-regime-offline">
-        <source>Offline</source>
-        <translation type="vanished">Offline</translation>
-    </message>
-    <message id="path-configuration-regime-online">
-        <source>Online</source>
-        <translation type="vanished">Online</translation>
-    </message>
-    <message id="path-configuration-connect-to-server">
-        <source>Connect ...</source>
-        <translation type="vanished">Connect to server</translation>
-    </message>
     <message id="path-configuration-track-default">
         <location filename="../qml/viewer/PathConfiguration.qml" line="371"/>
         <source>Default</source>
@@ -985,10 +810,6 @@
         <location filename="../qml/viewer/PathConfiguration.qml" line="526"/>
         <source>Browse ...</source>
         <translation>Browse ...</translation>
-    </message>
-    <message id="competition-configuration-dialog-title">
-        <source>Competition configuration</source>
-        <translation type="vanished">Competition configuration</translation>
     </message>
     <message id="competition-configuration-competition-name">
         <location filename="../qml/viewer/PathConfiguration.qml" line="619"/>
@@ -1055,7 +876,7 @@ Licence: &lt;br/&gt;\n
 
 BUT OPEN SOURCE LICENCE
 Version 1.
-Copyright (c) 2013-2015, Brno University of Technology, Antonínská 548/1, 601 90, Czech Republic &lt;br/&gt;
+Copyright (c) 2013-2015, Brno University of Technology, Antoninska 548/1, 601 90, Czech Republic &lt;br/&gt;
 ----- &lt;br/&gt;
 BY INSTALLING, COPYING OR OTHER USES OF SOFTWARE YOU ARE DECLARING THAT YOU AGREE WITH THE TERMS AND CONDITIONS OF THIS LICENCE AGREEMENT. IF YOU DO NOT AGREE WITH THE TERMS AND CONDITIONS, DO NOT INSTAL, COPY OR USE THE SOFTWARE.
 IF YOU DO NOT POSESS A VALID LICENCE, YOU ARE NOT AUTHORISED TO INSTAL, COPY OR OTHERWISE USE THE SOTWARE. &lt;br/&gt;
@@ -1136,34 +957,34 @@ User is not responsible for enforcing terms of this agreement by third parties. 
 BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, TO THE EXTENT PERMITTED BY APPLICABLE LAW. EXCEPT WHEN OTHERWISE STATED IN WRITING, BUT PROVIDES SOFTWARE </translation>
     </message>
     <message id="scorelist-table-menu-recalculate-score">
-        <location filename="../qml/viewer/main.qml" line="668"/>
+        <location filename="../qml/viewer/main.qml" line="675"/>
         <source>Recalculate</source>
         <oldsource>yes</oldsource>
         <translation>Recalculate</translation>
     </message>
     <message id="scorelist-table-menu-generate-contestant-results">
-        <location filename="../qml/viewer/main.qml" line="674"/>
+        <location filename="../qml/viewer/main.qml" line="681"/>
         <source>Generate contestant results</source>
         <translation>Generate results</translation>
     </message>
     <message id="scorelist-table-menu-append-contestant">
-        <location filename="../qml/viewer/main.qml" line="686"/>
-        <location filename="../qml/viewer/main.qml" line="733"/>
+        <location filename="../qml/viewer/main.qml" line="693"/>
+        <location filename="../qml/viewer/main.qml" line="740"/>
         <source>Append contestant</source>
         <translation>Create crew</translation>
     </message>
     <message id="scorelist-table-menu-edit-contestant">
-        <location filename="../qml/viewer/main.qml" line="723"/>
+        <location filename="../qml/viewer/main.qml" line="730"/>
         <source>Edit contestant</source>
         <translation>Edit crew</translation>
     </message>
     <message id="scorelist-table-classify-yes">
-        <location filename="../qml/viewer/main.qml" line="786"/>
+        <location filename="../qml/viewer/main.qml" line="793"/>
         <source>yes</source>
         <translation>Yes</translation>
     </message>
     <message id="scorelist-table-classify-no">
-        <location filename="../qml/viewer/main.qml" line="788"/>
+        <location filename="../qml/viewer/main.qml" line="795"/>
         <source>no</source>
         <translation>No</translation>
     </message>
@@ -1173,47 +994,47 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
         <translation>Load applications</translation>
     </message>
     <message id="contestant-download-error-dialog-title">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="342"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="343"/>
         <source>Contestant download error dialog title</source>
         <translation>Invalid registrations values</translation>
     </message>
     <message id="contestant-download-error-dialog-text">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="344"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="345"/>
         <source>Can not download registrations for selected competition. Some of the registrations includes invalid values. Please click on the Open button for more details.</source>
         <translation>Can not download registrations for selected competition. Some of the registrations includes invalid values. Please click on the Open button for more details.</translation>
     </message>
     <message id="competitions-table-round">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="128"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="127"/>
         <source>Competition round</source>
         <translation>Round</translation>
     </message>
     <message id="competitions-table-date">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="135"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="134"/>
         <source>Competition date</source>
         <translation>Date</translation>
     </message>
     <message id="competitions-table-name">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="142"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="141"/>
         <source>Competition name</source>
         <translation>Name</translation>
     </message>
     <message id="contestant-download-connection-error-dialog-title">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="409"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="411"/>
         <source>Connection error dialog title</source>
         <translation>Connection error</translation>
     </message>
     <message id="contestant-download-connection-error-dialog-text">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="411"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="413"/>
         <source>Can not download registrations for selected competition. Please check the network connection and try it again.</source>
         <translation>Can not download registrations for selected competition. Please check the network connection and try it again.</translation>
     </message>
     <message id="competitions-download-connection-error-dialog-title">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="467"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="469"/>
         <source>Connection error dialog title</source>
         <translation>Connection error</translation>
     </message>
     <message id="competitions-download-connection-error-dialog-text">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="469"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="471"/>
         <source>Can not download competitions list from server. Please check the network connection and try it again.</source>
         <translation>Can not download competitions list from server. Please check the network connection and try it again.</translation>
     </message>
@@ -1260,46 +1081,14 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
         <translation>Other</translation>
     </message>
     <message id="competition-list-ok-button">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="267"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="269"/>
         <source>Ok</source>
         <translation>Ok</translation>
     </message>
     <message id="competition-list-cancel-button">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="293"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="296"/>
         <source>Cancel</source>
         <translation>Cancel</translation>
-    </message>
-    <message id="import-window-dialog-title">
-        <source>import window title</source>
-        <translation type="vanished">Application import</translation>
-    </message>
-    <message id="import-window-header-name">
-        <source>Import window header crew name</source>
-        <translation type="vanished">Crew name</translation>
-    </message>
-    <message id="import-window-header-category">
-        <source>Import window header crew category</source>
-        <translation type="vanished">Category</translation>
-    </message>
-    <message id="import-window-header-speed">
-        <source>Import window header crew speed</source>
-        <translation type="vanished">Speed</translation>
-    </message>
-    <message id="import-window-header-startTime">
-        <source>Import window header crew start time</source>
-        <translation type="vanished">Start time</translation>
-    </message>
-    <message id="import-configuration-close">
-        <source>Close</source>
-        <translation type="vanished">Close</translation>
-    </message>
-    <message id="import-window-header-actual-value">
-        <source>Import window header crew actual value</source>
-        <translation type="vanished">Current</translation>
-    </message>
-    <message id="import-window-header-new-value">
-        <source>Import window header crew new value</source>
-        <translation type="vanished">New</translation>
     </message>
     <message id="track-list-delegate-ob-short">
         <location filename="../qml/viewer/MyTranslator.qml" line="14"/>
@@ -1386,6 +1175,16 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
         <source>continuous results</source>
         <translation>Continuous results</translation>
     </message>
+    <message id="track-list-delegate-hit-no">
+        <location filename="../qml/viewer/MyTranslator.qml" line="65"/>
+        <source>hit no</source>
+        <translation>NO</translation>
+    </message>
+    <message id="track-list-delegate-hit-yes">
+        <location filename="../qml/viewer/MyTranslator.qml" line="68"/>
+        <source>hit yes</source>
+        <translation>YES</translation>
+    </message>
     <message id="html-results-altitude-sections">
         <location filename="../qml/viewer/MyTranslator.qml" line="71"/>
         <source>altitude sections</source>
@@ -1397,26 +1196,26 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
         <translation>Circling on track</translation>
     </message>
     <message id="html-results-competition-arbitr">
+        <location filename="../qml/viewer/main.qml" line="1499"/>
         <location filename="../qml/viewer/MyTranslator.qml" line="77"/>
-        <location filename="../qml/viewer/main.qml" line="1488"/>
         <source>competition referee</source>
         <translation>Main referee</translation>
     </message>
     <message id="html-results-competition-date">
+        <location filename="../qml/viewer/main.qml" line="1500"/>
         <location filename="../qml/viewer/MyTranslator.qml" line="80"/>
-        <location filename="../qml/viewer/main.qml" line="1489"/>
         <source>competition date</source>
         <translation>Date</translation>
     </message>
     <message id="html-results-competition-director">
+        <location filename="../qml/viewer/main.qml" line="1498"/>
         <location filename="../qml/viewer/MyTranslator.qml" line="83"/>
-        <location filename="../qml/viewer/main.qml" line="1487"/>
         <source>competition director</source>
         <translation>Competition director</translation>
     </message>
     <message id="html-results-competition-type">
+        <location filename="../qml/viewer/main.qml" line="1497"/>
         <location filename="../qml/viewer/MyTranslator.qml" line="86"/>
-        <location filename="../qml/viewer/main.qml" line="1486"/>
         <source>competition type</source>
         <translation>Type</translation>
     </message>
@@ -1798,37 +1597,37 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
         <translation>Cancel</translation>
     </message>
     <message id="igc-choose-dialog">
-        <location filename="../qml/viewer/IGCChooseDialog.qml" line="16"/>
+        <location filename="../qml/viewer/IGCChooseDialog.qml" line="15"/>
         <source>Choose IGC File</source>
         <translation>Choose IGC file</translation>
     </message>
     <message id="IGC-Choose-dialog-filename">
-        <location filename="../qml/viewer/IGCChooseDialog.qml" line="113"/>
+        <location filename="../qml/viewer/IGCChooseDialog.qml" line="115"/>
         <source>Filename</source>
         <translation>Filename</translation>
     </message>
     <message id="IGC-Choose-dialog-contestant">
-        <location filename="../qml/viewer/IGCChooseDialog.qml" line="118"/>
+        <location filename="../qml/viewer/IGCChooseDialog.qml" line="120"/>
         <source>Contestant</source>
         <translation>Contestant</translation>
     </message>
     <message id="IGC-Choose-dialog-match-count">
-        <location filename="../qml/viewer/IGCChooseDialog.qml" line="123"/>
+        <location filename="../qml/viewer/IGCChooseDialog.qml" line="125"/>
         <source>Count</source>
         <translation>Count</translation>
     </message>
     <message id="IGC-Choose-Dialog-ok">
-        <location filename="../qml/viewer/IGCChooseDialog.qml" line="160"/>
+        <location filename="../qml/viewer/IGCChooseDialog.qml" line="159"/>
         <source>Ok</source>
         <translation>Ok</translation>
     </message>
     <message id="IGC-Choose-Dialog-deselect">
-        <location filename="../qml/viewer/IGCChooseDialog.qml" line="192"/>
+        <location filename="../qml/viewer/IGCChooseDialog.qml" line="189"/>
         <source>None</source>
         <translation>None</translation>
     </message>
     <message id="IGC-Choose-Dialog-cancel">
-        <location filename="../qml/viewer/IGCChooseDialog.qml" line="201"/>
+        <location filename="../qml/viewer/IGCChooseDialog.qml" line="198"/>
         <source>Close</source>
         <translation>Close</translation>
     </message>
@@ -1836,11 +1635,6 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
         <location filename="../qml/viewer/RefreshContestantsDialog.qml" line="14"/>
         <source>Refresh window title</source>
         <translation>Import contestants</translation>
-    </message>
-    <message id="AAA">
-        <source>aaaaaaa</source>
-        <oldsource>AAA</oldsource>
-        <translation type="vanished">MRDAT</translation>
     </message>
     <message id="refresh-dialog-updated-crews-title %1/%2">
         <location filename="../qml/viewer/RefreshContestantsDialog.qml" line="60"/>
@@ -1878,19 +1672,14 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
         <translation>Uploading results</translation>
     </message>
     <message id="uploader-window-dialog-text">
-        <location filename="../qml/viewer/UploaderDialog.qml" line="84"/>
+        <location filename="../qml/viewer/UploaderDialog.qml" line="86"/>
         <source>Uploading file</source>
         <translation>Uploading file</translation>
     </message>
-    <message id="uploader-dialog-ok-button">
-        <location filename="../qml/viewer/UploaderDialog.qml" line="180"/>
-        <source>Ok</source>
-        <translation>Ok</translation>
-    </message>
-    <message id="uploader-dialog-cancel-button">
-        <location filename="../qml/viewer/UploaderDialog.qml" line="194"/>
-        <source>Cancel</source>
-        <translation>Cancel</translation>
+    <message id="uploader-dialog-close-button">
+        <location filename="../qml/viewer/UploaderDialog.qml" line="181"/>
+        <source>Close</source>
+        <translation>Close</translation>
     </message>
 </context>
 <context>
@@ -1899,13 +1688,6 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
         <location filename="../qml/viewer/CalendarWindow.qml" line="12"/>
         <source>calendar</source>
         <translation>Calendar</translation>
-    </message>
-</context>
-<context>
-    <name>UploaderDialog</name>
-    <message>
-        <source>ok</source>
-        <translation type="obsolete">Ok</translation>
     </message>
 </context>
 </TS>

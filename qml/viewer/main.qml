@@ -112,8 +112,8 @@ ApplicationWindow {
             }
 
             MenuItem {
-                //% "&None"
                 id: mapNone
+                //% "&None"
                 text: qsTrId("main-map-menu-none")
                 checkable: true;
                 exclusiveGroup: mapTypeExclusive
@@ -130,8 +130,8 @@ ApplicationWindow {
                 shortcut: "Ctrl+1"
             }
             MenuItem {
-                //% "&Local"
                 id: mapLocal
+                //% "&Local"
                 text: qsTrId("main-map-menu-local")
                 checkable: true;
                 exclusiveGroup: mapTypeExclusive
@@ -150,8 +150,8 @@ ApplicationWindow {
 
             }
             MenuItem {
-                //% "&OSM Mapnik"
                 id: mapOsm
+                //% "&OSM Mapnik"
                 text: qsTrId("main-map-menu-osm")
                 checkable: true;
                 exclusiveGroup: mapTypeExclusive
@@ -169,8 +169,8 @@ ApplicationWindow {
 
             }
             MenuItem {
-                //% "Google &Roadmap"
                 id: mapGoogleRoadmap
+                //% "Google &Roadmap"
                 text: qsTrId("main-map-menu-google-roadmap")
                 checkable: true;
                 exclusiveGroup: mapTypeExclusive
@@ -189,8 +189,8 @@ ApplicationWindow {
             }
 
             MenuItem {
-                //% "Google &Terrain"
                 id: mapGoogleTerrain
+                //% "Google &Terrain"
                 text: qsTrId("main-map-menu-google-terrain")
                 checkable: true;
                 exclusiveGroup: mapTypeExclusive
@@ -208,8 +208,8 @@ ApplicationWindow {
             }
 
             MenuItem {
-                //% "Google &Satellite"
                 id: mapGoogleSatelite
+                //% "Google &Satellite"
                 text: qsTrId("main-map-menu-google-satellite")
                 exclusiveGroup: mapTypeExclusive
                 checkable: true;
@@ -226,8 +226,8 @@ ApplicationWindow {
                 shortcut: "Ctrl+6"
             }
             MenuItem {
-                //% "Custom tile layer"
                 id: mapCustom
+                //% "Custom tile layer"
                 text: qsTrId("main-map-menu-custom-tile-layer")
                 exclusiveGroup: mapTypeExclusive
                 checkable: true;
@@ -250,8 +250,8 @@ ApplicationWindow {
             }
 
             MenuItem {
-                //% "Airspace Off"
                 id: airspaceOff
+                //% "Airspace Off"
                 text: qsTrId("main-map-menu-airspace-off")
                 exclusiveGroup: mapTypeSecondaryExclusive
                 checkable: true;
@@ -268,8 +268,8 @@ ApplicationWindow {
             }
 
             MenuItem {
-                //% "Airspace (prosoar.de)"
                 id: airspaceProsoar
+                //% "Airspace (prosoar.de)"
                 text: qsTrId("main-map-menu-airspace-prosoar")
                 exclusiveGroup: mapTypeSecondaryExclusive
                 checkable: true;
@@ -285,8 +285,8 @@ ApplicationWindow {
             }
 
             MenuItem {
-                //% "Airspace (local)"
                 id: airspaceLocal
+                //% "Airspace (local)"
                 text: qsTrId("main-map-menu-airspace-local")
                 exclusiveGroup: mapTypeSecondaryExclusive
                 checkable: true;

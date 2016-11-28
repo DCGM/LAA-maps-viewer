@@ -142,22 +142,14 @@ ApplicationWindow {
                                 anchors.rightMargin: 5
 
                                 Image {
+                                    id: okImg
 
                                     anchors.fill: parent
                                     anchors.margins: 2
                                     fillMode: Image.PreserveAspectFit
-                                    source: "./data/ok.png"
-                                    visible: parseInt(uploadState) === 0
+                                    source: (parseInt(uploadState) === 0) ? "./data/ok.png" : "./data/nok.png"
                                 }
 
-                                Image {
-
-                                    anchors.fill: parent
-                                    anchors.margins: 2
-                                    fillMode: Image.PreserveAspectFit
-                                    source: "./data/nok.png"
-                                    visible: parseInt(uploadState) < 0
-                                }
                             }
                         }
                     }
@@ -184,23 +176,9 @@ ApplicationWindow {
 
         Button {
 
-            id: okButtonSettings
-            //% "Ok"
-            text: qsTrId("uploader-dialog-ok-button")
-
-            enabled: processedFiles === filesCount
-
-            onClicked: {
-
-                close();
-            }
-        }
-
-        Button {
-
             id: cancelButtonSettings
-            //% "Cancel"
-            text: qsTrId("uploader-dialog-cancel-button")
+            //% "Close"
+            text: qsTrId("uploader-dialog-close-button")
 
             onClicked: {
 

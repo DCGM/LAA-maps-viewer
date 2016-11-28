@@ -62,10 +62,10 @@ Item {
                 retVal = qsTrId("html-continuous-results"); break;
             case("hit-no"):
                 //% "hit no"
-                retVal = qsTrId("hit-no"); break;
+                retVal = qsTrId("track-list-delegate-hit-no"); break;
             case("hit-yes"):
                 //% "hit yes"
-                retVal = qsTrId("hit-yes"); break;
+                retVal = qsTrId("track-list-delegate-hit-yes"); break;
             case("html-results-altitude-sections"):
                 //% "altitude sections"
                 retVal = qsTrId("html-results-altitude-sections"); break;
