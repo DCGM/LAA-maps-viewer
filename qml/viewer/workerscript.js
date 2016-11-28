@@ -17,10 +17,10 @@ function sendFile(fileName, fileData, compId) {
                 try{
 
                     var response = JSON.parse(http.responseText);
-
-                    if (http.responseText.indexOf('"status":0') != -1) {
-                    }
-                    else {
+                    if (response.status !== undefined) {
+                        status = parseInt(response.status, 10);
+                        console.log( "response.status = " + status )
+                    }  else {
                         status = -1;
                     }
 
@@ -71,7 +71,6 @@ function sendFile(fileName, fileData, compId) {
     http.setRequestHeader('Content-length', body.length);
 
     http.send(body)
-
     return status;
 }
 
@@ -79,6 +78,8 @@ WorkerScript.onMessage = function(message) {
 
     var retVal = sendFile(message.fileName, message.fileData, message.compId);
 
+    console.log("WorkerScript.onMessage retVal = " + retVal);
+
     //Send result back to main thread
-    WorkerScript.sendMessage( { 'status': retVal} );
+    WorkerScript.sendMessage( { 'status': retVal } );
 }

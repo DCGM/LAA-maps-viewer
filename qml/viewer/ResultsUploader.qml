@@ -35,8 +35,7 @@ Item {
             if (filesToUploadIterator < filesToUpload.length && uploaderDialog.visible) {
 
                 var fileData = file_reader.read(filesToUpload[filesToUploadIterator].fileUrl);
-
-                sendMessage( { fileName: filesToUpload[filesToUploadIterator].fileName, fileData: fileData, compId: destinationCompetitionId } );
+                sendMessage( { fileName: filesToUpload[filesToUploadIterator].fileName, fileData: String(fileData), compId: destinationCompetitionId } );
             }
         }
     }
@@ -94,7 +93,7 @@ Item {
             var fileData = file_reader.read(filesToUpload[0].fileUrl);
 
             // start uploading in another thread
-            myResultsWorker.sendMessage( { fileName: filesToUpload[0].fileName, fileData: fileData, compId: id } );
+            myResultsWorker.sendMessage( { fileName: filesToUpload[0].fileName, fileData: String(fileData), compId: id } );
         }
     }
 }
