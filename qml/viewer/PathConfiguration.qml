@@ -75,6 +75,41 @@ ApplicationWindow {
     property int igcFolderCheckBox: 0;
     property int resultsFolderCheckBox: 0;
 
+    onVisibleChanged: {
+
+        // set current competition property
+        if (visible) {
+
+            // set previous enviroment tab values
+            setFilesTabContent(pathConfiguration.selectedCompetition,
+                               pathConfiguration.trackCheckBox,
+                               pathConfiguration.igcFolderCheckBox,
+                               pathConfiguration.resultsFolderCheckBox,
+                               pathConfiguration.onlineOfflineCheckBox);
+
+            // competition property
+            setCompetitionTabContent(pathConfiguration.competitionName,
+                                     pathConfiguration.competitionType,
+                                     pathConfiguration.competitionDirector,
+                                     pathConfiguration.competitionArbitr.join(", "),
+                                     pathConfiguration.competitionDate);
+
+        }
+        else {
+            autoConfirmFlag = false;
+        }
+    }
+
+    // confirm and close automatically dialog - used when prev enviroment settings is loaded from DB
+    onAfterSynchronizing: {
+
+        if(visible && autoConfirmFlag) {
+
+            autoConfirmFlag = false;
+            okButton.clicked();
+        }
+    }
+
     function getLoginTabValues() {
         var ret = [];
 
@@ -280,41 +315,6 @@ ApplicationWindow {
 
         // recover tab status
         if (!tabPrevActived) tabView.activateTabByName(previousActive)
-    }
-
-
-    onVisibleChanged: {
-
-        // set current competition property
-        if (visible) {
-
-            // set previous enviroment tab values
-            setFilesTabContent(pathConfiguration.selectedCompetition,
-                               pathConfiguration.trackCheckBox,
-                               pathConfiguration.igcFolderCheckBox,
-                               pathConfiguration.resultsFolderCheckBox,
-                               pathConfiguration.onlineOfflineCheckBox);
-
-            // competition property
-            setCompetitionTabContent(pathConfiguration.competitionName,
-                                     pathConfiguration.competitionType,
-                                     pathConfiguration.competitionDirector,
-                                     pathConfiguration.competitionArbitr.join(", "),
-                                     pathConfiguration.competitionDate);
-
-        }
-        else {
-            autoConfirmFlag = false;
-        }
-    }
-
-    // confirm and close automatically dialog - used when prev enviroment settings is loaded from DB
-    onAfterSynchronizing: {
-
-        if(visible && autoConfirmFlag) {
-
-            okButton.clicked();
-        }
     }
 
     // remove downloaded values and init text field

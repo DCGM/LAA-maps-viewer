@@ -338,6 +338,14 @@ ApplicationWindow {
                         // check for errors in response
                         if (http.responseText.indexOf("Error") != -1) {
 
+                            // set offline state
+                            var enviromentTabValues = pathConfiguration.getEnviromentTabContent();
+                            pathConfiguration.setFilesTabContent("",
+                                                                 enviromentTabValues[1] ? 1 : 0,
+                                                                 enviromentTabValues[2] ? 1 : 0,
+                                                                 enviromentTabValues[3] ? 1 : 0,
+                                                                 0);
+
                             // Set and show error dialog
                             //% "Contestant download error dialog title"
                             errMessageDialog.title = qsTrId("contestant-download-error-dialog-title")
