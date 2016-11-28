@@ -909,7 +909,7 @@ ApplicationWindow {
 
                     var loginTabValues = getLoginTabValues()
 
-                    config.set("v2_api_key", loginTabValues[0]);
+                    config.set("api_key", loginTabValues[0]);
 
                     ok();
                     pathConfiguration.close();

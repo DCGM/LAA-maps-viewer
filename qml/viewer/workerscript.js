@@ -2,8 +2,6 @@
 
 function sendFile(fileName, fileData, compId, api_key) {
 
-    console.log("api_key = " + api_key)
-
     var status = 0;
 
     var http = new XMLHttpRequest();
