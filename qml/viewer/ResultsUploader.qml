@@ -13,6 +13,7 @@ Item {
     property int filesToUploadIterator: 0;
 
     property int destinationCompetitionId;
+    property string api_key_value: ""
 
 
     WorkerScript {
@@ -38,6 +39,15 @@ Item {
                 sendMessage( { fileName: filesToUpload[filesToUploadIterator].fileName, fileData: String(fileData), compId: destinationCompetitionId } );
             }
         }
+    }
+
+    Component.onCompleted: {
+
+        api_key_value = config.get("api_key", "");
+        if (api_key_value == "") {
+            console.error("please set api key")
+        }
+
     }
 
     // create list of files to upload
@@ -93,7 +103,8 @@ Item {
             var fileData = file_reader.read(filesToUpload[0].fileUrl);
 
             // start uploading in another thread
-            myResultsWorker.sendMessage( { fileName: filesToUpload[0].fileName, fileData: String(fileData), compId: id } );
+            myResultsWorker.sendMessage( { fileName: filesToUpload[0].fileName, fileData: String(fileData), compId: id, api_key: api_key_value} );
         }
     }
+
 }

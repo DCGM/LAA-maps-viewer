@@ -51,6 +51,8 @@ ApplicationWindow {
     property variant competitionArbitrAvatar: [""];
     property string competitionDate: "";
 
+    property string api_key_get_url: "http://ppt.laacr.cz" + "/apiKeys.php?id=101&action=create"
+
     onCompetitionTypeChanged: {
 
         pathConfiguration.competitionTypeText = getCompetitionTypeString(parseInt(pathConfiguration.competitionType));
@@ -65,22 +67,60 @@ ApplicationWindow {
     property variant competitionArbitrAvatar_default: [""];
     property string competitionDate_default: ""//Qt.formatDateTime(new Date(), "dd.MM.yyyy");
 
-    property string selectedCompetition: "";    
+    property string selectedCompetition: "";
 
     property int onlineOfflineCheckBox: 0;
     property int trackCheckBox: 0;
     property int igcFolderCheckBox: 0;
     property int resultsFolderCheckBox: 0;
 
+    function getLoginTabValues() {
+        var ret = [];
+
+        // get tab status
+        var previousActive = tabView.getActive();
+        var tabPrevActived = (previousActive  === "login");
+
+        // set tab active
+        if (!tabPrevActived) tabView.activateTabByName("login");
+
+        // load data into array
+
+        ret.push(tabView.loginTabAlias.apiKeyAlias)
+
+        // recover tab status
+        if (!tabPrevActived) tabView.activateTabByName(previousActive)
+
+        return ret;
+    }
+
+    function setLoginTabValues(_api_key) {
+
+        // get tab status
+        var previousActive = tabView.getActive();
+        var tabPrevActived = (previousActive  === "path");
+
+        // set tab active
+        if (!tabPrevActived) tabView.activateTabByName("path");
+
+        // competition property
+        tabView.loginTabAlias.apiKeyAlias = _api_key;
+
+        // recover tab status
+        if (!tabPrevActived) tabView.activateTabByName(previousActive)
+    }
+
+
     function getEnviromentTabContent() {
 
         var ret = [];
 
         // get tab status
-        var tabPrevActived = tabView.isPathTabActive();
+        var previousActive = tabView.getActive();
+        var tabPrevActived = (previousActive  === "path");
 
         // set tab active
-        if (!tabPrevActived) tabView.activatePathTab();
+        if (!tabPrevActived) tabView.activateTabByName("path");
 
         // load data into array
         ret.push(tabView.pathTabAlias.downloadedCompetitionNameAlias)
@@ -93,7 +133,7 @@ ApplicationWindow {
         ret.push(tabView.pathTabAlias.resultsFolderTextFieldAlias);
 
         // recover tab status
-        if (!tabPrevActived) tabView.activateCompetitionTab();
+        if (!tabPrevActived) tabView.activateTabByName(previousActive)
 
         return ret;
     }
@@ -101,10 +141,11 @@ ApplicationWindow {
     function setFilesTabContent(selectedCompetition, trackCheckBox, igcFolderCheckBox, resultsFolderCheckBox, onlineOfflineCheckBox) {
 
         // get tab status
-        var tabPrevActived = tabView.isPathTabActive();
+        var previousActive = tabView.getActive();
+        var tabPrevActived = (previousActive  === "path");
 
         // set tab active
-        if (!tabPrevActived) tabView.activatePathTab();
+        if (!tabPrevActived) tabView.activateTabByName("path");
 
         tabView.pathTabAlias.downloadedCompetitionNameAlias = selectedCompetition; // must be set, when checkbox changed
 
@@ -123,7 +164,7 @@ ApplicationWindow {
         tabView.pathTabAlias.downloadedCompetitionNameAlias = selectedCompetition; //reinit value, checkbox deleted textfield value
 
         // recover tab status
-        if (!tabPrevActived) tabView.activateCompetitionTab();
+        if (!tabPrevActived) tabView.activateTabByName(previousActive)
     }
 
     function getEnviromentTabCompName() {
@@ -131,16 +172,17 @@ ApplicationWindow {
         var ret = "";
 
         // get tab status
-        var tabPrevActived = tabView.isPathTabActive();
+        var previousActive = tabView.getActive();
+        var tabPrevActived = (previousActive  === "competition");
 
         // set tab active
-        if (!tabPrevActived) tabView.activatePathTab();
+        if (!tabPrevActived) tabView.activateTabByName("competition");
 
         // load data into array
         ret = tabView.pathTabAlias.downloadedCompetitionNameAlias;
 
         // recover tab status
-        if (!tabPrevActived) tabView.activateCompetitionTab();
+        if (!tabPrevActived) tabView.activateTabByName(previousActive)
 
         return ret;
     }
@@ -148,30 +190,33 @@ ApplicationWindow {
     function setEnviromentTabCompName(selectedCompetition) {
 
         // get tab status
-        var tabPrevActived = tabView.isPathTabActive();
+        var previousActive = tabView.getActive();
+        var tabPrevActived = (previousActive  === "path");
 
         // set tab active
-        if (!tabPrevActived) tabView.activatePathTab();
+        if (!tabPrevActived) tabView.activateTabByName("path");
+
 
         tabView.pathTabAlias.downloadedCompetitionNameAlias = selectedCompetition;
 
         // recover tab status
-        if (!tabPrevActived) tabView.activateCompetitionTab();
+        if (!tabPrevActived) tabView.activateTabByName(previousActive)
     }
 
     function setEnviromentTabOnlineCheckBox(value) {
 
         // get tab status
-        var tabPrevActived = tabView.isPathTabActive();
+        var previousActive = tabView.getActive();
+        var tabPrevActived = (previousActive  === "path");
 
         // set tab active
-        if (!tabPrevActived) tabView.activatePathTab();
+        if (!tabPrevActived) tabView.activateTabByName("path");
 
         tabView.pathTabAlias.onlineOfflineUserDefinedCheckBoxAlias = value;
         tabView.pathTabAlias.onlineOfflineDefaultCheckBoxAlias = !value;
 
         // recover tab status
-        if (!tabPrevActived) tabView.activateCompetitionTab();
+        if (!tabPrevActived) tabView.activateTabByName(previousActive)
     }
 
 
@@ -180,10 +225,11 @@ ApplicationWindow {
         var ret = [];
 
         // get tab status
-        var tabPrevActived = tabView.isCompetitionTabActive();
+        var previousActive = tabView.getActive();
+        var tabPrevActived = (previousActive  === "competition");
 
         // set tab active
-        if (!tabPrevActived) tabView.activateCompetitionTab();
+        if (!tabPrevActived) tabView.activateTabByName("competition");
 
         // load data into array
         ret.push(tabView.competitionTabAlias.competitionNameTextAlias);
@@ -194,7 +240,7 @@ ApplicationWindow {
         ret.push(tabView.competitionTabAlias.competitionDateTextAlias);
 
         // recover tab status
-        if (!tabPrevActived) tabView.activatePathTab();
+        if (!tabPrevActived) tabView.activateTabByName(previousActive)
 
         return ret;
     }
@@ -202,10 +248,11 @@ ApplicationWindow {
     function setCompetitionTabContent(competitionName, competitionType, competitionDirector, competitionArbitr, competitionDate) {
 
         // get tab status
-        var tabPrevActived = tabView.isCompetitionTabActive();
+        var previousActive = tabView.getActive();
+        var tabPrevActived = (previousActive  === "competition");
 
         // set tab active
-        if (!tabPrevActived) tabView.activateCompetitionTab();
+        if (!tabPrevActived) tabView.activateTabByName("competition");
 
         // competition property
         tabView.competitionTabAlias.competitionNameTextAlias = competitionName;
@@ -215,22 +262,23 @@ ApplicationWindow {
         tabView.competitionTabAlias.competitionDateTextAlias = competitionDate;
 
         // recover tab status
-        if (!tabPrevActived) tabView.activatePathTab();
+        if (!tabPrevActived) tabView.activateTabByName(previousActive)
     }
 
     function setCompetitionTabDate(competitionDate) {
 
         // get tab status
-        var tabPrevActived = tabView.isCompetitionTabActive();
+        var previousActive = tabView.getActive();
+        var tabPrevActived = (previousActive  === "path");
 
         // set tab active
-        if (!tabPrevActived) tabView.activateCompetitionTab();
+        if (!tabPrevActived) tabView.activateTabByName("path");
 
         // competition property
         tabView.competitionTabAlias.competitionDateTextAlias = competitionDate;
 
         // recover tab status
-        if (!tabPrevActived) tabView.activatePathTab();
+        if (!tabPrevActived) tabView.activateTabByName(previousActive)
     }
 
 
@@ -252,6 +300,7 @@ ApplicationWindow {
                                      pathConfiguration.competitionDirector,
                                      pathConfiguration.competitionArbitr.join(", "),
                                      pathConfiguration.competitionDate);
+
         }
         else {
             autoConfirmFlag = false;
@@ -293,23 +342,38 @@ ApplicationWindow {
 
         property alias pathTabAlias: pathTab.item;
         property alias competitionTabAlias: competitionTab.item;
+        property alias loginTabAlias: loginTab.item;
 
-        function isPathTabActive() {
-            return pathTab.visible
+        function getActive() {
+            if (pathTab.visible) {
+                return "path";
+            }
+            if (competitionTab.visible) {
+                return "competition";
+            }
+            if (loginTab.visible) {
+                return "login"
+            }
+            return "";
+
         }
 
-        function isCompetitionTabActive() {
-            return competitionTab.visible
-        }
-
-        function activatePathTab() {
-            pathTab.visible = true;
-            competitionTab.visible = false;
-        }
-
-        function activateCompetitionTab() {
-            competitionTab.visible = true;
+        function activateTabByName(name) {
             pathTab.visible = false;
+            competitionTab.visible = false;
+            loginTab.visible = false;
+            switch (name) {
+            case "path":
+                pathTab.visible = true;
+                break;
+            case "competition":
+                competitionTab.visible = true;
+                break;
+            case "login":
+                loginTab.visible = true;
+                break;
+            }
+
         }
 
         Tab {
@@ -451,6 +515,13 @@ ApplicationWindow {
                         text: qsTrId("path-configuration-igc-folder-user-defined")
                         exclusiveGroup: igcGroup
                         anchors.verticalCenter: parent.verticalCenter
+
+                        onCheckedChanged: {
+                            if(checked && pathConfiguration.igcDirectory_user_defined === "") {
+                                igcFolderDialog.open();
+                            }
+                        }
+
                     }
                     TextField {
                         id: igcDirectoryTextField
@@ -508,6 +579,12 @@ ApplicationWindow {
                         text: qsTrId("path-configuration-flight-results-user-defined")
                         exclusiveGroup: resultsFolderGroup
                         anchors.verticalCenter: parent.verticalCenter
+                        onCheckedChanged: {
+                            if(checked && pathConfiguration.resultsFolder_user_defined === "") {
+                                resultsDirectoryDialog.open();
+                            }
+                        }
+
                     }
                     TextField {
                         id: resultsFolderTextField
@@ -695,9 +772,47 @@ ApplicationWindow {
                 }
             }
         }
+
+        Tab {
+            id: loginTab
+            //% "Login"
+            title: qsTrId("path-configuration-login-tab-title")
+            GridLayout {
+
+                anchors.fill: parent
+                anchors.margins: 10
+                columnSpacing: 10;
+                columns: 2
+
+                property alias apiKeyAlias: api_key.text;
+
+
+                NativeText {
+                    //% "API Key"
+                    text: qsTrId("path-configuration-login-api-key")
+
+                }
+
+                TextField {
+                    id: api_key
+                    Layout.fillWidth:true;
+                    Layout.preferredWidth: parent.width/2
+                    text: config.get("api_key", "");
+                }
+
+                Button {
+                    //% "Get API Key"
+                    text: qsTrId("path-configuration-login-open-web");
+                    onClicked: {
+                        Qt.openUrlExternally(api_key_get_url)
+                    }
+                }
+
+            }
+        }
     }
 
-     // Item visible false
+    // Item visible false
 
     /// Action Buttons
 
@@ -718,9 +833,9 @@ ApplicationWindow {
             spacing: 10;
 
             Image {
-               source: "./data/emblem_readonly.png"
-               //http://findicons.com/icon/115472/emblem_readonly?id=115472#
-               visible: online && tabView.competitionTabAlias.visible
+                source: "./data/emblem_readonly.png"
+                //http://findicons.com/icon/115472/emblem_readonly?id=115472#
+                visible: online && tabView.competitionTabAlias.visible
             }
 
             NativeText {
@@ -790,6 +905,10 @@ ApplicationWindow {
                     config.set("v2_competitionArbitr", JSON.stringify(arr));
                     config.set("v2_competitionArbitrAvatar", pathConfiguration.online ? JSON.stringify(competitionArbitrAvatar) : JSON.stringify(arrAvatar));
                     config.set("v2_competitionDate", competitionTabValues[5]);
+
+                    var loginTabValues = getLoginTabValues()
+
+                    config.set("v2_api_key", loginTabValues[0]);
 
                     ok();
                     pathConfiguration.close();
@@ -882,36 +1001,36 @@ ApplicationWindow {
 
         switch(parseInt(type)) {
 
-            case(0):
-                //% "Navigation along known track"
-                str = qsTrId("competition-type-navigation-along-known-track")
-                break;
-            case(1):
-                //% "Navigation along unknown track"
-                str = qsTrId("competition-type-navigation-along-unknown-track")
-                break;
-            case(2):
-                //% "Economy"
-                str = qsTrId("competition-type-economy")
-                break;
-            case(3):
-                //% "Search of objects"
-                str = qsTrId("competition-type-search-of-objects")
-                break;
-            case(4):
-                //% "Triangle"
-                str = qsTrId("competition-type-Triangle")
-                break;
-            case(5):
-                //% "Landing"
-                str = qsTrId("competition-type-landing")
-                break;
-            case(6):
-                //% "Other"
-                str = qsTrId("competition-type-other")
-                break;
-            default:
-                str = "unknown competition type";
+        case(0):
+            //% "Navigation along known track"
+            str = qsTrId("competition-type-navigation-along-known-track")
+            break;
+        case(1):
+            //% "Navigation along unknown track"
+            str = qsTrId("competition-type-navigation-along-unknown-track")
+            break;
+        case(2):
+            //% "Economy"
+            str = qsTrId("competition-type-economy")
+            break;
+        case(3):
+            //% "Search of objects"
+            str = qsTrId("competition-type-search-of-objects")
+            break;
+        case(4):
+            //% "Triangle"
+            str = qsTrId("competition-type-Triangle")
+            break;
+        case(5):
+            //% "Landing"
+            str = qsTrId("competition-type-landing")
+            break;
+        case(6):
+            //% "Other"
+            str = qsTrId("competition-type-other")
+            break;
+        default:
+            str = "unknown competition type";
 
         }
 
