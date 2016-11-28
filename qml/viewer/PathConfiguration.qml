@@ -637,17 +637,23 @@ ApplicationWindow {
                     anchors.right: parent.right
                     Spacer {}
 
-                    RadioButton {
-                        id: status_online
-                        //% "Online"
-                        text: qsTrId("path-configuration-competition-online")
-                        exclusiveGroup: statusGroup
-                        anchors.verticalCenter: parent.verticalCenter
-                        onCheckedChanged: {
+                    Item {
 
-                            if (checked && pathConfiguration.getEnviromentTabCompName() === "") {
+                        width: resultsFolder_user_defined.width
+                        height: resultsFolder_user_defined.height
 
-                                selectCompetitionOnlineDialog.show();
+                        RadioButton {
+                            id: status_online
+                            //% "Online"
+                            text: qsTrId("path-configuration-competition-online")
+                            exclusiveGroup: statusGroup
+                            anchors.verticalCenter: parent.verticalCenter
+                            onCheckedChanged: {
+
+                                if (checked && pathConfiguration.getEnviromentTabCompName() === "") {
+
+                                    selectCompetitionOnlineDialog.show();
+                                }
                             }
                         }
                     }
@@ -778,20 +784,19 @@ ApplicationWindow {
             id: loginTab
             //% "Login"
             title: qsTrId("path-configuration-login-tab-title")
+
             GridLayout {
 
                 anchors.fill: parent
                 anchors.margins: 10
                 columnSpacing: 10;
-                columns: 2
+                columns: 3
 
                 property alias apiKeyAlias: api_key.text;
-
 
                 NativeText {
                     //% "API Key"
                     text: qsTrId("path-configuration-login-api-key")
-
                 }
 
                 TextField {
@@ -800,7 +805,6 @@ ApplicationWindow {
                     Layout.preferredWidth: parent.width/2
                     text: config.get("api_key", "");
                 }
-
                 Button {
                     //% "Get API Key"
                     text: qsTrId("path-configuration-login-open-web");
@@ -808,7 +812,6 @@ ApplicationWindow {
                         Qt.openUrlExternally(api_key_get_url)
                     }
                 }
-
             }
         }
     }
