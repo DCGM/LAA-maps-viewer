@@ -14,34 +14,6 @@ Item {
 
     property int destinationCompetitionId;
 
-
-    WorkerScript {
-        id: myResultsWorker
-        source: "workerscript.js"
-
-        // file uploaded
-        onMessage: {
-
-            // get respons - 0 OK, <0 Err
-            var respo = messageObject.status;
-
-            // add current file into list od processed files
-            uploaderDialog.filesListModelAlias.append({"fileName" : filesToUpload[filesToUploadIterator].fileName, "uploadState" : respo});
-
-            // upload next file
-            filesToUploadIterator++;
-            uploaderDialog.processedFiles = filesToUploadIterator;
-
-            if (filesToUploadIterator < filesToUpload.length && uploaderDialog.visible) {
-
-                var api_key_value = config.get("api_key", "");
-                var fileData = file_reader.read(filesToUpload[filesToUploadIterator].fileUrl);
-                sendMessage( { fileName: filesToUpload[filesToUploadIterator].fileName, fileData: String(fileData), compId: destinationCompetitionId, api_key: api_key_value } );
-
-            }
-        }
-    }
-
     // create list of files to upload
     function getFilesToUploadList() {
 
@@ -80,7 +52,7 @@ Item {
     function uploadResultsFiles(id) {
 
         // get list of files to upload
-        var filesToUpload = getFilesToUploadList();
+        filesToUpload = getFilesToUploadList();
 
         destinationCompetitionId = id;
 
@@ -96,8 +68,100 @@ Item {
             var api_key_value = config.get("api_key", "");
 
             // start uploading in another thread           
-            myResultsWorker.sendMessage( { fileName: filesToUpload[0].fileName, fileData: String(fileData), compId: id, api_key: api_key_value} );
+            sendFile(filesToUpload[0].fileName, String(fileData), id, api_key_value);
+
         }
     }
 
+    function sendFile(fileName, fileData, compId, api_key) {
+
+        var status = 0;
+
+        var http = new XMLHttpRequest();
+
+        //    http.open("POST", F.base_url + "/competitionFilesAjax.php", true);
+        http.open("POST", "https://pcmlich.fit.vutbr.cz/ppt/competitionFilesAjax.php", true);
+
+        http.onreadystatechange = function() {
+
+            var status;
+
+            if (http.readyState === XMLHttpRequest.DONE) {
+
+                if (http.status === 200) {
+
+                    try{
+
+                        var response = JSON.parse(http.responseText);
+                        if (response.status !== undefined) {
+                            status = parseInt(response.status, 10);
+                            console.log( "response.status = " + status )
+                        }  else {
+                            status = -1;
+                        }
+
+                    } catch (e) {
+                        status = -2;
+                    }
+                }
+                // Connection error
+                else {
+                    status = -3;
+                }
+
+                // add current file into list od processed files
+                uploaderDialog.filesListModelAlias.append({"fileName" : filesToUpload[filesToUploadIterator].fileName, "uploadState" : status});
+
+                // upload next file
+                filesToUploadIterator++;
+                uploaderDialog.processedFiles = filesToUploadIterator;
+
+                if (filesToUploadIterator < filesToUpload.length && uploaderDialog.visible) {
+
+                    var api_key_value = config.get("api_key", "");
+                    var fileData = file_reader.read(filesToUpload[filesToUploadIterator].fileUrl);
+
+                    sendFile(filesToUpload[filesToUploadIterator].fileName, String(fileData), destinationCompetitionId, api_key_value);
+                }
+            }
+        }
+
+        var boundary = '---------------------------';
+        boundary += Math.floor(Math.random()*32768);
+        boundary += Math.floor(Math.random()*32768);
+        boundary += Math.floor(Math.random()*32768);
+        http.setRequestHeader("Content-Type", 'multipart/form-data; boundary=' + boundary);
+        var body = '';
+        body += '--' + boundary
+        body += '\r\n'
+        body += 'Content-Disposition: form-data; name="files"; filename="' + fileName + '"';
+        body += '\r\n'
+        body += 'Content-Type: text/csv'
+        body += '\r\n\r\n'
+        body += fileData
+        body += '\r\n'
+
+        body += '--' + boundary
+        body += '\r\n'
+        body += 'Content-Disposition: form-data; name="id"'
+        body += '\r\n'
+        body += '\r\n'
+        body += compId
+        body += '\r\n'
+
+        body += '--' + boundary
+        body += '\r\n'
+        body += 'Content-Disposition: form-data; name="api_key"'
+        body += '\r\n'
+        body += '\r\n'
+        body += api_key
+        body += '\r\n'
+        body += '--' + boundary + '--'
+        body += '\r\n'
+
+        http.setRequestHeader('Content-length', body.length);
+
+        http.send(body)
+        return status;
+    }
 }
