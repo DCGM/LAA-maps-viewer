@@ -79,8 +79,10 @@ ApplicationWindow {
             // clear competitions list
             competitions.clear();
 
+            var api_key_value = config.get("api_key", "");
+
             // download competitions list
-            getCompetitionsData(F.base_url + "/competitionListApi.php", "GET", competitions);
+            getCompetitionsData(F.base_url + "/competitionListApi.php", "GET", competitions, api_key_value);
         }
 
         // switch to offline state - nothing selected or connection error
@@ -199,7 +201,9 @@ ApplicationWindow {
                             // get competition property
                             setCompetitionProperty();
 
-                            getContestants(F.base_url + "/exportCrewsApi.php", selectedCompetitionId, "GET");
+                            var api_key_value = config.get("api_key", "");
+
+                            getContestants(F.base_url + "/exportCrewsApi.php", selectedCompetitionId, "GET", api_key_value);
 
                             competitionListWindow.close()
                         }
@@ -286,7 +290,9 @@ ApplicationWindow {
                         // get competition property
                         setCompetitionProperty();
 
-                        getContestants(F.base_url + "/exportCrewsApi.php", selectedCompetitionId, "GET");
+                        var api_key_value = config.get("api_key", "");
+
+                        getContestants(F.base_url + "/exportCrewsApi.php", selectedCompetitionId, "GET", api_key_value);
                     }
                 }
             }
@@ -306,14 +312,16 @@ ApplicationWindow {
         // set refresh flag - downloaded applications will be saved and reloaded
         refresh = true;
 
-        getContestants(F.base_url + "/exportCrewsApi.php", selectedCompetitionId, "GET");
+        var api_key_value = config.get("api_key", "");
+
+        getContestants(F.base_url + "/exportCrewsApi.php", selectedCompetitionId, "GET", api_key_value);
     }
 
-    function getContestants(baseUrl, id, method) {
+    function getContestants(baseUrl, id, method, api_key) {
 
         var http = new XMLHttpRequest();
 
-        http.open(method, baseUrl + "?id=" + id + "&errors=text", true);
+        http.open(method, baseUrl + "?id=" + id + "&errors=text" + "&api_key=" + api_key, true);
 
         // set timeout
         var timer = Qt.createQmlObject("import QtQuick 2.5; Timer {interval: 5000; repeat: false; running: true;}", competitionListWindow, "MyTimer");
@@ -336,7 +344,7 @@ ApplicationWindow {
                     try{
 
                         // check for errors in response
-                        if (http.responseText.indexOf("Error") != -1) {
+                        if (http.responseText.indexOf("\"status\":") != -1) {
 
                             // set offline state
                             var enviromentTabValues = pathConfiguration.getEnviromentTabContent();
@@ -428,11 +436,11 @@ ApplicationWindow {
         http.send()
     }
 
-    function getCompetitionsData(url, method, model) {
+    function getCompetitionsData(url, method, model, api_key) {
 
         var http = new XMLHttpRequest();
 
-        http.open(method, url, true);
+        http.open(method, url + "?api_key=" + api_key, true);
 
         // set timeout
         var timer = Qt.createQmlObject("import QtQuick 2.5; Timer {interval: 5000; repeat: false; running: true;}", competitionListWindow, "MyTimer");
