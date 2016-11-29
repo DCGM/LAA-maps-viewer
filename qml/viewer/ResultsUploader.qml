@@ -6,6 +6,7 @@ import "functions.js" as F
 
 Item {
 
+    id: resultsUploader
     property string trackFileName: "track.json";
     property var csvFilesToExport: ["results.csv", "tucek.csv", "tucek-settings.csv", "posadky.csv"];
 
@@ -48,6 +49,14 @@ Item {
         return filesToUpload;
     }
 
+    function uploadResults(id) {
+
+        // remove all files and inti upload
+        var api_key_value = config.get("api_key", "");
+
+        initCompetitionFileStorage(F.base_url + "/competitionFilesInit.php", id, api_key_value)
+    }
+
     // init uploading procedure
     function uploadResultsFiles(id) {
 
@@ -68,19 +77,118 @@ Item {
             var api_key_value = config.get("api_key", "");
 
             // start uploading in another thread           
-            sendFile(filesToUpload[0].fileName, String(fileData), id, api_key_value);
+            sendFile(F.base_url + "/competitionFilesAjax.php", filesToUpload[0].fileName, String(fileData), id, api_key_value);
 
         }
     }
 
-    function sendFile(fileName, fileData, compId, api_key) {
+    function initCompetitionFileStorage(url, compId, api_key) {
+
+        var http = new XMLHttpRequest();
+
+        http.open("POST", url + "?id=" + compId + "&api_key=" + api_key, true);
+
+        // set timeout
+        var timer = Qt.createQmlObject("import QtQuick 2.5; Timer {interval: 5000; repeat: false; running: true;}", resultsUploader, "MyTimer");
+                        timer.triggered.connect(function(){
+
+                            http.abort();
+                        });
+
+        http.onreadystatechange = function() {
+
+            timer.running = false;
+
+            if (http.readyState === XMLHttpRequest.DONE) {
+
+                if (http.status === 200) {
+
+                    try{
+
+                        // ok - init upload of files
+                        if (http.responseText.indexOf("\"status\": 0") != -1) {
+
+                            uploadResultsFiles(compId);
+                        }
+                        // err
+                        else {
+
+                            console.log("ERR initCompetitionFileStorage: " + http.responseText)
+                        }
+
+                    } catch (e) {
+
+                        console.log("ERR initCompetitionFileStorage: parse failed" + e)
+                    }
+                }
+                // Connection error
+                else {
+
+                    console.log("ERR initCompetitionFileStorage http status: " + http.status)
+                }
+            }
+        }
+
+        http.send()
+    }
+
+
+    function callUploadFinish(url, compId, api_key) {
+
+        var http = new XMLHttpRequest();
+
+        http.open("POST", url + "?id=" + compId + "&api_key=" + api_key, true);
+
+        // set timeout
+        var timer = Qt.createQmlObject("import QtQuick 2.5; Timer {interval: 5000; repeat: false; running: true;}", resultsUploader, "MyTimer");
+                        timer.triggered.connect(function(){
+
+                            http.abort();
+                        });
+
+        http.onreadystatechange = function() {
+
+            timer.running = false;
+
+            if (http.readyState === XMLHttpRequest.DONE) {
+
+                if (http.status === 200) {
+
+                    try{
+
+                        // ok - init upload of files
+                        if (http.responseText.indexOf("\"status\": 0") != -1) {
+
+                        }
+                        // err
+                        else {
+
+                            console.log("ERR callUploadFinish: " + http.responseText)
+                        }
+
+                    } catch (e) {
+
+                        console.log("ERR callUploadFinish: parse failed" + e)
+                    }
+                }
+                // Connection error
+                else {
+
+                    console.log("ERR callUploadFinish http status: " + http.status)
+                }
+            }
+        }
+
+        http.send()
+    }
+
+    function sendFile(url, fileName, fileData, compId, api_key) {
 
         var status = 0;
 
         var http = new XMLHttpRequest();
 
-        //    http.open("POST", F.base_url + "/competitionFilesAjax.php", true);
-        http.open("POST", "https://pcmlich.fit.vutbr.cz/ppt/competitionFilesAjax.php", true);
+        http.open("POST", url, true);
 
         http.onreadystatechange = function() {
 
@@ -95,7 +203,7 @@ Item {
                         var response = JSON.parse(http.responseText);
                         if (response.status !== undefined) {
                             status = parseInt(response.status, 10);
-                            console.log( "response.status = " + status )
+                            //console.log( "response.status = " + status )
                         }  else {
                             status = -1;
                         }
@@ -121,7 +229,12 @@ Item {
                     var api_key_value = config.get("api_key", "");
                     var fileData = file_reader.read(filesToUpload[filesToUploadIterator].fileUrl);
 
-                    sendFile(filesToUpload[filesToUploadIterator].fileName, String(fileData), destinationCompetitionId, api_key_value);
+                    sendFile(url, filesToUpload[filesToUploadIterator].fileName, String(fileData), destinationCompetitionId, api_key_value);
+                }
+                else {
+
+                    // init evaluation of the uploaded files on the server
+                    callUploadFinish(F.base_url + "/competitionFilesFinish.php", compId, api_key);
                 }
             }
         }
