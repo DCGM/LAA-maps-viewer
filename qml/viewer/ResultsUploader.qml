@@ -15,6 +15,20 @@ Item {
 
     property int destinationCompetitionId;
 
+    MessageDialog {
+
+         id: errMessageDialog
+         icon: StandardIcon.Critical;
+         standardButtons: StandardButton.Cancel
+
+         onButtonClicked: {
+
+            filesToUpload = [];
+            visible = false;
+            resultsUploader.visible = false;
+         }
+     }
+
     // create list of files to upload
     function getFilesToUploadList() {
 
@@ -78,7 +92,6 @@ Item {
 
             // start uploading in another thread           
             sendFile(F.base_url + "/competitionFilesAjax.php", filesToUpload[0].fileName, String(fileData), id, api_key_value);
-
         }
     }
 
@@ -110,21 +123,50 @@ Item {
 
                             uploadResultsFiles(compId);
                         }
+
+                        // competition read only
+                        else if (http.responseText.indexOf("\"status\": 5") != -1)  {
+
+                            // Set and show error dialog
+                            //% "Results upload error dialog title"
+                            errMessageDialog.title = qsTrId("results-upload-readonly-error-dialog-title")
+                            //% "Selected competition is read only. Please check the settings and try it again."
+                            errMessageDialog.text = qsTrId("results-upload-readonly-error-dialog-text")
+                            errMessageDialog.standardButtons = StandardButton.Close
+                            errMessageDialog.open();
+                        }
+
                         // err
                         else {
 
                             console.log("ERR initCompetitionFileStorage: " + http.responseText)
+
+                            // Set and show error dialog
+                            //% "Results upload error dialog title"
+                            errMessageDialog.title = qsTrId("results-upload-start-error-dialog-title")
+                            //% "Unable to start the upload of the files. Please check the api key, destination competition and try it again."
+                            errMessageDialog.text = qsTrId("results-upload-start-error-dialog-text")
+                            errMessageDialog.standardButtons = StandardButton.Close
+                            errMessageDialog.open();
                         }
 
                     } catch (e) {
 
-                        console.log("ERR initCompetitionFileStorage: parse failed" + e)
+                        console.log("ERR initCompetitionFileStorage: parse failed" + e)                        
                     }
                 }
                 // Connection error
                 else {
 
                     console.log("ERR initCompetitionFileStorage http status: " + http.status)
+
+                    // Set and show error dialog
+                    //% "Connection error dialog title"
+                    errMessageDialog.title = qsTrId("results-upload-connection-error-dialog-title")
+                    //% "Unable to connect to the server. Please check the network connection and try it again."
+                    errMessageDialog.text = qsTrId("results-upload-connection-error-dialog-text")
+                    errMessageDialog.standardButtons = StandardButton.Close
+                    errMessageDialog.open();
                 }
             }
         }
@@ -164,6 +206,14 @@ Item {
                         else {
 
                             console.log("ERR callUploadFinish: " + http.responseText)
+
+                            // Set and show error dialog
+                            //% "Results upload error dialog title"
+                            errMessageDialog.title = qsTrId("results-upload-finishing-error-dialog-title")
+                            //% "Unable to complete the results upload. Please check the api key, destination competition, uploaded files and try it again."
+                            errMessageDialog.text = qsTrId("results-upload-finishing-error-dialog-text")
+                            errMessageDialog.standardButtons = StandardButton.Close
+                            errMessageDialog.open();
                         }
 
                     } catch (e) {
@@ -175,6 +225,14 @@ Item {
                 else {
 
                     console.log("ERR callUploadFinish http status: " + http.status)
+
+                    // Set and show error dialog
+                    //% "Connection error dialog title"
+                    errMessageDialog.title = qsTrId("results-upload-connection-error-dialog-title")
+                    //% "Unable to connect to the server. Please check the network connection and try it again."
+                    errMessageDialog.text = qsTrId("results-upload-connection-error-dialog-text")
+                    errMessageDialog.standardButtons = StandardButton.Close
+                    errMessageDialog.open();
                 }
             }
         }
@@ -190,9 +248,18 @@ Item {
 
         http.open("POST", url, true);
 
+        // set timeout
+        var timer = Qt.createQmlObject("import QtQuick 2.5; Timer {interval: 5000; repeat: false; running: true;}", resultsUploader, "MyTimer");
+                        timer.triggered.connect(function(){
+
+                            http.abort();
+                        });
+
         http.onreadystatechange = function() {
 
             var status;
+
+            timer.running = false;
 
             if (http.readyState === XMLHttpRequest.DONE) {
 
