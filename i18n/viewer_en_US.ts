@@ -318,12 +318,12 @@
     <message id="score-table-opposite-count">
         <location filename="../qml/viewer/ResultsWindow.qml" line="621"/>
         <source>opposite dirrection on track count</source>
-        <translation>countercurrent flight count</translation>
+        <translation>Countercurrent flight count</translation>
     </message>
     <message id="score-table-opposite-score">
         <location filename="../qml/viewer/ResultsWindow.qml" line="623"/>
         <source>opposite dirrection on track score</source>
-        <translation>countercurrent flight score</translation>
+        <translation>Countercurrent flight score</translation>
     </message>
     <message id="results-window-dialog-manual-values-extra-points">
         <location filename="../qml/viewer/ResultsWindow.qml" line="666"/>

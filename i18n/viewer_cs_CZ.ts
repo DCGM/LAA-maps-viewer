@@ -187,7 +187,7 @@
     <message id="file-name-ontinuous-results">
         <location filename="../qml/viewer/main.qml" line="2103"/>
         <source>Continuous results</source>
-        <translation></translation>
+        <translation>vysledky</translation>
     </message>
     <message id="start-up-message-dialog-title">
         <location filename="../qml/viewer/main.qml" line="4248"/>
