@@ -274,7 +274,18 @@ Item {
             case("html-results-space-sec-entries-time"):
                 //% "space sections entries time"
                 retVal = qsTrId("html-results-space-sec-entries-time"); break;
-
+            case("html-startList-order"):
+                //% "Starting number"
+                retVal = qsTrId("html-startList-order"); break;
+            case("html-startList-startTimePrepTime"):
+                //% "Preparation time"
+                retVal = qsTrId("html-startList-startTimePrepTime"); break;
+            case("html-startList-startTimeVBT"):
+                //% "VBT time"
+                retVal = qsTrId("html-startList-startTimeVBT"); break;
+            case("html-startList-blank"):
+                //% "Others"
+                retVal = qsTrId("html-startList-blank"); break;
             default:
                 retVal = "tr error: " + String(key);
 

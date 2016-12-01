@@ -21,6 +21,9 @@ ApplicationWindow {
     property variant trItem;
     property variant ctnt;
 
+    property variant tracksVbtTimes;
+    property variant tracksPrepTimes;
+
     property variant maxPointsArr;
 
     property int minContestantInCategory: 3
@@ -443,7 +446,7 @@ ApplicationWindow {
 
         onCompetitionSelected: {
 
-            resultsUploaderComponent.uploadResultsFiles(selectCompetitionOnlineDialog.selectedCompetitionId);
+            resultsUploaderComponent.uploadResults(selectCompetitionOnlineDialog.selectedCompetitionId);
         }
     }
 
@@ -611,7 +614,20 @@ ApplicationWindow {
 
             // clear contestant in categories counters
             if (file_reader.file_exists(Qt.resolvedUrl(pathConfiguration.trackFile ))) {
-                tracks = JSON.parse(file_reader.read(Qt.resolvedUrl(pathConfiguration.trackFile )))
+                tracks = JSON.parse(file_reader.read(Qt.resolvedUrl(pathConfiguration.trackFile )))              
+
+                // load VTB and preparation times
+                tracksVbtTimes = [];
+                tracksPrepTimes = [];
+
+                for (var t = 0; t < tracks.tracks.length; t++) {
+
+                    trItem = tracks.tracks[t]
+
+                    tracksPrepTimes[trItem.name] = trItem.conn[0] === undefined ? 0 : trItem.conn[0].addTime;
+                    tracksVbtTimes[trItem.name] = trItem.preparation_time;
+                }
+
             } else {
 
                 //% "File %1 not found"
@@ -1533,6 +1549,12 @@ ApplicationWindow {
 
     function exportFinalResults() {
 
+        // DEBUG TO REMOVE
+        if (1) {
+            selectCompetitionOnlineDialog.openForExportResultsPurpose();
+            return;
+        }
+
         // offline - show competition list and select/confirm destination competition
         if (pathConfiguration.selectedCompetition == "" || isNaN(parseInt(pathConfiguration.selectedCompetitionId))) {
 
@@ -1540,7 +1562,7 @@ ApplicationWindow {
         }
         // online - init upload
         else {
-            resultsUploaderComponent.uploadResultsFiles(selectCompetitionOnlineDialog.selectedCompetitionId);
+            resultsUploaderComponent.uploadResults(selectCompetitionOnlineDialog.selectedCompetitionId);
         }
     }
 
@@ -2157,6 +2179,39 @@ ApplicationWindow {
         file_reader.write(Qt.resolvedUrl(pathConfiguration.resultsFolder + "/" + pathConfiguration.competitionName + "_" + resultsFilename + ".csv"), csvString);
     }
 
+    function createStartList() {
+
+        var date = [];
+        var item;
+        var startTimeSec;
+
+        for (var i = 0; i < contestantsListModel.count; i++) {
+
+            item = contestantsListModel.get(i);
+
+            startTimeSec = F.timeToUnix(item.startTime);
+
+            date.push(JSON.stringify({ "name": item.name,
+                        "category": item.category,
+                        "speed": item.speed,
+                        "startTimePrepTime": F.addTimeStrFormat(startTimeSec - parseInt(tracksPrepTimes[item.category] === undefined ? 0 : tracksPrepTimes[item.category])),
+                        "startTime": item.startTime,
+                        "startTimeVBT": F.addTimeStrFormat(startTimeSec + parseInt(tracksVbtTimes[item.category] === undefined ? 0 : tracksVbtTimes[item.category])),
+                        "aircraft_type": item.aircraft_type,
+                        "aircraft_registration": item.aircraft_registration,
+                        "startTimeMeasured": "",
+                        "landing": "",
+                        "photo": ""
+                      }));
+        }
+
+        //% "Start list"
+        var filename = qsTrId("start-list-filename");
+
+        // HTML
+        results_creator.createStartListHTML(pathConfiguration.resultsFolder + "/" + pathConfiguration.competitionName + "_" + filename, date);
+    }
+
 
     // DEBUG func
     function listProperty(item)
@@ -2403,7 +2458,10 @@ ApplicationWindow {
 
         // gen continuous results
         generateContinuousResults();
-    }
+
+        // gen start list
+        createStartList();
+    }  
 
     function initScorePointsArrray () {
 
@@ -3538,7 +3596,7 @@ ApplicationWindow {
             str += "\"" + F.replaceDoubleQuotes(ct.spaceSectionsScoreDetails) + "\";"
             str += "\"" + F.replaceDoubleQuotes(ct.altitudeSectionsScoreDetails) + "\";"
             str += "\"" + F.addSlashes(ct.filename) + "\";"
-            str += "\"" + F.addSlashes(ct.score) + "\";"
+            str += "\"" + F.replaceDoubleQuotes(ct.score) + "\";"
             str += "\"" + F.replaceDoubleQuotes(ct.score_json) + "\";"
             str += "\"" + ct.markersScore + "\";"
             str += "\"" + ct.photosScore + "\";"

@@ -143,6 +143,67 @@ void ResultsCreater::createContinuousResultsHTML(const QString &filePath,
 }
 
 
+void ResultsCreater::createStartListHTML(const QString &filename,
+                                         const QStringList cntList) {
+
+    QJsonDocument jsonResponse;
+    QJsonObject jsonObject;
+    QString html = "";
+    QVector<QStringList> rows;
+
+    html += "<!DOCTYPE html>\n";
+    html += "<html lang=\"en\">\n";
+    html += getHTMLHeader(jsonObject["name"].toString()) + "\n";
+
+    html += "<body>\n";
+    html += getHTMLBodyScript() + "\n";
+
+    html += "<div class=\"container\">\n";
+
+    html += "       <div class=\"column\">\n";
+    html += "           <div class=\"row\">\n";
+    html += "               <span class=\"pull-right\">" + QDate().currentDate().toString("dd.MM.yyyy") + "  " + QTime().currentTime().toString("hh:mm:ss") + "</span>\n";
+    html += "           </div>\n";
+    html += "       </div>\n";
+
+    // track points header row
+    rows.append(getTranslatedStringList(QStringList() << ("html-startList-order")
+                                                      << ("html-continuous-results-name")
+                                                      << ("html-results-ctnt-category")
+                                                      << ("html-results-ctnt-speed")
+                                                      << ("html-results-ctnt-aircraft-registration")
+                                                      << ("html-startList-startTimePrepTime")
+                                                      << ("html-results-ctnt-startTime")
+                                                      << ("html-startList-startTimeVBT")
+                                                      << ("html-startList-blank")
+                                                      ));
+
+
+    for (int i = 0; i < cntList.size(); ++i) {
+
+        jsonResponse = QJsonDocument::fromJson(cntList.at(i).toUtf8());
+        jsonObject = jsonResponse.object();
+
+        rows.append(QStringList() << QString::number(i)
+                                  << jsonObject["name"].toString()
+                                  << jsonObject["category"].toString()
+                                  << QString::number(jsonObject["speed"].toInt())
+                                  << jsonObject["aircraft_registration"].toString()
+                                  << jsonObject["startTimePrepTime"].toString()
+                                  << "<b>" + jsonObject["startTime"].toString() + "</b>"
+                                  << jsonObject["startTimeVBT"].toString()
+                                  << ""
+                    );
+    }
+
+    html += getHTMLHorizontalTable(rows, QVector<double>{0.2/9.0, 3.1/9.0, 0.4/9.0, 0.3/9.0, 0.4/9.0, 0.7/9.0, 0.7/9.0, 0.7/9.0, 2.5/9.0});
+
+    html += "</div>\n";
+    html += "</body>\n";
+    html += "</html>\n";
+
+    file.writeUTF8(QUrl(filename + ".html"), html.toUtf8());
+}
 
 
 
