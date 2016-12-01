@@ -2209,7 +2209,7 @@ ApplicationWindow {
         var filename = qsTrId("start-list-filename");
 
         // HTML
-        results_creator.createStartListHTML(pathConfiguration.resultsFolder + "/" + pathConfiguration.competitionName + "_" + filename, date);
+        results_creator.createStartListHTML(pathConfiguration.resultsFolder + "/" + pathConfiguration.competitionName + "_" + filename, date, pathConfiguration.competitionName);
     }
 
 

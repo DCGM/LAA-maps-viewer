@@ -57,7 +57,8 @@ public:
     Q_INVOKABLE QString pointFlagToString(const unsigned int f);
 
     Q_INVOKABLE void createStartListHTML(const QString &filename,
-                                         const QStringList cntList);
+                                         const QStringList &cntList,
+                                         const QString &competitionName);
 
 
 

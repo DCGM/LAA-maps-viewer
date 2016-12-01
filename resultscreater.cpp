@@ -144,7 +144,8 @@ void ResultsCreater::createContinuousResultsHTML(const QString &filePath,
 
 
 void ResultsCreater::createStartListHTML(const QString &filename,
-                                         const QStringList cntList) {
+                                         const QStringList &cntList,
+                                         const QString &competitionName) {
 
     QJsonDocument jsonResponse;
     QJsonObject jsonObject;
@@ -160,11 +161,14 @@ void ResultsCreater::createStartListHTML(const QString &filename,
 
     html += "<div class=\"container\">\n";
 
-    html += "       <div class=\"column\">\n";
-    html += "           <div class=\"row\">\n";
-    html += "               <span class=\"pull-right\">" + QDate().currentDate().toString("dd.MM.yyyy") + "  " + QTime().currentTime().toString("hh:mm:ss") + "</span>\n";
-    html += "           </div>\n";
-    html += "       </div>\n";
+    html += "<div class=\"row\">\n";
+    html += "   <div class=\"col-md-6\">\n";
+    html +=         competitionName + "\n";
+    html += "   </div>\n";
+    html += "   <div class=\"col-md-6\">\n";
+    html += "       <span class=\"pull-right\">" + QDate().currentDate().toString("dd.MM.yyyy") + "  " + QTime().currentTime().toString("hh:mm:ss") + "</span>\n";
+    html += "   </div>\n";
+    html += "</div>\n";
 
     // track points header row
     rows.append(getTranslatedStringList(QStringList() << ("html-startList-order")
