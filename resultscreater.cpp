@@ -179,7 +179,7 @@ void ResultsCreater::createStartListHTML(const QString &filename,
                                                       << ("html-startList-startTimePrepTime")
                                                       << ("html-results-ctnt-startTime")
                                                       << ("html-startList-startTimeVBT")
-                                                      << ("html-startList-blank")
+                                                      << ("html-results-note")
                                                       ));
 
 
