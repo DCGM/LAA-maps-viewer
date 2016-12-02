@@ -878,7 +878,7 @@
     <message id="about-app-title">
         <location filename="../qml/viewer/AboutDialog.qml" line="16"/>
         <source>LAA Trajectory Viewer</source>
-        <translation>LAA Trajectory Viewer</translation>
+        <translation type="unfinished">LAA Trajectory Viewer version 2.0</translation>
     </message>
     <message id="about-build-date">
         <location filename="../qml/viewer/AboutDialog.qml" line="110"/>
