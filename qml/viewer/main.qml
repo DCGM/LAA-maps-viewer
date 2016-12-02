@@ -1283,6 +1283,12 @@ ApplicationWindow {
                              createContestantDialog.visible ||
                              igcChooseDialog.visible;
 
+                    BusyIndicator {
+                        running: parent.visible
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.horizontalCenter: parent.horizontalCenter
+                    }
+
                     MouseArea {
                         anchors.fill: parent;
                         onClicked: {
