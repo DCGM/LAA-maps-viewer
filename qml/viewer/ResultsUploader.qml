@@ -291,7 +291,7 @@ Item {
                 filesToUploadIterator++;
                 uploaderDialog.processedFiles = filesToUploadIterator;
 
-                if (filesToUploadIterator < filesToUpload.length && uploaderDialog.visible) {
+                if (filesToUploadIterator < filesToUpload.length && uploaderDialog.visible && !errMessageDialog.visible) {
 
                     var api_key_value = config.get("api_key", "");
                     var fileData = file_reader.read(filesToUpload[filesToUploadIterator].fileUrl);
