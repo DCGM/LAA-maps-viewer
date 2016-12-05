@@ -733,7 +733,7 @@
     <message id="path-configuration-login-tab-title">
         <location filename="../qml/viewer/PathConfiguration.qml" line="786"/>
         <source>Login</source>
-        <translation>Login</translation>
+        <translation>User</translation>
     </message>
     <message id="path-configuration-login-api-key">
         <location filename="../qml/viewer/PathConfiguration.qml" line="799"/>
