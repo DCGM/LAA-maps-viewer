@@ -108,9 +108,9 @@ int main(int argc, char *argv[])
 
     engine.load(QUrl("qml/viewer/main.qml"));
 
-    engine.setOfflineStoragePath( QFileInfo( QCoreApplication::applicationFilePath() ).dir().absolutePath());
-    QString str = engine.offlineStoragePath();
-    qDebug() << "setOfflineStoragePath: " << str;
+    //engine.setOfflineStoragePath( QFileInfo( QCoreApplication::applicationFilePath() ).dir().absolutePath());
+    //QString str = engine.offlineStoragePath();
+    //qDebug() << "setOfflineStoragePath: " << str;
 
 
     QObject *topLevel = engine.rootObjects().value(0);
