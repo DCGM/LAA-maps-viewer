@@ -952,6 +952,8 @@ ApplicationWindow {
 
         id: resultsWindow
 
+        //visible: true
+
         onOk: {
 
             //copy manual values into list models

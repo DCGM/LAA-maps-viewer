@@ -380,7 +380,7 @@ ApplicationWindow {
         Tab {
             id: pathTab
             //% "Environment"
-            title: qsTrId("path-configuration-environment-tab-title")
+            title: qsTrId("path-configuration-environment-tab-title")          
 
             ColumnLayout {
                 id: mainColumn
@@ -784,6 +784,12 @@ ApplicationWindow {
             id: loginTab
             //% "Login"
             title: qsTrId("path-configuration-login-tab-title")
+
+            // save api key
+            onVisibleChanged: {
+
+                config.set("api_key", api_key.text);
+            }
 
             GridLayout {
 
