@@ -1205,8 +1205,8 @@ ApplicationWindow {
                         errorMessage.open();
                     }
 
-                    // remove suffix file:///
-                    igc.load( filePath.substring(8), ctnt.startTime)
+                    // remove prefix "file:///"
+                    igc.load( file_reader.toLocal(filePath), ctnt.startTime)
                     map.requestUpdate()
                     altChart.igcUpdate();
                 }

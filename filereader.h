@@ -9,6 +9,9 @@ class FileReader : public QObject
 public:
     explicit FileReader(QObject *parent = 0);
 
+
+    Q_INVOKABLE QString toLocal(const QUrl &filename);
+
     Q_INVOKABLE QByteArray read_local(const QString &filename);
     Q_INVOKABLE bool file_exists_local(const QString &filename);
     Q_INVOKABLE void write_local(const QString &filename, QByteArray data);

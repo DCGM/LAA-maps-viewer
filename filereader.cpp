@@ -12,6 +12,17 @@ FileReader::FileReader(QObject *parent) :
 {
 }
 
+/**
+ * @brief FileReader::toLocal wrapper over QUrl.toLocalFile() function
+ * @param filename
+ * @return
+ */
+
+QString FileReader::toLocal(const QUrl &filename) {
+    return filename.toLocalFile();
+}
+
+
 QByteArray FileReader::read(const QUrl &filename) {
 //    qDebug() << "read " << filename.toLocalFile();
     return read_local(filename.toLocalFile());
