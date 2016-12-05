@@ -624,8 +624,8 @@ ApplicationWindow {
 
                     trItem = tracks.tracks[t]
 
-                    tracksPrepTimes[trItem.name] = trItem.conn[0] === undefined ? 0 : trItem.conn[0].addTime;
-                    tracksVbtTimes[trItem.name] = trItem.preparation_time;
+                    tracksVbtTimes[trItem.name] = trItem.conn[0] === undefined ? 0 : trItem.conn[0].addTime;
+                    tracksPrepTimes[trItem.name] = trItem.preparation_time;
                 }
 
             } else {
