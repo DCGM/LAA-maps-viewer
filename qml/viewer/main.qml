@@ -97,12 +97,14 @@ ApplicationWindow {
                 //% "Generate final results"
                 text: qsTrId("main-results-menu-generate-final-results");
                 onTriggered: generateFinalResults();
+                enabled: (contestantsListModel.count > 0)
                 shortcut: "Ctrl+R"
             }
             MenuItem {
                 //% "Export results"
                 text: qsTrId("main-results-menu-export-final-results");
                 onTriggered: exportFinalResults();
+                enabled: (contestantsListModel.count > 0)
                 shortcut: "Ctrl+X"
             }
         }
@@ -3505,11 +3507,25 @@ ApplicationWindow {
             //console.log(item.prevResultsSpaceSec)
             //console.log(item.prevResultsAltSec)
 
+
             // load manual values into list models
-            loadStringIntoListModel(wptNewScoreListManualValuesCache, ct.prevResultsWPT, "; ");
-            loadStringIntoListModel(speedSectionsScoreListManualValuesCache, ct.prevResultsSpeedSec, "; ");
-            loadStringIntoListModel(spaceSectionsScoreListManualValuesCache, ct.prevResultsSpaceSec, "; ");
-            loadStringIntoListModel(altSectionsScoreListManualValuesCache, ct.prevResultsAltSec, "; ");
+//            loadStringIntoListModel(wptNewScoreListManualValuesCache, ct.prevResultsWPT, "; ");
+//            loadStringIntoListModel(speedSectionsScoreListManualValuesCache, ct.prevResultsSpeedSec, "; ");
+//            loadStringIntoListModel(spaceSectionsScoreListManualValuesCache, ct.prevResultsSpaceSec, "; ");
+//            loadStringIntoListModel(altSectionsScoreListManualValuesCache, ct.prevResultsAltSec, "; ");
+
+            loadStringIntoListModel(wptNewScoreListManualValuesCache, ct.wptScoreDetails, "; ");
+            loadStringIntoListModel(speedSectionsScoreListManualValuesCache, ct.speedSectionsScoreDetails, "; ");
+            loadStringIntoListModel(spaceSectionsScoreListManualValuesCache, ct.spaceSectionsScoreDetails, "; ");
+            loadStringIntoListModel(altSectionsScoreListManualValuesCache, ct.altitudeSectionsScoreDetails, "; ");
+
+            tgScoreSum = 0;
+            tpScoreSum = 0;
+            sgScoreSum = 0;
+            altPenaltySum = 0;
+            speedSecScoreSum = 0;
+            altSecScoreSum = 0;
+            spaceSecScoreSum = 0;
 
             // Calc wpt points sum
             for (i = 0; i < wptNewScoreListManualValuesCache.count; i++) {
