@@ -54,6 +54,8 @@ ApplicationWindow {
 
     property string api_key_get_url: F.base_url + "/apiKeys.php?action=create"
 
+    property string prevApi_key: ""
+
     onCompetitionTypeChanged: {
 
         pathConfiguration.competitionTypeText = getCompetitionTypeString(parseInt(pathConfiguration.competitionType));
@@ -79,6 +81,9 @@ ApplicationWindow {
 
         // set current competition property
         if (visible) {
+
+            // get last known api_key
+            prevApi_key = config.get("api_key", "");
 
             // set previous enviroment tab values
             setFilesTabContent(pathConfiguration.selectedCompetition,
@@ -788,7 +793,7 @@ ApplicationWindow {
             // save api key
             onVisibleChanged: {
 
-                //config.set("api_key", tabApiKeyAlias);
+                config.set("api_key", tabView.loginTabAlias.apiKeyAlias);
             }
 
             GridLayout {
@@ -930,6 +935,8 @@ ApplicationWindow {
                 text: qsTrId("path-configuration-ok-cancel")
 
                 onClicked: {
+
+                    config.set("api_key", prevApi_key); // restore api_key
 
                     cancel();
                     pathConfiguration.close()

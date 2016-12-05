@@ -2148,6 +2148,7 @@ ApplicationWindow {
             reStringArr.push(JSON.stringify(res[key]));
         }
 
+        /*
         // HTML
         results_creator.createContinuousResultsHTML(pathConfiguration.resultsFolder + "/" + pathConfiguration.competitionName + "_" + resultsFilename,
                                                             reStringArr,
@@ -2159,6 +2160,7 @@ ApplicationWindow {
                                                             pathConfiguration.competitionArbitr,
                                                             pathConfiguration.competitionArbitrAvatar,
                                                             pathConfiguration.competitionDate);
+        */
 
         // CSV and local listmodels
         var catArray = [];
