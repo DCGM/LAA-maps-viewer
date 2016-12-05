@@ -12,7 +12,7 @@ SpinBox {
         background: Rectangle {
             implicitWidth: mwidth
             implicitHeight: mheight
-            border.color: "black"
+            border.color: "gray"
             radius: 2
             }
         }

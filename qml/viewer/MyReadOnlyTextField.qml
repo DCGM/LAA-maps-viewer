@@ -9,7 +9,7 @@ TextField {
 
     readOnly: true;
     style: TextFieldStyle {
-            textColor: "gray"
+            textColor: "black"
 
             background: Rectangle {
                         radius: 2
@@ -17,6 +17,7 @@ TextField {
                         implicitHeight: mheight
                         border.color: "gray"
                         border.width: 1
+                        color: "#DCDCDC"
                     }
         }
 }

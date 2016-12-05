@@ -17,7 +17,7 @@ TextField {
                         radius: 2
                         implicitWidth: mwidth
                         implicitHeight: mheight
-                        border.color: textField.focus ? "#0077cc" : "black"
+                        border.color: textField.focus ? "#0077cc" : "gray"
                         border.width: 1
                     }
         }

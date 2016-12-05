@@ -951,7 +951,6 @@ ApplicationWindow {
     ResultsWindow {
 
         id: resultsWindow
-        //visible: true
 
         onOk: {
 
@@ -975,9 +974,7 @@ ApplicationWindow {
             contestantsListModel.setProperty(row, "oppositeCount", curentContestant.oppositeCount);
             contestantsListModel.setProperty(row, "oppositeScore", curentContestant.oppositeScore);
             contestantsListModel.setProperty(row, "otherPoints", curentContestant.otherPoints);
-            //contestantsListModel.setProperty(row, "otherPointsNote", curentContestant.otherPointsNote);
             contestantsListModel.setProperty(row, "otherPenalty", curentContestant.otherPenalty);
-            //contestantsListModel.setProperty(row, "otherPenaltyNote", curentContestant.otherPenaltyNote);
             contestantsListModel.setProperty(row, "pointNote", curentContestant.pointNote);
 
             // reload current contestant
