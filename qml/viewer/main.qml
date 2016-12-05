@@ -1762,7 +1762,7 @@ ApplicationWindow {
                 new_contestant.name = itemName;
                 new_contestant.category = item[1];
                 new_contestant.fullName = item[2];
-                new_contestant.startTime = item[3];
+                new_contestant.startTime = (item[3] === "null" || item[3] === null) ? "10:00:00" : item[3];
                 new_contestant.filename = (csvFileFromViewer && item[4] === "" ? resultsCSV[j][38] : item[4]);
                 new_contestant.speed = parseInt(item[5]);
                 new_contestant.aircraft_type = item[6];
