@@ -1069,7 +1069,7 @@ ApplicationWindow {
 
                         contestantsTable.selectRow(row);
                     }
-
+console.log("row: " + row + " role: " + role + " value: " + value + " count: " + contestantsListModel.count)
                     onChangeModel: {
 
                         contestantsListModel.changeLisModel(row, role, value);
@@ -1274,6 +1274,8 @@ ApplicationWindow {
                     color: "#ffffff";
                     opacity: 0.7;
                     anchors.fill: parent;
+                    visible:
+                    /*
                     visible: evaluateTimer.running ||
                              resultsTimer.running ||
                              computingTimer.running ||
@@ -1291,6 +1293,7 @@ ApplicationWindow {
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.horizontalCenter: parent.horizontalCenter
                     }
+                    /*
 
                     MouseArea {
                         anchors.fill: parent;
