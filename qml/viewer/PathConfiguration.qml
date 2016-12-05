@@ -778,7 +778,9 @@ ApplicationWindow {
 
                         onClicked:  {
 
-                            celandar.visible = true;
+                            if (!competitionDate.readOnly) {
+                                celandar.visible = true;
+                            }
                         }
                     }
                 }

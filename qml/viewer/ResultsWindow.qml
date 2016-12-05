@@ -480,7 +480,7 @@ ApplicationWindow {
                             SpinBox {
                                 id: markersOkSpinBox
                                 value: curentContestant.markersOk;
-
+                                width: manualValuesTab.columnWidth/2
 
                                 on__TextChanged: {
                                     curentContestant.markersOk = value;
@@ -494,9 +494,9 @@ ApplicationWindow {
                         }
                         Item { Layout.preferredWidth: manualValuesTab.columnWidth; Layout.preferredHeight: 23;
                             SpinBox {
-
                                 id: markersNokSpinBox
                                 value: curentContestant.markersNok;
+                                width: manualValuesTab.columnWidth/2
 
                                 on__TextChanged: {
                                     curentContestant.markersNok = value;
@@ -512,6 +512,7 @@ ApplicationWindow {
                             SpinBox {
                                 id: markersFalseSpinBox
                                 value: curentContestant.markersFalse
+                                width: manualValuesTab.columnWidth/2
 
                                 on__TextChanged: {
                                     curentContestant.markersFalse = value;
@@ -558,9 +559,9 @@ ApplicationWindow {
 
                         Item { Layout.preferredWidth: manualValuesTab.columnWidth; Layout.preferredHeight: 23;
                             SpinBox {
-
                                 id: photosOkSpinBox
                                 value: curentContestant.photosOk;
+                                width: manualValuesTab.columnWidth/2
 
                                 on__TextChanged: {
                                     curentContestant.photosOk = value;
@@ -576,6 +577,7 @@ ApplicationWindow {
                             SpinBox {
                                 id: photosNokSpinBox
                                 value: curentContestant.photosNok;
+                                width: manualValuesTab.columnWidth/2
 
                                 on__TextChanged: {
                                     curentContestant.photosNok = value;
@@ -592,6 +594,7 @@ ApplicationWindow {
                             SpinBox {
                                 id: photosFalseSpinBox
                                 value: curentContestant.photosFalse;
+                                width: manualValuesTab.columnWidth/2
 
                                 on__TextChanged: {
                                     curentContestant.photosFalse = value;
@@ -639,6 +642,7 @@ ApplicationWindow {
                             SpinBox {
                                 id: circlingSpinBox
                                 value: curentContestant.circlingCount
+                                width: manualValuesTab.columnWidth/2
 
                                 on__TextChanged: {
                                     curentContestant.circlingCount = value;
@@ -654,6 +658,7 @@ ApplicationWindow {
                             SpinBox {
                                 id: oppositeSpinBox
                                 value: curentContestant.oppositeCount
+                                width: manualValuesTab.columnWidth/2
 
                                 on__TextChanged: {
                                     curentContestant.oppositeCount = value;
