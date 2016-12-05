@@ -1285,7 +1285,10 @@ ApplicationWindow {
                              igcChooseDialog.visible;
 
                     BusyIndicator {
-                        running: parent.visible
+                        running: evaluateTimer.running ||
+                                 resultsTimer.running ||
+                                 computingTimer.running;
+
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.horizontalCenter: parent.horizontalCenter
                     }
