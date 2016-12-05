@@ -827,7 +827,7 @@ ApplicationWindow {
 
         onChangeLisModel: {
 
-               console.log("row: " + row + " role: " + role + " value: " + value + " count: " + contestantsListModel.count)
+               //console.log("row: " + row + " role: " + role + " value: " + value + " count: " + contestantsListModel.count)
 
                if (row >= contestantsListModel.count || row < 0) {
                    console.log("WUT? row role value " +row + " " +role + " " +value)
@@ -929,8 +929,6 @@ ApplicationWindow {
                 writeCSV();
                 recalculateScoresTo1000();
                 writeScoreManulaValToCSV();
-
-                console.log("on change list model finished");
         }
     }
 
