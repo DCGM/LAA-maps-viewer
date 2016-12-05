@@ -1555,7 +1555,7 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
     <message id="html-startList-startTimePrepTime">
         <location filename="../qml/viewer/MyTranslator.qml" line="282"/>
         <source>Preparation time</source>
-        <translation>Čas přpravy</translation>
+        <translation>Čas přípravy</translation>
     </message>
     <message id="html-startList-startTimeVBT">
         <location filename="../qml/viewer/MyTranslator.qml" line="285"/>
