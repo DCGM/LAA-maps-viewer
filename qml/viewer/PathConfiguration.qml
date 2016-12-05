@@ -788,11 +788,12 @@ ApplicationWindow {
             // save api key
             onVisibleChanged: {
 
-                config.set("api_key", api_key.text);
+                //config.set("api_key", tabApiKeyAlias);
             }
 
             GridLayout {
 
+                id: gridLayoutLoginTab
                 anchors.fill: parent
                 anchors.margins: 10
                 columnSpacing: 10;

@@ -653,7 +653,6 @@ ApplicationWindow {
                 return;
             }
 
-
             // load igc
             igcFolderModel.folder = "";
             igcFolderModel.folder = pathConfiguration.igcDirectory;
@@ -663,6 +662,7 @@ ApplicationWindow {
             storeTrackSettings(pathConfiguration.tsFile);
             map.requestUpdate();
 
+            console.log("pathConfiguration on ok finish")
         }
         onCancel: {
         }
@@ -827,7 +827,7 @@ ApplicationWindow {
 
         onChangeLisModel: {
 
-               //console.log("row: " + row + " role: " + role + " value: " + value + " count: " + contestantsListModel.count)
+               console.log("row: " + row + " role: " + role + " value: " + value + " count: " + contestantsListModel.count)
 
                if (row >= contestantsListModel.count || row < 0) {
                    console.log("WUT? row role value " +row + " " +role + " " +value)
@@ -929,6 +929,8 @@ ApplicationWindow {
                 writeCSV();
                 recalculateScoresTo1000();
                 writeScoreManulaValToCSV();
+
+                console.log("on change list model finished");
         }
     }
 
@@ -952,8 +954,6 @@ ApplicationWindow {
 
         id: resultsWindow
 
-        //visible: true
-
         onOk: {
 
             //copy manual values into list models
@@ -976,9 +976,10 @@ ApplicationWindow {
             contestantsListModel.setProperty(row, "oppositeCount", curentContestant.oppositeCount);
             contestantsListModel.setProperty(row, "oppositeScore", curentContestant.oppositeScore);
             contestantsListModel.setProperty(row, "otherPoints", curentContestant.otherPoints);
-            contestantsListModel.setProperty(row, "otherPointsNote", curentContestant.otherPointsNote);
+            //contestantsListModel.setProperty(row, "otherPointsNote", curentContestant.otherPointsNote);
             contestantsListModel.setProperty(row, "otherPenalty", curentContestant.otherPenalty);
-            contestantsListModel.setProperty(row, "otherPenaltyNote", curentContestant.otherPenaltyNote);
+            //contestantsListModel.setProperty(row, "otherPenaltyNote", curentContestant.otherPenaltyNote);
+            contestantsListModel.setProperty(row, "pointNote", curentContestant.pointNote);
 
             // reload current contestant
             ctnt = contestantsListModel.get(row);
@@ -1665,9 +1666,11 @@ ApplicationWindow {
             "oppositeCount": 0,
             "oppositeScore": 0,
             "otherPoints": 0,
-            "otherPointsNote": "",
+//            "otherPointsNote": "",
             "otherPenalty": 0,
-            "otherPenaltyNote": "",
+//            "otherPenaltyNote": "",
+            "pointNote": "",
+
             "prevResultsSpeed": -1,
             "prevResultsStartTime": "",
             "prevResultsCategory": "",
@@ -2101,9 +2104,11 @@ ApplicationWindow {
                     curCnt.oppositeScore = (csvFileFromViewer ? parseInt(resultsCSV[j][47]) : 0);
 
                     curCnt.otherPoints = (csvFileFromOffice ? parseInt(resultsCSV[j][8]) : 0);
-                    curCnt.otherPointsNote = (csvFileFromOffice ? String((resultsCSV[j][20]).split("/&/")[0]) : "");
+                    //curCnt.otherPointsNote = (csvFileFromOffice ? String((resultsCSV[j][20]).split("/&/")[0]) : "");
                     curCnt.otherPenalty = (csvFileFromOffice ? parseInt(resultsCSV[j][15]) : 0);
-                    curCnt.otherPenaltyNote = (csvFileFromOffice ? String((resultsCSV[j][20]).split("/&/")[1]) : "");
+                    //curCnt.otherPenaltyNote = (csvFileFromOffice ? String((resultsCSV[j][20]).split("/&/")[1]) : "");
+                    //curCnt.pointNote = (csvFileFromOffice ? String(resultsCSV[j][20]) : "");
+
                     curCnt.prevResultsSpeed = (csvFileFromViewer ? parseInt(resultsCSV[j][31]) : -1);
                     curCnt.prevResultsStartTime = (csvFileFromViewer ? resultsCSV[j][32] : "");
                     curCnt.prevResultsCategory = (csvFileFromViewer ? resultsCSV[j][33] : "");
@@ -2127,6 +2132,8 @@ ApplicationWindow {
 
     // generate results for each category
     function generateContinuousResults() {
+
+        console.log("generateContinuousResults")
 
         var res = getContinuousResults();
         var csvString = "";
@@ -2467,7 +2474,7 @@ ApplicationWindow {
         recalculateContestantsScoreOrder();
 
         // gen continuous results
-        generateContinuousResults();
+        generateContinuousResults(); // tady se to u me kurvi ADAM
 
         // gen start list
         createStartList();
@@ -3600,7 +3607,8 @@ ApplicationWindow {
 
             str += "\"" + classify + "\";"   //index 20
 
-            str += "\"" + F.addSlashes(ct.otherPointsNote) + "/&/" + F.addSlashes(ct.otherPenaltyNote) + "\";" //note delimeter
+            //str += "\"" + F.addSlashes(ct.otherPointsNote) + "/&/" + F.addSlashes(ct.otherPenaltyNote) + "\";" //note delimeter
+            str += "\"" + F.addSlashes(ct.pointNote) + "\";"
 
             str += "\"" + tgScoreSum + "\";"
             str += "\"" + tpScoreSum + "\";"

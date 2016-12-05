@@ -340,7 +340,7 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
     // other points
     html += getHTMLH3(getTranslatedString("html-results-other-points"));
     rows.append(getTranslatedStringList(QStringList() << ("html-results-score") << ("html-results-note")));
-    rows.append(QStringList() << QString::number(jsonObject["otherPoints"].toDouble()) << jsonObject["otherPointsNote"].toString());
+    rows.append(QStringList() << QString::number(jsonObject["otherPoints"].toDouble()) << jsonObject["pointNote"].toString());
     html += getHTMLHorizontalTable(rows, QVector<double>{0.5,1.5});
 
     html += getHTMLSpace(10);
@@ -348,7 +348,7 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
     // other penalty
     html += getHTMLH3(getTranslatedString("html-results-other-penalty"));
     rows.append(getTranslatedStringList(QStringList() << ("html-results-penalty") << ("html-results-note")));
-    rows.append(QStringList() << QString::number(jsonObject["otherPenalty"].toDouble()) << jsonObject["otherPenaltyNote"].toString());
+    rows.append(QStringList() << QString::number(jsonObject["otherPenalty"].toDouble()) << jsonObject["pointNote"].toString());
     html += getHTMLHorizontalTable(rows, QVector<double>{0.5,1.5});
 
     html += getHTMLSpace(10);

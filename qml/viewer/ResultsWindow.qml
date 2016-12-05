@@ -47,9 +47,10 @@ ApplicationWindow {
         "oppositeCount": 0,
         "oppositeScore": 0,
         "otherPoints": 0,
-        "otherPointsNote": "",
+        //"otherPointsNote": "",
         "otherPenalty": 0,
-        "otherPenaltyNote": ""
+        //"otherPenaltyNote": ""
+        "pointNote": ""
     };
 
     // used only on ok() signal
@@ -194,10 +195,11 @@ ApplicationWindow {
             tabView.scrollView.photosScoreText = curentContestant.photosScore;
 
             tabView.scrollView.otherPointsText = String(curentContestant.otherPoints);
-            tabView.scrollView.otherPointsNoteText = curentContestant.otherPointsNote;
+            //tabView.scrollView.otherPointsNoteText = curentContestant.otherPointsNote;
+            tabView.scrollView.pointNoteText = curentContestant.pointNote;
 
             tabView.scrollView.otherPenaltyText = String(curentContestant.otherPenalty);
-            tabView.scrollView.otherPenaltyNoteText = curentContestant.otherPenaltyNote;
+            //tabView.scrollView.otherPenaltyNoteText = curentContestant.otherPenaltyNote;
 
             listModelsToString();
             totalPointsScore = getScorePointsSum(curentContestant, resultsMainWindow.currentWptScoreString, resultsMainWindow.currentSpeedSectionsScoreString);
@@ -296,9 +298,13 @@ ApplicationWindow {
                 property alias oppositeScoreText: oppositeScoreTextField.text;
 
                 property alias otherPointsText: otherPointsTextField.text;
-                property alias otherPointsNoteText: otherPointsNoteTextField.text;
+                //property alias otherPointsNoteText: otherPointsNoteTextField.text;
+
                 property alias otherPenaltyText: otherPenaltyTextField.text;
-                property alias otherPenaltyNoteText: otherPenaltyNoteTextField.text;
+                //property alias otherPenaltyNoteText: otherPenaltyNoteTextField.text;
+
+                property alias pointNoteText: pointNoteTextField.text
+
 
                 Column {
 
@@ -660,12 +666,203 @@ ApplicationWindow {
                             TextField { id: oppositeScoreTextField; text: curentContestant.oppositeScore; readOnly: true; }}
                     }
 
+
+
+                    RowLayout {
+
+                        spacing: 10;
+                        anchors.left: parent.left
+
+                        ColumnLayout {
+
+                            id: colExtraPoints
+                            spacing: 10
+                            Layout.preferredWidth: manualValuesTab.columnWidth
+
+                            // others points
+                            NativeText {
+                                //% "Results window manual values extra points"
+                                text: qsTrId("results-window-dialog-manual-values-extra-points")
+                                font.bold : true
+                            }
+
+                            //% "other points"
+                            NativeText {
+                                text: qsTrId("score-table-other-points");
+                                Layout.preferredWidth: manualValuesTab.columnWidth
+                                anchors.left: parent.left
+                                anchors.leftMargin: 30
+                            }
+
+                            Item {
+                                Layout.preferredWidth: manualValuesTab.columnWidth;
+                                Layout.preferredHeight: 23;
+                                anchors.left: parent.left
+                                anchors.leftMargin: 30
+
+                                TextField {
+                                    id: otherPointsTextField
+                                    text: curentContestant.otherPoints;
+                                    validator: IntValidator{bottom: 0; top: 99999;}
+
+                                    onEditingFinished: {
+                                        curentContestant.otherPoints = parseInt(text);
+
+                                        listModelsToString();
+                                        totalPointsScore = getScorePointsSum(curentContestant, currentWptScoreString, currentSpeedSectionsScoreString);
+                                    }
+                                }
+                            }
+
+                            // others penalty
+                            NativeText {
+                                //% "Results window manual values extra penalty"
+                                text: qsTrId("results-window-dialog-manual-values-extra-penalty")
+                                font.bold : true
+                            }
+
+                            //% "other penalty"
+                            NativeText {
+                                text: qsTrId("score-table-other-penalty");
+                                Layout.preferredWidth: manualValuesTab.columnWidth
+                                anchors.left: parent.left
+                                anchors.leftMargin: 30
+                            }
+
+                            Item {
+                                Layout.preferredWidth: manualValuesTab.columnWidth;
+                                Layout.preferredHeight: 23;
+                                anchors.left: parent.left
+                                anchors.leftMargin: 30
+
+                                TextField {
+
+                                    id: otherPenaltyTextField
+                                    text: curentContestant.otherPenalty;
+                                    validator: IntValidator{bottom: 0; top: 99999;}
+
+                                    onEditingFinished: {
+                                        curentContestant.otherPenalty = parseInt(text);
+
+                                        listModelsToString();
+                                        totalPointsScore = getScorePointsSum(curentContestant, currentWptScoreString, currentSpeedSectionsScoreString);
+                                    }
+                                }
+                            }
+
+                        }
+                        ColumnLayout {
+
+                            Layout.preferredWidth: manualValuesTab.columnWidth  * 3;
+                            spacing: 10
+
+                            Spacer { height: 1 }
+
+                            //% "other points note"
+                            NativeText {
+                                text: qsTrId("score-table-other-points-note");
+                                Layout.preferredWidth: manualValuesTab.columnWidth * 3
+                                anchors.left: parent.left
+                                anchors.leftMargin: 30
+                            }
+
+                            TextArea {
+                                id: pointNoteTextField
+                                text: curentContestant.pointNote;
+                                Layout.preferredWidth: manualValuesTab.columnWidth  * 3;
+                                anchors.left: parent.left
+                                anchors.leftMargin: 30
+
+                                onEditingFinished: {
+                                    curentContestant.pointNote = text;
+
+                                }
+                            }
+                        }
+                    }
+
+/*
                     // others points
                     NativeText {
                         //% "Results window manual values extra points"
                         text: qsTrId("results-window-dialog-manual-values-extra-points")
                         font.bold : true
                     }
+
+                    RowLayout {
+
+                        spacing: 10;
+                        anchors.leftMargin: 30
+                        anchors.left: parent.left
+
+                        //% "other points"
+                        NativeText { text: qsTrId("score-table-other-points"); Layout.preferredWidth: manualValuesTab.columnWidth}
+                    }
+
+                    RowLayout {
+
+                        spacing: 10;
+                        anchors.leftMargin: 30
+                        anchors.left: parent.left
+
+                        Item { Layout.preferredWidth: manualValuesTab.columnWidth; Layout.preferredHeight: 23;
+                            TextField {
+                                id: otherPointsTextField
+                                text: curentContestant.otherPoints;
+                                validator: IntValidator{bottom: 0; top: 99999;}
+
+                                onEditingFinished: {
+                                    curentContestant.otherPoints = parseInt(text);
+
+                                    listModelsToString();
+                                    totalPointsScore = getScorePointsSum(curentContestant, currentWptScoreString, currentSpeedSectionsScoreString);
+                                }
+                            }
+                        }
+                    }
+
+                    // others penalty
+                    NativeText {
+                        //% "Results window manual values extra penalty"
+                        text: qsTrId("results-window-dialog-manual-values-extra-penalty")
+                        font.bold : true
+                    }
+
+                    RowLayout {
+
+                        spacing: 10;
+                        anchors.leftMargin: 30
+                        anchors.left: parent.left
+
+
+                        //% "other penalty"
+                        NativeText { text: qsTrId("score-table-other-penalty"); Layout.preferredWidth: manualValuesTab.columnWidth}
+                    }
+                    RowLayout {
+
+                        spacing: 10;
+                        anchors.leftMargin: 30
+                        anchors.left: parent.left
+
+                        Item { Layout.preferredWidth: manualValuesTab.columnWidth; Layout.preferredHeight: 23;
+                            TextField {
+
+                                id: otherPenaltyTextField
+                                text: curentContestant.otherPenalty;
+                                validator: IntValidator{bottom: 0; top: 99999;}
+
+                                onEditingFinished: {
+                                    curentContestant.otherPenalty = parseInt(text);
+
+                                    listModelsToString();
+                                    totalPointsScore = getScorePointsSum(curentContestant, currentWptScoreString, currentSpeedSectionsScoreString);
+                                }
+                            }
+                        }
+                    }
+*/
+
+                    /*
 
                     RowLayout {
 
@@ -764,6 +961,7 @@ ApplicationWindow {
                             }
                         }
                     }
+                    */
 
                     Spacer { height: 20 }
                 }
@@ -1118,10 +1316,12 @@ ApplicationWindow {
                 curentContestant.photosScore = getPhotosScore(curentContestant.photosOk, curentContestant.photosNok, curentContestant.photosFalse, photos_max_score);
 
                 curentContestant.otherPoints = parseInt(tabView.scrollView.otherPointsText) || 0;
-                curentContestant.otherPointsNote = tabView.scrollView.otherPointsNoteText;
+                //curentContestant.otherPointsNote = tabView.scrollView.otherPointsNoteText;
 
                 curentContestant.otherPenalty = parseInt(tabView.scrollView.otherPenaltyText) || 0;
-                curentContestant.otherPenaltyNote = tabView.scrollView.otherPenaltyNoteText;
+                //curentContestant.otherPenaltyNote = tabView.scrollView.otherPenaltyNoteText;
+
+                curentContestant.pointNote = tabView.scrollView.pointNoteText;
 
                 curentContestant.circlingCount = tabView.scrollView.circlingCountValue;
 
