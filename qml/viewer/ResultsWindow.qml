@@ -2,6 +2,8 @@ import QtQuick 2.5
 import QtQuick.Controls 1.4
 import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.1
+import QtQuick.Controls.Styles 1.4
+
 import "functions.js" as F
 
 ApplicationWindow {
@@ -343,14 +345,23 @@ ApplicationWindow {
                         anchors.leftMargin: 30
                         anchors.left: parent.left
 
-                        Item { Layout.preferredWidth: manualValuesTab.columnWidth; Layout.preferredHeight: 23; TextField { readOnly: true; text: curentContestant.startTime;}}
                         Item { Layout.preferredWidth: manualValuesTab.columnWidth; Layout.preferredHeight: 23;
-                            TextField {
+
+                            MyReadOnlyTextField {
+
+                                text: curentContestant.startTime;
+                                mwidth: manualValuesTab.columnWidth/2
+                                mheight: parent.height
+                            }
+                        }
+                        Item { Layout.preferredWidth: manualValuesTab.columnWidth; Layout.preferredHeight: 23;
+                            MyEditableTextField {
 
                                 id: startTimeMeasuredTextField
 
                                 text: curentContestant.startTimeMeasured;
-                                Layout.preferredWidth: manualValuesTab.columnWidth;
+                                mwidth: manualValuesTab.columnWidth/2
+                                mheight: parent.height
 
                                 property string prevVal: "";
 
@@ -392,11 +403,11 @@ ApplicationWindow {
                             }
                         }
                         Item { Layout.preferredWidth: manualValuesTab.columnWidth; Layout.preferredHeight: 23;
-                            TextField {
+                            MyReadOnlyTextField {
                                 id: startTimeDifferenceTextField;
                                 text: curentContestant.startTimeDifference;
-                                readOnly: true;
-                                Layout.preferredWidth: manualValuesTab.columnWidth
+                                mwidth: manualValuesTab.columnWidth/2
+                                mheight: parent.height
 
                                 onTextChanged: {
 
@@ -406,7 +417,14 @@ ApplicationWindow {
                                 }
                             }
                         }
-                        Item { Layout.preferredWidth: manualValuesTab.columnWidth; Layout.preferredHeight: 23; TextField {id: startTimeScoreTextField; text: curentContestant.startTimeScore; readOnly: true; Layout.preferredWidth: manualValuesTab.columnWidth }} // penalizace - zaporne cislo
+                        Item { Layout.preferredWidth: manualValuesTab.columnWidth; Layout.preferredHeight: 23;
+                            MyReadOnlyTextField {
+                                id: startTimeScoreTextField;
+                                text: curentContestant.startTimeScore;
+                                mwidth: manualValuesTab.columnWidth/2
+                                mheight: parent.height
+                            }
+                        } // penalizace - zaporne cislo
                     }
 
                     //landing accurancy
@@ -430,10 +448,12 @@ ApplicationWindow {
 
                         Item { Layout.preferredWidth: manualValuesTab.columnWidth; Layout.preferredHeight: 23;
 
-                            TextField {
+                            MyEditableTextField {
                                 id: landingScoreTextField;
                                 text: curentContestant.landingScore
                                 validator: IntValidator{bottom: 0; top: 250;}
+                                mwidth: manualValuesTab.columnWidth/2
+                                mheight: parent.height
 
                                 onEditingFinished: {
 
@@ -477,10 +497,11 @@ ApplicationWindow {
                         anchors.left: parent.left
 
                         Item { Layout.preferredWidth: manualValuesTab.columnWidth; Layout.preferredHeight: 23;
-                            SpinBox {
+                            MySpinBox {
                                 id: markersOkSpinBox
                                 value: curentContestant.markersOk;
-                                width: manualValuesTab.columnWidth/2
+                                mwidth: manualValuesTab.columnWidth/2
+                                mheight: 23
 
                                 on__TextChanged: {
                                     curentContestant.markersOk = value;
@@ -493,10 +514,11 @@ ApplicationWindow {
                             }
                         }
                         Item { Layout.preferredWidth: manualValuesTab.columnWidth; Layout.preferredHeight: 23;
-                            SpinBox {
+                            MySpinBox {
                                 id: markersNokSpinBox
                                 value: curentContestant.markersNok;
-                                width: manualValuesTab.columnWidth/2
+                                mwidth: manualValuesTab.columnWidth/2
+                                mheight: 23
 
                                 on__TextChanged: {
                                     curentContestant.markersNok = value;
@@ -509,10 +531,11 @@ ApplicationWindow {
                             }
                         }
                         Item { Layout.preferredWidth: manualValuesTab.columnWidth; Layout.preferredHeight: 23;
-                            SpinBox {
+                            MySpinBox {
                                 id: markersFalseSpinBox
                                 value: curentContestant.markersFalse
-                                width: manualValuesTab.columnWidth/2
+                                mwidth: manualValuesTab.columnWidth/2
+                                mheight: 23
 
                                 on__TextChanged: {
                                     curentContestant.markersFalse = value;
@@ -524,7 +547,14 @@ ApplicationWindow {
                                 }
                             }
                         }
-                        Item { Layout.preferredWidth: manualValuesTab.columnWidth; Layout.preferredHeight: 23; TextField { id: markersScoreTextField ; text: curentContestant.markersScore; readOnly: true }}
+                        Item { Layout.preferredWidth: manualValuesTab.columnWidth; Layout.preferredHeight: 23;
+                            MyReadOnlyTextField {
+                                id: markersScoreTextField ;
+                                text: curentContestant.markersScore;
+                                mwidth: manualValuesTab.columnWidth/2
+                                mheight: parent.height
+                            }
+                        }
                     }
 
                     //photos
@@ -558,10 +588,11 @@ ApplicationWindow {
                         anchors.left: parent.left
 
                         Item { Layout.preferredWidth: manualValuesTab.columnWidth; Layout.preferredHeight: 23;
-                            SpinBox {
+                            MySpinBox {
                                 id: photosOkSpinBox
                                 value: curentContestant.photosOk;
-                                width: manualValuesTab.columnWidth/2
+                                mwidth: manualValuesTab.columnWidth/2
+                                mheight: 23
 
                                 on__TextChanged: {
                                     curentContestant.photosOk = value;
@@ -574,10 +605,11 @@ ApplicationWindow {
                             }
                         }
                         Item { Layout.preferredWidth: manualValuesTab.columnWidth; Layout.preferredHeight: 23;
-                            SpinBox {
+                            MySpinBox {
                                 id: photosNokSpinBox
                                 value: curentContestant.photosNok;
-                                width: manualValuesTab.columnWidth/2
+                                mwidth: manualValuesTab.columnWidth/2
+                                mheight: 23
 
                                 on__TextChanged: {
                                     curentContestant.photosNok = value;
@@ -591,10 +623,11 @@ ApplicationWindow {
                             }
                         }
                         Item { Layout.preferredWidth: manualValuesTab.columnWidth; Layout.preferredHeight: 23;
-                            SpinBox {
+                            MySpinBox {
                                 id: photosFalseSpinBox
                                 value: curentContestant.photosFalse;
-                                width: manualValuesTab.columnWidth/2
+                                mwidth: manualValuesTab.columnWidth/2
+                                mheight: 23
 
                                 on__TextChanged: {
                                     curentContestant.photosFalse = value;
@@ -606,7 +639,14 @@ ApplicationWindow {
                                 }
                             }
                         }
-                        Item { Layout.preferredWidth: manualValuesTab.columnWidth; Layout.preferredHeight: 23; TextField { id: photosScoreTextField; text: curentContestant.photosScore; readOnly: true; }}
+                        Item { Layout.preferredWidth: manualValuesTab.columnWidth; Layout.preferredHeight: 23;
+                            MyReadOnlyTextField {
+                                id: photosScoreTextField;
+                                text: curentContestant.photosScore;
+                                mwidth: manualValuesTab.columnWidth/2
+                                mheight: parent.height
+                            }
+                        }
                     }
 
                     // circling and opposite dirrection
@@ -639,10 +679,11 @@ ApplicationWindow {
                         anchors.left: parent.left
 
                         Item { Layout.preferredWidth: manualValuesTab.columnWidth; Layout.preferredHeight: 23;
-                            SpinBox {
+                            MySpinBox {
                                 id: circlingSpinBox
                                 value: curentContestant.circlingCount
-                                width: manualValuesTab.columnWidth/2
+                                mwidth: manualValuesTab.columnWidth/2
+                                mheight: 23
 
                                 on__TextChanged: {
                                     curentContestant.circlingCount = value;
@@ -652,13 +693,19 @@ ApplicationWindow {
                             }
                         }
                         Item { Layout.preferredWidth: manualValuesTab.columnWidth; Layout.preferredHeight: 23;
-                            TextField { id: circlingScoreTextField; text: curentContestant.circlingScore; readOnly: true; }
+                            MyReadOnlyTextField {
+                                id: circlingScoreTextField;
+                                text: curentContestant.circlingScore;
+                                mwidth: manualValuesTab.columnWidth/2
+                                mheight: parent.height
+                            }
                         }
                         Item { Layout.preferredWidth: manualValuesTab.columnWidth; Layout.preferredHeight: 23;
-                            SpinBox {
+                            MySpinBox {
                                 id: oppositeSpinBox
                                 value: curentContestant.oppositeCount
-                                width: manualValuesTab.columnWidth/2
+                                mwidth: manualValuesTab.columnWidth/2
+                                mheight: 23
 
                                 on__TextChanged: {
                                     curentContestant.oppositeCount = value;
@@ -668,9 +715,14 @@ ApplicationWindow {
                             }
                         }
                         Item { Layout.preferredWidth: manualValuesTab.columnWidth; Layout.preferredHeight: 23;
-                            TextField { id: oppositeScoreTextField; text: curentContestant.oppositeScore; readOnly: true; }}
+                            MyReadOnlyTextField {
+                                id: oppositeScoreTextField;
+                                text: curentContestant.oppositeScore;
+                                mwidth: manualValuesTab.columnWidth/2
+                                mheight: parent.height
+                            }
+                        }
                     }
-
 
 
                     RowLayout {
@@ -705,10 +757,12 @@ ApplicationWindow {
                                 anchors.left: parent.left
                                 anchors.leftMargin: 30
 
-                                TextField {
+                                MyEditableTextField {
                                     id: otherPointsTextField
                                     text: curentContestant.otherPoints;
                                     validator: IntValidator{bottom: 0; top: 99999;}
+                                    mwidth: manualValuesTab.columnWidth/2
+                                    mheight: parent.height
 
                                     onEditingFinished: {
                                         curentContestant.otherPoints = parseInt(text);
@@ -740,11 +794,13 @@ ApplicationWindow {
                                 anchors.left: parent.left
                                 anchors.leftMargin: 30
 
-                                TextField {
+                                MyEditableTextField {
 
                                     id: otherPenaltyTextField
                                     text: curentContestant.otherPenalty;
                                     validator: IntValidator{bottom: 0; top: 99999;}
+                                    mwidth: manualValuesTab.columnWidth/2
+                                    mheight: parent.height
 
                                     onEditingFinished: {
                                         curentContestant.otherPenalty = parseInt(text);
@@ -770,6 +826,7 @@ ApplicationWindow {
                                 anchors.left: parent.left
                                 anchors.leftMargin: 30
                             }
+
 
                             TextArea {
                                 id: pointNoteTextField
