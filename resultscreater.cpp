@@ -587,7 +587,8 @@ const QString ResultsCreater::getResultsHTMLBodyHead(const QString &competitionN
     // push each arbitr with avatar into table
     for(int i = 0; i < competitionArbitr.size(); i++) {
 
-        multiRowTableColumn.push_back(getUserTableRowRecordWithAvatar(competitionArbitrAvatar.at(i), competitionArbitr.at(i)));
+        QString avatar = i < competitionArbitrAvatar.size() ? competitionArbitrAvatar.at(i) : BLANK_USER_BASE64;
+        multiRowTableColumn.push_back(getUserTableRowRecordWithAvatar(avatar, competitionArbitr.at(i)));
     }
 
     rows.append(QStringList() << getTranslatedString("html-results-competition-director") << ("<table>" + getUserTableRowRecordWithAvatar(competitionDirectorAvatar, competitionDirector) + "</table>"));

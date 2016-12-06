@@ -827,7 +827,7 @@ ApplicationWindow {
 
         onChangeLisModel: {
 
-               console.log("row: " + row + " role: " + role + " value: " + value + " count: " + contestantsListModel.count)
+               //console.log("row: " + row + " role: " + role + " value: " + value + " count: " + contestantsListModel.count)
 
                if (row >= contestantsListModel.count || row < 0) {
                    console.log("WUT? row role value " +row + " " +role + " " +value)
@@ -2132,8 +2132,6 @@ ApplicationWindow {
     // generate results for each category
     function generateContinuousResults() {
 
-        console.log("generateContinuousResults")
-
         var res = getContinuousResults();
         var csvString = "";
 
@@ -2147,7 +2145,6 @@ ApplicationWindow {
             reStringArr.push(JSON.stringify(res[key]));
         }
 
-        /*
         // HTML
         results_creator.createContinuousResultsHTML(pathConfiguration.resultsFolder + "/" + pathConfiguration.competitionName + "_" + resultsFilename,
                                                             reStringArr,
@@ -2159,7 +2156,6 @@ ApplicationWindow {
                                                             pathConfiguration.competitionArbitr,
                                                             pathConfiguration.competitionArbitrAvatar,
                                                             pathConfiguration.competitionDate);
-        */
 
         // CSV and local listmodels
         var catArray = [];
