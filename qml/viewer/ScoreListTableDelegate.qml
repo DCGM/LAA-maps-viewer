@@ -94,13 +94,12 @@ Item {
 
                     case "tg_time_manual":
 
-                        var str = value;
-                        var regexp = /^(\d+):(\d+):(\d+)$/;
-                        var result = regexp.exec(str);
-                        if (result) {
-                            var num = parseInt(result[1], 10) * 3600 + parseInt(result[2], 10) * 60 + parseInt(result[3], 10);
-                            changeModel(styleData.row, styleData.role, num)
-                        } else {
+                        var str = value;                       
+                        var validatedTime = F.strTimeValidator(str);
+                        if (validatedTime !== "") {
+                            changeModel(styleData.row, styleData.role, F.timeToUnix(validatedTime))
+                        }
+                        else {
                             var num = parseFloat(str);
                             if (isNaN(num)) {
                                 changeModel(styleData.row, styleData.role, -1)

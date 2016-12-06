@@ -370,18 +370,17 @@ ApplicationWindow {
                                     }
                                     else {
 
-                                        var regexp = /^(\d+):(\d+):(\d+)$/;
-                                        var result = regexp.exec(str);
-                                        if (result) {
-                                            var num = parseInt(result[1], 10) * 3600 + parseInt(result[2], 10) * 60 + parseInt(result[3], 10);
-                                            curentContestant.startTimeMeasured = F.addTimeStrFormat(num);
+                                        var validatedTime = F.strTimeValidator(str);
+                                        if (validatedTime !== "") {
+
+                                            curentContestant.startTimeMeasured = validatedTime;
 
                                             var refVal = F.timeToUnix(curentContestant.startTime);
-                                            var diff = Math.abs(refVal - num);
+                                            var diff = Math.abs(refVal - F.timeToUnix(validatedTime));
                                             curentContestant.startTimeDifference = F.addTimeStrFormat(diff);
                                             startTimeDifferenceTextField.text = curentContestant.startTimeDifference;
-
-                                        } else {
+                                        }
+                                        else {
                                             text = prevVal;
                                         }
                                     }
@@ -1211,16 +1210,15 @@ ApplicationWindow {
                 }
                 else {
 
-                    var regexp = /^(\d+):(\d+):(\d+)$/;
-                    var result = regexp.exec(str);
-                    if (result) {
-                        var num = parseInt(result[1], 10) * 3600 + parseInt(result[2], 10) * 60 + parseInt(result[3], 10);
-                        curentContestant.startTimeMeasured = F.addTimeStrFormat(num);
+                    var validatedTime = F.strTimeValidator(str);
+                    if (validatedTime !== "") {
+
+                        curentContestant.startTimeMeasured = validatedTime;
 
                         var refVal = F.timeToUnix(curentContestant.startTime);
                         var tolerance = time_window_size;
 
-                        var diff = Math.abs(refVal - num);
+                        var diff = Math.abs(refVal - F.timeToUnix(validatedTime));
                         curentContestant.startTimeDifference = F.addTimeStrFormat(diff);
 
                         // add penalty

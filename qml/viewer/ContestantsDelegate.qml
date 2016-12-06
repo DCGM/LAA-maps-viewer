@@ -318,14 +318,12 @@ Item {
 
                 onAccepted: {
 
-                    var str = text;
-                    var regexp = /^(\d+):(\d+):(\d+)$/;
-                    var result = regexp.exec(str);
-                    if (result) {
-                        var num = parseInt(result[1], 10) * 3600 + parseInt(result[2], 10) * 60 + parseInt(result[3], 10);
-                        newValue(F.addTimeStrFormat(num));
-                    } else {
+                    var str = F.strTimeValidator(text);
+                    if (str === "") {
                         text = prevVal;
+                    }
+                    else {
+                        newValue(str);
                     }
                 }
 

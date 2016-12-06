@@ -136,14 +136,12 @@ ApplicationWindow {
 
             onAccepted: {
 
-                var str = text;
-                var regexp = /^(\d+):(\d+):(\d+)$/;
-                var result = regexp.exec(str);
-                if (result) {
-                    var num = parseInt(result[1], 10) * 3600 + parseInt(result[2], 10) * 60 + parseInt(result[3], 10);
-                    newValue(F.addTimeStrFormat(num));
-                } else {
+                var str = F.strTimeValidator(text);
+                if (str === "") {
                     text = prevVal;
+                }
+                else {
+                    newValue(str);
                 }
             }
 
@@ -245,13 +243,7 @@ ApplicationWindow {
             onClicked: {
 
                 // validate start time
-                var regexp = /^(\d+):(\d+):(\d+)$/;
-                var result = regexp.exec(startTime.text);
-                startTime.text = "";
-                if (result) {
-                    var num = parseInt(result[1], 10) * 3600 + parseInt(result[2], 10) * 60 + parseInt(result[3], 10);
-                    startTime.text = F.addTimeStrFormat(num);
-                }
+                startTime.text = F.strTimeValidator(startTime.text);
 
                 // check required values
                 if (pilotName.text !== "" && speed.text !== "" && startTime.text !== "") {
