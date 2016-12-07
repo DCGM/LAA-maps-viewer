@@ -98,6 +98,14 @@ ApplicationWindow {
          icon: StandardIcon.Critical;
          standardButtons: StandardButton.Open | StandardButton.Cancel
 
+         signal showDialog();
+
+         onShowDialog: {
+
+             if(competitionListWindow.visible)
+                open();
+         }
+
          onButtonClicked: {
 
              if (clickedButton == StandardButton.Open) {
@@ -123,6 +131,19 @@ ApplicationWindow {
         anchors.margins: 10
         model: competitions
 
+        Rectangle {
+
+            color: "#ffffff";
+            opacity: 0.7;
+            anchors.fill: parent;
+            visible: competitions.count === 0
+
+            BusyIndicator {
+                running: parent.visible
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+        }
 
         TableViewColumn {
             //% "Competition round"
@@ -360,7 +381,7 @@ ApplicationWindow {
                             //% "Can not download registrations for selected competition. Some of the registrations includes invalid values. Please click on the Open button for more details."
                             errMessageDialog.text = qsTrId("contestant-download-error-dialog-text")
                             errMessageDialog.standardButtons = StandardButton.Open | StandardButton.Cancel
-                            errMessageDialog.open();
+                            errMessageDialog.showDialog();
                         }
                         // no errors, json downloaded
                         else {
@@ -428,7 +449,7 @@ ApplicationWindow {
                     //% "Can not download registrations for selected competition. Please check the network connection and try it again."
                     errMessageDialog.text = qsTrId("contestant-download-connection-error-dialog-text")
                     errMessageDialog.standardButtons = StandardButton.Close
-                    errMessageDialog.open();
+                    errMessageDialog.showDialog();
                 }
             }
         }
@@ -486,7 +507,7 @@ ApplicationWindow {
                     //% "Can not download competitions list from server. Please check the network connection and try it again."
                     errMessageDialog.text = qsTrId("competitions-download-connection-error-dialog-text")
                     errMessageDialog.standardButtons = StandardButton.Close
-                    errMessageDialog.open();
+                    errMessageDialog.showDialog();
                 }
             }
         }
