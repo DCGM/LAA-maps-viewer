@@ -826,6 +826,10 @@ ApplicationWindow {
                                 anchors.left: parent.left
                                 anchors.leftMargin: 30
 
+                                style: TextAreaStyle {
+                                    renderType: Text.NativeRendering
+                                }
+
                                 onEditingFinished: {
                                     curentContestant.pointNote = text;
 

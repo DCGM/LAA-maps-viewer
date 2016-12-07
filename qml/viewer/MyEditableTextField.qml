@@ -12,6 +12,7 @@ TextField {
     readOnly: false;
     style: TextFieldStyle {
             textColor: "black"
+            renderType: Text.NativeRendering
 
             background: Rectangle {
                         radius: 2
