@@ -141,7 +141,7 @@ ApplicationWindow {
                     text = prevVal;
                 }
                 else {
-                    newValue(str);
+                    text = str;
                 }
             }
 

@@ -612,6 +612,7 @@ ApplicationWindow {
             if (contestantsDownloadedString !== "") {
 
                 file_reader.write(Qt.resolvedUrl(pathConfiguration.contestantsFile), contestantsDownloadedString);
+                pathConfiguration.contestantsDownloadedString = "";
             }
 
             // clear contestant in categories counters
@@ -645,13 +646,13 @@ ApplicationWindow {
                 loadPrevResults();
                 console.timeEnd("load ctnt")
 
-            } else {
+            }/* else {
 
                 //% "File %1 not found"
                 errorMessage.text = qsTrId("path-configuration-error-contestantsFile-not-found").arg(pathConfiguration.contestantsFile);
                 errorMessage.open();
                 return;
-            }
+            }*/
 
             // load igc
             igcFolderModel.folder = "";
@@ -662,9 +663,9 @@ ApplicationWindow {
             storeTrackSettings(pathConfiguration.tsFile);
             map.requestUpdate();
 
-            console.log("pathConfiguration on ok finish")
         }
         onCancel: {
+            pathConfiguration.contestantsDownloadedString = "";
         }
     }
 

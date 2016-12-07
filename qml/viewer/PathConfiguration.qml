@@ -27,11 +27,13 @@ ApplicationWindow {
     property string resultsFolder_default: Qt.resolvedUrl("../../../results");
     property string resultsFolder_user_defined;
 
-    property string contestantsFile: pathConfiguration.resultsFolder + "/posadky.csv"
+    property string contestantsFile: pathConfiguration.resultsFolder + "/" + contestantsFileName
     property string csvFile: pathConfiguration.resultsFolder + "/tucek.csv"
     property string tsFile: pathConfiguration.resultsFolder + "/tucek-settings.csv"
     property string assignFile: pathConfiguration.resultsFolder + "/assign.csv"
     property string csvResultsFile: pathConfiguration.resultsFolder + "/results.csv"
+
+    property string contestantsFileName: "posadky.csv"
 
     property string igcDirectory;
     property string trackFile;
@@ -40,7 +42,8 @@ ApplicationWindow {
     signal ok();
     signal cancel();
 
-    property string contestantsDownloadedString;
+    property string contestantsDownloadedString: "";
+
     property bool online;   // changed when checkbox changed
 
     property string competitionName: "";
@@ -55,6 +58,8 @@ ApplicationWindow {
     property string api_key_get_url: F.base_url + "/apiKeys.php?action=create"
 
     property string prevApi_key: ""
+
+    property bool contestantFileExist: false
 
     onCompetitionTypeChanged: {
 
@@ -99,6 +104,8 @@ ApplicationWindow {
                                      pathConfiguration.competitionArbitr.join(", "),
                                      pathConfiguration.competitionDate);
 
+            // folder status
+            contestantFileExist = file_reader.file_exists(Qt.resolvedUrl(pathConfiguration.contestantsFile));
         }
         else {
             autoConfirmFlag = false;
@@ -387,11 +394,13 @@ ApplicationWindow {
             //% "Environment"
             title: qsTrId("path-configuration-environment-tab-title")          
 
-            ColumnLayout {
+            GridLayout {
                 id: mainColumn
                 anchors.fill: parent
                 anchors.margins: 10
-                spacing: 10;
+                //spacing: 10;
+                columnSpacing: 10
+                columns: 1
 
                 property alias downloadedCompetitionNameAlias: status_online_text_field.text;
 
@@ -430,7 +439,7 @@ ApplicationWindow {
                     text: qsTrId("path-configuration-track")
                 }
 
-                Row {
+                RowLayout {
                     spacing: 10;
                     Spacer {}
 
@@ -554,26 +563,56 @@ ApplicationWindow {
 
                 ExclusiveGroup { id: resultsFolderGroup }
 
-
                 NativeText {
                     //% "Working directory"
                     text: qsTrId("path-configuration-flight-results")
                 }
 
+
                 RowLayout {
                     spacing: 10;
                     Spacer {}
 
-                    RadioButton {
-                        id: results_default
-                        exclusiveGroup: resultsFolderGroup
-                        //% "Default"
-                        text: qsTrId("path-configuration-flight-results-default")
-                        checked: true
+                    Item {
+
+                        width: resultsFolder_user_defined.width
+                        height: resultsFolderRow.height
+
+                        RadioButton {
+                            id: results_default
+                            exclusiveGroup: resultsFolderGroup
+                            anchors.verticalCenter: parent.verticalCenter
+                            //% "Default"
+                            text: qsTrId("path-configuration-flight-results-default")
+                            checked: true
+                        }
+                    }
+
+                    Item {
+                        width: 25
+                        height: 25
+                        anchors.verticalCenter: parent.verticalCenter
+
+                        Image {
+                            anchors.fill: parent
+                            fillMode: Image.PreserveAspectFit
+                            source: "./data/warningIcon.png"
+                            opacity: 0.7
+                            visible: (!contestantFileExist && contestantsDownloadedString === "")
+                            // thanks to: http://wefunction.com/contact/
+                            // https://www.iconfinder.com/icons/10375/alert_caution_exclamation_exclamation_mark_sign_triangle_warning_icon#size=48
+                        }
+                    }
+
+                    NativeText {
+                        //% "File %1 not found."
+                        visible: (!contestantFileExist && contestantsDownloadedString === "")
+                        text: qsTrId("path-configuration-warning-contestantsFile-not-found").arg(pathConfiguration.contestantsFileName);
                     }
                 }
 
                 RowLayout {
+                    id: resultsFolderRow
                     spacing: 10;
                     anchors.left: parent.left
                     anchors.right: parent.right
@@ -602,6 +641,7 @@ ApplicationWindow {
 
                         onTextChanged: {
                             pathConfiguration.resultsFolder = text;
+                            contestantFileExist = file_reader.file_exists(Qt.resolvedUrl(pathConfiguration.contestantsFile));
                         }
                     }
                     Button {
@@ -614,6 +654,36 @@ ApplicationWindow {
                         }
                     }
                 }
+                /*
+                RowLayout {
+
+                    id: resultsFolderStatusRow
+                    spacing: 10;
+                    anchors.left: parent.left
+                    anchors.leftMargin: -2
+                    anchors.right: parent.right
+                    Spacer {}
+
+                    Item {
+                        width: 20
+                        height: 20
+                        anchors.verticalCenter: parent.verticalCenter
+
+                        Image {
+                            id: okImg
+                            anchors.fill: parent
+                            fillMode: Image.PreserveAspectFit
+                            source: "./data/nok.png"
+                            opacity: 0.5
+                        }
+                    }
+
+                    NativeText {
+                        //% "File %1 not found"
+                        text: qsTrId("path-configuration-error-contestantsFile-not-found").arg(pathConfiguration.contestantsFileName);
+                    }
+                }
+                */
 
                 ///// Server
                 ExclusiveGroup { id: statusGroup }
@@ -623,7 +693,7 @@ ApplicationWindow {
                     text: qsTrId("path-configuration-online-offline-regime")
                 }
 
-                Row {
+                RowLayout {
                     spacing: 10;
                     Spacer {}
 
@@ -640,12 +710,13 @@ ApplicationWindow {
                     spacing: 10;
                     anchors.left: parent.left
                     anchors.right: parent.right
+                    anchors.bottom: parent.bottom
                     Spacer {}
 
                     Item {
 
                         width: resultsFolder_user_defined.width
-                        height: resultsFolder_user_defined.height
+                        height: resultsFolderRow.height
 
                         RadioButton {
                             id: status_online
