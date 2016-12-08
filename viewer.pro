@@ -89,5 +89,6 @@ OTHER_FILES += \
 DISTFILES += \
     ImportDialog.qml \
     HorizontalDelimeter.qml \
-    qml/viewer/MyEditableTextField.qml
+    qml/viewer/MyEditableTextField.qml \
+    qml/viewer/ResultsDetailComponent.qml
 

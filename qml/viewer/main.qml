@@ -973,7 +973,7 @@ ApplicationWindow {
             contestantsListModel.setProperty(row, "circlingCount", curentContestant.circlingCount);
             contestantsListModel.setProperty(row, "circlingScore", curentContestant.circlingScore);
             contestantsListModel.setProperty(row, "oppositeCount", curentContestant.oppositeCount);
-            contestantsListModel.setProperty(row, "oppositeScore", curentContestant.oppositeScore);
+            contestantsListModel.setPropefrty(row, "oppositeScore", curentContestant.oppositeScore);
             contestantsListModel.setProperty(row, "otherPoints", curentContestant.otherPoints);
             contestantsListModel.setProperty(row, "otherPenalty", curentContestant.otherPenalty);
             contestantsListModel.setProperty(row, "pointNote", curentContestant.pointNote);
@@ -998,8 +998,6 @@ ApplicationWindow {
         }
     }
 
-
-
     SplitView {
         id: splitView
         anchors.fill: parent;
@@ -1012,6 +1010,60 @@ ApplicationWindow {
             orientation: Qt.Vertical
             visible: mainViewMenuTables.checked
 
+            ResultsDetailComponent {
+
+                id: resultsDetailComponent
+                anchors.fill: parent
+                visible: false
+
+                property int marginsVal: 10
+
+                onOk: {
+
+                    //copy manual values into list models
+                    var row = contestantsTable.currentRow;
+
+                    contestantsListModel.setProperty(row, "markersOk", curentContestant.markersOk);
+                    contestantsListModel.setProperty(row, "markersNok", curentContestant.markersNok);
+                    contestantsListModel.setProperty(row, "markersFalse", curentContestant.markersFalse);
+                    contestantsListModel.setProperty(row, "markersScore", curentContestant.markersScore);
+                    contestantsListModel.setProperty(row, "photosOk", curentContestant.photosOk);
+                    contestantsListModel.setProperty(row, "photosNok", curentContestant.photosNok);
+                    contestantsListModel.setProperty(row, "photosFalse", curentContestant.photosFalse);
+                    contestantsListModel.setProperty(row, "photosScore", curentContestant.photosScore);
+                    contestantsListModel.setProperty(row, "startTimeMeasured", curentContestant.startTimeMeasured);
+                    contestantsListModel.setProperty(row, "startTimeDifference", curentContestant.startTimeDifference);
+                    contestantsListModel.setProperty(row, "startTimeScore", curentContestant.startTimeScore);
+                    contestantsListModel.setProperty(row, "landingScore", curentContestant.landingScore);
+                    contestantsListModel.setProperty(row, "circlingCount", curentContestant.circlingCount);
+                    contestantsListModel.setProperty(row, "circlingScore", curentContestant.circlingScore);
+                    contestantsListModel.setProperty(row, "oppositeCount", curentContestant.oppositeCount);
+                    contestantsListModel.setProperty(row, "oppositeScore", curentContestant.oppositeScore);
+                    contestantsListModel.setProperty(row, "otherPoints", curentContestant.otherPoints);
+                    contestantsListModel.setProperty(row, "otherPenalty", curentContestant.otherPenalty);
+                    contestantsListModel.setProperty(row, "pointNote", curentContestant.pointNote);
+
+                    // reload current contestant
+                    ctnt = contestantsListModel.get(row);
+
+                    // load and save modified score lists
+                    contestantsListModel.setProperty(row, "wptScoreDetails", resultsDetailComponent.currentWptScoreString);
+
+                    contestantsListModel.setProperty(row, "speedSectionsScoreDetails", resultsDetailComponent.currentSpeedSectionsScoreString);
+                    contestantsListModel.setProperty(row, "altitudeSectionsScoreDetails", resultsDetailComponent.currentAltitudeSectionsScoreString);
+                    contestantsListModel.setProperty(row, "spaceSectionsScoreDetails", resultsDetailComponent.currentSpaceSectionsScoreString);
+
+                    // recalculate score
+                    var score = getTotalScore(row);
+                    contestantsListModel.setProperty(row, "scorePoints", score);
+                    recalculateScoresTo1000();
+
+                    // save changes into CSV
+                    writeScoreManulaValToCSV();
+                }
+            }
+
+
             ///// IGC file list
             TableView {
                 id: contestantsTable;
@@ -1019,6 +1071,7 @@ ApplicationWindow {
                 width: parent.width;
                 Layout.fillHeight: true;
                 clip: true;
+                //visible: !resultsDetailComponent.visible
 
                 signal selectRow(int row);
                 signal generateResults(int row);
@@ -1076,6 +1129,7 @@ ApplicationWindow {
 
                     onShowResults: {
 
+                        /*
                         // load contestant property
                         ctnt = contestantsListModel.get(row);
 
@@ -1121,7 +1175,53 @@ ApplicationWindow {
                         contestantsTable.selectRow(row);
 
                         resultsWindow.show();
+                        */
 
+                        // load contestant property
+                        ctnt = contestantsListModel.get(row);
+
+                        // TODO - prasarna aby byla kopie a ne stejny objekt
+                        resultsDetailComponent.curentContestant = JSON.parse(JSON.stringify(ctnt));
+
+                        // load contestant score list
+                        resultsDetailComponent.wptScore = ctnt.wptScoreDetails;
+
+                        // load sections string
+                        resultsDetailComponent.speedSections = ctnt.speedSectionsScoreDetails;
+                        resultsDetailComponent.altSections = ctnt.altitudeSectionsScoreDetails;
+                        resultsDetailComponent.spaceSections = ctnt.spaceSectionsScoreDetails;
+
+                        // load cattegory property
+                        var arr = tracks.tracks;
+                        var currentTrck;
+
+                        var found = false;
+                        resultsDetailComponent.time_window_penalty = 0;
+                        resultsDetailComponent.time_window_size = 0;
+                        resultsDetailComponent.photos_max_score = 0;
+                        resultsDetailComponent.oposite_direction_penalty = 0;
+                        resultsDetailComponent.marker_max_score = 0;
+                        resultsDetailComponent.gyre_penalty = 0;
+
+                        for (var i = 0; i < arr.length; i++) {
+                            currentTrck = arr[i];
+
+                            if (currentTrck.name === ctnt.category) {
+
+                                resultsDetailComponent.time_window_penalty = currentTrck.time_window_penalty; //penalty percent
+                                resultsDetailComponent.time_window_size = currentTrck.time_window_size;
+                                resultsDetailComponent.photos_max_score = currentTrck.photos_max_score;
+                                resultsDetailComponent.oposite_direction_penalty = currentTrck.oposite_direction_penalty; //penalty percent
+                                resultsDetailComponent.marker_max_score = currentTrck.marker_max_score;
+                                resultsDetailComponent.gyre_penalty = currentTrck.gyre_penalty; //penalty percent
+                                break;
+                            }
+                        }
+
+                        // select row
+                        contestantsTable.selectRow(row);
+
+                        resultsDetailComponent.visible = true;
                     }
                 }
 
@@ -1281,7 +1381,8 @@ ApplicationWindow {
                              refreshContestantsDialog.visible ||
                              startUpMessage.visible ||
                              uploaderDialog.visible ||
-                             resultsWindow.visible ||
+                             //resultsWindow.visible ||
+                             //resultsDetailComponent.visible ||
                              createContestantDialog.visible ||
                              igcChooseDialog.visible;
 
@@ -1318,7 +1419,7 @@ ApplicationWindow {
                 id: continuousResultsView
                 width: parent.width
                 height: applicationWindow.height/2
-                visible: mainViewMenuContinuousResults.checked
+                visible: mainViewMenuContinuousResults.checked && !resultsDetailComponent.visible
             }
         }
         ///// Map
