@@ -3,13 +3,13 @@ import QtQuick.Window 2.0
 import QtQuick.Layouts 1.1
 import QtQuick.Controls 1.4
 
-
 Rectangle {
 
     property variant model;
 
     Layout.fillWidth: true
-    Layout.preferredWidth: continuousResultsScrollView.viewport.width
+    Layout.minimumWidth: 1000
+    Layout.preferredWidth: continuousResultsScrollView.viewport.width - 10
     Layout.preferredHeight: Math.max(listView.rowHeight, (model.count + 1) * listView.rowHeight + 2);
     border.color: "grey"
     border.width: 1
@@ -25,15 +25,16 @@ Rectangle {
         delegate: contResDelegate
         header: headerDelegate
 
-        property int nameColumnWidth: width - 850 - 30
         property int rowHeight: 30
+        property int rowWidth: parent.width
 
         Component {
                 id: headerDelegate
 
                 ContinuousResultsViewTableRow {
 
-                    recWidth: listView.width;
+                    id: headerDelegateRow
+                    recWidth: listView.rowWidth - 2;
                     recHeight: listView.rowHeight;
                     verticalLines: true;
                     horizontalLine: false;
@@ -55,7 +56,7 @@ Rectangle {
 
             ContinuousResultsViewTableRow {
 
-                recWidth: listView.width;
+                recWidth: listView.rowWidth - 2;
                 recHeight: listView.rowHeight;
                 verticalLines: false;
                 horizontalLine: false;
