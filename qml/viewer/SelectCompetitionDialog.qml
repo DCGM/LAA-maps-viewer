@@ -131,12 +131,14 @@ ApplicationWindow {
         anchors.margins: 10
         model: competitions
 
+        property bool loading: false
+
         Rectangle {
 
             color: "#ffffff";
             opacity: 0.7;
             anchors.fill: parent;
-            visible: competitions.count === 0
+            visible: competitions.count === 0 && competitionsTable.loading
 
             BusyIndicator {
                 running: parent.visible
@@ -226,7 +228,7 @@ ApplicationWindow {
 
                             getContestants(F.base_url + "/exportCrewsApi.php", selectedCompetitionId, "GET", api_key_value);
 
-                            competitionListWindow.close()
+                            //competitionListWindow.close()
                         }
                     }
                 }
@@ -340,6 +342,8 @@ ApplicationWindow {
 
     function getContestants(baseUrl, id, method, api_key) {
 
+        competitionsTable.loading = true;
+
         var http = new XMLHttpRequest();
 
         http.open(method, baseUrl + "?id=" + id + "&errors=text" + "&api_key=" + api_key, true);
@@ -367,6 +371,8 @@ ApplicationWindow {
                         // check for errors in response
                         if (http.responseText.indexOf("\"status\":") != -1) {
 
+                            console.log("ERR getContestants DONE: " + http.responseText)
+
                             // set offline state
                             var enviromentTabValues = pathConfiguration.getEnviromentTabContent();
                             pathConfiguration.setFilesTabContent("",
@@ -376,11 +382,24 @@ ApplicationWindow {
                                                                  0);
 
                             // Set and show error dialog
-                            //% "Contestant download error dialog title"
-                            errMessageDialog.title = qsTrId("contestant-download-error-dialog-title")
-                            //% "Can not download registrations for selected competition. Some of the registrations includes invalid values. Please click on the Open button for more details."
-                            errMessageDialog.text = qsTrId("contestant-download-error-dialog-text")
-                            errMessageDialog.standardButtons = StandardButton.Open | StandardButton.Cancel
+                            if (http.responseText.indexOf("\"status\": 10") != -1) {
+
+                                //% "Contestant download error dialog title"
+                                errMessageDialog.title = qsTrId("contestant-download-error-dialog-title")
+                                //% "Can not download registrations for selected competition. Some of the registrations includes invalid values. Please click on the Open button for more details."
+                                errMessageDialog.text = qsTrId("contestant-download-error-dialog-text")
+                                errMessageDialog.standardButtons = StandardButton.Open | StandardButton.Cancel
+                            }
+                            else {
+
+                                //% "Access error dialog title"
+                                errMessageDialog.title = qsTrId("contestant-download-access-error-dialog-title")
+                                //% "Can not download registrations for selected competition. Please check the settings (e.g. api_key) and try it again."
+                                errMessageDialog.text = qsTrId("contestant-download-access-error-dialog-text")
+                                errMessageDialog.standardButtons = StandardButton.Close
+                            }
+
+
                             errMessageDialog.showDialog();
                         }
                         // no errors, json downloaded
@@ -452,12 +471,16 @@ ApplicationWindow {
                     errMessageDialog.showDialog();
                 }
             }
+
+            competitionsTable.loading = false;
         }
 
         http.send()
     }
 
     function getCompetitionsData(url, method, model, api_key) {
+
+        competitionsTable.loading = true;
 
         var http = new XMLHttpRequest();
 
@@ -482,6 +505,7 @@ ApplicationWindow {
 
                     try{
                         var result = (http.responseText);
+
                         var resultObject = JSON.parse(result);
 
                         for (var i = 0; i < resultObject.length; i++) {
@@ -489,7 +513,25 @@ ApplicationWindow {
                             model.append(resultObject[i])
                         }
 
-                        competitionsDownloaded();
+                        // nothing to parse, check for error
+                        if (resultObject.length === 0 || resultObject.length === undefined) {
+
+                            if (http.responseText.indexOf("\"status\":") != -1) {
+
+                                console.log("ERR getCompetitionsData DONE: \n" + http.responseText)
+
+                                // Set and show error dialog
+                                //% "Access error dialog title"
+                                errMessageDialog.title = qsTrId("competitions-download-access-error-dialog-title")
+                                //% "Can not download competitions list from server. Please check the settings (e.g. api_key) and try it again."
+                                errMessageDialog.text = qsTrId("competitions-download-access-error-dialog-text")
+                                errMessageDialog.standardButtons = StandardButton.Close
+                                errMessageDialog.showDialog();
+                            }
+                        }
+                        else {
+                            competitionsDownloaded();
+                        }
 
                     } catch (e) {
 
@@ -510,6 +552,8 @@ ApplicationWindow {
                     errMessageDialog.showDialog();
                 }
             }
+
+            competitionsTable.loading = false;
         }
 
         http.send()

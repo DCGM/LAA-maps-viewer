@@ -21,6 +21,14 @@ Item {
          icon: StandardIcon.Critical;
          standardButtons: StandardButton.Cancel
 
+         signal showDialog();
+
+         onShowDialog: {
+
+             if(uploaderDialog.visible)
+                open();
+         }
+
          onButtonClicked: {
 
             filesToUpload = [];
@@ -133,7 +141,7 @@ Item {
                             //% "Selected competition is read only. Please check the settings and try it again."
                             errMessageDialog.text = qsTrId("results-upload-readonly-error-dialog-text")
                             errMessageDialog.standardButtons = StandardButton.Close
-                            errMessageDialog.open();
+                            errMessageDialog.showDialog();
                         }
 
                         // err
@@ -147,7 +155,7 @@ Item {
                             //% "Unable to start the upload of the files. Please check the api key, destination competition and try it again."
                             errMessageDialog.text = qsTrId("results-upload-start-error-dialog-text")
                             errMessageDialog.standardButtons = StandardButton.Close
-                            errMessageDialog.open();
+                            errMessageDialog.showDialog();
                         }
 
                     } catch (e) {
@@ -166,7 +174,7 @@ Item {
                     //% "Unable to connect to the server. Please check the network connection and try it again."
                     errMessageDialog.text = qsTrId("results-upload-connection-error-dialog-text")
                     errMessageDialog.standardButtons = StandardButton.Close
-                    errMessageDialog.open();
+                    errMessageDialog.showDialog();
                 }
             }
         }
@@ -213,7 +221,7 @@ Item {
                             //% "Unable to complete the results upload. Please check the api key, destination competition, uploaded files and try it again."
                             errMessageDialog.text = qsTrId("results-upload-finishing-error-dialog-text")
                             errMessageDialog.standardButtons = StandardButton.Close
-                            errMessageDialog.open();
+                            errMessageDialog.showDialog();
                         }
 
                     } catch (e) {
@@ -232,7 +240,7 @@ Item {
                     //% "Unable to connect to the server. Please check the network connection and try it again."
                     errMessageDialog.text = qsTrId("results-upload-connection-error-dialog-text")
                     errMessageDialog.standardButtons = StandardButton.Close
-                    errMessageDialog.open();
+                    errMessageDialog.showDialog();
                 }
             }
         }
