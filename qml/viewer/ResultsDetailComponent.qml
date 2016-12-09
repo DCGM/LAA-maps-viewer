@@ -223,11 +223,11 @@ Rectangle {
 
             tabView.scrollView.otherPenaltyText = String(curentContestant.otherPenalty);
 
-            // recover tab status
-            if (!tabPrevActived) tabView.activateTabByName(previousActive)
-
             listModelsToString();
             totalPointsScore = getScorePointsSum(curentContestant, resultsMainWindow.currentWptScoreString, resultsMainWindow.currentSpeedSectionsScoreString);
+
+            // recover tab status
+            if (!tabPrevActived) tabView.activateTabByName(previousActive)
         }
     }
 
@@ -1370,7 +1370,6 @@ Rectangle {
             //% "Cancel"
             text: qsTrId("path-configuration-ok-cancel")
             onClicked: {
-                cancel();
                 resultsMainWindow.visible = false;
             }
         }
