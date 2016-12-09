@@ -90,6 +90,9 @@ Rectangle {
     // recalculate percent points
     onTotalPointsScoreChanged: {
 
+        if (tabView.scrollView === null)
+            return;
+
         // get tab status
         var previousActive = tabView.getActive();
         var tabPrevActived = (previousActive  === "manVals");
@@ -507,6 +510,9 @@ Rectangle {
                                 mheight: parent.height
 
                                 onTextChanged: {
+
+                                    if (tabView.scrollView === null)
+                                        return;
 
                                     // add penalty
                                     curentContestant.startTimeScore = getTakeOffScore(tabView.scrollView.startTimeDifferenceText, time_window_size, time_window_penalty, totalPointsScore);
