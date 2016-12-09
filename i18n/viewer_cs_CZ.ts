@@ -1121,7 +1121,7 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
     <message id="contestant-download-access-error-dialog-text">
         <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="398"/>
         <source>Can not download registrations for selected competition. Please check the settings (e.g. api_key) and try it again.</source>
-        <translation>Nelze stáhnout přihlášky pro zadanou soutěž. Zkontrolujte prosím nastavení (např.APIi klíč) a zkuste to později.</translation>
+        <translation>Nelze stáhnout přihlášky pro zadanou soutěž. Zkontrolujte prosím nastavení (např.API klíč) a zkuste to později.</translation>
     </message>
     <message id="contestant-download-connection-error-dialog-title">
         <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="467"/>
@@ -1141,7 +1141,7 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
     <message id="competitions-download-access-error-dialog-text">
         <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="527"/>
         <source>Can not download competitions list from server. Please check the settings (e.g. api_key) and try it again.</source>
-        <translation>Nelze stáhnout seznam soutěží ze serveru. Zkontrolujte prosím nastavení (např.APIi klíč) a zkuste to později.</translation>
+        <translation>Nelze stáhnout seznam soutěží ze serveru. Zkontrolujte prosím nastavení (např.API klíč) a zkuste to později.</translation>
     </message>
     <message id="competitions-download-connection-error-dialog-title">
         <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="548"/>
@@ -1834,7 +1834,7 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
     <message id="results-upload-start-error-dialog-text">
         <location filename="../qml/viewer/ResultsUploader.qml" line="156"/>
         <source>Unable to start the upload of the files. Please check the api key, destination competition and try it again.</source>
-        <translation>Nelze zahájit přenos souborů. Zkontrolujte prosím přístupový klíč, zvolenou soutěž a zkuste to znovu.</translation>
+        <translation>Nelze zahájit přenos souborů. Zkontrolujte prosím API klíč, zvolenou soutěž a zkuste to znovu.</translation>
     </message>
     <message id="results-upload-connection-error-dialog-title">
         <location filename="../qml/viewer/ResultsUploader.qml" line="173"/>
@@ -1856,7 +1856,7 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
     <message id="results-upload-finishing-error-dialog-text">
         <location filename="../qml/viewer/ResultsUploader.qml" line="222"/>
         <source>Unable to complete the results upload. Please check the api key, destination competition, uploaded files and try it again.</source>
-        <translation>Nelze dokončit upload výsledků. Zkontrolujte prosím přístupový klíč, zvolenou soutěž, nahrané soubory a zkuste to znovu.</translation>
+        <translation>Nelze dokončit upload výsledků. Zkontrolujte prosím API klíč, zvolenou soutěž, nahrané soubory a zkuste to znovu.</translation>
     </message>
 </context>
 <context>

@@ -1836,7 +1836,7 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
     <message id="results-upload-start-error-dialog-text">
         <location filename="../qml/viewer/ResultsUploader.qml" line="156"/>
         <source>Unable to start the upload of the files. Please check the api key, destination competition and try it again.</source>
-        <translation>Unable to start the upload of the files. Please check the api key, destination competition and try it again.</translation>
+        <translation>Unable to start the upload of the files. Please check the API key, destination competition and try it again.</translation>
     </message>
     <message id="results-upload-connection-error-dialog-title">
         <location filename="../qml/viewer/ResultsUploader.qml" line="173"/>
@@ -1858,7 +1858,7 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
     <message id="results-upload-finishing-error-dialog-text">
         <location filename="../qml/viewer/ResultsUploader.qml" line="222"/>
         <source>Unable to complete the results upload. Please check the api key, destination competition, uploaded files and try it again.</source>
-        <translation>Unable to complete the results upload. Please check the api key, destination competition, uploaded files and try it again.</translation>
+        <translation>Unable to complete the results upload. Please check the API key, destination competition, uploaded files and try it again.</translation>
     </message>
 </context>
 <context>
