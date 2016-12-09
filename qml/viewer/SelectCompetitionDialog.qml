@@ -365,8 +365,6 @@ ApplicationWindow {
 
                 console.log("getContestants request DONE: " + http.status)
 
-                console.log(http.responseText)
-
                 if (http.status === 200) {
 
                     try{
@@ -407,9 +405,6 @@ ApplicationWindow {
                         }
                         // no errors, json downloaded
                         else {
-                            console.log(http.status)
-                            console.log(http.responseText)
-
                             var result = (http.responseText);
 
                             var resultObject = JSON.parse(result);
