@@ -152,7 +152,6 @@ Rectangle {
         }
     }
 
-
     onVisibleChanged: {
 
         if (visible) {
@@ -273,11 +272,45 @@ Rectangle {
     signal ok();
     signal cancel();
 
+    RowLayout {
+        id: resultsHeader;
+        anchors.left: parent.left
+        anchors.top: parent.top
+        anchors.margins: 20
+        spacing: 30
+
+        NativeText {
+            text: curentContestant.name
+            font.bold : true
+        }
+        NativeText {
+            text: curentContestant.category
+            Layout.preferredWidth: 50
+        }
+        NativeText {
+            text: curentContestant.startTime
+            Layout.preferredWidth: 50
+        }
+        NativeText {
+            text: curentContestant.speed + " km/h"
+            Layout.preferredWidth: 50
+        }
+        NativeText {
+            text: curentContestant.aircraft_registration
+            Layout.preferredWidth: 50
+        }
+        NativeText {
+            text: curentContestant.aircraft_type
+            Layout.preferredWidth: 50
+        }
+    }
+
+
     TabView {
 
         id: tabView;
 
-        anchors.top: parent.top
+        anchors.top: resultsHeader.bottom
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: actionButtons.top
