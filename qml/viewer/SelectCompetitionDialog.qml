@@ -342,13 +342,11 @@ ApplicationWindow {
 
     function getContestants(baseUrl, id, method, api_key) {
 
-//        competitionsTable.loading = true; TADY TO PAK PADA NA nvwgf2um.dll unhandled exception
+        competitionsTable.loading = true; //TADY TO PAK PADA NA nvwgf2um.dll unhandled exception
 
         var http = new XMLHttpRequest();
 
         http.open(method, baseUrl + "?id=" + id + "&errors=text" + "&api_key=" + api_key, true);
-
-        console.log(baseUrl + "?id=" + id + "&errors=text" + "&api_key=" + api_key)
 
         // set timeout
         var timer = Qt.createQmlObject("import QtQuick 2.5; Timer {interval: 5000; repeat: false; running: true;}", competitionListWindow, "MyTimer");
@@ -472,7 +470,7 @@ ApplicationWindow {
                 }
             }
 
-            //competitionsTable.loading = false;
+            competitionsTable.loading = false;
         }
 
         http.send()
@@ -480,7 +478,7 @@ ApplicationWindow {
 
     function getCompetitionsData(url, method, model, api_key) {
 
-        //competitionsTable.loading = true; TADY TO PAK PADA NA nvwgf2um.dll unhandled exception
+        competitionsTable.loading = true; //TADY TO PAK PADA NA nvwgf2um.dll unhandled exception
 
         var http = new XMLHttpRequest();
 
@@ -553,7 +551,7 @@ ApplicationWindow {
                 }
             }
 
-            //competitionsTable.loading = false;
+            competitionsTable.loading = false;
         }
 
         http.send()
