@@ -767,173 +767,188 @@
         <translation>Configuration</translation>
     </message>
     <message id="path-configuration-environment-tab-title">
-        <location filename="../qml/viewer/PathConfiguration.qml" line="395"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="396"/>
         <source>Environment</source>
         <translation>Environment</translation>
     </message>
     <message id="path-configuration-warning-contestantsFile-not-found">
-        <location filename="../qml/viewer/PathConfiguration.qml" line="610"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="611"/>
         <source></source>
         <translation>Warning: file %1 not found!</translation>
     </message>
     <message id="path-configuration-online-offline-regime">
-        <location filename="../qml/viewer/PathConfiguration.qml" line="693"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="694"/>
         <source>Online offline regime</source>
         <translation>Regime</translation>
     </message>
     <message id="path-configuration-competition-offline">
-        <location filename="../qml/viewer/PathConfiguration.qml" line="704"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="705"/>
         <source>Offline</source>
         <translation>Offline</translation>
     </message>
     <message id="path-configuration-competition-online">
-        <location filename="../qml/viewer/PathConfiguration.qml" line="724"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="725"/>
         <source>Online</source>
         <translation>Online</translation>
     </message>
     <message id="path-configuration-competition-connect">
-        <location filename="../qml/viewer/PathConfiguration.qml" line="746"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="747"/>
         <source>Browse ...</source>
         <oldsource>Connect ...</oldsource>
         <translation>Browse ...</translation>
     </message>
     <message id="path-configuration-competition-tab-title">
-        <location filename="../qml/viewer/PathConfiguration.qml" line="760"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="761"/>
         <source>Competition</source>
         <translation>Competition</translation>
     </message>
     <message id="path-configuration-login-tab-title">
-        <location filename="../qml/viewer/PathConfiguration.qml" line="864"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="865"/>
         <source>Login</source>
         <translation>User</translation>
     </message>
     <message id="path-configuration-login-api-key">
-        <location filename="../qml/viewer/PathConfiguration.qml" line="884"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="889"/>
         <source>API Key</source>
         <translation>API Key</translation>
     </message>
     <message id="path-configuration-login-open-web">
-        <location filename="../qml/viewer/PathConfiguration.qml" line="895"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="910"/>
         <source>Get API Key</source>
         <translation>Get API Key</translation>
     </message>
+    <message id="api-key-name">
+        <location filename="../qml/viewer/PathConfiguration.qml" line="918"/>
+        <source>Name</source>
+        <translation>Name</translation>
+    </message>
+    <message id="path-configuration-login-validate">
+        <location filename="../qml/viewer/PathConfiguration.qml" line="927"/>
+        <source>Validate API Key</source>
+        <translation>Validate API Key</translation>
+    </message>
+    <message id="api-key-validity">
+        <location filename="../qml/viewer/PathConfiguration.qml" line="936"/>
+        <source>Validity</source>
+        <translation>Validity</translation>
+    </message>
     <message id="competition-configuration-read-only-note">
-        <location filename="../qml/viewer/PathConfiguration.qml" line="932"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="977"/>
         <source>Note: Online state - read-only</source>
         <translation>Readonly - online state</translation>
     </message>
     <message id="path-configuration-dialog-title-igc-folder">
-        <location filename="../qml/viewer/PathConfiguration.qml" line="1026"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="1071"/>
         <source>IGC Folder</source>
         <translation>IGC Folder</translation>
     </message>
     <message id="path-configuration-dialog-title-">
-        <location filename="../qml/viewer/PathConfiguration.qml" line="1048"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="1093"/>
         <source>Track</source>
         <translation>Track</translation>
     </message>
     <message id="path-configuration-dialog-title-filight-results">
-        <location filename="../qml/viewer/PathConfiguration.qml" line="1071"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="1116"/>
         <source>Flight results</source>
         <translation>Flight results</translation>
     </message>
     <message id="calendar-title-competiton-data">
-        <location filename="../qml/viewer/PathConfiguration.qml" line="1148"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="1193"/>
         <source>Competition date</source>
         <translation>Date</translation>
     </message>
     <message id="path-configuration-igc-folder">
-        <location filename="../qml/viewer/PathConfiguration.qml" line="505"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="506"/>
         <source>IGC Folder</source>
         <translation>IGC Folder</translation>
     </message>
     <message id="path-configuration-igc-folder-default">
-        <location filename="../qml/viewer/PathConfiguration.qml" line="516"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="517"/>
         <source>Default</source>
         <translation>Default</translation>
     </message>
     <message id="path-configuration-igc-folder-user-defined">
-        <location filename="../qml/viewer/PathConfiguration.qml" line="530"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="531"/>
         <source>User defined</source>
         <translation>User defined</translation>
     </message>
     <message id="path-configuration-igc-folder-browse-button">
-        <location filename="../qml/viewer/PathConfiguration.qml" line="555"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="556"/>
         <source>Browse ...</source>
         <translation>Browse ...</translation>
     </message>
     <message id="path-configuration-track">
-        <location filename="../qml/viewer/PathConfiguration.qml" line="439"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="440"/>
         <source>Track</source>
         <translation>Track</translation>
     </message>
     <message id="path-configuration-track-default">
-        <location filename="../qml/viewer/PathConfiguration.qml" line="450"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="451"/>
         <source>Default</source>
         <translation>Default</translation>
     </message>
     <message id="path-configuration-track-user-defined">
-        <location filename="../qml/viewer/PathConfiguration.qml" line="464"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="465"/>
         <source>User defined</source>
         <translation>User defined</translation>
     </message>
     <message id="path-configuration-track-browse">
-        <location filename="../qml/viewer/PathConfiguration.qml" line="490"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="491"/>
         <source>Browse ...</source>
         <translation>Browse ...</translation>
     </message>
     <message id="path-configuration-flight-results">
-        <location filename="../qml/viewer/PathConfiguration.qml" line="568"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="569"/>
         <source>Working directory</source>
         <oldsource>Flight results</oldsource>
         <translation>Working directory</translation>
     </message>
     <message id="path-configuration-flight-results-default">
-        <location filename="../qml/viewer/PathConfiguration.qml" line="586"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="587"/>
         <source>Default</source>
         <translation>Default</translation>
     </message>
     <message id="path-configuration-flight-results-user-defined">
-        <location filename="../qml/viewer/PathConfiguration.qml" line="624"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="625"/>
         <source>User defined</source>
         <translation>User defined</translation>
     </message>
     <message id="path-configuration-flight-results-browse">
-        <location filename="../qml/viewer/PathConfiguration.qml" line="649"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="650"/>
         <source>Browse ...</source>
         <translation>Browse ...</translation>
     </message>
     <message id="competition-configuration-competition-name">
-        <location filename="../qml/viewer/PathConfiguration.qml" line="779"/>
-        <location filename="../qml/viewer/PathConfiguration.qml" line="787"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="780"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="788"/>
         <source>Competition name</source>
         <translation>Name</translation>
     </message>
     <message id="competition-configuration-competition-type">
-        <location filename="../qml/viewer/PathConfiguration.qml" line="793"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="794"/>
         <source>Competition type</source>
         <translation>Type</translation>
     </message>
     <message id="competition-configuration-competition-director">
-        <location filename="../qml/viewer/PathConfiguration.qml" line="808"/>
-        <location filename="../qml/viewer/PathConfiguration.qml" line="816"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="809"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="817"/>
         <source>Competition director</source>
         <translation>Competition director</translation>
     </message>
     <message id="competition-configuration-competition-arbitr">
-        <location filename="../qml/viewer/PathConfiguration.qml" line="822"/>
-        <location filename="../qml/viewer/PathConfiguration.qml" line="830"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="823"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="831"/>
         <source>Competition arbitr</source>
         <translation>Main referee</translation>
     </message>
     <message id="competition-configuration-competition-date">
-        <location filename="../qml/viewer/PathConfiguration.qml" line="836"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="837"/>
         <source>Competition date</source>
         <translation>Date</translation>
     </message>
     <message id="path-configuration-ok-button">
         <location filename="../qml/viewer/CalendarWindow.qml" line="49"/>
-        <location filename="../qml/viewer/PathConfiguration.qml" line="946"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="991"/>
         <location filename="../qml/viewer/ResultsWindow.qml" line="1176"/>
         <source>Ok</source>
         <oldsource>&amp;Ok</oldsource>
@@ -941,7 +956,7 @@
     </message>
     <message id="path-configuration-ok-cancel">
         <location filename="../qml/viewer/CalendarWindow.qml" line="61"/>
-        <location filename="../qml/viewer/PathConfiguration.qml" line="1008"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="1053"/>
         <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1377"/>
         <location filename="../qml/viewer/ResultsWindow.qml" line="1248"/>
         <source>Cancel</source>
@@ -1019,7 +1034,7 @@ User may not copy, modify, grant sublicences or distribute Software in any other
 User may not use and/or distribute Software, if he/she cannot satisfy simultaneously obligations under this licence and any other pertinent obligations.
 User is not responsible for enforcing terms of this agreement by third parties. &lt;br/&gt;
 BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, TO THE EXTENT PERMITTED BY APPLICABLE LAW. EXCEPT WHEN OTHERWISE STATED IN WRITING, BUT PROVIDES SOFTWARE </oldsource>
-        <translation>
+        <translation type="unfinished">
 Authors: &lt;br/&gt;
 Jozef Mlich, Adam Siroky, Pavel Zemcik, &lt;a href=\&quot;http://www.fit.vutbr.cz/\&quot;&gt;FIT VUT Brno&lt;/a&gt; &lt;br/&gt; &lt;br/&gt;
 
@@ -1087,119 +1102,119 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
         <translation>Load applications</translation>
     </message>
     <message id="contestant-download-error-dialog-title">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="388"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="390"/>
         <source>Contestant download error dialog title</source>
         <translation>Invalid registrations values</translation>
     </message>
     <message id="contestant-download-error-dialog-text">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="390"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="392"/>
         <source>Can not download registrations for selected competition. Some of the registrations includes invalid values. Please click on the Open button for more details.</source>
         <translation>Can not download registrations for selected competition. Some of the registrations includes invalid values. Please click on the Open button for more details.</translation>
     </message>
     <message id="competitions-table-round">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="152"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="155"/>
         <source>Competition round</source>
         <translation>Round</translation>
     </message>
     <message id="competitions-table-date">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="159"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="162"/>
         <source>Competition date</source>
         <translation>Date</translation>
     </message>
     <message id="competitions-table-name">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="166"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="169"/>
         <source>Competition name</source>
         <translation>Name</translation>
     </message>
     <message id="contestant-download-access-error-dialog-title">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="396"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="398"/>
         <source>Access error dialog title</source>
         <translation>Access denied</translation>
     </message>
     <message id="contestant-download-access-error-dialog-text">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="398"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="400"/>
         <source>Can not download registrations for selected competition. Please check the settings (e.g. api_key) and try it again.</source>
         <translation>Can not download registrations for selected competition. Please check the settings (e.g. API key) and try it again.</translation>
     </message>
     <message id="contestant-download-connection-error-dialog-title">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="467"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="468"/>
         <source>Connection error dialog title</source>
         <translation>Connection error</translation>
     </message>
     <message id="contestant-download-connection-error-dialog-text">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="469"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="470"/>
         <source>Can not download registrations for selected competition. Please check the network connection and try it again.</source>
         <translation>Can not download registrations for selected competition. Please check the network connection and try it again.</translation>
     </message>
     <message id="competitions-download-access-error-dialog-title">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="525"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="526"/>
         <source>Access error dialog title</source>
         <translation>Access denied</translation>
     </message>
     <message id="competitions-download-access-error-dialog-text">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="527"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="528"/>
         <source>Can not download competitions list from server. Please check the settings (e.g. api_key) and try it again.</source>
         <translation>Can not download competitions list from server. Please check the settings (e.g.  API key) and try it again.</translation>
     </message>
     <message id="competitions-download-connection-error-dialog-title">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="548"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="549"/>
         <source>Connection error dialog title</source>
         <translation>Connection error</translation>
     </message>
     <message id="competitions-download-connection-error-dialog-text">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="550"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="551"/>
         <source>Can not download competitions list from server. Please check the network connection and try it again.</source>
         <translation>Can not download competitions list from server. Please check the network connection and try it again.</translation>
     </message>
     <message id="competition-type-navigation-along-known-track">
-        <location filename="../qml/viewer/PathConfiguration.qml" line="1097"/>
-        <location filename="../qml/viewer/PathConfiguration.qml" line="1135"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="1142"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="1180"/>
         <source>Navigation along known track</source>
         <translation>Navigation along known track</translation>
     </message>
     <message id="competition-type-navigation-along-unknown-track">
-        <location filename="../qml/viewer/PathConfiguration.qml" line="1101"/>
-        <location filename="../qml/viewer/PathConfiguration.qml" line="1136"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="1146"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="1181"/>
         <source>Navigation along unknown track</source>
         <translation>Navigation along unknown track</translation>
     </message>
     <message id="competition-type-economy">
-        <location filename="../qml/viewer/PathConfiguration.qml" line="1105"/>
-        <location filename="../qml/viewer/PathConfiguration.qml" line="1137"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="1150"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="1182"/>
         <source>Economy</source>
         <translation>Economy</translation>
     </message>
     <message id="competition-type-search-of-objects">
-        <location filename="../qml/viewer/PathConfiguration.qml" line="1109"/>
-        <location filename="../qml/viewer/PathConfiguration.qml" line="1138"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="1154"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="1183"/>
         <source>Search of objects</source>
         <translation>Search of objects</translation>
     </message>
     <message id="competition-type-Triangle">
-        <location filename="../qml/viewer/PathConfiguration.qml" line="1113"/>
-        <location filename="../qml/viewer/PathConfiguration.qml" line="1139"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="1158"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="1184"/>
         <source>Triangle</source>
         <translation>Triangle</translation>
     </message>
     <message id="competition-type-landing">
-        <location filename="../qml/viewer/PathConfiguration.qml" line="1117"/>
-        <location filename="../qml/viewer/PathConfiguration.qml" line="1140"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="1162"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="1185"/>
         <source>Landing</source>
         <translation>Landing</translation>
     </message>
     <message id="competition-type-other">
-        <location filename="../qml/viewer/PathConfiguration.qml" line="1121"/>
-        <location filename="../qml/viewer/PathConfiguration.qml" line="1141"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="1166"/>
+        <location filename="../qml/viewer/PathConfiguration.qml" line="1186"/>
         <source>Other</source>
         <translation>Other</translation>
     </message>
     <message id="competition-list-ok-button">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="296"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="299"/>
         <source>Ok</source>
         <translation>Ok</translation>
     </message>
     <message id="competition-list-cancel-button">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="325"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="328"/>
         <source>Cancel</source>
         <translation>Cancel</translation>
     </message>
