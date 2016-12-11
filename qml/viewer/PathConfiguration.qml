@@ -58,6 +58,7 @@ ApplicationWindow {
     property string api_key_get_url: F.base_url + "/apiKeys.php?action=create"
 
     property string prevApi_key: ""
+    property string apiKeyStatus: "unknown" // ["unknown", "ok", "nok"]
 
     property bool contestantFileExist: false
 
@@ -654,36 +655,6 @@ ApplicationWindow {
                         }
                     }
                 }
-                /*
-                RowLayout {
-
-                    id: resultsFolderStatusRow
-                    spacing: 10;
-                    anchors.left: parent.left
-                    anchors.leftMargin: -2
-                    anchors.right: parent.right
-                    Spacer {}
-
-                    Item {
-                        width: 20
-                        height: 20
-                        anchors.verticalCenter: parent.verticalCenter
-
-                        Image {
-                            id: okImg
-                            anchors.fill: parent
-                            fillMode: Image.PreserveAspectFit
-                            source: "./data/nok.png"
-                            opacity: 0.5
-                        }
-                    }
-
-                    NativeText {
-                        //% "File %1 not found"
-                        text: qsTrId("path-configuration-error-contestantsFile-not-found").arg(pathConfiguration.contestantsFileName);
-                    }
-                }
-                */
 
                 ///// Server
                 ExclusiveGroup { id: statusGroup }
@@ -879,9 +850,23 @@ ApplicationWindow {
 
                 property alias apiKeyAlias: api_key.text;
 
-                NativeText {
-                    //% "API Key"
-                    text: qsTrId("path-configuration-login-api-key")
+                Row {
+                    height: api_key.height
+                    spacing: 10
+
+                    NativeText {
+                        //% "API Key"
+                        text: qsTrId("path-configuration-login-api-key")
+                        anchors.verticalCenter: parent.verticalCenter
+                    }
+
+                    Image {
+                        height: parent.height
+                        anchors.verticalCenter: parent.verticalCenter
+                        fillMode: Image.PreserveAspectFit
+                        visible: apiKeyStatus !== "unknown"
+                        source: apiKeyStatus === "ok" ? "./data/ok.png" : "./data/nok.png"
+                    }
                 }
 
                 TextField {
@@ -897,11 +882,45 @@ ApplicationWindow {
                         Qt.openUrlExternally(api_key_get_url)
                     }
                 }
+
+                NativeText {
+                    //% "Name"
+                    text: qsTrId("api-key-name")
+                }
+
+                MyReadOnlyTextField {
+                    id: userNameValidity
+                    Layout.fillWidth:true;
+                    Layout.preferredWidth: parent.width/2
+                }
+
+                Button {
+                    id: validButton
+                    //% "Validate API Key"
+                    text: qsTrId("path-configuration-login-validate");
+                    enabled: (api_key.text !== "")
+                    onClicked: {
+                        validApiKey(F.base_url + "/apiKeyCheck.php", "GET", apiKeyAlias);
+                    }
+                }
+
+                NativeText {
+                    //% "Validity"
+                    text: qsTrId("api-key-validity")
+                }
+
+                MyReadOnlyTextField {
+                    id: userKeyValidity
+                    Layout.fillWidth:true;
+                    Layout.preferredWidth: parent.width/2
+                }
+
+                NativeText { // spacer
+                    width: validButton.width
+                }
             }
         }
     }
-
-    // Item visible false
 
     /// Action Buttons
 
@@ -1084,6 +1103,91 @@ ApplicationWindow {
                 tabView.pathTabAlias.resultsFolderDefaultCheckBoxAlias = true;
             }
         }
+    }
+
+
+    function validApiKey(url, method, api_key) {
+
+        var http = new XMLHttpRequest();
+
+        http.open(method, url + "?api_key=" + api_key, true);
+
+        // set timeout
+        var timer = Qt.createQmlObject("import QtQuick 2.5; Timer {interval: 5000; repeat: false; running: true;}", pathConfiguration, "MyTimer");
+                        timer.triggered.connect(function(){
+
+                            http.abort();
+                        });
+
+        http.onreadystatechange = function() {
+
+            timer.running = false;
+
+            if (http.readyState === XMLHttpRequest.DONE) {
+
+                console.log("validApiKey request DONE: " + http.status)
+
+                if (http.status === 200) {
+
+                    try{
+
+                        // todo parse response SET method for the tab
+                        //apiKeyStatus = "ok"; //["unknown", "ok", "nok"]
+                        //userNameValidity.text = "TODO";
+                        //userKeyValidity.text = "FROM - TO";
+
+                        /*
+                        var result = (http.responseText);
+
+                        var resultObject = JSON.parse(result);
+
+                        for (var i = 0; i < resultObject.length; i++) {
+
+                            model.append(resultObject[i])
+                        }
+                        */
+
+                    } catch (e) {
+
+                        console.log("ERR validApiKey: parse failed" + e)
+                    }
+                }
+                // Connection error
+                else {
+
+                    console.log("ERR validApiKey http status: " + http.status)
+
+                    // TODO
+                    /*
+                    // Set and show error dialog
+                    //% "Connection error dialog title"
+                    errMessageDialog.title = qsTrId("competitions-download-connection-error-dialog-title")
+                    //% "Can not download competitions list from server. Please check the network connection and try it again."
+                    errMessageDialog.text = qsTrId("competitions-download-connection-error-dialog-text")
+                    errMessageDialog.standardButtons = StandardButton.Close
+                    errMessageDialog.showDialog();
+                    */
+                }
+            }
+        }
+
+        http.send()
+    }
+
+    MessageDialog {
+
+         id: errMessageDialog
+         icon: StandardIcon.Critical;
+         standardButtons: StandardButton.Cancel
+
+         signal showDialog();
+
+         onShowDialog: {
+
+             if(pathConfiguration.visible) {
+                open();
+             }
+         }
     }
 
     function getCompetitionTypeString(type) {
