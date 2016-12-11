@@ -140,11 +140,14 @@ ApplicationWindow {
             anchors.fill: parent;
             visible: competitions.count === 0 && competitionsTable.loading
 
+            /*
+            //TADY TO PAK PADA NA nvwgf2um.dll unhandled exception
             BusyIndicator {
                 running: parent.visible
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.horizontalCenter: parent.horizontalCenter
             }
+            */
         }
 
         TableViewColumn {
@@ -342,7 +345,7 @@ ApplicationWindow {
 
     function getContestants(baseUrl, id, method, api_key) {
 
-        competitionsTable.loading = true; //TADY TO PAK PADA NA nvwgf2um.dll unhandled exception
+        competitionsTable.loading = true;
 
         var http = new XMLHttpRequest();
 
@@ -478,7 +481,7 @@ ApplicationWindow {
 
     function getCompetitionsData(url, method, model, api_key) {
 
-        competitionsTable.loading = true; //TADY TO PAK PADA NA nvwgf2um.dll unhandled exception
+        competitionsTable.loading = true;
 
         var http = new XMLHttpRequest();
 
