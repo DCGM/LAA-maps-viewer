@@ -288,23 +288,23 @@ Rectangle {
         }
         NativeText {
             text: curentContestant.category
-            Layout.preferredWidth: 50
+            Layout.minimumWidth: 50
         }
         NativeText {
             text: curentContestant.startTime
-            Layout.preferredWidth: 50
+            Layout.minimumWidth: 50
         }
         NativeText {
             text: curentContestant.speed + " km/h"
-            Layout.preferredWidth: 50
+            Layout.minimumWidth: 50
         }
         NativeText {
             text: curentContestant.aircraft_registration
-            Layout.preferredWidth: 50
+            Layout.minimumWidth: 50
         }
         NativeText {
             text: curentContestant.aircraft_type
-            Layout.preferredWidth: 50
+            Layout.minimumWidth: 50
         }
     }
 
