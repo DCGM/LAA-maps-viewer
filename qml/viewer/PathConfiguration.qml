@@ -393,7 +393,7 @@ ApplicationWindow {
         Tab {
             id: pathTab
             //% "Environment"
-            title: qsTrId("path-configuration-environment-tab-title")          
+            title: qsTrId("path-configuration-environment-tab-title")
 
             GridLayout {
                 id: mainColumn
@@ -836,7 +836,6 @@ ApplicationWindow {
 
             // save api key
             onVisibleChanged: {
-
                 config.set("api_key", tabView.loginTabAlias.apiKeyAlias);
             }
 
@@ -876,10 +875,21 @@ ApplicationWindow {
                     text: config.get("api_key", "");
                 }
                 Button {
-                    //% "Get API Key"
-                    text: qsTrId("path-configuration-login-open-web");
+                    text:
+                        (api_key.text !== "") ?
+                            //% "Validate API Key"
+                            qsTrId("path-configuration-login-validate")
+                          :
+                            //% "Get API Key"
+                            qsTrId("path-configuration-login-open-web")
+                    ;
                     onClicked: {
-                        Qt.openUrlExternally(api_key_get_url)
+                        if (api_key.text !== "") {
+                            validApiKey(F.base_url + "/apiKeyCheck.php", "GET", apiKeyAlias);
+                        } else {
+                            Qt.openUrlExternally(api_key_get_url)
+                        }
+
                     }
                 }
 
@@ -894,14 +904,7 @@ ApplicationWindow {
                     Layout.preferredWidth: parent.width/2
                 }
 
-                Button {
-                    id: validButton
-                    //% "Validate API Key"
-                    text: qsTrId("path-configuration-login-validate");
-                    enabled: (api_key.text !== "")
-                    onClicked: {
-                        validApiKey(F.base_url + "/apiKeyCheck.php", "GET", apiKeyAlias);
-                    }
+                NativeText { // spacer
                 }
 
                 NativeText {
@@ -916,8 +919,80 @@ ApplicationWindow {
                 }
 
                 NativeText { // spacer
-                    width: validButton.width
                 }
+
+
+
+                function validApiKey(url, method, api_key) {
+
+                    var http = new XMLHttpRequest();
+
+                    http.open(method, url + "?api_key=" + api_key, true);
+
+                    // set timeout
+                    var timer = Qt.createQmlObject("import QtQuick 2.5; Timer {interval: 5000; repeat: false; running: true;}", pathConfiguration, "MyTimer");
+                    timer.triggered.connect(function(){
+                        http.abort();
+                    });
+
+                    http.onreadystatechange = function() {
+
+                        timer.running = false;
+
+                        if (http.readyState === XMLHttpRequest.DONE) {
+
+                            console.log("validApiKey request DONE: " + http.status)
+
+                            if (http.status === 200) {
+
+
+                                try{
+
+
+                                    var result = JSON.parse(http.responseText);
+                                    var resultStatus = (result.status !== undefined && result.status === 0);
+                                    apiKeyStatus = resultStatus  ? "ok" : "nok";
+
+                                    if (resultStatus) {
+
+                                        userNameValidity.text = result.message.firstname + " " + result.message.surname;
+                                        userKeyValidity.text  = result.message.valid_until
+                                    } else {
+                                        userNameValidity.text = "";
+                                        userKeyValidity.text = "";
+                                    }
+
+
+                                } catch (e) {
+                                    userNameValidity.text = "ERR: parse failed" + e
+                                    console.log("ERR validApiKey: parse failed" + e)
+                                }
+                            }
+                            // Connection error
+                            else {
+
+                                console.log("ERR validApiKey http status: " + http.status)
+
+                                userNameValidity.text = "ERR " + http.status + " " + http.statusText;
+                                userKeyValidity.text = "";
+
+                                // TODO
+                                /*
+                                // Set and show error dialog
+                                //% "Connection error dialog title"
+                                errMessageDialog.title = qsTrId("competitions-download-connection-error-dialog-title")
+                                //% "Can not download competitions list from server. Please check the network connection and try it again."
+                                errMessageDialog.text = qsTrId("competitions-download-connection-error-dialog-text")
+                                errMessageDialog.standardButtons = StandardButton.Close
+                                errMessageDialog.showDialog();
+                                */
+                            }
+                        }
+                    }
+
+                    http.send()
+                }
+
             }
         }
     }
@@ -1106,88 +1181,20 @@ ApplicationWindow {
     }
 
 
-    function validApiKey(url, method, api_key) {
-
-        var http = new XMLHttpRequest();
-
-        http.open(method, url + "?api_key=" + api_key, true);
-
-        // set timeout
-        var timer = Qt.createQmlObject("import QtQuick 2.5; Timer {interval: 5000; repeat: false; running: true;}", pathConfiguration, "MyTimer");
-                        timer.triggered.connect(function(){
-
-                            http.abort();
-                        });
-
-        http.onreadystatechange = function() {
-
-            timer.running = false;
-
-            if (http.readyState === XMLHttpRequest.DONE) {
-
-                console.log("validApiKey request DONE: " + http.status)
-
-                if (http.status === 200) {
-
-                    try{
-
-                        // todo parse response SET method for the tab
-                        //apiKeyStatus = "ok"; //["unknown", "ok", "nok"]
-                        //userNameValidity.text = "TODO";
-                        //userKeyValidity.text = "FROM - TO";
-
-                        /*
-                        var result = (http.responseText);
-
-                        var resultObject = JSON.parse(result);
-
-                        for (var i = 0; i < resultObject.length; i++) {
-
-                            model.append(resultObject[i])
-                        }
-                        */
-
-                    } catch (e) {
-
-                        console.log("ERR validApiKey: parse failed" + e)
-                    }
-                }
-                // Connection error
-                else {
-
-                    console.log("ERR validApiKey http status: " + http.status)
-
-                    // TODO
-                    /*
-                    // Set and show error dialog
-                    //% "Connection error dialog title"
-                    errMessageDialog.title = qsTrId("competitions-download-connection-error-dialog-title")
-                    //% "Can not download competitions list from server. Please check the network connection and try it again."
-                    errMessageDialog.text = qsTrId("competitions-download-connection-error-dialog-text")
-                    errMessageDialog.standardButtons = StandardButton.Close
-                    errMessageDialog.showDialog();
-                    */
-                }
-            }
-        }
-
-        http.send()
-    }
-
     MessageDialog {
 
-         id: errMessageDialog
-         icon: StandardIcon.Critical;
-         standardButtons: StandardButton.Cancel
+        id: errMessageDialog
+        icon: StandardIcon.Critical;
+        standardButtons: StandardButton.Cancel
 
-         signal showDialog();
+        signal showDialog();
 
-         onShowDialog: {
+        onShowDialog: {
 
-             if(pathConfiguration.visible) {
+            if(pathConfiguration.visible) {
                 open();
-             }
-         }
+            }
+        }
     }
 
     function getCompetitionTypeString(type) {
