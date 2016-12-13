@@ -58,7 +58,10 @@ ApplicationWindow {
     property string api_key_get_url: F.base_url + "/apiKeys.php?action=create"
 
     property string prevApi_key: ""
-    property string apiKeyStatus: "unknown" // ["unknown", "ok", "nok"]
+    property string apiKeyStatus: "" // ["ok", "nok"]
+
+    property string prevUserNameValidity: "";
+    property string prevUserKeyValidity: "";
 
     property bool contestantFileExist: false
 
@@ -90,6 +93,11 @@ ApplicationWindow {
 
             // get last known api_key
             prevApi_key = config.get("api_key", "");
+            prevUserNameValidity = config.get("userNameValidity", "");
+            prevUserKeyValidity = config.get("userKeyValidity", "");
+
+            // set previous api key
+            setLoginTabValues(prevApi_key, prevUserNameValidity, prevUserKeyValidity);
 
             // set previous enviroment tab values
             setFilesTabContent(pathConfiguration.selectedCompetition,
@@ -136,6 +144,8 @@ ApplicationWindow {
         // load data into array
 
         ret.push(tabView.loginTabAlias.apiKeyAlias)
+        ret.push(tabView.loginTabAlias.userNameValidityAlias)
+        ret.push(tabView.loginTabAlias.userKeyValidityAlias)
 
         // recover tab status
         if (!tabPrevActived) tabView.activateTabByName(previousActive)
@@ -143,17 +153,19 @@ ApplicationWindow {
         return ret;
     }
 
-    function setLoginTabValues(_api_key) {
+    function setLoginTabValues(api_key, prevUserNameValidity, prevUserKeyValidity) {
 
         // get tab status
         var previousActive = tabView.getActive();
-        var tabPrevActived = (previousActive  === "path");
+        var tabPrevActived = (previousActive  === "login");
 
         // set tab active
-        if (!tabPrevActived) tabView.activateTabByName("path");
+        if (!tabPrevActived) tabView.activateTabByName("login");
 
-        // competition property
-        tabView.loginTabAlias.apiKeyAlias = _api_key;
+        // login property
+        tabView.loginTabAlias.apiKeyAlias = api_key;
+        tabView.loginTabAlias.userNameValidityAlias = prevUserNameValidity;
+        tabView.loginTabAlias.userKeyValidityAlias = prevUserKeyValidity;
 
         // recover tab status
         if (!tabPrevActived) tabView.activateTabByName(previousActive)
@@ -837,6 +849,8 @@ ApplicationWindow {
             // save api key
             onVisibleChanged: {
                 config.set("api_key", tabView.loginTabAlias.apiKeyAlias);
+                config.set("userNameValidity", tabView.loginTabAlias.userNameValidityAlias);
+                config.set("userKeyValidity", tabView.loginTabAlias.userKeyValidityAlias);
             }
 
             GridLayout {
@@ -848,6 +862,8 @@ ApplicationWindow {
                 columns: 3
 
                 property alias apiKeyAlias: api_key.text;
+                property alias userNameValidityAlias: userNameValidity.text;
+                property alias userKeyValidityAlias: userKeyValidity.text;
 
                 Row {
                     height: api_key.height
@@ -873,6 +889,14 @@ ApplicationWindow {
                     Layout.fillWidth:true;
                     Layout.preferredWidth: parent.width/2
                     text: config.get("api_key", "");
+
+                    onTextChanged: {
+
+                        apiKeyStatus = "nok";
+                        userNameValidity.text = "";
+                        userKeyValidity.text = "";
+                    }
+
                 }
                 Button {
                     text:
@@ -1092,6 +1116,8 @@ ApplicationWindow {
                     var loginTabValues = getLoginTabValues()
 
                     config.set("api_key", loginTabValues[0]);
+                    config.set("userNameValidity", loginTabValues[1]);
+                    config.set("userKeyValidity", loginTabValues[2]);
 
                     ok();
                     pathConfiguration.close();
@@ -1103,7 +1129,9 @@ ApplicationWindow {
 
                 onClicked: {
 
-                    config.set("api_key", prevApi_key); // restore api_key
+                    config.set("api_key", prevApi_key); // restore
+                    config.set("userNameValidity", prevUserNameValidity);
+                    config.set("userKeyValidity", prevUserKeyValidity);
 
                     cancel();
                     pathConfiguration.close()
