@@ -188,7 +188,7 @@ void ResultsCreater::createStartListHTML(const QString &filename,
         jsonResponse = QJsonDocument::fromJson(cntList.at(i).toUtf8());
         jsonObject = jsonResponse.object();
 
-        rows.append(QStringList() << QString::number(i)
+        rows.append(QStringList() << QString::number(i + 1)
                                   << jsonObject["name"].toString()
                                   << jsonObject["category"].toString()
                                   << QString::number(jsonObject["speed"].toInt())
