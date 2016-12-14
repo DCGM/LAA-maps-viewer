@@ -275,6 +275,10 @@ Rectangle {
     signal ok();
     signal cancel();
 
+    MouseArea {
+        anchors.fill: parent
+    }
+
     RowLayout {
         id: resultsHeader;
         anchors.left: parent.left
