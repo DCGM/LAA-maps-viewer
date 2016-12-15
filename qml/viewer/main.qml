@@ -4217,7 +4217,7 @@ ApplicationWindow {
         running: false;
         interval: 1;
 
-        property string action; //["pathOnOk"]
+        property string action; //["pathOnOk", "refreshDialogOnOk"]
 
         onTriggered: {
 
@@ -4307,6 +4307,7 @@ ApplicationWindow {
 
             }
 
+            action = "";
             running = false;
         }
     }

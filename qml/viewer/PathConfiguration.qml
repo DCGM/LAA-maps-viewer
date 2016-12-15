@@ -997,19 +997,16 @@ ApplicationWindow {
 
                                 console.log("ERR validApiKey http status: " + http.status)
 
-                                userNameValidity.text = "ERR " + http.status + " " + http.statusText;
+                                userNameValidity.text = "";
                                 userKeyValidity.text = "";
 
-                                // TODO
-                                /*
                                 // Set and show error dialog
                                 //% "Connection error dialog title"
-                                errMessageDialog.title = qsTrId("competitions-download-connection-error-dialog-title")
-                                //% "Can not download competitions list from server. Please check the network connection and try it again."
-                                errMessageDialog.text = qsTrId("competitions-download-connection-error-dialog-text")
+                                errMessageDialog.title = qsTrId("valid-apikey-connection-error-dialog-title")
+                                //% "Can not validate Api key on the server. Please check the network connection and try it again."
+                                errMessageDialog.text = qsTrId("valid-apikey-connection-error-dialog-text")
                                 errMessageDialog.standardButtons = StandardButton.Close
                                 errMessageDialog.showDialog();
-                                */
                             }
                         }
                     }
@@ -1222,6 +1219,11 @@ ApplicationWindow {
             if(pathConfiguration.visible) {
                 open();
             }
+        }
+
+        onButtonClicked: {
+
+            visible = false;
         }
     }
 
