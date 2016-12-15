@@ -498,19 +498,9 @@ ApplicationWindow {
 
         onOk: {
 
-            joinContestantsListModels();
-            loadPrevResults();
-
-            unmodifiedContestants.clear();
-            updatedContestants.clear();
-            addedContestants.clear();
-            removedContestants.clear();
-
-            // sort list model by startTime
-            sortListModelByStartTime();
-
-            // load prev results
-            loadPrevResults();
+            // do it through the timer
+            workingTimer.action = "refreshDialogOnOk";
+            workingTimer.running = true;
         }
 
         onCancel: {
@@ -520,50 +510,49 @@ ApplicationWindow {
             addedContestants.clear();
             removedContestants.clear();
         }
+    }
 
-        // join
-        function joinContestantsListModels() {
+    function joinContestantsListModels() {
 
-            contestantsListModel.clear();
+        contestantsListModel.clear();
 
-            var i = 0;
-            var item;
+        var i = 0;
+        var item;
 
-            for(i = 0; i < unmodifiedContestants.count; i++) {
-                item = unmodifiedContestants.get(i);
+        for(i = 0; i < unmodifiedContestants.count; i++) {
+            item = unmodifiedContestants.get(i);
 
-                if (item.selected)
-                    contestantsListModel.append(item);
-            }
+            if (item.selected)
+                contestantsListModel.append(item);
+        }
 
-            for(i = 0; i < removedContestants.count; i++) {
-                item = removedContestants.get(i);
+        for(i = 0; i < removedContestants.count; i++) {
+            item = removedContestants.get(i);
 
-                if (item.selected)
-                    contestantsListModel.append(item);
-            }
+            if (item.selected)
+                contestantsListModel.append(item);
+        }
 
-            for(i = 0; i < addedContestants.count; i++) {
-                item = addedContestants.get(i);
+        for(i = 0; i < addedContestants.count; i++) {
+            item = addedContestants.get(i);
 
-                if (item.selected)
-                    contestantsListModel.append(item);
-            }
+            if (item.selected)
+                contestantsListModel.append(item);
+        }
 
-            for(i = 0; i < updatedContestants.count; i++) {
-                item = updatedContestants.get(i);
+        for(i = 0; i < updatedContestants.count; i++) {
+            item = updatedContestants.get(i);
 
-                if (item.selected) {
+            if (item.selected) {
 
-                    if(item.nameSelector) item.name = item.newName;
-                    if(item.speedSelector) item.speed = item.newSpeed;
-                    if(item.categorySelector) item.category = item.newCategory;
-                    if(item.startTimeSelector) item.startTime = item.newStartTime;
-                    if(item.planeTypeSelector) item.aircraft_type = item.newAircraft_type;
-                    if(item.planeRegSelector) item.aircraft_registration = item.newAircraft_registration;
+                if(item.nameSelector) item.name = item.newName;
+                if(item.speedSelector) item.speed = item.newSpeed;
+                if(item.categorySelector) item.category = item.newCategory;
+                if(item.startTimeSelector) item.startTime = item.newStartTime;
+                if(item.planeTypeSelector) item.aircraft_type = item.newAircraft_type;
+                if(item.planeRegSelector) item.aircraft_registration = item.newAircraft_registration;
 
-                    contestantsListModel.append(item);
-                }
+                contestantsListModel.append(item);
             }
         }
     }
@@ -608,61 +597,9 @@ ApplicationWindow {
         id: pathConfiguration;
         onOk: {
 
-            // save downloaded applications
-            if (contestantsDownloadedString !== "") {
-
-                file_reader.write(Qt.resolvedUrl(pathConfiguration.contestantsFile), contestantsDownloadedString);
-                pathConfiguration.contestantsDownloadedString = "";
-            }
-
-            // clear contestant in categories counters
-            if (file_reader.file_exists(Qt.resolvedUrl(pathConfiguration.trackFile ))) {
-                tracks = JSON.parse(file_reader.read(Qt.resolvedUrl(pathConfiguration.trackFile )))              
-
-                // load VTB and preparation times
-                tracksVbtTimes = [];
-                tracksPrepTimes = [];
-
-                for (var t = 0; t < tracks.tracks.length; t++) {
-
-                    trItem = tracks.tracks[t]
-
-                    tracksVbtTimes[trItem.name] = trItem.conn[0] === undefined ? 0 : trItem.conn[0].addTime;
-                    tracksPrepTimes[trItem.name] = trItem.preparation_time;
-                }
-
-            } else {
-
-                //% "File %1 not found"
-                errorMessage.text = qsTrId("path-configuration-error-trackFile-not-found").arg(pathConfiguration.trackFile);
-                errorMessage.open();
-                return;
-            }
-
-            if (file_reader.file_exists(Qt.resolvedUrl(pathConfiguration.contestantsFile))) {
-
-                console.time("load ctnt")
-                loadContestants(Qt.resolvedUrl(pathConfiguration.contestantsFile))
-                loadPrevResults();
-                console.timeEnd("load ctnt")
-
-            }/* else {
-
-                //% "File %1 not found"
-                errorMessage.text = qsTrId("path-configuration-error-contestantsFile-not-found").arg(pathConfiguration.contestantsFile);
-                errorMessage.open();
-                return;
-            }*/
-
-            // load igc
-            igcFolderModel.folder = "";
-            igcFolderModel.folder = pathConfiguration.igcDirectory;
-
-            recalculateContestantsScoreOrder();
-
-            storeTrackSettings(pathConfiguration.tsFile);
-            map.requestUpdate();
-
+            // do it through the timer
+            workingTimer.action = "pathOnOk";
+            workingTimer.running = true;
         }
         onCancel: {
             pathConfiguration.contestantsDownloadedString = "";
@@ -1374,6 +1311,7 @@ ApplicationWindow {
                     visible: evaluateTimer.running ||
                              resultsTimer.running ||
                              computingTimer.running ||
+                             workingTimer.running ||
                              pathConfiguration.visible ||
                              selectCompetitionOnlineDialog.visible ||
                              refreshContestantsDialog.visible ||
@@ -1387,7 +1325,8 @@ ApplicationWindow {
                     BusyIndicator {
                         running: evaluateTimer.running ||
                                  resultsTimer.running ||
-                                 computingTimer.running;
+                                 computingTimer.running ||
+                                 workingTimer.running;
 
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.horizontalCenter: parent.horizontalCenter
@@ -4268,6 +4207,106 @@ ApplicationWindow {
         onTriggered: {
 
             computeScore(tpi, polys);
+            running = false;
+        }
+    }
+
+    Timer {
+        id: workingTimer
+        repeat: true;
+        running: false;
+        interval: 1;
+
+        property string action; //["pathOnOk"]
+
+        onTriggered: {
+
+            switch(action) {
+
+                case "pathOnOk":
+
+                    // save downloaded applications
+                    if (pathConfiguration.contestantsDownloadedString !== "") {
+
+                        file_reader.write(Qt.resolvedUrl(pathConfiguration.contestantsFile), pathConfiguration.contestantsDownloadedString);
+                        pathConfiguration.contestantsDownloadedString = "";
+                    }
+
+                    // clear contestant in categories counters
+                    if (file_reader.file_exists(Qt.resolvedUrl(pathConfiguration.trackFile ))) {
+                        tracks = JSON.parse(file_reader.read(Qt.resolvedUrl(pathConfiguration.trackFile )))
+
+                        // load VTB and preparation times
+                        tracksVbtTimes = [];
+                        tracksPrepTimes = [];
+
+                        for (var t = 0; t < tracks.tracks.length; t++) {
+
+                            trItem = tracks.tracks[t]
+
+                            tracksVbtTimes[trItem.name] = trItem.conn[0] === undefined ? 0 : trItem.conn[0].addTime;
+                            tracksPrepTimes[trItem.name] = trItem.preparation_time;
+                        }
+
+                    } else {
+
+                        //% "File %1 not found"
+                        errorMessage.text = qsTrId("path-configuration-error-trackFile-not-found").arg(pathConfiguration.trackFile);
+                        errorMessage.open();
+                        return;
+                    }
+
+                    if (file_reader.file_exists(Qt.resolvedUrl(pathConfiguration.contestantsFile))) {
+
+                        loadContestants(Qt.resolvedUrl(pathConfiguration.contestantsFile))
+                        loadPrevResults();
+
+                    }/* else {
+
+                        //% "File %1 not found"
+                        errorMessage.text = qsTrId("path-configuration-error-contestantsFile-not-found").arg(pathConfiguration.contestantsFile);
+                        errorMessage.open();
+                        return;
+                    }*/
+
+                    // load igc
+                    igcFolderModel.folder = "";
+                    igcFolderModel.folder = pathConfiguration.igcDirectory;
+
+                    recalculateContestantsScoreOrder();
+
+                    storeTrackSettings(pathConfiguration.tsFile);
+                    map.requestUpdate();
+
+                    break;
+
+                case "refreshDialogOnOk":
+
+                    // create one cotestant list models
+                    joinContestantsListModels();
+
+                    // load prev results
+                    loadPrevResults();
+
+                    // drop tmp list models
+                    unmodifiedContestants.clear();
+                    updatedContestants.clear();
+                    addedContestants.clear();
+                    removedContestants.clear();
+
+                    // sort list model by startTime
+                    sortListModelByStartTime();
+
+                    // load prev results
+                    //loadPrevResults();
+
+                    break;
+
+                default:
+                    console.log("working timer: unknown action")
+
+            }
+
             running = false;
         }
     }
