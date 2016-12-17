@@ -68,10 +68,9 @@ ApplicationWindow {
                 text: qsTrId("main-file-menu-refresh-application")
                 enabled: (pathConfiguration.selectedCompetition != "")
                 onTriggered: {
-                    selectCompetitionOnlineDialog.show();
-                    selectCompetitionOnlineDialog.refreshApplications();
-                    //reloadContestants(Qt.resolvedUrl(pathConfiguration.contestantsFile));
-                    //refreshContestantsDialog.visible = true;
+
+                    workingTimer.action = "refreshContestant";
+                    workingTimer.running = true;
                 }
                 shortcut: "F5"//"Ctrl+W"
             }
@@ -86,13 +85,7 @@ ApplicationWindow {
         Menu {
             //% "&Results"
             title: qsTrId("main-results-menu")
-            /*
-            MenuItem {
-                //% "Generate continuous results"
-                text: qsTrId("main-results-menu-generate-continuous-results");
-                onTriggered: generateContinuousResults();
-                shortcut: "Ctrl+F"
-            }*/
+
             MenuItem {
                 //% "Generate final results"
                 text: qsTrId("main-results-menu-generate-final-results");
@@ -4217,7 +4210,7 @@ ApplicationWindow {
         running: false;
         interval: 1;
 
-        property string action; //["pathOnOk", "refreshDialogOnOk"]
+        property string action; //["pathOnOk", "refreshDialogOnOk", "refreshContestant"]
 
         onTriggered: {
 
@@ -4261,13 +4254,7 @@ ApplicationWindow {
                         loadContestants(Qt.resolvedUrl(pathConfiguration.contestantsFile))
                         loadPrevResults();
 
-                    }/* else {
-
-                        //% "File %1 not found"
-                        errorMessage.text = qsTrId("path-configuration-error-contestantsFile-not-found").arg(pathConfiguration.contestantsFile);
-                        errorMessage.open();
-                        return;
-                    }*/
+                    }
 
                     // load igc
                     igcFolderModel.folder = "";
@@ -4278,6 +4265,7 @@ ApplicationWindow {
                     storeTrackSettings(pathConfiguration.tsFile);
                     map.requestUpdate();
 
+                    running = false;
                     break;
 
                 case "refreshDialogOnOk":
@@ -4297,18 +4285,20 @@ ApplicationWindow {
                     // sort list model by startTime
                     sortListModelByStartTime();
 
-                    // load prev results
-                    //loadPrevResults();
+                    running = false;
+                    break;
 
+                case "refreshContestant":
+
+                    selectCompetitionOnlineDialog.refreshApplications();
                     break;
 
                 default:
-                    console.log("working timer: unknown action")
+                    //console.log("working timer: unknown action: " + action)
+                    //running = false;
 
             }
-
             action = "";
-            running = false;
         }
     }
 

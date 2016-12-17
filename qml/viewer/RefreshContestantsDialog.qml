@@ -19,12 +19,7 @@ ApplicationWindow {
     onVisibleChanged: {
         if(visible) {
 
-            /*
-            console.log("unmodifiedContestants: " + unmodifiedContestants.count)
-            console.log("updatedContestants: " + updatedContestants.count)
-            console.log("addedContestants: " + addedContestants.count)
-            console.log("removedContestants: " + removedContestants.count)
-            */
+            workingTimer.running = false;  // stop working timer - spin box in main.qml
         }
     }
 
@@ -143,6 +138,7 @@ ApplicationWindow {
                 focus: true;
                 isDefault: true;
                 onClicked: {
+
                     ok();
                     refreshDialogMainWindow.close();
                 }

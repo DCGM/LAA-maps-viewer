@@ -102,7 +102,9 @@ ApplicationWindow {
 
          onShowDialog: {
 
-             if(competitionListWindow.visible)
+             workingTimer.running = false;  // stop working timer - spin box in main.qml
+
+             if(competitionListWindow.visible || refresh)
                 open();
          }
 
@@ -140,14 +142,12 @@ ApplicationWindow {
             anchors.fill: parent;
             visible: competitions.count === 0 && competitionsTable.loading
 
-            /*
-            //TADY TO PAK PADA NA nvwgf2um.dll unhandled exception
             BusyIndicator {
                 running: parent.visible
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.horizontalCenter: parent.horizontalCenter
             }
-            */
+
         }
 
         TableViewColumn {
@@ -337,6 +337,12 @@ ApplicationWindow {
 
         // set refresh flag - downloaded applications will be saved and reloaded
         refresh = true;
+
+// clear export results flag
+exportResultsMode = false;
+
+// clear competitions list
+competitions.clear();
 
         var api_key_value = config.get("api_key", "");
 
