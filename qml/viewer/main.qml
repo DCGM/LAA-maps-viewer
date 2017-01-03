@@ -785,11 +785,16 @@ ApplicationWindow {
                 }
                 if (role === "filename" || role === "speed" || role === "startTime" || role === "category") {
 
-                    // load contestant category
-                    for (var t = 0; t < tracks.tracks.length; t++) {
+                    trItem = [];
 
-                        if (tracks.tracks[t].name === contestant.category)
-                            trItem = tracks.tracks[t]
+                    // load contestant category
+                    if (tracks !== undefined && tracks.tracks !== undefined) {
+
+                        for (var t = 0; t < tracks.tracks.length; t++) {
+
+                            if (tracks.tracks[t].name === contestant.category)
+                                trItem = tracks.tracks[t]
+                        }
                     }
 
                 // recalculate manual values score / markers, photos, ...
@@ -1151,7 +1156,10 @@ ApplicationWindow {
 
                     ctnt = contestantsListModel.get(current)
 
-                    var arr = tracks.tracks;
+                    var arr = [];
+                    if (tracks !== undefined && tracks.tracks !== undefined) {
+                        arr = tracks.tracks;
+                    }
 
                     var found = false;
                     for (var i = 0; i < arr.length; i++) {
@@ -2240,9 +2248,9 @@ ApplicationWindow {
             date.push(JSON.stringify({ "name": item.name,
                         "category": item.category,
                         "speed": item.speed,
-                        "startTimePrepTime": F.addTimeStrFormat(startTimeSec - parseInt(tracksPrepTimes[item.category] === undefined ? 0 : tracksPrepTimes[item.category])),
+                        "startTimePrepTime": (tracksPrepTimes === undefined ? item.startTime : F.addTimeStrFormat(startTimeSec - parseInt(tracksPrepTimes[item.category] === undefined ? 0 : tracksPrepTimes[item.category]))),
                         "startTime": item.startTime,
-                        "startTimeVBT": F.addTimeStrFormat(startTimeSec + parseInt(tracksVbtTimes[item.category] === undefined ? 0 : tracksVbtTimes[item.category])),
+                        "startTimeVBT": (tracksVbtTimes === undefined ? item.startTime : F.addTimeStrFormat(startTimeSec + parseInt(tracksVbtTimes[item.category] === undefined ? 0 : tracksVbtTimes[item.category]))),
                         "aircraft_type": item.aircraft_type,
                         "aircraft_registration": item.aircraft_registration,
                         "startTimeMeasured": "",
