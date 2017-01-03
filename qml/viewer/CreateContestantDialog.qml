@@ -74,7 +74,7 @@ ApplicationWindow {
 
         NativeText {
             //% "Pilot name"
-            text: qsTrId("create-contestant-pilot-name")
+            text: qsTrId("create-contestant-pilot-name") + "*"
         }
 
         TextField {
@@ -98,7 +98,7 @@ ApplicationWindow {
 
         NativeText {
             //% "Category"
-            text: qsTrId("create-contestant-category")
+            text: qsTrId("create-contestant-category") + "*"
         }
 
         ComboBox {
@@ -123,7 +123,7 @@ ApplicationWindow {
 
         NativeText {
             //% "Start time"
-            text: qsTrId("create-contestant-start-time")
+            text: qsTrId("create-contestant-start-time") + "*"
         }
 
         TextField {
@@ -154,7 +154,7 @@ ApplicationWindow {
 
         NativeText {
             //% "Speed"
-            text: qsTrId("create-contestant-speed")
+            text: qsTrId("create-contestant-speed") + "*"
         }
 
         TextField {
@@ -277,7 +277,7 @@ ApplicationWindow {
                     // Set and show error dialog
                     //% "Contestant update error dialog title"
                     errMessageDialog.title = qsTrId("contestant-update-error-dialog-title")
-                    //% "Invalid values. Can not update or create contestant. Please check the values for: pilot name, speed and start time."
+                    //% "Invalid values! Please check the values for: pilot name, speed and start time."
                     errMessageDialog.text = qsTrId("contestant-update-error-dialog-text")
                     errMessageDialog.open();
                 }
