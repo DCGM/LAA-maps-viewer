@@ -503,9 +503,9 @@ ApplicationWindow {
                     }
 
                     NativeText {
-                        //% "File %1 not found."
                         visible: (!trackFileExist)
-                        text: qsTrId("path-configuration-warning-trackFile-not-found").arg(pathConfiguration.trackFile);
+                        //% "File not found!"
+                        text: qsTrId("path-configuration-warning-not-found-trackFile");
                     }
                 }
 
@@ -664,9 +664,9 @@ ApplicationWindow {
                     }
 
                     NativeText {
-                        //% "File %1 not found."
                         visible: (!contestantFileExist && contestantsDownloadedString === "")
-                        text: qsTrId("path-configuration-warning-contestantsFile-not-found").arg(pathConfiguration.contestantsFileName);
+                        //% "File %1 not found!"
+                        text: qsTrId("path-configuration-warning-not-found-contestant-file").arg(pathConfiguration.contestantsFileName);
                     }
                 }
 
