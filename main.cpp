@@ -54,7 +54,7 @@ void myMessageHandler(QtMsgType type, const QMessageLogContext& context, const Q
 
 int main(int argc, char *argv[])
 {
-    QLoggingCategory::setFilterRules("qt.network.ssl.w arning=false");  // disable SSL warnings
+    QLoggingCategory::setFilterRules("qt.network.ssl.warning=false");  // disable SSL warnings
 
     QApplication app(argc, argv);
     //    QGuiApplication app(argc, argv);
