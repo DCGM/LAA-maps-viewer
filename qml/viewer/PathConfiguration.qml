@@ -478,6 +478,7 @@ ApplicationWindow {
 
                         RadioButton {
                             id: track_default
+                            anchors.verticalCenter: parent.verticalCenter
                             exclusiveGroup: trackGroup
                             //% "Default"
                             text: qsTrId("path-configuration-track-default")
