@@ -64,6 +64,7 @@ ApplicationWindow {
     property string prevUserKeyValidity: "";
 
     property bool contestantFileExist: false
+    property bool trackFileExist: false
 
     onCompetitionTypeChanged: {
 
@@ -115,6 +116,7 @@ ApplicationWindow {
 
             // folder status
             contestantFileExist = file_reader.file_exists(Qt.resolvedUrl(pathConfiguration.contestantsFile));
+            trackFileExist = file_reader.file_exists(Qt.resolvedUrl(pathConfiguration.trackFile));
         }
         else {
             autoConfirmFlag = false;
@@ -451,7 +453,7 @@ ApplicationWindow {
                     //% "Track"
                     text: qsTrId("path-configuration-track")
                 }
-
+/*
                 RowLayout {
                     spacing: 10;
                     Spacer {}
@@ -464,8 +466,50 @@ ApplicationWindow {
                         checked: true
                     }
                 }
+*/
+                RowLayout {
+                    spacing: 10;
+                    Spacer {}
+
+                    Item {
+
+                        width: track_user_defined.width
+                        height: tracksFolderRow.height
+
+                        RadioButton {
+                            id: track_default
+                            exclusiveGroup: trackGroup
+                            //% "Default"
+                            text: qsTrId("path-configuration-track-default")
+                            checked: true
+                        }
+                    }
+
+                    Item {
+                        width: 25
+                        height: 25
+                        anchors.verticalCenter: parent.verticalCenter
+
+                        Image {
+                            anchors.fill: parent
+                            fillMode: Image.PreserveAspectFit
+                            source: "./data/warningIcon.png"
+                            opacity: 0.7
+                            visible: (!trackFileExist)
+                            // thanks to: http://wefunction.com/contact/
+                            // https://www.iconfinder.com/icons/10375/alert_caution_exclamation_exclamation_mark_sign_triangle_warning_icon#size=48
+                        }
+                    }
+
+                    NativeText {
+                        //% "File %1 not found."
+                        visible: (!trackFileExist)
+                        text: qsTrId("path-configuration-warning-trackFile-not-found").arg(pathConfiguration.trackFile);
+                    }
+                }
 
                 RowLayout {
+                    id: tracksFolderRow
                     spacing: 10;
                     anchors.left: parent.left
                     anchors.right: parent.right
@@ -496,6 +540,7 @@ ApplicationWindow {
 
                         onTextChanged: {
                             pathConfiguration.trackFile = text;
+                            trackFileExist = file_reader.file_exists(Qt.resolvedUrl(pathConfiguration.trackFile));
                         }
                     }
                     Button {

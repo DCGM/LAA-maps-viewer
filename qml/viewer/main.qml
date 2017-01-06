@@ -3744,6 +3744,11 @@ ApplicationWindow {
     }
 
     function storeTrackSettings(filename) {
+
+        if (tracks === undefined || tracks.tracks === undefined) {
+            return;
+        }
+
         var str = "";
         var trks = tracks.tracks
         var points = tracks.points;
@@ -4226,6 +4231,8 @@ ApplicationWindow {
 
                 case "pathOnOk":
 
+                    running = false;
+
                     // save downloaded applications
                     if (pathConfiguration.contestantsDownloadedString !== "") {
 
@@ -4254,14 +4261,12 @@ ApplicationWindow {
                         //% "File %1 not found"
                         errorMessage.text = qsTrId("path-configuration-error-trackFile-not-found").arg(pathConfiguration.trackFile);
                         errorMessage.open();
-                        return;
                     }
 
                     if (file_reader.file_exists(Qt.resolvedUrl(pathConfiguration.contestantsFile))) {
 
                         loadContestants(Qt.resolvedUrl(pathConfiguration.contestantsFile))
                         loadPrevResults();
-
                     }
 
                     // load igc
@@ -4273,10 +4278,11 @@ ApplicationWindow {
                     storeTrackSettings(pathConfiguration.tsFile);
                     map.requestUpdate();
 
-                    running = false;
                     break;
 
                 case "refreshDialogOnOk":
+
+                    running = false;
 
                     // create one cotestant list models
                     joinContestantsListModels();
@@ -4293,7 +4299,6 @@ ApplicationWindow {
                     // sort list model by startTime
                     sortListModelByStartTime();
 
-                    running = false;
                     break;
 
                 case "refreshContestant":
