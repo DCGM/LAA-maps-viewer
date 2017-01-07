@@ -1183,16 +1183,23 @@ ApplicationWindow {
                     var filePath = pathConfiguration.igcDirectory + "/" + ctnt.filename;
                     if (!file_reader.file_exists(filePath)) {
 
-                        //% "IGC file"
-                        errorMessage.title = qsTrId("contestant-table-row-selected-err-dialog-title");
+                        if (!(evaluateTimer.running || resultsTimer.running)) { // dont show err dialog when computing/generating results
 
-                        //% "File \"%1\" not found"
-                        errorMessage.text = qsTrId("contestant-table-row-selected-file-not-found").arg(filePath)
-                        errorMessage.open();
+                            //% "IGC file"
+                            errorMessage.title = qsTrId("contestant-table-row-selected-err-dialog-title");
+
+                            //% "File \"%1\" not found"
+                            errorMessage.text = qsTrId("contestant-table-row-selected-file-not-found").arg(filePath)
+                            errorMessage.open();
+                        }
+
+                        igc.clear(); // clear current igc
+                    }
+                    else {
+                        // remove prefix "file:///"
+                        igc.load( file_reader.toLocal(filePath), ctnt.startTime)
                     }
 
-                    // remove prefix "file:///"
-                    igc.load( file_reader.toLocal(filePath), ctnt.startTime)
                     map.requestUpdate()
                     altChart.igcUpdate();
                 }
