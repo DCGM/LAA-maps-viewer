@@ -390,12 +390,7 @@ ApplicationWindow {
                 shortcut: "Ctrl+C"
 
                 onTriggered: {
-                    console.log(checked + "onTriggered cat")
                     config.set("v2_mainViewMenuCategoryCountersStatusBar_checked", checked ? "yes" : "no");
-                }
-
-                onCheckedChanged: {
-                    console.log(checked + " cat")
                 }
             }
             MenuItem {
@@ -407,12 +402,7 @@ ApplicationWindow {
                 shortcut: "Ctrl+P"
 
                 onTriggered: {
-                    console.log(checked + "onTriggered comp")
                     config.set("v2_mainViewMenuCompetitionPropertyStatusBar_checked", checked ? "yes" : "no");
-                }
-
-                onCheckedChanged: {
-                    console.log(checked + " comp")
                 }
             }
         }
@@ -890,55 +880,6 @@ ApplicationWindow {
         id: altSectionsScoreListManualValuesCache
     }
 
-    ResultsWindow {
-
-        id: resultsWindow
-
-        onOk: {
-
-            //copy manual values into list models
-            var row = contestantsTable.currentRow;
-
-            contestantsListModel.setProperty(row, "markersOk", curentContestant.markersOk);
-            contestantsListModel.setProperty(row, "markersNok", curentContestant.markersNok);
-            contestantsListModel.setProperty(row, "markersFalse", curentContestant.markersFalse);
-            contestantsListModel.setProperty(row, "markersScore", curentContestant.markersScore);
-            contestantsListModel.setProperty(row, "photosOk", curentContestant.photosOk);
-            contestantsListModel.setProperty(row, "photosNok", curentContestant.photosNok);
-            contestantsListModel.setProperty(row, "photosFalse", curentContestant.photosFalse);
-            contestantsListModel.setProperty(row, "photosScore", curentContestant.photosScore);
-            contestantsListModel.setProperty(row, "startTimeMeasured", curentContestant.startTimeMeasured);
-            contestantsListModel.setProperty(row, "startTimeDifference", curentContestant.startTimeDifference);
-            contestantsListModel.setProperty(row, "startTimeScore", curentContestant.startTimeScore);
-            contestantsListModel.setProperty(row, "landingScore", curentContestant.landingScore);
-            contestantsListModel.setProperty(row, "circlingCount", curentContestant.circlingCount);
-            contestantsListModel.setProperty(row, "circlingScore", curentContestant.circlingScore);
-            contestantsListModel.setProperty(row, "oppositeCount", curentContestant.oppositeCount);
-            contestantsListModel.setPropefrty(row, "oppositeScore", curentContestant.oppositeScore);
-            contestantsListModel.setProperty(row, "otherPoints", curentContestant.otherPoints);
-            contestantsListModel.setProperty(row, "otherPenalty", curentContestant.otherPenalty);
-            contestantsListModel.setProperty(row, "pointNote", curentContestant.pointNote);
-
-            // reload current contestant
-            ctnt = contestantsListModel.get(row);
-
-            // load and save modified score lists
-            contestantsListModel.setProperty(row, "wptScoreDetails", resultsWindow.currentWptScoreString);
-
-            contestantsListModel.setProperty(row, "speedSectionsScoreDetails", resultsWindow.currentSpeedSectionsScoreString);
-            contestantsListModel.setProperty(row, "altitudeSectionsScoreDetails", resultsWindow.currentAltitudeSectionsScoreString);
-            contestantsListModel.setProperty(row, "spaceSectionsScoreDetails", resultsWindow.currentSpaceSectionsScoreString);
-
-            // recalculate score
-            var score = getTotalScore(row);
-            contestantsListModel.setProperty(row, "scorePoints", score);
-            recalculateScoresTo1000();
-
-            // save changes into CSV
-            writeScoreManulaValToCSV();
-        }
-    }
-
     SplitView {
         id: splitView
         anchors.fill: parent;
@@ -1022,54 +963,6 @@ ApplicationWindow {
 
                     onShowResults: {
 
-                        /*
-                        // load contestant property
-                        ctnt = contestantsListModel.get(row);
-
-                        // TODO - prasarna aby byla kopie a ne stejny objekt
-                        resultsWindow.curentContestant = JSON.parse(JSON.stringify(ctnt));
-
-                        // load contestant score list
-                        resultsWindow.wptScore = ctnt.wptScoreDetails;
-
-                        // load sections string
-                        resultsWindow.speedSections = ctnt.speedSectionsScoreDetails;
-                        resultsWindow.altSections = ctnt.altitudeSectionsScoreDetails;
-                        resultsWindow.spaceSections = ctnt.spaceSectionsScoreDetails;
-
-                        // load cattegory property
-                        var arr = tracks.tracks;
-                        var currentTrck;
-
-                        var found = false;
-                        resultsWindow.time_window_penalty = 0;
-                        resultsWindow.time_window_size = 0;
-                        resultsWindow.photos_max_score = 0;
-                        resultsWindow.oposite_direction_penalty = 0;
-                        resultsWindow.marker_max_score = 0;
-                        resultsWindow.gyre_penalty = 0;
-
-                        for (var i = 0; i < arr.length; i++) {
-                            currentTrck = arr[i];
-
-                            if (currentTrck.name === ctnt.category) {
-
-                                resultsWindow.time_window_penalty = currentTrck.time_window_penalty; //penalty percent
-                                resultsWindow.time_window_size = currentTrck.time_window_size;
-                                resultsWindow.photos_max_score = currentTrck.photos_max_score;
-                                resultsWindow.oposite_direction_penalty = currentTrck.oposite_direction_penalty; //penalty percent
-                                resultsWindow.marker_max_score = currentTrck.marker_max_score;
-                                resultsWindow.gyre_penalty = currentTrck.gyre_penalty; //penalty percent
-                                break;
-                            }
-                        }
-
-                        // select row
-                        contestantsTable.selectRow(row);
-
-                        resultsWindow.show();
-                        */
-
                         // load contestant property
                         ctnt = contestantsListModel.get(row);
 
@@ -1150,8 +1043,6 @@ ApplicationWindow {
                 }
 
                 function rowSelected() {
-
-                    //  console.log("row selected")
 
                     if (contestantsListModel.count <= 0) {
                         return;
@@ -1343,8 +1234,6 @@ ApplicationWindow {
                              refreshContestantsDialog.visible ||
                              startUpMessage.visible ||
                              uploaderDialog.visible ||
-                             //resultsWindow.visible ||
-                             //resultsDetailComponent.visible ||
                              createContestantDialog.visible ||
                              igcChooseDialog.visible;
 
@@ -1581,14 +1470,13 @@ ApplicationWindow {
                 id: statusBarCompetitionProperty
                 visible: mainViewMenuCompetitionPropertyStatusBar.checked;
 
-                //property int columns: 5
                 spacing: 40
 
-                NativeText {/* width: applicationWindow.width/statusBarCompetitionProperty.columns; */text: pathConfiguration.competitionName }
-                NativeText {/* width: applicationWindow.width/statusBarCompetitionProperty.columns; */text: qsTrId("html-results-competition-type") + ": " + pathConfiguration.competitionTypeText}
-                NativeText {/* width: applicationWindow.width/statusBarCompetitionProperty.columns; */text: qsTrId("html-results-competition-director") + ": " +  pathConfiguration.competitionDirector}
-                NativeText {/* width: applicationWindow.width/statusBarCompetitionProperty.columns; */text: qsTrId("html-results-competition-arbitr") + ": " +  pathConfiguration.competitionArbitr.join(", ")}
-                NativeText {/* width: applicationWindow.width/statusBarCompetitionProperty.columns; */text: qsTrId("html-results-competition-date") + ": " +  pathConfiguration.competitionDate}
+                NativeText {text: pathConfiguration.competitionName }
+                NativeText {text: qsTrId("html-results-competition-type") + ": " + pathConfiguration.competitionTypeText}
+                NativeText {text: qsTrId("html-results-competition-director") + ": " +  pathConfiguration.competitionDirector}
+                NativeText {text: qsTrId("html-results-competition-arbitr") + ": " +  pathConfiguration.competitionArbitr.join(", ")}
+                NativeText {text: qsTrId("html-results-competition-date") + ": " +  pathConfiguration.competitionDate}
             }
 
             Row {
@@ -3556,10 +3444,6 @@ ApplicationWindow {
         var speedSecScoreSum = 0;
         var altSecScoreSum = 0;
         var spaceSecScoreSum = 0;
-        //var tg_time_manual = [];
-        //var tp_hit_manual = [];
-        //var sg_hit_manual = [];
-        //var alt_manual = [];
 
         var i;
         var j;
@@ -3571,19 +3455,6 @@ ApplicationWindow {
 
              // contestant item
             ct = contestantsListModel.get(j);
-
-            //console.log(item.name)
-            //console.log(item.prevResultsWPT)
-            //console.log(item.prevResultsSpeedSec)
-            //console.log(item.prevResultsSpaceSec)
-            //console.log(item.prevResultsAltSec)
-
-
-            // load manual values into list models
-//            loadStringIntoListModel(wptNewScoreListManualValuesCache, ct.prevResultsWPT, "; ");
-//            loadStringIntoListModel(speedSectionsScoreListManualValuesCache, ct.prevResultsSpeedSec, "; ");
-//            loadStringIntoListModel(spaceSectionsScoreListManualValuesCache, ct.prevResultsSpaceSec, "; ");
-//            loadStringIntoListModel(altSectionsScoreListManualValuesCache, ct.prevResultsAltSec, "; ");
 
             loadStringIntoListModel(wptNewScoreListManualValuesCache, ct.wptScoreDetails, "; ");
             loadStringIntoListModel(speedSectionsScoreListManualValuesCache, ct.speedSectionsScoreDetails, "; ");

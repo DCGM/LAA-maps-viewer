@@ -12,7 +12,7 @@ ApplicationWindow {
     NativeText {
         id: titleLabel;
         font.pixelSize: 36;
-        //% "LAA Trajectory Viewer"
+        //% "LAA Trajectory Viewer+"
         text: qsTrId("about-app-title")
         anchors.top: parent.top
         anchors.left: parent.left;
@@ -112,9 +112,7 @@ By installing, copying or other use of Software User declares he/she has read th
                 anchors.right: parent.right
                 wrapMode: Text.WordWrap
             }
-
         }
-
     }
 
     Rectangle {
@@ -144,6 +142,4 @@ By installing, copying or other use of Software User declares he/she has read th
         }
 
     }
-
-
 }
