@@ -1090,7 +1090,7 @@ ApplicationWindow {
                             //% "IGC file"
                             errorMessage.title = qsTrId("contestant-table-row-selected-err-dialog-title");
 
-                            //% "File \"%1\" not found"
+                            //% "File \"%1\" not found!"
                             errorMessage.text = qsTrId("contestant-table-row-selected-file-not-found").arg(filePath)
                             errorMessage.open();
                         }
@@ -4154,9 +4154,9 @@ ApplicationWindow {
 
                     } else {
 
-                        //% "Track file."
+                        //% "Track file"
                         errorMessage.title = qsTrId("trackFile-not-found-dialog-title");
-                        //% "File %1 not found."
+                        //% "File %1 not found!"
                         errorMessage.text = qsTrId("trackFile-not-found-dialog-text").arg(pathConfiguration.trackFile);
                         errorMessage.open();
                     }
