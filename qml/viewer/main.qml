@@ -655,6 +655,13 @@ ApplicationWindow {
         property bool menuVisible: false
 
         signal showMenu();
+        signal openFormForEdit();
+
+        onOpenFormForEdit: {
+
+            createContestantDialog.contestantsListModelRow = updateContestantMenu.row;
+            createContestantDialog.show();
+        }
 
         onShowMenu: {
 
@@ -679,8 +686,7 @@ ApplicationWindow {
             text: qsTrId("scorelist-table-menu-edit-contestant")
 
             onTriggered: {
-                createContestantDialog.contestantsListModelRow = updateContestantMenu.row;
-                createContestantDialog.show();
+                updateContestantMenu.openFormForEdit();
             }
         }
 
@@ -1009,6 +1015,11 @@ ApplicationWindow {
                         contestantsListModel.changeLisModel(row, role, value);
                     }
 
+                    onShowContestnatEditForm: {
+
+                        updateContestantMenu.openFormForEdit();
+                    }
+
                     onShowResults: {
 
                         /*
@@ -1194,6 +1205,9 @@ ApplicationWindow {
                         }
 
                         igc.clear(); // clear current igc
+
+                        igcChooseDialog.crow = current; // remove selected igc (igc not found)
+                        igcChooseDialog.choosenFilename("","");
                     }
                     else {
                         // remove prefix "file:///"
@@ -2522,7 +2536,7 @@ ApplicationWindow {
         recalculateContestantsScoreOrder();
 
         // gen continuous results
-        generateContinuousResults(); // tady se to u me kurvi ADAM
+        generateContinuousResults();
 
         // gen start list
         createStartList();

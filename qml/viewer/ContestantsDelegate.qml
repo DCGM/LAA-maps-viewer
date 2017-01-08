@@ -12,6 +12,7 @@ Item {
     signal changeModel(int row, string role, variant value);
     signal showResults(int row);
     signal selectRow(int row);
+    signal showContestnatEditForm();
 
     NativeText {
         width: parent.width
@@ -35,13 +36,28 @@ Item {
                   (styleData.role === "classOrder" && styleData.value !== -1))
 
         MouseArea {
-
+            id: mMouseArea
             anchors.fill: parent
             visible: styleData.role === "name"
             acceptedButtons: Qt.LeftButton | Qt.RightButton
 
+            Timer{
+                id:timer
+                interval: 200
+                onTriggered: mMouseArea.singleClick()
+            }
+
             onClicked: {
-                if (mouse.button === Qt.RightButton) {
+                if(mouse.button === Qt.LeftButton) {
+                    if(timer.running) {
+                        dblClick();
+                        timer.stop();
+                    }
+                    else {
+                        timer.restart();
+                    }
+                }
+                else {
 
                     // update contestant dialog
                     updateContestantMenu.row = styleData.row;
@@ -49,9 +65,16 @@ Item {
 
                     selectRow(styleData.row);
                 }
-                else {
-                    selectRow(styleData.row);
-                }
+            }
+
+            function singleClick(){
+
+                selectRow(styleData.row);
+            }
+            function dblClick(){
+
+                updateContestantMenu.row = styleData.row;
+                showContestnatEditForm();
             }
         }
     }
