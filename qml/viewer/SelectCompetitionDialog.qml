@@ -338,11 +338,11 @@ ApplicationWindow {
         // set refresh flag - downloaded applications will be saved and reloaded
         refresh = true;
 
-// clear export results flag
-exportResultsMode = false;
+        // clear export results flag
+        exportResultsMode = false;
 
-// clear competitions list
-competitions.clear();
+        // clear competitions list
+        competitions.clear();
 
         var api_key_value = config.get("api_key", "");
 

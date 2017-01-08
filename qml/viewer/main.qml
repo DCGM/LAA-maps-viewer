@@ -3100,8 +3100,6 @@ ApplicationWindow {
                 }
 
             }
-            console.log("pip " + JSON.stringify(poly_results))
-
         }
 
         var wptString = [];
