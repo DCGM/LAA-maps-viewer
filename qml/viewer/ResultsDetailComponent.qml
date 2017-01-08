@@ -6,19 +6,6 @@ import QtQuick.Controls.Styles 1.4
 
 import "functions.js" as F
 
-/*
-ApplicationWindow {
-
-    id: resultsMainWindow
-    width: 1280;
-    height: 860;
-    modality: "WindowModal"
-    title: (copilotName === "" ? pilotName : pilotName + " - " + copilotName) + "   " + category + "    " + speed + " km/h   " + startTime
-    color: "#ffffff"
-
-*/
-
-
 Rectangle {
 
     id: resultsMainWindow
