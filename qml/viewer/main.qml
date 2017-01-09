@@ -100,6 +100,16 @@ ApplicationWindow {
                 enabled: (contestantsListModel.count > 0)
                 shortcut: "Ctrl+X"
             }
+
+            MenuItem {
+                //% "&Show results"
+                text: qsTrId("main-results-menu-show-results")
+                onTriggered: Qt.openUrlExternally("http://ppt.laacr.cz")
+                enabled: (contestantsListModel.count > 0)
+                shortcut: "Ctrl+P"
+
+            }
+
         }
 
         Menu {
@@ -357,17 +367,19 @@ ApplicationWindow {
                     config.set("v2_mainViewMenuTables_checked", checked ? "yes" : "no");
                 }
             }
-            MenuItem {
-                id: mainViewMenuContinuousResults
-                //% "Co&ntinuous results"
-                text: qsTrId("main-view-menu-continuous-results")
-                checkable: true;
-                //checked: false;
 
-                onTriggered: {
-                    config.set("v2_mainViewMenuContinuousResults_checked", checked ? "yes" : "no");
-                }
-            }
+//            MenuItem {
+//                id: mainViewMenuContinuousResults
+//                //% "Co&ntinuous results"
+//                text: qsTrId("main-view-menu-continuous-results")
+//                checkable: true;
+//                //checked: false;
+
+//                onTriggered: {
+//                    config.set("v2_mainViewMenuContinuousResults_checked", checked ? "yes" : "no");
+//                }
+//            }
+
             MenuItem {
                 id: mainViewMenuAltChart
                 //% "&Altitude profile"
@@ -1271,7 +1283,8 @@ ApplicationWindow {
                 id: continuousResultsView
                 width: parent.width
                 height: applicationWindow.height/2
-                visible: mainViewMenuContinuousResults.checked && !resultsDetailComponent.visible
+//                visible: mainViewMenuContinuousResults.checked && !resultsDetailComponent.visible
+                visible: false;
             }
         }
         ///// Map
@@ -4449,7 +4462,7 @@ ApplicationWindow {
             mainViewMenuCompetitionPropertyStatusBar.checked = config.get("v2_mainViewMenuCompetitionPropertyStatusBar_checked", "no") === "yes" ? true : false;
             mainViewMenuCategoryCountersStatusBar.checked = config.get("v2_mainViewMenuCategoryCountersStatusBar_checked", "no") === "yes" ? true : false;
             mainViewMenuAltChart.checked = config.get("v2_mainViewMenuAltChart_checked", "no") === "yes" ? true : false;
-            mainViewMenuContinuousResults.checked = config.get("v2_mainViewMenuContinuousResults_checked", "no") === "yes" ? true : false;
+//            mainViewMenuContinuousResults.checked = config.get("v2_mainViewMenuContinuousResults_checked", "no") === "yes" ? true : false;
             mainViewMenuTables.checked = config.get("v2_mainViewMenuTables_checked", "yes") === "yes" ? true : false;
 
             // map view settings
@@ -4489,10 +4502,10 @@ ApplicationWindow {
             mainViewMenuCompetitionPropertyStatusBar.checked = false;
             mainViewMenuCategoryCountersStatusBar.checked = false;
             mainViewMenuAltChart.checked = false;
-            mainViewMenuContinuousResults.checked = false;
+//            mainViewMenuContinuousResults.checked = false;
             mainViewMenuTables.checked = true;
             config.set("v2_mainViewMenuTables_checked", mainViewMenuTables.checked ? "yes" : "no"); // set default as last selected value
-            config.set("v2_mainViewMenuContinuousResults_checked", mainViewMenuContinuousResults.checked ? "yes" : "no"); // set default as last selected value
+//            config.set("v2_mainViewMenuContinuousResults_checked", mainViewMenuContinuousResults.checked ? "yes" : "no"); // set default as last selected value
             config.set("v2_mainViewMenuAltChart_checked", mainViewMenuAltChart.checked ? "yes" : "no"); // set default as last selected value
             config.set("v2_mainViewMenuCategoryCountersStatusBar_checked", mainViewMenuCategoryCountersStatusBar.checked ? "yes" : "no"); // set default as last selected value
             config.set("v2_mainViewMenuCompetitionPropertyStatusBar_checked", mainViewMenuCompetitionPropertyStatusBar.checked ? "yes" : "no"); // set default as last selected value
