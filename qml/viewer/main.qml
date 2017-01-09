@@ -75,7 +75,7 @@ ApplicationWindow {
                 shortcut: "F5"//"Ctrl+W"
             }
             MenuItem {
-                //% "Exit"
+                //% "E&xit"
                 text: qsTrId("main-file-menu-exit")
                 onTriggered: Qt.quit();
                 shortcut: "Alt+F4"
@@ -87,14 +87,14 @@ ApplicationWindow {
             title: qsTrId("main-results-menu")
 
             MenuItem {
-                //% "Generate final results"
+                //% "Generate final &results"
                 text: qsTrId("main-results-menu-generate-final-results");
                 onTriggered: generateFinalResults();
                 enabled: (contestantsListModel.count > 0)
                 shortcut: "Ctrl+R"
             }
             MenuItem {
-                //% "Export results"
+                //% "Export result&s"
                 text: qsTrId("main-results-menu-export-final-results");
                 onTriggered: exportFinalResults();
                 enabled: (contestantsListModel.count > 0)
@@ -319,7 +319,7 @@ ApplicationWindow {
             //% "&View"
             title: qsTrId("main-view-menu")
             MenuItem {
-                //% "Zoom to &track"
+                //% "&Zoom to track"
                 text: qsTrId("main-view-menu-zoom-to-points")
                 onTriggered: map.pointsInBounds();
                 shortcut: "Ctrl+0"
@@ -347,8 +347,8 @@ ApplicationWindow {
             }
             MenuItem {
                 id: mainViewMenuTables
-                //% "&Tables"
-                text: qsTrId("main-view-menu-tables")
+                //% "&Contestants"
+                text: qsTrId("main-view-menu-contestants")
                 checkable: true;
                 //checked: true;
                 shortcut: "Ctrl+T"
@@ -359,7 +359,7 @@ ApplicationWindow {
             }
             MenuItem {
                 id: mainViewMenuContinuousResults
-                //% "Continuous results"
+                //% "Co&ntinuous results"
                 text: qsTrId("main-view-menu-continuous-results")
                 checkable: true;
                 //checked: false;
@@ -370,7 +370,7 @@ ApplicationWindow {
             }
             MenuItem {
                 id: mainViewMenuAltChart
-                //% "Altitude profile"
+                //% "&Altitude profile"
                 text: qsTrId("main-view-menu-altchart")
                 checkable: true;
                 //checked: false;
@@ -383,7 +383,7 @@ ApplicationWindow {
 
             MenuItem {
                 id: mainViewMenuCategoryCountersStatusBar
-                //% "Category counters"
+                //% "Contestant &counters"
                 text: qsTrId("main-view-menu-category-counters-sb")
                 checkable: true;
                 //checked: true;
@@ -395,11 +395,11 @@ ApplicationWindow {
             }
             MenuItem {
                 id: mainViewMenuCompetitionPropertyStatusBar
-                //% "Competition property"
+                //% "Competition &details"
                 text: qsTrId("main-view-menu-comp-property-sb")
                 checkable: true;
                 //checked: true;
-                shortcut: "Ctrl+P"
+                shortcut: "Ctrl+D"
 
                 onTriggered: {
                     config.set("v2_mainViewMenuCompetitionPropertyStatusBar_checked", checked ? "yes" : "no");

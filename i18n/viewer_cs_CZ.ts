@@ -16,24 +16,26 @@
     </message>
     <message id="main-file-menu-exit">
         <location filename="../qml/viewer/main.qml" line="79"/>
-        <source>Exit</source>
-        <oldsource>E&amp;xit</oldsource>
+        <source>E&amp;xit</source>
+        <oldsource>Exit</oldsource>
         <translation>&amp;Ukončit</translation>
     </message>
     <message id="main-results-menu">
         <location filename="../qml/viewer/main.qml" line="87"/>
         <source>&amp;Results</source>
-        <translation>Výsledky</translation>
+        <translation>&amp;Výsledky</translation>
     </message>
     <message id="main-results-menu-generate-final-results">
         <location filename="../qml/viewer/main.qml" line="91"/>
-        <source>Generate final results</source>
-        <translation>Generovat výsledky</translation>
+        <source>Generate final &amp;results</source>
+        <oldsource>Generate final results</oldsource>
+        <translation>Generovat &amp;výsledky</translation>
     </message>
     <message id="main-results-menu-export-final-results">
         <location filename="../qml/viewer/main.qml" line="98"/>
-        <source>Export results</source>
-        <translation>Exportovat výsledky</translation>
+        <source>Export result&amp;s</source>
+        <oldsource>Export results</oldsource>
+        <translation>E&amp;xportovat výsledky</translation>
     </message>
     <message id="main-map-menu">
         <location filename="../qml/viewer/main.qml" line="107"/>
@@ -103,8 +105,8 @@
     </message>
     <message id="main-view-menu-zoom-to-points">
         <location filename="../qml/viewer/main.qml" line="323"/>
-        <source>Zoom to &amp;track</source>
-        <oldsource>Zoom to track</oldsource>
+        <source>&amp;Zoom to track</source>
+        <oldsource>Zoom to &amp;track</oldsource>
         <translation>Přiblížit na &amp;trať</translation>
     </message>
     <message id="main-view-menu-zoom-in">
@@ -125,31 +127,29 @@
         <oldsource>Ruler</oldsource>
         <translation>P&amp;ravítko</translation>
     </message>
-    <message id="main-view-menu-tables">
-        <location filename="../qml/viewer/main.qml" line="351"/>
-        <source>&amp;Tables</source>
-        <translation>&amp;Tabulky</translation>
-    </message>
     <message id="main-view-menu-continuous-results">
         <location filename="../qml/viewer/main.qml" line="363"/>
-        <source>Continuous results</source>
-        <translation>Průběžné výsledky</translation>
+        <source>Co&amp;ntinuous results</source>
+        <oldsource>Continuous results</oldsource>
+        <translation>Prů&amp;běžné výsledky</translation>
     </message>
     <message id="main-view-menu-altchart">
         <location filename="../qml/viewer/main.qml" line="374"/>
-        <source>Altitude profile</source>
-        <oldsource>Altitude</oldsource>
-        <translation>Výškový profil</translation>
+        <source>&amp;Altitude profile</source>
+        <oldsource>Altitude profile</oldsource>
+        <translation>Výš&amp;kový profil</translation>
     </message>
     <message id="main-view-menu-category-counters-sb">
         <location filename="../qml/viewer/main.qml" line="387"/>
-        <source>Category counters</source>
-        <translation>Počty soutěžících</translation>
+        <source>Contestant &amp;counters</source>
+        <oldsource>Category counters</oldsource>
+        <translation>Počty &amp;soutěžících</translation>
     </message>
     <message id="main-view-menu-comp-property-sb">
         <location filename="../qml/viewer/main.qml" line="399"/>
-        <source>Competition property</source>
-        <translation>Atributy soutěže</translation>
+        <source>Competition &amp;details</source>
+        <oldsource>Competition property</oldsource>
+        <translation>Atributy &amp;soutěže</translation>
     </message>
     <message id="main-help-menu">
         <location filename="../qml/viewer/main.qml" line="412"/>
@@ -172,11 +172,6 @@
         <source>Enter URL</source>
         <translation>Zadejte adresu</translation>
     </message>
-    <message id="path-configuration-error-contestantsFile-not-found">
-        <source>File %1 not found</source>
-        <oldsource>File %1 not exists</oldsource>
-        <translation type="vanished">Soubor %1 nebyl nalezen</translation>
-    </message>
     <message id="contestant-table-row-selected-file-not-found">
         <location filename="../qml/viewer/main.qml" line="1094"/>
         <source>File \&quot;%1\&quot; not found!</source>
@@ -194,32 +189,27 @@
         <translation>startovni listina</translation>
     </message>
     <message id="trackFile-not-found-dialog-title">
-        <location filename="../qml/viewer/main.qml" line="4158"/>
+        <location filename="../qml/viewer/main.qml" line="4156"/>
         <source>Track file</source>
         <oldsource>Track file.</oldsource>
         <translation>Soubor s tratí</translation>
     </message>
     <message id="trackFile-not-found-dialog-text">
-        <location filename="../qml/viewer/main.qml" line="4160"/>
+        <location filename="../qml/viewer/main.qml" line="4158"/>
         <source>File %1 not found!</source>
         <oldsource>File %1 not found.</oldsource>
         <translation>Soubor %1 nebyl nalezen!</translation>
     </message>
     <message id="start-up-message-dialog-title">
-        <location filename="../qml/viewer/main.qml" line="4376"/>
+        <location filename="../qml/viewer/main.qml" line="4374"/>
         <source>Recovery settings</source>
         <oldsource>Viewer</oldsource>
         <translation>Obnovit nastavení</translation>
     </message>
     <message id="start-up-message-dialog-text">
-        <location filename="../qml/viewer/main.qml" line="4379"/>
+        <location filename="../qml/viewer/main.qml" line="4377"/>
         <source>Do you want to load previous enviroment settings?</source>
         <translation>Přejete si obnovit předchozí nastavení programu?</translation>
-    </message>
-    <message id="path-configuration-error-trackFile-not-found">
-        <source></source>
-        <oldsource>File %1 not found</oldsource>
-        <translation type="vanished">Soubor %1 nebyl nalezen</translation>
     </message>
     <message id="filelist-table-contestants">
         <location filename="../qml/viewer/main.qml" line="1114"/>
@@ -370,10 +360,6 @@
         <location filename="../qml/viewer/ResultsDetailComponent.qml" line="879"/>
         <source>other penalty</source>
         <translation>Penalizace</translation>
-    </message>
-    <message id="score-table-other-penalty-note">
-        <source>other penalty note</source>
-        <translation type="vanished">Poznámka</translation>
     </message>
     <message id="results-window-dialog-points-table">
         <location filename="../qml/viewer/ResultsDetailComponent.qml" line="956"/>
@@ -578,17 +564,17 @@
         </translation>
     </message>
     <message id="section-type-speed">
-        <location filename="../qml/viewer/main.qml" line="3721"/>
+        <location filename="../qml/viewer/main.qml" line="3719"/>
         <source>speed</source>
         <translation>rychlost</translation>
     </message>
     <message id="section-type-altitude">
-        <location filename="../qml/viewer/main.qml" line="3733"/>
+        <location filename="../qml/viewer/main.qml" line="3731"/>
         <source>altitude</source>
         <translation>výška</translation>
     </message>
     <message id="section-type-space">
-        <location filename="../qml/viewer/main.qml" line="3745"/>
+        <location filename="../qml/viewer/main.qml" line="3743"/>
         <source>space</source>
         <translation>prostor</translation>
     </message>
@@ -606,6 +592,11 @@
         <location filename="../qml/viewer/main.qml" line="1131"/>
         <source>StartTime</source>
         <translation>Čas startu</translation>
+    </message>
+    <message id="main-view-menu-contestants">
+        <location filename="../qml/viewer/main.qml" line="351"/>
+        <source>&amp;Contestants</source>
+        <translation>&amp;Soutěžící</translation>
     </message>
     <message id="contestant-table-row-selected-err-dialog-title">
         <location filename="../qml/viewer/main.qml" line="1091"/>
@@ -664,12 +655,12 @@
     <message id="main-file-menu-settings">
         <location filename="../qml/viewer/main.qml" line="60"/>
         <source>&amp;Settings</source>
-        <translation>Nastavení</translation>
+        <translation>&amp;Nastavení</translation>
     </message>
     <message id="main-file-menu-refresh-application">
         <location filename="../qml/viewer/main.qml" line="68"/>
         <source>&amp;Refresh application</source>
-        <translation>Znovu nahrát přihlášky</translation>
+        <translation>&amp;Znovu nahrát přihlášky</translation>
     </message>
     <message id="scorelist-table-menu-remove-contestant">
         <location filename="../qml/viewer/main.qml" line="695"/>
@@ -687,31 +678,31 @@
         <translation>Jméno souboru</translation>
     </message>
     <message id="pinchmap-ready">
-        <location filename="../qml/viewer/PinchMap.qml" line="521"/>
+        <location filename="../qml/viewer/PinchMap.qml" line="520"/>
         <location filename="../qml/viewer/PrintMap.qml" line="313"/>
         <source>Ready</source>
         <translation>Připravena</translation>
     </message>
     <message id="pinchmap-not-set">
-        <location filename="../qml/viewer/PinchMap.qml" line="523"/>
+        <location filename="../qml/viewer/PinchMap.qml" line="522"/>
         <location filename="../qml/viewer/PrintMap.qml" line="315"/>
         <source>Not Set</source>
         <translation>Nenastaveno</translation>
     </message>
     <message id="pinchmap-error">
-        <location filename="../qml/viewer/PinchMap.qml" line="525"/>
+        <location filename="../qml/viewer/PinchMap.qml" line="524"/>
         <location filename="../qml/viewer/PrintMap.qml" line="317"/>
         <source>Error</source>
         <translation>Chyba</translation>
     </message>
     <message id="pinchmap-loading">
-        <location filename="../qml/viewer/PinchMap.qml" line="527"/>
+        <location filename="../qml/viewer/PinchMap.qml" line="526"/>
         <location filename="../qml/viewer/PrintMap.qml" line="319"/>
         <source>Loading ...</source>
         <translation>Nahrávání ...</translation>
     </message>
     <message id="pinchmap-unknown-error">
-        <location filename="../qml/viewer/PinchMap.qml" line="529"/>
+        <location filename="../qml/viewer/PinchMap.qml" line="528"/>
         <location filename="../qml/viewer/PrintMap.qml" line="321"/>
         <source>Unknown error</source>
         <translation>Neznámá chyba</translation>
@@ -726,10 +717,6 @@
         <location filename="../qml/viewer/PathConfiguration.qml" line="410"/>
         <source>Environment</source>
         <translation>Prostředí</translation>
-    </message>
-    <message id="path-configuration-warning-contestantsFile-not-found">
-        <source>File %1 not found.</source>
-        <translation type="vanished">Pozor: soubor %1 nenalezen!</translation>
     </message>
     <message id="path-configuration-online-offline-regime">
         <location filename="../qml/viewer/PathConfiguration.qml" line="722"/>
@@ -857,10 +844,6 @@
         <location filename="../qml/viewer/PathConfiguration.qml" line="484"/>
         <source>Default</source>
         <translation>Výchozí</translation>
-    </message>
-    <message id="path-configuration-warning-trackFile-not-found">
-        <source>File not found.</source>
-        <translation type="vanished">Pozor: soubor nenalezen!</translation>
     </message>
     <message id="path-configuration-track-user-defined">
         <location filename="../qml/viewer/PathConfiguration.qml" line="522"/>
@@ -1019,7 +1002,7 @@
                 User may not use and/or distribute Software, if he/she cannot satisfy simultaneously obligations under this licence and any other pertinent obligations.
                 User is not responsible for enforcing terms of this agreement by third parties. &lt;br/&gt;
                 BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, TO THE EXTENT PERMITTED BY APPLICABLE LAW. EXCEPT WHEN OTHERWISE STATED IN WRITING, BUT PROVIDES SOFTWARE </oldsource>
-        <translation type="unfinished">Autoři: &lt;br/&gt;
+        <translation>Autoři: &lt;br/&gt;
 Jozef Mlich, Adam Siroky, Pavel Zemcik, &lt;a href=\&quot;http://www.fit.vutbr.cz/\&quot;&gt;FIT VUT Brno&lt;/a&gt; &lt;br/&gt; &lt;br/&gt;
 
 Licenční ujednání: &lt;br/&gt;
@@ -1308,26 +1291,26 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
         <translation>Kroužení na trati</translation>
     </message>
     <message id="html-results-competition-arbitr">
-        <location filename="../qml/viewer/MyTranslator.qml" line="77"/>
         <location filename="../qml/viewer/main.qml" line="1478"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="77"/>
         <source>competition referee</source>
         <translation>Hlavní rozhodčí</translation>
     </message>
     <message id="html-results-competition-date">
-        <location filename="../qml/viewer/MyTranslator.qml" line="80"/>
         <location filename="../qml/viewer/main.qml" line="1479"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="80"/>
         <source>competition date</source>
         <translation>Datum</translation>
     </message>
     <message id="html-results-competition-director">
-        <location filename="../qml/viewer/MyTranslator.qml" line="83"/>
         <location filename="../qml/viewer/main.qml" line="1477"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="83"/>
         <source>competition director</source>
         <translation>Ředitel soutěže</translation>
     </message>
     <message id="html-results-competition-type">
-        <location filename="../qml/viewer/MyTranslator.qml" line="86"/>
         <location filename="../qml/viewer/main.qml" line="1476"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="86"/>
         <source>competition type</source>
         <translation>Typ</translation>
     </message>

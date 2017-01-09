@@ -459,8 +459,7 @@ Rectangle {
         var tile = deg2num(lat, lon)
         var realX = (tile[0] - cornerTileX) * tileSize
         var realY = (tile[1] - cornerTileY) * tileSize
-        return [realX, realY]
-        
+        return [realX, realY]      
     }
 
     function getCenter() {
