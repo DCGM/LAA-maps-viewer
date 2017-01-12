@@ -123,7 +123,7 @@ void ResultsCreater::createContinuousResultsHTML(const QString &filePath,
 
                 // change name to href for evaluated crews
                 if (dataRow[7] != "") {
-                    dataRow[1] = "<a href=\"" + dataRow.at(1) + "_" + dataRow.at(2) + ".html" + "\" class=\"hidden-print\">" + dataRow.at(1) + "</a>";
+                    dataRow[1] = "<a href=\"" + dataRow.at(1) + "_" + dataRow.at(2) + ".html" + "\" class=\"hidden-print\">" + dataRow.at(1) + "</a><div class=\"visible-print-block\">" + dataRow.at(1) + "</div>";
                 }
 
                 rows.append(dataRow);
