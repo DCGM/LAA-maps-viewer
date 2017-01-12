@@ -602,8 +602,13 @@ const QString ResultsCreater::getResultsHTMLBodyHead(const QString &competitionN
         multiRowTableColumn.push_back(getUserTableRowRecordWithAvatar(avatar, competitionArbitr.at(i)));
     }
 
-    rows.append(QStringList() << getTranslatedString("html-results-competition-director") << ("<table>" + getUserTableRowRecordWithAvatar(competitionDirectorAvatar, competitionDirector) + "</table>"));
-    rows.append(QStringList() << getTranslatedString("html-results-competition-arbitr") << ("<table>" + multiRowTableColumn.join("\n") + "</table>"));
+    if (competitionDirector != "") {
+        rows.append(QStringList() << getTranslatedString("html-results-competition-director") << ("<table>" + getUserTableRowRecordWithAvatar(competitionDirectorAvatar, competitionDirector) + "</table>"));
+    }
+
+    if (multiRowTableColumn.size() != 0) {
+        rows.append(QStringList() << getTranslatedString("html-results-competition-arbitr") << ("<table>" + multiRowTableColumn.join("\n") + "</table>"));
+    }
     rows.append(QStringList() << getTranslatedString("html-results-competition-type") << competitionType);
     rows.append(QStringList() << getTranslatedString("html-results-competition-date") << competitionDate);
 
@@ -795,7 +800,7 @@ const inline QString ResultsCreater::getUserTableRowRecordWithAvatar(const QStri
 
     QString avatar = avatarBase64 == "" ? BLANK_USER_BASE64 : avatarBase64;
 
-    return "<tr><td style=\"width:50px\">" + getHTMLRoundedImage(avatar, "40px", "40px") + "</td><td>" + name + "</td></tr>";
+    return "<tr><td style=\"width:50px; height:42px\">" + getHTMLRoundedImage(avatar, "40px", "40px") + "</td><td>" + name + "</td></tr>";
 }
 
 
