@@ -30,8 +30,6 @@ ApplicationWindow {
 
     property variant categoriesScorePoints: [];
 
-    property bool generateResultsFlag: false;
-
 
     onVisibleChanged: {
 
@@ -87,9 +85,9 @@ ApplicationWindow {
             title: qsTrId("main-results-menu")
 
             MenuItem {
-                //% "Generate final &results"
-                text: qsTrId("main-results-menu-generate-final-results");
-                onTriggered: generateFinalResults();
+                //% "Evaluate all"
+                text: qsTrId("main-results-menu-evaluate-all");
+                onTriggered: evaluate_all_data();
                 enabled: (contestantsListModel.count > 0)
                 shortcut: "Ctrl+R"
             }
@@ -892,6 +890,7 @@ ApplicationWindow {
         id: altSectionsScoreListManualValuesCache
     }
 
+
     SplitView {
         id: splitView
         anchors.fill: parent;
@@ -1097,7 +1096,7 @@ ApplicationWindow {
                     var filePath = pathConfiguration.igcDirectory + "/" + ctnt.filename;
                     if (!file_reader.file_exists(filePath)) {
 
-                        if (!(evaluateTimer.running || resultsTimer.running)) { // dont show err dialog when computing/generating results
+                        if (!(evaluateTimer.running)) { // dont show err dialog when computing/generating results
 
                             //% "IGC file"
                             errorMessage.title = qsTrId("contestant-table-row-selected-err-dialog-title");
@@ -1238,7 +1237,6 @@ ApplicationWindow {
                     opacity: 0.7;
                     anchors.fill: parent;
                     visible: evaluateTimer.running ||
-                             resultsTimer.running ||
                              computingTimer.running ||
                              workingTimer.running ||
                              pathConfiguration.visible ||
@@ -1251,7 +1249,6 @@ ApplicationWindow {
 
                     BusyIndicator {
                         running: evaluateTimer.running ||
-                                 resultsTimer.running ||
                                  computingTimer.running ||
                                  workingTimer.running;
 
@@ -1267,11 +1264,6 @@ ApplicationWindow {
 
                                 console.log("onClick is disabled when evaluateTimer.running");
                                 evaluateTimer.running = false;
-                            }
-                            else if (resultsTimer.running) {
-
-                                console.log("onClick is disabled when resultsTimer.running");
-                                resultsTimer.running = false;
                             }
                         }
                     }
@@ -1512,15 +1504,6 @@ ApplicationWindow {
                 NativeText { width: applicationWindow.width/statusBarCategoryCounters.columns; text: 'CUSTOM4: ' +  continuousResultsView.listModelCustom4.count; color: continuousResultsView.listModelCustom4.count < applicationWindow.minContestantInCategory && continuousResultsView.listModelCustom4.count > 0 ? "red" : "black" }
             }
         }
-    }
-
-    function generateFinalResults() {
-
-        // set flag, whitch will be check when all data would be succesfully evaluated
-        generateResultsFlag = true;
-
-        // eval all data
-        evaluate_all_data();
     }
 
     function exportFinalResults() {
@@ -3430,6 +3413,19 @@ ApplicationWindow {
         contestantsListModel.setProperty(current, "scorePoints", score);
         recalculateScoresTo1000();
 
+        var contestant = contestantsListModel.get(current);
+
+        // create contestant html file
+        results_creator.createContestantResultsHTML((pathConfiguration.resultsFolder + "/" + contestant.name + "_" + contestant.category),
+                                                    JSON.stringify(contestant),
+                                                    pathConfiguration.competitionName,
+                                                    pathConfiguration.getCompetitionTypeString(parseInt(pathConfiguration.competitionType)),
+                                                    pathConfiguration.competitionDirector,
+                                                    pathConfiguration.competitionDirectorAvatar,
+                                                    pathConfiguration.competitionArbitr,
+                                                    pathConfiguration.competitionArbitrAvatar,
+                                                    pathConfiguration.competitionDate);
+
         // save changes to CSV
         writeScoreManulaValToCSV();
         writeCSV()
@@ -4256,116 +4252,10 @@ ApplicationWindow {
                 if (current+1 == contestantsListModel.count) { // finsihed
                     running = false;
 
-                    // create results if flag is set
-                    if (generateResultsFlag) {
-
-                        generateResultsFlag = false;
-
-                        contestantsTable.currentRow = -1;
-                        contestantsTable.selection.clear();
-
-                        resultsTimer.running = true;
-                    }
-
-
                 } else { // go to next
                     contestantsTable.selection.clear();
                     contestantsTable.selection.select(current+1)
                     contestantsTable.currentRow = current+1;
-                }
-            }
-        }
-    }
-
-    Timer {
-        id: resultsTimer
-        // evaluate all via timer;
-        interval: 500;
-        repeat: true;
-        running: false;
-
-        onTriggered: {
-
-            if (contestantsTable.count <= 0) {
-                running = false;
-
-                // category results
-                generateContinuousResults();
-
-                // save changes to CSV
-                writeScoreManulaValToCSV();
-
-                // tucek and tucek-settings CSV
-                writeCSV();
-
-                return;
-            }
-
-            var current = -1;
-//            var item;
-            var contestant;
-
-            contestantsTable.selection.forEach( function(rowIndex) { current = rowIndex; } )
-
-            // select first item of list
-            if (current < 0) {
-
-                current = 0;
-                contestantsTable.selection.clear();
-                contestantsTable.selection.select(current);
-                contestantsTable.currentRow = current;
-
-                // load contestant
-                contestant = contestantsListModel.get(current);
-
-                // create contestant html file
-                results_creator.createContestantResultsHTML((pathConfiguration.resultsFolder + "/" + contestant.name + "_" + contestant.category),
-                                                            JSON.stringify(contestant),
-                                                            pathConfiguration.competitionName,
-                                                            pathConfiguration.getCompetitionTypeString(parseInt(pathConfiguration.competitionType)),
-                                                            pathConfiguration.competitionDirector,
-                                                            pathConfiguration.competitionDirectorAvatar,
-                                                            pathConfiguration.competitionArbitr,
-                                                            pathConfiguration.competitionArbitrAvatar,
-                                                            pathConfiguration.competitionDate);
-            }
-            else {
-
-                // load contestant
-                contestant = contestantsListModel.get(current);
-
-                if (contestant.filename === "" || file_reader.file_exists(pathConfiguration.resultsFolder + "/"+ contestant.name + "_" + contestant.category + ".html"))  { //if results created or no results for this igc row
-                    if (current + 1 == contestantsListModel.count) { // finsihed
-                        running = false;
-
-                        // category results
-                        generateContinuousResults();
-
-                        // save changes to CSV
-                        writeScoreManulaValToCSV();
-
-                        // tucek and tucek-settings CSV
-                        writeCSV();
-
-                    } else { // go to next
-                        contestantsTable.selection.clear();
-                        contestantsTable.selection.select(current+1)
-                        contestantsTable.currentRow = current+1;
-
-                        // load contestant
-                        contestant = contestantsListModel.get(current + 1);
-
-                        // create contestant html file
-                        results_creator.createContestantResultsHTML((pathConfiguration.resultsFolder + "/" + contestant.name + "_" + contestant.category),
-                                                                    JSON.stringify(contestant),
-                                                                    pathConfiguration.competitionName,
-                                                                    pathConfiguration.getCompetitionTypeString(parseInt(pathConfiguration.competitionType)),
-                                                                    pathConfiguration.competitionDirector,
-                                                                    pathConfiguration.competitionDirectorAvatar,
-                                                                    pathConfiguration.competitionArbitr,
-                                                                    pathConfiguration.competitionArbitrAvatar,
-                                                                    pathConfiguration.competitionDate);
-                    }
                 }
             }
         }
