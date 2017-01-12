@@ -81,8 +81,18 @@ ApplicationWindow {
         }
 
         Menu {
+            id: resultsMenu
             //% "&Results"
             title: qsTrId("main-results-menu")
+
+            onAboutToShow: {
+
+                resultsFileExist = file_reader.file_exists(Qt.resolvedUrl(pathConfiguration.resultsFolder + "/" + pathConfiguration.competitionName + "_" + qsTrId("file-name-ontinuous-results") + ".html"));
+                startListExist = file_reader.file_exists(Qt.resolvedUrl(pathConfiguration.resultsFolder + "/" + pathConfiguration.competitionName + "_" + qsTrId("start-list-filename") + ".html"));
+            }
+
+            property bool resultsFileExist: false;
+            property bool startListExist: false;
 
             MenuItem {
                 //% "Evaluate all"
@@ -102,12 +112,18 @@ ApplicationWindow {
             MenuItem {
                 //% "&Show results"
                 text: qsTrId("main-results-menu-show-results")
-                onTriggered: Qt.openUrlExternally("http://ppt.laacr.cz")
-                enabled: (contestantsListModel.count > 0)
+                onTriggered: showResults();
+                enabled: resultsMenu.resultsFileExist
                 shortcut: "Ctrl+P"
-
             }
 
+            MenuItem {
+                //% "Show start &list"
+                text: qsTrId("main-results-menu-show-start-list")
+                onTriggered: showStartList();
+                enabled: resultsMenu.startListExist
+                shortcut: "Ctrl+S"
+            }
         }
 
         Menu {
@@ -2078,6 +2094,12 @@ ApplicationWindow {
         }
     }
 
+    // function show results in local web viewer
+    function showResults() {
+
+        Qt.openUrlExternally(Qt.resolvedUrl(pathConfiguration.resultsFolder + "/" + pathConfiguration.competitionName + "_" + qsTrId("file-name-ontinuous-results") + ".html"));
+    }
+
     // generate results for each category
     function generateContinuousResults() {
 
@@ -2140,6 +2162,11 @@ ApplicationWindow {
         }
 
         file_reader.write(Qt.resolvedUrl(pathConfiguration.resultsFolder + "/" + pathConfiguration.competitionName + "_" + resultsFilename + ".csv"), csvString);
+    }
+
+    function showStartList() {
+
+        Qt.openUrlExternally(Qt.resolvedUrl(pathConfiguration.resultsFolder + "/" + pathConfiguration.competitionName + "_" + qsTrId("start-list-filename") + ".html"));
     }
 
     function createStartList() {
