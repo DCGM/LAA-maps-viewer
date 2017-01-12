@@ -327,11 +327,9 @@ Rectangle {
         }
         NativeText {
             text: curentContestant.aircraft_registration
-            //Layout.minimumWidth: 80
         }
         NativeText {
             text: curentContestant.aircraft_type
-            //Layout.minimumWidth: 80
         }
     }
 
