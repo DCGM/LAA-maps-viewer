@@ -69,7 +69,7 @@ void ResultsCreater::createContinuousResultsHTML(const QString &filePath,
 
     // results file header
     html += getResultsHTMLBodyHead(competitionName, competitionType, competitionDirector, competitionDirectorAvatar, competitionArbitr, competitionArbitrAvatar, competitionDate);
-    html += getHTMLSpace(10);
+    html += getHTMLSpace(5);
 
     // results for each category
     for (int j = 0; i < resList.size(); i++, j++) {
@@ -116,11 +116,16 @@ void ResultsCreater::createContinuousResultsHTML(const QString &filePath,
             QRegularExpressionMatch match = it.next();
             if (match.hasMatch()) {
 
-                 dataRow.push_back(QString(match.captured(0)).remove("\"") == "-1" ? "" : QString(match.captured(0)).remove("\""));
+                dataRow.push_back(QString(match.captured(0)).remove("\"") == "-1" ? "" : QString(match.captured(0)).remove("\""));
             }
 
             // add data to table struct
             if (!(dataRow.size() % (recordSize + 1))) {
+
+                // change name to href for evaluated crews
+                if (dataRow[7] != "") {
+                    dataRow[1] = "<a href=\"" + dataRow.at(1) + "_" + dataRow.at(2) + ".html" + "\" class=\"hidden-print\">" + dataRow.at(1) + "</a>";
+                }
 
                 rows.append(dataRow);
                 dataRow.clear();
@@ -129,7 +134,7 @@ void ResultsCreater::createContinuousResultsHTML(const QString &filePath,
 
         // echo table and spacer
         html += getHTMLHorizontalTable(rows, QVector<double>{0.5,2.1,0.8,0.8,0.8,1.0,1.0,1.0,1.0});
-        html += getHTMLSpace(10);
+        html += getHTMLSpace(5);
     }
 
     html += "</div>\n";
@@ -137,20 +142,6 @@ void ResultsCreater::createContinuousResultsHTML(const QString &filePath,
     html += "</html>\n";
 
     file.writeUTF8(QUrl(filePath + ".html"), html.toUtf8());
-
-    /* TEST PDF tvorby
-    QTextDocument document;
-    document.setHtml(html);
-
-    QPrinter printer(QPrinter::PrinterResolution);
-    printer.setOutputFormat(QPrinter::PdfFormat);
-    printer.setPaperSize(QPrinter::A4);
-    printer.setOutputFilename(QUrl(filePath + ".pdf").toLocalFile());
-    qDebug() << QUrl(filePath + "/test.pdf").toLocalFile() << endl;
-    printer.setPageMargins(QMarginsF(15, 15, 15, 15));
-
-    document.print(&printer);
-    */
 }
 
 
@@ -258,7 +249,7 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
 
     // results file header
     html += getResultsHTMLBodyHead(competitionName, competitionType, competitionDirector, competitionDirectorAvatar, competitionArbitr, competitionArbitrAvatar, competitionDate);
-    html += getHTMLSpace(10);
+    html += getHTMLSpace(5);
 
     // results header
     html += getHTMLH3(getTranslatedString("html-results-crew-title"));
@@ -285,8 +276,8 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
 
     rows.append(QStringList() << getTranslatedString("html-results-ctnt-classify") << (jsonObject["classify"].toDouble() == 0 ? getTranslatedString("hit-yes") : getTranslatedString("hit-no")));
     rows.append(QStringList() << getTranslatedString("html-results-ctnt-score-points") << (jsonObject["scorePoints"].toDouble() < 0 ? "" : QString::number(jsonObject["scorePoints"].toDouble())));
-    rows.append(QStringList() << getTranslatedString("html-results-ctnt-score-points1000") << (jsonObject["scorePoints1000"].toDouble() < 0 ? "" : QString::number(jsonObject["scorePoints1000"].toDouble())));
-    rows.append(QStringList() << getTranslatedString("html-results-ctnt-class-order") << (jsonObject["classOrder"].toDouble() < 0 ? "" : QString::number(jsonObject["classOrder"].toDouble())));
+    //rows.append(QStringList() << getTranslatedString("html-results-ctnt-score-points1000") << (jsonObject["scorePoints1000"].toDouble() < 0 ? "" : QString::number(jsonObject["scorePoints1000"].toDouble())));
+    //rows.append(QStringList() << getTranslatedString("html-results-ctnt-class-order") << (jsonObject["classOrder"].toDouble() < 0 ? "" : QString::number(jsonObject["classOrder"].toDouble())));
     html += getHTMLVerticalTable(rows, 50);
 
     html += "   </div>";
@@ -298,7 +289,7 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
     html += "   </div>";
     html += "</div>";
 
-    html += getHTMLSpace(10);
+    html += getHTMLSpace(5);
 
     // markers
     html += getHTMLH3(getTranslatedString("html-results-markers"));
@@ -306,7 +297,7 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
     rows.append(QStringList() << QString::number(jsonObject["markersOk"].toDouble()) << QString::number(jsonObject["markersNok"].toDouble()) << QString::number(jsonObject["markersFalse"].toDouble()) << QString::number(jsonObject["markersScore"].toDouble()));
     html += getHTMLHorizontalTable(rows, QVector<double>{1,1,1,1});
 
-    html += getHTMLSpace(10);
+    html += getHTMLSpace(5);
 
     // photos
     html += getHTMLH3(getTranslatedString("html-results-photos"));
@@ -314,7 +305,7 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
     rows.append(QStringList() << QString::number(jsonObject["photosOk"].toDouble()) << QString::number(jsonObject["photosNok"].toDouble()) << QString::number(jsonObject["photosFalse"].toDouble()) << QString::number(jsonObject["photosScore"].toDouble()));
     html += getHTMLHorizontalTable(rows, QVector<double>{1,1,1,1});
 
-    html += getHTMLSpace(10);
+    html += getHTMLSpace(5);
 
     // landing accurancy
     html += getHTMLH3(getTranslatedString("html-results-landing-accurancy"));
@@ -322,7 +313,7 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
     rows.append(QStringList() << QString::number(jsonObject["landingScore"].toDouble()));
     html += getHTMLHorizontalTable(rows);
 
-    html += getHTMLSpace(10);
+    html += getHTMLSpace(5);
 
     // take off
     html += getHTMLH3(getTranslatedString("html-results-take-off"));
@@ -330,7 +321,7 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
     rows.append(QStringList() << jsonObject["startTime"].toString() << jsonObject["startTimeMeasured"].toString() << jsonObject["startTimeDifference"].toString() << QString::number(jsonObject["startTimeScore"].toDouble()));
     html += getHTMLHorizontalTable(rows, QVector<double>{1,1,1,1});
 
-    html += getHTMLSpace(10);
+    html += getHTMLSpace(5);
 
     // circling
     html += getHTMLH3(getTranslatedString("html-results-circling"));
@@ -338,7 +329,7 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
     rows.append(QStringList() << QString::number(jsonObject["circlingCount"].toDouble()) << QString::number(jsonObject["circlingScore"].toDouble()));
     html += getHTMLHorizontalTable(rows, QVector<double>{0.5,1.5});
 
-    html += getHTMLSpace(10);
+    html += getHTMLSpace(5);
 
     // opposite dir flight
     html += getHTMLH3(getTranslatedString("html-results-opposite"));
@@ -346,7 +337,7 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
     rows.append(QStringList() << QString::number(jsonObject["oppositeCount"].toDouble()) << QString::number(jsonObject["oppositeScore"].toDouble()));
     html += getHTMLHorizontalTable(rows, QVector<double>{0.5,1.5});
 
-    html += getHTMLSpace(10);
+    html += getHTMLSpace(5);
 
     // other points
     html += getHTMLH3(getTranslatedString("html-results-other-points"));
@@ -354,7 +345,7 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
     rows.append(QStringList() << QString::number(jsonObject["otherPoints"].toDouble()) << jsonObject["pointNote"].toString());
     html += getHTMLHorizontalTable(rows, QVector<double>{0.5,1.5});
 
-    html += getHTMLSpace(10);
+    html += getHTMLSpace(5);
 
     // other penalty
     html += getHTMLH3(getTranslatedString("html-results-other-penalty"));
@@ -362,7 +353,7 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
     rows.append(QStringList() << QString::number(jsonObject["otherPenalty"].toDouble()) << jsonObject["pointNote"].toString());
     html += getHTMLHorizontalTable(rows, QVector<double>{0.5,1.5});
 
-    html += getHTMLSpace(10);
+    html += getHTMLSpace(5);
 
     // track points
     if(jsonObject["wptScoreDetails"].toString() != "") {
@@ -403,7 +394,7 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
             //check point type
             bool isTG = (int(jsonObject["type"].toDouble()) & 2) == 2;
             bool isTP = (int(jsonObject["type"].toDouble()) & 1) == 1;
-            bool isSG = (int(jsonObject["type"].toDouble()) & 3) == 3;
+            bool isSG = (int(jsonObject["type"].toDouble()) & 4) == 4;
 
             rows.append(QStringList() << jsonObject["title"].toString()
                                       << pointFlagToString(jsonObject["type"].toDouble())
@@ -430,7 +421,7 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
 
         html += getHTMLHorizontalTable(rows);
 
-        html += getHTMLSpace(10);
+        html += getHTMLSpace(5);
     }
 
     //jsonResponse = QJsonDocument::fromJson(igcJSON.toUtf8());
@@ -476,7 +467,7 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
         html += getHTMLHorizontalTable(rows, QVector<double>{1.0/7.0, 1.0/7.0, 1.0/7.0, 1.0/7.0, 1.0/7.0, 2.0/7.0});
     }
 
-    html += getHTMLSpace(10);
+    html += getHTMLSpace(5);
 
     // altitude sections
     // split array
@@ -520,7 +511,7 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
         html += getHTMLHorizontalTable(rows, QVector<double>{1, 1, 1, 1, 1, 1, 1});
     }
 
-    html += getHTMLSpace(10);
+    html += getHTMLSpace(5);
 
     // space sections
     // split array
@@ -622,7 +613,7 @@ const QString ResultsCreater::getResultsHTMLBodyHead(const QString &competitionN
     html += getHTMLRoundedImage(ResultsCreater::FIT_LOG_BASE64, "60px", "auto");
     html += "           </span>\n";
     html += "       </div>\n";
-    html += getHTMLSpace(10);
+    html += getHTMLSpace(5);
     html += "       <div class=\"row\">\n";
     html += "           <span class=\"pull-right\">" + QDate().currentDate().toString("dd.MM.yyyy ") + "</span>\n";
     html += "       </div>\n";

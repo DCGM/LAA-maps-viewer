@@ -20,8 +20,6 @@
 #include <QQmlComponent>
 #include <QQmlEngine>
 #include <QFile>
-#include <QTextDocument>
-#include <QPrinter>
 
 #include "filereader.h"
 
