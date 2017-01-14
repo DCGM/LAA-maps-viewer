@@ -31,7 +31,7 @@ Window {
 
             onDoubleClicked: {
 
-                dateDialog.accepted(calendar.selectedDate.toLocaleDateString(Qt.locale(),"dd.MM.yyyy"));
+                dateDialog.accepted(calendar.selectedDate.toLocaleDateString(Qt.locale(),"yyyy.MM.dd"));
                 dateDialog.close();
             }
         }
@@ -51,7 +51,7 @@ Window {
             isDefault: true;
             onClicked: {
 
-                dateDialog.accepted(calendar.selectedDate.toLocaleDateString(Qt.locale(),"dd.MM.yyyy"));
+                dateDialog.accepted(calendar.selectedDate.toLocaleDateString(Qt.locale(),"yyyy.MM.dd"));
                 dateDialog.close();
             }
         }

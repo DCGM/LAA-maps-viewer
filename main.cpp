@@ -77,11 +77,13 @@ int main(int argc, char *argv[])
 //    qmlRegisterType<SortFilterProxyModel>("cz.mlich", 1, 0, "SortFilterProxyModel");
 
     QTranslator translator;
+    QString language;
 
     //    if (translator.load(QLatin1String("viewer_") + QLocale::system().name(), QLibraryInfo::location(QLibraryInfo::TranslationsPath))) {
     if (translator.load(QLatin1String("viewer_") + QLocale::system().name(), "./")) {
         app.installTranslator(&translator);
         engine.rootContext()->setContextProperty("locale", QLocale::system().bcp47Name());
+        language = "cz";
     } else {
         qDebug() << "translation.load() failed - falling back to English";
         //        if (translator.load(QLatin1String("viewer_en_US") , QLibraryInfo::location(QLibraryInfo::TranslationsPath))) {
@@ -89,9 +91,11 @@ int main(int argc, char *argv[])
             app.installTranslator(&translator);
         }
         engine.rootContext()->setContextProperty("locale","en");
+        language = "en";
     }
     engine.rootContext()->setContextProperty("builddate", QString::fromLocal8Bit(__DATE__));
     engine.rootContext()->setContextProperty("buildtime", QString::fromLocal8Bit(__TIME__));
+    engine.rootContext()->setContextProperty("language", language);
 
     //    IgcFile igc;
     //    igc.load("/home/imlich/workspace/tucek/igctest/laa31T01V1R1_laa31.igc");
@@ -111,7 +115,6 @@ int main(int argc, char *argv[])
     //engine.setOfflineStoragePath( QFileInfo( QCoreApplication::applicationFilePath() ).dir().absolutePath());
     //QString str = engine.offlineStoragePath();
     //qDebug() << "setOfflineStoragePath: " << str;
-
 
     QObject *topLevel = engine.rootObjects().value(0);
     QQuickWindow *window = qobject_cast<QQuickWindow *>(topLevel);

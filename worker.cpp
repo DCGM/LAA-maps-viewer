@@ -55,3 +55,11 @@ QStringList Worker::parseCSV(QString str) {
 
     return retArr;
 }
+
+const int Worker::getOffsetFromUtcSec(const QString date, const QString format, const QString language) {
+
+    if (language == "en")
+        return 0;
+    else
+        return QDateTime::fromString(date, format).offsetFromUtc();
+}

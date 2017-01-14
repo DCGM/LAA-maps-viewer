@@ -35,6 +35,8 @@ ApplicationWindow {
 
     property string contestantsFileName: "posadky.csv"
 
+    property string requestedDateFormat: "yyyy.MM.dd";
+
     property string igcDirectory;
     property string trackFile;
     property string resultsFolder;
@@ -54,6 +56,12 @@ ApplicationWindow {
     property variant competitionArbitr: [""];
     property variant competitionArbitrAvatar: [""];
     property string competitionDate: "";
+
+    onCompetitionDateChanged: {
+
+        applicationWindow.utc_offset_sec = cppWorker.getOffsetFromUtcSec(competitionDate, pathConfiguration.requestedDateFormat, language);
+        console.log("calc UTC offset: " + applicationWindow.utc_offset_sec + "/" + competitionDate + "/" + language);
+    }
 
     property string api_key_get_url: F.base_url + "/apiKeys.php?action=create"
 
@@ -322,7 +330,7 @@ ApplicationWindow {
         tabView.competitionTabAlias.competitionTypeIndexAlias = parseInt(competitionType);
         tabView.competitionTabAlias.competitionDirectorTextAlias = competitionDirector;
         tabView.competitionTabAlias.competitionArbitrTextAlias = competitionArbitr;
-        tabView.competitionTabAlias.competitionDateTextAlias = competitionDate;
+        tabView.competitionTabAlias.competitionDateTextAlias = (competitionDate === "" ? Qt.formatDateTime(new Date(), pathConfiguration.requestedDateFormat) :competitionDate.replace(/-/g, "."));
 
         // recover tab status
         if (!tabPrevActived) tabView.activateTabByName(previousActive)
@@ -443,6 +451,10 @@ ApplicationWindow {
                         downloadedCompetitionNameAlias = "";
                     }
 
+                    pathConfiguration.online = onlineOfflineUserDefinedCheckBoxAlias;
+                }
+
+                onOnlineOfflineUserDefinedCheckBoxAliasChanged: {
                     pathConfiguration.online = onlineOfflineUserDefinedCheckBoxAlias;
                 }
 
@@ -865,23 +877,37 @@ ApplicationWindow {
                     text: qsTrId("competition-configuration-competition-date")
                 }
 
-                TextField {
-                    id: competitionDate
-                    //text: competitionDate_default
+                RowLayout {
+
                     Layout.fillWidth:true;
                     Layout.preferredWidth: parent.width/2
-                    placeholderText: Qt.formatDateTime(new Date(), "dd.MM.yyyy");
-                    readOnly: online
 
-                    MouseArea {
-                        anchors.fill: parent
+                    TextField {
+                        id: competitionDate
+                        //text: competitionDate_default
+                        Layout.fillWidth:true;
+                        placeholderText: Qt.formatDateTime(new Date(), pathConfiguration.requestedDateFormat);
+                        readOnly: online
 
-                        onClicked:  {
+                        onTextChanged: {
+                            var utcOffset = cppWorker.getOffsetFromUtcSec(text, pathConfiguration.requestedDateFormat, language);
+                            utcOffsetText.text = "UTC" + (utcOffset < 0 ? " - " : " + ") + utcOffset/3600;
+                        }
 
-                            if (!competitionDate.readOnly) {
-                                celandar.visible = true;
+                        MouseArea {
+                            anchors.fill: parent
+
+                            onClicked:  {
+
+                                if (!competitionDate.readOnly) {
+                                    celandar.visible = true;
+                                }
                             }
                         }
+                    }
+
+                    NativeText {
+                        id: utcOffsetText
                     }
                 }
             }
@@ -1026,7 +1052,7 @@ ApplicationWindow {
                                     if (resultStatus) {
 
                                         userNameValidity.text = result.message.firstname + " " + result.message.surname;
-                                        userKeyValidity.text  = result.message.valid_until
+                                        userKeyValidity.text  = String(result.message.valid_until).replace(/-/g, ".");
                                     } else {
                                         userNameValidity.text = "";
                                         userKeyValidity.text = "";
@@ -1085,7 +1111,7 @@ ApplicationWindow {
             Image {
                 source: "./data/emblem_readonly.png"
                 //http://findicons.com/icon/115472/emblem_readonly?id=115472#
-                visible: online && tabView.competitionTabAlias.visible
+                visible: pathConfiguration.online && tabView.competitionTabAlias.visible
             }
 
             NativeText {
@@ -1094,7 +1120,7 @@ ApplicationWindow {
                 font.italic: true
                 color: "grey"
                 anchors.verticalCenter: parent.verticalCenter
-                visible: online && tabView.competitionTabAlias.visible
+                visible: pathConfiguration.online && tabView.competitionTabAlias.visible
             }
         }
 
@@ -1154,7 +1180,7 @@ ApplicationWindow {
                     config.set("v2_competitionDirectorAvatar", pathConfiguration.online ? JSON.stringify(competitionDirectorAvatar) : JSON.stringify(""));
                     config.set("v2_competitionArbitr", JSON.stringify(arr));
                     config.set("v2_competitionArbitrAvatar", pathConfiguration.online ? JSON.stringify(competitionArbitrAvatar) : JSON.stringify(arrAvatar));
-                    config.set("v2_competitionDate", competitionTabValues[5]);
+                    config.set("v2_competitionDate", competitionTabValues[5] === "" ? Qt.formatDateTime(new Date(), pathConfiguration.requestedDateFormat) : competitionTabValues[5]);
 
                     var loginTabValues = getLoginTabValues()
 

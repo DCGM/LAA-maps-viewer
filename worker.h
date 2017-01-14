@@ -5,6 +5,7 @@
 #include <QString>
 #include <QVector>
 #include <QObject>
+#include <QDateTime>
 
 class Worker : public QObject
 {
@@ -15,7 +16,9 @@ public:
     explicit Worker(QObject *parent = 0);
 
     QString CsvJoinDelimeterReadFunc() const { return csv_join_parse_delimeter_string; }
+
     Q_INVOKABLE QStringList parseCSV(QString str);
+    Q_INVOKABLE const int getOffsetFromUtcSec(const QString date, const QString format, const QString language);
 
 private:
 

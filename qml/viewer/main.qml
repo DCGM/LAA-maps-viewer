@@ -30,6 +30,7 @@ ApplicationWindow {
 
     property variant categoriesScorePoints: [];
 
+    property int utc_offset_sec: 0
 
     onVisibleChanged: {
 
