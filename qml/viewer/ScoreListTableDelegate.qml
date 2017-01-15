@@ -94,20 +94,19 @@ Item {
 
                     case "tg_time_manual":
 
-                        var str = value;                       
-                        var validatedTime = F.strTimeValidator(str);
-                        if (validatedTime !== "") {
-                            changeModel(styleData.row, styleData.role, F.timeToUnix(validatedTime))
+                        var str = value;
+                        var sec = F.strTimeValidator(str);
+                        if (sec >= 0) {
+                            changeModel(styleData.row, styleData.role, sec - applicationWindow.utc_offset_sec);
                         }
                         else {
                             var num = parseFloat(str);
                             if (isNaN(num)) {
                                 changeModel(styleData.row, styleData.role, -1)
                             } else {
-                                changeModel(styleData.row, styleData.role, num)
+                                changeModel(styleData.row, styleData.role, num - applicationWindow.utc_offset_sec)
                             }
                         }
-
                         break;
 
                     case "manualSpeed":
@@ -318,6 +317,8 @@ Item {
             case "manualAltMaxEntriesTime":
             case "tg_time_calculated":
             case "tg_time_manual":
+                show = F.addTimeStrFormat(show + applicationWindow.utc_offset_sec);
+                break;
             case "tg_time_difference":
                 show = F.addTimeStrFormat(show);
                 break;
@@ -362,84 +363,5 @@ Item {
 
         return show;
     }
-
-    /*
-    // function has been moved into resultscreater.cpp
-    function flagsToStr(f) {
-        var arr = F.arrayFromMask(f  | 0x10000);
-
-        if (arr.length === 0) {
-            return "";
-        }
-        var strings = [];
-
-        if (arr[0]) {
-            //% "TP"
-            strings.push(qsTrId("track-list-delegate-ob-short"))
-        }
-        if (arr[1]) {
-            //% "TG"
-            strings.push(qsTrId("track-list-delegate-tg-short"))
-        }
-        if (arr[2]) {
-            //% "SG"
-            strings.push(qsTrId("track-list-delegate-sg-short"))
-        }
-        if (arr[3]){
-            //% "ALT_MIN"
-            strings.push(qsTrId("track-list-delegate-alt_min-short"))
-        }
-        if (arr[4]) {
-            //% "ALT_MAX"
-            strings.push(qsTrId("track-list-delegate-alt_max-short"))
-        }
-        if (arr[5]) {
-            //% "SPD_MIN"
-            strings.push(qsTrId("track-list-delegate-speed_min-short"))
-        }
-        if (arr[6]) {
-            //% "SPD_MAX"
-            strings.push(qsTrId("track-list-delegate-speed_max-short"))
-        }
-        if (arr[7]) {
-            //% "sss"
-            strings.push(qsTrId("track-list-delegate-section_speed_start-short"))
-        }
-        if (arr[8]) {
-            //% "sse"
-            strings.push(qsTrId("track-list-delegate-section_speed_end-short"))
-        }
-        if (arr[9]) {
-            //% "sas"
-            strings.push(qsTrId("track-list-delegate-section_alt_start-short"))
-        }
-        if (arr[10]) {
-            //% "sae"
-            strings.push(qsTrId("track-list-delegate-section_alt_end-short"))
-        }
-        if (arr[11]) {
-            //% "sws"
-            strings.push(qsTrId("track-list-delegate-section_space_start-short"))
-        }
-        if (arr[12]) {
-            //% "swe"
-            strings.push(qsTrId("track-list-delegate-section_space_end-short"))
-        }
-        if (arr[13]) {
-            //% "sec_tp"
-            strings.push(qsTrId("track-list-delegate-secret-turn-point-short"))
-        }
-        if (arr[14]) {
-            //% "sec_tg"
-            strings.push(qsTrId("track-list-delegate-secret-time-gate-short"))
-        }
-        if (arr[15]) {
-            //% "sec_sg"
-            strings.push(qsTrId("track-list-delegate-secret-space-gate-short"))
-        }
-
-        return strings.join(", ");
-    }
-    */
 }
 

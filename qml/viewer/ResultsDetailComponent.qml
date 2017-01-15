@@ -318,7 +318,7 @@ Rectangle {
             Layout.minimumWidth: 50
         }
         NativeText {
-            text: curentContestant.startTime
+            text: F.addTimeStrFormat(F.timeToUnix(curentContestant.startTime) + applicationWindow.utc_offset_sec)
             Layout.minimumWidth: 50
         }
         NativeText {
@@ -475,7 +475,7 @@ Rectangle {
 
                             MyReadOnlyTextField {
 
-                                text: curentContestant.startTime;
+                                text: F.addTimeStrFormat(F.timeToUnix(curentContestant.startTime) + applicationWindow.utc_offset_sec)
                                 mwidth: manualValuesTab.columnWidth/2
                                 mheight: parent.height
                             }
@@ -485,7 +485,7 @@ Rectangle {
 
                                 id: startTimeMeasuredTextField
 
-                                text: curentContestant.startTimeMeasured;
+                                text: (curentContestant.startTimeMeasured !== "" ? F.addTimeStrFormat(F.timeToUnix(curentContestant.startTimeMeasured) + applicationWindow.utc_offset_sec) : "")
                                 mwidth: manualValuesTab.columnWidth/2
                                 mheight: parent.height
 
@@ -497,25 +497,29 @@ Rectangle {
 
                                     // remove start time
                                     if (str === "") {
-                                        curentContestant.startTimeMeasured = curentContestant.startTime;
+                                        curentContestant.startTimeMeasured = F.addTimeStrFormat(F.timeToUnix(curentContestant.startTime) + applicationWindow.utc_offset_sec);
                                         text = curentContestant.startTimeMeasured;
                                         curentContestant.startTimeDifference = F.addTimeStrFormat(0);
                                         startTimeDifferenceTextField.text = F.addTimeStrFormat(0);
                                     }
                                     else {
 
-                                        var validatedTime = F.strTimeValidator(str);
-                                        if (validatedTime !== "") {
-
-                                            curentContestant.startTimeMeasured = validatedTime;
-
-                                            var refVal = F.timeToUnix(curentContestant.startTime);
-                                            var diff = Math.abs(refVal - F.timeToUnix(validatedTime));
-                                            curentContestant.startTimeDifference = F.addTimeStrFormat(diff);
-                                            startTimeDifferenceTextField.text = curentContestant.startTimeDifference;
+                                        var sec = F.strTimeValidator(str);
+                                        var time;
+                                        if (sec < 0) {
+                                            text = prevVal;
                                         }
                                         else {
-                                            text = prevVal;
+
+                                            time = F.addTimeStrFormat(sec - applicationWindow.utc_offset_sec);
+
+                                            curentContestant.startTimeMeasured = time;
+                                            text = F.addTimeStrFormat(F.timeToUnix(curentContestant.startTimeMeasured) + applicationWindow.utc_offset_sec);
+
+                                            var refVal = F.timeToUnix(curentContestant.startTime);
+                                            var diff = Math.abs(refVal - (sec - applicationWindow.utc_offset_sec));
+                                            curentContestant.startTimeDifference = F.addTimeStrFormat(diff);
+                                            startTimeDifferenceTextField.text = curentContestant.startTimeDifference;
                                         }
                                     }
                                 }
@@ -1355,7 +1359,6 @@ Rectangle {
 
                 totalPointsScore = getScorePointsSum(curentContestant, resultsMainWindow.currentWptScoreString, resultsMainWindow.currentSpeedSectionsScoreString);
 
-
                 // validate and save start time
                 var str = tabView.scrollView.startTimeText;
                 if (str === "") {
@@ -1366,15 +1369,15 @@ Rectangle {
                 }
                 else {
 
-                    var validatedTime = F.strTimeValidator(str);
-                    if (validatedTime !== "") {
+                    var sec = F.strTimeValidator(str);
+                    var time;
+                    if (sec >= 0) {
 
-                        curentContestant.startTimeMeasured = validatedTime;
+                        time = F.addTimeStrFormat(sec - applicationWindow.utc_offset_sec);
 
+                        curentContestant.startTimeMeasured = time;
                         var refVal = F.timeToUnix(curentContestant.startTime);
-                        var tolerance = time_window_size;
-
-                        var diff = Math.abs(refVal - F.timeToUnix(validatedTime));
+                        var diff = Math.abs(refVal - (sec - applicationWindow.utc_offset_sec));
                         curentContestant.startTimeDifference = F.addTimeStrFormat(diff);
 
                         // add penalty

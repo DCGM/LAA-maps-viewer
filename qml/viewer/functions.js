@@ -132,7 +132,7 @@ function strTimeValidator(newVal) {
 
                 result = regexp4.exec(newVal);
                 if(!result) {
-                    return "";
+                    return -1;
                 }
             }
         }
@@ -144,7 +144,7 @@ function strTimeValidator(newVal) {
 
     var num = h * 3600 + m * 60 + s;
 
-    return(addTimeStrFormat(num));
+    return(num);
 }
 
 function addTimeStrFormat(str) {

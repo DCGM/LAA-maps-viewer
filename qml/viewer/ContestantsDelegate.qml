@@ -331,7 +331,6 @@ Item {
 
             NativeTextInput {
                 id: textinput
-                //validator: RegExpValidator { regExp: /^(\d{2}):(\d{2}):(\d{2})$/ }
                 signal newValue(string value);
 
                 property string prevVal: "";
@@ -341,12 +340,12 @@ Item {
 
                 onAccepted: {
 
-                    var str = F.strTimeValidator(text);
-                    if (str === "") {
+                    var sec = F.strTimeValidator(text);
+                    if (sec < 0) {
                         text = prevVal;
                     }
                     else {
-                        newValue(str);
+                        newValue(F.addTimeStrFormat(sec - applicationWindow.utc_offset_sec));
                     }
                 }
 
@@ -384,6 +383,7 @@ Item {
                     show = "";
                 break;
             case "startTime":
+                show = F.addTimeStrFormat(F.timeToUnix(value) + applicationWindow.utc_offset_sec);
                 break;
             default:
                 break;
