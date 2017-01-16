@@ -731,12 +731,12 @@ const inline QString ResultsCreater::getImageBase64(const QUrl &image) {
 
 const inline QString ResultsCreater::getHTMLResponsiveImage(const QString &base64) {
 
-    return "<img class=\"img-responsive\"; src=\"data:image/png;base64," + base64 + "\">";
+    return "<img class=\"img-responsive\" src=\"data:image/png;base64," + base64 + "\">";
 }
 
 const inline QString ResultsCreater::getHTMLRoundedImage(const QString &base64, const QString heightPx, const QString widthPx) {
 
-    return "<img style=\"height: " + heightPx + "; width: " + widthPx + ";\" class=\"img-rounded\"; src=\"data:image/png;base64," + base64 + "\">";
+    return "<img style=\"height: " + heightPx + "; width: " + widthPx + ";\" class=\"img-rounded\" src=\"data:image/png;base64," + base64 + "\">";
 }
 
 const inline QString ResultsCreater::getHTMLStartTableTag() {
