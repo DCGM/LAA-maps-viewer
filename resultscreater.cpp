@@ -528,12 +528,12 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
 
 const inline QString ResultsCreater::getFontColorStartTag(QString color) {
 
-    return "<font color=\"" + color + "\">";
+    return "<span style=\"color:" + color + "\">";
 }
 
 const inline QString ResultsCreater::getFontColorEndTag() {
 
-    return "</font>";
+    return "</span>";
 }
 
 
@@ -736,7 +736,7 @@ const inline QString ResultsCreater::getHTMLResponsiveImage(const QString &base6
 
 const inline QString ResultsCreater::getHTMLRoundedImage(const QString &base64, const QString heightPx, const QString widthPx) {
 
-    return "<img style=\"height: " + heightPx + "; width: " + widthPx + "\"; class=\"img-rounded\"; src=\"data:image/png;base64," + base64 + "\">";
+    return "<img style=\"height: " + heightPx + "; width: " + widthPx + ";\" class=\"img-rounded\"; src=\"data:image/png;base64," + base64 + "\">";
 }
 
 const inline QString ResultsCreater::getHTMLStartTableTag() {
