@@ -2166,20 +2166,22 @@ ApplicationWindow {
 
         var date = [];
         var item;
-        var startTimeSec;
+        var startTimeLocalSec;
+        var startTimeLocalStr;
 
         for (var i = 0; i < contestantsListModel.count; i++) {
 
             item = contestantsListModel.get(i);
 
-            startTimeSec = F.timeToUnix(item.startTime);
+            startTimeLocalSec = F.timeToUnix(item.startTime) + applicationWindow.utc_offset_sec;
+            startTimeLocalStr = F.addTimeStrFormat(startTimeLocalSec);
 
             date.push(JSON.stringify({ "name": item.name,
                         "category": item.category,
                         "speed": item.speed,
-                        "startTimePrepTime": (tracksPrepTimes === undefined ? item.startTime : F.addTimeStrFormat(startTimeSec - parseInt(tracksPrepTimes[item.category] === undefined ? 0 : tracksPrepTimes[item.category]))),
-                        "startTime": item.startTime,
-                        "startTimeVBT": (tracksVbtTimes === undefined ? item.startTime : F.addTimeStrFormat(startTimeSec + parseInt(tracksVbtTimes[item.category] === undefined ? 0 : tracksVbtTimes[item.category]))),
+                        "startTimePrepTime": (tracksPrepTimes === undefined ? startTimeLocalStr : F.addTimeStrFormat(startTimeLocalSec - parseInt(tracksPrepTimes[item.category] === undefined ? 0 : tracksPrepTimes[item.category]))),
+                        "startTime": startTimeLocalStr,
+                        "startTimeVBT": (tracksVbtTimes === undefined ? startTimeLocalStr : F.addTimeStrFormat(startTimeLocalSec + parseInt(tracksVbtTimes[item.category] === undefined ? 0 : tracksVbtTimes[item.category]))),
                         "aircraft_type": item.aircraft_type,
                         "aircraft_registration": item.aircraft_registration,
                         "startTimeMeasured": "",
