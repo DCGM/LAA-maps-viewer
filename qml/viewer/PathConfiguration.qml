@@ -59,8 +59,8 @@ ApplicationWindow {
 
     onCompetitionDateChanged: {
 
-        applicationWindow.utc_offset_sec = cppWorker.getOffsetFromUtcSec(competitionDate, pathConfiguration.requestedDateFormat, language);
-        console.log("calc UTC offset: " + applicationWindow.utc_offset_sec + "/" + competitionDate + "/" + language);
+        applicationWindow.utc_offset_sec = cppWorker.getOffsetFromUtcSec(competitionDate, pathConfiguration.requestedDateFormat);
+        console.log("calc UTC offset: " + applicationWindow.utc_offset_sec + "/" + competitionDate);
     }
 
     property string api_key_get_url: F.base_url + "/apiKeys.php?action=create"
@@ -890,7 +890,7 @@ ApplicationWindow {
                         readOnly: online
 
                         onTextChanged: {
-                            var utcOffset = cppWorker.getOffsetFromUtcSec(text, pathConfiguration.requestedDateFormat, language);
+                            var utcOffset = cppWorker.getOffsetFromUtcSec(text, pathConfiguration.requestedDateFormat);
                             utcOffsetText.text = "UTC" + (utcOffset < 0 ? " - " : " + ") + utcOffset/3600;
                         }
 

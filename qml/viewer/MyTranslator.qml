@@ -171,6 +171,9 @@ Item {
             case("html-results-point-alt-type"):
                 //% "alt type"
                 retVal = qsTrId("html-results-point-alt-type"); break;
+            case("html-results-point-alt-limit"):
+                //% "alt limit"
+                retVal = qsTrId("html-results-point-alt-limit"); break;
             case("html-results-point-distance"):
                 //% "point distance"
                 retVal = qsTrId("html-results-point-distance"); break;
@@ -210,6 +213,9 @@ Item {
             case("html-results-score"):
                 //% "results score"
                 retVal = qsTrId("html-results-score"); break;
+            case("html-start-list-title"):
+                //% "crews"
+                retVal = qsTrId("html-start-list-title"); break;
             case("html-results-space-sections"):
                 //% "space sections"
                 retVal = qsTrId("html-results-space-sections"); break;
@@ -287,7 +293,8 @@ Item {
                 //% "Others"
                 retVal = qsTrId("html-startList-blank"); break;
             default:
-                retVal = "tr error: " + String(key);
+                //retVal = "tr error: " + String(key);
+                retVal = "";
 
         }
 
