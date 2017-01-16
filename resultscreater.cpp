@@ -30,7 +30,8 @@ void ResultsCreater::createContinuousResultsHTML(const QString &filePath,
                                                  const QString &competitionDirectorAvatar,
                                                  const QStringList &competitionArbitr,
                                                  const QStringList &competitionArbitrAvatar,
-                                                 const QString &competitionDate) {
+                                                 const QString &competitionDate,
+                                                 const int utc_offset_sec) {
 
 
 
@@ -126,6 +127,9 @@ void ResultsCreater::createContinuousResultsHTML(const QString &filePath,
                     dataRow[1] = "<a href=\"" + dataRow.at(1) + "_" + dataRow.at(2) + ".html" + "\" class=\"hidden-print\">" + dataRow.at(1) + "</a><div class=\"visible-print-block\">" + dataRow.at(1) + "</div>";
                 }
 
+                // change startTime to local from UTC
+                dataRow[3] = QDateTime::fromString(dataRow[3], "HH:mm:ss").addSecs(utc_offset_sec).toString("HH:mm:ss");
+
                 rows.append(dataRow);
                 dataRow.clear();
             }
@@ -145,7 +149,8 @@ void ResultsCreater::createContinuousResultsHTML(const QString &filePath,
 
 void ResultsCreater::createStartListHTML(const QString &filename,
                                          const QStringList &cntList,
-                                         const QString &competitionName) {
+                                         const QString &competitionName,
+                                         const int utc_offset_sec) {
 
     QJsonDocument jsonResponse;
     QJsonObject jsonObject;
@@ -193,10 +198,10 @@ void ResultsCreater::createStartListHTML(const QString &filename,
                                   << jsonObject["category"].toString()
                                   << QString::number(jsonObject["speed"].toInt())
                                   << jsonObject["aircraft_registration"].toString()
-                                  << jsonObject["startTimePrepTime"].toString()
-                                  << "<b>" + jsonObject["startTime"].toString() + "</b>"
-                                  << jsonObject["startTimeVBT"].toString()
-                                  << ""
+                                  << QDateTime::fromString(jsonObject["startTimePrepTime"].toString(), "HH:mm:ss").addSecs(utc_offset_sec).toString("HH:mm:ss")
+                                  << "<b>" + QDateTime::fromString(jsonObject["startTime"].toString(), "HH:mm:ss").addSecs(utc_offset_sec).toString("HH:mm:ss") + "</b>"
+                                  << QDateTime::fromString(jsonObject["startTimeVBT"].toString(), "HH:mm:ss").addSecs(utc_offset_sec).toString("HH:mm:ss")
+                                  << ""                
                     );
     }
 
@@ -219,7 +224,8 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
                                                  const QString &competitionDirectorAvatar,
                                                  const QStringList &competitionArbitr,
                                                  const QStringList &competitionArbitrAvatar,
-                                                 const QString &competitionDate) {
+                                                 const QString &competitionDate,
+                                                 const int utc_offset_sec) {
     QString html = "";
     QStringList trackPointsList;
     QVector<QStringList> rows;
@@ -263,7 +269,7 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
     }
 
     rows.append(QStringList() << getTranslatedString("html-results-ctnt-category") << jsonObject["category"].toString());
-    rows.append(QStringList() << getTranslatedString("html-results-ctnt-startTime") << jsonObject["startTime"].toString());
+    rows.append(QStringList() << getTranslatedString("html-results-ctnt-startTime") << QDateTime::fromString(jsonObject["startTime"].toString(), "HH:mm:ss").addSecs(utc_offset_sec).toString("HH:mm:ss"));
     rows.append(QStringList() << getTranslatedString("html-results-ctnt-speed") << QString::number(jsonObject["speed"].toDouble()));
     rows.append(QStringList() << getTranslatedString("html-results-ctnt-aircraft-registration") << jsonObject["aircraft_registration"].toString());
     rows.append(QStringList() << getTranslatedString("html-results-ctnt-aircraft-type") << jsonObject["aircraft_type"].toString());
@@ -375,8 +381,8 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
             rows.append(QStringList() << jsonObject["title"].toString()
                                       << pointFlagToString(jsonObject["type"].toDouble())
                                       << QString::number(jsonObject["distance_from_vbt"].toDouble() / 1000, 'f', 2)
-                                      << (isTG ? "" : getFontColorStartTag("grey")) + QTime(0,0,0).addSecs(jsonObject["tg_time_calculated"].toDouble()).toString("hh:mm:ss") + (isTG ? "" : getFontColorEndTag())
-                                      << (isTG ? "" : getFontColorStartTag("grey")) + QTime(0,0,0).addSecs(tg_time_measured).toString() + (isTG ? "" : getFontColorEndTag())
+                                      << (isTG ? "" : getFontColorStartTag("grey")) + QTime(0,0,0).addSecs(jsonObject["tg_time_calculated"].toDouble() + utc_offset_sec).toString("hh:mm:ss") + (isTG ? "" : getFontColorEndTag())
+                                      << (isTG ? "" : getFontColorStartTag("grey")) + QTime(0,0,0).addSecs(tg_time_measured + utc_offset_sec).toString() + (isTG ? "" : getFontColorEndTag())
                                       << (isTG ? "" : getFontColorStartTag("grey")) + QTime(0,0,0).addSecs(jsonObject["tg_time_difference"].toDouble()).toString() + (isTG ? "" : getFontColorEndTag())
                                       << (isTG ? "" : getFontColorStartTag("grey")) + (jsonObject["tg_score"].toDouble() < 0 ? "" : QString::number(jsonObject["tg_score"].toDouble())) + (isTG ? "" : getFontColorEndTag())
 

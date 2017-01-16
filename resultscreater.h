@@ -39,7 +39,8 @@ public:
                                                  const QString &competitionDirectorAvatar,
                                                  const QStringList &competitionArbitr,
                                                  const QStringList &competitionArbitrAvatar,
-                                                 const QString &competitionDate);
+                                                 const QString &competitionDate,
+                                                 const int utc_offset_sec);
 
     Q_INVOKABLE void createContinuousResultsHTML(const QString &filePath,
                                                  const QStringList &res,
@@ -50,13 +51,15 @@ public:
                                                  const QString &competitionDirectorAvatar,
                                                  const QStringList &competitionArbitr,
                                                  const QStringList &competitionArbitrAvatar,
-                                                 const QString &competitionDate);
+                                                 const QString &competitionDate,
+                                                 const int utc_offset_sec);
 
     Q_INVOKABLE QString pointFlagToString(const unsigned int f);
 
     Q_INVOKABLE void createStartListHTML(const QString &filename,
                                          const QStringList &cntList,
-                                         const QString &competitionName);
+                                         const QString &competitionName,
+                                         const int utc_offset_sec);
 
 
 
