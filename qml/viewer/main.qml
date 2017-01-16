@@ -1108,7 +1108,7 @@ ApplicationWindow {
                     }
 
                     //                console.log("setFilter" + ctnt.startTime)
-                    tool_bar.startTime = ctnt.startTime
+                    tool_bar.startTime = ctnt.startTime;
 
                     var filePath = pathConfiguration.igcDirectory + "/" + ctnt.filename;
                     if (!file_reader.file_exists(filePath)) {
@@ -1443,8 +1443,8 @@ ApplicationWindow {
                 }
 
                 NativeText {
-                    text: map.currentPositionTime
-                    visible: (text !== "")
+                    text: F.addTimeStrFormat((F.timeToUnix(map.currentPositionTime)) + applicationWindow.utc_offset_sec);
+                    visible: (map.currentPositionTime !== "")
                 }
 
                 NativeText {
@@ -1461,9 +1461,8 @@ ApplicationWindow {
                 NativeText {
 
                     //% "(Start time: %1)"
-                    text: qsTrId("toolbar-start-time").arg(tool_bar.startTime);
+                    text: qsTrId("toolbar-start-time").arg(F.addTimeStrFormat((F.timeToUnix(tool_bar.startTime)) + applicationWindow.utc_offset_sec));
                     visible: tool_bar.startTime !== "";
-
                 }
 
                 NativeText {
@@ -1558,13 +1557,6 @@ ApplicationWindow {
     // Compare results current and prev results property
     function resultsValid(currentSpeed, currentStartTime, currentCategory, currentIgcFilename, currentTrackHash,
                           prevSpeed, prevStartTime, prevCategory, prevIgcFilename, prevTrackHash) {
-
-        /*console.log("resultsValid: " + currentSpeed + "/" + prevSpeed + "   " +
-                                       currentStartTime  + "/" + prevStartTime + "   " +
-                                       currentCategory  + "/" +  prevCategory + "   " +
-                                       currentIgcFilename  + "/" +  prevIgcFilename + "   " +
-                                       currentTrackHash  + "/" + prevTrackHash)
-                                       */
 
         return (currentStartTime === prevStartTime &&
                 parseInt(currentSpeed) === parseInt(prevSpeed) &&
@@ -3424,7 +3416,8 @@ ApplicationWindow {
             str += "\"" + poly_result.alt_max + "\";";
         }
 
-        contestantsListModel.setProperty(current, "trackHash", MD5.MD5(JSON.stringify(trItem)));
+        var trHash = MD5.MD5(JSON.stringify(trItem));
+        contestantsListModel.setProperty(current, "trackHash", trHash);
         contestantsListModel.setProperty(current, "wptScoreDetails", wptString.join("; "));
         contestantsListModel.setProperty(current, "speedSectionsScoreDetails", JSON.stringify(new_section_speed_array));
         contestantsListModel.setProperty(current, "spaceSectionsScoreDetails", JSON.stringify(new_section_space_array));
@@ -3453,6 +3446,14 @@ ApplicationWindow {
                                                     pathConfiguration.competitionArbitr,
                                                     pathConfiguration.competitionArbitrAvatar,
                                                     pathConfiguration.competitionDate);
+
+
+        // save current results property
+        contestantsListModel.setProperty(current, "prevResultsSpeed", contestant.speed);
+        contestantsListModel.setProperty(current, "prevResultsStartTime", contestant.startTime);
+        contestantsListModel.setProperty(current, "prevResultsCategory", contestant.category);
+        contestantsListModel.setProperty(current, "prevResultsFilename", contestant.filename);
+        contestantsListModel.setProperty(current, "prevResultsTrackHas", trHash);
 
         // save changes to CSV
         writeScoreManulaValToCSV();
