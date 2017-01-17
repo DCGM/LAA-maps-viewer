@@ -637,10 +637,17 @@ const QString ResultsCreater::getResultsHTMLBodyHead(const QString &competitionN
     html += "<div class=\"row\">\n";
     html += "   <div class=\"col-md-4\">\n";
 
-    rows.append(QStringList() << getTranslatedString("html-results-competition-group-name") << competitionGroupName);
-    rows.append(QStringList() << getTranslatedString("html-results-competition-round") << competitionRound);
-    rows.append(QStringList() << getTranslatedString("html-results-competition-type") << competitionType);
-    rows.append(QStringList() << getTranslatedString("html-results-competition-date") << competitionDate);
+    if (competitionGroupName != "")
+        rows.append(QStringList() << getTranslatedString("html-results-competition-group-name") << competitionGroupName);
+
+    if (competitionRound != "")
+        rows.append(QStringList() << getTranslatedString("html-results-competition-round") << competitionRound);
+
+    if (competitionType != "")
+        rows.append(QStringList() << getTranslatedString("html-results-competition-type") << competitionType);
+
+    if (competitionDate != "")
+        rows.append(QStringList() << getTranslatedString("html-results-competition-date") << competitionDate);
 
     html += getHTMLVerticalTable(rows, 50);
     html += "   </div>\n";

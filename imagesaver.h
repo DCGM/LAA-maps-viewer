@@ -34,7 +34,6 @@ public:
     Q_INVOKABLE void save(QQuickItem* item, const QUrl& filename);
 //    Q_INVOKABLE void save(QString item, QString filename);
 
-
 };
 
 #endif // IMAGESAVER_H

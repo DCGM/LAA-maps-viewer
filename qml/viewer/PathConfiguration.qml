@@ -35,7 +35,7 @@ ApplicationWindow {
 
     property string contestantsFileName: "posadky.csv"
 
-    property string requestedDateFormat: "yyyy.MM.dd";
+    property string requestedDateFormat: "yyyy-MM-dd";
 
     property string igcDirectory;
     property string trackFile;
@@ -89,6 +89,8 @@ ApplicationWindow {
     property variant competitionArbitr_default: [""]//[qsTrId("competition-configuration-competition-arbitr")];
     property variant competitionArbitrAvatar_default: [""];
     property string competitionDate_default: ""//Qt.formatDateTime(new Date(), "dd.MM.yyyy");
+    property string competitionRound_default: "";
+    property string competitionGroupName_default: "";
 
     property string selectedCompetition: "";
 
@@ -122,7 +124,9 @@ ApplicationWindow {
                                      pathConfiguration.competitionType,
                                      pathConfiguration.competitionDirector,
                                      pathConfiguration.competitionArbitr.join(", "),
-                                     pathConfiguration.competitionDate);
+                                     pathConfiguration.competitionDate,
+                                     pathConfiguration.competitionRound,
+                                     pathConfiguration.competitionGroupName);
 
             // folder status
             contestantFileExist = file_reader.file_exists(Qt.resolvedUrl(pathConfiguration.contestantsFile));
@@ -312,13 +316,16 @@ ApplicationWindow {
         ret.push(tabView.competitionTabAlias.competitionArbitrTextAlias);
         ret.push(tabView.competitionTabAlias.competitionDateTextAlias);
 
+        ret.push(tabView.competitionTabAlias.competitionRoundTextAlias);
+        ret.push(tabView.competitionTabAlias.competitionGroupNameTextAlias);
+
         // recover tab status
         if (!tabPrevActived) tabView.activateTabByName(previousActive)
 
         return ret;
     }
 
-    function setCompetitionTabContent(competitionName, competitionType, competitionDirector, competitionArbitr, competitionDate) {
+    function setCompetitionTabContent(competitionName, competitionType, competitionDirector, competitionArbitr, competitionDate, competitionRound, competitionGroupName) {
 
         // get tab status
         var previousActive = tabView.getActive();
@@ -333,6 +340,9 @@ ApplicationWindow {
         tabView.competitionTabAlias.competitionDirectorTextAlias = competitionDirector;
         tabView.competitionTabAlias.competitionArbitrTextAlias = competitionArbitr;
         tabView.competitionTabAlias.competitionDateTextAlias = (competitionDate === "" ? Qt.formatDateTime(new Date(), pathConfiguration.requestedDateFormat) :competitionDate.replace(/-/g, "."));
+
+        tabView.competitionTabAlias.competitionRoundTextAlias = competitionRound;
+        tabView.competitionTabAlias.competitionGroupNameTextAlias = competitionGroupName;
 
         // recover tab status
         if (!tabPrevActived) tabView.activateTabByName(previousActive)
@@ -361,7 +371,9 @@ ApplicationWindow {
                                  parseInt(competitionType_default),
                                  competitionDirector_default,
                                  competitionArbitr_default.join(", "),
-                                 competitionDate_default);
+                                 competitionDate_default,
+                                 competitionRound_default,
+                                 competitionGroupName_default);
 
         competitionDirectorAvatar = competitionDirectorAvatar_default;
         competitionArbitrAvatar = competitionArbitrAvatar_default;
@@ -816,6 +828,8 @@ ApplicationWindow {
                 property alias competitionDirectorTextAlias: competitionDirector.text;
                 property alias competitionArbitrTextAlias: competitionArbitr.text;
                 property alias competitionDateTextAlias: competitionDate.text;
+                property alias competitionRoundTextAlias: competitionRound.text;
+                property alias competitionGroupNameTextAlias: competitionGroupName.text;
 
                 NativeText {
                     //% "Competition name"
@@ -828,6 +842,32 @@ ApplicationWindow {
                     Layout.fillWidth:true;
                     Layout.preferredWidth: parent.width/2
                     placeholderText: qsTrId("competition-configuration-competition-name")
+                    readOnly: online
+                }
+
+                NativeText {
+                    //% "Competition group name"
+                    text: qsTrId("competition-configuration-competition-group-name")
+                }
+
+                TextField {
+                    id: competitionGroupName
+                    Layout.fillWidth:true;
+                    Layout.preferredWidth: parent.width/2
+                    placeholderText: qsTrId("competition-configuration-competition-group-name")
+                    readOnly: online
+                }
+
+                NativeText {
+                    //% "Competition round"
+                    text: qsTrId("competition-configuration-competition-round")
+                }
+
+                TextField {
+                    id: competitionRound
+                    Layout.fillWidth:true;
+                    Layout.preferredWidth: parent.width/2
+                    placeholderText: qsTrId("competition-configuration-competition-round")
                     readOnly: online
                 }
 

@@ -282,10 +282,10 @@ ApplicationWindow {
         arbitr = arr.join(", ");
         pathConfiguration.competitionArbitrAvatar = arrAvatar;
 
-        pathConfiguration.competitionRound = item.round;
-        pathConfiguration.competitionGroupName = item.group_name;
+        pathConfiguration.competitionRound = comp.round;
+        pathConfiguration.competitionGroupName = comp.group_name;
 
-        pathConfiguration.setCompetitionTabContent(comp.name, parseInt(comp.type), director, arbitr, comp.date);
+        pathConfiguration.setCompetitionTabContent(comp.name, parseInt(comp.type), director, arbitr, comp.date, comp.round, comp.group_name);
     }
 
     /// Action Buttons

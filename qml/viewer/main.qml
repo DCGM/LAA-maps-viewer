@@ -1387,6 +1387,16 @@ ApplicationWindow {
             if (visible) {
                 printMap.requestUpdate();
             }
+            else {
+
+                var current = -1;
+                contestantsTable.selection.forEach( function(rowIndex) { current = rowIndex; } )
+                if (current < 0) {
+                    return;
+                }
+
+                contestantsTable.generateResults(current);
+            }
         }
 
         function makeImage() {
@@ -3442,27 +3452,13 @@ ApplicationWindow {
 
         var contestant = contestantsListModel.get(current);
 
-        // create contestant html file
-        results_creator.createContestantResultsHTML((pathConfiguration.resultsFolder + "/" + contestant.name + "_" + contestant.category),
-                                                    JSON.stringify(contestant),
-                                                    pathConfiguration.competitionName,
-                                                    pathConfiguration.getCompetitionTypeString(parseInt(pathConfiguration.competitionType)),
-                                                    pathConfiguration.competitionDirector,
-                                                    pathConfiguration.competitionDirectorAvatar,
-                                                    pathConfiguration.competitionArbitr,
-                                                    pathConfiguration.competitionArbitrAvatar,
-                                                    pathConfiguration.competitionDate,
-                                                    pathConfiguration.competitionRound,
-                                                    pathConfiguration.competitionGroupName,
-                                                    applicationWindow.utc_offset_sec);
-
-
         // save current results property
         contestantsListModel.setProperty(current, "prevResultsSpeed", contestant.speed);
         contestantsListModel.setProperty(current, "prevResultsStartTime", contestant.startTime);
         contestantsListModel.setProperty(current, "prevResultsCategory", contestant.category);
         contestantsListModel.setProperty(current, "prevResultsFilename", contestant.filename);
         contestantsListModel.setProperty(current, "prevResultsTrackHas", trHash);
+
 
         // save changes to CSV
         writeScoreManulaValToCSV();
@@ -4332,6 +4328,9 @@ ApplicationWindow {
                 pathConfiguration.competitionDate = pathConfiguration.competitionDate_default;
                 pathConfiguration.competitionDirectorAvatar = pathConfiguration.competitionDirectorAvatar_default;
                 pathConfiguration.competitionArbitrAvatar = pathConfiguration.competitionArbitrAvatar_default;
+                pathConfiguration.competitionRound = pathConfiguration.competitionRound_default;
+                pathConfiguration.competitionGroupName = pathConfiguration.competitionGroupName_default;
+
             }
             else {
 
@@ -4343,6 +4342,8 @@ ApplicationWindow {
                 pathConfiguration.competitionDate = config.get("v2_competitionDate", pathConfiguration.competitionDate_default);
                 pathConfiguration.competitionDirectorAvatar = JSON.parse(config.get("v2_competitionDirectorAvatar", pathConfiguration.competitionDirectorAvatar_default));
                 pathConfiguration.competitionArbitrAvatar = JSON.parse(config.get("v2_competitionArbitrAvatar", pathConfiguration.competitionArbitrAvatar_default));
+                pathConfiguration.competitionRound = config.get("v2_competitionRound", pathConfiguration.competitionRound_default);
+                pathConfiguration.competitionGroupName = config.get("v2_competitionGroupName", pathConfiguration.competitionGroupName_default);
             }
 
             // init tmp var
