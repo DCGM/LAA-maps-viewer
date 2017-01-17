@@ -961,6 +961,8 @@ ApplicationWindow {
                                                                                 pathConfiguration.competitionArbitr,
                                                                                 pathConfiguration.competitionArbitrAvatar,
                                                                                 pathConfiguration.competitionDate,
+                                                                                pathConfiguration.competitionRound,
+                                                                                pathConfiguration.competitionGroupName,
                                                                                 applicationWindow.utc_offset_sec);
                 }
 
@@ -2121,6 +2123,8 @@ ApplicationWindow {
                                                             pathConfiguration.competitionArbitr,
                                                             pathConfiguration.competitionArbitrAvatar,
                                                             pathConfiguration.competitionDate,
+                                                            pathConfiguration.competitionRound,
+                                                            pathConfiguration.competitionGroupName,
                                                             applicationWindow.utc_offset_sec);
 
         // CSV and local listmodels
@@ -3448,6 +3452,8 @@ ApplicationWindow {
                                                     pathConfiguration.competitionArbitr,
                                                     pathConfiguration.competitionArbitrAvatar,
                                                     pathConfiguration.competitionDate,
+                                                    pathConfiguration.competitionRound,
+                                                    pathConfiguration.competitionGroupName,
                                                     applicationWindow.utc_offset_sec);
 
 

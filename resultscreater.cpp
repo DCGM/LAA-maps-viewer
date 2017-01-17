@@ -31,6 +31,8 @@ void ResultsCreater::createContinuousResultsHTML(const QString &filePath,
                                                  const QStringList &competitionArbitr,
                                                  const QStringList &competitionArbitrAvatar,
                                                  const QString &competitionDate,
+                                                 const QString &competitionRound,
+                                                 const QString &competitionGroupName,
                                                  const int utc_offset_sec) {
 
 
@@ -69,7 +71,7 @@ void ResultsCreater::createContinuousResultsHTML(const QString &filePath,
     html += "<div class=\"container\">\n";
 
     // results file header
-    html += getResultsHTMLBodyHead(competitionName, competitionType, competitionDirector, competitionDirectorAvatar, competitionArbitr, competitionArbitrAvatar, competitionDate);
+    html += getResultsHTMLBodyHead(competitionName, competitionType, competitionDirector, competitionDirectorAvatar, competitionArbitr, competitionArbitrAvatar, competitionDate, competitionRound, competitionGroupName);
 
     // results for each category
     for (int j = 0; i < resList.size(); i++, j++) {
@@ -217,8 +219,6 @@ void ResultsCreater::createStartListHTML(const QString &filename,
     file.writeUTF8(QUrl(filename + ".html"), html.toUtf8());
 }
 
-
-
 void ResultsCreater::createContestantResultsHTML(const QString &filename,
                                                  const QString &cntJSON,
                                                  const QString &competitionName,
@@ -228,6 +228,8 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
                                                  const QStringList &competitionArbitr,
                                                  const QStringList &competitionArbitrAvatar,
                                                  const QString &competitionDate,
+                                                 const QString &competitionRound,
+                                                 const QString &competitionGroupName,
                                                  const int utc_offset_sec) {
     QString html = "";
     QStringList trackPointsList;
@@ -255,12 +257,14 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
     html += "<div class=\"container\">\n";
 
     // results file header
-    html += getResultsHTMLBodyHead(competitionName, competitionType, competitionDirector, competitionDirectorAvatar, competitionArbitr, competitionArbitrAvatar, competitionDate);
+    html += getResultsHTMLBodyHead(competitionName, competitionType, competitionDirector, competitionDirectorAvatar, competitionArbitr, competitionArbitrAvatar, competitionDate, competitionRound, competitionGroupName);
 
     // results header
-    html += getHTMLH3(getTranslatedString("html-results-crew-title"));
+
     html += "<div class=\"row\">";
-    html += "   <div class=\"col-md-6\">";
+    html += "   <div class=\"col-md-4\">";
+    html += getHTMLH3(getTranslatedString("html-results-crew-title"));
+
     QStringList names = jsonObject["name"].toString().split(" – ");
     if (names.length() >= 1) {
 
@@ -284,7 +288,7 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
     html += getHTMLVerticalTable(rows, 50);
 
     html += "   </div>";
-    html += "   <div class=\"col-md-6\">";
+    html += "   <div class=\"col-md-8\">";
 
     // trajectory
     html += getHTMLResponsiveImage(getImageBase64(QUrl(filename + ".png")));
@@ -292,6 +296,56 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
     html += "   </div>";
     html += "</div>";
 
+    // manual values
+    html += getHTMLH3(getTranslatedString("html-results-manual-values"));
+    rows.append(QStringList() << getBoldText(getTranslatedString("html-results-point-type")) << getBoldText(getTranslatedString("html-results-inserted-value")) << getBoldText(getTranslatedString("html-results-score")));
+
+    // markers
+    rows.append(QStringList() << getTranslatedString("html-results-markers") + " " + getItalicGreyText(getTranslatedString("html-results-markers-legend")) <<
+                QString::number(jsonObject["markersOk"].toDouble()) + " / " +
+                QString::number(jsonObject["markersNok"].toDouble()) + " / " +
+                QString::number(jsonObject["markersFalse"].toDouble()) <<
+                QString::number(jsonObject["markersScore"].toDouble()));
+    // photos
+    rows.append(QStringList() << getTranslatedString("html-results-photos") + " " + getItalicGreyText(getTranslatedString("html-results-markers-legend")) <<
+                QString::number(jsonObject["photosOk"].toDouble()) + " / " +
+                QString::number(jsonObject["photosNok"].toDouble()) + " / " +
+                QString::number(jsonObject["photosFalse"].toDouble()) <<
+                QString::number(jsonObject["photosScore"].toDouble()));
+    // take off
+    rows.append(QStringList() << getTranslatedString("html-results-take-off") + " " + getItalicGreyText(getTranslatedString("html-results-take-off-legend")) <<
+                QDateTime::fromString(jsonObject["startTime"].toString(), "HH:mm:ss").addSecs(utc_offset_sec).toString("HH:mm:ss") + " / " +
+                (jsonObject["startTimeMeasured"].toString() == "" ? " - " : QDateTime::fromString(jsonObject["startTimeMeasured"].toString(), "HH:mm:ss").addSecs(utc_offset_sec).toString("HH:mm:ss")) + " / " +
+                (jsonObject["startTimeDifference"].toString() == "" ? " - " : jsonObject["startTimeDifference"].toString()) <<
+                QString::number(jsonObject["startTimeScore"].toDouble()));
+    // landing accurancy
+    rows.append(QStringList() << getTranslatedString("html-results-landing-accurancy") + " " + getItalicGreyText(getTranslatedString("html-results-point-legend")) <<
+                QString::number(jsonObject["landingScore"].toDouble()) <<
+                QString::number(jsonObject["landingScore"].toDouble()));
+    // circling
+    rows.append(QStringList() << getTranslatedString("html-results-circling") + " " + getItalicGreyText(getTranslatedString("html-results-count-legend")) <<
+                QString::number(jsonObject["circlingCount"].toDouble()) <<
+                QString::number(jsonObject["circlingScore"].toDouble()));
+    // opposite dir flight
+    rows.append(QStringList() << getTranslatedString("html-results-opposite") + " " + getItalicGreyText(getTranslatedString("html-results-count-legend")) <<
+                QString::number(jsonObject["oppositeCount"].toDouble()) <<
+                QString::number(jsonObject["oppositeScore"].toDouble()));
+    // other points
+    rows.append(QStringList() << getTranslatedString("html-results-other-points") + " " + getItalicGreyText(getTranslatedString("html-results-point-legend")) <<
+                QString::number(jsonObject["otherPoints"].toDouble()) <<
+                QString::number(jsonObject["otherPoints"].toDouble()));
+    // other penalty
+    rows.append(QStringList() << getTranslatedString("html-results-other-penalty") + " " + getItalicGreyText(getTranslatedString("html-results-point-legend")) <<
+                QString::number(jsonObject["otherPenalty"].toDouble()) <<
+                QString::number(jsonObject["otherPenalty"].toDouble()));
+    // note
+    rows.append(QStringList() << getTranslatedString("html-results-note") <<
+                jsonObject["pointNote"].toString() <<
+                "-");
+
+    html += getHTMLVerticalTable(rows, 50);
+
+    /*
     // markers
     html += getHTMLH3(getTranslatedString("html-results-markers"));
     rows.append(getTranslatedStringList(QStringList() << "html-results-ok" << "html-results-nok" << "html-results-false" << "html-results-score"));
@@ -339,6 +393,8 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
     rows.append(getTranslatedStringList(QStringList() << ("html-results-penalty") << ("html-results-note")));
     rows.append(QStringList() << QString::number(jsonObject["otherPenalty"].toDouble()) << jsonObject["pointNote"].toString());
     html += getHTMLHorizontalTable(rows, QVector<double>{0.5,1.5});
+
+    */
 
     // track points
     if(jsonObject["wptScoreDetails"].toString() != "") {
@@ -546,6 +602,21 @@ const inline QString ResultsCreater::getFontColorEndTag() {
     return "</span>";
 }
 
+const inline QString ResultsCreater::getBoldText(const QString text) {
+
+    return "<b>" + text + "</b>";
+}
+
+const inline QString ResultsCreater::getItalicText(const QString text) {
+
+    return "<i>" + text + "</i>";
+}
+
+const QString ResultsCreater::getItalicGreyText(const QString text) {
+
+    return getItalicText(getFontColorStartTag("grey") + text + getFontColorEndTag());
+}
+
 
 
 const QString ResultsCreater::getResultsHTMLBodyHead(const QString &competitionName,
@@ -554,7 +625,9 @@ const QString ResultsCreater::getResultsHTMLBodyHead(const QString &competitionN
                                                      const QString &competitionDirectorAvatar,
                                                      const QStringList &competitionArbitr,
                                                      const QStringList &competitionArbitrAvatar,
-                                                     const QString &competitionDate) {
+                                                     const QString &competitionDate,
+                                                     const QString &competitionRound,
+                                                     const QString &competitionGroupName) {
 
     QString html = "";
     QVector<QStringList> rows;
@@ -562,29 +635,35 @@ const QString ResultsCreater::getResultsHTMLBodyHead(const QString &competitionN
 
     html += getHTMLH1(competitionName);
     html += "<div class=\"row\">\n";
-    html += "   <div class=\"col-md-6\">\n";
+    html += "   <div class=\"col-md-4\">\n";
 
-    // push each arbitr with avatar into table
-    for(int i = 0; i < competitionArbitr.size(); i++) {
-
-        QString avatar = i < competitionArbitrAvatar.size() ? competitionArbitrAvatar.at(i) : BLANK_USER_BASE64;
-        multiRowTableColumn.push_back(getUserTableRowRecordWithAvatar(avatar, competitionArbitr.at(i)));
-    }
-
-    if (competitionDirector != "") {
-        rows.append(QStringList() << getTranslatedString("html-results-competition-director") << ("<table>" + getUserTableRowRecordWithAvatar(competitionDirectorAvatar, competitionDirector) + "</table>"));
-    }
-
-    if (multiRowTableColumn.size() != 0) {
-        rows.append(QStringList() << getTranslatedString("html-results-competition-arbitr") << ("<table>" + multiRowTableColumn.join("\n") + "</table>"));
-    }
+    rows.append(QStringList() << getTranslatedString("html-results-competition-group-name") << competitionGroupName);
+    rows.append(QStringList() << getTranslatedString("html-results-competition-round") << competitionRound);
     rows.append(QStringList() << getTranslatedString("html-results-competition-type") << competitionType);
     rows.append(QStringList() << getTranslatedString("html-results-competition-date") << competitionDate);
 
     html += getHTMLVerticalTable(rows, 50);
     html += "   </div>\n";
 
-    html += "   <div class=\"col-md-6\">\n";
+    html += "   <div class=\"col-md-4\">\n";
+
+    if (competitionDirector != "") {
+        rows.append(QStringList() << getTranslatedString("html-results-competition-director") << ("<table>" + getUserTableRowRecordWithAvatar(competitionDirectorAvatar, competitionDirector) + "</table>"));
+    }
+
+    // push each arbitr with avatar into table
+    for(int i = 0; i < competitionArbitr.size(); i++) {
+
+        QString avatar = i < competitionArbitrAvatar.size() ? competitionArbitrAvatar.at(i) : BLANK_USER_BASE64;
+        QString label = (i == 0 ? getTranslatedString("html-results-competition-arbitr") : "");
+
+        rows.append(QStringList() << label << ("<table>" + getUserTableRowRecordWithAvatar(avatar, competitionArbitr.at(i)) + "</table>"));
+    }
+
+    html += getHTMLVerticalTable(rows, 50);
+    html += "   </div>\n";
+
+    html += "   <div class=\"col-md-4\">\n";
     html += "       <div class=\"row\">\n";
     html += "           <span class=\"pull-right\">\n";
     html += getHTMLRoundedImage(ResultsCreater::LAA_LOG_BASE64, "60px", "auto");
@@ -593,7 +672,7 @@ const QString ResultsCreater::getResultsHTMLBodyHead(const QString &competitionN
     html += "       </div>\n";
     html += getHTMLSpace(5);
     html += "       <div class=\"row\">\n";
-    html += "           <span class=\"pull-right\">" + QDate().currentDate().toString("dd.MM.yyyy ") + "</span>\n";
+    html += "           <span class=\"pull-right\">" + QDate().currentDate().toString("yyyy-MM-dd ") + "</span>\n";
     html += "       </div>\n";
     html += "       <div class=\"row\">\n";
     html += "           <span class=\"pull-right\">" + QTime().currentTime().toString("hh:mm:ss ") + "</span>\n";
@@ -666,9 +745,9 @@ const QString ResultsCreater::getHTMLVerticalTable(QVector<QStringList> &rows, c
 
         for (int j = 0; j < rowItem.size(); ++j) {
 
-            if (j == 0)
-                htmlTable += "   <th style=\"width: " + QString::number(headerPercentWidth) + "%\">" + rowItem.at(j) + "</th>\n";
-            else
+            //if (j == 0)
+                //htmlTable += "   <th style=\"width: " + QString::number(headerPercentWidth) + "%\">" + rowItem.at(j) + "</th>\n";
+            //else
                 htmlTable += "   <td>" + rowItem.at(j) + "</td>\n";
 
         }

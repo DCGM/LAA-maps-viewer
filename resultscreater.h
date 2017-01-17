@@ -40,6 +40,8 @@ public:
                                                  const QStringList &competitionArbitr,
                                                  const QStringList &competitionArbitrAvatar,
                                                  const QString &competitionDate,
+                                                 const QString &competitionRound,
+                                                 const QString &competitionGroupName,
                                                  const int utc_offset_sec);
 
     Q_INVOKABLE void createContinuousResultsHTML(const QString &filePath,
@@ -52,6 +54,8 @@ public:
                                                  const QStringList &competitionArbitr,
                                                  const QStringList &competitionArbitrAvatar,
                                                  const QString &competitionDate,
+                                                 const QString &competitionRound,
+                                                 const QString &competitionGroupName,
                                                  const int utc_offset_sec);
 
     Q_INVOKABLE QString pointFlagToString(const unsigned int f);
@@ -79,6 +83,9 @@ private:
     const inline QString getHTMLRoundedImage(const QString &base64, const QString heightPx, const QString widthPx);
     const inline QString getHTMLStartTableTag();
     const inline QString getHTMLEndTableTag();
+    const inline QString getBoldText(const QString text);
+    const inline QString getItalicText(const QString text);
+    const QString getItalicGreyText(const QString text);
     const inline QString getHTMLSpace(const int spaceInPx);
     const QString getHTMLHorizontalTable(QVector<QStringList> &rows, const QVector<double> &preferedColumnsWidth = QVector<double>());
     const QString getHTMLVerticalTable(QVector<QStringList> &rows, const int headerPercentWidth);
@@ -92,7 +99,9 @@ private:
                                          const QString &competitionDirectorAvatar,
                                          const QStringList &competitionArbitr,
                                          const QStringList &competitionArbitrAvatar,
-                                         const QString &competitionDate);
+                                         const QString &competitionDate,
+                                         const QString &competitionRound,
+                                         const QString &competitionGroupName);
 
     const inline QString getUserTableRowRecordWithAvatar(const QString &avatarBase64, const QString &name);
     const QStringList getTranslatedStringList(QStringList sourceList);

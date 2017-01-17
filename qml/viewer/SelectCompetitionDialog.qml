@@ -282,6 +282,9 @@ ApplicationWindow {
         arbitr = arr.join(", ");
         pathConfiguration.competitionArbitrAvatar = arrAvatar;
 
+        pathConfiguration.competitionRound = item.round;
+        pathConfiguration.competitionGroupName = item.group_name;
+
         pathConfiguration.setCompetitionTabContent(comp.name, parseInt(comp.type), director, arbitr, comp.date);
     }
 

@@ -75,6 +75,18 @@ Item {
             case("html-results-competition-arbitr"):
                 //% "competition referee"
                 retVal = qsTrId("html-results-competition-arbitr"); break;
+            case("html-results-take-off-legend"):
+                //% "[S / E / D]"
+                retVal = qsTrId("html-results-take-off-legend"); break;
+            case("html-results-markers-legend"):
+                //% "[O / N / F]"
+                retVal = qsTrId("html-results-markers-legend"); break;
+            case("html-results-point-legend"):
+                //% "[P]"
+                retVal = qsTrId("html-results-point-legend"); break;
+            case("html-results-count-legend"):
+                //% "[C]"
+                retVal = qsTrId("html-results-count-legend"); break;
             case("html-results-competition-date"):
                 //% "competition date"
                 retVal = qsTrId("html-results-competition-date"); break;
@@ -84,6 +96,18 @@ Item {
             case("html-results-competition-type"):
                 //% "competition type"
                 retVal = qsTrId("html-results-competition-type"); break;
+            case("html-results-manual-values"):
+                //% "manual values"
+                retVal = qsTrId("html-results-manual-values"); break;
+            case("html-results-competition-group-name"):
+                //% "competition group name"
+                retVal = qsTrId("html-results-competition-group-name"); break;
+            case("html-results-inserted-value"):
+                //% "inserted value"
+                retVal = qsTrId("html-results-inserted-value"); break;
+            case("html-results-competition-round"):
+                //% "competition round"
+                retVal = qsTrId("html-results-competition-round"); break;
             case("html-results-count"):
                 //% "count"
                 retVal = qsTrId("html-results-count"); break;

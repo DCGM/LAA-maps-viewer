@@ -56,6 +56,8 @@ ApplicationWindow {
     property variant competitionArbitr: [""];
     property variant competitionArbitrAvatar: [""];
     property string competitionDate: "";
+    property string competitionRound: "";
+    property string competitionGroupName: "";
 
     onCompetitionDateChanged: {
 
