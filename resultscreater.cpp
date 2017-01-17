@@ -365,9 +365,6 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
                                                           << ("html-results-point-alt-measured")
                                                           //<< ("html-results-alt-score")
                                                           << ("html-results-score")
-                                                          << ("")
-                                                          << ("")
-                                                          << ("")
                                                           ));
 
         // track points content
@@ -613,7 +610,12 @@ const QString ResultsCreater::getHTMLHorizontalTable(QVector<QStringList> &rows,
     QString htmlTable = "";
     QStringList rowItem;
     QString columnWidthString = "";
+    QString headerLastColColSpan = "";
 
+    // calc colspan for header last column
+    if ((rows.size() > 1) && (rows.at(0).size() < rows.at(1).size())) {
+        headerLastColColSpan = " colspan=\"" + QString::number(rows.at(1).size() - rows.at(0).size() + 1) + "\"";
+    }
 
     htmlTable += getHTMLStartTableTag() + "\n";
 
@@ -632,7 +634,7 @@ const QString ResultsCreater::getHTMLHorizontalTable(QVector<QStringList> &rows,
             }
 
             if (i == 0)
-                htmlTable += "   <th" + columnWidthString + ">" + rowItem.at(j) + "</th>\n";
+                htmlTable += "   <th" + (columnWidthString != "" ? columnWidthString : (j == (rowItem.size()-1) ? headerLastColColSpan : "")) + ">" + rowItem.at(j) + "</th>\n";
             else
                 htmlTable += "   <td" + columnWidthString + ">" + rowItem.at(j) + "</td>\n";
 
