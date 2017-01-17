@@ -1387,17 +1387,8 @@ ApplicationWindow {
             if (visible) {
                 printMap.requestUpdate();
             }
-            else {
-
-                var current = -1;
-                contestantsTable.selection.forEach( function(rowIndex) { current = rowIndex; } )
-                if (current < 0) {
-                    return;
-                }
-
-                contestantsTable.generateResults(current);
-            }
         }
+
 
         function makeImage() {
             printMapWindow.visible = true;
@@ -1432,7 +1423,29 @@ ApplicationWindow {
 
                 imageSaver.save(printMap, Qt.resolvedUrl(pathConfiguration.resultsFolder+"/"+con.fullName+".png"))
                 printMapWindow.visible = false;
+
+                renderTimer.running = true;
             }
+        }
+    }
+
+    Timer {
+        id: renderTimer
+        //repeat: true;
+        running: false;
+        interval: 1;
+
+        onTriggered: {
+
+            renderTimer.running = false;
+
+            var current = -1;
+            contestantsTable.selection.forEach( function(rowIndex) { current = rowIndex; } )
+            if (current < 0) {
+                return;
+            }
+
+            contestantsTable.generateResults(current);
         }
     }
 
