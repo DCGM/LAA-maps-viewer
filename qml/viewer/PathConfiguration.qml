@@ -339,7 +339,7 @@ ApplicationWindow {
         tabView.competitionTabAlias.competitionTypeIndexAlias = parseInt(competitionType);
         tabView.competitionTabAlias.competitionDirectorTextAlias = competitionDirector;
         tabView.competitionTabAlias.competitionArbitrTextAlias = competitionArbitr;
-        tabView.competitionTabAlias.competitionDateTextAlias = (competitionDate === "" ? Qt.formatDateTime(new Date(), pathConfiguration.requestedDateFormat) :competitionDate.replace(/-/g, "."));
+        tabView.competitionTabAlias.competitionDateTextAlias = (competitionDate === "" ? Qt.formatDateTime(new Date(), pathConfiguration.requestedDateFormat) :competitionDate.replace(/\./g, "-"));
 
         tabView.competitionTabAlias.competitionRoundTextAlias = competitionRound;
         tabView.competitionTabAlias.competitionGroupNameTextAlias = competitionGroupName;
@@ -1094,7 +1094,7 @@ ApplicationWindow {
                                     if (resultStatus) {
 
                                         userNameValidity.text = result.message.firstname + " " + result.message.surname;
-                                        userKeyValidity.text  = String(result.message.valid_until).replace(/-/g, ".");
+                                        userKeyValidity.text  = String(result.message.valid_until).replace(/\./g, "-");
                                     } else {
                                         userNameValidity.text = "";
                                         userKeyValidity.text = "";

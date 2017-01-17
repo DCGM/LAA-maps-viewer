@@ -87,6 +87,69 @@ Item {
             case("html-results-count-legend"):
                 //% "[C]"
                 retVal = qsTrId("html-results-count-legend"); break;
+            case("html-results-ctnt-tg-shortcut"):
+                //% "TG"
+                retVal = qsTrId("html-results-ctnt-tg-shortcut"); break;
+            case("html-results-ctnt-tp-shortcut"):
+                //% "TP"
+                retVal = qsTrId("html-results-ctnt-tp-shortcut"); break;
+            case("html-results-ctnt-sg-shortcut"):
+                //% "SG"
+                retVal = qsTrId("html-results-ctnt-sg-shortcut"); break;
+            case("html-results-ctnt-altLimits-shortcut"):
+                //% "AltP"
+                retVal = qsTrId("html-results-ctnt-altLimits-shortcut"); break;
+            case("html-results-ctnt-speedSec-shortcut"):
+                //% "SpdS"
+                retVal = qsTrId("html-results-ctnt-speedSec-shortcut"); break;
+            case("html-results-ctnt-altSec-shortcut"):
+                //% "AltS"
+                retVal = qsTrId("html-results-ctnt-altSec-shortcut"); break;
+            case("html-results-ctnt-spaceSec-shortcut"):
+                //% "SpcS"
+                retVal = qsTrId("html-results-ctnt-spaceSec-shortcut"); break;
+            case("html-results-ctnt-markersOk-shortcut"):
+                //% "M"
+                retVal = qsTrId("html-results-ctnt-markersOk-shortcut"); break;
+            case("html-results-ctnt-markersNok-shortcut"):
+                //% "BM"
+                retVal = qsTrId("html-results-ctnt-markersNok-shortcut"); break;
+            case("html-results-ctnt-markersFalse-shortcut"):
+                //% "FM"
+                retVal = qsTrId("html-results-ctnt-markersFalse-shortcut"); break;
+            case("html-results-ctnt-photosOk-shortcut"):
+                //% "P"
+                retVal = qsTrId("html-results-ctnt-photosOk-shortcut"); break;
+            case("html-results-ctnt-photosNok-shortcut"):
+                //% "BP"
+                retVal = qsTrId("html-results-ctnt-photosNok-shortcut"); break;
+            case("html-results-ctnt-photosFalse-shortcut"):
+                //% "FP"
+                retVal = qsTrId("html-results-ctnt-photosFalse-shortcut"); break;
+            case("html-results-ctnt-landing-shortcut"):
+                //% "Lnd"
+                retVal = qsTrId("html-results-ctnt-landing-shortcut"); break;
+            case("html-results-ctnt-takeOfF-shortcut"):
+                //% "TW"
+                retVal = qsTrId("html-results-ctnt-takeOfF-shortcut"); break;
+            case("html-results-ctnt-circling-shortcut"):
+                //% "GP"
+                retVal = qsTrId("html-results-ctnt-circling-shortcut"); break;
+            case("html-results-ctnt-opposite-shortcut"):
+                //% "OP"
+                retVal = qsTrId("html-results-ctnt-opposite-shortcut"); break;
+            case("html-results-ctnt-otherPoints-shortcut"):
+                //% "+p"
+                retVal = qsTrId("html-results-ctnt-otherPoints-shortcut"); break;
+            case("html-results-ctnt-otherPenalty-shortcut"):
+                //% "-p"
+                retVal = qsTrId("html-results-ctnt-otherPenalty-shortcut"); break;
+            case("html-results-ctnt-points-shortcut"):
+                //% "Sum"
+                retVal = qsTrId("html-results-ctnt-points-shortcut"); break;
+            case("html-results-ctnt-points1000-shortcut"):
+                //% "Sum1000"
+                retVal = qsTrId("html-results-ctnt-points1000-shortcut"); break;
             case("html-results-competition-date"):
                 //% "competition date"
                 retVal = qsTrId("html-results-competition-date"); break;

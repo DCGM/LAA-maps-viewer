@@ -32,8 +32,7 @@ void ResultsCreater::createContinuousResultsHTML(const QString &filePath,
                                                  const QStringList &competitionArbitrAvatar,
                                                  const QString &competitionDate,
                                                  const QString &competitionRound,
-                                                 const QString &competitionGroupName,
-                                                 const int utc_offset_sec) {
+                                                 const QString &competitionGroupName) {
 
 
 
@@ -91,18 +90,36 @@ void ResultsCreater::createContinuousResultsHTML(const QString &filePath,
         // add category results header
         rows.append(getTranslatedStringList(QStringList() << ("html-continuous-results-order")
                                                           << ("html-continuous-results-name")
-                                                          << ("html-results-ctnt-category")
-                                                          << ("html-results-ctnt-startTime")
-                                                          << ("html-results-ctnt-speed")
-                                                          << ("html-results-ctnt-aircraft-registration")
-                                                          << ("html-results-ctnt-aircraft-type")
-                                                          << ("html-results-ctnt-score-points")
-                                                          << ("html-results-ctnt-score-points1000")));
+                                                          << ("html-results-ctnt-tg-shortcut")
+                                                          << ("html-results-ctnt-tp-shortcut")
+                                                          << ("html-results-ctnt-sg-shortcut")
+                                                          << ("html-results-ctnt-altLimits-shortcut")
+                                                          << ("html-results-ctnt-speedSec-shortcut")
+                                                          << ("html-results-ctnt-altSec-shortcut")
+                                                          << ("html-results-ctnt-spaceSec-shortcut")
+                                                          << ("html-results-ctnt-markersOk-shortcut")
+                                                          << ("html-results-ctnt-markersNok-shortcut")
+                                                          << ("html-results-ctnt-markersFalse-shortcut")
+                                                          << ("html-results-ctnt-photosOk-shortcut")
+                                                          << ("html-results-ctnt-photosNok-shortcut")
+                                                          << ("html-results-ctnt-photosFalse-shortcut")
+                                                          << ("html-results-ctnt-landing-shortcut")
+                                                          << ("html-results-ctnt-takeOfF-shortcut")
+                                                          << ("html-results-ctnt-circling-shortcut")
+                                                          << ("html-results-ctnt-opposite-shortcut")
+                                                          << ("html-results-ctnt-otherPoints-shortcut")
+                                                          << ("html-results-ctnt-otherPenalty-shortcut")
+                                                          << ("html-results-ctnt-points-shortcut")
+                                                          << ("html-results-ctnt-points1000-shortcut")));
+
 
         // get category results data
         QRegularExpression rx("\\\".*?\\\"", QRegularExpression::DotMatchesEverythingOption);
         QRegularExpressionMatchIterator it = rx.globalMatch(categoryData);
+        QString category;
         dataRow.clear();
+
+        int col = 0;
 
         // get ctnt results data
         while (it.hasNext()) {
@@ -118,22 +135,29 @@ void ResultsCreater::createContinuousResultsHTML(const QString &filePath,
             QRegularExpressionMatch match = it.next();
             if (match.hasMatch()) {
 
-                dataRow.push_back(QString(match.captured(0)).remove("\"") == "-1" ? "" : QString(match.captured(0)).remove("\""));
+                if (col != 1) { // skip class
+                    dataRow.push_back(QString(match.captured(0)).remove("\"") == "-1" ? "" : QString(match.captured(0)).remove("\""));
+                }
+                else {
+                   category = QString(match.captured(0)).remove("\"") == "-1" ? "" : QString(match.captured(0)).remove("\"");
+                }
             }
 
             // add data to table struct
             if (!(dataRow.size() % (recordSize + 1))) {
 
                 // change name to href for evaluated crews
-                if (dataRow[7] != "") {
-                    dataRow[1] = "<a href=\"" + dataRow.at(1) + "_" + dataRow.at(2) + ".html" + "\" class=\"hidden-print\">" + dataRow.at(1) + "</a><div class=\"visible-print-block\">" + dataRow.at(1) + "</div>";
-                }
+                if (dataRow[dataRow.size() - 2] != "") {
 
-                // change startTime to local from UTC
-                dataRow[3] = QDateTime::fromString(dataRow[3], "HH:mm:ss").addSecs(utc_offset_sec).toString("HH:mm:ss");
+                    dataRow[1] = "<a href=\"" + dataRow.at(1) + "_" + category + ".html" + "\" class=\"hidden-print\">" + dataRow.at(1) + "</a><div class=\"visible-print-block\">" + dataRow.at(1) + "</div>";
+                }
 
                 rows.append(dataRow);
                 dataRow.clear();
+                col = 0;
+            }
+            else {
+                col++;
             }
         }
 

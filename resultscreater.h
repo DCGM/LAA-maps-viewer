@@ -55,8 +55,7 @@ public:
                                                  const QStringList &competitionArbitrAvatar,
                                                  const QString &competitionDate,
                                                  const QString &competitionRound,
-                                                 const QString &competitionGroupName,
-                                                 const int utc_offset_sec);
+                                                 const QString &competitionGroupName);
 
     Q_INVOKABLE QString pointFlagToString(const unsigned int f);
 

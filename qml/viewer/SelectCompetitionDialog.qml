@@ -285,6 +285,8 @@ ApplicationWindow {
         pathConfiguration.competitionRound = comp.round;
         pathConfiguration.competitionGroupName = comp.group_name;
 
+        console.log(comp.date)
+
         pathConfiguration.setCompetitionTabContent(comp.name, parseInt(comp.type), director, arbitr, comp.date, comp.round, comp.group_name);
     }
 

@@ -1431,7 +1431,6 @@ ApplicationWindow {
 
     Timer {
         id: renderTimer
-        //repeat: true;
         running: false;
         interval: 1;
 
@@ -1636,10 +1635,12 @@ ApplicationWindow {
             "markersNok": 0,
             "markersFalse": 0,
             "markersScore": 0,
+            "marker_max_score": 0,
             "photosOk": 0,
             "photosNok": 0,
             "photosFalse": 0,
             "photosScore": 0,
+            "photos_max_score": 0,
             "startTimeMeasured": "",
             "startTimeDifference": "",
             "startTimeScore": 0,
@@ -1681,6 +1682,14 @@ ApplicationWindow {
             "spaceSectionsScoreDetails" : "",
             "altitudeSectionsScoreDetails" : "",
             "classOrder": -1,
+
+            "tgScoreSum": 0,
+            "sgScoreSum": 0,
+            "tpScoreSum": 0,
+            "altLimitsScoreSum": 0,
+            "speedSecScoreSum": 0,
+            "spaceSecScoreSum": 0,
+            "altSecScoreSum": 0,
 
             "newName": "",
             "newCategory": "",
@@ -2119,6 +2128,7 @@ ApplicationWindow {
         Qt.openUrlExternally(Qt.resolvedUrl(pathConfiguration.resultsFolder + "/" + pathConfiguration.competitionName + "_" + qsTrId("file-name-ontinuous-results") + ".html"));
     }
 
+
     // generate results for each category
     function generateContinuousResults() {
 
@@ -2128,12 +2138,16 @@ ApplicationWindow {
         //% "Continuous results"
         var resultsFilename = qsTrId("file-name-ontinuous-results");
 
-        var recSize = 8;
+        // BE CAREFULL WITH THIS SHIT
+        var recSize = 22;
 
         var reStringArr = [];
         for (var key in res) {
+
             reStringArr.push(JSON.stringify(res[key]));
         }
+
+        console.log(res['S-AL1']);
 
         // HTML
         results_creator.createContinuousResultsHTML(pathConfiguration.resultsFolder + "/" + pathConfiguration.competitionName + "_" + resultsFilename,
@@ -2147,8 +2161,7 @@ ApplicationWindow {
                                                             pathConfiguration.competitionArbitrAvatar,
                                                             pathConfiguration.competitionDate,
                                                             pathConfiguration.competitionRound,
-                                                            pathConfiguration.competitionGroupName,
-                                                            applicationWindow.utc_offset_sec);
+                                                            pathConfiguration.competitionGroupName);
 
         // CSV and local listmodels
         var catArray = [];
@@ -2291,6 +2304,12 @@ ApplicationWindow {
         var p;
         var modelItem;
 
+        var tgScoreSum = 0;
+        var sgScoreSum = 0;
+        var tpScoreSum = 0;
+        var speedSecScoreSum = 0;
+        var altLimitsScoreSum = 0;
+
         var contestant = contestantsListModel.get(row);
 
         if (contestant === undefined) return 0;
@@ -2307,10 +2326,12 @@ ApplicationWindow {
 
             for (p = 0; p < wptNewScoreListManualValuesCache.count; p++) {
                 modelItem = wptNewScoreListManualValuesCache.get(p);
-                sum += Math.max(modelItem.sg_score, 0) +
-                        Math.max(modelItem.tp_score, 0) +
-                        Math.max(modelItem.tg_score, 0) +
-                        (modelItem.alt_score === -1 ? 0 : modelItem.alt_score);
+
+                tgScoreSum += Math.max(modelItem.tg_score, 0);
+                sgScoreSum += Math.max(modelItem.sg_score, 0);
+                tpScoreSum += Math.max(modelItem.tp_score, 0);
+
+                altLimitsScoreSum += (modelItem.alt_score === -1 ? 0 : modelItem.alt_score);
 
             }
         }
@@ -2325,21 +2346,31 @@ ApplicationWindow {
             }
 
             for (p = 0; p < speedSectionsScoreListManualValuesCache.count; p++) {
-                sum += Math.max(speedSectionsScoreListManualValuesCache.get(p).speedSecScore, 0);
+                speedSecScoreSum += Math.max(speedSectionsScoreListManualValuesCache.get(p).speedSecScore, 0);
             }
         }
 
-        sum += contestant.markersScore +
-                contestant.photosScore +
-                contestant.landingScore +
-                contestant.otherPoints -
-                contestant.otherPenalty;
+        contestantsListModel.setProperty(row, "tgScoreSum", tgScoreSum);
+        contestantsListModel.setProperty(row, "sgScoreSum", sgScoreSum);
+        contestantsListModel.setProperty(row, "tpScoreSum", tpScoreSum);
+        contestantsListModel.setProperty(row, "altLimitsScoreSum", altLimitsScoreSum);
+        contestantsListModel.setProperty(row, "speedSecScoreSum", speedSecScoreSum);
+
+        sum = tgScoreSum +
+              sgScoreSum +
+              tpScoreSum +
+              altLimitsScoreSum +
+              speedSecScoreSum +
+              contestant.markersScore +
+              contestant.photosScore +
+              contestant.landingScore +
+              contestant.otherPoints -
+              contestant.otherPenalty;
 
         wptNewScoreListManualValuesCache.clear();
         speedSectionsScoreListManualValuesCache.clear();
 
         return sum;
-
     }
 
     // get total score points fur contestant and current igc item
@@ -2356,7 +2387,8 @@ ApplicationWindow {
                 contestant.oppositeScore;
 
         // get penalty percent points from sections
-        var penaltySumSections = 0;
+        var altSecPenaltySum = 0;
+        var spaceSecPenaltySum = 0;
         var arr = [];
         var i;
         var item;
@@ -2372,10 +2404,11 @@ ApplicationWindow {
 
             for (i = 0; i < altSectionsScoreListManualValuesCache.count; i++) {
                 item = altSectionsScoreListManualValuesCache.get(i)
-                penaltySumSections += item.altSecScore;
+                altSecPenaltySum += item.altSecScore;
             }
             altSectionsScoreListManualValuesCache.clear();
         }
+        contestantsListModel.setProperty(row, "altSecScoreSum", altSecPenaltySum);
 
         // space sec
         if (contestant.spaceSectionsScoreDetails !== "") {
@@ -2388,12 +2421,13 @@ ApplicationWindow {
 
             for (i = 0; i < spaceSectionsScoreListManualValuesCache.count; i++) {
                 item = spaceSectionsScoreListManualValuesCache.get(i)
-                penaltySumSections += item.spaceSecScore;
+                spaceSecPenaltySum += item.spaceSecScore;
             }
             spaceSectionsScoreListManualValuesCache.clear();
         }
+        contestantsListModel.setProperty(row, "spaceSecScoreSum", spaceSecPenaltySum);
 
-        return Math.max((scorePoints + penaltyPercentPointsSum + penaltySumSections), 0);
+        return Math.max((scorePoints + penaltyPercentPointsSum + altSecPenaltySum + spaceSecPenaltySum), 0);
     }
 
     // recalculate score points for manual values - markers, photos, indirection flight,...
@@ -2414,6 +2448,8 @@ ApplicationWindow {
         getAltitudeAndSpaceSectionsPenaltyPoints(row, totalPointsScore);
 
         // save changes into contestnat list model
+        contestantsListModel.setProperty(row, "marker_max_score", parseInt(trItem.marker_max_score));
+        contestantsListModel.setProperty(row, "photos_max_score", parseInt(trItem.photos_max_score));
         contestantsListModel.setProperty(row, "markersScore", ctnt.markersScore);
         contestantsListModel.setProperty(row, "photosScore", ctnt.photosScore);
         contestantsListModel.setProperty(row, "startTimeScore", ctnt.startTimeScore);
@@ -3491,13 +3527,6 @@ ApplicationWindow {
         str += "\n";
 
         var igcListModelItem;
-        var tgScoreSum = 0;
-        var tpScoreSum = 0;
-        var sgScoreSum = 0;
-        var altPenaltySum = 0;
-        var speedSecScoreSum = 0;
-        var altSecScoreSum = 0;
-        var spaceSecScoreSum = 0;
 
         var i;
         var j;
@@ -3509,58 +3538,6 @@ ApplicationWindow {
 
              // contestant item
             ct = contestantsListModel.get(j);
-
-            loadStringIntoListModel(wptNewScoreListManualValuesCache, ct.wptScoreDetails, "; ");
-            loadStringIntoListModel(speedSectionsScoreListManualValuesCache, ct.speedSectionsScoreDetails, "; ");
-            loadStringIntoListModel(spaceSectionsScoreListManualValuesCache, ct.spaceSectionsScoreDetails, "; ");
-            loadStringIntoListModel(altSectionsScoreListManualValuesCache, ct.altitudeSectionsScoreDetails, "; ");
-
-            tgScoreSum = 0;
-            tpScoreSum = 0;
-            sgScoreSum = 0;
-            altPenaltySum = 0;
-            speedSecScoreSum = 0;
-            altSecScoreSum = 0;
-            spaceSecScoreSum = 0;
-
-            // Calc wpt points sum
-            for (i = 0; i < wptNewScoreListManualValuesCache.count; i++) {
-                item = wptNewScoreListManualValuesCache.get(i);
-
-                tgScoreSum += item.tg_score === -1 ? 0 : item.tg_score;
-                tpScoreSum += item.tp_score === -1 ? 0 : item.tp_score;
-                sgScoreSum += item.sg_score === -1 ? 0 : item.sg_score;
-                altPenaltySum += item.alt_score === -1 ? 0 : item.alt_score;
-
-                // TODO nevim k cemu to je?
-                //tg_time_manual.push(item.tg_time_manual);
-                //tp_hit_manual.push(item.tp_hit_manual);
-                //sg_hit_manual.push(item.sg_hit_manual);
-                //alt_manual.push(item.alt_manual);
-            }
-            wptNewScoreListManualValuesCache.clear();
-
-            // Calc sections points sum
-            for (i = 0; i < speedSectionsScoreListManualValuesCache.count; i++) {
-                item = speedSectionsScoreListManualValuesCache.get(i);
-
-                speedSecScoreSum += item.speedSecScore;
-            }
-            speedSectionsScoreListManualValuesCache.clear();
-
-            for (i = 0; i < spaceSectionsScoreListManualValuesCache.count; i++) {
-                item = spaceSectionsScoreListManualValuesCache.get(i);
-
-                spaceSecScoreSum += item.spaceSecScore;
-            }
-            spaceSectionsScoreListManualValuesCache.clear();
-
-            for (i = 0; i < altSectionsScoreListManualValuesCache.count; i++) {
-                item = altSectionsScoreListManualValuesCache.get(i);
-
-                altSecScoreSum += item.altSecScore;
-            }
-            altSectionsScoreListManualValuesCache.clear();
 
             str += "\"" + F.addSlashes(ct.name) + "\";"
 
@@ -3597,13 +3574,13 @@ ApplicationWindow {
             //str += "\"" + F.addSlashes(ct.otherPointsNote) + "/&/" + F.addSlashes(ct.otherPenaltyNote) + "\";" //note delimeter
             str += "\"" + F.addSlashes(ct.pointNote) + "\";"
 
-            str += "\"" + tgScoreSum + "\";"
-            str += "\"" + tpScoreSum + "\";"
-            str += "\"" + sgScoreSum + "\";"
-            str += "\"" + altPenaltySum + "\";"
-            str += "\"" + speedSecScoreSum + "\";"
-            str += "\"" + altSecScoreSum + "\";"
-            str += "\"" + spaceSecScoreSum + "\";"
+            str += "\"" + ct.tgScoreSum + "\";"
+            str += "\"" + ct.tpScoreSum + "\";"
+            str += "\"" + ct.sgScoreSum + "\";"
+            str += "\"" + ct.altLimitsScoreSum + "\";"
+            str += "\"" + ct.speedSecScoreSum + "\";"
+            str += "\"" + ct.altLimitsScoreSum + "\";"
+            str += "\"" + ct.spaceSecScoreSum + "\";"
             str += "\"" + (isNaN(parseInt(ct.pilot_id)) ? "-1" : ct.pilot_id) + "\";"
             str += "\"" + (isNaN(parseInt(ct.copilot_id)) ? "-1" : ct.copilot_id) + "\";"
             str += "\"" + F.addSlashes(ct.trackHash) + "\";"
@@ -4070,13 +4047,13 @@ ApplicationWindow {
         evaluateTimer.running = true;
     }
 
-    function compareSeventhColumn(a, b) {
+    function compareBy22thColumn(a, b) {
 
-        if (parseInt(a[7]) === parseInt(b[7])) {
+        if (parseInt(a[22]) === parseInt(b[22])) {
             return 0;
         }
         else {
-            return (parseInt(a[7]) > parseInt(b[7])) ? -1 : 1;
+            return (parseInt(a[22]) > parseInt(b[22])) ? -1 : 1;
         }
     }
 
@@ -4114,17 +4091,31 @@ ApplicationWindow {
             if (resArr.indexOf(contestant.category) !== -1) {
 
                 resArr[contestant.category].push([contestant.name,
-                                               contestant.category,
-                                               contestant.startTime,
-                                               String(contestant.speed),
-                                               contestant.aircraft_registration,
-                                               contestant.aircraft_type,
-                                               String(contestant.scorePoints),
-                                               String(contestant.scorePoints1000)]);
+                                                  contestant.category,
+                                                  String(contestant.tgScoreSum),
+                                                  String(contestant.tpScoreSum),
+                                                  String(contestant.sgScoreSum),
+                                                  String(contestant.altLimitsScoreSum),
+                                                  String(contestant.speedSecScoreSum),
+                                                  String(contestant.altSecScoreSum),
+                                                  String(contestant.spaceSecScoreSum),
+                                                  String(getMarkersScore(contestant.markersOk, 0, 0, contestant.marker_max_score)),
+                                                  String(getMarkersScore(0, contestant.markersNok, 0, contestant.marker_max_score)),
+                                                  String(getMarkersScore(0, 0, contestant.markersFalse, contestant.marker_max_score)),
+                                                  String(getPhotosScore(contestant.photosOk, 0, 0, contestant.photos_max_score)),
+                                                  String(getPhotosScore(0, contestant.photosNok, 0, contestant.photos_max_score)),
+                                                  String(getPhotosScore(0, 0, contestant.photosFalse, contestant.photos_max_score)),
+                                                  String(contestant.landingScore),
+                                                  String(contestant.startTimeScore),
+                                                  String(contestant.circlingScore),
+                                                  String(contestant.oppositeScore),
+                                                  String(contestant.otherPoints),
+                                                  String(contestant.otherPenalty),
+                                                  String(contestant.scorePoints),
+                                                  String(contestant.scorePoints1000)]);
                 //(parseInt(igcItem.scorePoints) < 0 ? "" : String(igcItem.scorePoints)),
                 //(parseInt(igcItem.scorePoints1000) < 0 ? "" : String(igcItem.scorePoints1000))])
             }
-
         }
 
         for (var key in resArr) {
@@ -4133,18 +4124,18 @@ ApplicationWindow {
             //resArr[key].sort(compareSeventhColumn) // score points to 1000
 
             // humus - viz vyse
-            resArr['R-AL1'].sort(compareSeventhColumn);
-            resArr['R-AL2'].sort(compareSeventhColumn);
-            resArr['S-AL1'].sort(compareSeventhColumn);
-            resArr['S-AL2'].sort(compareSeventhColumn);
-            resArr['R-WL1'].sort(compareSeventhColumn);
-            resArr['R-WL2'].sort(compareSeventhColumn);
-            resArr['S-WL1'].sort(compareSeventhColumn);
-            resArr['S-WL2'].sort(compareSeventhColumn);
-            resArr['CUSTOM1'].sort(compareSeventhColumn);
-            resArr['CUSTOM2'].sort(compareSeventhColumn);
-            resArr['CUSTOM3'].sort(compareSeventhColumn);
-            resArr['CUSTOM4'].sort(compareSeventhColumn);
+            resArr['R-AL1'].sort(compareBy22thColumn);
+            resArr['R-AL2'].sort(compareBy22thColumn);
+            resArr['S-AL1'].sort(compareBy22thColumn);
+            resArr['S-AL2'].sort(compareBy22thColumn);
+            resArr['R-WL1'].sort(compareBy22thColumn);
+            resArr['R-WL2'].sort(compareBy22thColumn);
+            resArr['S-WL1'].sort(compareBy22thColumn);
+            resArr['S-WL2'].sort(compareBy22thColumn);
+            resArr['CUSTOM1'].sort(compareBy22thColumn);
+            resArr['CUSTOM2'].sort(compareBy22thColumn);
+            resArr['CUSTOM3'].sort(compareBy22thColumn);
+            resArr['CUSTOM4'].sort(compareBy22thColumn);
         }
 
         return resArr;
