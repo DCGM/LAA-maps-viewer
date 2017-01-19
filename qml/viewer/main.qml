@@ -820,9 +820,6 @@ ApplicationWindow {
                         }
                     }
 
-                // recalculate manual values score / markers, photos, ...
-                if (contestant.filename !== "") recalculateContestnatManualScoreValues(row);
-
                     // reload update ctnt
                     contestant = contestantsListModel.get(row);
 
@@ -860,8 +857,12 @@ ApplicationWindow {
                         contestantsListModel.setProperty(row, "score", contestant.prevResultsScore)
                         contestantsListModel.setProperty(row, "scorePoints", contestant.prevResultsScorePoints);
                     }
-                }
 
+                    // recalculate manual values score / markers, photos, ...
+                    if (contestant.filename !== "") {
+                        recalculateContestnatManualScoreValues(row);
+                    }
+                }
 
                 if (role === "startTime") sortListModelByStartTime();
 
@@ -945,9 +946,12 @@ ApplicationWindow {
 
                 onGenerateResults: {
 
-                    contestantsTable.selection.clear();
-                    contestantsTable.selection.select(row);
-                    contestantsTable.currentRow = row;
+                    if (contestantsTable.currentRow !== row) {  // dont select if already selected
+
+                        contestantsTable.selection.clear();
+                        contestantsTable.selection.select(row);
+                        contestantsTable.currentRow = row;
+                    }
 
                     var contestant = contestantsListModel.get(row);
 
@@ -1248,6 +1252,8 @@ ApplicationWindow {
 
                         // save changes into CSV
                         writeScoreManulaValToCSV();
+
+
                     }
                 }
 
@@ -1424,19 +1430,19 @@ ApplicationWindow {
                 imageSaver.save(printMap, Qt.resolvedUrl(pathConfiguration.resultsFolder+"/"+con.fullName+".png"))
                 printMapWindow.visible = false;
 
-                renderTimer.running = true;
+               // genResultsDetailTimer.running = true;
             }
         }
     }
 
     Timer {
-        id: renderTimer
+        id: genResultsDetailTimer
         running: false;
         interval: 1;
 
         onTriggered: {
 
-            renderTimer.running = false;
+            genResultsDetailTimer.running = false;
 
             var current = -1;
             contestantsTable.selection.forEach( function(rowIndex) { current = rowIndex; } )
@@ -1468,7 +1474,7 @@ ApplicationWindow {
                 }
 
                 NativeText {
-                    text: F.addTimeStrFormat((F.timeToUnix(map.currentPositionTime)) + applicationWindow.utc_offset_sec);
+                    text: F.addTimeStrFormat(F.addUtcToTime(F.timeToUnix(map.currentPositionTime), applicationWindow.utc_offset_sec));
                     visible: (map.currentPositionTime !== "")
                 }
 
@@ -1486,7 +1492,7 @@ ApplicationWindow {
                 NativeText {
 
                     //% "(Start time: %1)"
-                    text: qsTrId("toolbar-start-time").arg(F.addTimeStrFormat((F.timeToUnix(tool_bar.startTime)) + applicationWindow.utc_offset_sec));
+                    text: qsTrId("toolbar-start-time").arg(F.addTimeStrFormat(F.addUtcToTime(F.timeToUnix(tool_bar.startTime), applicationWindow.utc_offset_sec)));
                     visible: tool_bar.startTime !== "";
                 }
 
@@ -2147,8 +2153,6 @@ ApplicationWindow {
             reStringArr.push(JSON.stringify(res[key]));
         }
 
-        console.log(res['S-AL1']);
-
         // HTML
         results_creator.createContinuousResultsHTML(pathConfiguration.resultsFolder + "/" + pathConfiguration.competitionName + "_" + resultsFilename,
                                                             reStringArr,
@@ -2369,6 +2373,21 @@ ApplicationWindow {
 
         wptNewScoreListManualValuesCache.clear();
         speedSectionsScoreListManualValuesCache.clear();
+
+        /*
+        console.log("tgScoreSum is: " + tgScoreSum)
+        console.log("sgScoreSum is: " + sgScoreSum)
+        console.log("tpScoreSum is: " + tpScoreSum)
+        console.log("altLimitsScoreSum is: " + altLimitsScoreSum)
+        console.log("speedSecScoreSum is: " + speedSecScoreSum)
+        console.log("contestant.markersScore is: " + contestant.markersScore)
+        console.log("contestant.photosScore is: " + contestant.photosScore)
+        console.log("contestant.landingScore is: " + contestant.landingScore)
+        console.log("contestant.otherPoints is: " + contestant.otherPoints)
+        console.log("contestant.otherPenalty is: " + contestant.otherPenalty)
+        */
+
+        console.log("sum is: " + sum)
 
         return sum;
     }
@@ -2669,12 +2688,18 @@ ApplicationWindow {
 
     function getGyreScore(circlingCountValue, gyre_penalty, totalPointsScore) {
 
-        return Math.round(totalPointsScore/100 * gyre_penalty * circlingCountValue) * -1;
+        console.log("getGyreScore " + circlingCountValue + "  " + gyre_penalty + "    " + totalPointsScore)
+
+        var score = Math.round(totalPointsScore/100 * gyre_penalty * circlingCountValue);
+
+        return (score === 0 ? 0 : score * -1);
     }
 
     function getOppositeDirScore(oppositeCountValue, oposite_direction_penalty, totalPointsScore) {
 
-        return Math.round(totalPointsScore/100 * oposite_direction_penalty * oppositeCountValue) * -1;
+        var score = Math.round(totalPointsScore/100 * oposite_direction_penalty * oppositeCountValue);
+
+        return (score === 0 ? 0 : score * -1);
     }
 
     function getAltSecScore(manualAltMinEntriesCount, altMinEntriesCount, manualAltMaxEntriesCount, altMaxEntriesCount, altPenaltyPercent, totalPointsScore) {
@@ -3606,6 +3631,9 @@ ApplicationWindow {
         }
 
         file_reader.write(Qt.resolvedUrl(pathConfiguration.csvResultsFile), str);
+
+        // gen new results sheet
+        genResultsDetailTimer.running = true;
     }
 
     function writeCSV() {

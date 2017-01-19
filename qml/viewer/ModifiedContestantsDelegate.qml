@@ -71,12 +71,10 @@ Component {
 
             NativeText { text: category; Layout.preferredWidth: 100; color: !selected ? "#aaa" : "black" }
             NativeText { text: speed; Layout.preferredWidth:50; color: !selected ? "#aaa" : "black" }
-            NativeText { text: F.addTimeStrFormat(F.timeToUnix(startTime) + applicationWindow.utc_offset_sec); Layout.preferredWidth: 80; color: !selected ? "#aaa" : "black" }
+            NativeText { text: F.addTimeStrFormat(F.addUtcToTime(F.timeToUnix(startTime), applicationWindow.utc_offset_sec)); Layout.preferredWidth: 80; color: !selected ? "#aaa" : "black" }
             NativeText { text: aircraft_registration; Layout.preferredWidth: 110; color: !selected ? "#aaa" : "black" }
             NativeText { text: aircraft_type; Layout.preferredWidth: 150; color: !selected ? "#aaa" : "black" }
         }
-
-
 
         // editable delegate
         RowLayout {
@@ -216,7 +214,7 @@ Component {
             Row {
                 Layout.preferredWidth: 220
 
-                NativeText { text: F.addTimeStrFormat(F.timeToUnix(startTime) + applicationWindow.utc_offset_sec); width: parent.width * 2/5; color: startTimeSwitch.checked || !selected ? "#aaa" : "black"}
+                NativeText { text: F.addTimeStrFormat(F.addUtcToTime(F.timeToUnix(startTime), applicationWindow.utc_offset_sec)); width: parent.width * 2/5; color: startTimeSwitch.checked || !selected ? "#aaa" : "black"}
 
                 Item {
                     width: parent.width/5;
@@ -234,7 +232,7 @@ Component {
                     }
                 }
 
-                NativeText { text: F.addTimeStrFormat(F.timeToUnix(newStartTime) + applicationWindow.utc_offset_sec); width: parent.width * 2/5; horizontalAlignment: Text.AlignRight; color: !startTimeSwitch.checked || !selected ? "#aaa" : "black"}
+                NativeText { text: F.addTimeStrFormat(F.addUtcToTime(F.timeToUnix(newStartTime), applicationWindow.utc_offset_sec)); width: parent.width * 2/5; horizontalAlignment: Text.AlignRight; color: !startTimeSwitch.checked || !selected ? "#aaa" : "black"}
             }
 
             Row {

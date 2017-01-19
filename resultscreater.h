@@ -106,6 +106,13 @@ private:
     const QStringList getTranslatedStringList(QStringList sourceList);
     const QString getTranslatedString(QString sourceString);
 
+    const int addUtcToTime(const int timeSec, const int utcOffsetSec);
+    const int addUtcToTime(const QTime &time, const int utcOffsetSec);
+    const int subUtcFromTime(const int timeSec, const int utcOffsetSec);
+    const int subUtcFromTime(const QTime &time, const int utcOffsetSec);
+
+    const int timeToSec(const QTime &time);
+
     const inline QString getFontColorStartTag(QString color);
     const inline QString getFontColorEndTag();
 };

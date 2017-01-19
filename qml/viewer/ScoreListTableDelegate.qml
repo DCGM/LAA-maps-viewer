@@ -97,14 +97,14 @@ Item {
                         var str = value;
                         var sec = F.strTimeValidator(str);
                         if (sec >= 0) {
-                            changeModel(styleData.row, styleData.role, sec - applicationWindow.utc_offset_sec);
+                            changeModel(styleData.row, styleData.role, F.subUtcFromTime(sec, applicationWindow.utc_offset_sec));
                         }
                         else {
                             var num = parseFloat(str);
                             if (isNaN(num)) {
                                 changeModel(styleData.row, styleData.role, -1)
                             } else {
-                                changeModel(styleData.row, styleData.role, num - applicationWindow.utc_offset_sec)
+                                changeModel(styleData.row, styleData.role, F.subUtcFromTime(num, applicationWindow.utc_offset_sec))
                             }
                         }
                         break;
@@ -317,7 +317,7 @@ Item {
             case "manualAltMaxEntriesTime":
             case "tg_time_calculated":
             case "tg_time_manual":
-                show = F.addTimeStrFormat(show + applicationWindow.utc_offset_sec);
+                show = F.addTimeStrFormat(F.addUtcToTime(show, applicationWindow.utc_offset_sec));
                 break;
             case "tg_time_difference":
                 show = F.addTimeStrFormat(show);

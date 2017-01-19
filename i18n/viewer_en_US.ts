@@ -1358,7 +1358,7 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
     <message id="html-results-ctnt-altLimits-shortcut">
         <location filename="../qml/viewer/MyTranslator.qml" line="101"/>
         <source>AltP</source>
-        <translation>AltP</translation>
+        <translation>AltL</translation>
     </message>
     <message id="html-results-ctnt-speedSec-shortcut">
         <location filename="../qml/viewer/MyTranslator.qml" line="104"/>

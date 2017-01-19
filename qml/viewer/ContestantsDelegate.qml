@@ -345,7 +345,8 @@ Item {
                         text = prevVal;
                     }
                     else {
-                        newValue(F.addTimeStrFormat(sec - applicationWindow.utc_offset_sec));
+
+                        newValue(F.addTimeStrFormat(F.subUtcFromTime(sec, applicationWindow.utc_offset_sec)));
                     }
                 }
 
@@ -382,8 +383,8 @@ Item {
                 if (value < 0)
                     show = "";
                 break;
-            case "startTime":
-                show = F.addTimeStrFormat(F.timeToUnix(value) + applicationWindow.utc_offset_sec);
+            case "startTime":               
+                show = F.addTimeStrFormat(F.addUtcToTime(F.timeToUnix(value), applicationWindow.utc_offset_sec));
                 break;
             default:
                 break;

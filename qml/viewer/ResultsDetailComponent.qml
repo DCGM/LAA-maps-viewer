@@ -77,8 +77,7 @@ Rectangle {
     // recalculate percent points
     onTotalPointsScoreChanged: {
 
-        if (tabView.scrollView === null)
-            return;
+        console.log("onTotalPointsScoreChanged " + tabView.scrollView)
 
         // get tab status
         var previousActive = tabView.getActive();
@@ -86,6 +85,9 @@ Rectangle {
 
         // set tab active
         if (!tabPrevActived) tabView.activateTabByName("manVals");
+
+        if (tabView.scrollView === null)
+            return;
 
         curentContestant.startTimeScore = getTakeOffScore(tabView.scrollView.startTimeDifferenceText, time_window_size, time_window_penalty, totalPointsScore);
         tabView.scrollView.startTimeScoreText = curentContestant.startTimeScore;
@@ -216,6 +218,17 @@ Rectangle {
             listModelsToString();
             totalPointsScore = getScorePointsSum(curentContestant, resultsMainWindow.currentWptScoreString, resultsMainWindow.currentSpeedSectionsScoreString);
 
+            curentContestant.startTimeScore = getTakeOffScore(tabView.scrollView.startTimeDifferenceText, time_window_size, time_window_penalty, totalPointsScore);
+            tabView.scrollView.startTimeScoreText = curentContestant.startTimeScore;
+
+            curentContestant.circlingScore = getGyreScore(tabView.scrollView.circlingCountValue, gyre_penalty, totalPointsScore);
+            tabView.scrollView.circlingScoreText = curentContestant.circlingScore;
+
+            curentContestant.oppositeScore = getOppositeDirScore(tabView.scrollView.oppositeCountValue, oposite_direction_penalty, totalPointsScore);
+            tabView.scrollView.oppositeScoreText = curentContestant.oppositeScore;
+
+            recalculateAltSpaceSecPoints();
+
             // recover tab status
             if (!tabPrevActived) tabView.activateTabByName(previousActive)
 
@@ -318,7 +331,7 @@ Rectangle {
             Layout.minimumWidth: 50
         }
         NativeText {
-            text: F.addTimeStrFormat(F.timeToUnix(curentContestant.startTime) + applicationWindow.utc_offset_sec)
+            text: F.addTimeStrFormat(F.addUtcToTime(F.timeToUnix(curentContestant.startTime), applicationWindow.utc_offset_sec))
             Layout.minimumWidth: 50
         }
         NativeText {
@@ -474,8 +487,7 @@ Rectangle {
                         Item { Layout.preferredWidth: manualValuesTab.columnWidth; Layout.preferredHeight: 23;
 
                             MyReadOnlyTextField {
-
-                                text: F.addTimeStrFormat(F.timeToUnix(curentContestant.startTime) + applicationWindow.utc_offset_sec)
+                                text: F.addTimeStrFormat(F.addUtcToTime(F.timeToUnix(curentContestant.startTime), applicationWindow.utc_offset_sec))
                                 mwidth: manualValuesTab.columnWidth/2
                                 mheight: parent.height
                             }
@@ -485,7 +497,7 @@ Rectangle {
 
                                 id: startTimeMeasuredTextField
 
-                                text: (curentContestant.startTimeMeasured !== "" ? F.addTimeStrFormat(F.timeToUnix(curentContestant.startTimeMeasured) + applicationWindow.utc_offset_sec) : "")
+                                text: (curentContestant.startTimeMeasured !== "" ? F.addTimeStrFormat(F.addUtcToTime(F.timeToUnix(curentContestant.startTimeMeasured), applicationWindow.utc_offset_sec)) : "")
                                 mwidth: manualValuesTab.columnWidth/2
                                 mheight: parent.height
 
@@ -497,7 +509,7 @@ Rectangle {
 
                                     // remove start time
                                     if (str === "") {
-                                        curentContestant.startTimeMeasured = F.addTimeStrFormat(F.timeToUnix(curentContestant.startTime) + applicationWindow.utc_offset_sec);
+                                        curentContestant.startTimeMeasured = F.addTimeStrFormat(F.addUtcToTime(F.timeToUnix(curentContestant.startTime), applicationWindow.utc_offset_sec));
                                         text = curentContestant.startTimeMeasured;
                                         curentContestant.startTimeDifference = F.addTimeStrFormat(0);
                                         startTimeDifferenceTextField.text = F.addTimeStrFormat(0);
@@ -511,13 +523,13 @@ Rectangle {
                                         }
                                         else {
 
-                                            time = F.addTimeStrFormat(sec - applicationWindow.utc_offset_sec);
+                                            time = F.addTimeStrFormat(F.subUtcFromTime(sec, applicationWindow.utc_offset_sec));
 
                                             curentContestant.startTimeMeasured = time;
-                                            text = F.addTimeStrFormat(F.timeToUnix(curentContestant.startTimeMeasured) + applicationWindow.utc_offset_sec);
+                                            text = F.addTimeStrFormat(F.addUtcToTime(F.timeToUnix(curentContestant.startTimeMeasured), applicationWindow.utc_offset_sec));
 
                                             var refVal = F.timeToUnix(curentContestant.startTime);
-                                            var diff = Math.abs(refVal - (sec - applicationWindow.utc_offset_sec));
+                                            var diff = Math.abs(refVal - (F.subUtcFromTime(sec, applicationWindow.utc_offset_sec)));
                                             curentContestant.startTimeDifference = F.addTimeStrFormat(diff);
                                             startTimeDifferenceTextField.text = curentContestant.startTimeDifference;
                                         }
@@ -866,7 +878,7 @@ Rectangle {
 
                             id: colExtraPoints
                             spacing: 10
-                            Layout.preferredWidth: manualValuesTab.columnWidth
+                            Layout.preferredWidth: manualValuesTab.columnWidth * 2
 
                             // others points
                             NativeText {
@@ -875,35 +887,68 @@ Rectangle {
                                 font.bold : true
                             }
 
-                            //% "other points"
-                            NativeText {
-                                text: qsTrId("score-table-other-points");
-                                Layout.preferredWidth: manualValuesTab.columnWidth
+                            RowLayout {
+
                                 anchors.left: parent.left
                                 anchors.leftMargin: 30
+                                spacing: parent.spacing
+
+                                //% "other points"
+                                NativeText {
+                                    text: qsTrId("score-table-other-points");
+                                    Layout.preferredWidth: manualValuesTab.columnWidth
+                                }
+
+                                //% "other points"
+                                NativeText {
+                                    text: qsTrId("score-table-other-points");
+                                    Layout.preferredWidth: manualValuesTab.columnWidth
+                                }
                             }
 
-                            Item {
-                                Layout.preferredWidth: manualValuesTab.columnWidth;
-                                Layout.preferredHeight: 23;
+                            RowLayout {
+
+                                spacing: parent.spacing
                                 anchors.left: parent.left
                                 anchors.leftMargin: 30
 
-                                MyEditableTextField {
-                                    id: otherPointsTextField
-                                    text: curentContestant.otherPoints;
-                                    validator: IntValidator{bottom: 0; top: 99999;}
-                                    mwidth: manualValuesTab.columnWidth/2
-                                    mheight: parent.height
+                                Item {
+                                    Layout.preferredWidth: manualValuesTab.columnWidth;
+                                    Layout.preferredHeight: 23;
 
-                                    onEditingFinished: {
-                                        curentContestant.otherPoints = parseInt(text);
+                                    MyEditableTextField {
+                                        id: otherPointsTextField
+                                        text: curentContestant.otherPoints;
+                                        validator: IntValidator{bottom: 0; top: 99999;}
+                                        mwidth: manualValuesTab.columnWidth/2
+                                        mheight: parent.height
 
-                                        listModelsToString();
-                                        totalPointsScore = getScorePointsSum(curentContestant, currentWptScoreString, currentSpeedSectionsScoreString);
+                                        onEditingFinished: {
+                                            curentContestant.otherPoints = parseInt(text);
+
+                                            listModelsToString();
+                                            totalPointsScore = getScorePointsSum(curentContestant, currentWptScoreString, currentSpeedSectionsScoreString);
+                                        }
+
+                                        onTextChanged: {
+                                            otherPointsPointsTextField.text = isNaN(parseInt(text)) ? "" : parseInt(text);
+                                        }
+                                    }
+                                }
+
+                                Item {
+                                    Layout.preferredWidth: manualValuesTab.columnWidth;
+                                    Layout.preferredHeight: 23;
+
+                                    MyReadOnlyTextField {
+                                        id: otherPointsPointsTextField
+                                        text: (curentContestant.otherPoints);
+                                        mwidth: manualValuesTab.columnWidth/2
+                                        mheight: parent.height
                                     }
                                 }
                             }
+
 
                             // others penalty
                             NativeText {
@@ -912,41 +957,72 @@ Rectangle {
                                 font.bold : true
                             }
 
-                            //% "other penalty"
-                            NativeText {
-                                text: qsTrId("score-table-other-penalty");
-                                Layout.preferredWidth: manualValuesTab.columnWidth
-                                anchors.left: parent.left
-                                anchors.leftMargin: 30
-                            }
+                            RowLayout {
 
-                            Item {
-                                Layout.preferredWidth: manualValuesTab.columnWidth;
-                                Layout.preferredHeight: 23;
+                                spacing: parent.spacing
                                 anchors.left: parent.left
                                 anchors.leftMargin: 30
 
-                                MyEditableTextField {
+                                //% "other penalty"
+                                NativeText {
+                                    text: qsTrId("score-table-other-points");
+                                    Layout.preferredWidth: manualValuesTab.columnWidth
+                                }
 
-                                    id: otherPenaltyTextField
-                                    text: curentContestant.otherPenalty;
-                                    validator: IntValidator{bottom: 0; top: 99999;}
-                                    mwidth: manualValuesTab.columnWidth/2
-                                    mheight: parent.height
-
-                                    onEditingFinished: {
-                                        curentContestant.otherPenalty = parseInt(text);
-
-                                        listModelsToString();
-                                        totalPointsScore = getScorePointsSum(curentContestant, currentWptScoreString, currentSpeedSectionsScoreString);
-                                    }
+                                //% "other penalty"
+                                NativeText {
+                                    text: qsTrId("score-table-other-penalty");
+                                    Layout.preferredWidth: manualValuesTab.columnWidth
                                 }
                             }
 
+                            RowLayout {
+
+                                spacing: parent.spacing
+                                anchors.left: parent.left
+                                anchors.leftMargin: 30
+
+                                Item {
+                                    Layout.preferredWidth: manualValuesTab.columnWidth;
+                                    Layout.preferredHeight: 23;
+
+                                    MyEditableTextField {
+
+                                        id: otherPenaltyTextField
+                                        text: curentContestant.otherPenalty;
+                                        validator: IntValidator{bottom: 0; top: 99999;}
+                                        mwidth: manualValuesTab.columnWidth/2
+                                        mheight: parent.height
+
+                                        onEditingFinished: {
+                                            curentContestant.otherPenalty = parseInt(text);
+
+                                            listModelsToString();
+                                            totalPointsScore = getScorePointsSum(curentContestant, currentWptScoreString, currentSpeedSectionsScoreString);
+                                        }
+
+                                        onTextChanged: {
+                                            otherPenaltyPointsTextField.text = isNaN(parseInt(text)) ? "" : parseInt(text) * -1;
+                                        }
+                                    }
+                                }
+
+                                Item {
+                                    Layout.preferredWidth: manualValuesTab.columnWidth;
+                                    Layout.preferredHeight: 23;
+
+                                    MyReadOnlyTextField {
+                                        id: otherPenaltyPointsTextField
+                                        text: (curentContestant.otherPenalty * -1);
+                                        mwidth: manualValuesTab.columnWidth/2
+                                        mheight: parent.height
+                                    }
+                                }
+                            }
                         }
                         ColumnLayout {
 
-                            Layout.preferredWidth: manualValuesTab.columnWidth  * 3;
+                            Layout.preferredWidth: manualValuesTab.columnWidth  * 2;
                             spacing: 10
 
                             Spacer { height: 1 }
@@ -954,7 +1030,7 @@ Rectangle {
                             //% "other points note"
                             NativeText {
                                 text: qsTrId("score-table-other-points-note");
-                                Layout.preferredWidth: manualValuesTab.columnWidth * 3
+                                Layout.preferredWidth: manualValuesTab.columnWidth * 2
                                 anchors.left: parent.left
                                 anchors.leftMargin: 30
                             }
@@ -963,7 +1039,7 @@ Rectangle {
                             TextArea {
                                 id: pointNoteTextField
                                 text: curentContestant.pointNote;
-                                Layout.preferredWidth: manualValuesTab.columnWidth  * 3;
+                                Layout.preferredWidth: manualValuesTab.columnWidth  * 2;
                                 anchors.left: parent.left
                                 anchors.leftMargin: 30
 
@@ -1373,11 +1449,11 @@ Rectangle {
                     var time;
                     if (sec >= 0) {
 
-                        time = F.addTimeStrFormat(sec - applicationWindow.utc_offset_sec);
+                        time = F.addTimeStrFormat(F.subUtcFromTime(sec, applicationWindow.utc_offset_sec));
 
                         curentContestant.startTimeMeasured = time;
                         var refVal = F.timeToUnix(curentContestant.startTime);
-                        var diff = Math.abs(refVal - (sec - applicationWindow.utc_offset_sec));
+                        var diff = Math.abs(refVal - (F.subUtcFromTime(sec, applicationWindow.utc_offset_sec)));
                         curentContestant.startTimeDifference = F.addTimeStrFormat(diff);
 
                         // add penalty

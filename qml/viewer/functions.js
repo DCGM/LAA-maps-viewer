@@ -147,6 +147,26 @@ function strTimeValidator(newVal) {
     return(num);
 }
 
+function addUtcToTime(timeSec, utcOffsetSec) {
+
+    if (timeSec === 0) {
+        return 0;
+    }
+    else {
+        return timeSec + utcOffsetSec;
+    }
+}
+
+function subUtcFromTime(timeSec, utcOffsetSec) {
+
+    if (timeSec === 0) {
+        return 0;
+    }
+    else {
+        return timeSec - utcOffsetSec;
+    }
+}
+
 function addTimeStrFormat(str) {
     var t = parseInt(str, 10);
     if (t >= 0) {
