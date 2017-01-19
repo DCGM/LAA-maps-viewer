@@ -194,6 +194,8 @@ ApplicationWindow {
             onClicked: {
                 choosenFilename("", "");
                 igcChooseDialog.close();
+
+                folderModelChanged();
             }
         }
 
