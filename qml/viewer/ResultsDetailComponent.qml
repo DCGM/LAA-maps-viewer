@@ -77,8 +77,6 @@ Rectangle {
     // recalculate percent points
     onTotalPointsScoreChanged: {
 
-        console.log("onTotalPointsScoreChanged " + tabView.scrollView)
-
         // get tab status
         var previousActive = tabView.getActive();
         var tabPrevActived = (previousActive  === "manVals");

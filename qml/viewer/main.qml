@@ -2374,21 +2374,6 @@ ApplicationWindow {
         wptNewScoreListManualValuesCache.clear();
         speedSectionsScoreListManualValuesCache.clear();
 
-        /*
-        console.log("tgScoreSum is: " + tgScoreSum)
-        console.log("sgScoreSum is: " + sgScoreSum)
-        console.log("tpScoreSum is: " + tpScoreSum)
-        console.log("altLimitsScoreSum is: " + altLimitsScoreSum)
-        console.log("speedSecScoreSum is: " + speedSecScoreSum)
-        console.log("contestant.markersScore is: " + contestant.markersScore)
-        console.log("contestant.photosScore is: " + contestant.photosScore)
-        console.log("contestant.landingScore is: " + contestant.landingScore)
-        console.log("contestant.otherPoints is: " + contestant.otherPoints)
-        console.log("contestant.otherPenalty is: " + contestant.otherPenalty)
-        */
-
-        console.log("sum is: " + sum)
-
         return sum;
     }
 
@@ -2687,8 +2672,6 @@ ApplicationWindow {
     }
 
     function getGyreScore(circlingCountValue, gyre_penalty, totalPointsScore) {
-
-        console.log("getGyreScore " + circlingCountValue + "  " + gyre_penalty + "    " + totalPointsScore)
 
         var score = Math.round(totalPointsScore/100 * gyre_penalty * circlingCountValue);
 
