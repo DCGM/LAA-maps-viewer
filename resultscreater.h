@@ -87,7 +87,7 @@ private:
     const QString getItalicGreyText(const QString text);
     const inline QString getHTMLSpace(const int spaceInPx);
     const QString getHTMLHorizontalTable(QVector<QStringList> &rows, const QVector<double> &preferedColumnsWidth = QVector<double>());
-    const QString getHTMLVerticalTable(QVector<QStringList> &rows, const int headerPercentWidth);
+    const QString getHTMLVerticalTable(QVector<QStringList> &rows);
 
     const inline QString getHTMLH1(const QString text);
     const inline QString getHTMLH2(const QString text);

@@ -44,6 +44,7 @@ void ResultsCreater::createContinuousResultsHTML(const QString &filePath,
     QStringList classesNames;
     QString categoryData;
     QStringList dataRow;
+    QStringList header;
 
     // list size must be even
     // first half of the array are the classes names, second half is the content for each class
@@ -72,6 +73,30 @@ void ResultsCreater::createContinuousResultsHTML(const QString &filePath,
     // results file header
     html += getResultsHTMLBodyHead(competitionName, competitionType, competitionDirector, competitionDirectorAvatar, competitionArbitr, competitionArbitrAvatar, competitionDate, competitionRound, competitionGroupName);
 
+    header = QStringList() << ("html-continuous-results-order")
+                             << ("html-continuous-results-name")
+                             << ("html-results-ctnt-tg-shortcut")
+                             << ("html-results-ctnt-tp-shortcut")
+                             << ("html-results-ctnt-sg-shortcut")
+                             << ("html-results-ctnt-altLimits-shortcut")
+                             << ("html-results-ctnt-speedSec-shortcut")
+                             << ("html-results-ctnt-altSec-shortcut")
+                             << ("html-results-ctnt-spaceSec-shortcut")
+                             << ("html-results-ctnt-markersOk-shortcut")
+                             << ("html-results-ctnt-markersNok-shortcut")
+                             << ("html-results-ctnt-markersFalse-shortcut")
+                             << ("html-results-ctnt-photosOk-shortcut")
+                             << ("html-results-ctnt-photosNok-shortcut")
+                             << ("html-results-ctnt-photosFalse-shortcut")
+                             << ("html-results-ctnt-landing-shortcut")
+                             << ("html-results-ctnt-takeOfF-shortcut")
+                             << ("html-results-ctnt-circling-shortcut")
+                             << ("html-results-ctnt-opposite-shortcut")
+                             << ("html-results-ctnt-otherPoints-shortcut")
+                             << ("html-results-ctnt-otherPenalty-shortcut")
+                             << ("html-results-ctnt-points-shortcut")
+                             << ("html-results-ctnt-points1000-shortcut");
+
     // results for each category
     for (int j = 0; i < resList.size(); i++, j++) {
 
@@ -88,30 +113,7 @@ void ResultsCreater::createContinuousResultsHTML(const QString &filePath,
         html += getHTMLH3(classesNames.at(j));
 
         // add category results header
-        rows.append(getTranslatedStringList(QStringList() << ("html-continuous-results-order")
-                                                          << ("html-continuous-results-name")
-                                                          << ("html-results-ctnt-tg-shortcut")
-                                                          << ("html-results-ctnt-tp-shortcut")
-                                                          << ("html-results-ctnt-sg-shortcut")
-                                                          << ("html-results-ctnt-altLimits-shortcut")
-                                                          << ("html-results-ctnt-speedSec-shortcut")
-                                                          << ("html-results-ctnt-altSec-shortcut")
-                                                          << ("html-results-ctnt-spaceSec-shortcut")
-                                                          << ("html-results-ctnt-markersOk-shortcut")
-                                                          << ("html-results-ctnt-markersNok-shortcut")
-                                                          << ("html-results-ctnt-markersFalse-shortcut")
-                                                          << ("html-results-ctnt-photosOk-shortcut")
-                                                          << ("html-results-ctnt-photosNok-shortcut")
-                                                          << ("html-results-ctnt-photosFalse-shortcut")
-                                                          << ("html-results-ctnt-landing-shortcut")
-                                                          << ("html-results-ctnt-takeOfF-shortcut")
-                                                          << ("html-results-ctnt-circling-shortcut")
-                                                          << ("html-results-ctnt-opposite-shortcut")
-                                                          << ("html-results-ctnt-otherPoints-shortcut")
-                                                          << ("html-results-ctnt-otherPenalty-shortcut")
-                                                          << ("html-results-ctnt-points-shortcut")
-                                                          << ("html-results-ctnt-points1000-shortcut")));
-
+        rows.append(getTranslatedStringList(header));
 
         // get category results data
         QRegularExpression rx("\\\".*?\\\"", QRegularExpression::DotMatchesEverythingOption);
@@ -164,6 +166,25 @@ void ResultsCreater::createContinuousResultsHTML(const QString &filePath,
         // echo table and spacer
         html += getHTMLHorizontalTable(rows, QVector<double>{0.5,2.1,0.8,0.8,0.8,1.0,1.0,1.0,1.0});
      }
+
+    // create legend, skip first two columns - order and name
+    int skipCols = 2;
+    QStringList headerLegend;
+    for (int i = skipCols; i < header.size(); i++) {
+        headerLegend.push_back(header.at(i) + "-legend");    // add legend suffix for translation
+    }
+
+    // tr legend
+    headerLegend = getTranslatedStringList(headerLegend);
+    header = getTranslatedStringList(header);
+
+    // join header and legend
+    for (int i = skipCols; i < header.size(); i++) {
+        headerLegend[i - skipCols] = header.at(i) + " - " + headerLegend.at(i - skipCols);
+    }
+
+    // add legend to html
+    html += headerLegend.join(", ");
 
     html += "</div>\n";
     html += "</body>\n";
@@ -309,7 +330,7 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
     rows.append(QStringList() << getTranslatedString("html-results-ctnt-score-points") << (jsonObject["scorePoints"].toDouble() < 0 ? "" : QString::number(jsonObject["scorePoints"].toDouble())));
     //rows.append(QStringList() << getTranslatedString("html-results-ctnt-score-points1000") << (jsonObject["scorePoints1000"].toDouble() < 0 ? "" : QString::number(jsonObject["scorePoints1000"].toDouble())));
     //rows.append(QStringList() << getTranslatedString("html-results-ctnt-class-order") << (jsonObject["classOrder"].toDouble() < 0 ? "" : QString::number(jsonObject["classOrder"].toDouble())));
-    html += getHTMLVerticalTable(rows, 50);
+    html += getHTMLVerticalTable(rows);
 
     html += "   </div>";
     html += "   <div class=\"col-md-8\">";
@@ -367,7 +388,7 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
                 jsonObject["pointNote"].toString() <<
                 "-");
 
-    html += getHTMLVerticalTable(rows, 50);
+    html += getHTMLVerticalTable(rows);
 
     /*
     // markers
@@ -674,7 +695,7 @@ const QString ResultsCreater::getResultsHTMLBodyHead(const QString &competitionN
     if (competitionDate != "")
         rows.append(QStringList() << getTranslatedString("html-results-competition-date") << competitionDate);
 
-    html += getHTMLVerticalTable(rows, 50);
+    html += getHTMLVerticalTable(rows);
     html += "   </div>\n";
 
     html += "   <div class=\"col-md-4\">\n";
@@ -692,7 +713,7 @@ const QString ResultsCreater::getResultsHTMLBodyHead(const QString &competitionN
         rows.append(QStringList() << label << ("<table>" + getUserTableRowRecordWithAvatar(avatar, competitionArbitr.at(i)) + "</table>"));
     }
 
-    html += getHTMLVerticalTable(rows, 50);
+    html += getHTMLVerticalTable(rows);
     html += "   </div>\n";
 
     html += "   <div class=\"col-md-4\">\n";
@@ -761,7 +782,7 @@ const QString ResultsCreater::getHTMLHorizontalTable(QVector<QStringList> &rows,
     return htmlTable;
 }
 
-const QString ResultsCreater::getHTMLVerticalTable(QVector<QStringList> &rows, const int headerPercentWidth) {
+const QString ResultsCreater::getHTMLVerticalTable(QVector<QStringList> &rows) {
 
     QString htmlTable = "";
     QStringList rowItem;

@@ -149,7 +149,70 @@ Item {
                 retVal = qsTrId("html-results-ctnt-points-shortcut"); break;
             case("html-results-ctnt-points1000-shortcut"):
                 //% "Sum1000"
-                retVal = qsTrId("html-results-ctnt-points1000-shortcut"); break;
+                retVal = qsTrId("html-results-ctnt-points1000-shortcut"); break;                
+            case("html-results-ctnt-tg-shortcut-legend"):
+                //% "TG legend"
+                retVal = qsTrId("html-results-ctnt-tg-shortcut-legend"); break;
+            case("html-results-ctnt-tp-shortcut-legend"):
+                //% "TP legend"
+                retVal = qsTrId("html-results-ctnt-tp-shortcut-legend"); break;
+            case("html-results-ctnt-sg-shortcut-legend"):
+                //% "SG legend"
+                retVal = qsTrId("html-results-ctnt-sg-shortcut-legend"); break;
+            case("html-results-ctnt-altLimits-shortcut-legend"):
+                //% "AltP legend"
+                retVal = qsTrId("html-results-ctnt-altLimits-shortcut-legend"); break;
+            case("html-results-ctnt-speedSec-shortcut-legend"):
+                //% "SpdS legend"
+                retVal = qsTrId("html-results-ctnt-speedSec-shortcut-legend"); break;
+            case("html-results-ctnt-altSec-shortcut-legend"):
+                //% "AltS legend"
+                retVal = qsTrId("html-results-ctnt-altSec-shortcut-legend"); break;
+            case("html-results-ctnt-spaceSec-shortcut-legend"):
+                //% "SpcS legend"
+                retVal = qsTrId("html-results-ctnt-spaceSec-shortcut-legend"); break;
+            case("html-results-ctnt-markersOk-shortcut-legend"):
+                //% "M legend"
+                retVal = qsTrId("html-results-ctnt-markersOk-shortcut-legend"); break;
+            case("html-results-ctnt-markersNok-shortcut-legend"):
+                //% "BM legend"
+                retVal = qsTrId("html-results-ctnt-markersNok-shortcut-legend"); break;
+            case("html-results-ctnt-markersFalse-shortcut-legend"):
+                //% "FM legend"
+                retVal = qsTrId("html-results-ctnt-markersFalse-shortcut-legend"); break;
+            case("html-results-ctnt-photosOk-shortcut-legend"):
+                //% "P legend"
+                retVal = qsTrId("html-results-ctnt-photosOk-shortcut-legend"); break;
+            case("html-results-ctnt-photosNok-shortcut-legend"):
+                //% "BP legend"
+                retVal = qsTrId("html-results-ctnt-photosNok-shortcut-legend"); break;
+            case("html-results-ctnt-photosFalse-shortcut-legend"):
+                //% "FP legend"
+                retVal = qsTrId("html-results-ctnt-photosFalse-shortcut-legend"); break;
+            case("html-results-ctnt-landing-shortcut-legend"):
+                //% "Lnd legend"
+                retVal = qsTrId("html-results-ctnt-landing-shortcut-legend"); break;
+            case("html-results-ctnt-takeOfF-shortcut-legend"):
+                //% "TW legend"
+                retVal = qsTrId("html-results-ctnt-takeOfF-shortcut-legend"); break;
+            case("html-results-ctnt-circling-shortcut-legend"):
+                //% "GP legend"
+                retVal = qsTrId("html-results-ctnt-circling-shortcut-legend"); break;
+            case("html-results-ctnt-opposite-shortcut-legend"):
+                //% "OP legend"
+                retVal = qsTrId("html-results-ctnt-opposite-shortcut-legend"); break;
+            case("html-results-ctnt-otherPoints-shortcut-legend"):
+                //% "+p legend"
+                retVal = qsTrId("html-results-ctnt-otherPoints-shortcut-legend"); break;
+            case("html-results-ctnt-otherPenalty-shortcut-legend"):
+                //% "-p legend"
+                retVal = qsTrId("html-results-ctnt-otherPenalty-shortcut-legend"); break;
+            case("html-results-ctnt-points-shortcut-legend"):
+                //% "Sum legend"
+                retVal = qsTrId("html-results-ctnt-points-shortcut-legend"); break;
+            case("html-results-ctnt-points1000-shortcut-legend"):
+                //% "Sum1000 legend"
+                retVal = qsTrId("html-results-ctnt-points1000-shortcut-legend"); break;
             case("html-results-competition-date"):
                 //% "competition date"
                 retVal = qsTrId("html-results-competition-date"); break;
