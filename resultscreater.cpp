@@ -516,6 +516,9 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
     }
 
     // speed sections
+    jsonResponse = QJsonDocument::fromJson(cntJSON.toUtf8());
+    jsonObject = jsonResponse.object();
+
     // split array
     QRegularExpression rx("\\{.*?\\}", QRegularExpression::DotMatchesEverythingOption);
     QRegularExpressionMatchIterator i = rx.globalMatch(jsonObject["speedSectionsScoreDetails"].toString());
@@ -556,6 +559,9 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
     }
 
     // altitude sections
+    jsonResponse = QJsonDocument::fromJson(cntJSON.toUtf8());
+    jsonObject = jsonResponse.object();
+
     // split array
     rx = QRegularExpression("\\{.*?\\}", QRegularExpression::DotMatchesEverythingOption);
     i = rx.globalMatch(jsonObject["altitudeSectionsScoreDetails"].toString());
@@ -596,6 +602,9 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
     }
 
     // space sections
+    jsonResponse = QJsonDocument::fromJson(cntJSON.toUtf8());
+    jsonObject = jsonResponse.object();
+
     // split array
     rx = QRegularExpression("\\{.*?\\}", QRegularExpression::DotMatchesEverythingOption);
     i = rx.globalMatch(jsonObject["spaceSectionsScoreDetails"].toString());
