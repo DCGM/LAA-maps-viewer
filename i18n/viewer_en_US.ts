@@ -1668,7 +1668,7 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
     <message id="html-results-markers">
         <location filename="../qml/viewer/MyTranslator.qml" line="287"/>
         <source>markers</source>
-        <translation>Markers]</translation>
+        <translation>Markers</translation>
     </message>
     <message id="html-results-nok">
         <location filename="../qml/viewer/MyTranslator.qml" line="290"/>
