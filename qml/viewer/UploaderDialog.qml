@@ -82,8 +82,10 @@ ApplicationWindow {
                     anchors.left: parent.left
                     anchors.leftMargin: 2
 
-                    //% "Uploading file"
-                    text: qsTrId("uploader-window-dialog-text")
+                                                            //% "Uploading file"
+                    text: (processedFiles !== filesCount) ? qsTrId("uploader-window-dialog-text")
+                                                            //% "Done"
+                                                          : qsTrId("done")
                 }
                 NativeText {
 
@@ -147,9 +149,9 @@ ApplicationWindow {
                                     anchors.fill: parent
                                     anchors.margins: 2
                                     fillMode: Image.PreserveAspectFit
-                                    source: (parseInt(uploadState) === 0) ? "./data/ok.png" : "./data/nok.png"
+                                    source: (parseInt(uploadState) === 0) ? "./data/ic_check_circle_black_48dp/ic_check_circle_black_48dp/web/ic_check_circle_black_48dp_1x.png"
+                                                                          : "./data/ic_error_black_48dp/ic_error_black_48dp/web/ic_error_black_48dp_1x.png"
                                 }
-
                             }
                         }
                     }

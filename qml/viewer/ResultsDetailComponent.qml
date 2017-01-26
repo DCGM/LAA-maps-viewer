@@ -230,7 +230,6 @@ Rectangle {
             // recover tab status
             if (!tabPrevActived) tabView.activateTabByName(previousActive)
 
-            buttonShowResultsExternally.enabled = file_reader.file_exists(Qt.resolvedUrl(pathConfiguration.resultsFolder + "/" + curentContestant.name + "_" + curentContestant.category + ".html"));
         }
     }
 
@@ -273,6 +272,7 @@ Rectangle {
     }
 
     signal ok();
+    signal okAndView();
     signal cancel();
 
     MouseArea {
@@ -286,39 +286,6 @@ Rectangle {
         anchors.leftMargin: 20
         anchors.topMargin: 10
         spacing: 30
-
-        Button {
-
-            id: buttonShowResultsExternally
-            text: ""
-            opacity: enabled ? 1 : 0.4
-            style: ButtonStyle {
-                background: Rectangle {
-                    implicitWidth: 40
-                    implicitHeight: 40
-                    border.width: control.activeFocus ? 2 : 1
-                    border.color: "#888"
-                    radius: 4
-                    gradient: Gradient {
-                        GradientStop { position: 0 ; color: control.pressed ? "#ccc" : "#eee" }
-                        GradientStop { position: 1 ; color: control.pressed ? "#aaa" : "#ccc" }
-                    }
-
-                    Image {
-                        anchors.fill: parent
-                        anchors.margins: 1
-                        fillMode: Image.PreserveAspectFit
-                        source: "./data/results-icon-png-17984.png"
-                        //origin: http://www.freeiconspng.com/free-images/results-icon-png-17984
-                    }
-                }
-            }
-
-            onClicked: {
-
-                Qt.openUrlExternally(Qt.resolvedUrl(pathConfiguration.resultsFolder + "/" + curentContestant.name + "_" + curentContestant.category + ".html"));
-            }
-        }
 
         NativeText {
             text: curentContestant.name
@@ -1393,6 +1360,17 @@ Rectangle {
         anchors.right: parent.right
         anchors.margins: 10
         spacing: 10;
+
+        Button {
+            //% "Ok & show"
+            text: qsTrId("path-configuration-ok-show-button")
+            onClicked: {
+
+                // close window, confirm changes and show results
+                okAndView();
+                resultsMainWindow.visible = false;
+            }
+        }
 
         Button {
             //% "Confirm"

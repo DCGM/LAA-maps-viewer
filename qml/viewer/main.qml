@@ -40,7 +40,6 @@ ApplicationWindow {
     }
 
     UploaderDialog {
-
         id: uploaderDialog
     }
 
@@ -645,7 +644,7 @@ ApplicationWindow {
         MenuItem {
             //% "Generate contestant results"
             text: qsTrId("scorelist-table-menu-generate-contestant-results")
-            onTriggered: { contestantsTable.generateResults(recalculateScoreMenu.selectedRow); }
+            onTriggered: { contestantsTable.generateResults(recalculateScoreMenu.selectedRow, true); }
         }
     }
 
@@ -889,6 +888,10 @@ ApplicationWindow {
                 writeCSV();
                 recalculateScoresTo1000();
                 writeScoreManulaValToCSV();
+
+                // gen new results sheet
+                genResultsDetailTimer.showOnFinished = false;   // dont open results automatically
+                genResultsDetailTimer.running = true;
         }
     }
 
@@ -931,7 +934,7 @@ ApplicationWindow {
                 //visible: !resultsDetailComponent.visible
 
                 signal selectRow(int row);
-                signal generateResults(int row);
+                signal generateResults(int row, bool showOnFinished);
                 signal recalculateResults(int row);
 
 
@@ -968,6 +971,11 @@ ApplicationWindow {
                                                                                 pathConfiguration.competitionRound,
                                                                                 pathConfiguration.competitionGroupName,
                                                                                 applicationWindow.utc_offset_sec);
+
+                    // open results
+                    if (showOnFinished) {
+                        Qt.openUrlExternally(Qt.resolvedUrl(pathConfiguration.resultsFolder + "/" + contestant.name + "_" + contestant.category + ".html"));
+                    }
                 }
 
                 onSelectRow: {
@@ -1210,9 +1218,9 @@ ApplicationWindow {
                     anchors.fill: parent
                     visible: false
 
-                    onOk: {
+                    function saveValuesFromDialogModel() {
 
-                        //copy manual values into list models
+                        // copy manual values into list models
                         var row = contestantsTable.currentRow;
 
                         contestantsListModel.setProperty(row, "markersOk", curentContestant.markersOk);
@@ -1252,8 +1260,27 @@ ApplicationWindow {
 
                         // save changes into CSV
                         writeScoreManulaValToCSV();
+                    }
 
+                    onOk: {
 
+                        saveValuesFromDialogModel();
+
+                        // gen new results sheet
+                        genResultsDetailTimer.showOnFinished = false;   // dont open results automatically
+                        genResultsDetailTimer.running = true;
+                    }
+
+                    onOkAndView: {
+
+                        saveValuesFromDialogModel();
+
+                        // gen new results sheet
+                        genResultsDetailTimer.showOnFinished = true;   // open results automatically
+                        genResultsDetailTimer.running = true;
+                    }
+
+                    onCancel: {
                     }
                 }
 
@@ -1440,6 +1467,8 @@ ApplicationWindow {
         running: false;
         interval: 1;
 
+        property bool showOnFinished: false
+
         onTriggered: {
 
             genResultsDetailTimer.running = false;
@@ -1450,7 +1479,9 @@ ApplicationWindow {
                 return;
             }
 
-            contestantsTable.generateResults(current);
+            contestantsTable.generateResults(current, showOnFinished);
+
+            showOnFinished = false;
         }
     }
 
@@ -3521,6 +3552,10 @@ ApplicationWindow {
         writeScoreManulaValToCSV();
         writeCSV()
 
+        // gen new results sheet
+        genResultsDetailTimer.showOnFinished = false;   // dont open results automatically
+        genResultsDetailTimer.running = true;
+
         console.timeEnd("computeScore")
         return str;
     }
@@ -3614,9 +3649,6 @@ ApplicationWindow {
         }
 
         file_reader.write(Qt.resolvedUrl(pathConfiguration.csvResultsFile), str);
-
-        // gen new results sheet
-        genResultsDetailTimer.running = true;
     }
 
     function writeCSV() {

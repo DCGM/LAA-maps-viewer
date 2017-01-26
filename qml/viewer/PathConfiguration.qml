@@ -68,7 +68,7 @@ ApplicationWindow {
     property string api_key_get_url: F.base_url + "/apiKeys.php?action=create"
 
     property string prevApi_key: ""
-    property string apiKeyStatus: "" // ["ok", "nok"]
+    property string apiKeyStatus: "unknown" // ["ok", "nok", "unknown"]
 
     property string prevUserNameValidity: "";
     property string prevUserKeyValidity: "";
@@ -105,7 +105,7 @@ ApplicationWindow {
         if (visible) {
 
             // get last known api_key
-            prevApi_key = config.get("api_key", "");
+            prevApi_key = config.get("api_key", "unknown");
             prevUserNameValidity = config.get("userNameValidity", "");
             prevUserKeyValidity = config.get("userKeyValidity", "");
 
@@ -520,11 +520,9 @@ ApplicationWindow {
                         Image {
                             anchors.fill: parent
                             fillMode: Image.PreserveAspectFit
-                            source: "./data/warningIcon.png"
+                            source: "./data/ic_warning_black_48dp/ic_warning_black_48dp/web/ic_warning_black_48dp_1x.png"
                             opacity: 0.7
                             visible: (!trackFileExist)
-                            // thanks to: http://wefunction.com/contact/
-                            // https://www.iconfinder.com/icons/10375/alert_caution_exclamation_exclamation_mark_sign_triangle_warning_icon#size=48
                         }
                     }
 
@@ -681,11 +679,9 @@ ApplicationWindow {
                         Image {
                             anchors.fill: parent
                             fillMode: Image.PreserveAspectFit
-                            source: "./data/warningIcon.png"
+                            source: "./data/ic_warning_black_48dp/ic_warning_black_48dp/web/ic_warning_black_48dp_1x.png"
                             opacity: 0.7
                             visible: (!contestantFileExist && contestantsDownloadedString === "")
-                            // thanks to: http://wefunction.com/contact/
-                            // https://www.iconfinder.com/icons/10375/alert_caution_exclamation_exclamation_mark_sign_triangle_warning_icon#size=48
                         }
                     }
 
@@ -993,8 +989,11 @@ ApplicationWindow {
                         height: parent.height
                         anchors.verticalCenter: parent.verticalCenter
                         fillMode: Image.PreserveAspectFit
-                        visible: apiKeyStatus !== "unknown"
-                        source: apiKeyStatus === "ok" ? "./data/ok.png" : "./data/nok.png"
+                        //visible: apiKeyStatus !== "unknown"
+                        source: apiKeyStatus === "ok" ? "./data/ic_check_circle_black_48dp/ic_check_circle_black_48dp/web/ic_check_circle_black_48dp_1x.png"
+                                                      : ((apiKeyStatus === "nok") ? "./data/ic_error_black_48dp/ic_error_black_48dp/web/ic_error_black_48dp_1x.png"
+                                                                                  : "./data/ic_help_black_48dp/ic_help_black_48dp/web/ic_help_black_48dp_1x.png")
+
                     }
                 }
 
@@ -1006,7 +1005,7 @@ ApplicationWindow {
 
                     onTextChanged: {
 
-                        apiKeyStatus = "nok";
+                        apiKeyStatus = "unknown";
                         userNameValidity.text = "";
                         userKeyValidity.text = "";
                     }
