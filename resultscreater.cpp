@@ -97,6 +97,27 @@ void ResultsCreater::createContinuousResultsHTML(const QString &filePath,
                              << ("html-results-ctnt-points-shortcut")
                              << ("html-results-ctnt-points1000-shortcut");
 
+    // create legend, skip first two columns - order and name
+    int skipCols = 2;
+    QStringList headerLegend;
+    for (int i = skipCols; i < header.size(); i++) {
+        headerLegend.push_back(header.at(i) + "-legend");    // add legend suffix for translation
+    }
+
+    // tr legend
+    headerLegend = getTranslatedStringList(headerLegend);
+    header = getTranslatedStringList(header);
+
+    // add legend into legend array and header row
+    for (int i = skipCols; i < header.size(); i++) {
+
+        QString headerItem = header.at(i);
+        QString legendItem = headerLegend.at(i - skipCols);
+
+        headerLegend[i - skipCols] = headerItem + " - " + legendItem;
+        header[i] = getHeaderItemWithHelp(headerItem, legendItem);
+    }
+
     // results for each category
     for (int j = 0; i < resList.size(); i++, j++) {
 
@@ -113,7 +134,7 @@ void ResultsCreater::createContinuousResultsHTML(const QString &filePath,
         html += getHTMLH3(classesNames.at(j));
 
         // add category results header
-        rows.append(getTranslatedStringList(header));
+        rows.append(header);
 
         // get category results data
         QRegularExpression rx("\\\".*?\\\"", QRegularExpression::DotMatchesEverythingOption);
@@ -167,24 +188,9 @@ void ResultsCreater::createContinuousResultsHTML(const QString &filePath,
         html += getHTMLHorizontalTable(rows, QVector<double>{0.5,2.1,0.8,0.8,0.8,1.0,1.0,1.0,1.0});
      }
 
-    // create legend, skip first two columns - order and name
-    int skipCols = 2;
-    QStringList headerLegend;
-    for (int i = skipCols; i < header.size(); i++) {
-        headerLegend.push_back(header.at(i) + "-legend");    // add legend suffix for translation
-    }
-
-    // tr legend
-    headerLegend = getTranslatedStringList(headerLegend);
-    header = getTranslatedStringList(header);
-
-    // join header and legend
-    for (int i = skipCols; i < header.size(); i++) {
-        headerLegend[i - skipCols] = header.at(i) + " - " + headerLegend.at(i - skipCols);
-    }
 
     // add legend to html
-    html += headerLegend.join(", ");
+    html += getPrintOnlyText(headerLegend.join(", "));
 
     html += "</div>\n";
     html += "</body>\n";
@@ -690,7 +696,7 @@ const QString ResultsCreater::getResultsHTMLBodyHead(const QString &competitionN
 
     html += getHTMLH1(competitionName);
     html += "<div class=\"row\">\n";
-    html += "   <div class=\"col-md-4\">\n";
+    html += "   <div class=\"col-xs-4\">\n";
 
     if (competitionGroupName != "")
         rows.append(QStringList() << getTranslatedString("html-results-competition-group-name") << competitionGroupName);
@@ -707,7 +713,7 @@ const QString ResultsCreater::getResultsHTMLBodyHead(const QString &competitionN
     html += getHTMLVerticalTable(rows);
     html += "   </div>\n";
 
-    html += "   <div class=\"col-md-4\">\n";
+    html += "   <div class=\"col-xs-4\">\n";
 
     if (competitionDirector != "") {
         rows.append(QStringList() << getTranslatedString("html-results-competition-director") << ("<table>" + getUserTableRowRecordWithAvatar(competitionDirectorAvatar, competitionDirector) + "</table>"));
@@ -725,11 +731,11 @@ const QString ResultsCreater::getResultsHTMLBodyHead(const QString &competitionN
     html += getHTMLVerticalTable(rows);
     html += "   </div>\n";
 
-    html += "   <div class=\"col-md-4\">\n";
+    html += "   <div class=\"col-xs-4\">\n";
     html += "       <div class=\"row\">\n";
     html += "           <span class=\"pull-right\">\n";
-    html += getHTMLRoundedImage(ResultsCreater::LAA_LOG_BASE64, "60px", "auto");
-    html += getHTMLRoundedImage(ResultsCreater::FIT_LOG_BASE64, "60px", "auto");
+    html += getHTMLRoundedImage(ResultsCreater::LAA_LOG_BASE64, "50px", "auto");
+    html += getHTMLRoundedImage(ResultsCreater::FIT_LOG_BASE64, "50px", "auto");
     html += "           </span>\n";
     html += "       </div>\n";
     html += getHTMLSpace(5);
@@ -926,6 +932,16 @@ const inline QString ResultsCreater::getUserTableRowRecordWithAvatar(const QStri
     QString avatar = avatarBase64 == "" ? BLANK_USER_BASE64 : avatarBase64;
 
     return "<tr><td style=\"width:50px; height:42px\">" + getHTMLRoundedImage(avatar, "40px", "40px") + "</td><td>" + name + "</td></tr>";
+}
+
+const inline QString ResultsCreater::getHeaderItemWithHelp(const QString shortcut, const QString help) {
+
+    return "<abbr class=\"hidden-print\" title=\"" + help + "\">" + shortcut + "</abbr><span class=\"visible-print-inline\">" + shortcut + "</span>";
+}
+
+const inline QString ResultsCreater::getPrintOnlyText(const QString text) {
+
+    return "<span class=\"visible-print-inline\">" + text + "</span>";
 }
 
 

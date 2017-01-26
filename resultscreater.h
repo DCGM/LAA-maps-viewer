@@ -115,6 +115,8 @@ private:
 
     const inline QString getFontColorStartTag(QString color);
     const inline QString getFontColorEndTag();
+    const inline QString getHeaderItemWithHelp(const QString shortcut, const QString help);
+    const inline QString getPrintOnlyText(const QString text);
 };
 
 
