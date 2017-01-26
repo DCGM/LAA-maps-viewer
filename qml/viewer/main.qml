@@ -382,18 +382,6 @@ ApplicationWindow {
                 }
             }
 
-//            MenuItem {
-//                id: mainViewMenuContinuousResults
-//                //% "Co&ntinuous results"
-//                text: qsTrId("main-view-menu-continuous-results")
-//                checkable: true;
-//                //checked: false;
-
-//                onTriggered: {
-//                    config.set("v2_mainViewMenuContinuousResults_checked", checked ? "yes" : "no");
-//                }
-//            }
-
             MenuItem {
                 id: mainViewMenuAltChart
                 //% "&Altitude profile"
@@ -1456,8 +1444,6 @@ ApplicationWindow {
 
                 imageSaver.save(printMap, Qt.resolvedUrl(pathConfiguration.resultsFolder+"/"+con.fullName+".png"))
                 printMapWindow.visible = false;
-
-               // genResultsDetailTimer.running = true;
             }
         }
     }

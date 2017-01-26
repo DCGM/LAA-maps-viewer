@@ -51,7 +51,7 @@ ApplicationWindow {
                 pilotName.text = (ct.name).split(' – ')[0];
                 copilotName.text = (ct.name).split(' – ')[1] === undefined ? "" : (ct.name).split(' – ')[1];
                 category.currentIndex = getClassIndex(ct.category);
-                startTime.text = ct.startTime;
+                startTime.text = F.addTimeStrFormat(F.addUtcToTime(F.timeToUnix(ct.startTime), applicationWindow.utc_offset_sec))
                 speed.text = ct.speed;
                 planeType.text = ct.aircraft_type;
                 planeRegistration.text = ct.aircraft_registration;
@@ -136,12 +136,12 @@ ApplicationWindow {
 
             onAccepted: {
 
-                var str = F.strTimeValidator(text);
-                if (str === "") {
+                var sec = F.strTimeValidator(text);
+                if (sec < 0) {
                     text = prevVal;
                 }
                 else {
-                    text = str;
+                    text = F.addTimeStrFormat(sec);
                 }
             }
 
@@ -243,17 +243,18 @@ ApplicationWindow {
             onClicked: {
 
                 // validate start time
-                startTime.text = F.strTimeValidator(startTime.text);
+                var sec = F.strTimeValidator(startTime.text);
 
                 // check required values
-                if (pilotName.text !== "" && speed.text !== "" && startTime.text !== "") {
+                if (pilotName.text !== "" && speed.text !== "" && sec >= 0) {
 
                     var name = copilotName.text === "" ? pilotName.text : pilotName.text + ' – ' + copilotName.text;
+                    var startTimeUTC = F.addTimeStrFormat(F.subUtcFromTime(sec, applicationWindow.utc_offset_sec));
 
                     if (createNewContestant) {
 
                         // add crew into listmodel
-                        apendNewContestant(pilotName.text, copilotName.text, category.currentText, startTime.text, speed.text, planeType.text, planeRegistration.text)
+                        apendNewContestant(pilotName.text, copilotName.text, category.currentText, startTimeUTC, speed.text, planeType.text, planeRegistration.text)
                     }
                     else {
                         // update current
@@ -264,10 +265,10 @@ ApplicationWindow {
                         // used instead of the "setProperty" due to some post processing
                         contestantsListModel.changeLisModel(contestantsListModelRow, "category", category.currentText);
                         contestantsListModel.changeLisModel(contestantsListModelRow, "speed", parseInt(speed.text));
-                        contestantsListModel.changeLisModel(contestantsListModelRow, "startTime", startTime.text);
+                        contestantsListModel.changeLisModel(contestantsListModelRow, "startTime", startTimeUTC);
                     }
 
-                    ok(name, category.currentText, startTime.text, parseInt(speed.text), planeType.text, planeRegistration.text);
+                    ok(name, category.currentText, startTimeUTC, parseInt(speed.text), planeType.text, planeRegistration.text);
                     createContestantWindow.close()
                 }
                 else {
