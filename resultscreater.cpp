@@ -692,7 +692,6 @@ const QString ResultsCreater::getResultsHTMLBodyHead(const QString &competitionN
 
     QString html = "";
     QVector<QStringList> rows;
-    QStringList multiRowTableColumn;
 
     html += getHTMLH1(competitionName);
     html += "<div class=\"row\">\n";
@@ -813,10 +812,7 @@ const QString ResultsCreater::getHTMLVerticalTable(QVector<QStringList> &rows) {
 
         for (int j = 0; j < rowItem.size(); ++j) {
 
-            //if (j == 0)
-                //htmlTable += "   <th style=\"width: " + QString::number(headerPercentWidth) + "%\">" + rowItem.at(j) + "</th>\n";
-            //else
-                htmlTable += "   <td>" + rowItem.at(j) + "</td>\n";
+            htmlTable += "   <td>" + rowItem.at(j) + "</td>\n";
 
         }
 
