@@ -1364,7 +1364,7 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
     <message id="html-results-ctnt-altLimits-shortcut">
         <location filename="../qml/viewer/MyTranslator.qml" line="101"/>
         <source>AltP</source>
-        <translation>AltL</translation>
+        <translation>AL</translation>
     </message>
     <message id="html-results-ctnt-speedSec-shortcut">
         <location filename="../qml/viewer/MyTranslator.qml" line="104"/>
@@ -1878,7 +1878,7 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
     <message id="html-continuous-results-order">
         <location filename="../qml/viewer/MyTranslator.qml" line="414"/>
         <source>results order</source>
-        <translation>Order</translation>
+        <translation>#</translation>
     </message>
     <message id="html-results-alt-sec-min-count">
         <location filename="../qml/viewer/MyTranslator.qml" line="417"/>

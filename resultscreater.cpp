@@ -396,57 +396,6 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
 
     html += getHTMLVerticalTable(rows);
 
-    /*
-    // markers
-    html += getHTMLH3(getTranslatedString("html-results-markers"));
-    rows.append(getTranslatedStringList(QStringList() << "html-results-ok" << "html-results-nok" << "html-results-false" << "html-results-score"));
-    rows.append(QStringList() << QString::number(jsonObject["markersOk"].toDouble()) << QString::number(jsonObject["markersNok"].toDouble()) << QString::number(jsonObject["markersFalse"].toDouble()) << QString::number(jsonObject["markersScore"].toDouble()));
-    html += getHTMLHorizontalTable(rows, QVector<double>{1,1,1,1});
-
-    // photos
-    html += getHTMLH3(getTranslatedString("html-results-photos"));
-    rows.append(getTranslatedStringList(QStringList() << "html-results-ok" << "html-results-nok" << "html-results-false" << "html-results-score"));
-    rows.append(QStringList() << QString::number(jsonObject["photosOk"].toDouble()) << QString::number(jsonObject["photosNok"].toDouble()) << QString::number(jsonObject["photosFalse"].toDouble()) << QString::number(jsonObject["photosScore"].toDouble()));
-    html += getHTMLHorizontalTable(rows, QVector<double>{1,1,1,1});
-
-    // landing accurancy
-    html += getHTMLH3(getTranslatedString("html-results-landing-accurancy"));
-    rows.append(getTranslatedStringList(QStringList() << ("html-results-score")));
-    rows.append(QStringList() << QString::number(jsonObject["landingScore"].toDouble()));
-    html += getHTMLHorizontalTable(rows);
-
-    // take off
-    html += getHTMLH3(getTranslatedString("html-results-take-off"));
-    rows.append(getTranslatedStringList(QStringList() << ("html-results-takeoff-calculated") << ("html-results-takeoff-measured") << ("html-results-takeoff-difference") << ("html-results-score")));
-    rows.append(QStringList() << jsonObject["startTime"].toString() << jsonObject["startTimeMeasured"].toString() << jsonObject["startTimeDifference"].toString() << QString::number(jsonObject["startTimeScore"].toDouble()));
-    html += getHTMLHorizontalTable(rows, QVector<double>{1,1,1,1});
-
-    // circling
-    html += getHTMLH3(getTranslatedString("html-results-circling"));
-    rows.append(getTranslatedStringList(QStringList() << ("html-results-count") << ("html-results-score")));
-    rows.append(QStringList() << QString::number(jsonObject["circlingCount"].toDouble()) << QString::number(jsonObject["circlingScore"].toDouble()));
-    html += getHTMLHorizontalTable(rows, QVector<double>{0.5,1.5});
-
-    // opposite dir flight
-    html += getHTMLH3(getTranslatedString("html-results-opposite"));
-    rows.append(getTranslatedStringList(QStringList() << ("html-results-count") << ("html-results-score")));
-    rows.append(QStringList() << QString::number(jsonObject["oppositeCount"].toDouble()) << QString::number(jsonObject["oppositeScore"].toDouble()));
-    html += getHTMLHorizontalTable(rows, QVector<double>{0.5,1.5});
-
-    // other points
-    html += getHTMLH3(getTranslatedString("html-results-other-points"));
-    rows.append(getTranslatedStringList(QStringList() << ("html-results-score") << ("html-results-note")));
-    rows.append(QStringList() << QString::number(jsonObject["otherPoints"].toDouble()) << jsonObject["pointNote"].toString());
-    html += getHTMLHorizontalTable(rows, QVector<double>{0.5,1.5});
-
-    // other penalty
-    html += getHTMLH3(getTranslatedString("html-results-other-penalty"));
-    rows.append(getTranslatedStringList(QStringList() << ("html-results-penalty") << ("html-results-note")));
-    rows.append(QStringList() << QString::number(jsonObject["otherPenalty"].toDouble()) << jsonObject["pointNote"].toString());
-    html += getHTMLHorizontalTable(rows, QVector<double>{0.5,1.5});
-
-    */
-
     // track points
     if(jsonObject["wptScoreDetails"].toString() != "") {
 
@@ -496,18 +445,8 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
 
                                       << (isTG ? "" : getFontColorStartTag("grey")) + QTime(0,0,0).addSecs(addUtcToTime(jsonObject["tg_time_calculated"].toDouble(), utc_offset_sec)).toString("HH:mm:ss") + (isTG ? "" : getFontColorEndTag())
                                       << (isTG ? "" : getFontColorStartTag("grey")) + QTime(0,0,0).addSecs(addUtcToTime(tg_time_measured, utc_offset_sec)).toString() + (isTG ? "" : getFontColorEndTag())
-                                      //<< (isTG ? "" : getFontColorStartTag("grey")) + QTime(0,0,0).addSecs(jsonObject["tg_time_difference"].toDouble()).toString() + (isTG ? "" : getFontColorEndTag())
-                                      //<< (isTG ? "" : getFontColorStartTag("grey")) + (jsonObject["tg_score"].toDouble() < 0 ? "" : QString::number(jsonObject["tg_score"].toDouble())) + (isTG ? "" : getFontColorEndTag())
-
                                       << (isTP ? "" : getFontColorStartTag("grey")) + (tp_hit_measured ? getTranslatedString("hit-yes") : getTranslatedString("hit-no")) + (isTP ? "" : getFontColorEndTag())
-                                      //<< (isTP ? "" : getFontColorStartTag("grey")) + (jsonObject["tp_score"].toDouble() < 0 ? "" : QString::number(jsonObject["tp_score"].toDouble())) + (isTP ? "" : getFontColorEndTag())
-
                                       << (isSG ? "" : getFontColorStartTag("grey")) + (sg_hit_measured ? getTranslatedString("hit-yes") : getTranslatedString("hit-no")) + (isSG ? "" : getFontColorEndTag())
-                                      //<< (isSG ? "" : getFontColorStartTag("grey")) + (jsonObject["sg_score"].toDouble() < 0 ? "" : QString::number(jsonObject["sg_score"].toDouble())) + (isSG ? "" : getFontColorEndTag())
-
-                                      //<< point_alt_type
-                                      //<< (jsonObject["alt_min"].toDouble() < 0 ? "" : QString::number(jsonObject["alt_min"].toDouble()))
-                                      //<< (jsonObject["alt_max"].toDouble() < 0 ? "" : QString::number(jsonObject["alt_max"].toDouble()))
                                       << ((jsonObject["alt_min"].toDouble() < 0 ? "GND" : QString::number(jsonObject["alt_min"].toDouble())) + " - " + (jsonObject["alt_max"].toDouble() < 0 ? "FL 660" : QString::number(jsonObject["alt_max"].toDouble())))
                                       << (alt_measured < 0 ? "" : QString::number(alt_measured))
 
@@ -538,7 +477,6 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
                                                           << ("html-results-speed-sec-end-point")
                                                           << ("html-results-speed-sec-expected")
                                                           << ("html-results-speed-sec-measured")
-                                                          << ("html-results-speed-sec-difference")
                                                           << ("html-results-score")
                                                           ));
 
@@ -555,7 +493,6 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
                                             << jsonObject["endPointName"].toString()
                                             << QString::number(ctntSpeed)
                                             << (jsonObject["manualSpeed"].toDouble() < 0 ? QString::number(jsonObject["calculatedSpeed"].toDouble()) : QString::number(jsonObject["manualSpeed"].toDouble()))
-                                            << QString::number(jsonObject["speedDifference"].toDouble())
                                             << QString::number(jsonObject["speedSecScore"].toDouble())
                                             );
             }
