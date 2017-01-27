@@ -315,6 +315,8 @@ Item {
             case "manualTime_spent_out":
             case "manualAltMinEntriesTime":
             case "manualAltMaxEntriesTime":
+                show = F.addTimeStrFormat(show);
+                break;
             case "tg_time_calculated":
             case "tg_time_manual":
                 show = F.addTimeStrFormat(F.addUtcToTime(show, applicationWindow.utc_offset_sec));
