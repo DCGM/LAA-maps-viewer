@@ -101,6 +101,17 @@ ApplicationWindow {
                 enabled: (contestantsListModel.count > 0)
                 shortcut: "Ctrl+R"
             }
+
+            MenuItem {
+                //% "Regenerate contestants results
+                text: qsTrId("main-results-menu-regenerate-contestants-results");
+                onTriggered: {
+                    workingTimer.action = "genContestantResults";
+                    workingTimer.running = true;
+                }
+                enabled: (contestantsListModel.count > 0)
+            }
+
             MenuItem {
                 //% "Export result&s"
                 text: qsTrId("main-results-menu-export-final-results");
@@ -899,6 +910,24 @@ ApplicationWindow {
         id: altSectionsScoreListManualValuesCache
     }
 
+    function createContestantResultsList(row) {
+
+        var contestant = contestantsListModel.get(row);
+
+        // create contestant html file
+        results_creator.createContestantResultsHTML((pathConfiguration.resultsFolder + "/" + contestant.name + "_" + contestant.category),
+                                                    JSON.stringify(contestant),
+                                                    pathConfiguration.competitionName,
+                                                    pathConfiguration.getCompetitionTypeString(parseInt(pathConfiguration.competitionType)),
+                                                    pathConfiguration.competitionDirector,
+                                                    pathConfiguration.competitionDirectorAvatar,
+                                                    pathConfiguration.competitionArbitr,
+                                                    pathConfiguration.competitionArbitrAvatar,
+                                                    pathConfiguration.competitionDate,
+                                                    pathConfiguration.competitionRound,
+                                                    pathConfiguration.competitionGroupName,
+                                                    applicationWindow.utc_offset_sec);
+    }
 
     SplitView {
         id: splitView
@@ -944,21 +973,8 @@ ApplicationWindow {
                         contestantsTable.currentRow = row;
                     }
 
-                    var contestant = contestantsListModel.get(row);
-
                     // create contestant html file
-                    results_creator.createContestantResultsHTML((pathConfiguration.resultsFolder + "/" + contestant.name + "_" + contestant.category),
-                                                                                JSON.stringify(contestant),
-                                                                                pathConfiguration.competitionName,
-                                                                                pathConfiguration.getCompetitionTypeString(parseInt(pathConfiguration.competitionType)),
-                                                                                pathConfiguration.competitionDirector,
-                                                                                pathConfiguration.competitionDirectorAvatar,
-                                                                                pathConfiguration.competitionArbitr,
-                                                                                pathConfiguration.competitionArbitrAvatar,
-                                                                                pathConfiguration.competitionDate,
-                                                                                pathConfiguration.competitionRound,
-                                                                                pathConfiguration.competitionGroupName,
-                                                                                applicationWindow.utc_offset_sec);
+                    createContestantResultsList(row);
 
                     // open results
                     if (showOnFinished) {
@@ -4193,7 +4209,7 @@ ApplicationWindow {
         running: false;
         interval: 1;
 
-        property string action; //["pathOnOk", "refreshDialogOnOk", "refreshContestant"]
+        property string action; //["pathOnOk", "refreshDialogOnOk", "refreshContestant", "genContestantResults"]
 
         onTriggered: {
 
@@ -4276,6 +4292,19 @@ ApplicationWindow {
                 case "refreshContestant":
 
                     selectCompetitionOnlineDialog.refreshApplications();
+                    break;
+
+                case "genContestantResults":
+
+                    // contestants lists
+                    for (var i = 0; i < contestantsListModel.count; i++) {
+                        createContestantResultsList(i);
+                    }
+
+                    // continuous results
+                    generateContinuousResults();
+
+                    running = false;
                     break;
 
                 default:
