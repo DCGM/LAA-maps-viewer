@@ -315,7 +315,6 @@ ApplicationWindow {
         ret.push(tabView.competitionTabAlias.competitionDirectorTextAlias);
         ret.push(tabView.competitionTabAlias.competitionArbitrTextAlias);
         ret.push(tabView.competitionTabAlias.competitionDateTextAlias);
-
         ret.push(tabView.competitionTabAlias.competitionRoundTextAlias);
         ret.push(tabView.competitionTabAlias.competitionGroupNameTextAlias);
 
@@ -1222,6 +1221,8 @@ ApplicationWindow {
                     config.set("v2_competitionArbitr", JSON.stringify(arr));
                     config.set("v2_competitionArbitrAvatar", pathConfiguration.online ? JSON.stringify(competitionArbitrAvatar) : JSON.stringify(arrAvatar));
                     config.set("v2_competitionDate", competitionTabValues[5] === "" ? Qt.formatDateTime(new Date(), pathConfiguration.requestedDateFormat) : competitionTabValues[5]);
+                    config.set("v2_competitionRound", competitionTabValues[6]);
+                    config.set("v2_competitionGroupName", competitionTabValues[7]);
 
                     var loginTabValues = getLoginTabValues()
 
