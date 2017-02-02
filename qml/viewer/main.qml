@@ -115,6 +115,7 @@ ApplicationWindow {
                     resultsExporterTimer.running = true;
                 }
                 enabled: (contestantsListModel.count > 0)
+                shortcut: "Ctrl+G"
             }
 
             MenuItem {
