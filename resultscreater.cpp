@@ -342,7 +342,8 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
     html += "   <div class=\"col-md-8\">";
 
     // trajectory
-    html += getHTMLResponsiveImage(getImageBase64(QUrl(filename + ".png")));
+    QUrl trajectoryImgUrl = QUrl(filename + ".png");
+    html += file.file_exists(trajectoryImgUrl) ? getHTMLResponsiveImage(getImageBase64(trajectoryImgUrl)) : "";
 
     html += "   </div>";
     html += "</div>";
