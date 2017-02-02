@@ -34,7 +34,7 @@
         <location filename="../qml/viewer/main.qml" line="117"/>
         <source>Export result&amp;s</source>
         <oldsource>Export results</oldsource>
-        <translation>E&amp;xportovat výsledky</translation>
+        <translation>Odeslat výsledky</translation>
     </message>
     <message id="main-results-menu-show-results">
         <location filename="../qml/viewer/main.qml" line="125"/>
@@ -2085,12 +2085,12 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
     <message id="uploader-window-dialog-title">
         <location filename="../qml/viewer/UploaderDialog.qml" line="18"/>
         <source>Uploader dialog title</source>
-        <translation>Nahrávání výsledků</translation>
+        <translation>Odeslání výsledků</translation>
     </message>
     <message id="uploader-window-dialog-text">
         <location filename="../qml/viewer/UploaderDialog.qml" line="86"/>
         <source>Uploading file</source>
-        <translation>Nahrávám soubor</translation>
+        <translation>Odesílám soubor</translation>
     </message>
     <message id="done">
         <location filename="../qml/viewer/UploaderDialog.qml" line="88"/>

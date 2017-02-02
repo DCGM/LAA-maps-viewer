@@ -34,7 +34,7 @@
         <location filename="../qml/viewer/main.qml" line="117"/>
         <source>Export result&amp;s</source>
         <oldsource>Export results</oldsource>
-        <translation>E&amp;xport results</translation>
+        <translation>Upload results</translation>
     </message>
     <message id="main-results-menu-show-results">
         <location filename="../qml/viewer/main.qml" line="125"/>
