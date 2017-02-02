@@ -443,17 +443,17 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
                                       << pointFlagToString(jsonObject["type"].toDouble())
                                       << QString::number(jsonObject["distance_from_vbt"].toDouble() / 1000, 'f', 2)
 
-                                      << (isTG ? "" : getFontColorStartTag("grey")) + QTime(0,0,0).addSecs(addUtcToTime(jsonObject["tg_time_calculated"].toDouble(), utc_offset_sec)).toString("HH:mm:ss") + (isTG ? "" : getFontColorEndTag())
-                                      << (isTG ? "" : getFontColorStartTag("grey")) + QTime(0,0,0).addSecs(addUtcToTime(tg_time_measured, utc_offset_sec)).toString() + (isTG ? "" : getFontColorEndTag())
-                                      << (isTP ? "" : getFontColorStartTag("grey")) + (tp_hit_measured ? getTranslatedString("hit-yes") : getTranslatedString("hit-no")) + (isTP ? "" : getFontColorEndTag())
-                                      << (isSG ? "" : getFontColorStartTag("grey")) + (sg_hit_measured ? getTranslatedString("hit-yes") : getTranslatedString("hit-no")) + (isSG ? "" : getFontColorEndTag())
+                                      << (isTG ? "" : getFontColorStartTag("#bfbfbf")) + QTime(0,0,0).addSecs(addUtcToTime(jsonObject["tg_time_calculated"].toDouble(), utc_offset_sec)).toString("HH:mm:ss") + (isTG ? "" : getFontColorEndTag())
+                                      << (isTG ? "" : getFontColorStartTag("#bfbfbf")) + QTime(0,0,0).addSecs(addUtcToTime(tg_time_measured, utc_offset_sec)).toString() + (isTG ? "" : getFontColorEndTag())
+                                      << (isTP ? "" : getFontColorStartTag("#bfbfbf")) + (tp_hit_measured ? getTranslatedString("hit-yes") : getTranslatedString("hit-no")) + (isTP ? "" : getFontColorEndTag())
+                                      << (isSG ? "" : getFontColorStartTag("#bfbfbf")) + (sg_hit_measured ? getTranslatedString("hit-yes") : getTranslatedString("hit-no")) + (isSG ? "" : getFontColorEndTag())
                                       << ((jsonObject["alt_min"].toDouble() < 0 ? "GND" : QString::number(jsonObject["alt_min"].toDouble())) + " - " + (jsonObject["alt_max"].toDouble() < 0 ? "FL 660" : QString::number(jsonObject["alt_max"].toDouble())))
                                       << (alt_measured < 0 ? "" : QString::number(alt_measured))
 
-                                      << (isTG ? "" : getFontColorStartTag("grey")) + (jsonObject["tg_score"].toDouble() < 0 ? "0" : QString::number(jsonObject["tg_score"].toDouble())) + (isTG ? "" : getFontColorEndTag())
-                                      << (isTP ? "" : getFontColorStartTag("grey")) + (jsonObject["tp_score"].toDouble() < 0 ? "0" : QString::number(jsonObject["tp_score"].toDouble())) + (isTP ? "" : getFontColorEndTag())
-                                      << (isSG ? "" : getFontColorStartTag("grey")) + (jsonObject["sg_score"].toDouble() < 0 ? "0" : QString::number(jsonObject["sg_score"].toDouble())) + (isSG ? "" : getFontColorEndTag())
-                                      << (altLimit ? "" : getFontColorStartTag("grey")) + (jsonObject["alt_score"].toDouble() < 0 ? "0" : QString::number(jsonObject["alt_score"].toDouble())) + (altLimit ? "" : getFontColorStartTag("grey"))
+                                      << (isTG ? "" : getFontColorStartTag("#bfbfbf")) + (jsonObject["tg_score"].toDouble() < 0 ? "0" : QString::number(jsonObject["tg_score"].toDouble())) + (isTG ? "" : getFontColorEndTag())
+                                      << (isTP ? "" : getFontColorStartTag("#bfbfbf")) + (jsonObject["tp_score"].toDouble() < 0 ? "0" : QString::number(jsonObject["tp_score"].toDouble())) + (isTP ? "" : getFontColorEndTag())
+                                      << (isSG ? "" : getFontColorStartTag("#bfbfbf")) + (jsonObject["sg_score"].toDouble() < 0 ? "0" : QString::number(jsonObject["sg_score"].toDouble())) + (isSG ? "" : getFontColorEndTag())
+                                      << (altLimit ? "" : getFontColorStartTag("#bfbfbf")) + (jsonObject["alt_score"].toDouble() == -1 ? "0" : QString::number(jsonObject["alt_score"].toDouble())) + (altLimit ? "" : getFontColorStartTag("#bfbfbf"))
                         );
         }
         html += getHTMLHorizontalTable(rows);
