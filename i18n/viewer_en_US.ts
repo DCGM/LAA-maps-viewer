@@ -1099,7 +1099,7 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
     <message id="select-competition-window-dialog-title">
         <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="14"/>
         <source>Select competition window</source>
-        <translation>Load applications</translation>
+        <translation>Competitions list</translation>
     </message>
     <message id="contestant-download-error-dialog-title">
         <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="401"/>

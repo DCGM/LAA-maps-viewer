@@ -1101,7 +1101,7 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
     <message id="select-competition-window-dialog-title">
         <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="14"/>
         <source>Select competition window</source>
-        <translation>Načíst přihlášky</translation>
+        <translation>Seznam soutěží</translation>
     </message>
     <message id="contestant-download-error-dialog-title">
         <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="401"/>
