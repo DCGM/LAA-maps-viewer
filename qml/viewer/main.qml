@@ -807,7 +807,7 @@ ApplicationWindow {
                 if (role === "category") {
 
                     // change full name and reload item
-                    contestantsListModel.setProperty(row, "fullName", contestant.name + "_" + contestant.category);
+                    contestantsListModel.setProperty(row, "fullName", F.getContestantResultFileName(contestant.name, contestant.category));
                     contestant = contestantsListModel.get(row);
                 }
                 if (role === "filename" || role === "speed" || role === "startTime" || role === "category") {
@@ -962,7 +962,7 @@ ApplicationWindow {
                     var contestant = contestantsListModel.get(row);
 
                     // create contestant html file
-                    results_creator.createContestantResultsHTML((pathConfiguration.resultsFolder + "/" + contestant.name + "_" + contestant.category),
+                    results_creator.createContestantResultsHTML((pathConfiguration.resultsFolder + "/" + F.getContestantResultFileName(contestant.name, contestant.category)),
                                                                 JSON.stringify(contestant),
                                                                 pathConfiguration.competitionName,
                                                                 pathConfiguration.getCompetitionTypeString(parseInt(pathConfiguration.competitionType)),
@@ -977,7 +977,7 @@ ApplicationWindow {
 
                     // open results
                     if (showOnFinished) {
-                        Qt.openUrlExternally(Qt.resolvedUrl(pathConfiguration.resultsFolder + "/" + contestant.name + "_" + contestant.category + ".html"));
+                        Qt.openUrlExternally(Qt.resolvedUrl(pathConfiguration.resultsFolder + "/" + F.getContestantResultFileName(contestant.name, contestant.category) + ".html"));
                     }
                 }
 
@@ -4249,7 +4249,7 @@ ApplicationWindow {
                 // load contestant
                 contestant = contestantsListModel.get(current);
 
-                if (file_reader.file_exists(pathConfiguration.resultsFolder + "/"+ contestant.name + "_" + contestant.category + ".html"))  { //if results created
+                if (file_reader.file_exists(pathConfiguration.resultsFolder + "/"+ F.getContestantResultFileName(contestant.name, contestant.category) + ".html"))  { //if results created
                     if (current + 1 == contestantsListModel.count) { // finsihed
 
                         running = false;

@@ -88,12 +88,15 @@ function getLat(lat, settings) {
     } else if (settings.coordinateFormat === "DMS") {
         var mxt = (l - Math.floor(l)) * 60
         var s = (mxt - Math.floor(mxt)) * 60
-        return c + " "+ Math.floor(l) + "° " + Math.floor(mxt) + "' " + s.toFixed(3) + "''"
+        return c + " " + Math.floor(l) + "° " + Math.floor(mxt) + "' " + s.toFixed(3) + "''"
     } else {
         return c + " " + Math.floor(l) + "° " + ((l - Math.floor(l)) * 60).toFixed(3) + "'"
     }
 }
 
+function getContestantResultFileName(name, category) {
+    return name + "_" + category;
+}
 
 function getLon(lon, settings) {
     var l = Math.abs(lon)

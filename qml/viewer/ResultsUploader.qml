@@ -68,6 +68,17 @@ Item {
             filesToUpload.push({"fileUrl": Qt.resolvedUrl(igcFolderModel.get(i, "fileURL")), "fileName": igcFolderModel.get(i, "fileName")});
         }
 
+        // html files
+        for (var i = 0; i < contestantsListModel.count; i++) {
+
+            var contestant = contestantsListModel.get(i);
+            var fileName = F.getContestantResultFileName(contestant.name, contestant.category);
+
+            if (file_reader.file_exists(pathConfiguration.resultsFolder + "/"+ fileName + ".html")) {
+                filesToUpload.push({"fileUrl": pathConfiguration.resultsFolder + "/" + fileName + ".html", "fileName": fileName + ".html"});
+            }
+        }
+
         return filesToUpload;
     }
 
