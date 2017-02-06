@@ -3625,7 +3625,7 @@ ApplicationWindow {
             str += "\"" + ct.sgScoreSum + "\";"
             str += "\"" + ct.altLimitsScoreSum + "\";"
             str += "\"" + ct.speedSecScoreSum + "\";"
-            str += "\"" + ct.altLimitsScoreSum + "\";"
+            str += "\"" + ct.altSecScoreSum + "\";"
             str += "\"" + ct.spaceSecScoreSum + "\";"
             str += "\"" + (isNaN(parseInt(ct.pilot_id)) ? "-1" : ct.pilot_id) + "\";"
             str += "\"" + (isNaN(parseInt(ct.copilot_id)) ? "-1" : ct.copilot_id) + "\";"
