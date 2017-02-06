@@ -1108,7 +1108,7 @@ Rectangle {
                 TableViewColumn {title: qsTrId("score-table-name"); role: "title"; width: 150;}
 
                 //% "Type"
-                TableViewColumn {title: qsTrId("score-table-type"); role: "type"; width: 100;}
+                TableViewColumn {title: qsTrId("score-table-type"); role: "type";}
 
                 //% "Distance from VBT"
                 TableViewColumn {title: qsTrId("score-table-distance_from_vbt"); role: "distance_from_vbt"; width: 100;}
