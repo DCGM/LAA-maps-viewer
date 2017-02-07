@@ -3,6 +3,7 @@ import QtQuick.Controls 1.4
 import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.1
 import QtQuick.Controls.Styles 1.4
+import QtCharts 2.0
 
 import "functions.js" as F
 
@@ -10,49 +11,7 @@ Rectangle {
 
     id: resultsMainWindow
 
-    property string wptScore;
-    property string speedSections;
-    property string altSections;
-    property string spaceSections;
-
-    property variant curentContestant: {
-        "name": " - ",
-        "category": "",
-        "fullName": "undefined",
-        "startTime": "",
-        "filename": "",
-        "speed": -1,
-        "aircraft_type": "",
-        "aircraft_registration": "",
-        "crew_id": "",
-        "pilot_id": "",
-        "copilot_id": "",
-        "markersOk": 0,
-        "markersNok": 0,
-        "markersFalse": 0,
-        "markersScore": 0,
-        "photosOk": 0,
-        "photosNok": 0,
-        "photosFalse": 0,
-        "photosScore": 0,
-        "startTimeMeasured": "",
-        "startTimeDifference": "",
-        "startTimeScore": 0,
-        "landingScore": 0,
-        "circlingCount": 0,
-        "circlingScore": 0,
-        "oppositeCount": 0,
-        "oppositeScore": 0,
-        "otherPoints": 0,
-        "otherPenalty": 0,
-        "pointNote": ""
-    };
-
-    // used only on ok() signal
-    property string currentWptScoreString;
-    property string currentSpeedSectionsScoreString;
-    property string currentAltitudeSectionsScoreString;
-    property string currentSpaceSectionsScoreString;
+    property variant curentContestant;
 
     property string pilotName;
     property string copilotName;
@@ -67,15 +26,16 @@ Rectangle {
     property int marker_max_score;
     property int gyre_penalty;
 
-    property int totalPointsScore;
+    property int totalPointsScore: -1;
 
-    property alias currentWptScoreListAlias:  currentWptScoreList
-    property alias currentSpeedSectionsScoreListAlias:  currentSpeedSectionsScoreList
-    property alias currentAltitudeSectionsScoreListAlias:  currentAltitudeSectionsScoreList
-    property alias currentSpaceSectionsScoreListAlias:  currentSpaceSectionsScoreList
+    signal ok();
+    signal okAndView();
+    signal cancel();
 
     // recalculate percent points
     onTotalPointsScoreChanged: {
+
+        console.log("onTotalPointsScoreChanged")
 
         // get tab status
         var previousActive = tabView.getActive();
@@ -122,16 +82,39 @@ Rectangle {
         id: currentSpaceSectionsScoreList
     }
 
+    Component.onCompleted: {
+        curentContestant = createBlankUserObject();
+    }
+
+    function listModelToString(model) {
+
+        var item;
+        var arr = [];
+        for(var i = 0; i < model.count; i++) {
+
+            item = model.get(i);
+            arr.push(JSON.stringify(item));
+        }
+
+        return arr.join("; ");
+    }
+
     function recalculateAltSpaceSecPoints() {
 
         var i;
         var item;
+
+        var res = {
+            "spaceSecScoreSum": 0,
+            "altSecScoreSum": 0
+        }
 
         // alt
         for (i = 0; i < currentAltitudeSectionsScoreList.count; i++) {
 
             item = currentAltitudeSectionsScoreList.get(i)
             item.altSecScore = getAltSecScore(item.manualAltMinEntriesCount, item.altMinEntriesCount, item.manualAltMaxEntriesCount, item.altMaxEntriesCount, item.penaltyPercent, totalPointsScore);
+            res.altSecScoreSum += item.altSecScore;
         }
 
         // space
@@ -139,7 +122,11 @@ Rectangle {
 
             item = currentSpaceSectionsScoreList.get(i)
             item.spaceSecScore = getSpaceSecScore(item.manualEntries_out, item.entries_out, item.penaltyPercent, totalPointsScore);
+            res.spaceSecScoreSum += item.spaceSecScore;
         }
+
+        curentContestant.altSecScoreSum = res.altSecScoreSum !== 0 ? res.altSecScoreSum : -1;
+        curentContestant.spaceSecScoreSum = res.spaceSecScoreSum !== 0 ? res.spaceSecScoreSum : -1;
     }
 
     onVisibleChanged: {
@@ -147,32 +134,32 @@ Rectangle {
         if (visible) {
 
             currentWptScoreList.clear();
-            if (wptScore != "") {
-                var arr = wptScore.split("; ")
+            if (curentContestant.wptScoreDetails != "") {
+                var arr = curentContestant.wptScoreDetails.split("; ")
                 for (var i = 0; i < arr.length; i++) {
                     currentWptScoreList.append(JSON.parse(arr[i]))
                 }
             }
 
             currentSpaceSectionsScoreList.clear();
-            if (spaceSections != "") {
-                arr = spaceSections.split("; ")
+            if (curentContestant.spaceSectionsScoreDetails != "") {
+                arr = curentContestant.spaceSectionsScoreDetails.split("; ")
                 for (var i = 0; i < arr.length; i++) {
                     currentSpaceSectionsScoreList.append(JSON.parse(arr[i]))
                 }
             }
 
             currentAltitudeSectionsScoreList.clear();
-            if (altSections != "") {
-                arr = altSections.split("; ")
+            if (curentContestant.altitudeSectionsScoreDetails != "") {
+                arr = curentContestant.altitudeSectionsScoreDetails.split("; ")
                 for (var i = 0; i < arr.length; i++) {
                     currentAltitudeSectionsScoreList.append(JSON.parse(arr[i]))
                 }
             }
 
             currentSpeedSectionsScoreList.clear();
-            if (speedSections != "") {
-                arr = speedSections.split("; ")
+            if (curentContestant.speedSectionsScoreDetails != "") {
+                arr = curentContestant.speedSectionsScoreDetails.split("; ")
                 for (var i = 0; i < arr.length; i++) {
                     currentSpeedSectionsScoreList.append(JSON.parse(arr[i]))
                 }
@@ -213,8 +200,13 @@ Rectangle {
 
             tabView.scrollView.otherPenaltyText = String(curentContestant.otherPenalty);
 
-            listModelsToString();
-            totalPointsScore = getScorePointsSum(curentContestant, resultsMainWindow.currentWptScoreString, resultsMainWindow.currentSpeedSectionsScoreString);
+            var res = getScorePointsSum(curentContestant)
+            curentContestant.tgScoreSum = res.tgScoreSum;
+            curentContestant.sgScoreSum = res.sgScoreSum;
+            curentContestant.tpScoreSum = res.tpScoreSum;
+            curentContestant.altLimitsScoreSum = res.altLimitsScoreSum;
+            curentContestant.speedSecScoreSum = res.speedSecScoreSum;
+            resultsMainWindow.totalPointsScore = res.sum;
 
             curentContestant.startTimeScore = getTakeOffScore(tabView.scrollView.startTimeDifferenceText, time_window_size, time_window_penalty, totalPointsScore);
             tabView.scrollView.startTimeScoreText = curentContestant.startTimeScore;
@@ -232,48 +224,6 @@ Rectangle {
 
         }
     }
-
-    function listModelsToString() {
-
-        var item;
-        var i;
-
-        var arr = [];
-        for(i = 0; i < currentWptScoreList.count; i++) {
-
-            item = currentWptScoreList.get(i);
-            arr.push(JSON.stringify(item));
-        }
-        currentWptScoreString = arr.join("; ");
-
-        arr = [];
-        for(i = 0; i < currentSpeedSectionsScoreList.count; i++) {
-
-            item = currentSpeedSectionsScoreList.get(i);
-            arr.push(JSON.stringify(item));
-        }
-        currentSpeedSectionsScoreString = arr.join("; ");
-
-        arr = [];
-        for(i = 0; i < currentAltitudeSectionsScoreList.count; i++) {
-
-            item = currentAltitudeSectionsScoreList.get(i);
-            arr.push(JSON.stringify(item));
-        }
-        currentAltitudeSectionsScoreString = arr.join("; ");
-
-        arr = [];
-        for(i = 0; i < currentSpaceSectionsScoreList.count; i++) {
-
-            item = currentSpaceSectionsScoreList.get(i);
-            arr.push(JSON.stringify(item));
-        }
-        currentSpaceSectionsScoreString = arr.join("; ");
-    }
-
-    signal ok();
-    signal okAndView();
-    signal cancel();
 
     MouseArea {
         anchors.fill: parent
@@ -311,7 +261,6 @@ Rectangle {
         }
     }
 
-
     TabView {
 
         id: tabView;
@@ -340,6 +289,9 @@ Rectangle {
             if (spaceSecValuesTab.visible) {
                 return "spaceSecVals"
             }
+            if (summaryTab.visible) {
+                return "summaryTab"
+            }
             return "";
         }
 
@@ -365,8 +317,133 @@ Rectangle {
             case "spaceSecVals":
                 spaceSecValuesTab.visible = true;
                 break;
+            case "summaryTab":
+                summaryTab.visible = true;
+                break;
+            default:
+                break;
+            }
+        }
+
+        Tab {
+            id: summaryTab
+            //% "Summary"
+            title: qsTrId("summary-tab-title")
+
+            onVisibleChanged:  {
+                model = curentContestant;
+
+                console.log(summaryTab.model.startTimeScore)
+                console.log(summaryTab.model.circlingScore)
+                console.log(summaryTab.model.oppositeScore)
+                console.log(summaryTab.model.otherPenalty)
+                console.log(summaryTab.model.spaceSecScoreSum)
+                console.log(summaryTab.model.altSecScoreSum)
             }
 
+            Component.onCompleted: {
+                model = curentContestant;
+            }
+
+            property var model;
+
+            RowLayout {
+                anchors.fill: parent
+
+                ChartView {
+
+                    theme: ChartView.ChartThemeBlueNcs
+                    antialiasing: true
+                    legend.visible: false
+                    Layout.fillHeight: true
+                    //Layout.preferredWidth: parent.width/2
+                    Layout.fillWidth: true;
+
+                    //% "Points"
+                    title: qsTrId("points-chart-title")
+                    titleFont.bold: true
+                    titleFont.pointSize: 12
+
+                    PieSeries {
+                        id: pieSeriesPositive
+
+                        property double armLengthFactor: 0.4
+
+                        PieSlice { value: Math.abs(summaryTab.model.markersScore); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesPositive.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? ("M " + String(value)) : "" }
+                        PieSlice { value: Math.abs(summaryTab.model.photosScore); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesPositive.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? ("P " + String(value)) : "" }
+                        PieSlice { value: Math.abs(summaryTab.model.otherPoints); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesPositive.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? ("O " + String(value)) : "" }
+                        PieSlice { value: Math.abs(summaryTab.model.tgScoreSum +
+                                                   summaryTab.model.tpScoreSum +
+                                                   summaryTab.model.sgScoreSum +
+                                                   summaryTab.model.altLimitsScoreSum); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesPositive.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? ("G " + String(value)) : "" }
+                        PieSlice { value: Math.abs(summaryTab.model.speedSecScoreSum); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesPositive.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? ("Spd " + String(value)) : "" }
+                    }
+
+                    Component.onCompleted: {
+                        // Set the common slice properties dynamically for convenience
+                        for (var i = 0; i < pieSeriesPositive.count; i++) {
+                            pieSeriesPositive.at(i).labelPosition = PieSlice.LabelOutside;
+                            pieSeriesPositive.at(i).labelVisible  = true;
+                        }
+                    }
+
+                }
+                ChartView {
+
+                    theme: ChartView.ChartThemeBlueNcs
+                    antialiasing: true
+                    legend.visible: false
+                    Layout.fillHeight: true
+                    Layout.preferredWidth: sumValue !== 0 ? parent.width/2 : 0;
+
+                    //% "Penalty"
+                    title: qsTrId("penalty-chart-title")
+                    titleFont.bold: true
+                    titleFont.pointSize: 12
+
+                    property double sumValue: 0;
+
+                    onSumValueChanged: console.log("onSumValueChanged " + sumValue)
+
+                    PieSeries {
+                        id: pieSeriesNegative
+
+                        property double armLengthFactor: 0.2
+
+                        PieSlice { value: (summaryTab.model.startTimeScore); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesNegative.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? ("ST " + String(value)) : ""  }
+                        PieSlice { value: (summaryTab.model.circlingScore); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesNegative.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? ("CI " + String(value)) : ""  }
+                        PieSlice { value: (summaryTab.model.oppositeScore); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesNegative.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? ("OP " + String(value)) : ""  }
+
+                        PieSlice { value: (summaryTab.model.otherPenalty); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesNegative.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? ("O " + String(value)) : ""  }
+
+                        PieSlice { value: (summaryTab.model.spaceSecScoreSum); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesNegative.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? ("Spc " + String(value)) : ""  }
+                        PieSlice { value: (summaryTab.model.altSecScoreSum); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesNegative.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? ("Alt " + String(value)) : ""  }
+                    }
+
+                    onVisibleChanged: {
+
+                        sumValue = 0.0;
+                        for (var i = 0; i < pieSeriesNegative.count; i++) {
+                            console.log(pieSeriesNegative.at(i).value)
+                            sumValue += (pieSeriesNegative.at(i).value !== -1) ? pieSeriesNegative.at(i).value : 0;
+                        }
+
+                        console.log("sumValue " + sumValue)
+                    }
+
+                    Component.onCompleted: {
+
+                        sumValue = 0;
+
+                        // Set the common slice properties dynamically for convenience
+                        for (var i = 0; i < pieSeriesNegative.count; i++) {
+                            pieSeriesNegative.at(i).labelPosition = PieSlice.LabelOutside;
+                            pieSeriesNegative.at(i).labelVisible  = true;
+                            sumValue += (pieSeriesNegative.at(i).value !== -1) ? pieSeriesNegative.at(i).value : 0;
+                        }
+                    }
+                }
+            }
         }
 
         Tab {
@@ -568,8 +645,13 @@ Rectangle {
 
                                     curentContestant.landingScore = parseInt(text);
 
-                                    listModelsToString();
-                                    totalPointsScore = getScorePointsSum(curentContestant, currentWptScoreString, currentSpeedSectionsScoreString);
+                                    var res = getScorePointsSum(curentContestant)
+                                    curentContestant.tgScoreSum = res.tgScoreSum;
+                                    curentContestant.sgScoreSum = res.sgScoreSum;
+                                    curentContestant.tpScoreSum = res.tpScoreSum;
+                                    curentContestant.altLimitsScoreSum = res.altLimitsScoreSum;
+                                    curentContestant.speedSecScoreSum = res.speedSecScoreSum;
+                                    resultsMainWindow.totalPointsScore = res.sum;
                                 }
                             }
                         }
@@ -617,8 +699,13 @@ Rectangle {
                                     curentContestant.markersScore = getMarkersScore(curentContestant.markersOk, curentContestant.markersNok, curentContestant.markersFalse, marker_max_score)
                                     markersScoreTextField.text = curentContestant.markersScore;
 
-                                    listModelsToString();
-                                    totalPointsScore = getScorePointsSum(curentContestant, currentWptScoreString, currentSpeedSectionsScoreString);
+                                    var res = getScorePointsSum(curentContestant)
+                                    curentContestant.tgScoreSum = res.tgScoreSum;
+                                    curentContestant.sgScoreSum = res.sgScoreSum;
+                                    curentContestant.tpScoreSum = res.tpScoreSum;
+                                    curentContestant.altLimitsScoreSum = res.altLimitsScoreSum;
+                                    curentContestant.speedSecScoreSum = res.speedSecScoreSum;
+                                    resultsMainWindow.totalPointsScore = res.sum;
                                 }
                             }
                         }
@@ -634,8 +721,13 @@ Rectangle {
                                     curentContestant.markersScore = getMarkersScore(curentContestant.markersOk, curentContestant.markersNok, curentContestant.markersFalse, marker_max_score);
                                     markersScoreTextField.text = curentContestant.markersScore;
 
-                                    listModelsToString();
-                                    totalPointsScore = getScorePointsSum(curentContestant, currentWptScoreString, currentSpeedSectionsScoreString);
+                                    var res = getScorePointsSum(curentContestant)
+                                    curentContestant.tgScoreSum = res.tgScoreSum;
+                                    curentContestant.sgScoreSum = res.sgScoreSum;
+                                    curentContestant.tpScoreSum = res.tpScoreSum;
+                                    curentContestant.altLimitsScoreSum = res.altLimitsScoreSum;
+                                    curentContestant.speedSecScoreSum = res.speedSecScoreSum;
+                                    resultsMainWindow.totalPointsScore = res.sum;
                                 }
                             }
                         }
@@ -651,8 +743,13 @@ Rectangle {
                                     curentContestant.markersScore = getMarkersScore(curentContestant.markersOk, curentContestant.markersNok, curentContestant.markersFalse, marker_max_score);
                                     markersScoreTextField.text = curentContestant.markersScore;
 
-                                    listModelsToString();
-                                    totalPointsScore = getScorePointsSum(curentContestant, currentWptScoreString, currentSpeedSectionsScoreString);
+                                    var res = getScorePointsSum(curentContestant)
+                                    curentContestant.tgScoreSum = res.tgScoreSum;
+                                    curentContestant.sgScoreSum = res.sgScoreSum;
+                                    curentContestant.tpScoreSum = res.tpScoreSum;
+                                    curentContestant.altLimitsScoreSum = res.altLimitsScoreSum;
+                                    curentContestant.speedSecScoreSum = res.speedSecScoreSum;
+                                    resultsMainWindow.totalPointsScore = res.sum;
                                 }
                             }
                         }
@@ -708,8 +805,13 @@ Rectangle {
                                     curentContestant.photosScore = getPhotosScore(curentContestant.photosOk, curentContestant.photosNok, curentContestant.photosFalse, photos_max_score);
                                     photosScoreTextField.text = curentContestant.photosScore;
 
-                                    listModelsToString();
-                                    totalPointsScore = getScorePointsSum(curentContestant, currentWptScoreString, currentSpeedSectionsScoreString);
+                                    var res = getScorePointsSum(curentContestant)
+                                    curentContestant.tgScoreSum = res.tgScoreSum;
+                                    curentContestant.sgScoreSum = res.sgScoreSum;
+                                    curentContestant.tpScoreSum = res.tpScoreSum;
+                                    curentContestant.altLimitsScoreSum = res.altLimitsScoreSum;
+                                    curentContestant.speedSecScoreSum = res.speedSecScoreSum;
+                                    resultsMainWindow.totalPointsScore = res.sum;
                                 }
                             }
                         }
@@ -725,9 +827,13 @@ Rectangle {
                                     curentContestant.photosScore = getPhotosScore(curentContestant.photosOk, curentContestant.photosNok, curentContestant.photosFalse, photos_max_score);
                                     photosScoreTextField.text = curentContestant.photosScore;
 
-                                    listModelsToString();
-                                    totalPointsScore = getScorePointsSum(curentContestant, currentWptScoreString, currentSpeedSectionsScoreString);
-
+                                    var res = getScorePointsSum(curentContestant)
+                                    curentContestant.tgScoreSum = res.tgScoreSum;
+                                    curentContestant.sgScoreSum = res.sgScoreSum;
+                                    curentContestant.tpScoreSum = res.tpScoreSum;
+                                    curentContestant.altLimitsScoreSum = res.altLimitsScoreSum;
+                                    curentContestant.speedSecScoreSum = res.speedSecScoreSum;
+                                    resultsMainWindow.totalPointsScore = res.sum;
                                 }
                             }
                         }
@@ -743,8 +849,13 @@ Rectangle {
                                     curentContestant.photosScore = getPhotosScore(curentContestant.photosOk, curentContestant.photosNok, curentContestant.photosFalse, photos_max_score);
                                     photosScoreTextField.text = curentContestant.photosScore;
 
-                                    listModelsToString();
-                                    totalPointsScore = getScorePointsSum(curentContestant, currentWptScoreString, currentSpeedSectionsScoreString);
+                                    var res = getScorePointsSum(curentContestant)
+                                    curentContestant.tgScoreSum = res.tgScoreSum;
+                                    curentContestant.sgScoreSum = res.sgScoreSum;
+                                    curentContestant.tpScoreSum = res.tpScoreSum;
+                                    curentContestant.altLimitsScoreSum = res.altLimitsScoreSum;
+                                    curentContestant.speedSecScoreSum = res.speedSecScoreSum;
+                                    resultsMainWindow.totalPointsScore = res.sum;
                                 }
                             }
                         }
@@ -891,8 +1002,13 @@ Rectangle {
                                         onEditingFinished: {
                                             curentContestant.otherPoints = parseInt(text);
 
-                                            listModelsToString();
-                                            totalPointsScore = getScorePointsSum(curentContestant, currentWptScoreString, currentSpeedSectionsScoreString);
+                                            var res = getScorePointsSum(curentContestant)
+                                            curentContestant.tgScoreSum = res.tgScoreSum;
+                                            curentContestant.sgScoreSum = res.sgScoreSum;
+                                            curentContestant.tpScoreSum = res.tpScoreSum;
+                                            curentContestant.altLimitsScoreSum = res.altLimitsScoreSum;
+                                            curentContestant.speedSecScoreSum = res.speedSecScoreSum;
+                                            resultsMainWindow.totalPointsScore = res.sum;
                                         }
 
                                         onTextChanged: {
@@ -962,8 +1078,13 @@ Rectangle {
                                         onEditingFinished: {
                                             curentContestant.otherPenalty = parseInt(text);
 
-                                            listModelsToString();
-                                            totalPointsScore = getScorePointsSum(curentContestant, currentWptScoreString, currentSpeedSectionsScoreString);
+                                            var res = getScorePointsSum(curentContestant)
+                                            curentContestant.tgScoreSum = res.tgScoreSum;
+                                            curentContestant.sgScoreSum = res.sgScoreSum;
+                                            curentContestant.tpScoreSum = res.tpScoreSum;
+                                            curentContestant.altLimitsScoreSum = res.altLimitsScoreSum;
+                                            curentContestant.speedSecScoreSum = res.speedSecScoreSum;
+                                            resultsMainWindow.totalPointsScore = res.sum;
                                         }
 
                                         onTextChanged: {
@@ -1080,16 +1201,29 @@ Rectangle {
 
                             case "alt_manual":
 
-                                calc_val = getAltScore(it.alt_manual, it.alt_measured, it.alt_min, it.alt_max, it.type, it.category_alt_penalty);
-                                currentWptScoreList.setProperty(row, "alt_score", calc_val);
+                                //calc_val = getAltScore(it.alt_manual, it.alt_measured, it.alt_min, it.alt_max, it.type, it.category_alt_penalty);
+                                //currentWptScoreList.setProperty(row, "alt_score", calc_val);
                                 break;
 
                             default:
                                 break;
                         }
 
-                        listModelsToString();
-                        totalPointsScore = getScorePointsSum(curentContestant, currentWptScoreString, currentSpeedSectionsScoreString);
+                        // recalc alt limits score
+                        var gatePointSum = Math.max(it.tg_score, 0) + Math.max(it.tp_score, 0) + Math.max(it.sg_score, 0);
+                        calc_val = getAltScore(it.alt_manual, it.alt_measured, it.alt_min, it.alt_max, it.type, it.category_alt_penalty);
+
+                        currentWptScoreList.setProperty(row, "alt_score", ((calc_val === -1) ? -1 : (Math.abs(calc_val) > gatePointSum) ? gatePointSum * -1 : calc_val)); // min points for each gate is 0
+
+                        curentContestant.wptScoreDetails = listModelToString(currentWptScoreList);
+
+                        var res = getScorePointsSum(curentContestant)
+                        curentContestant.tgScoreSum = res.tgScoreSum;
+                        curentContestant.sgScoreSum = res.sgScoreSum;
+                        curentContestant.tpScoreSum = res.tpScoreSum;
+                        curentContestant.altLimitsScoreSum = res.altLimitsScoreSum;
+                        curentContestant.speedSecScoreSum = res.speedSecScoreSum;
+                        resultsMainWindow.totalPointsScore = res.sum;
 
                         newScoreTablePoints.selection.clear();
                         newScoreTablePoints.selection.select(row);
@@ -1207,8 +1341,15 @@ Rectangle {
                             default:
                         }
 
-                        listModelsToString();
-                        totalPointsScore = getScorePointsSum(curentContestant, currentWptScoreString, currentSpeedSectionsScoreString);
+                        curentContestant.speedSectionsScoreDetails = listModelToString(currentSpeedSectionsScoreList);
+
+                        var res = getScorePointsSum(curentContestant)
+                        curentContestant.tgScoreSum = res.tgScoreSum;
+                        curentContestant.sgScoreSum = res.sgScoreSum;
+                        curentContestant.tpScoreSum = res.tpScoreSum;
+                        curentContestant.altLimitsScoreSum = res.altLimitsScoreSum;
+                        curentContestant.speedSecScoreSum = res.speedSecScoreSum;
+                        resultsMainWindow.totalPointsScore = res.sum;
 
                         newScoreTableSpeedSecions.selection.clear();
                         newScoreTableSpeedSecions.selection.select(row);
@@ -1266,6 +1407,16 @@ Rectangle {
                         currentAltitudeSectionsScoreList.setProperty(row, role, value);
 
                         recalculateAltSpaceSecPoints();
+
+                        curentContestant.altitudeSectionsScoreDetails = listModelToString(currentAltitudeSectionsScoreList);
+
+                        var res = getScorePointsSum(curentContestant)
+                        curentContestant.tgScoreSum = res.tgScoreSum;
+                        curentContestant.sgScoreSum = res.sgScoreSum;
+                        curentContestant.tpScoreSum = res.tpScoreSum;
+                        curentContestant.altLimitsScoreSum = res.altLimitsScoreSum;
+                        curentContestant.speedSecScoreSum = res.speedSecScoreSum;
+                        resultsMainWindow.totalPointsScore = res.sum;
 
                         newScoreTableAltitudeSecions.selection.clear();
                         newScoreTableAltitudeSecions.selection.select(row);
@@ -1326,6 +1477,16 @@ Rectangle {
                         currentSpaceSectionsScoreList.setProperty(row, role, value);
 
                         recalculateAltSpaceSecPoints();
+
+                        curentContestant.spaceSectionsScoreDetails = listModelToString(currentSpaceSectionsScoreList);
+
+                        var res = getScorePointsSum(curentContestant)
+                        curentContestant.tgScoreSum = res.tgScoreSum;
+                        curentContestant.sgScoreSum = res.sgScoreSum;
+                        curentContestant.tpScoreSum = res.tpScoreSum;
+                        curentContestant.altLimitsScoreSum = res.altLimitsScoreSum;
+                        curentContestant.speedSecScoreSum = res.speedSecScoreSum;
+                        resultsMainWindow.totalPointsScore = res.sum;
 
                         newScoreTableSpaceSecions.selection.clear();
                         newScoreTableSpaceSecions.selection.select(row);
@@ -1407,9 +1568,13 @@ Rectangle {
 
                 curentContestant.oppositeCount = tabView.scrollView.oppositeCountValue;
 
-                listModelsToString();
-
-                totalPointsScore = getScorePointsSum(curentContestant, resultsMainWindow.currentWptScoreString, resultsMainWindow.currentSpeedSectionsScoreString);
+                var res = getScorePointsSum(curentContestant)
+                curentContestant.tgScoreSum = res.tgScoreSum;
+                curentContestant.sgScoreSum = res.sgScoreSum;
+                curentContestant.tpScoreSum = res.tpScoreSum;
+                curentContestant.altLimitsScoreSum = res.altLimitsScoreSum;
+                curentContestant.speedSecScoreSum = res.speedSecScoreSum;
+                resultsMainWindow.totalPointsScore = res.sum;
 
                 // validate and save start time
                 var str = tabView.scrollView.startTimeText;

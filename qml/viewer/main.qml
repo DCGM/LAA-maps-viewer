@@ -1013,15 +1013,23 @@ ApplicationWindow {
                         ctnt = contestantsListModel.get(row);
 
                         // TODO - prasarna aby byla kopie a ne stejny objekt
+                        resultsDetailComponent.curentContestant = createBlankUserObject();
                         resultsDetailComponent.curentContestant = JSON.parse(JSON.stringify(ctnt));
 
+                        console.log(ctnt.startTimeScore)
+                        console.log(ctnt.circlingScore)
+                        console.log(ctnt.oppositeScore)
+                        console.log(ctnt.otherPenalty)
+                        console.log(ctnt.spaceSecScoreSum)
+                        console.log(ctnt.altSecScoreSum)
+
                         // load contestant score list
-                        resultsDetailComponent.wptScore = ctnt.wptScoreDetails;
+                        //resultsDetailComponent.wptScore = ctnt.wptScoreDetails;
 
                         // load sections string
-                        resultsDetailComponent.speedSections = ctnt.speedSectionsScoreDetails;
-                        resultsDetailComponent.altSections = ctnt.altitudeSectionsScoreDetails;
-                        resultsDetailComponent.spaceSections = ctnt.spaceSectionsScoreDetails;
+                        //resultsDetailComponent.speedSections = ctnt.speedSectionsScoreDetails;
+                        //resultsDetailComponent.altSections = ctnt.altitudeSectionsScoreDetails;
+                        //resultsDetailComponent.spaceSections = ctnt.spaceSectionsScoreDetails;
 
                         // load cattegory property
                         var arr = tracks.tracks;
@@ -1250,11 +1258,10 @@ ApplicationWindow {
                         ctnt = contestantsListModel.get(row);
 
                         // load and save modified score lists
-                        contestantsListModel.setProperty(row, "wptScoreDetails", resultsDetailComponent.currentWptScoreString);
-
-                        contestantsListModel.setProperty(row, "speedSectionsScoreDetails", resultsDetailComponent.currentSpeedSectionsScoreString);
-                        contestantsListModel.setProperty(row, "altitudeSectionsScoreDetails", resultsDetailComponent.currentAltitudeSectionsScoreString);
-                        contestantsListModel.setProperty(row, "spaceSectionsScoreDetails", resultsDetailComponent.currentSpaceSectionsScoreString);
+                        contestantsListModel.setProperty(row, "wptScoreDetails", curentContestant.wptScoreDetails);
+                        contestantsListModel.setProperty(row, "speedSectionsScoreDetails", curentContestant.speedSectionsScoreDetails);
+                        contestantsListModel.setProperty(row, "altitudeSectionsScoreDetails", curentContestant.altitudeSectionsScoreDetails);
+                        contestantsListModel.setProperty(row, "spaceSectionsScoreDetails", curentContestant.spaceSectionsScoreDetails);
 
                         // recalculate score
                         var score = getTotalScore(row);
@@ -1358,8 +1365,6 @@ ApplicationWindow {
                 currentPositionShow: true;
 
                 onTpiComputedData:  {
-
-                    console.log("onTpiComputedData " + resultsExporterTimer.running)
 
                     if (!updateContestantMenu.menuVisible && !resultsExporterTimer.running) {
                         //computeScore(tpi, polys)
@@ -2139,7 +2144,15 @@ ApplicationWindow {
                     //curCnt.otherPointsNote = (csvFileFromOffice ? String((resultsCSV[j][20]).split("/&/")[0]) : "");
                     curCnt.otherPenalty = (csvFileFromOffice ? parseInt(resultsCSV[j][15]) : 0);
                     //curCnt.otherPenaltyNote = (csvFileFromOffice ? String((resultsCSV[j][20]).split("/&/")[1]) : "");
-                    //curCnt.pointNote = (csvFileFromOffice ? String(resultsCSV[j][20]) : "");
+                    curCnt.pointNote = (csvFileFromOffice ? String(resultsCSV[j][20]) : "");
+
+                    curCnt.tgScoreSum = (csvFileFromViewer ? parseInt(resultsCSV[j][21]) : -1);
+                    curCnt.tpScoreSum = (csvFileFromViewer ? parseInt(resultsCSV[j][22]) : -1);
+                    curCnt.sgScoreSum = (csvFileFromViewer ? parseInt(resultsCSV[j][23]) : -1);
+                    curCnt.altLimitsScoreSum = (csvFileFromViewer ? parseInt(resultsCSV[j][24]) : -1);
+                    curCnt.speedSecScoreSum = (csvFileFromViewer ? parseInt(resultsCSV[j][25]) : -1);
+                    curCnt.altSecScoreSum = (csvFileFromViewer ? parseInt(resultsCSV[j][26]) : -1);
+                    curCnt.spaceSecScoreSum = (csvFileFromViewer ? parseInt(resultsCSV[j][27]) : -1);
 
                     curCnt.prevResultsSpeed = (csvFileFromViewer ? parseInt(resultsCSV[j][31]) : -1);
                     curCnt.prevResultsStartTime = (csvFileFromViewer ? resultsCSV[j][32] : "");
@@ -2336,7 +2349,7 @@ ApplicationWindow {
     }
 
     // get points sum from sections and gates
-    function getScorePointsSum(row) {
+    function getScorePointsSum(contestant) {
 
         var sum = 0;
         var p;
@@ -2347,8 +2360,6 @@ ApplicationWindow {
         var tpScoreSum = 0;
         var speedSecScoreSum = 0;
         var altLimitsScoreSum = 0;
-
-        var contestant = contestantsListModel.get(row);
 
         if (contestant === undefined) return 0;
 
@@ -2388,11 +2399,17 @@ ApplicationWindow {
             }
         }
 
-        contestantsListModel.setProperty(row, "tgScoreSum", tgScoreSum);
-        contestantsListModel.setProperty(row, "sgScoreSum", sgScoreSum);
-        contestantsListModel.setProperty(row, "tpScoreSum", tpScoreSum);
-        contestantsListModel.setProperty(row, "altLimitsScoreSum", altLimitsScoreSum);
-        contestantsListModel.setProperty(row, "speedSecScoreSum", speedSecScoreSum);
+        //contestantsListModel.setProperty(row, "tgScoreSum", tgScoreSum);
+        //contestantsListModel.setProperty(row, "sgScoreSum", sgScoreSum);
+        //contestantsListModel.setProperty(row, "tpScoreSum", tpScoreSum);
+        //contestantsListModel.setProperty(row, "altLimitsScoreSum", altLimitsScoreSum);
+        //contestantsListModel.setProperty(row, "speedSecScoreSum", speedSecScoreSum);
+
+        contestant.tgScoreSum = tgScoreSum;
+        contestant.sgScoreSum = sgScoreSum;
+        contestant.tpScoreSum = tpScoreSum;
+        contestant.altLimitsScoreSum = altLimitsScoreSum;
+        contestant.speedSecScoreSum = speedSecScoreSum;
 
         sum = tgScoreSum +
               sgScoreSum +
@@ -2408,7 +2425,18 @@ ApplicationWindow {
         wptNewScoreListManualValuesCache.clear();
         speedSectionsScoreListManualValuesCache.clear();
 
-        return sum;
+        var res = {
+            "sum": sum,
+            "tgScoreSum": tgScoreSum,
+            "sgScoreSum": sgScoreSum,
+            "tpScoreSum": tpScoreSum,
+            "altLimitsScoreSum": altLimitsScoreSum,
+            "speedSecScoreSum": speedSecScoreSum
+        }
+
+        console.log("getScorePointsSum " + sum)
+
+        return res;
     }
 
     // get total score points fur contestant and current igc item
@@ -2417,12 +2445,16 @@ ApplicationWindow {
         var contestant = contestantsListModel.get(row);
 
         // get score points sum
-        var scorePoints = getScorePointsSum(row);
+        var res = getScorePointsSum(contestant)
+        contestantsListModel.setProperty(row, "tgScoreSum", res.tgScoreSum);
+        contestantsListModel.setProperty(row, "sgScoreSum", res.sgScoreSum);
+        contestantsListModel.setProperty(row, "tpScoreSum", res.tpScoreSum);
+        contestantsListModel.setProperty(row, "altLimitsScoreSum", res.altLimitsScoreSum);
+        contestantsListModel.setProperty(row, "speedSecScoreSum", res.speedSecScoreSum);
+        var scorePoints = res.sum;
 
         // get penalty percent points
-        var penaltyPercentPointsSum = contestant.startTimeScore +
-                contestant.circlingScore +
-                contestant.oppositeScore;
+        var penaltyPercentPointsSum = contestant.startTimeScore + contestant.circlingScore + contestant.oppositeScore;
 
         // get penalty percent points from sections
         var altSecPenaltySum = 0;
@@ -2477,7 +2509,13 @@ ApplicationWindow {
         ctnt.markersScore = getMarkersScore(ctnt.markersOk, ctnt.markersNok, ctnt.markersFalse, trItem.marker_max_score);
         ctnt.photosScore = getPhotosScore(ctnt.photosOk, ctnt.photosNok, ctnt.photosFalse, trItem.photos_max_score);
 
-        var totalPointsScore = getScorePointsSum(row);
+        var res = getScorePointsSum(ctnt)
+        contestantsListModel.setProperty(row, "tgScoreSum", res.tgScoreSum);
+        contestantsListModel.setProperty(row, "sgScoreSum", res.sgScoreSum);
+        contestantsListModel.setProperty(row, "tpScoreSum", res.tpScoreSum);
+        contestantsListModel.setProperty(row, "altLimitsScoreSum", res.altLimitsScoreSum);
+        contestantsListModel.setProperty(row, "speedSecScoreSum", res.speedSecScoreSum);
+        var totalPointsScore = res.sum;
 
         ctnt.startTimeScore = getTakeOffScore(ctnt.startTimeDifference, trItem.time_window_size, trItem.time_window_penalty, totalPointsScore);
         ctnt.circlingScore = getGyreScore(ctnt.circlingCount, trItem.gyre_penalty, totalPointsScore);
@@ -2636,10 +2674,12 @@ ApplicationWindow {
         var sg_score = (flags & (0x1 << 2)) ? getSGScore(sg_manual, sg_hit_measured, category_sg_max_score)  : -1;
         var alt_score = getAltScore(alt_manual, alt_measured, point_alt_min, point_alt_max, flags, category_alt_penalty);
 
+        var gatePointSum = Math.max(tg_score, 0) + Math.max(tp_score, 0) + Math.max(sg_score, 0);
+
         scoreData["tg_score"] = tg_score;
         scoreData["tp_score"] = tp_score;
         scoreData["sg_score"] = sg_score;
-        scoreData["alt_score"] = alt_score;
+        scoreData["alt_score"] = ((alt_score === -1) ? -1 : (Math.abs(alt_score) > gatePointSum) ? gatePointSum * -1 : alt_score); // min points for each gate is 0
 
         return scoreData;
     }
@@ -2651,7 +2691,7 @@ ApplicationWindow {
 
     function getMaxAltScore(altManual, altAuto, altMax, altPenalty) {
 
-        return (altManual < 0 ? ((altAuto > altMax) ? (altAuto - altMax) *  altPenalty * -1: 0) : ((altManual > altMax) ? (altManual - altMax) *  altPenalty * -1: 0));
+        return (altManual < 0 ? ((altAuto > altMax) ? (altAuto - altMax) *  altPenalty * -1 : 0) : ((altManual > altMax) ? (altManual - altMax) *  altPenalty * -1: 0));
     }
 
 
@@ -2709,6 +2749,8 @@ ApplicationWindow {
 
         var score = Math.round(totalPointsScore/100 * gyre_penalty * circlingCountValue);
 
+        if (totalPointsScore < 0) return 0; // unable to calc penalty percent from negative sum
+
         return (score === 0 ? 0 : score * -1);
     }
 
@@ -2716,10 +2758,14 @@ ApplicationWindow {
 
         var score = Math.round(totalPointsScore/100 * oposite_direction_penalty * oppositeCountValue);
 
+        if (totalPointsScore < 0) return 0; // unable to calc penalty percent from negative sum
+
         return (score === 0 ? 0 : score * -1);
     }
 
     function getAltSecScore(manualAltMinEntriesCount, altMinEntriesCount, manualAltMaxEntriesCount, altMaxEntriesCount, altPenaltyPercent, totalPointsScore) {
+
+        if (totalPointsScore < 0) return 0; // unable to calc penalty percent from negative sum
 
         var minCount = manualAltMinEntriesCount < 0 ? altMinEntriesCount : manualAltMinEntriesCount;
         var maxCount = manualAltMaxEntriesCount < 0 ? altMaxEntriesCount : manualAltMaxEntriesCount;
@@ -2728,6 +2774,8 @@ ApplicationWindow {
     }
 
     function getSpaceSecScore(manualEntries_out, entries_out, spacePenaltyPercent, totalPointsScore) {
+
+        if (totalPointsScore < 0) return 0; // unable to calc penalty percent from negative sum
 
         return Math.round(((manualEntries_out < 0 ? entries_out : manualEntries_out) * spacePenaltyPercent * totalPointsScore/100) * -1);
     }
