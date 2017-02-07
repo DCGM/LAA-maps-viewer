@@ -339,6 +339,14 @@ Rectangle {
                 console.log(summaryTab.model.otherPenalty)
                 console.log(summaryTab.model.spaceSecScoreSum)
                 console.log(summaryTab.model.altSecScoreSum)
+
+                penaltySum = 0;
+                penaltySum += summaryTab.model.startTimeScore !== -1 ? summaryTab.model.startTimeScore : 0;
+                penaltySum += summaryTab.model.circlingScore !== -1 ? summaryTab.model.circlingScore : 0;
+                penaltySum += summaryTab.model.oppositeScore !== -1 ? summaryTab.model.oppositeScore : 0;
+                penaltySum += summaryTab.model.otherPenalty !== -1 ? summaryTab.model.otherPenalty : 0;
+                penaltySum += summaryTab.model.spaceSecScoreSum !== -1 ? summaryTab.model.spaceSecScoreSum : 0;
+                penaltySum += summaryTab.model.altSecScoreSum !== -1 ? summaryTab.model.altSecScoreSum : 0;
             }
 
             Component.onCompleted: {
@@ -346,8 +354,11 @@ Rectangle {
             }
 
             property var model;
+            property var penaltySum: 0;
 
             RowLayout {
+
+                id: chartsRow
                 anchors.fill: parent
 
                 ChartView {
@@ -356,7 +367,6 @@ Rectangle {
                     antialiasing: true
                     legend.visible: false
                     Layout.fillHeight: true
-                    //Layout.preferredWidth: parent.width/2
                     Layout.fillWidth: true;
 
                     //% "Points"
@@ -390,20 +400,17 @@ Rectangle {
                 }
                 ChartView {
 
+                    id: chartViewNegative
                     theme: ChartView.ChartThemeBlueNcs
                     antialiasing: true
                     legend.visible: false
                     Layout.fillHeight: true
-                    Layout.preferredWidth: sumValue !== 0 ? parent.width/2 : 0;
+                    Layout.preferredWidth: summaryTab.penaltySum !== 0 ? parent.width/2 : 0;
 
                     //% "Penalty"
                     title: qsTrId("penalty-chart-title")
                     titleFont.bold: true
                     titleFont.pointSize: 12
-
-                    property double sumValue: 0;
-
-                    onSumValueChanged: console.log("onSumValueChanged " + sumValue)
 
                     PieSeries {
                         id: pieSeriesNegative
@@ -420,26 +427,12 @@ Rectangle {
                         PieSlice { value: (summaryTab.model.altSecScoreSum); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesNegative.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? ("Alt " + String(value)) : ""  }
                     }
 
-                    onVisibleChanged: {
-
-                        sumValue = 0.0;
-                        for (var i = 0; i < pieSeriesNegative.count; i++) {
-                            console.log(pieSeriesNegative.at(i).value)
-                            sumValue += (pieSeriesNegative.at(i).value !== -1) ? pieSeriesNegative.at(i).value : 0;
-                        }
-
-                        console.log("sumValue " + sumValue)
-                    }
-
                     Component.onCompleted: {
-
-                        sumValue = 0;
 
                         // Set the common slice properties dynamically for convenience
                         for (var i = 0; i < pieSeriesNegative.count; i++) {
                             pieSeriesNegative.at(i).labelPosition = PieSlice.LabelOutside;
                             pieSeriesNegative.at(i).labelVisible  = true;
-                            sumValue += (pieSeriesNegative.at(i).value !== -1) ? pieSeriesNegative.at(i).value : 0;
                         }
                     }
                 }
