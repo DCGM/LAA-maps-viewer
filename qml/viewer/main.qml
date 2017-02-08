@@ -1016,48 +1016,6 @@ ApplicationWindow {
                         resultsDetailComponent.curentContestant = createBlankUserObject();
                         resultsDetailComponent.curentContestant = JSON.parse(JSON.stringify(ctnt));
 
-                        console.log(ctnt.startTimeScore)
-                        console.log(ctnt.circlingScore)
-                        console.log(ctnt.oppositeScore)
-                        console.log(ctnt.otherPenalty)
-                        console.log(ctnt.spaceSecScoreSum)
-                        console.log(ctnt.altSecScoreSum)
-
-                        // load contestant score list
-                        //resultsDetailComponent.wptScore = ctnt.wptScoreDetails;
-
-                        // load sections string
-                        //resultsDetailComponent.speedSections = ctnt.speedSectionsScoreDetails;
-                        //resultsDetailComponent.altSections = ctnt.altitudeSectionsScoreDetails;
-                        //resultsDetailComponent.spaceSections = ctnt.spaceSectionsScoreDetails;
-
-                        // load cattegory property
-                        var arr = tracks.tracks;
-                        var currentTrck;
-
-                        var found = false;
-                        resultsDetailComponent.time_window_penalty = 0;
-                        resultsDetailComponent.time_window_size = 0;
-                        resultsDetailComponent.photos_max_score = 0;
-                        resultsDetailComponent.oposite_direction_penalty = 0;
-                        resultsDetailComponent.marker_max_score = 0;
-                        resultsDetailComponent.gyre_penalty = 0;
-
-                        for (var i = 0; i < arr.length; i++) {
-                            currentTrck = arr[i];
-
-                            if (currentTrck.name === ctnt.category) {
-
-                                resultsDetailComponent.time_window_penalty = currentTrck.time_window_penalty; //penalty percent
-                                resultsDetailComponent.time_window_size = currentTrck.time_window_size;
-                                resultsDetailComponent.photos_max_score = currentTrck.photos_max_score;
-                                resultsDetailComponent.oposite_direction_penalty = currentTrck.oposite_direction_penalty; //penalty percent
-                                resultsDetailComponent.marker_max_score = currentTrck.marker_max_score;
-                                resultsDetailComponent.gyre_penalty = currentTrck.gyre_penalty; //penalty percent
-                                break;
-                            }
-                        }
-
                         // select row
                         contestantsTable.selectRow(row);
 
@@ -1699,6 +1657,11 @@ ApplicationWindow {
             "otherPenalty": 0,
 //            "otherPenaltyNote": "",
             "pointNote": "",
+
+            "time_window_penalty": 0,
+            "time_window_size": 0,
+            "oposite_direction_penalty": 0,
+            "gyre_penalty": 0,
 
             "prevResultsSpeed": -1,
             "prevResultsStartTime": "",
@@ -2526,6 +2489,11 @@ ApplicationWindow {
         // save changes into contestnat list model
         contestantsListModel.setProperty(row, "marker_max_score", parseInt(trItem.marker_max_score));
         contestantsListModel.setProperty(row, "photos_max_score", parseInt(trItem.photos_max_score));
+        contestantsListModel.setProperty(row, "time_window_penalty", parseInt(trItem.time_window_penalty));
+        contestantsListModel.setProperty(row, "time_window_size", parseInt(trItem.time_window_size));
+        contestantsListModel.setProperty(row, "oposite_direction_penalty", parseInt(trItem.oposite_direction_penalty));
+        contestantsListModel.setProperty(row, "gyre_penalty", parseInt(trItem.gyre_penalty));
+
         contestantsListModel.setProperty(row, "markersScore", ctnt.markersScore);
         contestantsListModel.setProperty(row, "photosScore", ctnt.photosScore);
         contestantsListModel.setProperty(row, "startTimeScore", ctnt.startTimeScore);

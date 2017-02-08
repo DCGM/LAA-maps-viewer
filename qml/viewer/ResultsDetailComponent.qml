@@ -19,13 +19,6 @@ Rectangle {
     property string speed;
     property string startTime;
 
-    property int time_window_penalty;
-    property int time_window_size;
-    property int photos_max_score;
-    property int oposite_direction_penalty;
-    property int marker_max_score;
-    property int gyre_penalty;
-
     property int totalPointsScore: -1;
 
     signal ok();
@@ -47,13 +40,13 @@ Rectangle {
         if (tabView.scrollView === null)
             return;
 
-        curentContestant.startTimeScore = getTakeOffScore(tabView.scrollView.startTimeDifferenceText, time_window_size, time_window_penalty, totalPointsScore);
+        curentContestant.startTimeScore = getTakeOffScore(tabView.scrollView.startTimeDifferenceText, curentContestant.time_window_size, curentContestant.time_window_penalty, totalPointsScore);
         tabView.scrollView.startTimeScoreText = curentContestant.startTimeScore;
 
-        curentContestant.circlingScore = getGyreScore(tabView.scrollView.circlingCountValue, gyre_penalty, totalPointsScore);
+        curentContestant.circlingScore = getGyreScore(tabView.scrollView.circlingCountValue, curentContestant.gyre_penalty, totalPointsScore);
         tabView.scrollView.circlingScoreText = curentContestant.circlingScore;
 
-        curentContestant.oppositeScore = getOppositeDirScore(tabView.scrollView.oppositeCountValue, oposite_direction_penalty, totalPointsScore);
+        curentContestant.oppositeScore = getOppositeDirScore(tabView.scrollView.oppositeCountValue, curentContestant.oposite_direction_penalty, totalPointsScore);
         tabView.scrollView.oppositeScoreText = curentContestant.oppositeScore;
 
         // recover tab status
@@ -186,13 +179,13 @@ Rectangle {
             tabView.scrollView.markersOkValue = curentContestant.markersOk;
             tabView.scrollView.markersNokValue = curentContestant.markersNok;
             tabView.scrollView.markersFalseValue = curentContestant.markersFalse;
-            curentContestant.markersScore = getMarkersScore(curentContestant.markersOk, curentContestant.markersNok, curentContestant.markersFalse, marker_max_score);
+            curentContestant.markersScore = getMarkersScore(curentContestant.markersOk, curentContestant.markersNok, curentContestant.markersFalse, curentContestant.marker_max_score);
             tabView.scrollView.markersScoreText = curentContestant.markersScore;
 
             tabView.scrollView.photosOkValue = curentContestant.photosOk;
             tabView.scrollView.photosNokValue = curentContestant.photosNok;
             tabView.scrollView.photosFalseValue = curentContestant.photosFalse;
-            curentContestant.photosScore = getPhotosScore(curentContestant.photosOk, curentContestant.photosNok, curentContestant.photosFalse, photos_max_score);
+            curentContestant.photosScore = getPhotosScore(curentContestant.photosOk, curentContestant.photosNok, curentContestant.photosFalse, curentContestant.photos_max_score);
             tabView.scrollView.photosScoreText = curentContestant.photosScore;
 
             tabView.scrollView.otherPointsText = String(curentContestant.otherPoints);
@@ -208,13 +201,13 @@ Rectangle {
             curentContestant.speedSecScoreSum = res.speedSecScoreSum;
             resultsMainWindow.totalPointsScore = res.sum;
 
-            curentContestant.startTimeScore = getTakeOffScore(tabView.scrollView.startTimeDifferenceText, time_window_size, time_window_penalty, totalPointsScore);
+            curentContestant.startTimeScore = getTakeOffScore(tabView.scrollView.startTimeDifferenceText, curentContestant.time_window_size, curentContestant.time_window_penalty, totalPointsScore);
             tabView.scrollView.startTimeScoreText = curentContestant.startTimeScore;
 
-            curentContestant.circlingScore = getGyreScore(tabView.scrollView.circlingCountValue, gyre_penalty, totalPointsScore);
+            curentContestant.circlingScore = getGyreScore(tabView.scrollView.circlingCountValue, curentContestant.gyre_penalty, totalPointsScore);
             tabView.scrollView.circlingScoreText = curentContestant.circlingScore;
 
-            curentContestant.oppositeScore = getOppositeDirScore(tabView.scrollView.oppositeCountValue, oposite_direction_penalty, totalPointsScore);
+            curentContestant.oppositeScore = getOppositeDirScore(tabView.scrollView.oppositeCountValue, curentContestant.oposite_direction_penalty, totalPointsScore);
             tabView.scrollView.oppositeScoreText = curentContestant.oppositeScore;
 
             recalculateAltSpaceSecPoints();
@@ -333,13 +326,6 @@ Rectangle {
             onVisibleChanged:  {
                 model = curentContestant;
 
-                console.log(summaryTab.model.startTimeScore)
-                console.log(summaryTab.model.circlingScore)
-                console.log(summaryTab.model.oppositeScore)
-                console.log(summaryTab.model.otherPenalty)
-                console.log(summaryTab.model.spaceSecScoreSum)
-                console.log(summaryTab.model.altSecScoreSum)
-
                 penaltySum = 0;
                 penaltySum += summaryTab.model.startTimeScore !== -1 ? summaryTab.model.startTimeScore : 0;
                 penaltySum += summaryTab.model.circlingScore !== -1 ? summaryTab.model.circlingScore : 0;
@@ -355,6 +341,8 @@ Rectangle {
 
             property var model;
             property var penaltySum: 0;
+            property int chartFontSize: 9
+            property int chartLabelFontSize: 12
 
             RowLayout {
 
@@ -371,16 +359,16 @@ Rectangle {
 
                     //% "Points"
                     title: qsTrId("points-chart-title")
-                    titleFont.bold: true
-                    titleFont.pointSize: 12
+                    //titleFont.bold: true
+                    titleFont.pointSize: summaryTab.chartLabelFontSize
 
                     PieSeries {
                         id: pieSeriesPositive
 
                         property double armLengthFactor: 0.4
 
-                        PieSlice { value: Math.abs(summaryTab.model.markersScore); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesPositive.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? ("M " + String(value)) : "" }
-                        PieSlice { value: Math.abs(summaryTab.model.photosScore); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesPositive.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? ("P " + String(value)) : "" }
+                        PieSlice { value: (getMarkersScore(summaryTab.model.markersOk, 0, 0, summaryTab.model.marker_max_score)); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesPositive.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? ("M " + String(value)) : ""  }
+                        PieSlice { value: (getPhotosScore(summaryTab.model.photosOk, 0, 0, summaryTab.model.photos_max_score)); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesPositive.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? ("P " + String(value)) : ""  }
                         PieSlice { value: Math.abs(summaryTab.model.otherPoints); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesPositive.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? ("O " + String(value)) : "" }
                         PieSlice { value: Math.abs(summaryTab.model.tgScoreSum +
                                                    summaryTab.model.tpScoreSum +
@@ -393,7 +381,8 @@ Rectangle {
                         // Set the common slice properties dynamically for convenience
                         for (var i = 0; i < pieSeriesPositive.count; i++) {
                             pieSeriesPositive.at(i).labelPosition = PieSlice.LabelOutside;
-                            pieSeriesPositive.at(i).labelVisible  = true;
+                            pieSeriesPositive.at(i).labelVisible = true;
+                            pieSeriesPositive.at(i).labelFont = Qt.font({pointSize: summaryTab.chartFontSize})
                         }
                     }
 
@@ -409,22 +398,24 @@ Rectangle {
 
                     //% "Penalty"
                     title: qsTrId("penalty-chart-title")
-                    titleFont.bold: true
-                    titleFont.pointSize: 12
+                    titleFont.pointSize: summaryTab.chartLabelFontSize
 
                     PieSeries {
                         id: pieSeriesNegative
 
                         property double armLengthFactor: 0.2
 
-                        PieSlice { value: (summaryTab.model.startTimeScore); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesNegative.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? ("ST " + String(value)) : ""  }
-                        PieSlice { value: (summaryTab.model.circlingScore); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesNegative.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? ("CI " + String(value)) : ""  }
-                        PieSlice { value: (summaryTab.model.oppositeScore); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesNegative.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? ("OP " + String(value)) : ""  }
+                        PieSlice { value: (summaryTab.model.startTimeScore); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesNegative.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? ("ST " + String(value * -1)) : ""  }
+                        PieSlice { value: (summaryTab.model.circlingScore); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesNegative.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? ("CI " + String(value * -1)) : ""  }
+                        PieSlice { value: (summaryTab.model.oppositeScore); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesNegative.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? ("OP " + String(value * -1)) : ""  }
 
-                        PieSlice { value: (summaryTab.model.otherPenalty); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesNegative.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? ("O " + String(value)) : ""  }
+                        PieSlice { value: (getMarkersScore(0, summaryTab.model.markersNok, summaryTab.model.markersFalse, summaryTab.model.marker_max_score)); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesNegative.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? ("M " + String(value * -1)) : ""  }
+                        PieSlice { value: (getPhotosScore(0, summaryTab.model.photosNok, summaryTab.model.photosFalse, summaryTab.model.photos_max_score)); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesNegative.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? ("P " + String(value * -1)) : ""  }
 
-                        PieSlice { value: (summaryTab.model.spaceSecScoreSum); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesNegative.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? ("Spc " + String(value)) : ""  }
-                        PieSlice { value: (summaryTab.model.altSecScoreSum); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesNegative.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? ("Alt " + String(value)) : ""  }
+                        PieSlice { value: (summaryTab.model.otherPenalty); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesNegative.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? ("O " + String(value * -1)) : ""  }
+
+                        PieSlice { value: (summaryTab.model.spaceSecScoreSum); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesNegative.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? ("Spc " + String(value * -1)) : ""  }
+                        PieSlice { value: (summaryTab.model.altSecScoreSum); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesNegative.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? ("Alt " + String(value * -1)) : ""  }
                     }
 
                     Component.onCompleted: {
@@ -433,6 +424,7 @@ Rectangle {
                         for (var i = 0; i < pieSeriesNegative.count; i++) {
                             pieSeriesNegative.at(i).labelPosition = PieSlice.LabelOutside;
                             pieSeriesNegative.at(i).labelVisible  = true;
+                            pieSeriesNegative.at(i).labelFont = Qt.font({pointSize: summaryTab.chartFontSize})
                         }
                     }
                 }
@@ -591,7 +583,7 @@ Rectangle {
                                         return;
 
                                     // add penalty
-                                    curentContestant.startTimeScore = getTakeOffScore(tabView.scrollView.startTimeDifferenceText, time_window_size, time_window_penalty, totalPointsScore);
+                                    curentContestant.startTimeScore = getTakeOffScore(tabView.scrollView.startTimeDifferenceText, curentContestant.time_window_size, curentContestant.time_window_penalty, totalPointsScore);
                                     startTimeScoreTextField.text = curentContestant.startTimeScore;
                                 }
                             }
@@ -689,7 +681,7 @@ Rectangle {
 
                                 on__TextChanged: {
                                     curentContestant.markersOk = value;
-                                    curentContestant.markersScore = getMarkersScore(curentContestant.markersOk, curentContestant.markersNok, curentContestant.markersFalse, marker_max_score)
+                                    curentContestant.markersScore = getMarkersScore(curentContestant.markersOk, curentContestant.markersNok, curentContestant.markersFalse, curentContestant.marker_max_score)
                                     markersScoreTextField.text = curentContestant.markersScore;
 
                                     var res = getScorePointsSum(curentContestant)
@@ -711,7 +703,7 @@ Rectangle {
 
                                 on__TextChanged: {
                                     curentContestant.markersNok = value;
-                                    curentContestant.markersScore = getMarkersScore(curentContestant.markersOk, curentContestant.markersNok, curentContestant.markersFalse, marker_max_score);
+                                    curentContestant.markersScore = getMarkersScore(curentContestant.markersOk, curentContestant.markersNok, curentContestant.markersFalse, curentContestant.marker_max_score);
                                     markersScoreTextField.text = curentContestant.markersScore;
 
                                     var res = getScorePointsSum(curentContestant)
@@ -733,7 +725,7 @@ Rectangle {
 
                                 on__TextChanged: {
                                     curentContestant.markersFalse = value;
-                                    curentContestant.markersScore = getMarkersScore(curentContestant.markersOk, curentContestant.markersNok, curentContestant.markersFalse, marker_max_score);
+                                    curentContestant.markersScore = getMarkersScore(curentContestant.markersOk, curentContestant.markersNok, curentContestant.markersFalse, curentContestant.marker_max_score);
                                     markersScoreTextField.text = curentContestant.markersScore;
 
                                     var res = getScorePointsSum(curentContestant)
@@ -795,7 +787,7 @@ Rectangle {
 
                                 on__TextChanged: {
                                     curentContestant.photosOk = value;
-                                    curentContestant.photosScore = getPhotosScore(curentContestant.photosOk, curentContestant.photosNok, curentContestant.photosFalse, photos_max_score);
+                                    curentContestant.photosScore = getPhotosScore(curentContestant.photosOk, curentContestant.photosNok, curentContestant.photosFalse, curentContestant.photos_max_score);
                                     photosScoreTextField.text = curentContestant.photosScore;
 
                                     var res = getScorePointsSum(curentContestant)
@@ -817,7 +809,7 @@ Rectangle {
 
                                 on__TextChanged: {
                                     curentContestant.photosNok = value;
-                                    curentContestant.photosScore = getPhotosScore(curentContestant.photosOk, curentContestant.photosNok, curentContestant.photosFalse, photos_max_score);
+                                    curentContestant.photosScore = getPhotosScore(curentContestant.photosOk, curentContestant.photosNok, curentContestant.photosFalse, curentContestant.photos_max_score);
                                     photosScoreTextField.text = curentContestant.photosScore;
 
                                     var res = getScorePointsSum(curentContestant)
@@ -839,7 +831,7 @@ Rectangle {
 
                                 on__TextChanged: {
                                     curentContestant.photosFalse = value;
-                                    curentContestant.photosScore = getPhotosScore(curentContestant.photosOk, curentContestant.photosNok, curentContestant.photosFalse, photos_max_score);
+                                    curentContestant.photosScore = getPhotosScore(curentContestant.photosOk, curentContestant.photosNok, curentContestant.photosFalse, curentContestant.photos_max_score);
                                     photosScoreTextField.text = curentContestant.photosScore;
 
                                     var res = getScorePointsSum(curentContestant)
@@ -900,7 +892,7 @@ Rectangle {
 
                                 on__TextChanged: {
                                     curentContestant.circlingCount = value;
-                                    curentContestant.circlingScore = getGyreScore(value, gyre_penalty, totalPointsScore);
+                                    curentContestant.circlingScore = getGyreScore(value, curentContestant.gyre_penalty, totalPointsScore);
                                     circlingScoreTextField.text = curentContestant.circlingScore;
                                 }
                             }
@@ -922,7 +914,7 @@ Rectangle {
 
                                 on__TextChanged: {
                                     curentContestant.oppositeCount = value;
-                                    curentContestant.oppositeScore = getOppositeDirScore(value, oposite_direction_penalty, totalPointsScore);
+                                    curentContestant.oppositeScore = getOppositeDirScore(value, curentContestant.oposite_direction_penalty, totalPointsScore);
                                     oppositeScoreTextField.text = curentContestant.oppositeScore;
                                 }
                             }
@@ -1591,16 +1583,16 @@ Rectangle {
                         curentContestant.startTimeDifference = F.addTimeStrFormat(diff);
 
                         // add penalty
-                        if (diff > time_window_size)
-                            curentContestant.startTimeScore = getTakeOffScore(tabView.scrollView.startTimeDifferenceText, time_window_size, time_window_penalty, totalPointsScore);
+                        if (diff > curentContestant.time_window_size)
+                            curentContestant.startTimeScore = getTakeOffScore(tabView.scrollView.startTimeDifferenceText, curentContestant.time_window_size, curentContestant.time_window_penalty, totalPointsScore);
                         else
                             curentContestant.startTimeScore = 0;
                     }
                 }
 
-                curentContestant.startTimeScore = getTakeOffScore(tabView.scrollView.startTimeDifferenceText, time_window_size, time_window_penalty, totalPointsScore);
-                curentContestant.circlingScore = getGyreScore(tabView.scrollView.circlingCountValue, gyre_penalty, totalPointsScore);
-                curentContestant.oppositeScore = getOppositeDirScore(tabView.scrollView.oppositeCountValue, oposite_direction_penalty, totalPointsScore);
+                curentContestant.startTimeScore = getTakeOffScore(tabView.scrollView.startTimeDifferenceText, curentContestant.time_window_size, curentContestant.time_window_penalty, totalPointsScore);
+                curentContestant.circlingScore = getGyreScore(tabView.scrollView.circlingCountValue, curentContestant.gyre_penalty, totalPointsScore);
+                curentContestant.oppositeScore = getOppositeDirScore(tabView.scrollView.oppositeCountValue, curentContestant.oposite_direction_penalty, totalPointsScore);
 
                 // recover tab status
                 if (!tabPrevActived) tabView.activateTabByName(previousActive)
