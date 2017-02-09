@@ -413,9 +413,9 @@ Rectangle {
 
                         property double armLengthFactor: 0.2
 
-                        MPieSlice { mVal: (summaryTab.model.startTimeScore); mLabelShortcut: qmlTranslator.myTranslate("html-results-ctnt-takeOfF-shortcut"); mLabelDetail: String(summaryTab.model.startTimeDifference); }
-                        MPieSlice { mVal: (summaryTab.model.circlingScore); mLabelShortcut: qmlTranslator.myTranslate("html-results-ctnt-circling-shortcut"); mLabelDetail: String(summaryTab.model.circlingCount) + " x " + String(summaryTab.model.gyre_penalty) + qmlTranslator.myTranslate("html-points-shortcut"); }
-                        MPieSlice { mVal: (summaryTab.model.oppositeScore); mLabelShortcut: qmlTranslator.myTranslate("html-results-ctnt-opposite-shortcut"); mLabelDetail: String(summaryTab.model.oppositeCount) + " x " + String(summaryTab.model.oposite_direction_penalty) + qmlTranslator.myTranslate("html-points-shortcut"); }
+                        MPieSlice { mVal: (summaryTab.model.startTimeScore); mLabelShortcut: qmlTranslator.myTranslate("html-results-ctnt-takeOfF-shortcut"); mLabelDetail: String(summaryTab.model.startTimeDifference) + " " + String(summaryTab.model.time_window_penalty) + "%"; }
+                        MPieSlice { mVal: (summaryTab.model.circlingScore); mLabelShortcut: qmlTranslator.myTranslate("html-results-ctnt-circling-shortcut"); mLabelDetail: String(summaryTab.model.circlingCount * summaryTab.model.gyre_penalty) + "%" ; }
+                        MPieSlice { mVal: (summaryTab.model.oppositeScore); mLabelShortcut: qmlTranslator.myTranslate("html-results-ctnt-opposite-shortcut"); mLabelDetail: String(summaryTab.model.oppositeCount * summaryTab.model.oposite_direction_penalty) + "%"; }
 
                         MPieSlice { mVal: (getMarkersScore(0, summaryTab.model.markersNok, 0, summaryTab.model.marker_max_score)); mLabelShortcut: qmlTranslator.myTranslate("html-results-ctnt-markersNok-shortcut"); mLabelDetail: String(summaryTab.model.markersNok) + " x " + String(summaryTab.model.marker_max_score) + qmlTranslator.myTranslate("html-points-shortcut");}
                         MPieSlice { mVal: (getMarkersScore(0, 0, summaryTab.model.markersFalse, summaryTab.model.marker_max_score)); mLabelShortcut: qmlTranslator.myTranslate("html-results-ctnt-markersFalse-shortcut"); mLabelDetail: String(summaryTab.model.markersFalse) + " x " + String(summaryTab.model.marker_max_score) + qmlTranslator.myTranslate("html-points-shortcut");}
