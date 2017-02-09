@@ -342,7 +342,7 @@ Rectangle {
             property var model;
             property var penaltySum: 0;
             property int chartFontSize: 9
-            property int chartLabelFontSize: 12
+            property int chartLabelFontSize: 13
 
             RowLayout {
 
@@ -367,14 +367,14 @@ Rectangle {
 
                         property double armLengthFactor: 0.4
 
-                        PieSlice { value: (getMarkersScore(summaryTab.model.markersOk, 0, 0, summaryTab.model.marker_max_score)); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesPositive.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? ("M " + String(value)) : ""  }
-                        PieSlice { value: (getPhotosScore(summaryTab.model.photosOk, 0, 0, summaryTab.model.photos_max_score)); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesPositive.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? ("P " + String(value)) : ""  }
-                        PieSlice { value: Math.abs(summaryTab.model.otherPoints); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesPositive.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? ("O " + String(value)) : "" }
+                        PieSlice { value: (getMarkersScore(summaryTab.model.markersOk, 0, 0, summaryTab.model.marker_max_score)); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesPositive.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? (qmlTranslator.myTranslate("html-results-ctnt-markersOk-shortcut") + ": " + String(value)) : ""  }
+                        PieSlice { value: (getPhotosScore(summaryTab.model.photosOk, 0, 0, summaryTab.model.photos_max_score)); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesPositive.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? (qmlTranslator.myTranslate("html-results-ctnt-photosOk-shortcut") + ": " + String(value)) : ""  }
+                        PieSlice { value: Math.abs(summaryTab.model.otherPoints); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesPositive.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? (qmlTranslator.myTranslate("html-results-ctnt-otherPoints-shortcut") + ": " + String(value)) : "" }
                         PieSlice { value: Math.abs(summaryTab.model.tgScoreSum +
                                                    summaryTab.model.tpScoreSum +
                                                    summaryTab.model.sgScoreSum +
-                                                   summaryTab.model.altLimitsScoreSum); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesPositive.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? ("G " + String(value)) : "" }
-                        PieSlice { value: Math.abs(summaryTab.model.speedSecScoreSum); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesPositive.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? ("Spd " + String(value)) : "" }
+                                                   summaryTab.model.altLimitsScoreSum); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesPositive.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? (qmlTranslator.myTranslate("html-results-ctnt-tg-shortcut") + ", " + qmlTranslator.myTranslate("html-results-ctnt-tp-shortcut") + ", " + qmlTranslator.myTranslate("html-results-ctnt-sg-shortcut") + ", " + qmlTranslator.myTranslate("html-results-ctnt-altLimits-shortcut") + ": " + String(value)) : "" }
+                        PieSlice { value: Math.abs(summaryTab.model.speedSecScoreSum); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesPositive.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? (qmlTranslator.myTranslate("html-results-ctnt-speedSec-shortcut") + ": " + String(value)) : "" }
                     }
 
                     Component.onCompleted: {
@@ -405,17 +405,20 @@ Rectangle {
 
                         property double armLengthFactor: 0.2
 
-                        PieSlice { value: (summaryTab.model.startTimeScore); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesNegative.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? ("ST " + String(value * -1)) : ""  }
-                        PieSlice { value: (summaryTab.model.circlingScore); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesNegative.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? ("CI " + String(value * -1)) : ""  }
-                        PieSlice { value: (summaryTab.model.oppositeScore); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesNegative.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? ("OP " + String(value * -1)) : ""  }
+                        PieSlice { value: (summaryTab.model.startTimeScore); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesNegative.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? (qmlTranslator.myTranslate("html-results-ctnt-takeOfF-shortcut") + ": " + String(value * -1)) : ""  }
+                        PieSlice { value: (summaryTab.model.circlingScore); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesNegative.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? (qmlTranslator.myTranslate("html-results-ctnt-circling-shortcut") + ": " + String(value * -1)) : ""  }
+                        PieSlice { value: (summaryTab.model.oppositeScore); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesNegative.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? (qmlTranslator.myTranslate("html-results-ctnt-opposite-shortcut") + ": " + String(value * -1)) : ""  }
 
-                        PieSlice { value: (getMarkersScore(0, summaryTab.model.markersNok, summaryTab.model.markersFalse, summaryTab.model.marker_max_score)); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesNegative.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? ("M " + String(value * -1)) : ""  }
-                        PieSlice { value: (getPhotosScore(0, summaryTab.model.photosNok, summaryTab.model.photosFalse, summaryTab.model.photos_max_score)); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesNegative.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? ("P " + String(value * -1)) : ""  }
+                        PieSlice { value: (getMarkersScore(0, summaryTab.model.markersNok, 0, summaryTab.model.marker_max_score)); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesNegative.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? (qmlTranslator.myTranslate("html-results-ctnt-markersNok-shortcut") + ": " + String(value * -1)) : ""  }
+                        PieSlice { value: (getMarkersScore(0, 0, summaryTab.model.markersFalse, summaryTab.model.marker_max_score)); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesNegative.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? (qmlTranslator.myTranslate("html-results-ctnt-markersFalse-shortcut") + ": " + String(value * -1)) : ""  }
 
-                        PieSlice { value: (summaryTab.model.otherPenalty); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesNegative.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? ("O " + String(value * -1)) : ""  }
+                        PieSlice { value: (getPhotosScore(0, summaryTab.model.photosNok, 0, summaryTab.model.photos_max_score)); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesNegative.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? (qmlTranslator.myTranslate("html-results-ctnt-photosNok-shortcut") + ": " + String(value * -1)) : ""  }
+                        PieSlice { value: (getPhotosScore(0, 0, summaryTab.model.photosFalse, summaryTab.model.photos_max_score)); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesNegative.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? (qmlTranslator.myTranslate("html-results-ctnt-photosFalse-shortcut") + ": " + String(value * -1)) : ""  }
 
-                        PieSlice { value: (summaryTab.model.spaceSecScoreSum); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesNegative.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? ("Spc " + String(value * -1)) : ""  }
-                        PieSlice { value: (summaryTab.model.altSecScoreSum); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesNegative.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? ("Alt " + String(value * -1)) : ""  }
+                        PieSlice { value: (summaryTab.model.otherPenalty); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesNegative.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? (qmlTranslator.myTranslate("html-results-ctnt-otherPenalty-shortcut") + ": " + String(value * -1)) : ""  }
+
+                        PieSlice { value: (summaryTab.model.spaceSecScoreSum); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesNegative.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? (qmlTranslator.myTranslate("html-results-ctnt-spaceSec-shortcut") + ": " + String(value * -1)) : ""  }
+                        PieSlice { value: (summaryTab.model.altSecScoreSum); labelArmLengthFactor: (value !== 0 && value !== -1 ) ? pieSeriesNegative.armLengthFactor : 0 ; label: (value !== 0 && value !== -1 ) ? (qmlTranslator.myTranslate("html-results-ctnt-altSec-shortcut") + ": " + String(value * -1)) : ""  }
                     }
 
                     Component.onCompleted: {
