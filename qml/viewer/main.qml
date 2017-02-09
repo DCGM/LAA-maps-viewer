@@ -1009,6 +1009,40 @@ ApplicationWindow {
 
                     onShowResults: {
 
+
+                        // load cattegory property
+                        var currentTrck;
+                        var found = false;
+                        var arr = tracks.tracks;
+                        var ctntCategory = contestantsListModel.get(row).category
+
+                        for (var i = 0; i < arr.length; i++) {
+                            currentTrck = arr[i];
+
+                            if (currentTrck.name === ctntCategory) {
+
+                                contestantsListModel.setProperty(row, "time_window_penalty", parseInt(currentTrck.time_window_penalty));
+                                contestantsListModel.setProperty(row, "time_window_size", parseInt(currentTrck.time_window_size));
+                                contestantsListModel.setProperty(row, "photos_max_score", parseInt(currentTrck.photos_max_score));
+                                contestantsListModel.setProperty(row, "oposite_direction_penalty", parseInt(currentTrck.oposite_direction_penalty));
+                                contestantsListModel.setProperty(row, "marker_max_score", parseInt(currentTrck.marker_max_score));
+                                contestantsListModel.setProperty(row, "gyre_penalty", parseInt(currentTrck.gyre_penalty));
+                                found = true;
+                                break;
+                            }
+                        }
+
+                        if (!found) {
+                            console.log("onShowResults " + "unable to get category property for: " + ctntCategory)
+
+                            contestantsListModel.setProperty(row, "time_window_penalty", 0);
+                            contestantsListModel.setProperty(row, "time_window_size", 0);
+                            contestantsListModel.setProperty(row, "photos_max_score", 0);
+                            contestantsListModel.setProperty(row, "oposite_direction_penalty", 0);
+                            contestantsListModel.setProperty(row, "marker_max_score", 0);
+                            contestantsListModel.setProperty(row, "gyre_penalty", 0);
+                        }
+
                         // load contestant property
                         ctnt = contestantsListModel.get(row);
 
@@ -2396,8 +2430,6 @@ ApplicationWindow {
             "altLimitsScoreSum": altLimitsScoreSum,
             "speedSecScoreSum": speedSecScoreSum
         }
-
-        console.log("getScorePointsSum " + sum)
 
         return res;
     }

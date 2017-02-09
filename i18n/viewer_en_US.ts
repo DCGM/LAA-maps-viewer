@@ -176,276 +176,276 @@
         <translation>Enter URL</translation>
     </message>
     <message id="contestant-table-row-selected-file-not-found">
-        <location filename="../qml/viewer/main.qml" line="1106"/>
+        <location filename="../qml/viewer/main.qml" line="1140"/>
         <source>File \&quot;%1\&quot; not found!</source>
         <oldsource>File \&quot;%1\&quot; not found</oldsource>
         <translation>File &quot;%1&quot; not found!</translation>
     </message>
     <message id="file-name-ontinuous-results">
         <location filename="../qml/viewer/main.qml" line="90"/>
-        <location filename="../qml/viewer/main.qml" line="2144"/>
-        <location filename="../qml/viewer/main.qml" line="2155"/>
+        <location filename="../qml/viewer/main.qml" line="2178"/>
+        <location filename="../qml/viewer/main.qml" line="2189"/>
         <source>Continuous results</source>
         <translation>results</translation>
     </message>
     <message id="start-list-filename">
         <location filename="../qml/viewer/main.qml" line="91"/>
-        <location filename="../qml/viewer/main.qml" line="2218"/>
-        <location filename="../qml/viewer/main.qml" line="2248"/>
+        <location filename="../qml/viewer/main.qml" line="2252"/>
+        <location filename="../qml/viewer/main.qml" line="2282"/>
         <source>Start list</source>
         <translation>start list</translation>
     </message>
     <message id="trackFile-not-found-dialog-title">
-        <location filename="../qml/viewer/main.qml" line="4337"/>
+        <location filename="../qml/viewer/main.qml" line="4369"/>
         <source>Track file</source>
         <oldsource>Track file.</oldsource>
         <translation>Track file</translation>
     </message>
     <message id="trackFile-not-found-dialog-text">
-        <location filename="../qml/viewer/main.qml" line="4339"/>
+        <location filename="../qml/viewer/main.qml" line="4371"/>
         <source>File %1 not found!</source>
         <oldsource>File %1 not found.</oldsource>
         <translation>File %1 not found!</translation>
     </message>
     <message id="start-up-message-dialog-title">
-        <location filename="../qml/viewer/main.qml" line="4449"/>
+        <location filename="../qml/viewer/main.qml" line="4481"/>
         <source>Recovery settings</source>
         <oldsource>Viewer</oldsource>
         <translation>Recovery settings</translation>
     </message>
     <message id="start-up-message-dialog-text">
-        <location filename="../qml/viewer/main.qml" line="4452"/>
+        <location filename="../qml/viewer/main.qml" line="4484"/>
         <source>Do you want to load previous enviroment settings?</source>
         <translation>Do you want to load previous enviroment settings?</translation>
     </message>
     <message id="filelist-table-contestants">
-        <location filename="../qml/viewer/main.qml" line="1126"/>
+        <location filename="../qml/viewer/main.qml" line="1160"/>
         <source>Contestant</source>
         <translation>Contestant</translation>
     </message>
     <message id="results-window-dialog-manual-values">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="441"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="451"/>
         <source>Results window manual values</source>
         <translation>Manual values</translation>
     </message>
     <message id="results-window-dialog-manual-values-takeof-window">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="488"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="498"/>
         <source>Results window manual values take of window</source>
         <translation>Take off window</translation>
     </message>
     <message id="score-table-takeof-window-measured">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="499"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="509"/>
         <source>takeof window measured</source>
         <translation>Calculated</translation>
     </message>
     <message id="score-table-takeof-window-manual">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="501"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="511"/>
         <source>takeof window inserted</source>
         <translation>Measured</translation>
     </message>
     <message id="score-table-takeof-window-difference">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="503"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="513"/>
         <source>takeof window difference</source>
         <translation>Difference</translation>
     </message>
     <message id="score-table-takeof-window-score">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="505"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="515"/>
         <source>takeof window score</source>
         <translation>Score</translation>
     </message>
     <message id="results-window-dialog-manual-values-landing-accurancy">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="604"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="614"/>
         <source>Results window manual values landing accurancy</source>
         <translation>Landing accuracy</translation>
     </message>
     <message id="score-table-landing-accurancy-score">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="618"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="628"/>
         <source>Results window landing accurancy score</source>
         <translation>Score</translation>
     </message>
     <message id="results-window-dialog-manual-values-markers">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="648"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="658"/>
         <source>Results window manual values markers</source>
         <translation>Markers</translation>
     </message>
     <message id="score-table-markers-ok">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="659"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="669"/>
         <source>markers ok count</source>
         <translation>Ok</translation>
     </message>
     <message id="score-table-markers-nok">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="661"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="671"/>
         <source>markers nok count</source>
         <translation>Nok</translation>
     </message>
     <message id="score-table-markers-false">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="663"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="673"/>
         <source>markers false count</source>
         <translation>False</translation>
     </message>
     <message id="score-table-markers-score">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="665"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="675"/>
         <source>markers score</source>
         <translation>Score</translation>
     </message>
     <message id="results-window-dialog-manual-values-photos">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="754"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="764"/>
         <source>Results window manual values photos</source>
         <translation>Photos</translation>
     </message>
     <message id="score-table-photos-ok">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="765"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="775"/>
         <source>photos ok count</source>
         <translation>Ok</translation>
     </message>
     <message id="score-table-photos-nok">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="767"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="777"/>
         <source>photos nok count</source>
         <translation>Nok</translation>
     </message>
     <message id="score-table-photos-false">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="769"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="779"/>
         <source>photos false count</source>
         <translation>False</translation>
     </message>
     <message id="score-table-photos-score">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="771"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="781"/>
         <source>photos score</source>
         <translation>Score</translation>
     </message>
     <message id="results-window-dialog-manual-values-circling-opposite-dirrection">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="860"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="870"/>
         <source>Results window manual values circling and opposite dirrection</source>
         <translation>Circling on the track, countercurrent flight</translation>
     </message>
     <message id="score-table-circling-count">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="871"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="881"/>
         <source>circling on track count</source>
         <translation>Circling count</translation>
     </message>
     <message id="score-table-circling-score">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="873"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="883"/>
         <source>circling on track score</source>
         <translation>Circling score</translation>
     </message>
     <message id="score-table-opposite-count">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="875"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="885"/>
         <source>opposite dirrection on track count</source>
         <translation>Countercurrent flight count</translation>
     </message>
     <message id="score-table-opposite-score">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="877"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="887"/>
         <source>opposite dirrection on track score</source>
         <translation>Countercurrent flight score</translation>
     </message>
     <message id="results-window-dialog-manual-values-extra-points">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="947"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="957"/>
         <source>Results window manual values extra points</source>
         <translation>Other score</translation>
     </message>
     <message id="score-table-other-points">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="959"/>
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="965"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="969"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="975"/>
         <source>other points</source>
         <translation>Score</translation>
     </message>
     <message id="score-table-other-points-note">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1103"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1113"/>
         <source>other points note</source>
         <translation>Note</translation>
     </message>
     <message id="path-configuration-ok-show-button">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1512"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1522"/>
         <source>Ok &amp; show</source>
         <translation>Save and open</translation>
     </message>
     <message id="path-configuration-confirm-button">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1523"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1533"/>
         <source>Confirm</source>
         <translation>Save</translation>
     </message>
     <message id="results-window-dialog-manual-values-extra-penalty">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1022"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1032"/>
         <source>Results window manual values extra penalty</source>
         <translation>Other penalty</translation>
     </message>
     <message id="score-table-other-penalty">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1040"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1050"/>
         <source>other penalty</source>
         <translation>Penalty</translation>
     </message>
     <message id="results-window-dialog-points-table">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1141"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1151"/>
         <source>Results window points tab</source>
         <translation>Gates</translation>
     </message>
     <message id="score-table-name">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1227"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1237"/>
         <source>Name</source>
         <translation>Name</translation>
     </message>
     <message id="score-table-type">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1230"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1240"/>
         <source>Type</source>
         <translation>Type</translation>
     </message>
     <message id="score-table-distance_from_vbt">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1233"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1243"/>
         <source>Distance from VBT</source>
         <translation>Distance from VBT</translation>
     </message>
     <message id="score-table-tg_time_calculated">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1236"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1246"/>
         <source>TG calculated time</source>
         <translation>TG calculated</translation>
     </message>
     <message id="score-table-tg_time_manual">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1242"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1252"/>
         <source>TG measured timeTG manual time</source>
         <translation>TG measured</translation>
     </message>
     <message id="score-table-tg_time_difference">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1245"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1255"/>
         <source>TG time difference</source>
         <translation>TG difference</translation>
     </message>
     <message id="score-table-tg_score">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1248"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1258"/>
         <source>TG score</source>
         <translation>TG score</translation>
     </message>
     <message id="score-table-tp_hit_manual">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1254"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1264"/>
         <source>TP hit autoTP hit manual</source>
         <translation>TP calculated</translation>
     </message>
     <message id="score-table-tp_score">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1257"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1267"/>
         <source>TP score</source>
         <translation>TP score</translation>
     </message>
     <message id="score-table-sg_hit_manual">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1263"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1273"/>
         <source>SG hit autoSG hit manual</source>
         <translation>SG calculated</translation>
     </message>
     <message id="score-table-sg_score">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1266"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1276"/>
         <source>SG score</source>
         <translation>SG score</translation>
     </message>
     <message id="score-table-alt_max">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1272"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1282"/>
         <source>Point altitude max</source>
         <translation>Max altitude</translation>
     </message>
     <message id="score-table-alt_min">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1269"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1279"/>
         <source>Point altitude min</source>
         <translation>Min altitude</translation>
     </message>
     <message id="summary-tab-title">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="324"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="322"/>
         <source>Summary</source>
         <translation>Summary</translation>
     </message>
@@ -455,117 +455,117 @@
         <translation></translation>
     </message>
     <message id="penalty-chart-title">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="400"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="406"/>
         <source>Penalty</source>
         <translation>Penalty</translation>
     </message>
     <message id="score-table-alt_manual">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1278"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1288"/>
         <source>Point altitude measuredPoint altitude manual</source>
         <translation>Altitude measured</translation>
     </message>
     <message id="score-table-alt_score">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1281"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1291"/>
         <source>Point altitude score</source>
         <translation>Altitude score</translation>
     </message>
     <message id="results-window-dialog-speed-sections-table">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1290"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1300"/>
         <source>Results window speed sections tab</source>
         <translation>Speed sections</translation>
     </message>
     <message id="speed-sections-score-table-start-name">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1347"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1357"/>
         <source>Speed sections start point name</source>
         <translation>Start point</translation>
     </message>
     <message id="speed-sections-score-table-end-name">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1350"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1360"/>
         <source>Speed sections end point name</source>
         <translation>End point</translation>
     </message>
     <message id="speed-sections-score-table-measured">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1353"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1363"/>
         <source>Speed sections measured speed</source>
         <translation>Measured</translation>
     </message>
     <message id="speed-sections-score-table-difference">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1356"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1366"/>
         <source>Speed sections speed difference</source>
         <translation>Difference</translation>
     </message>
     <message id="speed-sections-score-table-score">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1359"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1369"/>
         <source>Speed sections score points</source>
         <translation>Points</translation>
     </message>
     <message id="results-window-dialog-altitude-sections-table">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1369"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1379"/>
         <source>Results window altitude sections tab</source>
         <translation>Altitude sections</translation>
     </message>
     <message id="alt-sections-score-table-start-name">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1413"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1423"/>
         <source>Alt sections start point name</source>
         <translation>Start point</translation>
     </message>
     <message id="alt-sections-score-table-end-name">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1416"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1426"/>
         <source>Alt sections end point name</source>
         <translation>End point</translation>
     </message>
     <message id="alt-sections-score-table-min-entries-count">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1419"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1429"/>
         <source>Alt sections min entries count</source>
         <translation>Min alt entries count</translation>
     </message>
     <message id="alt-sections-score-table-min-entries-time">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1422"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1432"/>
         <source>Alt sections min entries time</source>
         <translation>Min alt entries time</translation>
     </message>
     <message id="alt-sections-score-table-max-entries-count">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1425"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1435"/>
         <source>Alt sections max entries count</source>
         <translation>Max alt entries count</translation>
     </message>
     <message id="alt-sections-score-table-max-entries-time">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1428"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1438"/>
         <source>Alt sections max entries time</source>
         <translation>Max alt entries time</translation>
     </message>
     <message id="alt-sections-score-table-score">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1431"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1441"/>
         <source>Alt sections score points</source>
         <translation>Points</translation>
     </message>
     <message id="results-window-dialog-space-sections-table">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1440"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1450"/>
         <source>Results window space sections tab</source>
         <translation>Space sections</translation>
     </message>
     <message id="space-sections-score-table-start-name">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1483"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1493"/>
         <source>Space sections start point name</source>
         <translation>Start point</translation>
     </message>
     <message id="space-sections-score-table-end-name">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1486"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1496"/>
         <source>Space sections end point name</source>
         <translation>End point</translation>
     </message>
     <message id="space-sections-score-table-entries-count">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1489"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1499"/>
         <source>Space sections entries out count</source>
         <translation>Entries count</translation>
     </message>
     <message id="space-sections-score-table-entries-time">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1492"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1502"/>
         <source>Space sections entries out time</source>
         <translation>Entries time</translation>
     </message>
     <message id="space-sections-score-table-score">
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1495"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1505"/>
         <source>Space sections score points</source>
         <translation>Points</translation>
     </message>
@@ -582,7 +582,7 @@
         <translation>No</translation>
     </message>
     <message id="toolbar-igc-count" numerus="yes">
-        <location filename="../qml/viewer/main.qml" line="1511"/>
+        <location filename="../qml/viewer/main.qml" line="1545"/>
         <source>Fixes %n</source>
         <oldsource>Igc fixes %n</oldsource>
         <translation>
@@ -591,32 +591,32 @@
         </translation>
     </message>
     <message id="section-type-speed">
-        <location filename="../qml/viewer/main.qml" line="3814"/>
+        <location filename="../qml/viewer/main.qml" line="3846"/>
         <source>speed</source>
         <translation>speed</translation>
     </message>
     <message id="section-type-altitude">
-        <location filename="../qml/viewer/main.qml" line="3826"/>
+        <location filename="../qml/viewer/main.qml" line="3858"/>
         <source>altitude</source>
         <translation>altitude</translation>
     </message>
     <message id="section-type-space">
-        <location filename="../qml/viewer/main.qml" line="3838"/>
+        <location filename="../qml/viewer/main.qml" line="3870"/>
         <source>space</source>
         <translation>space</translation>
     </message>
     <message id="filelist-table-category">
-        <location filename="../qml/viewer/main.qml" line="1137"/>
+        <location filename="../qml/viewer/main.qml" line="1171"/>
         <source>Category</source>
         <translation>Category</translation>
     </message>
     <message id="filelist-table-speed">
-        <location filename="../qml/viewer/main.qml" line="1149"/>
+        <location filename="../qml/viewer/main.qml" line="1183"/>
         <source>Speed</source>
         <translation>Speed</translation>
     </message>
     <message id="filelist-table-start-time">
-        <location filename="../qml/viewer/main.qml" line="1143"/>
+        <location filename="../qml/viewer/main.qml" line="1177"/>
         <source>StartTime</source>
         <translation>Start time</translation>
     </message>
@@ -636,42 +636,42 @@
         <translation>&amp;Contestants</translation>
     </message>
     <message id="contestant-table-row-selected-err-dialog-title">
-        <location filename="../qml/viewer/main.qml" line="1103"/>
+        <location filename="../qml/viewer/main.qml" line="1137"/>
         <source>IGC file</source>
         <translation>IGC file</translation>
     </message>
     <message id="filelist-table-aircraft-registration">
-        <location filename="../qml/viewer/main.qml" line="1155"/>
+        <location filename="../qml/viewer/main.qml" line="1189"/>
         <source>Aircraft registration</source>
         <translation>Registration</translation>
     </message>
     <message id="filelist-table-score">
-        <location filename="../qml/viewer/main.qml" line="1161"/>
+        <location filename="../qml/viewer/main.qml" line="1195"/>
         <source>Score</source>
         <translation>Score</translation>
     </message>
     <message id="filelist-table-score-to-1000">
-        <location filename="../qml/viewer/main.qml" line="1167"/>
+        <location filename="../qml/viewer/main.qml" line="1201"/>
         <source>Score to 1000</source>
         <translation>Score to 1000</translation>
     </message>
     <message id="filelist-table-class-order">
-        <location filename="../qml/viewer/main.qml" line="1173"/>
+        <location filename="../qml/viewer/main.qml" line="1207"/>
         <source>Class order</source>
         <translation>Order</translation>
     </message>
     <message id="filelist-table-classify">
-        <location filename="../qml/viewer/main.qml" line="1179"/>
+        <location filename="../qml/viewer/main.qml" line="1213"/>
         <source>Classify</source>
         <translation>Classify</translation>
     </message>
     <message id="toolbar-start-time">
-        <location filename="../qml/viewer/main.qml" line="1492"/>
+        <location filename="../qml/viewer/main.qml" line="1526"/>
         <source>(Start time: %1)</source>
         <translation>(Start time: %1)</translation>
     </message>
     <message id="toolbar-invalid-fixes" numerus="yes">
-        <location filename="../qml/viewer/main.qml" line="1498"/>
+        <location filename="../qml/viewer/main.qml" line="1532"/>
         <source>Invalid %n</source>
         <oldsource>Invalid/Trimmed %1/%2</oldsource>
         <translation>
@@ -680,7 +680,7 @@
         </translation>
     </message>
     <message id="toolbar-trimmed-fixes" numerus="yes">
-        <location filename="../qml/viewer/main.qml" line="1505"/>
+        <location filename="../qml/viewer/main.qml" line="1539"/>
         <source>Trimmed %n</source>
         <translation>
             <numerusform>Trimmed %n</numerusform>
@@ -703,12 +703,12 @@
         <translation>Remove crew</translation>
     </message>
     <message id="status-no-track-loaded">
-        <location filename="../qml/viewer/main.qml" line="1470"/>
+        <location filename="../qml/viewer/main.qml" line="1504"/>
         <source>No track loaded</source>
         <translation>No track loaded</translation>
     </message>
     <message id="filelist-table-filename">
-        <location filename="../qml/viewer/main.qml" line="1132"/>
+        <location filename="../qml/viewer/main.qml" line="1166"/>
         <source>File name</source>
         <translation>File name</translation>
     </message>
@@ -967,7 +967,7 @@
     <message id="path-configuration-ok-cancel">
         <location filename="../qml/viewer/CalendarWindow.qml" line="61"/>
         <location filename="../qml/viewer/PathConfiguration.qml" line="1239"/>
-        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1607"/>
+        <location filename="../qml/viewer/ResultsDetailComponent.qml" line="1617"/>
         <source>Cancel</source>
         <oldsource>&amp;Cancel</oldsource>
         <translation>Cancel</translation>
@@ -1340,7 +1340,7 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
     </message>
     <message id="html-results-competition-arbitr">
         <location filename="../qml/viewer/MyTranslator.qml" line="77"/>
-        <location filename="../qml/viewer/main.qml" line="1527"/>
+        <location filename="../qml/viewer/main.qml" line="1561"/>
         <source>competition referee</source>
         <translation>Referee</translation>
     </message>
@@ -1561,392 +1561,397 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
         <source>+p legend</source>
         <translation>extra points</translation>
     </message>
-    <message id="html-results-ctnt-otherPenalty-shortcut-legend">
+    <message id="html-points-shortcut">
         <location filename="../qml/viewer/MyTranslator.qml" line="209"/>
+        <source>p</source>
+        <translation>p</translation>
+    </message>
+    <message id="html-results-ctnt-otherPenalty-shortcut-legend">
+        <location filename="../qml/viewer/MyTranslator.qml" line="212"/>
         <source>-p legend</source>
         <translation>penalty</translation>
     </message>
     <message id="html-results-ctnt-points-shortcut-legend">
-        <location filename="../qml/viewer/MyTranslator.qml" line="212"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="215"/>
         <source>Sum legend</source>
         <translation>total points</translation>
     </message>
     <message id="html-results-ctnt-points1000-shortcut-legend">
-        <location filename="../qml/viewer/MyTranslator.qml" line="215"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="218"/>
         <source>Sum1000 legend</source>
         <translation>total points to 1000</translation>
     </message>
     <message id="html-results-competition-date">
-        <location filename="../qml/viewer/MyTranslator.qml" line="218"/>
-        <location filename="../qml/viewer/main.qml" line="1528"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="221"/>
+        <location filename="../qml/viewer/main.qml" line="1562"/>
         <source>competition date</source>
         <translation>Date</translation>
     </message>
     <message id="html-results-competition-director">
-        <location filename="../qml/viewer/MyTranslator.qml" line="221"/>
-        <location filename="../qml/viewer/main.qml" line="1526"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="224"/>
+        <location filename="../qml/viewer/main.qml" line="1560"/>
         <source>competition director</source>
         <translation>Director</translation>
     </message>
     <message id="html-results-competition-type">
-        <location filename="../qml/viewer/MyTranslator.qml" line="224"/>
-        <location filename="../qml/viewer/main.qml" line="1525"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="227"/>
+        <location filename="../qml/viewer/main.qml" line="1559"/>
         <source>competition type</source>
         <translation>Type</translation>
     </message>
     <message id="html-results-manual-values">
-        <location filename="../qml/viewer/MyTranslator.qml" line="227"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="230"/>
         <source>manual values</source>
         <translation>Manual values</translation>
     </message>
     <message id="html-results-competition-group-name">
-        <location filename="../qml/viewer/MyTranslator.qml" line="230"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="233"/>
         <source>competition group name</source>
         <translation>Competition</translation>
     </message>
     <message id="html-results-inserted-value">
-        <location filename="../qml/viewer/MyTranslator.qml" line="233"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="236"/>
         <source>inserted value</source>
         <translation>Entered</translation>
     </message>
     <message id="html-results-competition-round">
-        <location filename="../qml/viewer/MyTranslator.qml" line="236"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="239"/>
         <source>competition round</source>
         <translation>Round</translation>
     </message>
     <message id="html-results-count">
-        <location filename="../qml/viewer/MyTranslator.qml" line="239"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="242"/>
         <source>count</source>
         <translation>Count</translation>
     </message>
     <message id="html-results-crew-title">
-        <location filename="../qml/viewer/MyTranslator.qml" line="242"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="245"/>
         <source>crew details</source>
         <translation>Crew</translation>
     </message>
     <message id="html-results-ctnt-aircraft-registration">
-        <location filename="../qml/viewer/MyTranslator.qml" line="245"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="248"/>
         <source>aircraft registration</source>
         <translation>Registration</translation>
     </message>
     <message id="html-results-ctnt-aircraft-type">
-        <location filename="../qml/viewer/MyTranslator.qml" line="248"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="251"/>
         <source>aircraft type</source>
         <translation>Type</translation>
     </message>
     <message id="html-results-ctnt-category">
-        <location filename="../qml/viewer/MyTranslator.qml" line="251"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="254"/>
         <source>category</source>
         <translation>Category</translation>
     </message>
     <message id="html-results-ctnt-classify">
-        <location filename="../qml/viewer/MyTranslator.qml" line="254"/>
-        <location filename="../qml/viewer/MyTranslator.qml" line="266"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="257"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="269"/>
         <source>classify</source>
         <translation>Classify</translation>
     </message>
     <message id="html-results-ctnt-class-order">
-        <location filename="../qml/viewer/MyTranslator.qml" line="257"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="260"/>
         <source>class order</source>
         <translation>Order</translation>
     </message>
     <message id="html-results-ctnt-copilot">
-        <location filename="../qml/viewer/MyTranslator.qml" line="260"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="263"/>
         <source>copilot</source>
         <translation>Copilot</translation>
     </message>
     <message id="html-results-ctnt-pilot">
-        <location filename="../qml/viewer/MyTranslator.qml" line="263"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="266"/>
         <source>pilot</source>
         <translation>Pilot</translation>
     </message>
     <message id="html-results-ctnt-score-points">
-        <location filename="../qml/viewer/MyTranslator.qml" line="269"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="272"/>
         <source>score points</source>
         <translation>Points</translation>
     </message>
     <message id="html-results-ctnt-score-points1000">
-        <location filename="../qml/viewer/MyTranslator.qml" line="272"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="275"/>
         <source>score points1000</source>
         <translation>Points to 1000</translation>
     </message>
     <message id="html-results-ctnt-speed">
-        <location filename="../qml/viewer/MyTranslator.qml" line="275"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="278"/>
         <source>speed</source>
         <translation>Speed</translation>
     </message>
     <message id="html-results-ctnt-startTime">
-        <location filename="../qml/viewer/MyTranslator.qml" line="278"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="281"/>
         <source>startTime</source>
         <translation>Start time</translation>
     </message>
     <message id="html-results-false">
-        <location filename="../qml/viewer/MyTranslator.qml" line="281"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="284"/>
         <source>false</source>
         <translation>False</translation>
     </message>
     <message id="html-results-landing-accurancy">
-        <location filename="../qml/viewer/MyTranslator.qml" line="284"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="287"/>
         <source>landing accurancy</source>
         <translation>Landing accurancy</translation>
     </message>
     <message id="html-results-markers">
-        <location filename="../qml/viewer/MyTranslator.qml" line="287"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="290"/>
         <source>markers</source>
         <translation>Markers</translation>
     </message>
     <message id="html-results-nok">
-        <location filename="../qml/viewer/MyTranslator.qml" line="290"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="293"/>
         <source>nok</source>
         <translation>Wrong</translation>
     </message>
     <message id="html-results-note">
-        <location filename="../qml/viewer/MyTranslator.qml" line="293"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="296"/>
         <source>note</source>
         <translation>Note</translation>
     </message>
     <message id="html-results-ok">
-        <location filename="../qml/viewer/MyTranslator.qml" line="296"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="299"/>
         <source>ok</source>
         <translation>Ok</translation>
     </message>
     <message id="html-results-opposite">
-        <location filename="../qml/viewer/MyTranslator.qml" line="299"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="302"/>
         <source>opposite</source>
         <translation>Opposite flight direction</translation>
     </message>
     <message id="html-results-other-penalty">
-        <location filename="../qml/viewer/MyTranslator.qml" line="302"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="305"/>
         <source>other penalty</source>
         <translation>Other penalty</translation>
     </message>
     <message id="html-results-other-points">
-        <location filename="../qml/viewer/MyTranslator.qml" line="305"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="308"/>
         <source>other points</source>
         <translation>Other points</translation>
     </message>
     <message id="html-results-penalty">
-        <location filename="../qml/viewer/MyTranslator.qml" line="308"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="311"/>
         <source>penalty</source>
         <translation>Penalty</translation>
     </message>
     <message id="html-results-photos">
-        <location filename="../qml/viewer/MyTranslator.qml" line="311"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="314"/>
         <source>photos</source>
         <translation>Photos</translation>
     </message>
     <message id="html-results-point-alt-max">
-        <location filename="../qml/viewer/MyTranslator.qml" line="314"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="317"/>
         <source>alt max</source>
         <translation>Altitude max</translation>
     </message>
     <message id="html-results-point-alt-measured">
-        <location filename="../qml/viewer/MyTranslator.qml" line="317"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="320"/>
         <source>alt measured</source>
         <translation>Alt measured</translation>
     </message>
     <message id="html-results-point-alt-min">
-        <location filename="../qml/viewer/MyTranslator.qml" line="320"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="323"/>
         <source>alt min</source>
         <translation>Altitude min</translation>
     </message>
     <message id="html-results-point-alt-type">
-        <location filename="../qml/viewer/MyTranslator.qml" line="323"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="326"/>
         <source>alt type</source>
         <translation>Altitude type</translation>
     </message>
     <message id="html-results-point-alt-limit">
-        <location filename="../qml/viewer/MyTranslator.qml" line="326"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="329"/>
         <source>alt limit</source>
         <translation>Altitude limit</translation>
     </message>
     <message id="html-results-point-distance">
-        <location filename="../qml/viewer/MyTranslator.qml" line="329"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="332"/>
         <source>point distance</source>
         <translation>Distance</translation>
     </message>
     <message id="html-results-point-name">
-        <location filename="../qml/viewer/MyTranslator.qml" line="332"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="335"/>
         <source>point name</source>
         <translation>Name</translation>
     </message>
     <message id="html-results-point-sg-hit">
-        <location filename="../qml/viewer/MyTranslator.qml" line="335"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="338"/>
         <source>sg hit</source>
         <translation>SG hit</translation>
     </message>
     <message id="html-results-point-tg-difference">
-        <location filename="../qml/viewer/MyTranslator.qml" line="338"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="341"/>
         <source>tg difference</source>
         <translation>TG difference</translation>
     </message>
     <message id="html-results-point-tg-expected">
-        <location filename="../qml/viewer/MyTranslator.qml" line="341"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="344"/>
         <source>tg expected</source>
         <translation>TG calculated</translation>
     </message>
     <message id="html-results-point-tg-measured">
-        <location filename="../qml/viewer/MyTranslator.qml" line="344"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="347"/>
         <source>tg measured</source>
         <translation>TG measured</translation>
     </message>
     <message id="html-results-point-tp-hit">
-        <location filename="../qml/viewer/MyTranslator.qml" line="347"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="350"/>
         <source>tp hit</source>
         <translation>TP hit</translation>
     </message>
     <message id="html-results-point-type">
-        <location filename="../qml/viewer/MyTranslator.qml" line="350"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="353"/>
         <source>point-type</source>
         <translation>Type</translation>
     </message>
     <message id="html-results-tg-score">
-        <location filename="../qml/viewer/MyTranslator.qml" line="353"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="356"/>
         <source>tg results score</source>
         <translation>TG score</translation>
     </message>
     <message id="html-results-tp-score">
-        <location filename="../qml/viewer/MyTranslator.qml" line="356"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="359"/>
         <source>tp results score</source>
         <translation>TP Score</translation>
     </message>
     <message id="html-results-sg-score">
-        <location filename="../qml/viewer/MyTranslator.qml" line="359"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="362"/>
         <source>sg results score</source>
         <translation>SG Score</translation>
     </message>
     <message id="html-results-alt-score">
-        <location filename="../qml/viewer/MyTranslator.qml" line="362"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="365"/>
         <source>alt results score</source>
         <translation>Alt score</translation>
     </message>
     <message id="html-results-score">
-        <location filename="../qml/viewer/MyTranslator.qml" line="365"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="368"/>
         <source>results score</source>
         <translation>Score</translation>
     </message>
     <message id="html-start-list-title">
-        <location filename="../qml/viewer/MyTranslator.qml" line="368"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="371"/>
         <source>crews</source>
         <translation>Crews</translation>
     </message>
     <message id="html-results-space-sections">
-        <location filename="../qml/viewer/MyTranslator.qml" line="371"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="374"/>
         <source>space sections</source>
         <translation>Space sections</translation>
     </message>
     <message id="html-results-speed-sec-start-point">
-        <location filename="../qml/viewer/MyTranslator.qml" line="376"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="379"/>
         <source>space sec start point</source>
         <translation>Start point</translation>
     </message>
     <message id="html-results-speed-sec-measured">
-        <location filename="../qml/viewer/MyTranslator.qml" line="379"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="382"/>
         <source>speed sec measured</source>
         <translation>Measured</translation>
     </message>
     <message id="html-results-speed-sec-expected">
-        <location filename="../qml/viewer/MyTranslator.qml" line="382"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="385"/>
         <source>speed sec expected</source>
         <translation>Calculated</translation>
     </message>
     <message id="html-results-speed-sec-end-point">
-        <location filename="../qml/viewer/MyTranslator.qml" line="387"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="390"/>
         <source>speed sec end point</source>
         <translation>End point</translation>
     </message>
     <message id="html-results-speed-sec-difference">
-        <location filename="../qml/viewer/MyTranslator.qml" line="390"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="393"/>
         <source>speed sec difference</source>
         <translation>Difference</translation>
     </message>
     <message id="html-results-speed-sections">
-        <location filename="../qml/viewer/MyTranslator.qml" line="393"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="396"/>
         <source>speed sections</source>
         <translation>Speed sections</translation>
     </message>
     <message id="html-results-take-off">
-        <location filename="../qml/viewer/MyTranslator.qml" line="396"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="399"/>
         <source>take off</source>
         <translation>Takeoff</translation>
     </message>
     <message id="html-results-takeoff-calculated">
-        <location filename="../qml/viewer/MyTranslator.qml" line="399"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="402"/>
         <source>take off calculated</source>
         <translation>Calculated</translation>
     </message>
     <message id="html-results-takeoff-difference">
-        <location filename="../qml/viewer/MyTranslator.qml" line="402"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="405"/>
         <source>take off difference</source>
         <translation>Difference</translation>
     </message>
     <message id="html-results-takeoff-measured">
-        <location filename="../qml/viewer/MyTranslator.qml" line="405"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="408"/>
         <source>take off measured</source>
         <translation>Measured</translation>
     </message>
     <message id="html-results-track-points">
-        <location filename="../qml/viewer/MyTranslator.qml" line="408"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="411"/>
         <source>track points</source>
         <translation>Gates</translation>
     </message>
     <message id="html-continuous-results-name">
-        <location filename="../qml/viewer/MyTranslator.qml" line="411"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="414"/>
         <source>crew name</source>
         <translation>Crew</translation>
     </message>
     <message id="html-continuous-results-order">
-        <location filename="../qml/viewer/MyTranslator.qml" line="414"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="417"/>
         <source>results order</source>
         <translation>#</translation>
     </message>
     <message id="html-results-alt-sec-min-count">
-        <location filename="../qml/viewer/MyTranslator.qml" line="417"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="420"/>
         <source>altitude sections min entries count</source>
         <translation>Min alt entries count</translation>
     </message>
     <message id="html-results-alt-sec-min-time">
-        <location filename="../qml/viewer/MyTranslator.qml" line="420"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="423"/>
         <source>altitude sections min entries time</source>
         <translation>Min alt entries time</translation>
     </message>
     <message id="html-results-alt-sec-max-count">
-        <location filename="../qml/viewer/MyTranslator.qml" line="423"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="426"/>
         <source>altitude sections max entries count</source>
         <translation>Max alt entries count</translation>
     </message>
     <message id="html-results-alt-sec-max-time">
-        <location filename="../qml/viewer/MyTranslator.qml" line="426"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="429"/>
         <source>altitude sections max entries time</source>
         <translation>Max alt entries time</translation>
     </message>
     <message id="html-results-space-sec-entries-count">
-        <location filename="../qml/viewer/MyTranslator.qml" line="429"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="432"/>
         <source>space sections entries count</source>
         <translation>Entries count</translation>
     </message>
     <message id="html-results-space-sec-entries-time">
-        <location filename="../qml/viewer/MyTranslator.qml" line="432"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="435"/>
         <source>space sections entries time</source>
         <translation>Entries time</translation>
     </message>
     <message id="html-startList-order">
-        <location filename="../qml/viewer/MyTranslator.qml" line="435"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="438"/>
         <source>Starting number</source>
         <translation>#</translation>
     </message>
     <message id="html-startList-blank">
-        <location filename="../qml/viewer/MyTranslator.qml" line="444"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="447"/>
         <source>Others</source>
         <translation>Others</translation>
     </message>
     <message id="html-startList-startTimePrepTime">
-        <location filename="../qml/viewer/MyTranslator.qml" line="438"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="441"/>
         <source>Preparation time</source>
         <translation>Preparation time</translation>
     </message>
     <message id="html-startList-startTimeVBT">
-        <location filename="../qml/viewer/MyTranslator.qml" line="441"/>
+        <location filename="../qml/viewer/MyTranslator.qml" line="444"/>
         <source>VBT time</source>
         <translation>EPT time</translation>
     </message>

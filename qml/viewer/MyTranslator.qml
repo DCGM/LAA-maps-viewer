@@ -204,6 +204,9 @@ Item {
             case("html-results-ctnt-otherPoints-shortcut-legend"):
                 //% "+p legend"
                 retVal = qsTrId("html-results-ctnt-otherPoints-shortcut-legend"); break;
+            case("html-points-shortcut"):
+                //% "p"
+                retVal = qsTrId("html-points-shortcut"); break;
             case("html-results-ctnt-otherPenalty-shortcut-legend"):
                 //% "-p legend"
                 retVal = qsTrId("html-results-ctnt-otherPenalty-shortcut-legend"); break;
