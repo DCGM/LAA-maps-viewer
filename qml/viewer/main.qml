@@ -2129,7 +2129,7 @@ ApplicationWindow {
                     curCnt.photosScore = (csvFileFromViewer ? parseInt(resultsCSV[j][42]) : 0);
                     curCnt.startTimeMeasured = (csvFileFromOffice ? resultsCSV[j][11] : "");
                     curCnt.startTimeDifference = (csvFileFromOffice ? resultsCSV[j][43] : "");
-                    curCnt.startTimeScore = (csvFileFromOffice ? parseInt(resultsCSV[j][12]) * -1 : 0);
+                    curCnt.startTimeScore = (csvFileFromOffice ? parseInt(resultsCSV[j][12]) : 0);
                     curCnt.landingScore = (csvFileFromOffice ? parseInt(resultsCSV[j][7]) : 0);
 
                     curCnt.circlingCount = (csvFileFromViewer ? parseInt(resultsCSV[j][44]) : (!csvFileFromOffice ? 0 : parseInt(resultsCSV[j][13])));
@@ -3650,7 +3650,7 @@ ApplicationWindow {
 
             str += "\"" + ct.startTime + "\";"
             str += "\"" + ct.startTimeMeasured + "\";"
-            str += "\"" + Math.abs(ct.startTimeScore) + "\";"
+            str += "\"" + ct.startTimeScore + "\";"
 
             str += "\"" + (ct.circlingCount + ct.oppositeCount) + "\";"
             str += "\"" + Math.abs(ct.oppositeScore + ct.circlingScore) + "\";"
