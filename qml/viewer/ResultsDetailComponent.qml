@@ -338,7 +338,7 @@ Rectangle {
             }
 
             property var model;
-            property var penaltySum: 0;
+            property int penaltySum: 0;
             property int chartFontSize: 9
             property int chartLabelFontSize: 13
             property real pieSeriesSize: 0.5
