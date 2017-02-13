@@ -2705,31 +2705,31 @@ ApplicationWindow {
         if (altManual < 0 && altAuto < 0)
             return -1;
 
-        return parseInt(
+        return Math.round(parseFloat(
                     (flags & (0x1 << 3)) && (flags & (0x1 << 4)) ? getMinAltScore(altManual, altAuto, altMin, altPenalty) + getMaxAltScore(altManual, altAuto, altMax, altPenalty) : (
                                                                        (flags & (0x1 << 3)) ? getMinAltScore(altManual, altAuto, altMin, altPenalty) : (
                                                                                                   (flags & (0x1 << 4)) ? getMaxAltScore(altManual, altAuto, altMax, altPenalty) :
-                                                                                                                         -1)))
+                                                                                                                         -1))))
     }
 
     function getSGScore(sgManualVal, sgHitAuto, sgMaxScore) {
 
-        return parseInt(sgManualVal < 0 ? sgHitAuto * sgMaxScore : sgManualVal * sgMaxScore);
+        return Math.round(parseFloat(sgManualVal < 0 ? sgHitAuto * sgMaxScore : sgManualVal * sgMaxScore));
     }
 
     function getTPScore(tpManualVal, tpHitAuto, tpMaxScore) {
 
-        return parseInt(tpManualVal < 0 ? (tpHitAuto * tpMaxScore) : (tpManualVal * tpMaxScore));
+        return Math.round(parseFloat(tpManualVal < 0 ? (tpHitAuto * tpMaxScore) : (tpManualVal * tpMaxScore)));
     }
 
     function getTGScore(tgTimeDifference, tgMaxScore, tgPenalty, tgTolerance) {
 
-        return parseInt((tgTimeDifference > tgTolerance) ? Math.max(tgMaxScore - (tgTimeDifference - tgTolerance) * tgPenalty, 0) : tgMaxScore);
+        return Math.round(parseFloat((tgTimeDifference > tgTolerance) ? Math.max(tgMaxScore - (tgTimeDifference - tgTolerance) * tgPenalty, 0) : tgMaxScore));
     }
 
     function getSpeedSectionScore(speedDiff, speedTolerance, speedMaxScore, speedPenalty) {
 
-        return parseInt(Math.max(speedDiff > speedTolerance ? (speedMaxScore - (speedDiff - speedTolerance) * speedPenalty) : speedMaxScore, 0));
+        return Math.round(parseFloat(Math.max(speedDiff > speedTolerance ? (speedMaxScore - (speedDiff - speedTolerance) * speedPenalty) : speedMaxScore, 0)));
     }
 
     function getMarkersScore(markersOk, markersNok, markersFalse, marker_max_score) {
