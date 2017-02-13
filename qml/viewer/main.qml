@@ -1131,7 +1131,7 @@ ApplicationWindow {
                     var filePath = pathConfiguration.igcDirectory + "/" + ctnt.filename;
                     if (!file_reader.file_exists(filePath)) {
 
-                        if (!(evaluateTimer.running)) { // dont show err dialog when computing/generating results
+                        if (!(evaluateTimer.running) && !(resultsExporterTimer.running)) { // dont show err dialog when computing/generating results
 
                             //% "IGC file"
                             errorMessage.title = qsTrId("contestant-table-row-selected-err-dialog-title");
