@@ -317,132 +317,6 @@ Rectangle {
         }
 
         Tab {
-            id: summaryTab
-            //% "Summary"
-            title: qsTrId("summary-tab-title")
-
-            onVisibleChanged:  {
-                model = curentContestant;
-
-                penaltySum = 0;
-                penaltySum += summaryTab.model.startTimeScore !== -1 ? summaryTab.model.startTimeScore : 0;
-                penaltySum += summaryTab.model.circlingScore !== -1 ? summaryTab.model.circlingScore : 0;
-                penaltySum += summaryTab.model.oppositeScore !== -1 ? summaryTab.model.oppositeScore : 0;
-                penaltySum += summaryTab.model.otherPenalty !== -1 ? summaryTab.model.otherPenalty : 0;
-                penaltySum += summaryTab.model.spaceSecScoreSum !== -1 ? summaryTab.model.spaceSecScoreSum : 0;
-                penaltySum += summaryTab.model.altSecScoreSum !== -1 ? summaryTab.model.altSecScoreSum : 0;
-            }
-
-            Component.onCompleted: {
-                model = curentContestant;
-            }
-
-            property var model;
-            property int penaltySum: 0;
-            property int chartFontSize: 9
-            property int chartLabelFontSize: 13
-            property real pieSeriesSize: 0.5
-
-            RowLayout {
-
-                id: chartsRow
-                anchors.fill: parent
-
-                ChartView {
-
-                    theme: ChartView.ChartThemeBlueNcs
-                    antialiasing: true
-                    legend.visible: false
-                    Layout.fillHeight: true
-                    Layout.fillWidth: true;
-                    animationOptions: ChartView.SeriesAnimations
-
-                    //% "Points"
-                    title: qsTrId("points-chart-title")
-                    //titleFont.bold: true
-                    titleFont.pointSize: summaryTab.chartLabelFontSize
-
-                    PieSeries {
-                        id: pieSeriesPositive
-                        size: summaryTab.pieSeriesSize
-
-                        property double armLengthFactor: 0.4
-
-                        MPieSlice { mVal: getMarkersScore(summaryTab.model.markersOk, 0, 0, summaryTab.model.marker_max_score); mLabelShortcut: qmlTranslator.myTranslate("html-results-ctnt-markersOk-shortcut"); mLabelDetail: String(summaryTab.model.markersOk) + " x " + String(summaryTab.model.marker_max_score) + qmlTranslator.myTranslate("html-points-shortcut"); }
-                        MPieSlice { mVal: getPhotosScore(summaryTab.model.photosOk, 0, 0, summaryTab.model.photos_max_score); mLabelShortcut: qmlTranslator.myTranslate("html-results-ctnt-photosOk-shortcut"); mLabelDetail: String(summaryTab.model.photosOk) + " x " + String(summaryTab.model.photos_max_score) + qmlTranslator.myTranslate("html-points-shortcut"); }
-                        MPieSlice { mAbs: true; mVal: summaryTab.model.otherPoints; mLabelShortcut: qmlTranslator.myTranslate("html-results-ctnt-otherPoints-shortcut"); }
-                        MPieSlice { mAbs: true; mVal: summaryTab.model.tgScoreSum +
-                                                   summaryTab.model.tpScoreSum +
-                                                   summaryTab.model.sgScoreSum +
-                                                   summaryTab.model.altLimitsScoreSum;
-                                    mLabelShortcut: qmlTranslator.myTranslate("html-results-track-points");
-                                    mLabelDetail: (qmlTranslator.myTranslate("html-results-ctnt-tg-shortcut") + ": " + String(summaryTab.model.tgScoreSum) + qmlTranslator.myTranslate("html-points-shortcut") + ", " +
-                                                   qmlTranslator.myTranslate("html-results-ctnt-tp-shortcut") + ": " + String(summaryTab.model.tpScoreSum) + qmlTranslator.myTranslate("html-points-shortcut") + ", " +
-                                                   qmlTranslator.myTranslate("html-results-ctnt-sg-shortcut") + ": " + String(summaryTab.model.sgScoreSum) + qmlTranslator.myTranslate("html-points-shortcut") + ", " +
-                                                   qmlTranslator.myTranslate("html-results-ctnt-altLimits-shortcut") + ": " + String(summaryTab.model.altLimitsScoreSum) + qmlTranslator.myTranslate("html-points-shortcut") + ", " );
-                        }
-                        MPieSlice { mAbs: true; mVal: summaryTab.model.speedSecScoreSum; mLabelShortcut: qmlTranslator.myTranslate("html-results-ctnt-speedSec-shortcut");}
-                    }
-
-                    Component.onCompleted: {
-                        // Set the common slice properties dynamically for convenience
-                        for (var i = 0; i < pieSeriesPositive.count; i++) {
-                            pieSeriesPositive.at(i).labelPosition = PieSlice.LabelOutside;
-                            pieSeriesPositive.at(i).labelVisible = true;
-                            pieSeriesPositive.at(i).labelFont = Qt.font({pointSize: summaryTab.chartFontSize})
-                        }
-                    }
-                }
-                ChartView {
-
-                    id: chartViewNegative
-                    theme: ChartView.ChartThemeBlueNcs
-                    antialiasing: true
-                    legend.visible: false
-                    Layout.fillHeight: true
-                    Layout.preferredWidth: summaryTab.penaltySum !== 0 ? parent.width/2 : 0;
-                    animationOptions: ChartView.SeriesAnimations
-
-                    //% "Penalty"
-                    title: qsTrId("penalty-chart-title")
-                    titleFont.pointSize: summaryTab.chartLabelFontSize
-
-                    PieSeries {
-                        id: pieSeriesNegative
-                        size: summaryTab.pieSeriesSize
-
-                        property double armLengthFactor: 0.2
-
-                        MPieSlice { mVal: (summaryTab.model.startTimeScore); mLabelShortcut: qmlTranslator.myTranslate("html-results-ctnt-takeOfF-shortcut"); mLabelDetail: String(summaryTab.model.startTimeDifference) + " " + String(summaryTab.model.time_window_penalty) + "%"; }
-                        MPieSlice { mVal: (summaryTab.model.circlingScore); mLabelShortcut: qmlTranslator.myTranslate("html-results-ctnt-circling-shortcut"); mLabelDetail: String(summaryTab.model.circlingCount * summaryTab.model.gyre_penalty) + "%" ; }
-                        MPieSlice { mVal: (summaryTab.model.oppositeScore); mLabelShortcut: qmlTranslator.myTranslate("html-results-ctnt-opposite-shortcut"); mLabelDetail: String(summaryTab.model.oppositeCount * summaryTab.model.oposite_direction_penalty) + "%"; }
-
-                        MPieSlice { mVal: (getMarkersScore(0, summaryTab.model.markersNok, 0, summaryTab.model.marker_max_score)); mLabelShortcut: qmlTranslator.myTranslate("html-results-ctnt-markersNok-shortcut"); mLabelDetail: String(summaryTab.model.markersNok) + " x " + String(summaryTab.model.marker_max_score) + qmlTranslator.myTranslate("html-points-shortcut");}
-                        MPieSlice { mVal: (getMarkersScore(0, 0, summaryTab.model.markersFalse, summaryTab.model.marker_max_score)); mLabelShortcut: qmlTranslator.myTranslate("html-results-ctnt-markersFalse-shortcut"); mLabelDetail: String(summaryTab.model.markersFalse) + " x " + String(summaryTab.model.marker_max_score) + qmlTranslator.myTranslate("html-points-shortcut");}
-
-                        MPieSlice { mVal: (getPhotosScore(0, summaryTab.model.photosNok, 0, summaryTab.model.photos_max_score)); mLabelShortcut: qmlTranslator.myTranslate("html-results-ctnt-photosNok-shortcut"); mLabelDetail: String(summaryTab.model.photosNok) + " x " + String(summaryTab.model.photos_max_score) + qmlTranslator.myTranslate("html-points-shortcut");}
-                        MPieSlice { mVal: (getPhotosScore(0, 0, summaryTab.model.photosFalse, summaryTab.model.photos_max_score)); mLabelShortcut: qmlTranslator.myTranslate("html-results-ctnt-photosFalse-shortcut"); mLabelDetail: String(summaryTab.model.photosFalse) + " x " + String(summaryTab.model.photos_max_score) + qmlTranslator.myTranslate("html-points-shortcut");}
-
-                        MPieSlice { mVal: (summaryTab.model.otherPenalty); mLabelShortcut: qmlTranslator.myTranslate("html-results-ctnt-otherPenalty-shortcut");}
-
-                        MPieSlice { mVal: (summaryTab.model.spaceSecScoreSum); mLabelShortcut: qmlTranslator.myTranslate("html-results-ctnt-spaceSec-shortcut");}
-                        MPieSlice { mVal: (summaryTab.model.altSecScoreSum); mLabelShortcut: qmlTranslator.myTranslate("html-results-ctnt-altSec-shortcut");}
-                    }
-
-                    Component.onCompleted: {
-
-                        // Set the common slice properties dynamically for convenience
-                        for (var i = 0; i < pieSeriesNegative.count; i++) {
-                            pieSeriesNegative.at(i).labelPosition = PieSlice.LabelOutside;
-                            pieSeriesNegative.at(i).labelVisible  = true;
-                            pieSeriesNegative.at(i).labelFont = Qt.font({pointSize: summaryTab.chartFontSize})
-                        }
-                    }
-                }
-            }
-        }
-
-        Tab {
 
             id: manualValuesTab
             property int columnsCount: 4;
@@ -1506,6 +1380,134 @@ Rectangle {
                 TableViewColumn {title: qsTrId("space-sections-score-table-score"); role: "spaceSecScore"; width: 150;}
             }
         }
+
+        Tab {
+            id: summaryTab
+            //% "Summary"
+            title: qsTrId("summary-tab-title")
+
+            onVisibleChanged:  {
+                model = curentContestant;
+
+                penaltySum = 0;
+                penaltySum += summaryTab.model.startTimeScore !== -1 ? summaryTab.model.startTimeScore : 0;
+                penaltySum += summaryTab.model.circlingScore !== -1 ? summaryTab.model.circlingScore : 0;
+                penaltySum += summaryTab.model.oppositeScore !== -1 ? summaryTab.model.oppositeScore : 0;
+                penaltySum += summaryTab.model.otherPenalty !== -1 ? summaryTab.model.otherPenalty : 0;
+                penaltySum += summaryTab.model.spaceSecScoreSum !== -1 ? summaryTab.model.spaceSecScoreSum : 0;
+                penaltySum += summaryTab.model.altSecScoreSum !== -1 ? summaryTab.model.altSecScoreSum : 0;
+            }
+
+            Component.onCompleted: {
+                model = curentContestant;
+            }
+
+            property var model;
+            property int penaltySum: 0;
+            property int chartFontSize: 9
+            property int chartLabelFontSize: 13
+            property real pieSeriesSize: 0.5
+
+            RowLayout {
+
+                id: chartsRow
+                anchors.fill: parent
+
+                ChartView {
+
+                    theme: ChartView.ChartThemeBlueNcs
+                    antialiasing: true
+                    legend.visible: false
+                    Layout.fillHeight: true
+                    Layout.fillWidth: true;
+                    animationOptions: ChartView.SeriesAnimations
+
+                    //% "Points"
+                    title: qsTrId("points-chart-title")
+                    //titleFont.bold: true
+                    titleFont.pointSize: summaryTab.chartLabelFontSize
+
+                    PieSeries {
+                        id: pieSeriesPositive
+                        size: summaryTab.pieSeriesSize
+
+                        property double armLengthFactor: 0.4
+
+                        MPieSlice { mVal: getMarkersScore(summaryTab.model.markersOk, 0, 0, summaryTab.model.marker_max_score); mLabelShortcut: qmlTranslator.myTranslate("html-results-ctnt-markersOk-shortcut"); mLabelDetail: String(summaryTab.model.markersOk) + " x " + String(summaryTab.model.marker_max_score) + qmlTranslator.myTranslate("html-points-shortcut"); }
+                        MPieSlice { mVal: getPhotosScore(summaryTab.model.photosOk, 0, 0, summaryTab.model.photos_max_score); mLabelShortcut: qmlTranslator.myTranslate("html-results-ctnt-photosOk-shortcut"); mLabelDetail: String(summaryTab.model.photosOk) + " x " + String(summaryTab.model.photos_max_score) + qmlTranslator.myTranslate("html-points-shortcut"); }
+                        MPieSlice { mAbs: true; mVal: summaryTab.model.otherPoints; mLabelShortcut: qmlTranslator.myTranslate("html-results-ctnt-otherPoints-shortcut"); }
+                        MPieSlice { mAbs: true; mVal: summaryTab.model.tgScoreSum +
+                                                   summaryTab.model.tpScoreSum +
+                                                   summaryTab.model.sgScoreSum +
+                                                   summaryTab.model.altLimitsScoreSum;
+                                    mLabelShortcut: qmlTranslator.myTranslate("html-results-track-points");
+                                    mLabelDetail: (qmlTranslator.myTranslate("html-results-ctnt-tg-shortcut") + ": " + String(summaryTab.model.tgScoreSum) + qmlTranslator.myTranslate("html-points-shortcut") + ", " +
+                                                   qmlTranslator.myTranslate("html-results-ctnt-tp-shortcut") + ": " + String(summaryTab.model.tpScoreSum) + qmlTranslator.myTranslate("html-points-shortcut") + ", " +
+                                                   qmlTranslator.myTranslate("html-results-ctnt-sg-shortcut") + ": " + String(summaryTab.model.sgScoreSum) + qmlTranslator.myTranslate("html-points-shortcut") + ", " +
+                                                   qmlTranslator.myTranslate("html-results-ctnt-altLimits-shortcut") + ": " + String(summaryTab.model.altLimitsScoreSum) + qmlTranslator.myTranslate("html-points-shortcut") + ", " );
+                        }
+                        MPieSlice { mAbs: true; mVal: summaryTab.model.speedSecScoreSum; mLabelShortcut: qmlTranslator.myTranslate("html-results-ctnt-speedSec-shortcut");}
+                    }
+
+                    Component.onCompleted: {
+                        // Set the common slice properties dynamically for convenience
+                        for (var i = 0; i < pieSeriesPositive.count; i++) {
+                            pieSeriesPositive.at(i).labelPosition = PieSlice.LabelOutside;
+                            pieSeriesPositive.at(i).labelVisible = true;
+                            pieSeriesPositive.at(i).labelFont = Qt.font({pointSize: summaryTab.chartFontSize})
+                        }
+                    }
+                }
+                ChartView {
+
+                    id: chartViewNegative
+                    theme: ChartView.ChartThemeBlueNcs
+                    antialiasing: true
+                    legend.visible: false
+                    Layout.fillHeight: true
+                    Layout.preferredWidth: summaryTab.penaltySum !== 0 ? parent.width/2 : 0;
+                    animationOptions: ChartView.SeriesAnimations
+
+                    //% "Penalty"
+                    title: qsTrId("penalty-chart-title")
+                    titleFont.pointSize: summaryTab.chartLabelFontSize
+
+                    PieSeries {
+                        id: pieSeriesNegative
+                        size: summaryTab.pieSeriesSize
+
+                        property double armLengthFactor: 0.2
+
+                        MPieSlice { mVal: (summaryTab.model.startTimeScore); mLabelShortcut: qmlTranslator.myTranslate("html-results-ctnt-takeOfF-shortcut"); mLabelDetail: String(summaryTab.model.startTimeDifference) + " " + String(summaryTab.model.time_window_penalty) + "%"; }
+                        MPieSlice { mVal: (summaryTab.model.circlingScore); mLabelShortcut: qmlTranslator.myTranslate("html-results-ctnt-circling-shortcut"); mLabelDetail: String(summaryTab.model.circlingCount * summaryTab.model.gyre_penalty) + "%" ; }
+                        MPieSlice { mVal: (summaryTab.model.oppositeScore); mLabelShortcut: qmlTranslator.myTranslate("html-results-ctnt-opposite-shortcut"); mLabelDetail: String(summaryTab.model.oppositeCount * summaryTab.model.oposite_direction_penalty) + "%"; }
+
+                        MPieSlice { mVal: (getMarkersScore(0, summaryTab.model.markersNok, 0, summaryTab.model.marker_max_score)); mLabelShortcut: qmlTranslator.myTranslate("html-results-ctnt-markersNok-shortcut"); mLabelDetail: String(summaryTab.model.markersNok) + " x " + String(summaryTab.model.marker_max_score) + qmlTranslator.myTranslate("html-points-shortcut");}
+                        MPieSlice { mVal: (getMarkersScore(0, 0, summaryTab.model.markersFalse, summaryTab.model.marker_max_score)); mLabelShortcut: qmlTranslator.myTranslate("html-results-ctnt-markersFalse-shortcut"); mLabelDetail: String(summaryTab.model.markersFalse) + " x " + String(summaryTab.model.marker_max_score) + qmlTranslator.myTranslate("html-points-shortcut");}
+
+                        MPieSlice { mVal: (getPhotosScore(0, summaryTab.model.photosNok, 0, summaryTab.model.photos_max_score)); mLabelShortcut: qmlTranslator.myTranslate("html-results-ctnt-photosNok-shortcut"); mLabelDetail: String(summaryTab.model.photosNok) + " x " + String(summaryTab.model.photos_max_score) + qmlTranslator.myTranslate("html-points-shortcut");}
+                        MPieSlice { mVal: (getPhotosScore(0, 0, summaryTab.model.photosFalse, summaryTab.model.photos_max_score)); mLabelShortcut: qmlTranslator.myTranslate("html-results-ctnt-photosFalse-shortcut"); mLabelDetail: String(summaryTab.model.photosFalse) + " x " + String(summaryTab.model.photos_max_score) + qmlTranslator.myTranslate("html-points-shortcut");}
+
+                        MPieSlice { mVal: (summaryTab.model.otherPenalty); mLabelShortcut: qmlTranslator.myTranslate("html-results-ctnt-otherPenalty-shortcut");}
+
+                        MPieSlice { mVal: (summaryTab.model.spaceSecScoreSum); mLabelShortcut: qmlTranslator.myTranslate("html-results-ctnt-spaceSec-shortcut");}
+                        MPieSlice { mVal: (summaryTab.model.altSecScoreSum); mLabelShortcut: qmlTranslator.myTranslate("html-results-ctnt-altSec-shortcut");}
+                    }
+
+                    Component.onCompleted: {
+
+                        // Set the common slice properties dynamically for convenience
+                        for (var i = 0; i < pieSeriesNegative.count; i++) {
+                            pieSeriesNegative.at(i).labelPosition = PieSlice.LabelOutside;
+                            pieSeriesNegative.at(i).labelVisible  = true;
+                            pieSeriesNegative.at(i).labelFont = Qt.font({pointSize: summaryTab.chartFontSize})
+                        }
+                    }
+                }
+            }
+        }
+
+
     }
 
 
