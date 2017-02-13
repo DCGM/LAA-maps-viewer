@@ -1294,6 +1294,7 @@ ApplicationWindow {
                     visible: evaluateTimer.running ||
                              computingTimer.running ||
                              workingTimer.running ||
+                             resultsExporterTimer.running  ||
                              pathConfiguration.visible ||
                              selectCompetitionOnlineDialog.visible ||
                              refreshContestantsDialog.visible ||
@@ -1305,7 +1306,8 @@ ApplicationWindow {
                     BusyIndicator {
                         running: evaluateTimer.running ||
                                  computingTimer.running ||
-                                 workingTimer.running;
+                                 workingTimer.running ||
+                                 resultsExporterTimer.running;
 
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.horizontalCenter: parent.horizontalCenter
