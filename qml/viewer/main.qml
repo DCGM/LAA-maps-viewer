@@ -107,7 +107,7 @@ ApplicationWindow {
             }
 
             MenuItem {
-                //% "Regenerate contestants results
+                //% "Regenerate contestants results"
                 text: qsTrId("main-results-menu-regenerate-contestants-results");
                 onTriggered: {
 
