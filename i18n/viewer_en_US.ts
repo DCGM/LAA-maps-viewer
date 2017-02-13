@@ -1439,12 +1439,12 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
     <message id="html-results-ctnt-circling-shortcut">
         <location filename="../qml/viewer/MyTranslator.qml" line="137"/>
         <source>GP</source>
-        <translation>GP</translation>
+        <translation>G</translation>
     </message>
     <message id="html-results-ctnt-opposite-shortcut">
         <location filename="../qml/viewer/MyTranslator.qml" line="140"/>
         <source>OP</source>
-        <translation>OP</translation>
+        <translation>OD</translation>
     </message>
     <message id="html-results-ctnt-otherPoints-shortcut">
         <location filename="../qml/viewer/MyTranslator.qml" line="143"/>
