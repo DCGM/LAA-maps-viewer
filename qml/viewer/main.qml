@@ -1318,18 +1318,11 @@ ApplicationWindow {
                         onClicked: {
 
                             if (evaluateTimer.running) {
-
                                 console.log("onClick is disabled when evaluateTimer.running");
                                 evaluateTimer.running = false;
                             }
-
-                            if (computingTimer.running) {
-                                computingTimer.stop();
-                            }
-                            if (workingTimer.running) {
-                                workingTimer.stop();
-                            }
                             if (resultsExporterTimer.running) {
+                                console.log("onClick is disabled when resultsExporterTimer.running");
                                 resultsExporterTimer.stop();
                             }
                         }
