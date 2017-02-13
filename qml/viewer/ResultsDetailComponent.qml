@@ -366,7 +366,7 @@ Rectangle {
                     anchors.top: parent.top
                     anchors.left: parent.left
                     anchors.right: parent.right
-                    spacing: 15;
+                    spacing: 12;
 
                     //start time
                     NativeText {

@@ -4259,7 +4259,7 @@ ApplicationWindow {
 
     Timer {
         id: resultsExporterTimer
-        interval: 500;
+        interval: 100;
         repeat: true;
         running: false;
 
