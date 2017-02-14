@@ -3,6 +3,7 @@ import QtQuick.Controls 1.4
 import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.1
 import "functions.js" as F
+import "md5.js" as MD5
 
 ApplicationWindow {
 
@@ -99,6 +100,9 @@ ApplicationWindow {
     property int igcFolderCheckBox: 0;
     property int resultsFolderCheckBox: 0;
 
+    property string prevSettingsMD5: "";
+    property string currentSettingsMD5: "";
+
     onVisibleChanged: {
 
         // set current competition property
@@ -131,6 +135,10 @@ ApplicationWindow {
             // folder status
             contestantFileExist = file_reader.file_exists(Qt.resolvedUrl(pathConfiguration.contestantsFile));
             trackFileExist = file_reader.file_exists(Qt.resolvedUrl(pathConfiguration.trackFile));
+
+            // MD5 from comp. property
+            prevSettingsMD5 = MD5.MD5(JSON.stringify(getCompetitionTabContent()));
+            console.log("prevSettingsMD5: " + prevSettingsMD5);
         }
         else {
             autoConfirmFlag = false;
@@ -1177,6 +1185,7 @@ ApplicationWindow {
 
                     // get current values from competition property tab
                     var competitionTabValues = getCompetitionTabContent();
+                    currentSettingsMD5 = String(MD5.MD5(JSON.stringify(competitionTabValues)));
 
                     // split string into array od arbiters
                     var arr = [];

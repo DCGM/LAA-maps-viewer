@@ -105,19 +105,18 @@ ApplicationWindow {
                 enabled: (contestantsListModel.count > 0)
                 shortcut: "Ctrl+R"
             }
-
+/*
             MenuItem {
                 //% "Regenerate contestants results"
                 text: qsTrId("main-results-menu-regenerate-contestants-results");
                 onTriggered: {
 
-                    contestantsTable.selection.clear(); // clear selection - start on first row
-                    resultsExporterTimer.running = true;
+                    regenerateResultsFile();
                 }
                 enabled: (contestantsListModel.count > 0)
                 shortcut: "Ctrl+G"
             }
-
+*/
             MenuItem {
                 //% "Export result&s"
                 text: qsTrId("main-results-menu-export-final-results");
@@ -4335,11 +4334,19 @@ ApplicationWindow {
         running: false;
         interval: 1;
 
-        property string action; //["pathOnOk", "refreshDialogOnOk", "refreshContestant"]
+        property string action; //["pathOnOk", "refreshDialogOnOk", "refreshContestant", "showRegenMessageDialog"]
 
         onTriggered: {
 
             switch(action) {
+
+                case "showRegenMessageDialog":
+
+                    running = false;
+                    regenResultsMessage.open();
+                    action = "";
+
+                    break;
 
                 case "pathOnOk":
 
@@ -4392,6 +4399,19 @@ ApplicationWindow {
                     storeTrackSettings(pathConfiguration.tsFile);
                     map.requestUpdate();
 
+                    // changed competition property, regenerate results
+                    if (pathConfiguration.prevSettingsMD5 != pathConfiguration.currentSettingsMD5){
+
+                        console.log("pathConfiguration.prevSettingsMD5: " + pathConfiguration.prevSettingsMD5)
+                        console.log("pathConfiguration.currentSettingsMD5: " + pathConfiguration.currentSettingsMD5)
+
+                        running = true;
+                        action = "showRegenMessageDialog";
+                    }
+                    else {
+                        action = "";
+                    }
+
                     break;
 
                 case "refreshDialogOnOk":
@@ -4413,21 +4433,25 @@ ApplicationWindow {
                     // sort list model by startTime
                     sortListModelByStartTime();
 
+                    action = "";
                     break;
 
                 case "refreshContestant":
 
                     selectCompetitionOnlineDialog.refreshApplications();
+
+                    action = "";
                     break;
 
                 default:
+                    action = "";
                     //console.log("working timer: unknown action: " + action)
                     //running = false;
 
             }
-            action = "";
         }
     }
+
 
     Timer {
         id: evaluateTimer
@@ -4474,6 +4498,33 @@ ApplicationWindow {
         id: errorMessage;
         icon: StandardIcon.Critical;
         modality: "ApplicationModal"
+    }
+
+    function regenerateResultsFile() {
+
+        contestantsTable.selection.clear(); // clear selection - start on first row
+        resultsExporterTimer.running = true;
+    }
+
+    MessageDialog {
+        id: regenResultsMessage;
+        icon: StandardIcon.Question;
+        modality: "ApplicationModal"
+        standardButtons: StandardButton.Yes | StandardButton.No
+
+        //% "Regenerate results message title"
+        title: qsTrId("regen-res-message-dialog-title");
+
+        //% "Competition property has been changed. Do you want to regenerate results?"
+        text: qsTrId("regen-res-message-dialog-text");
+
+        onYes: {
+            regenerateResultsFile();
+        }
+
+        onNo: {
+            close();
+        }
     }
 
     MessageDialog {
