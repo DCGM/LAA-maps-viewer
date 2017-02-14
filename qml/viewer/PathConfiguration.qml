@@ -18,6 +18,7 @@ ApplicationWindow {
     color: "#ffffff"
 
     property bool autoConfirmFlag: false;
+    property bool dontShowRegenResultsDialog: false;
 
     property string igcDirectory_default: Qt.resolvedUrl("../../../igcFiles");
     property string igcDirectory_user_defined;
@@ -89,7 +90,7 @@ ApplicationWindow {
     property string competitionDirectorAvatar_default: "";
     property variant competitionArbitr_default: [""]//[qsTrId("competition-configuration-competition-arbitr")];
     property variant competitionArbitrAvatar_default: [""];
-    property string competitionDate_default: ""//Qt.formatDateTime(new Date(), "dd.MM.yyyy");
+    property string competitionDate_default: ""//Qt.formatDateTime(new Date(), pathConfiguration.requestedDateFormat);
     property string competitionRound_default: "";
     property string competitionGroupName_default: "";
 
@@ -138,9 +139,15 @@ ApplicationWindow {
 
             // MD5 from comp. property
             prevSettingsMD5 = MD5.MD5(JSON.stringify(getCompetitionTabContent()));
-            console.log("prevSettingsMD5: " + prevSettingsMD5);
         }
         else {
+
+            // clear MD5 if there is no reason to regenerate results - first start
+            if (dontShowRegenResultsDialog) {
+                prevSettingsMD5 = currentSettingsMD5;
+            }
+
+            dontShowRegenResultsDialog = false;
             autoConfirmFlag = false;
         }
     }

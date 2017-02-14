@@ -4258,7 +4258,7 @@ ApplicationWindow {
 
     Timer {
         id: resultsExporterTimer
-        interval: 100;
+        interval: 20;
         repeat: true;
         running: false;
 
@@ -4399,11 +4399,8 @@ ApplicationWindow {
                     storeTrackSettings(pathConfiguration.tsFile);
                     map.requestUpdate();
 
-                    // changed competition property, regenerate results
+                    // changed competition property, regenerate results only if needed
                     if (pathConfiguration.prevSettingsMD5 != pathConfiguration.currentSettingsMD5){
-
-                        console.log("pathConfiguration.prevSettingsMD5: " + pathConfiguration.prevSettingsMD5)
-                        console.log("pathConfiguration.currentSettingsMD5: " + pathConfiguration.currentSettingsMD5)
 
                         running = true;
                         action = "showRegenMessageDialog";
@@ -4651,6 +4648,8 @@ ApplicationWindow {
 
             // dialog will NOT be automatically confirmed
             pathConfiguration.autoConfirmFlag = false;
+            // dont show regen results dialog - clean start od the application
+            pathConfiguration.dontShowRegenResultsDialog = true;
             pathConfiguration.show();
 
             // view settings
