@@ -1325,37 +1325,40 @@ ApplicationWindow {
 
                         onVisibleChanged: {
 
-                            if (computingTimer.running || evaluateTimer.running) {
-                                //% "Computing..."
-                                mText = qsTrId("computing-status-title")
-                            }
-                            else if(resultsExporterTimer.running) {
-                                //% "Generating results..."
-                                mText = qsTrId("generating-results-status-title")
-                            }
-                            else if(workingTimer.running) {
+                            if (visible) {
 
-                                switch (workingTimer.action) {
-
-                                    case ("pathOnOk"):
-                                        //% "Recovering application settings..."
-                                        mText = qsTrId("recovering-settings-status-title")
-                                        break;
-
-                                    case ("refreshDialogOnOk"):
-                                    case ("refreshContestant"):
-                                        //% "Loading..."
-                                        mText = qsTrId("loading-status-title")
-                                        break;
-
-                                    default:
-                                        //% "Working..."
-                                        mText =  qsTrId("working-status-title")
+                                if (computingTimer.running || evaluateTimer.running) {
+                                    //% "Computing..."
+                                    mText = qsTrId("computing-status-title")
                                 }
-                            }
-                            else {
-                                //% "Working..."
-                                mText =  qsTrId("working-status-title")
+                                else if(resultsExporterTimer.running) {
+                                    //% "Generating results..."
+                                    mText = qsTrId("generating-results-status-title")
+                                }
+                                else if(workingTimer.running) {
+
+                                    switch (workingTimer.action) {
+
+                                        case ("pathOnOk"):
+                                            //% "Recovering application settings..."
+                                            mText = qsTrId("recovering-settings-status-title")
+                                            break;
+
+                                        case ("refreshDialogOnOk"):
+                                        case ("refreshContestant"):
+                                            //% "Loading..."
+                                            mText = qsTrId("loading-status-title")
+                                            break;
+
+                                        default:
+                                            //% "Working..."
+                                            mText =  qsTrId("working-status-title")
+                                    }
+                                }
+                                else {
+                                    //% "Working..."
+                                    mText =  qsTrId("working-status-title")
+                                }
                             }
                         }
                     }
