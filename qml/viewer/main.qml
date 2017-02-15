@@ -4482,6 +4482,8 @@ ApplicationWindow {
                 if (current + 1 == contestantsListModel.count) { // finsihed
                     running = false;
 
+                    regenerateResultsFile(); // toto tu musi byt, pri tom generovani se asi neco nesyncne a pak se vysedku generuji z prazdneho listmodelu
+
                 } else { // go to next
                     contestantsTable.selection.clear();
                     contestantsTable.selection.select(current + 1)
