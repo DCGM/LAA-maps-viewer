@@ -148,6 +148,7 @@ ApplicationWindow {
 
                                     anchors.fill: parent
                                     anchors.margins: 2
+                                    mipmap: true
                                     fillMode: Image.PreserveAspectFit
                                     source: (parseInt(uploadState) === 0) ? "./data/ic_check_circle_black_48dp/ic_check_circle_black_48dp/web/ic_check_circle_black_48dp_1x.png"
                                                                           : "./data/ic_error_black_48dp/ic_error_black_48dp/web/ic_error_black_48dp_1x.png"

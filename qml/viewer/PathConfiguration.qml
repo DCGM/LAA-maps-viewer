@@ -536,6 +536,7 @@ ApplicationWindow {
                             fillMode: Image.PreserveAspectFit
                             source: "./data/ic_warning_black_48dp/ic_warning_black_48dp/web/ic_warning_black_48dp_1x.png"
                             opacity: 0.7
+                            mipmap: true
                             visible: (!trackFileExist)
                         }
                     }
@@ -695,6 +696,7 @@ ApplicationWindow {
                             fillMode: Image.PreserveAspectFit
                             source: "./data/ic_warning_black_48dp/ic_warning_black_48dp/web/ic_warning_black_48dp_1x.png"
                             opacity: 0.7
+                            mipmap: true
                             visible: (!contestantFileExist && contestantsDownloadedString === "")
                         }
                     }
@@ -1003,6 +1005,7 @@ ApplicationWindow {
                         height: parent.height
                         anchors.verticalCenter: parent.verticalCenter
                         fillMode: Image.PreserveAspectFit
+                        mipmap: true
                         //visible: apiKeyStatus !== "unknown"
                         source: apiKeyStatus === "ok" ? "./data/ic_check_circle_black_48dp/ic_check_circle_black_48dp/web/ic_check_circle_black_48dp_1x.png"
                                                       : ((apiKeyStatus === "nok") ? "./data/ic_error_black_48dp/ic_error_black_48dp/web/ic_error_black_48dp_1x.png"
@@ -1167,6 +1170,7 @@ ApplicationWindow {
                 source: "./data/emblem_readonly.png"
                 //http://findicons.com/icon/115472/emblem_readonly?id=115472#
                 visible: pathConfiguration.online && tabView.competitionTabAlias.visible
+                mipmap: true
             }
 
             NativeText {
