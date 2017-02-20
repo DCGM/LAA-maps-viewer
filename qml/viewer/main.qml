@@ -3132,7 +3132,7 @@ ApplicationWindow {
                                     var timeDiff = Math.abs(timeEnd - timeStart);
                                     var distance = section_speed_array[k].distance;
                                     var speed = distance / timeDiff;
-                                    section_speed_array[k].speed = Math.floor(speed * 3.6); // m/s to km/h
+                                    section_speed_array[k].speed = Math.round(speed * 3.6); // m/s to km/h
                                 }
                             }
 
