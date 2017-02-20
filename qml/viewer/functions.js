@@ -141,7 +141,7 @@ function strTimeValidator(newVal) {
         }
     }
 
-    var h = (result[1] === undefined || result[1] === "" ? 0 : (String(result[1]).length == 2 ? parseInt(result[1]) : parseInt(result[1]) * 10));
+    var h = (result[1] === undefined || result[1] === "" ? 0 : parseInt(result[1]));
     var m = (result[2] === undefined || result[2] === "" ? 0 : (String(result[2]).length == 2 ? parseInt(result[2]) : parseInt(result[2]) * 10));
     var s = (result[3] === undefined || result[3] === "" ? 0 : (String(result[3]).length == 2 ? parseInt(result[3]) : parseInt(result[3]) * 10));
 
