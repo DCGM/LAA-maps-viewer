@@ -198,22 +198,23 @@ Item {
 
         var http = new XMLHttpRequest();
 
-        http.open("POST", url + "?id=" + compId + "&api_key=" + api_key, true);
+        http.open("GET", url + "?id=" + compId + "&api_key=" + api_key, true);
 
         // set timeout
-        var timer = Qt.createQmlObject("import QtQuick 2.5; Timer {interval: 5000; repeat: false; running: true;}", resultsUploader, "MyTimer");
+        var timer = Qt.createQmlObject("import QtQuick 2.5; Timer {interval: 15000; repeat: false; running: true;}", resultsUploader, "MyTimer");
                         timer.triggered.connect(function(){
-
+                            console.log("callUploadFinish: http.abort() called")
                             http.abort();
                         });
 
         http.onreadystatechange = function() {
 
-            timer.running = false;
-
             if (http.readyState === XMLHttpRequest.DONE) {
 
+                timer.running = false;
+
                 if (http.status === 200) {
+
 
                     try{
 
