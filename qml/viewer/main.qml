@@ -17,6 +17,8 @@ ApplicationWindow {
     width: 1280
     height: 860
 
+    property bool debug: false;
+
     property variant tracks;
     property variant trItem;
     property variant ctnt;
@@ -179,7 +181,7 @@ ApplicationWindow {
                 }
                 onCheckedChanged: {
                     if (checked) {
-                        map.url = "/Maps/OSM/%(zoom)d/%(x)d/%(y)d.png"
+                        map.url = "../../../../Maps/OSM/%(zoom)d/%(x)d/%(y)d.png"
                         map.url_subdomains = [];
                     }
                 }
@@ -333,7 +335,7 @@ ApplicationWindow {
                 }
                 onCheckedChanged: {
                     if (checked) {
-                        map.airspaceUrl = QStandardPathsHomeLocation+"/.local/share/Maps/airspace/%(zoom)d/%(x)d/%(y)d.png"
+                        map.airspaceUrl = "../../../../Maps/airspace/tiles/%(zoom)d/%(x)d/%(y)d.png"
                         map.mapAirspaceVisible = true;
                     }
                 }
@@ -1641,14 +1643,13 @@ ApplicationWindow {
 
     function exportFinalResults() {
 
-        // DEBUG TO REMOVE
-        if (1) {
+        if (applicationWindow.debug) {
             selectCompetitionOnlineDialog.openForExportResultsPurpose();
             return;
         }
 
         // offline - show competition list and select/confirm destination competition
-        if (pathConfiguration.selectedCompetition == "" || isNaN(parseInt(pathConfiguration.selectedCompetitionId))) {
+        if (pathConfiguration.selectedCompetition == "" || isNaN(parseInt(selectCompetitionOnlineDialog.selectedCompetitionId))) {
 
             selectCompetitionOnlineDialog.openForExportResultsPurpose();
         }

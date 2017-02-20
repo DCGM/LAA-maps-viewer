@@ -214,8 +214,10 @@ Item {
 
             onRightButtonPressed: {
 
-                recalculateScoreMenu.selectedRow = row;
-                recalculateScoreMenu.popup();
+                if (applicationWindow.debug) {
+                    recalculateScoreMenu.selectedRow = row;
+                    recalculateScoreMenu.popup();
+                }
             }
         }
 

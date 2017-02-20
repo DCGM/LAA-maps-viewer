@@ -20,13 +20,13 @@ ApplicationWindow {
     property bool autoConfirmFlag: false;
     property bool dontShowRegenResultsDialog: false;
 
-    property string igcDirectory_default: Qt.resolvedUrl("../../../igcFiles");
+    property string igcDirectory_default: Qt.resolvedUrl("../../../../../igcFiles");
     property string igcDirectory_user_defined;
 
-    property string trackFile_default: Qt.resolvedUrl("../../../track.json");
+    property string trackFile_default: Qt.resolvedUrl("../../../../../track.json");
     property string trackFile_user_defined;
 
-    property string resultsFolder_default: Qt.resolvedUrl("../../../results");
+    property string resultsFolder_default: Qt.resolvedUrl("../../../../../results");
     property string resultsFolder_user_defined;
 
     property string contestantsFile: pathConfiguration.resultsFolder + "/" + contestantsFileName
@@ -1277,7 +1277,7 @@ ApplicationWindow {
         selectMultiple: false
         //% "IGC Folder"
         title: qsTrId("path-configuration-dialog-title-igc-folder")
-        folder:  Qt.resolvedUrl("../../..");
+        folder:  Qt.resolvedUrl("../../../../..");
 
         onAccepted: {
 
@@ -1300,7 +1300,7 @@ ApplicationWindow {
         //% "Track"
         title: qsTrId("path-configuration-dialog-title-")
         nameFilters: [ "Tucek json (*.json)", "All files (*)" ]
-        folder:  Qt.resolvedUrl("../../..");
+        folder:  Qt.resolvedUrl("../../../../..");
 
         onAccepted: {
 
@@ -1323,7 +1323,7 @@ ApplicationWindow {
         //% "Flight results"
         title: qsTrId("path-configuration-dialog-title-filight-results")
 
-        folder:  Qt.resolvedUrl("../../..");
+        folder:  Qt.resolvedUrl("../../../..");
 
         onAccepted: {
 

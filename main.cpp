@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     //    QGuiApplication app(argc, argv);
 
-    //  qInstallMessageHandler(myMessageHandler); // FIXME: timto se zapina vytvareni logu do souboru
+    qInstallMessageHandler(myMessageHandler); // FIXME: timto se zapina vytvareni logu do souboru
 
     QQmlApplicationEngine engine;
 
