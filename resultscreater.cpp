@@ -794,7 +794,8 @@ const inline QString ResultsCreater::getHTMLHeader(const QString title) {
 
           "<!-- Bootstrap core CSS -->\n"
           "<link rel=\"stylesheet\" type=\"text/css\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css\">\n"
-          "<link href=\"../bin/www/css/style.css\" rel=\"stylesheet\">\n"
+          "<link href=\"../bin/viewer+/x64/www/css/style.css\" rel=\"stylesheet\">\n"
+          "<link href=\"../bin/viewer+/x86/www/css/style.css\" rel=\"stylesheet\">\n"
 
 
         "<style>"
@@ -820,9 +821,14 @@ const inline QString ResultsCreater::getHTMLBodyScript() {
             "<type=\"text/javascript\" src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js\">\n"
             "<type=\"text/javascript\" src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js\">\n"
             "<type=\"text/javascript\" src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/selectize.min.js\">\n"
-            "<type=\"text/javascript\" src=\"../bin/www/js/jquery.min.js\">\n"
-            "<type=\"text/javascript\" src=\"../bin/www/js/bootstrap.min.js\">\n"
-            "<type=\"text/javascript\" src=\"../bin/www/js/selectize.min.js\">\n"
+
+            "<type=\"text/javascript\" src=\"../bin/viewer+/x86/www/js/jquery.min.js\">\n"
+            "<type=\"text/javascript\" src=\"../bin/viewer+/x86/www/js/bootstrap.min.js\">\n"
+            "<type=\"text/javascript\" src=\"../bin/viewer+/x86/www/js/selectize.min.js\">\n"
+
+            "<type=\"text/javascript\" src=\"../bin/viewer+/x64/www/js/jquery.min.js\">\n"
+            "<type=\"text/javascript\" src=\"../bin/viewer+/x64/www/js/bootstrap.min.js\">\n"
+            "<type=\"text/javascript\" src=\"../bin/viewer+/x64/www/js/selectize.min.js\">\n"
             "</script>\n"
 
             "<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->\n"
