@@ -57,13 +57,10 @@ int main(int argc, char *argv[])
     QLoggingCategory::setFilterRules("qt.network.ssl.warning=false");  // disable SSL warnings
 
     QApplication app(argc, argv);
-    //    QGuiApplication app(argc, argv);
 
     qInstallMessageHandler(myMessageHandler); // FIXME: timto se zapina vytvareni logu do souboru
 
     QQmlApplicationEngine engine;
-
-    //    qDebug() << "app.libraryPaths() "  << app.libraryPaths();
 
     //    qmlRegisterType< QList<IgcEvent*> >("cz.mlich", 1, 0, "IgcEventList");
     //    qmlRegisterType<IgcEvent>("cz.mlich", 1, 0, "IgcEvent");
@@ -74,17 +71,27 @@ int main(int argc, char *argv[])
     qmlRegisterType<ResultsCreater>("cz.mlich", 1, 0, "ResultsCreater");
     qmlRegisterType<Worker>("cz.mlich", 1, 0, "CppWorker");
 
-//    qmlRegisterType<SortFilterProxyModel>("cz.mlich", 1, 0, "SortFilterProxyModel");
+    QTranslator translator;
+    QTranslator qtTranslator;
+    QTranslator qtBaseTranslator;
 
-    QTranslator translator;   
+    // used for standart buttons
+    if (qtTranslator.load(QLocale::system(), "qt", "_", "./")) {
+        qDebug() << "qtTranslator ok";
+        app.installTranslator(&qtTranslator);
+    }
+    if (qtBaseTranslator.load("qtbase_" + QLocale::system().name(), "./")) {
+        qDebug() << "qtBaseTranslator ok";
+        app.installTranslator(&qtBaseTranslator);
+    }
 
-    //    if (translator.load(QLatin1String("viewer_") + QLocale::system().name(), QLibraryInfo::location(QLibraryInfo::TranslationsPath))) {
+    // custom components
     if (translator.load(QLatin1String("viewer_") + QLocale::system().name(), "./")) {
         app.installTranslator(&translator);
         engine.rootContext()->setContextProperty("locale", QLocale::system().bcp47Name());
     } else {
         qDebug() << "translation.load() failed - falling back to English";
-        //        if (translator.load(QLatin1String("viewer_en_US") , QLibraryInfo::location(QLibraryInfo::TranslationsPath))) {
+
         if (translator.load(QLatin1String("viewer_en_US")   , "./")) {
             app.installTranslator(&translator);
         }
@@ -104,7 +111,6 @@ int main(int argc, char *argv[])
     engine.setNetworkAccessManagerFactory(&namFactory);
     engine.rootContext()->setContextProperty("QStandardPathsHomeLocation", QStandardPaths::standardLocations(QStandardPaths::HomeLocation)[0]);
     engine.rootContext()->setContextProperty("QStandardPathsApplicationFilePath", QFileInfo( QCoreApplication::applicationFilePath() ).dir().absolutePath() );
-    //    engine.rootContext()->setContextProperty("QStandardPathsApplicationFilePath", QFileInfo( QCoreApplication::applicationFilePath() ).dir().absolutePath().left(QFileInfo( QCoreApplication::applicationFilePath() ).dir().absolutePath().size()-4) );
 
     engine.load(QUrl("qml/viewer/main.qml"));
 
