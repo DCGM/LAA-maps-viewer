@@ -34,6 +34,8 @@ ApplicationWindow {
 
         competitionsTable.selection.clear();
 
+        var competitionId = 0;
+
         // select first
         if (competitions.count !== 0) {
 
@@ -41,22 +43,29 @@ ApplicationWindow {
             competitionsTable.currentRow = 0;
 
             // get competition id
-            selectedCompetitionId  = competitions.get(competitionsTable.currentRow).id;
+            competitionId  = competitions.get(competitionsTable.currentRow).id;
         }
+
 
         // select previously selected if not empty
         for (var i = 0; i < competitions.count; i++) {
 
-            if(competitionListWindow.selectedCompetition !== "" && competitionListWindow.selectedCompetition === competitions.get(i).name) {
+            if(competitionListWindow.selectedCompetition !== "" &&
+               competitionListWindow.selectedCompetition === competitions.get(i).name &&
+               parseInt(competitionListWindow.selectedCompetitionId) === parseInt(competitions.get(i).id)) {
 
                 competitionsTable.selection.clear();
                 competitionsTable.selection.select(i);
                 competitionsTable.currentRow = i;
 
                 // get competition id
-                selectedCompetitionId  = competitions.get(competitionsTable.currentRow).id;
+                competitionId  = competitions.get(competitionsTable.currentRow).id;
+
+                break;
             }
         }
+
+        competitionListWindow.selectedCompetitionId = competitionId;
     }
 
     ListModel {

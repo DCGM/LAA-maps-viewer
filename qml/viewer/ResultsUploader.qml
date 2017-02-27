@@ -152,7 +152,8 @@ Item {
                             //% "Selected competition is read only. Please check the settings and try it again."
                             errMessageDialog.text = qsTrId("results-upload-readonly-error-dialog-text")
                             errMessageDialog.standardButtons = StandardButton.Close
-                            errMessageDialog.showDialog();
+                            //errMessageDialog.showDialog();
+                            errMessageDialog.open();
                         }
 
                         // err
@@ -166,7 +167,8 @@ Item {
                             //% "Unable to start the upload of the files. Please check the api key, destination competition and try it again."
                             errMessageDialog.text = qsTrId("results-upload-start-error-dialog-text")
                             errMessageDialog.standardButtons = StandardButton.Close
-                            errMessageDialog.showDialog();
+                            //errMessageDialog.showDialog();
+                            errMessageDialog.open();
                         }
 
                     } catch (e) {
@@ -185,7 +187,8 @@ Item {
                     //% "Unable to connect to the server. Please check the network connection and try it again."
                     errMessageDialog.text = qsTrId("results-upload-connection-error-dialog-text")
                     errMessageDialog.standardButtons = StandardButton.Close
-                    errMessageDialog.showDialog();
+                    //errMessageDialog.showDialog();
+                    errMessageDialog.open();
                 }
             }
         }
