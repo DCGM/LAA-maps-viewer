@@ -2177,34 +2177,35 @@ ApplicationWindow {
 
                 curCnt.filename = (csvFileFromViewer && curCnt.filename === "" ? resultsCSV[j][38] : curCnt.filename);
 
+                // manual values
+                curCnt.markersOk = (csvFileFromOffice ? parseInt(resultsCSV[j][1]) : 0);
+                curCnt.markersNok = (csvFileFromOffice ? parseInt(resultsCSV[j][2]) : 0);
+                curCnt.markersFalse = (csvFileFromOffice ? parseInt(resultsCSV[j][3]) : 0);
+                curCnt.photosOk = (csvFileFromOffice ? parseInt(resultsCSV[j][4]) : 0);
+                curCnt.photosNok = (csvFileFromOffice ? parseInt(resultsCSV[j][5]) : 0);
+                curCnt.photosFalse = (csvFileFromOffice ? parseInt(resultsCSV[j][6]) : 0);
+                curCnt.startTimeMeasured = (csvFileFromOffice ? resultsCSV[j][11] : "");
+                curCnt.landingScore = (csvFileFromOffice ? parseInt(resultsCSV[j][7]) : 0);
+                curCnt.circlingCount = (csvFileFromViewer ? parseInt(resultsCSV[j][44]) : (!csvFileFromOffice ? 0 : parseInt(resultsCSV[j][13])));
+                curCnt.oppositeCount = (csvFileFromViewer ? parseInt(resultsCSV[j][46]) : 0);
+                curCnt.otherPoints = (csvFileFromOffice ? parseInt(resultsCSV[j][8]) : 0);
+                curCnt.otherPenalty = (csvFileFromOffice ? parseInt(resultsCSV[j][15]) : 0);
+                curCnt.pointNote = (csvFileFromOffice ? String(resultsCSV[j][20]) : "");
+                curCnt.prevResultsWPT = (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][34]) : "");
+                curCnt.prevResultsSpeedSec = (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][35]) : "");
+                curCnt.prevResultsAltSec = (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][37]) : "");
+                curCnt.prevResultsSpaceSec = (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][36]) : "");
+
                 // check results validity due to the contestant values
                 if (resultsValid(curCnt.speed, curCnt.startTime, curCnt.category, curCnt.filename, MD5.MD5(JSON.stringify(trItem)),
                                  curCnt.prevResultsSpeed, curCnt.prevResultsStartTime, curCnt.prevResultsCategory, curCnt.prevResultsFilename, curCnt.prevResultsTrackHas)) {
 
-                    curCnt.markersOk = (csvFileFromOffice ? parseInt(resultsCSV[j][1]) : 0);
-                    curCnt.markersNok = (csvFileFromOffice ? parseInt(resultsCSV[j][2]) : 0);
-                    curCnt.markersFalse = (csvFileFromOffice ? parseInt(resultsCSV[j][3]) : 0);
                     curCnt.markersScore = (csvFileFromViewer ? parseInt(resultsCSV[j][41]) : 0);
-                    curCnt.photosOk = (csvFileFromOffice ? parseInt(resultsCSV[j][4]) : 0);
-                    curCnt.photosNok = (csvFileFromOffice ? parseInt(resultsCSV[j][5]) : 0);
-                    curCnt.photosFalse = (csvFileFromOffice ? parseInt(resultsCSV[j][6]) : 0);
                     curCnt.photosScore = (csvFileFromViewer ? parseInt(resultsCSV[j][42]) : 0);
-                    curCnt.startTimeMeasured = (csvFileFromOffice ? resultsCSV[j][11] : "");
                     curCnt.startTimeDifference = (csvFileFromOffice ? resultsCSV[j][43] : "");
                     curCnt.startTimeScore = (csvFileFromOffice ? parseInt(resultsCSV[j][12]) : 0);
-                    curCnt.landingScore = (csvFileFromOffice ? parseInt(resultsCSV[j][7]) : 0);
-
-                    curCnt.circlingCount = (csvFileFromViewer ? parseInt(resultsCSV[j][44]) : (!csvFileFromOffice ? 0 : parseInt(resultsCSV[j][13])));
                     curCnt.circlingScore = (csvFileFromViewer ? parseInt(resultsCSV[j][45]) : (!csvFileFromOffice ? 0 : parseInt(resultsCSV[j][14] * -1)));
-                    curCnt.oppositeCount = (csvFileFromViewer ? parseInt(resultsCSV[j][46]) : 0);
                     curCnt.oppositeScore = (csvFileFromViewer ? parseInt(resultsCSV[j][47]) : 0);
-
-                    curCnt.otherPoints = (csvFileFromOffice ? parseInt(resultsCSV[j][8]) : 0);
-                    //curCnt.otherPointsNote = (csvFileFromOffice ? String((resultsCSV[j][20]).split("/&/")[0]) : "");
-                    curCnt.otherPenalty = (csvFileFromOffice ? parseInt(resultsCSV[j][15]) : 0);
-                    //curCnt.otherPenaltyNote = (csvFileFromOffice ? String((resultsCSV[j][20]).split("/&/")[1]) : "");
-                    curCnt.pointNote = (csvFileFromOffice ? String(resultsCSV[j][20]) : "");
-
                     curCnt.tgScoreSum = (csvFileFromViewer ? parseInt(resultsCSV[j][21]) : -1);
                     curCnt.tpScoreSum = (csvFileFromViewer ? parseInt(resultsCSV[j][22]) : -1);
                     curCnt.sgScoreSum = (csvFileFromViewer ? parseInt(resultsCSV[j][23]) : -1);
@@ -2216,10 +2217,6 @@ ApplicationWindow {
                     curCnt.prevResultsSpeed = (csvFileFromViewer ? parseInt(resultsCSV[j][31]) : -1);
                     curCnt.prevResultsStartTime = (csvFileFromViewer ? resultsCSV[j][32] : "");
                     curCnt.prevResultsCategory = (csvFileFromViewer ? resultsCSV[j][33] : "");
-                    curCnt.prevResultsWPT = (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][34]) : "");
-                    curCnt.prevResultsSpeedSec = (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][35]) : "");
-                    curCnt.prevResultsAltSec = (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][37]) : "");
-                    curCnt.prevResultsSpaceSec = (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][36]) : "");
                     curCnt.prevResultsTrackHas = (csvFileFromViewer ? resultsCSV[j][30] : "");
                     curCnt.prevResultsFilename = (csvFileFromViewer ? resultsCSV[j][38] : "");
                     curCnt.prevResultsScorePoints = (csvFileFromOffice ? parseInt(resultsCSV[j][17]) : -1);
