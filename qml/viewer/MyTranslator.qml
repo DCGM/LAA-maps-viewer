@@ -369,6 +369,9 @@ Item {
             case("html-start-list-title"):
                 //% "crews"
                 retVal = qsTrId("html-start-list-title"); break;
+            case("html-start-list"):
+                //% "start list"
+                retVal = qsTrId("html-start-list"); break;
             case("html-results-space-sections"):
                 //% "space sections"
                 retVal = qsTrId("html-results-space-sections"); break;

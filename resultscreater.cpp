@@ -63,7 +63,7 @@ void ResultsCreater::createContinuousResultsHTML(const QString &filePath,
     // create html
     html += "<!DOCTYPE html>\n";
     html += "<html lang=\"en\">\n";
-    html += getHTMLHeader(competitionName + getTranslatedString("html-continuous-results")) + "\n";
+    html += getHTMLHeader(getTranslatedString("html-continuous-results")) + "\n";
 
     html += "<body>\n";
     html += getHTMLBodyScript() + "\n";
@@ -212,7 +212,7 @@ void ResultsCreater::createStartListHTML(const QString &filename,
 
     html += "<!DOCTYPE html>\n";
     html += "<html lang=\"en\">\n";
-    html += getHTMLHeader(competitionName) + "\n";
+    html += getHTMLHeader("html-start-list") + "\n";
 
     html += "<body>\n";
     html += getHTMLBodyScript() + "\n";
