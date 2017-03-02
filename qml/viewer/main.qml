@@ -1693,10 +1693,16 @@ ApplicationWindow {
                 var item_j = contestantsListModel.get(j)
                 var item_j1 = contestantsListModel.get(j + 1)
 
-                var item_j_timeVal = item_j.startTime === "" || item_j.startTime === "00:00:00" ? F.timeToUnix("23:59:59") + 1 : F.timeToUnix(item_j.startTime);
-                var item_j1_timeVal = item_j1.startTime === "" || item_j1.startTime === "00:00:00" ? F.timeToUnix("23:59:59") + 1 : F.timeToUnix(item_j1.startTime);
+                var item_j_timeVal = item_j.startTime === "" || item_j.startTime === "00:00:00" ? 0 /*F.timeToUnix("23:59:59") + 1*/ : F.timeToUnix(item_j.startTime);
+                var item_j1_timeVal = item_j1.startTime === "" || item_j1.startTime === "00:00:00" ? 0 /*F.timeToUnix("23:59:59") + 1*/ : F.timeToUnix(item_j1.startTime);
 
-                if(item_j_timeVal > item_j1_timeVal){
+                // zero times to the end of list
+                if (item_j_timeVal === 0) {
+
+                    contestantsListModel.move(j, contestantsListModel.count - 1, 1);
+                }
+                // swap values
+                else if (item_j_timeVal > item_j1_timeVal){
 
                     contestantsListModel.move(j, j + 1, 1);
                 }
@@ -1854,7 +1860,7 @@ ApplicationWindow {
                 new_contestant.name = itemName;
                 new_contestant.category = item[1];
                 new_contestant.fullName = item[2];
-                new_contestant.startTime = (item[3] === "null" || item[3] === null) ? "10:00:00" : item[3];
+                new_contestant.startTime = (item[3] === "null" || item[3] === null) ? "00:00:00" : item[3];
                 new_contestant.filename = (csvFileFromViewer && item[4] === "" ? resultsCSV[j][38] : item[4]);
                 new_contestant.speed = parseInt(item[5]);
                 new_contestant.aircraft_type = item[6];
@@ -2062,7 +2068,7 @@ ApplicationWindow {
                     // add modified crew into updated list model
                     if (currentCrew.name !== currentCrew.newName ||
                         currentCrew.category !== currentCrew.newCategory ||
-                        currentCrew.startTime !== currentCrew.newStartTime ||
+                        currentCrew.startTime !== (F.strTimeValidator(currentCrew.newStartTime) === -1 ? F.addTimeStrFormat(0) : currentCrew.newStartTime) ||
                         currentCrew.speed !== currentCrew.newSpeed ||
                         currentCrew.aircraft_type !== currentCrew.newAircraft_type ||
                         currentCrew.aircraft_registration !== currentCrew.newAircraft_registration) {
