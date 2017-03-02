@@ -656,13 +656,16 @@ const QString ResultsCreater::getResultsHTMLBodyHead(const QString &competitionN
         rows.append(QStringList() << getTranslatedString("html-results-competition-director") << ("<table>" + getUserTableRowRecordWithAvatar(competitionDirectorAvatar, competitionDirector) + "</table>"));
     }
 
+
     // push each arbitr with avatar into table
     for(int i = 0; i < competitionArbitr.size(); i++) {
 
         QString avatar = i < competitionArbitrAvatar.size() ? competitionArbitrAvatar.at(i) : BLANK_USER_BASE64;
         QString label = (i == 0 ? getTranslatedString("html-results-competition-arbitr") : "");
 
-        rows.append(QStringList() << label << ("<table>" + getUserTableRowRecordWithAvatar(avatar, competitionArbitr.at(i)) + "</table>"));
+        if (competitionArbitr.at(i) != "") {
+            rows.append(QStringList() << label << ("<table>" + getUserTableRowRecordWithAvatar(avatar, competitionArbitr.at(i)) + "</table>"));
+        }
     }
 
     html += getHTMLVerticalTable(rows);
