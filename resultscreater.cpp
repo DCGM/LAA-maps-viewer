@@ -212,7 +212,7 @@ void ResultsCreater::createStartListHTML(const QString &filename,
 
     html += "<!DOCTYPE html>\n";
     html += "<html lang=\"en\">\n";
-    html += getHTMLHeader("html-start-list") + "\n";
+    html += getHTMLHeader(getTranslatedString("html-start-list")) + "\n";
 
     html += "<body>\n";
     html += getHTMLBodyScript() + "\n";
