@@ -81,7 +81,8 @@ ApplicationWindow {
             id: pilotName
             Layout.fillWidth:true;
             Layout.preferredWidth: parent.width/2
-            placeholderText: qsTrId("create-contestant-pilot-name")
+            //% "Pilot name place holder"
+            placeholderText: qsTrId("create-contestant-placeHolder-pilot-name")
         }
 
         NativeText {
@@ -93,7 +94,8 @@ ApplicationWindow {
             id: copilotName
             Layout.fillWidth:true;
             Layout.preferredWidth: parent.width/2
-            placeholderText: qsTrId("create-contestant-copilot-name")
+            //% "Copilot name place holder"
+            placeholderText: qsTrId("create-contestant-placeHolder-copilot-name")
         }
 
         NativeText {

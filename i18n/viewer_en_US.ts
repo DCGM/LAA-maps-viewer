@@ -1079,7 +1079,7 @@
                 User may not use and/or distribute Software, if he/she cannot satisfy simultaneously obligations under this licence and any other pertinent obligations.
                 User is not responsible for enforcing terms of this agreement by third parties. &lt;br/&gt;
                 BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, TO THE EXTENT PERMITTED BY APPLICABLE LAW. EXCEPT WHEN OTHERWISE STATED IN WRITING, BUT PROVIDES SOFTWARE </oldsource>
-        <translation type="unfinished">
+        <translation>
 Authors: &lt;br/&gt;
 Jozef Mlich, Adam Siroky, Pavel Zemcik, &lt;a href=\&quot;http://www.fit.vutbr.cz/\&quot;&gt;FIT VUT Brno&lt;/a&gt; &lt;br/&gt; &lt;br/&gt;
 
@@ -1147,67 +1147,67 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
         <translation>Competitions list</translation>
     </message>
     <message id="contestant-download-error-dialog-title">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="401"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="410"/>
         <source>Contestant download error dialog title</source>
         <translation>Invalid registrations values</translation>
     </message>
     <message id="contestant-download-error-dialog-text">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="403"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="412"/>
         <source>Can not download registrations for selected competition. Some of the registrations includes invalid values. Please click on the Open button for more details.</source>
         <translation>Can not download registrations for selected competition. Some of the registrations includes invalid values. Please click on the Open button for more details.</translation>
     </message>
     <message id="competitions-table-round">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="155"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="164"/>
         <source>Competition round</source>
         <translation>Round</translation>
     </message>
     <message id="competitions-table-date">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="162"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="171"/>
         <source>Competition date</source>
         <translation>Date</translation>
     </message>
     <message id="competitions-table-name">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="169"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="178"/>
         <source>Competition name</source>
         <translation>Name</translation>
     </message>
     <message id="contestant-download-access-error-dialog-title">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="409"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="418"/>
         <source>Access error dialog title</source>
         <translation>Access denied</translation>
     </message>
     <message id="contestant-download-access-error-dialog-text">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="411"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="420"/>
         <source>Can not download registrations for selected competition. Please check the settings (e.g. api_key) and try it again.</source>
         <translation>Can not download registrations for selected competition. Please check the settings (e.g. API key) and try it again.</translation>
     </message>
     <message id="contestant-download-connection-error-dialog-title">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="479"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="488"/>
         <source>Connection error dialog title</source>
         <translation>Connection error</translation>
     </message>
     <message id="contestant-download-connection-error-dialog-text">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="481"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="490"/>
         <source>Can not download registrations for selected competition. Please check the network connection and try it again.</source>
         <translation>Can not download registrations for selected competition. Please check the network connection and try it again.</translation>
     </message>
     <message id="competitions-download-access-error-dialog-title">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="537"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="546"/>
         <source>Access error dialog title</source>
         <translation>Access denied</translation>
     </message>
     <message id="competitions-download-access-error-dialog-text">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="539"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="548"/>
         <source>Can not download competitions list from server. Please check the settings (e.g. api_key) and try it again.</source>
         <translation>Can not download competitions list from server. Please check the settings (e.g.  API key) and try it again.</translation>
     </message>
     <message id="competitions-download-connection-error-dialog-title">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="560"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="569"/>
         <source>Connection error dialog title</source>
         <translation>Connection error</translation>
     </message>
     <message id="competitions-download-connection-error-dialog-text">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="562"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="571"/>
         <source>Can not download competitions list from server. Please check the network connection and try it again.</source>
         <translation>Can not download competitions list from server. Please check the network connection and try it again.</translation>
     </message>
@@ -1254,12 +1254,12 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
         <translation>Other</translation>
     </message>
     <message id="competition-list-ok-button">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="304"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="313"/>
         <source>Ok</source>
         <translation>Ok</translation>
     </message>
     <message id="competition-list-cancel-button">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="333"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="342"/>
         <source>Cancel</source>
         <translation>Cancel</translation>
     </message>
@@ -1504,92 +1504,92 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
     <message id="html-results-ctnt-tg-shortcut-legend">
         <location filename="../qml/viewer/MyTranslator.qml" line="155"/>
         <source>TG legend</source>
-        <translation>time gate</translation>
+        <translation>Time gate</translation>
     </message>
     <message id="html-results-ctnt-tp-shortcut-legend">
         <location filename="../qml/viewer/MyTranslator.qml" line="158"/>
         <source>TP legend</source>
-        <translation>turn point</translation>
+        <translation>Turn point</translation>
     </message>
     <message id="html-results-ctnt-sg-shortcut-legend">
         <location filename="../qml/viewer/MyTranslator.qml" line="161"/>
         <source>SG legend</source>
-        <translation>space gate</translation>
+        <translation>Space gate</translation>
     </message>
     <message id="html-results-ctnt-altLimits-shortcut-legend">
         <location filename="../qml/viewer/MyTranslator.qml" line="164"/>
         <source>AltP legend</source>
-        <translation>altitude limit</translation>
+        <translation>Altitude limit</translation>
     </message>
     <message id="html-results-ctnt-speedSec-shortcut-legend">
         <location filename="../qml/viewer/MyTranslator.qml" line="167"/>
         <source>SpdS legend</source>
-        <translation>speed section</translation>
+        <translation>Speed section</translation>
     </message>
     <message id="html-results-ctnt-altSec-shortcut-legend">
         <location filename="../qml/viewer/MyTranslator.qml" line="170"/>
         <source>AltS legend</source>
-        <translation>altitude section</translation>
+        <translation>Altitude section</translation>
     </message>
     <message id="html-results-ctnt-spaceSec-shortcut-legend">
         <location filename="../qml/viewer/MyTranslator.qml" line="173"/>
         <source>SpcS legend</source>
-        <translation>space section</translation>
+        <translation>Space section</translation>
     </message>
     <message id="html-results-ctnt-markersOk-shortcut-legend">
         <location filename="../qml/viewer/MyTranslator.qml" line="176"/>
         <source>M legend</source>
-        <translation>markers ok</translation>
+        <translation>Markers ok</translation>
     </message>
     <message id="html-results-ctnt-markersNok-shortcut-legend">
         <location filename="../qml/viewer/MyTranslator.qml" line="179"/>
         <source>BM legend</source>
-        <translation>markers nok</translation>
+        <translation>Markers nok</translation>
     </message>
     <message id="html-results-ctnt-markersFalse-shortcut-legend">
         <location filename="../qml/viewer/MyTranslator.qml" line="182"/>
         <source>FM legend</source>
-        <translation>markers false</translation>
+        <translation>Markers false</translation>
     </message>
     <message id="html-results-ctnt-photosOk-shortcut-legend">
         <location filename="../qml/viewer/MyTranslator.qml" line="185"/>
         <source>P legend</source>
-        <translation>photos ok</translation>
+        <translation>Photos ok</translation>
     </message>
     <message id="html-results-ctnt-photosNok-shortcut-legend">
         <location filename="../qml/viewer/MyTranslator.qml" line="188"/>
         <source>BP legend</source>
-        <translation>photos nok</translation>
+        <translation>Photos nok</translation>
     </message>
     <message id="html-results-ctnt-photosFalse-shortcut-legend">
         <location filename="../qml/viewer/MyTranslator.qml" line="191"/>
         <source>FP legend</source>
-        <translation>photos false</translation>
+        <translation>Photos false</translation>
     </message>
     <message id="html-results-ctnt-landing-shortcut-legend">
         <location filename="../qml/viewer/MyTranslator.qml" line="194"/>
         <source>Lnd legend</source>
-        <translation>landing accuracy</translation>
+        <translation>Landing accuracy</translation>
     </message>
     <message id="html-results-ctnt-takeOfF-shortcut-legend">
         <location filename="../qml/viewer/MyTranslator.qml" line="197"/>
         <source>TW legend</source>
-        <translation>takeoff window</translation>
+        <translation>Takeoff window</translation>
     </message>
     <message id="html-results-ctnt-circling-shortcut-legend">
         <location filename="../qml/viewer/MyTranslator.qml" line="200"/>
         <source>GP legend</source>
-        <translation>circling on the track</translation>
+        <translation>Circling on the track</translation>
     </message>
     <message id="html-results-ctnt-opposite-shortcut-legend">
         <location filename="../qml/viewer/MyTranslator.qml" line="203"/>
         <source>OP legend</source>
-        <translation>countercurrent fligh</translation>
+        <translation>Countercurrent fligh</translation>
     </message>
     <message id="html-results-ctnt-otherPoints-shortcut-legend">
         <location filename="../qml/viewer/MyTranslator.qml" line="206"/>
         <source>+p legend</source>
-        <translation>extra points</translation>
+        <translation>Extra points</translation>
     </message>
     <message id="html-points-shortcut">
         <location filename="../qml/viewer/MyTranslator.qml" line="209"/>
@@ -1599,17 +1599,17 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
     <message id="html-results-ctnt-otherPenalty-shortcut-legend">
         <location filename="../qml/viewer/MyTranslator.qml" line="212"/>
         <source>-p legend</source>
-        <translation>penalty</translation>
+        <translation>Penalty</translation>
     </message>
     <message id="html-results-ctnt-points-shortcut-legend">
         <location filename="../qml/viewer/MyTranslator.qml" line="215"/>
         <source>Sum legend</source>
-        <translation>total points</translation>
+        <translation>Total points</translation>
     </message>
     <message id="html-results-ctnt-points1000-shortcut-legend">
         <location filename="../qml/viewer/MyTranslator.qml" line="218"/>
         <source>Sum1000 legend</source>
-        <translation>total points to 1000</translation>
+        <translation>Total points to 1000</translation>
     </message>
     <message id="html-results-competition-date">
         <location filename="../qml/viewer/MyTranslator.qml" line="221"/>
@@ -1978,12 +1978,12 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
     <message id="html-startList-startTimePrepTime">
         <location filename="../qml/viewer/MyTranslator.qml" line="441"/>
         <source>Preparation time</source>
-        <translation>Preparation time</translation>
+        <translation>Preparation</translation>
     </message>
     <message id="html-startList-startTimeVBT">
         <location filename="../qml/viewer/MyTranslator.qml" line="444"/>
         <source>VBT time</source>
-        <translation>EPT time</translation>
+        <translation>Entry</translation>
     </message>
     <message id="create-contestant-window-title">
         <location filename="../qml/viewer/CreateContestantDialog.qml" line="30"/>
@@ -1997,66 +1997,74 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
     </message>
     <message id="create-contestant-pilot-name">
         <location filename="../qml/viewer/CreateContestantDialog.qml" line="77"/>
-        <location filename="../qml/viewer/CreateContestantDialog.qml" line="84"/>
         <source>Pilot name</source>
         <oldsource>Pilot name*</oldsource>
         <translation>Pilot</translation>
     </message>
+    <message id="create-contestant-placeHolder-pilot-name">
+        <location filename="../qml/viewer/CreateContestantDialog.qml" line="85"/>
+        <source>Pilot name place holder</source>
+        <translation>Surname name</translation>
+    </message>
     <message id="create-contestant-copilot-name">
-        <location filename="../qml/viewer/CreateContestantDialog.qml" line="89"/>
-        <location filename="../qml/viewer/CreateContestantDialog.qml" line="96"/>
+        <location filename="../qml/viewer/CreateContestantDialog.qml" line="90"/>
         <source>Copilot name</source>
         <translation>Copilot</translation>
     </message>
+    <message id="create-contestant-placeHolder-copilot-name">
+        <location filename="../qml/viewer/CreateContestantDialog.qml" line="98"/>
+        <source>Copilot name place holder</source>
+        <translation>Surname name</translation>
+    </message>
     <message id="create-contestant-category">
-        <location filename="../qml/viewer/CreateContestantDialog.qml" line="101"/>
+        <location filename="../qml/viewer/CreateContestantDialog.qml" line="103"/>
         <source>Category</source>
         <translation>Category</translation>
     </message>
     <message id="create-contestant-start-time">
-        <location filename="../qml/viewer/CreateContestantDialog.qml" line="126"/>
-        <location filename="../qml/viewer/CreateContestantDialog.qml" line="133"/>
+        <location filename="../qml/viewer/CreateContestantDialog.qml" line="128"/>
+        <location filename="../qml/viewer/CreateContestantDialog.qml" line="135"/>
         <source>Start time</source>
         <oldsource>Start time*</oldsource>
         <translation>Start time</translation>
     </message>
     <message id="create-contestant-speed">
-        <location filename="../qml/viewer/CreateContestantDialog.qml" line="157"/>
-        <location filename="../qml/viewer/CreateContestantDialog.qml" line="164"/>
+        <location filename="../qml/viewer/CreateContestantDialog.qml" line="159"/>
+        <location filename="../qml/viewer/CreateContestantDialog.qml" line="166"/>
         <source>Speed</source>
         <oldsource>Speed*</oldsource>
         <translation>Speed</translation>
     </message>
     <message id="create-contestant-plane-registration">
-        <location filename="../qml/viewer/CreateContestantDialog.qml" line="171"/>
-        <location filename="../qml/viewer/CreateContestantDialog.qml" line="178"/>
+        <location filename="../qml/viewer/CreateContestantDialog.qml" line="173"/>
+        <location filename="../qml/viewer/CreateContestantDialog.qml" line="180"/>
         <source>Plane registration</source>
         <translation>Registration</translation>
     </message>
     <message id="create-contestant-plane-type">
-        <location filename="../qml/viewer/CreateContestantDialog.qml" line="183"/>
-        <location filename="../qml/viewer/CreateContestantDialog.qml" line="190"/>
+        <location filename="../qml/viewer/CreateContestantDialog.qml" line="185"/>
+        <location filename="../qml/viewer/CreateContestantDialog.qml" line="192"/>
         <source>Plane type</source>
         <translation>Type</translation>
     </message>
     <message id="ok-button">
-        <location filename="../qml/viewer/CreateContestantDialog.qml" line="240"/>
+        <location filename="../qml/viewer/CreateContestantDialog.qml" line="242"/>
         <source>Ok</source>
         <translation>Ok</translation>
     </message>
     <message id="contestant-update-error-dialog-title">
-        <location filename="../qml/viewer/CreateContestantDialog.qml" line="280"/>
+        <location filename="../qml/viewer/CreateContestantDialog.qml" line="282"/>
         <source>Contestant update error dialog title</source>
         <translation>Invalid values</translation>
     </message>
     <message id="contestant-update-error-dialog-text">
-        <location filename="../qml/viewer/CreateContestantDialog.qml" line="282"/>
+        <location filename="../qml/viewer/CreateContestantDialog.qml" line="284"/>
         <source>Invalid values! Please check the values for: pilot name, speed and start time.</source>
         <oldsource>Invalid values. Can not update or create contestant. Please check the values for: pilot name, speed and start time.</oldsource>
         <translation>Invalid values! Please check the required fields and try it again.</translation>
     </message>
     <message id="cancel-button">
-        <location filename="../qml/viewer/CreateContestantDialog.qml" line="289"/>
+        <location filename="../qml/viewer/CreateContestantDialog.qml" line="291"/>
         <source>Cancel</source>
         <translation>Cancel</translation>
     </message>
@@ -2161,34 +2169,34 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
         <translation>Selected competition is read only. Please check the competition settings and try it again.</translation>
     </message>
     <message id="results-upload-start-error-dialog-title">
-        <location filename="../qml/viewer/ResultsUploader.qml" line="165"/>
+        <location filename="../qml/viewer/ResultsUploader.qml" line="166"/>
         <source>Results upload error dialog title</source>
         <translation>Error</translation>
     </message>
     <message id="results-upload-start-error-dialog-text">
-        <location filename="../qml/viewer/ResultsUploader.qml" line="167"/>
+        <location filename="../qml/viewer/ResultsUploader.qml" line="168"/>
         <source>Unable to start the upload of the files. Please check the api key, destination competition and try it again.</source>
         <translation>Unable to start the upload of the files. Please check the API key, destination competition and try it again.</translation>
     </message>
     <message id="results-upload-connection-error-dialog-title">
-        <location filename="../qml/viewer/ResultsUploader.qml" line="184"/>
-        <location filename="../qml/viewer/ResultsUploader.qml" line="251"/>
+        <location filename="../qml/viewer/ResultsUploader.qml" line="186"/>
+        <location filename="../qml/viewer/ResultsUploader.qml" line="254"/>
         <source>Connection error dialog title</source>
         <translation>Connection error</translation>
     </message>
     <message id="results-upload-connection-error-dialog-text">
-        <location filename="../qml/viewer/ResultsUploader.qml" line="186"/>
-        <location filename="../qml/viewer/ResultsUploader.qml" line="253"/>
+        <location filename="../qml/viewer/ResultsUploader.qml" line="188"/>
+        <location filename="../qml/viewer/ResultsUploader.qml" line="256"/>
         <source>Unable to connect to the server. Please check the network connection and try it again.</source>
         <translation>Unable to connect to the server. Please check the network connection and try it again.</translation>
     </message>
     <message id="results-upload-finishing-error-dialog-title">
-        <location filename="../qml/viewer/ResultsUploader.qml" line="232"/>
+        <location filename="../qml/viewer/ResultsUploader.qml" line="235"/>
         <source>Results upload error dialog title</source>
         <translation>Error</translation>
     </message>
     <message id="results-upload-finishing-error-dialog-text">
-        <location filename="../qml/viewer/ResultsUploader.qml" line="234"/>
+        <location filename="../qml/viewer/ResultsUploader.qml" line="237"/>
         <source>Unable to complete the results upload. Please check the api key, destination competition, uploaded files and try it again.</source>
         <translation>Unable to complete the results upload. Please check the API key, destination competition, uploaded files and try it again.</translation>
     </message>
