@@ -311,9 +311,8 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
     html += getResultsHTMLBodyHead(competitionName, competitionType, competitionDirector, competitionDirectorAvatar, competitionArbitr, competitionArbitrAvatar, competitionDate, competitionRound, competitionGroupName);
 
     // results header
-
     html += "<div class=\"row\">";
-    html += "   <div class=\"col-md-4\">";
+    html += "   <div class=\"col-xs-4\">";
     html += getHTMLH3(getTranslatedString("html-results-crew-title"));
 
     QStringList names = jsonObject["name"].toString().split(" – ");
@@ -339,7 +338,7 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
     html += getHTMLVerticalTable(rows);
 
     html += "   </div>";
-    html += "   <div class=\"col-md-8\">";
+    html += "   <div class=\"col-xs-8\">";
 
     // trajectory
     QUrl trajectoryImgUrl = QUrl(filename + ".png");
@@ -593,7 +592,10 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
 
 const inline QString ResultsCreater::getFontColorStartTag(QString color) {
 
-    return "<span style=\"color:" + color + "\">";
+    if (color == "#bfbfbf") // grey color
+        return "<span style=\"color:" + color + "\" class=\"greyText !important\">";
+    else
+        return "<span style=\"color:" + color + "\">";
 }
 
 const inline QString ResultsCreater::getFontColorEndTag() {
@@ -613,7 +615,7 @@ const inline QString ResultsCreater::getItalicText(const QString text) {
 
 const QString ResultsCreater::getItalicGreyText(const QString text) {
 
-    return getItalicText(getFontColorStartTag("grey") + text + getFontColorEndTag());
+    return getItalicText(getFontColorStartTag("#bfbfbf") + text + getFontColorEndTag());
 }
 
 
@@ -807,6 +809,9 @@ const inline QString ResultsCreater::getHTMLHeader(const QString title) {
           "{"
             "padding: 3px;"
           "}"
+            ".greyText {"
+                "color: #ccc !important;"
+            "}"
         "}"
         "</style>"
 
