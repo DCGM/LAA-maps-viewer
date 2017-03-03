@@ -352,41 +352,41 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
     rows.append(QStringList() << getBoldText(getTranslatedString("html-results-point-type")) << getBoldText(getTranslatedString("html-results-inserted-value")) << getBoldText(getTranslatedString("html-results-score")));
 
     // markers
-    rows.append(QStringList() << getTranslatedString("html-results-markers") + " " + getItalicGreyText(getTranslatedString("html-results-markers-legend")) <<
+    rows.append(QStringList() << getTranslatedString("html-results-markers") + " " + getItalicText(getTranslatedString("html-results-markers-legend")) <<
                 QString::number(jsonObject["markersOk"].toDouble()) + " / " +
                 QString::number(jsonObject["markersNok"].toDouble()) + " / " +
                 QString::number(jsonObject["markersFalse"].toDouble()) <<
                 QString::number(jsonObject["markersScore"].toDouble()));
     // photos
-    rows.append(QStringList() << getTranslatedString("html-results-photos") + " " + getItalicGreyText(getTranslatedString("html-results-markers-legend")) <<
+    rows.append(QStringList() << getTranslatedString("html-results-photos") + " " + getItalicText(getTranslatedString("html-results-markers-legend")) <<
                 QString::number(jsonObject["photosOk"].toDouble()) + " / " +
                 QString::number(jsonObject["photosNok"].toDouble()) + " / " +
                 QString::number(jsonObject["photosFalse"].toDouble()) <<
                 QString::number(jsonObject["photosScore"].toDouble()));
     // take off
-    rows.append(QStringList() << getTranslatedString("html-results-take-off") + " " + getItalicGreyText(getTranslatedString("html-results-take-off-legend")) <<
+    rows.append(QStringList() << getTranslatedString("html-results-take-off") + " " + getItalicText(getTranslatedString("html-results-take-off-legend")) <<
                 QTime(0,0,0).addSecs(addUtcToTime(QTime::fromString(jsonObject["startTime"].toString(), "HH:mm:ss"), utc_offset_sec)).toString("HH:mm:ss") + " / " +
                 (jsonObject["startTimeMeasured"].toString() == "" ? " - " : QTime(0,0,0).addSecs(addUtcToTime(QTime::fromString(jsonObject["startTimeMeasured"].toString(), "HH:mm:ss"), utc_offset_sec)).toString("HH:mm:ss")) + " / " +
                 (jsonObject["startTimeDifference"].toString() == "" ? " - " : jsonObject["startTimeDifference"].toString()) <<
                 QString::number(jsonObject["startTimeScore"].toDouble()));
     // landing accurancy
-    rows.append(QStringList() << getTranslatedString("html-results-landing-accurancy") + " " + getItalicGreyText(getTranslatedString("html-results-point-legend")) <<
+    rows.append(QStringList() << getTranslatedString("html-results-landing-accurancy") + " " + getItalicText(getTranslatedString("html-results-point-legend")) <<
                 QString::number(jsonObject["landingScore"].toDouble()) <<
                 QString::number(jsonObject["landingScore"].toDouble()));
     // circling
-    rows.append(QStringList() << getTranslatedString("html-results-circling") + " " + getItalicGreyText(getTranslatedString("html-results-count-legend")) <<
+    rows.append(QStringList() << getTranslatedString("html-results-circling") + " " + getItalicText(getTranslatedString("html-results-count-legend")) <<
                 QString::number(jsonObject["circlingCount"].toDouble()) <<
                 QString::number(jsonObject["circlingScore"].toDouble()));
     // opposite dir flight
-    rows.append(QStringList() << getTranslatedString("html-results-opposite") + " " + getItalicGreyText(getTranslatedString("html-results-count-legend")) <<
+    rows.append(QStringList() << getTranslatedString("html-results-opposite") + " " + getItalicText(getTranslatedString("html-results-count-legend")) <<
                 QString::number(jsonObject["oppositeCount"].toDouble()) <<
                 QString::number(jsonObject["oppositeScore"].toDouble()));
     // other points
-    rows.append(QStringList() << getTranslatedString("html-results-other-points") + " " + getItalicGreyText(getTranslatedString("html-results-point-legend")) <<
+    rows.append(QStringList() << getTranslatedString("html-results-other-points") + " " + getItalicText(getTranslatedString("html-results-point-legend")) <<
                 QString::number(jsonObject["otherPoints"].toDouble()) <<
                 QString::number(jsonObject["otherPoints"].toDouble()));
     // other penalty
-    rows.append(QStringList() << getTranslatedString("html-results-other-penalty") + " " + getItalicGreyText(getTranslatedString("html-results-point-legend")) <<
+    rows.append(QStringList() << getTranslatedString("html-results-other-penalty") + " " + getItalicText(getTranslatedString("html-results-point-legend")) <<
                 QString::number(jsonObject["otherPenalty"].toDouble()) <<
                 QString::number(jsonObject["otherPenalty"].toDouble() != 0 ? jsonObject["otherPenalty"].toDouble() * -1 : 0));
     // note
