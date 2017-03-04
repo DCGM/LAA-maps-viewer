@@ -122,7 +122,7 @@ ApplicationWindow {
              if (clickedButton == StandardButton.Open) {
 
                  // open url with errors
-                 Qt.openUrlExternally(F.base_url + "/exportCrews.php" + "?id=" + String(competitions.get(competitionsTable.currentRow).id) + "&errors=normal");
+                 Qt.openUrlExternally(F.base_url + "/exportCrews.php" + "?id=" + String(selectedCompetitionId) + "&errors=normal");
                  visible = false;
              }
              else {
@@ -404,7 +404,8 @@ ApplicationWindow {
                                                                  0);
 
                             // Set and show error dialog
-                            if (http.responseText.indexOf("\"status\": 10") != -1) {
+                            if (http.responseText.indexOf("\"status\": 9") != -1 || // registration
+                                http.responseText.indexOf("\"status\": 10") != -1) { // speed
 
                                 //% "Contestant download error dialog title"
                                 errMessageDialog.title = qsTrId("contestant-download-error-dialog-title")
