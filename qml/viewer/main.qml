@@ -843,15 +843,42 @@ ApplicationWindow {
                             contestantsListModel.setProperty(row, "score", "");        //compute new score
                             contestantsListModel.setProperty(row, "scorePoints", -1);
                             contestantsListModel.setProperty(row, "scorePoints1000", -1);
-                            contestantsListModel.setProperty(row, "wptScoreDetails", contestant.prevResultsWPT);
-                            contestantsListModel.setProperty(row, "speedSectionsScoreDetails", contestant.prevResultsSpeedSec);
-                            contestantsListModel.setProperty(row, "spaceSectionsScoreDetails", contestant.prevResultsSpaceSec);
-                            contestantsListModel.setProperty(row, "altitudeSectionsScoreDetails", contestant.prevResultsAltSec);
+                            //contestantsListModel.setProperty(row, "wptScoreDetails", contestant.prevResultsWPT);
+                            //contestantsListModel.setProperty(row, "speedSectionsScoreDetails", contestant.prevResultsSpeedSec);
+                            //contestantsListModel.setProperty(row, "spaceSectionsScoreDetails", contestant.prevResultsSpaceSec);
+                            //contestantsListModel.setProperty(row, "altitudeSectionsScoreDetails", contestant.prevResultsAltSec);
                             contestantsListModel.setProperty(row, "score_json", "");
                             contestantsListModel.setProperty(row, "trackHash", "");
                     }
                     // load prev results
                     else {
+
+                        contestantsListModel.setProperty(row, "markersScore", contestant.prevResultsMarkersScore);
+                        contestantsListModel.setProperty(row, "photosScore", contestant.prevResultsPhotosScore);
+                        contestantsListModel.setProperty(row, "startTimeDifference", contestant.prevResultsStartTimeDifference);
+                        contestantsListModel.setProperty(row, "startTimeScore", contestant.prevResultsStartTimeScore);
+                        contestantsListModel.setProperty(row, "circlingScore", contestant.prevResultsCirclingScore);
+                        contestantsListModel.setProperty(row, "oppositeScore", contestant.prevResultsOppositeScore);
+                        contestantsListModel.setProperty(row, "tgScoreSum", contestant.prevResultsTgScoreSum);
+                        contestantsListModel.setProperty(row, "tpScoreSum", contestant.prevResultsTpScoreSum);
+                        contestantsListModel.setProperty(row, "sgScoreSum", contestant.prevResultsSgScoreSum);
+                        contestantsListModel.setProperty(row, "altLimitsScoreSum", contestant.prevResultsAltLimitsScoreSum);
+                        contestantsListModel.setProperty(row, "speedSecScoreSum", contestant.prevResultsSpeedSecScoreSum);
+                        contestantsListModel.setProperty(row, "altSecScoreSum", contestant.prevResultsAltSecScoreSum);
+                        contestantsListModel.setProperty(row, "spaceSecScoreSum", contestant.prevResultsSpaceSecScoreSum);
+                        contestantsListModel.setProperty(row, "markersOk", contestant.prevResultsMarkersOk);
+                        contestantsListModel.setProperty(row, "markersNok", contestant.prevResultsMarkersNok);
+                        contestantsListModel.setProperty(row, "markersFalse", contestant.prevResultsMarkersFalse);
+                        contestantsListModel.setProperty(row, "photosOk", contestant.prevResultsPhotosOk);
+                        contestantsListModel.setProperty(row, "photosNok", contestant.prevResultsPhotosNok);
+                        contestantsListModel.setProperty(row, "photosFalse", contestant.prevResultsPhotosFalse);
+                        contestantsListModel.setProperty(row, "startTimeMeasured", contestant.prevResultsStartTimeMeasured);
+                        contestantsListModel.setProperty(row, "landingScore", contestant.prevResultsLandingScore);
+                        contestantsListModel.setProperty(row, "circlingCount", contestant.prevResultsCirclingCount);
+                        contestantsListModel.setProperty(row, "oppositeCount", contestant.prevResultsOppositeCount);
+                        contestantsListModel.setProperty(row, "otherPoints", contestant.prevResultsOtherPoints);
+                        contestantsListModel.setProperty(row, "otherPenalty", contestant.prevResultsOtherPenalty);
+                        contestantsListModel.setProperty(row, "pointNote", contestant.prevResultsPointNote);
 
                         contestantsListModel.setProperty(row, "trackHash", contestant.prevResultsTrackHas);
                         contestantsListModel.setProperty(row, "wptScoreDetails", contestant.prevResultsWPT);
@@ -1759,6 +1786,32 @@ ApplicationWindow {
             "oposite_direction_penalty": 0,
             "gyre_penalty": 0,
 
+            "prevResultsMarkersScore": 0,
+            "prevResultsPhotosScore": 0,
+            "prevResultsStartTimeDifference": "",
+            "prevResultsStartTimeScore": 0,
+            "prevResultsCirclingScore": 0,
+            "prevResultsOppositeScore": 0,
+            "prevResultsTgScoreSum": -1,
+            "prevResultsTpScoreSum": -1,
+            "prevResultsSgScoreSum": -1,
+            "prevResultsAltLimitsScoreSum": -1,
+            "prevResultsSpeedSecScoreSum": -1,
+            "prevResultsAltSecScoreSum": -1,
+            "prevResultsSpaceSecScoreSum": -1,
+            "prevResultsMarkersOk": 0,
+            "prevResultsMarkersNok": 0,
+            "prevResultsMarkersFalse": 0,
+            "prevResultsPhotosOk": 0,
+            "prevResultsPhotosNok": 0,
+            "prevResultsPhotosFalse": 0,
+            "prevResultsStartTimeMeasured": "",
+            "prevResultsLandingScore": 0,
+            "prevResultsCirclingCount": 0,
+            "prevResultsOppositeCount": 0,
+            "prevResultsOtherPoints": 0,
+            "prevResultsOtherPenalty": 0,
+            "prevResultsPointNote": "",
             "prevResultsSpeed": -1,
             "prevResultsStartTime": "",
             "prevResultsCategory": "",
@@ -2178,19 +2231,20 @@ ApplicationWindow {
                 curCnt.filename = (csvFileFromViewer && curCnt.filename === "" ? resultsCSV[j][38] : curCnt.filename);
 
                 // manual values
-                curCnt.markersOk = (csvFileFromOffice ? parseInt(resultsCSV[j][1]) : 0);
-                curCnt.markersNok = (csvFileFromOffice ? parseInt(resultsCSV[j][2]) : 0);
-                curCnt.markersFalse = (csvFileFromOffice ? parseInt(resultsCSV[j][3]) : 0);
-                curCnt.photosOk = (csvFileFromOffice ? parseInt(resultsCSV[j][4]) : 0);
-                curCnt.photosNok = (csvFileFromOffice ? parseInt(resultsCSV[j][5]) : 0);
-                curCnt.photosFalse = (csvFileFromOffice ? parseInt(resultsCSV[j][6]) : 0);
-                curCnt.startTimeMeasured = (csvFileFromOffice ? resultsCSV[j][11] : "");
-                curCnt.landingScore = (csvFileFromOffice ? parseInt(resultsCSV[j][7]) : 0);
-                curCnt.circlingCount = (csvFileFromViewer ? parseInt(resultsCSV[j][44]) : (!csvFileFromOffice ? 0 : parseInt(resultsCSV[j][13])));
-                curCnt.oppositeCount = (csvFileFromViewer ? parseInt(resultsCSV[j][46]) : 0);
-                curCnt.otherPoints = (csvFileFromOffice ? parseInt(resultsCSV[j][8]) : 0);
-                curCnt.otherPenalty = (csvFileFromOffice ? parseInt(resultsCSV[j][15]) : 0);
-                curCnt.pointNote = (csvFileFromOffice ? String(resultsCSV[j][20]) : "");
+                curCnt.prevResultsMarkersOk = (csvFileFromOffice ? parseInt(resultsCSV[j][1]) : 0);
+                curCnt.prevResultsMarkersNok = (csvFileFromOffice ? parseInt(resultsCSV[j][2]) : 0);
+                curCnt.prevResultsMarkersFalse = (csvFileFromOffice ? parseInt(resultsCSV[j][3]) : 0);
+                curCnt.prevResultsPhotosOk = (csvFileFromOffice ? parseInt(resultsCSV[j][4]) : 0);
+                curCnt.prevResultsPhotosNok = (csvFileFromOffice ? parseInt(resultsCSV[j][5]) : 0);
+                curCnt.prevResultsPhotosFalse = (csvFileFromOffice ? parseInt(resultsCSV[j][6]) : 0);
+                curCnt.prevResultsStartTimeMeasured = (csvFileFromOffice ? resultsCSV[j][11] : "");
+                curCnt.prevResultsLandingScore = (csvFileFromOffice ? parseInt(resultsCSV[j][7]) : 0);
+                curCnt.prevResultsCirclingCount = (csvFileFromViewer ? parseInt(resultsCSV[j][44]) : (!csvFileFromOffice ? 0 : parseInt(resultsCSV[j][13])));
+                curCnt.prevResultsOppositeCount = (csvFileFromViewer ? parseInt(resultsCSV[j][46]) : 0);
+                curCnt.prevResultsOtherPoints = (csvFileFromOffice ? parseInt(resultsCSV[j][8]) : 0);
+                curCnt.prevResultsOtherPenalty = (csvFileFromOffice ? parseInt(resultsCSV[j][15]) : 0);
+                curCnt.prevResultsPointNote = (csvFileFromOffice ? String(resultsCSV[j][20]) : "");
+
                 curCnt.prevResultsWPT = (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][34]) : "");
                 curCnt.prevResultsSpeedSec = (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][35]) : "");
                 curCnt.prevResultsAltSec = (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][37]) : "");
@@ -2200,19 +2254,19 @@ ApplicationWindow {
                 if (resultsValid(curCnt.speed, curCnt.startTime, curCnt.category, curCnt.filename, MD5.MD5(JSON.stringify(trItem)),
                                  curCnt.prevResultsSpeed, curCnt.prevResultsStartTime, curCnt.prevResultsCategory, curCnt.prevResultsFilename, curCnt.prevResultsTrackHas)) {
 
-                    curCnt.markersScore = (csvFileFromViewer ? parseInt(resultsCSV[j][41]) : 0);
-                    curCnt.photosScore = (csvFileFromViewer ? parseInt(resultsCSV[j][42]) : 0);
-                    curCnt.startTimeDifference = (csvFileFromOffice ? resultsCSV[j][43] : "");
-                    curCnt.startTimeScore = (csvFileFromOffice ? parseInt(resultsCSV[j][12]) : 0);
-                    curCnt.circlingScore = (csvFileFromViewer ? parseInt(resultsCSV[j][45]) : (!csvFileFromOffice ? 0 : parseInt(resultsCSV[j][14] * -1)));
-                    curCnt.oppositeScore = (csvFileFromViewer ? parseInt(resultsCSV[j][47]) : 0);
-                    curCnt.tgScoreSum = (csvFileFromViewer ? parseInt(resultsCSV[j][21]) : -1);
-                    curCnt.tpScoreSum = (csvFileFromViewer ? parseInt(resultsCSV[j][22]) : -1);
-                    curCnt.sgScoreSum = (csvFileFromViewer ? parseInt(resultsCSV[j][23]) : -1);
-                    curCnt.altLimitsScoreSum = (csvFileFromViewer ? parseInt(resultsCSV[j][24]) : -1);
-                    curCnt.speedSecScoreSum = (csvFileFromViewer ? parseInt(resultsCSV[j][25]) : -1);
-                    curCnt.altSecScoreSum = (csvFileFromViewer ? parseInt(resultsCSV[j][26]) : -1);
-                    curCnt.spaceSecScoreSum = (csvFileFromViewer ? parseInt(resultsCSV[j][27]) : -1);
+                    curCnt.prevResultsMarkersScore = (csvFileFromViewer ? parseInt(resultsCSV[j][41]) : 0);
+                    curCnt.prevResultsPhotosScore = (csvFileFromViewer ? parseInt(resultsCSV[j][42]) : 0);
+                    curCnt.prevResultsStartTimeDifference = (csvFileFromOffice ? resultsCSV[j][43] : "");
+                    curCnt.prevResultsStartTimeScore = (csvFileFromOffice ? parseInt(resultsCSV[j][12]) : 0);
+                    curCnt.prevResultsCirclingScore = (csvFileFromViewer ? parseInt(resultsCSV[j][45]) : (!csvFileFromOffice ? 0 : parseInt(resultsCSV[j][14] * -1)));
+                    curCnt.prevResultsOppositeScore = (csvFileFromViewer ? parseInt(resultsCSV[j][47]) : 0);
+                    curCnt.prevResultsTgScoreSum = (csvFileFromViewer ? parseInt(resultsCSV[j][21]) : -1);
+                    curCnt.prevResultsTpScoreSum = (csvFileFromViewer ? parseInt(resultsCSV[j][22]) : -1);
+                    curCnt.prevResultsSgScoreSum = (csvFileFromViewer ? parseInt(resultsCSV[j][23]) : -1);
+                    curCnt.prevResultsAltLimitsScoreSum = (csvFileFromViewer ? parseInt(resultsCSV[j][24]) : -1);
+                    curCnt.prevResultsSpeedSecScoreSum = (csvFileFromViewer ? parseInt(resultsCSV[j][25]) : -1);
+                    curCnt.prevResultsAltSecScoreSum = (csvFileFromViewer ? parseInt(resultsCSV[j][26]) : -1);
+                    curCnt.prevResultsSpaceSecScoreSum = (csvFileFromViewer ? parseInt(resultsCSV[j][27]) : -1);
 
                     curCnt.prevResultsSpeed = (csvFileFromViewer ? parseInt(resultsCSV[j][31]) : -1);
                     curCnt.prevResultsStartTime = (csvFileFromViewer ? resultsCSV[j][32] : "");
@@ -2223,10 +2277,10 @@ ApplicationWindow {
                     curCnt.prevResultsScore = (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][39]) : "");
                     curCnt.prevResultsScoreJson = (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][40]) : "");
                     curCnt.prevResultsClassify = (csvFileFromOffice ? (resultsCSV[j][19] === "yes" ? 0 : 1) : 0);
-
-                    // save changes
-                    contestantsListModel.set(i, curCnt);
                 }
+
+                // save changes
+                contestantsListModel.set(i, curCnt);
             }
         }
     }
@@ -2564,6 +2618,7 @@ ApplicationWindow {
         ctnt.photosScore = getPhotosScore(ctnt.photosOk, ctnt.photosNok, ctnt.photosFalse, trItem.photos_max_score);
 
         var res = getScorePointsSum(ctnt)
+
         contestantsListModel.setProperty(row, "tgScoreSum", res.tgScoreSum);
         contestantsListModel.setProperty(row, "sgScoreSum", res.sgScoreSum);
         contestantsListModel.setProperty(row, "tpScoreSum", res.tpScoreSum);
@@ -2938,6 +2993,21 @@ ApplicationWindow {
         loadStringIntoListModel(speedSectionsScoreListManualValuesCache, ctnt.prevResultsSpeedSec, "; ");
         loadStringIntoListModel(spaceSectionsScoreListManualValuesCache, ctnt.prevResultsSpaceSec, "; ");
         loadStringIntoListModel(altSectionsScoreListManualValuesCache, ctnt.prevResultsAltSec, "; ");
+
+        // load manual values from prev results cache
+        contestantsListModel.setProperty(current, "markersOk", item.prevResultsMarkersOk);
+        contestantsListModel.setProperty(current, "markersNok", item.prevResultsMarkersNok);
+        contestantsListModel.setProperty(current, "markersFalse", item.prevResultsMarkersFalse);
+        contestantsListModel.setProperty(current, "photosOk", item.prevResultsPhotosOk);
+        contestantsListModel.setProperty(current, "photosNok", item.prevResultsPhotosNok);
+        contestantsListModel.setProperty(current, "photosFalse", item.prevResultsPhotosFalse);
+        contestantsListModel.setProperty(current, "startTimeMeasured", item.prevResultsStartTimeMeasured);
+        contestantsListModel.setProperty(current, "landingScore", item.prevResultsLandingScore);
+        contestantsListModel.setProperty(current, "circlingCount", item.prevResultsCirclingCount);
+        contestantsListModel.setProperty(current, "oppositeCount", item.prevResultsOppositeCount);
+        contestantsListModel.setProperty(current, "otherPoints", item.prevResultsOtherPoints);
+        contestantsListModel.setProperty(current, "otherPenalty", item.prevResultsOtherPenalty);
+        contestantsListModel.setProperty(current, "pointNote", item.prevResultsPointNote);
 
         console.time("computeScore")
 
@@ -3337,7 +3407,7 @@ ApplicationWindow {
         contestantsListModel.setProperty(current, "wptScoreDetails", "");
         contestantsListModel.setProperty(current, "speedSectionsScoreDetails", "");
         contestantsListModel.setProperty(current, "spaceSectionsScoreDetails", "");
-        contestantsListModel.setProperty(current, "altitudeSectionsScoreDetails", "");
+        contestantsListModel.setProperty(current, "altitudeSectionsScoreDetails", "");              
 
         var category_alt_penalty = trItem.alt_penalty;
         var category_marker_max_score = trItem.marker_max_score;
@@ -3761,7 +3831,7 @@ ApplicationWindow {
         file_reader.write(Qt.resolvedUrl(pathConfiguration.csvResultsFile), str);
     }
 
-    function writeCSV() {
+    function writeCSV() {      
 
         var str = "";
 
@@ -4464,6 +4534,11 @@ ApplicationWindow {
                         action = "";
                     }
 
+                    // save manual values
+                    writeCSV();
+                    recalculateScoresTo1000();
+                    writeScoreManulaValToCSV();
+
                     break;
 
                 case "refreshDialogOnOk":
@@ -4486,6 +4561,12 @@ ApplicationWindow {
                     sortListModelByStartTime();
 
                     action = "";
+
+                    // save manual values
+                    writeCSV();
+                    recalculateScoresTo1000();
+                    writeScoreManulaValToCSV();
+
                     break;
 
                 case "refreshContestant":

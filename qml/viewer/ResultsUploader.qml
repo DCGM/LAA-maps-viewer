@@ -74,7 +74,7 @@ Item {
             var contestant = contestantsListModel.get(i);
             var fileName = F.getContestantResultFileName(contestant.name, contestant.category);
 
-            if (file_reader.file_exists(pathConfiguration.resultsFolder + "/"+ fileName + ".html")) {
+            if (contestant.scorePoints != -1 && file_reader.file_exists(pathConfiguration.resultsFolder + "/"+ fileName + ".html")) {
                 filesToUpload.push({"fileUrl": pathConfiguration.resultsFolder + "/" + fileName + ".html", "fileName": fileName + ".html"});
             }
         }
