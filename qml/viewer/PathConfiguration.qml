@@ -110,7 +110,7 @@ ApplicationWindow {
         if (visible) {
 
             // get last known api_key
-            prevApi_key = config.get("api_key", "unknown");
+            prevApi_key = config.get("api_key", "");
             prevUserNameValidity = config.get("userNameValidity", "");
             prevUserKeyValidity = config.get("userKeyValidity", "");
 
