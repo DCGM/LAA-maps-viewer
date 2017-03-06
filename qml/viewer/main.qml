@@ -1449,6 +1449,83 @@ ApplicationWindow {
                         computingTimer.running = true;
                     }
                 }
+
+                // navigation icons
+                ColumnLayout {
+
+                    anchors.right: parent.right
+                    anchors.bottom: parent.bottom
+                    anchors.rightMargin: 16
+                    anchors.bottomMargin: 16
+                    spacing: 0
+
+                    ShadowElement { // just for effect
+                        anchors.fill: zoomButtons
+                        source: zoomButtons
+                    }
+
+                    ShadowElement { // just for effect
+                        anchors.fill: centerButton
+                        source: centerButton
+                    }
+
+                    Rectangle {
+                        id: centerButton
+                        width: 25
+                        height: 25
+                        visible: parent.visible
+                        radius: 3
+
+                        MyImage {
+                            source: "./data/ic_my_location_black_24dp/ic_my_location_black_24dp/web/ic_my_location_black_24dp_1x.png"
+                            onMouse_clicked: map.pointsInBounds();
+                        }
+                    }
+
+                    Rectangle { // spacer
+                        color: "transparent"
+                        height: 4
+                    }
+
+                    Rectangle {
+                        id: zoomButtons
+                        width: 25
+                        height: 50
+                        radius: 3
+
+                        ColumnLayout {
+
+                            anchors.fill: parent
+                            spacing: 0
+
+                            Rectangle {
+                                width: parent.width
+                                height: parent.height/2
+
+                                MyImage {
+                                    source: "./data/ic_add_black_24dp/ic_add_black_24dp/web/ic_add_black_24dp_1x.png"
+                                    onMouse_clicked: map.zoomIn();
+                                }
+                            }
+
+                            HorizontalDelimeter {
+                                width: parent.width - 5
+                                anchors.horizontalCenter: parent.horizontalCenter
+                            }
+
+                            Rectangle {
+                                width: parent.width
+                                height: parent.height/2
+
+
+                                MyImage {
+                                    source: "./data/ic_remove_black_24dp/ic_remove_black_24dp/web/ic_remove_black_24dp_1x.png"
+                                    onMouse_clicked: map.zoomOut();
+                                }
+                            }
+                        }
+                    }
+                }
             }
 
             Rectangle {
