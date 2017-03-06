@@ -115,6 +115,13 @@ function getLon(lon, settings) {
     }
 }
 
+function nameValidator(string) {
+
+    var nameRegexp = /^.+ .+$/; // two words with space
+
+    return nameRegexp.exec(string);
+}
+
 function strTimeValidator(newVal) {
 
     var regexp1 = /^(\d{0,2}):(\d{0,2}):(\d{0,2})$/;

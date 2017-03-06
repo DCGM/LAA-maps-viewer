@@ -689,11 +689,7 @@ ApplicationWindow {
 
             if (row < 0) return;
 
-            // dont popUp menu if igc file not exist - otherwise problem with focus when error dialog is opened
-            var filePath = pathConfiguration.igcDirectory + "/" + contestantsListModel.get(row).filename;
-            if (file_reader.file_exists(filePath)) {
-                popup();
-            }
+            popup();
         }
 
         onAboutToShow: {
@@ -1152,31 +1148,34 @@ ApplicationWindow {
                         map.filterCupData = 3
                         console.log("ctnt.category \"" + ctnt.category + "\" not found in track!")
                     }
-
-                    //                console.log("setFilter" + ctnt.startTime)
-                    tool_bar.startTime = ctnt.startTime;
-
-                    var filePath = pathConfiguration.igcDirectory + "/" + ctnt.filename;
-                    if (!file_reader.file_exists(filePath)) {
-
-                        if (!(evaluateTimer.running) && !(resultsExporterTimer.running)) { // dont show err dialog when computing/generating results
-
-                            //% "IGC file"
-                            errorMessage.title = qsTrId("contestant-table-row-selected-err-dialog-title");
-
-                            //% "File \"%1\" not found!"
-                            errorMessage.text = qsTrId("contestant-table-row-selected-file-not-found").arg(filePath)
-                            errorMessage.open();
-                        }
-
-                        igc.clear(); // clear current igc
-
-                        igcChooseDialog.crow = current; // remove selected igc (igc not found)
-                        igcChooseDialog.choosenFilename("","");
-                    }
                     else {
-                        // remove prefix "file:///"
-                        igc.load( file_reader.toLocal(filePath), ctnt.startTime)
+
+                        //                console.log("setFilter" + ctnt.startTime)
+                        tool_bar.startTime = ctnt.startTime;
+
+                        var filePath = pathConfiguration.igcDirectory + "/" + ctnt.filename;
+                        if (!file_reader.file_exists(filePath)) {
+
+                            if (!(evaluateTimer.running) && !(resultsExporterTimer.running)) { // dont show err dialog when computing/generating results
+
+                                //% "IGC file"
+                                errorMessage.title = qsTrId("contestant-table-row-selected-err-dialog-title");
+
+                                //% "File \"%1\" not found!"
+                                errorMessage.text = qsTrId("contestant-table-row-selected-file-not-found").arg(filePath)
+                                errorMessage.open();
+                            }
+
+                            igc.clear(); // clear current igc
+
+                            igcChooseDialog.crow = current; // remove selected igc (igc not found)
+                            igcChooseDialog.choosenFilename("","");
+                        }
+                        else {
+
+                            // remove prefix "file:///"
+                            igc.load( file_reader.toLocal(filePath), ctnt.startTime)
+                        }
                     }
 
                     map.requestUpdate()

@@ -171,60 +171,60 @@
         <translation>Zadejte adresu</translation>
     </message>
     <message id="contestant-table-row-selected-file-not-found">
-        <location filename="../qml/viewer/main.qml" line="1141"/>
+        <location filename="../qml/viewer/main.qml" line="1172"/>
         <source>File \&quot;%1\&quot; not found!</source>
         <oldsource>File \&quot;%1\&quot; not found</oldsource>
         <translation>Soubor &quot;%1&quot; nenalezen!</translation>
     </message>
     <message id="file-name-ontinuous-results">
         <location filename="../qml/viewer/main.qml" line="92"/>
-        <location filename="../qml/viewer/main.qml" line="2240"/>
-        <location filename="../qml/viewer/main.qml" line="2251"/>
+        <location filename="../qml/viewer/main.qml" line="2297"/>
+        <location filename="../qml/viewer/main.qml" line="2308"/>
         <source>Continuous results</source>
         <translation>vysledky</translation>
     </message>
     <message id="start-list-filename">
         <location filename="../qml/viewer/main.qml" line="93"/>
-        <location filename="../qml/viewer/main.qml" line="2314"/>
-        <location filename="../qml/viewer/main.qml" line="2344"/>
+        <location filename="../qml/viewer/main.qml" line="2371"/>
+        <location filename="../qml/viewer/main.qml" line="2401"/>
         <source>Start list</source>
         <translation>startovni listina</translation>
     </message>
     <message id="trackFile-not-found-dialog-title">
-        <location filename="../qml/viewer/main.qml" line="4439"/>
+        <location filename="../qml/viewer/main.qml" line="4512"/>
         <source>Track file</source>
         <oldsource>Track file.</oldsource>
         <translation>Soubor s tratí</translation>
     </message>
     <message id="trackFile-not-found-dialog-text">
-        <location filename="../qml/viewer/main.qml" line="4441"/>
+        <location filename="../qml/viewer/main.qml" line="4514"/>
         <source>File %1 not found!</source>
         <oldsource>File %1 not found.</oldsource>
         <translation>Soubor %1 nebyl nalezen!</translation>
     </message>
     <message id="regen-res-message-dialog-title">
-        <location filename="../qml/viewer/main.qml" line="4573"/>
+        <location filename="../qml/viewer/main.qml" line="4657"/>
         <source>Regenerate results message title</source>
         <translation>Změna nastavení</translation>
     </message>
     <message id="regen-res-message-dialog-text">
-        <location filename="../qml/viewer/main.qml" line="4576"/>
+        <location filename="../qml/viewer/main.qml" line="4660"/>
         <source>Competition property has been changed. Do you want to regenerate results?</source>
         <translation>Atributy soutěže byly změněny. Přejete si přegenerovat výsledky?</translation>
     </message>
     <message id="start-up-message-dialog-title">
-        <location filename="../qml/viewer/main.qml" line="4594"/>
+        <location filename="../qml/viewer/main.qml" line="4678"/>
         <source>Recovery settings</source>
         <oldsource>Viewer</oldsource>
         <translation>Obnovit nastavení</translation>
     </message>
     <message id="start-up-message-dialog-text">
-        <location filename="../qml/viewer/main.qml" line="4597"/>
+        <location filename="../qml/viewer/main.qml" line="4681"/>
         <source>Do you want to load previous enviroment settings?</source>
         <translation>Přejete si obnovit předchozí nastavení programu?</translation>
     </message>
     <message id="filelist-table-contestants">
-        <location filename="../qml/viewer/main.qml" line="1161"/>
+        <location filename="../qml/viewer/main.qml" line="1194"/>
         <source>Contestant</source>
         <translation>Soutěžící</translation>
     </message>
@@ -587,7 +587,7 @@
         <translation>Ne</translation>
     </message>
     <message id="toolbar-igc-count" numerus="yes">
-        <location filename="../qml/viewer/main.qml" line="1602"/>
+        <location filename="../qml/viewer/main.qml" line="1635"/>
         <source>Fixes %n</source>
         <oldsource>Igc fixes %n</oldsource>
         <translation>
@@ -597,32 +597,32 @@
         </translation>
     </message>
     <message id="section-type-speed">
-        <location filename="../qml/viewer/main.qml" line="3908"/>
+        <location filename="../qml/viewer/main.qml" line="3981"/>
         <source>speed</source>
         <translation>rychlost</translation>
     </message>
     <message id="section-type-altitude">
-        <location filename="../qml/viewer/main.qml" line="3920"/>
+        <location filename="../qml/viewer/main.qml" line="3993"/>
         <source>altitude</source>
         <translation>výška</translation>
     </message>
     <message id="section-type-space">
-        <location filename="../qml/viewer/main.qml" line="3932"/>
+        <location filename="../qml/viewer/main.qml" line="4005"/>
         <source>space</source>
         <translation>prostor</translation>
     </message>
     <message id="filelist-table-category">
-        <location filename="../qml/viewer/main.qml" line="1172"/>
+        <location filename="../qml/viewer/main.qml" line="1205"/>
         <source>Category</source>
         <translation>Kategorie</translation>
     </message>
     <message id="filelist-table-speed">
-        <location filename="../qml/viewer/main.qml" line="1184"/>
+        <location filename="../qml/viewer/main.qml" line="1217"/>
         <source>Speed</source>
         <translation>Rychlost</translation>
     </message>
     <message id="filelist-table-start-time">
-        <location filename="../qml/viewer/main.qml" line="1178"/>
+        <location filename="../qml/viewer/main.qml" line="1211"/>
         <source>StartTime</source>
         <translation>Čas startu</translation>
     </message>
@@ -641,68 +641,68 @@
         <translation>&amp;Soutěžící</translation>
     </message>
     <message id="contestant-table-row-selected-err-dialog-title">
-        <location filename="../qml/viewer/main.qml" line="1138"/>
+        <location filename="../qml/viewer/main.qml" line="1169"/>
         <source>IGC file</source>
         <translation>IGC soubor</translation>
     </message>
     <message id="filelist-table-aircraft-registration">
-        <location filename="../qml/viewer/main.qml" line="1190"/>
+        <location filename="../qml/viewer/main.qml" line="1223"/>
         <source>Aircraft registration</source>
         <translation>Imatrikulace</translation>
     </message>
     <message id="filelist-table-score">
-        <location filename="../qml/viewer/main.qml" line="1196"/>
+        <location filename="../qml/viewer/main.qml" line="1229"/>
         <source>Score</source>
         <translation>Body</translation>
     </message>
     <message id="filelist-table-score-to-1000">
-        <location filename="../qml/viewer/main.qml" line="1202"/>
+        <location filename="../qml/viewer/main.qml" line="1235"/>
         <source>Score to 1000</source>
         <translation>Body na 1000</translation>
     </message>
     <message id="filelist-table-class-order">
-        <location filename="../qml/viewer/main.qml" line="1208"/>
+        <location filename="../qml/viewer/main.qml" line="1241"/>
         <source>Class order</source>
         <translation>Pořadí</translation>
     </message>
     <message id="filelist-table-classify">
-        <location filename="../qml/viewer/main.qml" line="1214"/>
+        <location filename="../qml/viewer/main.qml" line="1247"/>
         <source>Classify</source>
         <translation>Klasifikován</translation>
     </message>
     <message id="computing-status-title">
-        <location filename="../qml/viewer/main.qml" line="1334"/>
+        <location filename="../qml/viewer/main.qml" line="1367"/>
         <source>Computing...</source>
         <translation>Počítám skóre...</translation>
     </message>
     <message id="generating-results-status-title">
-        <location filename="../qml/viewer/main.qml" line="1338"/>
+        <location filename="../qml/viewer/main.qml" line="1371"/>
         <source>Generating results...</source>
         <translation>Generuji výsledky...</translation>
     </message>
     <message id="recovering-settings-status-title">
-        <location filename="../qml/viewer/main.qml" line="1346"/>
+        <location filename="../qml/viewer/main.qml" line="1379"/>
         <source>Recovering application settings...</source>
         <translation>Obnovuji nastavení...</translation>
     </message>
     <message id="loading-status-title">
-        <location filename="../qml/viewer/main.qml" line="1352"/>
+        <location filename="../qml/viewer/main.qml" line="1385"/>
         <source>Loading...</source>
         <translation>Nahrávám...</translation>
     </message>
     <message id="working-status-title">
-        <location filename="../qml/viewer/main.qml" line="1357"/>
-        <location filename="../qml/viewer/main.qml" line="1362"/>
+        <location filename="../qml/viewer/main.qml" line="1390"/>
+        <location filename="../qml/viewer/main.qml" line="1395"/>
         <source>Working...</source>
         <translation>Pracuji...</translation>
     </message>
     <message id="toolbar-start-time">
-        <location filename="../qml/viewer/main.qml" line="1583"/>
+        <location filename="../qml/viewer/main.qml" line="1616"/>
         <source>(Start time: %1)</source>
         <translation>(Čas startu: %1)</translation>
     </message>
     <message id="toolbar-invalid-fixes" numerus="yes">
-        <location filename="../qml/viewer/main.qml" line="1589"/>
+        <location filename="../qml/viewer/main.qml" line="1622"/>
         <source>Invalid %n</source>
         <oldsource>Invalid/Trimmed %1/%2</oldsource>
         <translation>
@@ -712,7 +712,7 @@
         </translation>
     </message>
     <message id="toolbar-trimmed-fixes" numerus="yes">
-        <location filename="../qml/viewer/main.qml" line="1596"/>
+        <location filename="../qml/viewer/main.qml" line="1629"/>
         <source>Trimmed %n</source>
         <translation>
             <numerusform>Oříznutých %n</numerusform>
@@ -731,17 +731,17 @@
         <translation>&amp;Znovu nahrát přihlášky</translation>
     </message>
     <message id="scorelist-table-menu-remove-contestant">
-        <location filename="../qml/viewer/main.qml" line="727"/>
+        <location filename="../qml/viewer/main.qml" line="730"/>
         <source>Remove contestant</source>
         <translation>Odstranit posádku</translation>
     </message>
     <message id="status-no-track-loaded">
-        <location filename="../qml/viewer/main.qml" line="1561"/>
+        <location filename="../qml/viewer/main.qml" line="1594"/>
         <source>No track loaded</source>
         <translation>Není načtena trať</translation>
     </message>
     <message id="filelist-table-filename">
-        <location filename="../qml/viewer/main.qml" line="1167"/>
+        <location filename="../qml/viewer/main.qml" line="1200"/>
         <source>File name</source>
         <translation>Jméno souboru</translation>
     </message>
@@ -1124,22 +1124,22 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
     </message>
     <message id="scorelist-table-menu-append-contestant">
         <location filename="../qml/viewer/main.qml" line="664"/>
-        <location filename="../qml/viewer/main.qml" line="717"/>
+        <location filename="../qml/viewer/main.qml" line="720"/>
         <source>Append contestant</source>
         <translation>Vytvořit posádku</translation>
     </message>
     <message id="scorelist-table-menu-edit-contestant">
-        <location filename="../qml/viewer/main.qml" line="708"/>
+        <location filename="../qml/viewer/main.qml" line="711"/>
         <source>Edit contestant</source>
         <translation>Upravit posádku</translation>
     </message>
     <message id="scorelist-table-classify-yes">
-        <location filename="../qml/viewer/main.qml" line="770"/>
+        <location filename="../qml/viewer/main.qml" line="773"/>
         <source>yes</source>
         <translation>Ano</translation>
     </message>
     <message id="scorelist-table-classify-no">
-        <location filename="../qml/viewer/main.qml" line="772"/>
+        <location filename="../qml/viewer/main.qml" line="775"/>
         <source>no</source>
         <translation>Ne</translation>
     </message>
@@ -1149,12 +1149,12 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
         <translation>Seznam soutěží</translation>
     </message>
     <message id="contestant-download-error-dialog-title">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="410"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="411"/>
         <source>Contestant download error dialog title</source>
         <translation>Neplatné přihlášky</translation>
     </message>
     <message id="contestant-download-error-dialog-text">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="412"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="413"/>
         <source>Can not download registrations for selected competition. Some of the registrations includes invalid values. Please click on the Open button for more details.</source>
         <translation>Nelze stáhnout přihlášky pro zadanou soutěž. Některá z přihlášek obsahuje neplatné hodnoty. Pro více informací klikněte na tlačítko Otevřít a opakujte volbu později.</translation>
     </message>
@@ -1174,42 +1174,42 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
         <translation>Nazev</translation>
     </message>
     <message id="contestant-download-access-error-dialog-title">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="418"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="419"/>
         <source>Access error dialog title</source>
         <translation>Přístup odepřen</translation>
     </message>
     <message id="contestant-download-access-error-dialog-text">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="420"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="421"/>
         <source>Can not download registrations for selected competition. Please check the settings (e.g. api_key) and try it again.</source>
         <translation>Nelze stáhnout přihlášky pro zadanou soutěž. Zkontrolujte prosím nastavení (např.API klíč) a zkuste to později.</translation>
     </message>
     <message id="contestant-download-connection-error-dialog-title">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="488"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="489"/>
         <source>Connection error dialog title</source>
         <translation>Chyba připojení</translation>
     </message>
     <message id="contestant-download-connection-error-dialog-text">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="490"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="491"/>
         <source>Can not download registrations for selected competition. Please check the network connection and try it again.</source>
         <translation>Nelze stáhnout přihlášky pro zadanou soutěž. Zkontrolujte prosím připojení a zkuste to později.</translation>
     </message>
     <message id="competitions-download-access-error-dialog-title">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="546"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="547"/>
         <source>Access error dialog title</source>
         <translation>Přístup odepřen</translation>
     </message>
     <message id="competitions-download-access-error-dialog-text">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="548"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="549"/>
         <source>Can not download competitions list from server. Please check the settings (e.g. api_key) and try it again.</source>
         <translation>Nelze stáhnout seznam soutěží ze serveru. Zkontrolujte prosím nastavení (např.API klíč) a zkuste to později.</translation>
     </message>
     <message id="competitions-download-connection-error-dialog-title">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="569"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="570"/>
         <source>Connection error dialog title</source>
         <translation>Chyba připojení</translation>
     </message>
     <message id="competitions-download-connection-error-dialog-text">
-        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="571"/>
+        <location filename="../qml/viewer/SelectCompetitionDialog.qml" line="572"/>
         <source>Can not download competitions list from server. Please check the network connection and try it again.</source>
         <translation>Nelze stáhnout seznam soutěží ze serveru. Zkontrolujte prosím připojení a zkuste to později.</translation>
     </message>
@@ -1372,7 +1372,7 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
     </message>
     <message id="html-results-competition-arbitr">
         <location filename="../qml/viewer/MyTranslator.qml" line="77"/>
-        <location filename="../qml/viewer/main.qml" line="1618"/>
+        <location filename="../qml/viewer/main.qml" line="1651"/>
         <source>competition referee</source>
         <translation>Rozhodčí</translation>
     </message>
@@ -1615,19 +1615,19 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
     </message>
     <message id="html-results-competition-date">
         <location filename="../qml/viewer/MyTranslator.qml" line="221"/>
-        <location filename="../qml/viewer/main.qml" line="1619"/>
+        <location filename="../qml/viewer/main.qml" line="1652"/>
         <source>competition date</source>
         <translation>Datum</translation>
     </message>
     <message id="html-results-competition-director">
         <location filename="../qml/viewer/MyTranslator.qml" line="224"/>
-        <location filename="../qml/viewer/main.qml" line="1617"/>
+        <location filename="../qml/viewer/main.qml" line="1650"/>
         <source>competition director</source>
         <translation>Ředitel</translation>
     </message>
     <message id="html-results-competition-type">
         <location filename="../qml/viewer/MyTranslator.qml" line="227"/>
-        <location filename="../qml/viewer/main.qml" line="1616"/>
+        <location filename="../qml/viewer/main.qml" line="1649"/>
         <source>competition type</source>
         <translation>Typ</translation>
     </message>
@@ -2060,18 +2060,37 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
         <translation>Ok</translation>
     </message>
     <message id="contestant-update-error-dialog-title">
-        <location filename="../qml/viewer/CreateContestantDialog.qml" line="282"/>
+        <location filename="../qml/viewer/CreateContestantDialog.qml" line="248"/>
         <source>Contestant update error dialog title</source>
         <translation>Neplatné hodnoty</translation>
     </message>
+    <message id="contestant-update-error-dialog-startTime-text">
+        <location filename="../qml/viewer/CreateContestantDialog.qml" line="257"/>
+        <source>Invalid value for start time!</source>
+        <translation>Neplatné hodnoty! Zadejte prosím čas startu ve formátu [hh:mm:ss] a volbu opakujte znovu.</translation>
+    </message>
+    <message id="contestant-update-error-dialog-pilotName-text">
+        <location filename="../qml/viewer/CreateContestantDialog.qml" line="264"/>
+        <source>Invalid value for pilot name!</source>
+        <translation>Neplatné hodnoty! Zadejte prosím celé jméno pilota a volbu opakujte znovu.</translation>
+    </message>
+    <message id="contestant-update-error-dialog-copilotName-text">
+        <location filename="../qml/viewer/CreateContestantDialog.qml" line="271"/>
+        <source>Invalid value for copilot name!</source>
+        <translation>Neplatné hodnoty! Zadejte prosím celé jméno kopilota a volbu opakujte znovu.</translation>
+    </message>
+    <message id="contestant-update-error-dialog-speed-text">
+        <location filename="../qml/viewer/CreateContestantDialog.qml" line="278"/>
+        <source>Invalid value for speed!</source>
+        <translation>Neplatné hodnoty! Zadejte prosím rychlost a volbu opakujte znovu.</translation>
+    </message>
     <message id="contestant-update-error-dialog-text">
-        <location filename="../qml/viewer/CreateContestantDialog.qml" line="284"/>
         <source>Invalid values! Please check the values for: pilot name, speed and start time.</source>
         <oldsource>Invalid values. Can not update or create contestant. Please check the values for: pilot name, speed and start time.</oldsource>
-        <translation>Neplatné hodnoty! Zkontrolujte prosím povinné položky a volbu opakujte.</translation>
+        <translation type="vanished">Neplatné hodnoty! Zkontrolujte prosím povinné položky a volbu opakujte.</translation>
     </message>
     <message id="cancel-button">
-        <location filename="../qml/viewer/CreateContestantDialog.qml" line="291"/>
+        <location filename="../qml/viewer/CreateContestantDialog.qml" line="311"/>
         <source>Cancel</source>
         <translation>Zrušit</translation>
     </message>

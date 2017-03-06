@@ -244,11 +244,42 @@ ApplicationWindow {
             isDefault: true;
             onClicked: {
 
-                // validate start time
-                var sec = F.strTimeValidator(startTime.text);
+                //% "Contestant update error dialog title"
+                errMessageDialog.title = qsTrId("contestant-update-error-dialog-title")
 
-                // check required values
-                if (pilotName.text !== "" && speed.text !== "" && sec >= 0) {
+                // validate input values
+                var sec = F.strTimeValidator(startTime.text);
+                if (sec < 0) {
+
+                    startTime.text = startTime.prevVal;
+
+                    //% "Invalid value for start time!"
+                    errMessageDialog.text = qsTrId("contestant-update-error-dialog-startTime-text")
+                    errMessageDialog.open();
+                }
+                // names must be two word string separated by a space
+                else if ((pilotName.text === "") || (pilotName.text !== "" && (!F.nameValidator(pilotName.text)))) {
+
+                    //% "Invalid value for pilot name!"
+                    errMessageDialog.text = qsTrId("contestant-update-error-dialog-pilotName-text")
+                    errMessageDialog.open();
+                }
+                // names must be two word string separated by a space
+                else if ((copilotName.text !== "") && (!F.nameValidator(copilotName.text))) {
+
+                    //% "Invalid value for copilot name!"
+                    errMessageDialog.text = qsTrId("contestant-update-error-dialog-copilotName-text")
+                    errMessageDialog.open();
+                }
+                // speed must be inserted
+                else if (speed.text === "") {
+
+                    //% "Invalid value for speed!"
+                    errMessageDialog.text = qsTrId("contestant-update-error-dialog-speed-text")
+                    errMessageDialog.open();
+                }
+                // all OK
+                else {
 
                     var name = copilotName.text === "" ? pilotName.text : pilotName.text + ' – ' + copilotName.text;
                     var startTimeUTC = F.addTimeStrFormat(F.subUtcFromTime(sec, applicationWindow.utc_offset_sec));
@@ -272,17 +303,6 @@ ApplicationWindow {
 
                     ok(name, category.currentText, startTimeUTC, parseInt(speed.text), planeType.text, planeRegistration.text);
                     createContestantWindow.close()
-                }
-                else {
-
-                    startTime.text = startTime.prevVal;
-
-                    // Set and show error dialog
-                    //% "Contestant update error dialog title"
-                    errMessageDialog.title = qsTrId("contestant-update-error-dialog-title")
-                    //% "Invalid values! Please check the values for: pilot name, speed and start time."
-                    errMessageDialog.text = qsTrId("contestant-update-error-dialog-text")
-                    errMessageDialog.open();
                 }
             }
         }
