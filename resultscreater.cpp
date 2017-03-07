@@ -90,7 +90,7 @@ void ResultsCreater::createContinuousResultsHTML(const QString &filePath,
                              << ("html-results-ctnt-photosFalse-shortcut")
                              << ("html-results-ctnt-landing-shortcut")
                              << ("html-results-ctnt-takeOfF-shortcut")
-                             << ("html-results-ctnt-circling-shortcut")
+                             //<< ("html-results-ctnt-circling-shortcut")
                              << ("html-results-ctnt-opposite-shortcut")
                              << ("html-results-ctnt-otherPoints-shortcut")
                              << ("html-results-ctnt-otherPenalty-shortcut")
@@ -374,9 +374,9 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
                 QString::number(jsonObject["landingScore"].toDouble()) <<
                 QString::number(jsonObject["landingScore"].toDouble()));
     // circling
-    rows.append(QStringList() << getTranslatedString("html-results-circling") + " " + getItalicText(getTranslatedString("html-results-count-legend")) <<
-                QString::number(jsonObject["circlingCount"].toDouble()) <<
-                QString::number(jsonObject["circlingScore"].toDouble()));
+    //rows.append(QStringList() << getTranslatedString("html-results-circling") + " " + getItalicText(getTranslatedString("html-results-count-legend")) <<
+    //            QString::number(jsonObject["circlingCount"].toDouble()) <<
+    //            QString::number(jsonObject["circlingScore"].toDouble()));
     // opposite dir flight
     rows.append(QStringList() << getTranslatedString("html-results-opposite") + " " + getItalicText(getTranslatedString("html-results-count-legend")) <<
                 QString::number(jsonObject["oppositeCount"].toDouble()) <<

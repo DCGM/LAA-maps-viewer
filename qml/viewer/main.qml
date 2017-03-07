@@ -853,7 +853,7 @@ ApplicationWindow {
                         contestantsListModel.setProperty(row, "photosScore", contestant.prevResultsPhotosScore);
                         contestantsListModel.setProperty(row, "startTimeDifference", contestant.prevResultsStartTimeDifference);
                         contestantsListModel.setProperty(row, "startTimeScore", contestant.prevResultsStartTimeScore);
-                        contestantsListModel.setProperty(row, "circlingScore", contestant.prevResultsCirclingScore);
+                        //contestantsListModel.setProperty(row, "circlingScore", contestant.prevResultsCirclingScore);
                         contestantsListModel.setProperty(row, "oppositeScore", contestant.prevResultsOppositeScore);
                         contestantsListModel.setProperty(row, "tgScoreSum", contestant.prevResultsTgScoreSum);
                         contestantsListModel.setProperty(row, "tpScoreSum", contestant.prevResultsTpScoreSum);
@@ -870,7 +870,7 @@ ApplicationWindow {
                         contestantsListModel.setProperty(row, "photosFalse", contestant.prevResultsPhotosFalse);
                         contestantsListModel.setProperty(row, "startTimeMeasured", contestant.prevResultsStartTimeMeasured);
                         contestantsListModel.setProperty(row, "landingScore", contestant.prevResultsLandingScore);
-                        contestantsListModel.setProperty(row, "circlingCount", contestant.prevResultsCirclingCount);
+                        //contestantsListModel.setProperty(row, "circlingCount", contestant.prevResultsCirclingCount);
                         contestantsListModel.setProperty(row, "oppositeCount", contestant.prevResultsOppositeCount);
                         contestantsListModel.setProperty(row, "otherPoints", contestant.prevResultsOtherPoints);
                         contestantsListModel.setProperty(row, "otherPenalty", contestant.prevResultsOtherPenalty);
@@ -1265,8 +1265,8 @@ ApplicationWindow {
                         contestantsListModel.setProperty(row, "startTimeDifference", curentContestant.startTimeDifference);
                         contestantsListModel.setProperty(row, "startTimeScore", curentContestant.startTimeScore);
                         contestantsListModel.setProperty(row, "landingScore", curentContestant.landingScore);
-                        contestantsListModel.setProperty(row, "circlingCount", curentContestant.circlingCount);
-                        contestantsListModel.setProperty(row, "circlingScore", curentContestant.circlingScore);
+                        //contestantsListModel.setProperty(row, "circlingCount", curentContestant.circlingCount);
+                        //contestantsListModel.setProperty(row, "circlingScore", curentContestant.circlingScore);
                         contestantsListModel.setProperty(row, "oppositeCount", curentContestant.oppositeCount);
                         contestantsListModel.setProperty(row, "oppositeScore", curentContestant.oppositeScore);
                         contestantsListModel.setProperty(row, "otherPoints", curentContestant.otherPoints);
@@ -2315,7 +2315,7 @@ ApplicationWindow {
                 curCnt.prevResultsPhotosFalse = (csvFileFromOffice ? parseInt(resultsCSV[j][6]) : 0);
                 curCnt.prevResultsStartTimeMeasured = (csvFileFromOffice ? resultsCSV[j][11] : "");
                 curCnt.prevResultsLandingScore = (csvFileFromOffice ? parseInt(resultsCSV[j][7]) : 0);
-                curCnt.prevResultsCirclingCount = (csvFileFromViewer ? parseInt(resultsCSV[j][44]) : (!csvFileFromOffice ? 0 : parseInt(resultsCSV[j][13])));
+                //curCnt.prevResultsCirclingCount = (csvFileFromViewer ? parseInt(resultsCSV[j][44]) : (!csvFileFromOffice ? 0 : parseInt(resultsCSV[j][13])));
                 curCnt.prevResultsOppositeCount = (csvFileFromViewer ? parseInt(resultsCSV[j][46]) : 0);
                 curCnt.prevResultsOtherPoints = (csvFileFromOffice ? parseInt(resultsCSV[j][8]) : 0);
                 curCnt.prevResultsOtherPenalty = (csvFileFromOffice ? parseInt(resultsCSV[j][15]) : 0);
@@ -2334,7 +2334,7 @@ ApplicationWindow {
                     curCnt.prevResultsPhotosScore = (csvFileFromViewer ? parseInt(resultsCSV[j][42]) : 0);
                     curCnt.prevResultsStartTimeDifference = (csvFileFromOffice ? resultsCSV[j][43] : "");
                     curCnt.prevResultsStartTimeScore = (csvFileFromOffice ? parseInt(resultsCSV[j][12]) : 0);
-                    curCnt.prevResultsCirclingScore = (csvFileFromViewer ? parseInt(resultsCSV[j][45]) : (!csvFileFromOffice ? 0 : parseInt(resultsCSV[j][14] * -1)));
+                    //curCnt.prevResultsCirclingScore = (csvFileFromViewer ? parseInt(resultsCSV[j][45]) : (!csvFileFromOffice ? 0 : parseInt(resultsCSV[j][14] * -1)));
                     curCnt.prevResultsOppositeScore = (csvFileFromViewer ? parseInt(resultsCSV[j][47]) : 0);
                     curCnt.prevResultsTgScoreSum = (csvFileFromViewer ? parseInt(resultsCSV[j][21]) : -1);
                     curCnt.prevResultsTpScoreSum = (csvFileFromViewer ? parseInt(resultsCSV[j][22]) : -1);
@@ -2378,7 +2378,7 @@ ApplicationWindow {
         var resultsFilename = qsTrId("file-name-ontinuous-results");
 
         // BE CAREFULL WITH THIS SHIT
-        var recSize = 22;
+        var recSize = 21;
 
         var reStringArr = [];
         for (var key in res) {
@@ -2703,7 +2703,7 @@ ApplicationWindow {
         var totalPointsScore = res.sum;
 
         ctnt.startTimeScore = getTakeOffScore(ctnt.startTimeDifference, trItem.time_window_size, trItem.time_window_penalty, totalPointsScore);
-        ctnt.circlingScore = getGyreScore(ctnt.circlingCount, trItem.gyre_penalty, totalPointsScore);
+        //ctnt.circlingScore = getGyreScore(ctnt.circlingCount, trItem.gyre_penalty, totalPointsScore);
         ctnt.oppositeScore = getOppositeDirScore(ctnt.oppositeCount, trItem.oposite_direction_penalty, totalPointsScore);
 
         getAltitudeAndSpaceSectionsPenaltyPoints(row, totalPointsScore);
@@ -2719,7 +2719,7 @@ ApplicationWindow {
         contestantsListModel.setProperty(row, "markersScore", ctnt.markersScore);
         contestantsListModel.setProperty(row, "photosScore", ctnt.photosScore);
         contestantsListModel.setProperty(row, "startTimeScore", ctnt.startTimeScore);
-        contestantsListModel.setProperty(row, "circlingScore", ctnt.circlingScore);
+        //contestantsListModel.setProperty(row, "circlingScore", ctnt.circlingScore);
         contestantsListModel.setProperty(row, "oppositeScore", ctnt.oppositeScore);
 
     }
@@ -3079,7 +3079,7 @@ ApplicationWindow {
         contestantsListModel.setProperty(current, "photosFalse", item.prevResultsPhotosFalse);
         contestantsListModel.setProperty(current, "startTimeMeasured", item.prevResultsStartTimeMeasured);
         contestantsListModel.setProperty(current, "landingScore", item.prevResultsLandingScore);
-        contestantsListModel.setProperty(current, "circlingCount", item.prevResultsCirclingCount);
+        //contestantsListModel.setProperty(current, "circlingCount", item.prevResultsCirclingCount);
         contestantsListModel.setProperty(current, "oppositeCount", item.prevResultsOppositeCount);
         contestantsListModel.setProperty(current, "otherPoints", item.prevResultsOtherPoints);
         contestantsListModel.setProperty(current, "otherPenalty", item.prevResultsOtherPenalty);
@@ -4346,13 +4346,13 @@ ApplicationWindow {
         evaluateTimer.running = true;
     }
 
-    function compareBy22thColumn(a, b) {
+    function compareBy21thColumn(a, b) {
 
-        if (parseInt(a[22]) === parseInt(b[22])) {
+        if (parseInt(a[21]) === parseInt(b[21])) {
             return 0;
         }
         else {
-            return (parseInt(a[22]) > parseInt(b[22])) ? -1 : 1;
+            return (parseInt(a[21]) > parseInt(b[21])) ? -1 : 1;
         }
     }
 
@@ -4406,7 +4406,7 @@ ApplicationWindow {
                                                   String(getPhotosScore(0, 0, contestant.photosFalse, contestant.photos_max_score)),
                                                   String(contestant.landingScore),
                                                   String(contestant.startTimeScore),
-                                                  String(contestant.circlingScore),
+                                                  //String(contestant.circlingScore),
                                                   String(contestant.oppositeScore),
                                                   String(contestant.otherPoints),
                                                   String(contestant.otherPenalty),
@@ -4423,18 +4423,18 @@ ApplicationWindow {
             //resArr[key].sort(compareSeventhColumn) // score points to 1000
 
             // humus - viz vyse
-            resArr['R-AL1'].sort(compareBy22thColumn);
-            resArr['R-AL2'].sort(compareBy22thColumn);
-            resArr['S-AL1'].sort(compareBy22thColumn);
-            resArr['S-AL2'].sort(compareBy22thColumn);
-            resArr['R-WL1'].sort(compareBy22thColumn);
-            resArr['R-WL2'].sort(compareBy22thColumn);
-            resArr['S-WL1'].sort(compareBy22thColumn);
-            resArr['S-WL2'].sort(compareBy22thColumn);
-            resArr['CUSTOM1'].sort(compareBy22thColumn);
-            resArr['CUSTOM2'].sort(compareBy22thColumn);
-            resArr['CUSTOM3'].sort(compareBy22thColumn);
-            resArr['CUSTOM4'].sort(compareBy22thColumn);
+            resArr['R-AL1'].sort(compareBy21thColumn);
+            resArr['R-AL2'].sort(compareBy21thColumn);
+            resArr['S-AL1'].sort(compareBy21thColumn);
+            resArr['S-AL2'].sort(compareBy21thColumn);
+            resArr['R-WL1'].sort(compareBy21thColumn);
+            resArr['R-WL2'].sort(compareBy21thColumn);
+            resArr['S-WL1'].sort(compareBy21thColumn);
+            resArr['S-WL2'].sort(compareBy21thColumn);
+            resArr['CUSTOM1'].sort(compareBy21thColumn);
+            resArr['CUSTOM2'].sort(compareBy21thColumn);
+            resArr['CUSTOM3'].sort(compareBy21thColumn);
+            resArr['CUSTOM4'].sort(compareBy21thColumn);
         }
 
         return resArr;

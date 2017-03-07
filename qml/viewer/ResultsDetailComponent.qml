@@ -41,8 +41,8 @@ Rectangle {
         curentContestant.startTimeScore = getTakeOffScore(tabView.scrollView.startTimeDifferenceText, curentContestant.time_window_size, curentContestant.time_window_penalty, totalPointsScore);
         tabView.scrollView.startTimeScoreText = curentContestant.startTimeScore;
 
-        curentContestant.circlingScore = getGyreScore(tabView.scrollView.circlingCountValue, curentContestant.gyre_penalty, totalPointsScore);
-        tabView.scrollView.circlingScoreText = curentContestant.circlingScore;
+        //curentContestant.circlingScore = getGyreScore(tabView.scrollView.circlingCountValue, curentContestant.gyre_penalty, totalPointsScore);
+        //tabView.scrollView.circlingScoreText = curentContestant.circlingScore;
 
         curentContestant.oppositeScore = getOppositeDirScore(tabView.scrollView.oppositeCountValue, curentContestant.oposite_direction_penalty, totalPointsScore);
         tabView.scrollView.oppositeScoreText = curentContestant.oppositeScore;
@@ -202,8 +202,8 @@ Rectangle {
             curentContestant.startTimeScore = getTakeOffScore(tabView.scrollView.startTimeDifferenceText, curentContestant.time_window_size, curentContestant.time_window_penalty, totalPointsScore);
             tabView.scrollView.startTimeScoreText = curentContestant.startTimeScore;
 
-            curentContestant.circlingScore = getGyreScore(tabView.scrollView.circlingCountValue, curentContestant.gyre_penalty, totalPointsScore);
-            tabView.scrollView.circlingScoreText = curentContestant.circlingScore;
+            //curentContestant.circlingScore = getGyreScore(tabView.scrollView.circlingCountValue, curentContestant.gyre_penalty, totalPointsScore);
+            //tabView.scrollView.circlingScoreText = curentContestant.circlingScore;
 
             curentContestant.oppositeScore = getOppositeDirScore(tabView.scrollView.oppositeCountValue, curentContestant.oposite_direction_penalty, totalPointsScore);
             tabView.scrollView.oppositeScoreText = curentContestant.oppositeScore;
@@ -348,8 +348,8 @@ Rectangle {
                 property alias photosFalseValue: photosFalseSpinBox.value;
                 property alias photosScoreText: photosScoreTextField.text;
 
-                property alias circlingCountValue: circlingSpinBox.value;
-                property alias circlingScoreText: circlingScoreTextField.text;
+                //property alias circlingCountValue: circlingSpinBox.value;
+                //property alias circlingScoreText: circlingScoreTextField.text;
 
                 property alias oppositeCountValue: oppositeSpinBox.value;
                 property alias oppositeScoreText: oppositeScoreTextField.text;
@@ -740,85 +740,9 @@ Rectangle {
                         }
                     }
 
-                    // circling and opposite dirrection
-                    NativeText {
-                        //% "Results window manual values circling and opposite dirrection"
-                        text: qsTrId("results-window-dialog-manual-values-circling-opposite-dirrection")
-                        font.bold : true
-                    }
-
                     RowLayout {
 
-                        spacing: 10;
-                        anchors.leftMargin: 30
-                        anchors.left: parent.left
-
-                        //% "circling on track count"
-                        NativeText { text: qsTrId("score-table-circling-count"); Layout.preferredWidth: manualValuesTab.columnWidth}
-                        //% "circling on track score"
-                        NativeText { text: qsTrId("score-table-circling-score"); Layout.preferredWidth: manualValuesTab.columnWidth} //zaporne cislo
-                        //% "opposite dirrection on track count"
-                        NativeText { text: qsTrId("score-table-opposite-count"); Layout.preferredWidth: manualValuesTab.columnWidth}
-                        //% "opposite dirrection on track score"
-                        NativeText { text: qsTrId("score-table-opposite-score"); Layout.preferredWidth: manualValuesTab.columnWidth} //zaporne cislo
-                    }
-                    RowLayout {
-
-
-                        spacing: 10;
-                        anchors.leftMargin: 30
-                        anchors.left: parent.left
-
-                        Item { Layout.preferredWidth: manualValuesTab.columnWidth; Layout.preferredHeight: 23;
-                            MySpinBox {
-                                id: circlingSpinBox
-                                value: curentContestant.circlingCount
-                                mwidth: manualValuesTab.columnWidth/2
-                                mheight: 23
-
-                                on__TextChanged: {
-                                    curentContestant.circlingCount = value;
-                                    curentContestant.circlingScore = getGyreScore(value, curentContestant.gyre_penalty, totalPointsScore);
-                                    circlingScoreTextField.text = curentContestant.circlingScore;
-                                }
-                            }
-                        }
-                        Item { Layout.preferredWidth: manualValuesTab.columnWidth; Layout.preferredHeight: 23;
-                            MyReadOnlyTextField {
-                                id: circlingScoreTextField;
-                                text: curentContestant.circlingScore;
-                                mwidth: manualValuesTab.columnWidth/2
-                                mheight: parent.height
-                            }
-                        }
-                        Item { Layout.preferredWidth: manualValuesTab.columnWidth; Layout.preferredHeight: 23;
-                            MySpinBox {
-                                id: oppositeSpinBox
-                                value: curentContestant.oppositeCount
-                                mwidth: manualValuesTab.columnWidth/2
-                                mheight: 23
-
-                                on__TextChanged: {
-                                    curentContestant.oppositeCount = value;
-                                    curentContestant.oppositeScore = getOppositeDirScore(value, curentContestant.oposite_direction_penalty, totalPointsScore);
-                                    oppositeScoreTextField.text = curentContestant.oppositeScore;
-                                }
-                            }
-                        }
-                        Item { Layout.preferredWidth: manualValuesTab.columnWidth; Layout.preferredHeight: 23;
-                            MyReadOnlyTextField {
-                                id: oppositeScoreTextField;
-                                text: curentContestant.oppositeScore;
-                                mwidth: manualValuesTab.columnWidth/2
-                                mheight: parent.height
-                            }
-                        }
-                    }
-
-
-                    RowLayout {
-
-                        spacing: 10;
+                        spacing: column.spacing;
                         anchors.left: parent.left
 
                         ColumnLayout {
@@ -826,6 +750,81 @@ Rectangle {
                             id: colExtraPoints
                             spacing: 10
                             Layout.preferredWidth: manualValuesTab.columnWidth * 2
+
+                            // circling and opposite dirrection
+                            NativeText {
+                                //% "Results window manual values circling and opposite dirrection"
+                                text: qsTrId("results-window-dialog-manual-values-circling-opposite-dirrection")
+                                font.bold : true
+                            }
+
+                            RowLayout {
+
+                                spacing: 10;
+                                anchors.leftMargin: 30
+                                anchors.left: parent.left
+
+                                //% "circling on track count"
+                                //NativeText { text: qsTrId("score-table-circling-count"); Layout.preferredWidth: manualValuesTab.columnWidth}
+                                //% "circling on track score"
+                                //NativeText { text: qsTrId("score-table-circling-score"); Layout.preferredWidth: manualValuesTab.columnWidth} //zaporne cislo
+                                //% "opposite dirrection on track count"
+                                NativeText { text: qsTrId("score-table-opposite-count"); Layout.preferredWidth: manualValuesTab.columnWidth}
+                                //% "opposite dirrection on track score"
+                                NativeText { text: qsTrId("score-table-opposite-score"); Layout.preferredWidth: manualValuesTab.columnWidth} //zaporne cislo
+                            }
+
+                            RowLayout {
+
+                                spacing: 10;
+                                anchors.leftMargin: 30
+                                anchors.left: parent.left
+                                /*
+                                Item { Layout.preferredWidth: manualValuesTab.columnWidth; Layout.preferredHeight: 23;
+                                    MySpinBox {
+                                        id: circlingSpinBox
+                                        value: curentContestant.circlingCount
+                                        mwidth: manualValuesTab.columnWidth/2
+                                        mheight: 23
+
+                                        on__TextChanged: {
+                                            curentContestant.circlingCount = value;
+                                            curentContestant.circlingScore = getGyreScore(value, curentContestant.gyre_penalty, totalPointsScore);
+                                            circlingScoreTextField.text = curentContestant.circlingScore;
+                                        }
+                                    }
+                                }
+                                Item { Layout.preferredWidth: manualValuesTab.columnWidth; Layout.preferredHeight: 23;
+                                    MyReadOnlyTextField {
+                                        id: circlingScoreTextField;
+                                        text: curentContestant.circlingScore;
+                                        mwidth: manualValuesTab.columnWidth/2
+                                        mheight: parent.height
+                                    }
+                                }*/
+                                Item { Layout.preferredWidth: manualValuesTab.columnWidth; Layout.preferredHeight: 23;
+                                    MySpinBox {
+                                        id: oppositeSpinBox
+                                        value: curentContestant.oppositeCount
+                                        mwidth: manualValuesTab.columnWidth/2
+                                        mheight: 23
+
+                                        on__TextChanged: {
+                                            curentContestant.oppositeCount = value;
+                                            curentContestant.oppositeScore = getOppositeDirScore(value, curentContestant.oposite_direction_penalty, totalPointsScore);
+                                            oppositeScoreTextField.text = curentContestant.oppositeScore;
+                                        }
+                                    }
+                                }
+                                Item { Layout.preferredWidth: manualValuesTab.columnWidth; Layout.preferredHeight: 23;
+                                    MyReadOnlyTextField {
+                                        id: oppositeScoreTextField;
+                                        text: curentContestant.oppositeScore;
+                                        mwidth: manualValuesTab.columnWidth/2
+                                        mheight: parent.height
+                                    }
+                                }
+                            }
 
                             // others points
                             NativeText {
@@ -915,15 +914,14 @@ Rectangle {
                                 anchors.left: parent.left
                                 anchors.leftMargin: 30
 
-                                //% "other penalty"
+                                //% "penalty"
                                 NativeText {
-                                    text: qsTrId("score-table-other-points");
+                                    text: qsTrId("score-table-other-penalty");
                                     Layout.preferredWidth: manualValuesTab.columnWidth
                                 }
 
-                                //% "other penalty"
                                 NativeText {
-                                    text: qsTrId("score-table-other-penalty");
+                                    text: qsTrId("score-table-other-points");
                                     Layout.preferredWidth: manualValuesTab.columnWidth
                                 }
                             }
@@ -979,26 +977,27 @@ Rectangle {
                         }
                         ColumnLayout {
 
-                            Layout.preferredWidth: manualValuesTab.columnWidth  * 2;
+                            Layout.preferredWidth: manualValuesTab.columnWidth * 2 - parent.spacing;
+                            Layout.fillHeight: true
                             spacing: 10
 
-                            Spacer { height: 1 }
+                            NativeText {text: " " } // spacer
 
                             //% "other points note"
                             NativeText {
                                 text: qsTrId("score-table-other-points-note");
-                                Layout.preferredWidth: manualValuesTab.columnWidth * 2
+                                Layout.preferredWidth: parent.width//manualValuesTab.columnWidth * 2
                                 anchors.left: parent.left
-                                anchors.leftMargin: 30
+                                anchors.leftMargin: 38
                             }
-
 
                             TextArea {
                                 id: pointNoteTextField
                                 text: curentContestant.pointNote;
-                                Layout.preferredWidth: manualValuesTab.columnWidth  * 2;
+                                Layout.preferredWidth: parent.width//manualValuesTab.columnWidth * 2;
+                                Layout.fillHeight: true
                                 anchors.left: parent.left
-                                anchors.leftMargin: 30
+                                anchors.leftMargin: 38
 
                                 style: TextAreaStyle {
                                     renderType: Text.NativeRendering
@@ -1006,18 +1005,14 @@ Rectangle {
 
                                 onEditingFinished: {
                                     curentContestant.pointNote = text;
-
                                 }
                             }
                         }
                     }
-
                     Spacer { height: 20 }
                 }
-
             }
         }
-
 
         Tab {
 
@@ -1392,7 +1387,7 @@ Rectangle {
 
                 penaltySum = 0;
                 penaltySum += summaryTab.model.startTimeScore !== -1 ? summaryTab.model.startTimeScore : 0;
-                penaltySum += summaryTab.model.circlingScore !== -1 ? summaryTab.model.circlingScore : 0;
+                //penaltySum += summaryTab.model.circlingScore !== -1 ? summaryTab.model.circlingScore : 0;
                 penaltySum += summaryTab.model.oppositeScore !== -1 ? summaryTab.model.oppositeScore : 0;
                 penaltySum += summaryTab.model.otherPenalty !== -1 ? summaryTab.model.otherPenalty : 0;
                 penaltySum += summaryTab.model.spaceSecScoreSum !== -1 ? summaryTab.model.spaceSecScoreSum : 0;
@@ -1480,7 +1475,7 @@ Rectangle {
                         property double armLengthFactor: 0.2
 
                         MPieSlice { mVal: (summaryTab.model.startTimeScore); mLabelShortcut: qmlTranslator.myTranslate("html-results-ctnt-takeOfF-shortcut"); mLabelDetail: String(summaryTab.model.startTimeDifference) + " " + String(summaryTab.model.time_window_penalty) + "%"; }
-                        MPieSlice { mVal: (summaryTab.model.circlingScore); mLabelShortcut: qmlTranslator.myTranslate("html-results-ctnt-circling-shortcut"); mLabelDetail: String(summaryTab.model.circlingCount * summaryTab.model.gyre_penalty) + "%" ; }
+                        //MPieSlice { mVal: (summaryTab.model.circlingScore); mLabelShortcut: qmlTranslator.myTranslate("html-results-ctnt-circling-shortcut"); mLabelDetail: String(summaryTab.model.circlingCount * summaryTab.model.gyre_penalty) + "%" ; }
                         MPieSlice { mVal: (summaryTab.model.oppositeScore); mLabelShortcut: qmlTranslator.myTranslate("html-results-ctnt-opposite-shortcut"); mLabelDetail: String(summaryTab.model.oppositeCount * summaryTab.model.oposite_direction_penalty) + "%"; }
 
                         MPieSlice { mVal: (getMarkersScore(0, summaryTab.model.markersNok, 0, summaryTab.model.marker_max_score)); mLabelShortcut: qmlTranslator.myTranslate("html-results-ctnt-markersNok-shortcut"); mLabelDetail: String(summaryTab.model.markersNok) + " x " + String(summaryTab.model.marker_max_score) + qmlTranslator.myTranslate("html-points-shortcut");}
@@ -1563,7 +1558,7 @@ Rectangle {
 
                 curentContestant.pointNote = tabView.scrollView.pointNoteText;
 
-                curentContestant.circlingCount = tabView.scrollView.circlingCountValue;
+                //curentContestant.circlingCount = tabView.scrollView.circlingCountValue;
 
                 curentContestant.oppositeCount = tabView.scrollView.oppositeCountValue;
 
@@ -1605,7 +1600,7 @@ Rectangle {
                 }
 
                 curentContestant.startTimeScore = getTakeOffScore(tabView.scrollView.startTimeDifferenceText, curentContestant.time_window_size, curentContestant.time_window_penalty, totalPointsScore);
-                curentContestant.circlingScore = getGyreScore(tabView.scrollView.circlingCountValue, curentContestant.gyre_penalty, totalPointsScore);
+                //curentContestant.circlingScore = getGyreScore(tabView.scrollView.circlingCountValue, curentContestant.gyre_penalty, totalPointsScore);
                 curentContestant.oppositeScore = getOppositeDirScore(tabView.scrollView.oppositeCountValue, curentContestant.oposite_direction_penalty, totalPointsScore);
 
                 // recover tab status
