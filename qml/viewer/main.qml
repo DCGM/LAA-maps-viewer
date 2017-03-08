@@ -3085,8 +3085,18 @@ ApplicationWindow {
         contestantsListModel.setProperty(current, "otherPenalty", item.prevResultsOtherPenalty);
         contestantsListModel.setProperty(current, "pointNote", item.prevResultsPointNote);
 
-        console.time("computeScore")
+        // calc new start time difference
+        var sec = F.strTimeValidator(item.prevResultsStartTimeMeasured);
+        var time;
+        if (sec >= 0) { // valid time
 
+            var refVal = F.timeToUnix(item.startTime);
+            var diff = Math.abs(refVal - sec);
+
+            contestantsListModel.setProperty(current, "startTimeDifference", F.addTimeStrFormat(diff));
+        }
+
+        console.time("computeScore")
 
         var igcthis, igcnext, i, j, k;
         var section;
