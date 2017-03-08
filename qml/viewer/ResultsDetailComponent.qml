@@ -116,8 +116,8 @@ Rectangle {
             res.spaceSecScoreSum += item.spaceSecScore;
         }
 
-        curentContestant.altSecScoreSum = res.altSecScoreSum !== 0 ? res.altSecScoreSum : -1;
-        curentContestant.spaceSecScoreSum = res.spaceSecScoreSum !== 0 ? res.spaceSecScoreSum : -1;
+        curentContestant.altSecScoreSum = res.altSecScoreSum !== 0 ? res.altSecScoreSum : 0;
+        curentContestant.spaceSecScoreSum = res.spaceSecScoreSum !== 0 ? res.spaceSecScoreSum : 0;
     }
 
     onVisibleChanged: {
@@ -1386,12 +1386,12 @@ Rectangle {
                 model = curentContestant;
 
                 penaltySum = 0;
-                penaltySum += summaryTab.model.startTimeScore !== -1 ? summaryTab.model.startTimeScore : 0;
-                //penaltySum += summaryTab.model.circlingScore !== -1 ? summaryTab.model.circlingScore : 0;
-                penaltySum += summaryTab.model.oppositeScore !== -1 ? summaryTab.model.oppositeScore : 0;
-                penaltySum += summaryTab.model.otherPenalty !== -1 ? summaryTab.model.otherPenalty : 0;
-                penaltySum += summaryTab.model.spaceSecScoreSum !== -1 ? summaryTab.model.spaceSecScoreSum : 0;
-                penaltySum += summaryTab.model.altSecScoreSum !== -1 ? summaryTab.model.altSecScoreSum : 0;
+                penaltySum += summaryTab.model.startTimeScore != -1 ? summaryTab.model.startTimeScore : 0;
+                //penaltySum += summaryTab.model.circlingScore != -1 ? summaryTab.model.circlingScore : 0;
+                penaltySum += summaryTab.model.oppositeScore != -1 ? summaryTab.model.oppositeScore : 0;
+                penaltySum += summaryTab.model.otherPenalty != -1 ? summaryTab.model.otherPenalty : 0;
+                penaltySum += summaryTab.model.spaceSecScoreSum != -1 ? summaryTab.model.spaceSecScoreSum : 0;
+                penaltySum += summaryTab.model.altSecScoreSum != -1 ? summaryTab.model.altSecScoreSum : 0;
             }
 
             Component.onCompleted: {
