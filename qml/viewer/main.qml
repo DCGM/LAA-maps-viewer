@@ -1799,13 +1799,8 @@ ApplicationWindow {
                 var item_j_timeVal = item_j.startTime === "" || item_j.startTime === "00:00:00" ? 0 /*F.timeToUnix("23:59:59") + 1*/ : F.timeToUnix(item_j.startTime);
                 var item_j1_timeVal = item_j1.startTime === "" || item_j1.startTime === "00:00:00" ? 0 /*F.timeToUnix("23:59:59") + 1*/ : F.timeToUnix(item_j1.startTime);
 
-                // zero times to the end of list
-                if (item_j_timeVal === 0) {
-
-                    contestantsListModel.move(j, contestantsListModel.count - 1, 1);
-                }
-                // swap values
-                else if (item_j_timeVal > item_j1_timeVal){
+                // swap values && zero times to the end of list
+                if ((item_j_timeVal > item_j1_timeVal && item_j1_timeVal !== 0 ) || item_j_timeVal === 0){
 
                     contestantsListModel.move(j, j + 1, 1);
                 }
@@ -4545,7 +4540,7 @@ ApplicationWindow {
         running: false;
         interval: 1;
 
-        property string action; //["pathOnOk", "refreshDialogOnOk", "refreshContestant", "showRegenMessageDialog"]
+        property string action; //["pathOnOk", "refreshDialogOnOk", "refreshContestant", "showRegenMessageDialog", "sortlistModelByStartTime"]
 
         onTriggered: {
 
@@ -4643,19 +4638,29 @@ ApplicationWindow {
                     addedContestants.clear();
                     removedContestants.clear();
 
-                    // sort list model by startTime
-                    sortListModelByStartTime();
-
-                    action = "";
-
                     // save manual values
                     writeCSV();
                     recalculateScoresTo1000();
                     writeScoreManulaValToCSV();
 
+                    // sort list model by startTime
+                    action = "sortlistModelByStartTime";
+
+                    break;
+
+                case "sortlistModelByStartTime":
+
+                    running = false;
+
+                    // sort list model by startTime
+                    sortListModelByStartTime();
+
+                    action = "";
                     break;
 
                 case "refreshContestant":
+
+                    running = false;
 
                     selectCompetitionOnlineDialog.refreshApplications();
 
@@ -4663,6 +4668,7 @@ ApplicationWindow {
                     break;
 
                 default:
+                    running = false;
                     action = "";
                     //console.log("working timer: unknown action: " + action)
                     //running = false;
