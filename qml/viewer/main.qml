@@ -4644,6 +4644,7 @@ ApplicationWindow {
                     writeScoreManulaValToCSV();
 
                     // sort list model by startTime
+                    running = true;
                     action = "sortlistModelByStartTime";
 
                     break;
