@@ -43,6 +43,9 @@ void FileReader::write(const QUrl &filename, QByteArray data) {
 }
 
 void FileReader::copy_file(const QUrl &filename, const QUrl &newFilename) {
+
+    remove_if_exists(newFilename); // remove file with dst name if exist
+
     QFile::copy(filename.toLocalFile(), newFilename.toLocalFile());
 }
 
