@@ -382,6 +382,8 @@ ApplicationWindow {
         http.onreadystatechange = function() {
             timer.running = false;
 
+            var status;
+
             if (http.readyState === XMLHttpRequest.DONE) {
 
                 console.log("getContestants request DONE: " + http.status)
@@ -403,27 +405,30 @@ ApplicationWindow {
                                                                  enviromentTabValues[3] ? 1 : 0,
                                                                  0);
 
-                            // Set and show error dialog
-                            if (http.responseText.indexOf("\"status\": 9") != -1 || // registration
-                                http.responseText.indexOf("\"status\": 10") != -1) { // speed
+                            var response = JSON.parse(http.responseText);
+                            if (response.status !== undefined) {
+                                status = parseInt(response.status, 10);
 
-                                //% "Contestant download error dialog title"
-                                errMessageDialog.title = qsTrId("contestant-download-error-dialog-title")
-                                //% "Can not download registrations for selected competition. Some of the registrations includes invalid values. Please click on the Open button for more details."
-                                errMessageDialog.text = qsTrId("contestant-download-error-dialog-text")
-                                errMessageDialog.standardButtons = StandardButton.Open | StandardButton.Cancel
+                                // Set and show error dialog
+                                if (status === 9 || status === 10) {
+
+                                    //% "Contestant download error dialog title"
+                                    errMessageDialog.title = qsTrId("contestant-download-error-dialog-title")
+                                    //% "Can not download registrations for selected competition. Some of the registrations includes invalid values. Please click on the Open button for more details."
+                                    errMessageDialog.text = qsTrId("contestant-download-error-dialog-text")
+                                    errMessageDialog.standardButtons = StandardButton.Open | StandardButton.Cancel
+                                }
+                                else {
+
+                                    //% "Access error dialog title"
+                                    errMessageDialog.title = qsTrId("contestant-download-access-error-dialog-title")
+                                    //% "Can not download registrations for selected competition. Please check the settings (e.g. api_key) and try it again."
+                                    errMessageDialog.text = qsTrId("contestant-download-access-error-dialog-text")
+                                    errMessageDialog.standardButtons = StandardButton.Close
+                                }
+
+                                errMessageDialog.showDialog();
                             }
-                            else {
-
-                                //% "Access error dialog title"
-                                errMessageDialog.title = qsTrId("contestant-download-access-error-dialog-title")
-                                //% "Can not download registrations for selected competition. Please check the settings (e.g. api_key) and try it again."
-                                errMessageDialog.text = qsTrId("contestant-download-access-error-dialog-text")
-                                errMessageDialog.standardButtons = StandardButton.Close
-                            }
-
-
-                            errMessageDialog.showDialog();
                         }
                         // no errors, json downloaded
                         else {

@@ -129,6 +129,8 @@ Item {
 
         http.onreadystatechange = function() {
 
+            var status;
+
             timer.running = false;
 
             if (http.readyState === XMLHttpRequest.DONE) {
@@ -137,26 +139,42 @@ Item {
 
                     try{
 
-                        // ok - init upload of files
-                        if (http.responseText.indexOf("\"status\": 0") != -1) {
+                        var response = JSON.parse(http.responseText);
+                        if (response.status !== undefined) {
+                            status = parseInt(response.status, 10);
 
-                            uploadResultsFiles(compId);
+                            // ok - init upload of files
+                            if (status === 0) {
+                                uploadResultsFiles(compId);
+                            }
+                            // competition read only
+                            else if (status === 5) {
+
+                                // Set and show error dialog
+                                //% "Results upload error dialog title"
+                                errMessageDialog.title = qsTrId("results-upload-readonly-error-dialog-title")
+                                //% "Selected competition is read only. Please check the settings and try it again."
+                                errMessageDialog.text = qsTrId("results-upload-readonly-error-dialog-text")
+                                errMessageDialog.standardButtons = StandardButton.Close
+                                //errMessageDialog.showDialog();
+                                errMessageDialog.open();
+                            }
+                            // err
+                            else {
+
+                                console.log("ERR initCompetitionFileStorage: " + http.responseText)
+
+                                // Set and show error dialog
+                                //% "Results upload error dialog title"
+                                errMessageDialog.title = qsTrId("results-upload-start-error-dialog-title")
+                                //% "Unable to start the upload of the files. Please check the api key, destination competition and try it again."
+                                errMessageDialog.text = qsTrId("results-upload-start-error-dialog-text")
+                                errMessageDialog.standardButtons = StandardButton.Close
+                                //errMessageDialog.showDialog();
+                                errMessageDialog.open();
+                            }
                         }
-
-                        // competition read only
-                        else if (http.responseText.indexOf("\"status\": 5") != -1)  {
-
-                            // Set and show error dialog
-                            //% "Results upload error dialog title"
-                            errMessageDialog.title = qsTrId("results-upload-readonly-error-dialog-title")
-                            //% "Selected competition is read only. Please check the settings and try it again."
-                            errMessageDialog.text = qsTrId("results-upload-readonly-error-dialog-text")
-                            errMessageDialog.standardButtons = StandardButton.Close
-                            //errMessageDialog.showDialog();
-                            errMessageDialog.open();
-                        }
-
-                        // err
+                        // unknown err
                         else {
 
                             console.log("ERR initCompetitionFileStorage: " + http.responseText)
@@ -170,7 +188,6 @@ Item {
                             //errMessageDialog.showDialog();
                             errMessageDialog.open();
                         }
-
                     } catch (e) {
 
                         console.log("ERR initCompetitionFileStorage: parse failed" + e)                        
@@ -212,6 +229,8 @@ Item {
 
         http.onreadystatechange = function() {
 
+            var status;
+
             if (http.readyState === XMLHttpRequest.DONE) {
 
                 timer.running = false;
@@ -221,24 +240,27 @@ Item {
 
                     try{
 
-                        // ok - init upload of files
-                        if (http.responseText.indexOf("\"status\": 0") != -1) {
+                        var response = JSON.parse(http.responseText);
+                        if (response.status !== undefined) {
+                            status = parseInt(response.status, 10);
 
+                            // ok - init upload of files
+                            if (status === 0) {
+
+                            }
+                            else {
+
+                                console.log("ERR callUploadFinish: " + http.responseText)
+
+                                // Set and show error dialog
+                                //% "Results upload error dialog title"
+                                errMessageDialog.title = qsTrId("results-upload-finishing-error-dialog-title")
+                                //% "Unable to complete the results upload. Please check the api key, destination competition, uploaded files and try it again."
+                                errMessageDialog.text = qsTrId("results-upload-finishing-error-dialog-text")
+                                errMessageDialog.standardButtons = StandardButton.Close
+                                errMessageDialog.showDialog();
+                            }
                         }
-                        // err
-                        else {
-
-                            console.log("ERR callUploadFinish: " + http.responseText)
-
-                            // Set and show error dialog
-                            //% "Results upload error dialog title"
-                            errMessageDialog.title = qsTrId("results-upload-finishing-error-dialog-title")
-                            //% "Unable to complete the results upload. Please check the api key, destination competition, uploaded files and try it again."
-                            errMessageDialog.text = qsTrId("results-upload-finishing-error-dialog-text")
-                            errMessageDialog.standardButtons = StandardButton.Close
-                            errMessageDialog.showDialog();
-                        }
-
                     } catch (e) {
 
                         console.log("ERR callUploadFinish: parse failed" + e)
