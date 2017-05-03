@@ -110,7 +110,7 @@ Item {
             var api_key_value = config.get("api_key", "");
 
             // start uploading in another thread           
-            sendFile(F.base_url + "/competitionFilesAjax.php", filesToUpload[0].fileName, String(fileData), id, api_key_value);
+            sendFile(F.base_url + "/competitionFilesAjax2.php", filesToUpload[0].fileName, String(fileData), id, api_key_value);
         }
     }
 
@@ -388,6 +388,8 @@ Item {
         body += '\r\n'
 
         http.setRequestHeader('Content-length', body.length);
+
+//        console.log(body);
 
         http.send(body)
         return status;
