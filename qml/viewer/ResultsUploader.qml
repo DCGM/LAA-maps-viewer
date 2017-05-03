@@ -328,6 +328,9 @@ Item {
                 else {
                     status = -3;
                 }
+                if (status !== 0) {
+                    console.log( "sendFile() response.status = " + status )
+                }
 
                 // add current file into list od processed files
                 uploaderDialog.filesListModelAlias.append({"fileName" : filesToUpload[filesToUploadIterator].fileName, "uploadState" : status});
