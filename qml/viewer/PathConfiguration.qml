@@ -1080,9 +1080,8 @@ ApplicationWindow {
                 function validApiKey(url, method, api_key) {
 
                     var http = new XMLHttpRequest();
-                    var params = "api_key=" + api_key;
 
-                    http.open(method, url, true);
+                    http.open(method, url + "?api_key=" + api_key, true);
 
                     // set timeout
                     var timer = Qt.createQmlObject("import QtQuick 2.5; Timer {interval: 5000; repeat: false; running: true;}", pathConfiguration, "MyTimer");
@@ -1096,7 +1095,7 @@ ApplicationWindow {
 
                         if (http.readyState === XMLHttpRequest.DONE) {
 
-                            console.log("validApiKey request DONE: " + http.status + "  " + url + "?" + params + " " + http.responseText)
+                            console.log("validApiKey request DONE: " + http.status + "  " + url + " " + http.responseText)
 
                             if (http.status === 200) {
 
@@ -1142,7 +1141,7 @@ ApplicationWindow {
                         }
                     }
 
-                    http.send(params)
+                    http.send()
                 }
 
             }
