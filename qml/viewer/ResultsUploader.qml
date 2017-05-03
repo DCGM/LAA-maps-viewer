@@ -329,7 +329,7 @@ Item {
                     status = -3;
                 }
                 if (status !== 0) {
-                    console.log( "sendFile() response.status = " + status )
+                    console.log( "sendFile() response.status = " + status + " " + http.responseText )
                 }
 
                 // add current file into list od processed files
