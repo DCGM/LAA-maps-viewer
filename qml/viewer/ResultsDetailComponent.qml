@@ -171,6 +171,7 @@ Rectangle {
 
             // load and recal values
             tabView.scrollView.startTimeDifferenceText = curentContestant.startTimeDifference;
+            tabView.scrollView.startTimeTextField.focus = false; // remove focus
 
             tabView.scrollView.landingScoreText = String(curentContestant.landingScore);
 
@@ -211,8 +212,7 @@ Rectangle {
             recalculateAltSpaceSecPoints();
 
             // recover tab status
-            if (!tabPrevActived) tabView.activateTabByName(previousActive)
-
+            if (!tabPrevActived) tabView.activateTabByName(previousActive);
         }
     }
 
@@ -332,6 +332,8 @@ Rectangle {
                 anchors.fill: parent;
                 anchors.margins: 15
 
+                property alias startTimeTextField: startTimeMeasuredTextField;
+
                 property alias startTimeText: startTimeMeasuredTextField.text;
                 property alias startTimeDifferenceText: startTimeDifferenceTextField.text;
                 property alias startTimeScoreText: startTimeScoreTextField.text;
@@ -416,16 +418,22 @@ Rectangle {
 
                                 property string prevVal: "";
 
+                                onVisibleChanged: {
+
+                                    if (visible)
+                                        text = (curentContestant.startTimeMeasured !== "" ? F.addTimeStrFormat(F.addUtcToTime(F.timeToUnix(curentContestant.startTimeMeasured), applicationWindow.utc_offset_sec)) : "");
+                                }
+
                                 onAccepted: {
 
                                     var str = text;
 
                                     // remove start time
                                     if (str === "") {
-                                        curentContestant.startTimeMeasured = F.addTimeStrFormat(F.addUtcToTime(F.timeToUnix(curentContestant.startTime), applicationWindow.utc_offset_sec));
-                                        text = curentContestant.startTimeMeasured;
-                                        curentContestant.startTimeDifference = F.addTimeStrFormat(0);
-                                        startTimeDifferenceTextField.text = F.addTimeStrFormat(0);
+                                        curentContestant.startTimeMeasured = "";//F.addTimeStrFormat(F.addUtcToTime(F.timeToUnix(curentContestant.startTime), applicationWindow.utc_offset_sec));
+                                        text = (curentContestant.startTimeMeasured !== "" ? F.addTimeStrFormat(F.addUtcToTime(F.timeToUnix(curentContestant.startTimeMeasured), applicationWindow.utc_offset_sec)) : ""); // TU SE TO KURVI
+                                        curentContestant.startTimeDifference = "";//F.addTimeStrFormat(0);
+                                        startTimeDifferenceTextField.text = "";//F.addTimeStrFormat(0);
                                     }
                                     else {
 
@@ -451,8 +459,9 @@ Rectangle {
 
                                 onActiveFocusChanged: {
 
-                                    if (focus)
+                                    if (focus && parent.visible){
                                         prevVal = text;
+                                    }
                                 }
                             }
                         }
@@ -1574,13 +1583,13 @@ Rectangle {
                 var str = tabView.scrollView.startTimeText;
                 if (str === "") {
 
-                    curentContestant.startTimeMeasured = curentContestant.startTime;
-                    curentContestant.startTimeDifference = F.addTimeStrFormat(0);
+                    curentContestant.startTimeMeasured = "";//curentContestant.startTime;
+                    curentContestant.startTimeDifference = "";//F.addTimeStrFormat(0);
                     curentContestant.startTimeScore = 0;
                 }
                 else {
 
-                    var sec = F.strTimeValidator(str);
+                    var sec = F.strTimeValidator(str) >= 0 ? F.strTimeValidator(str) : F.strTimeValidator(tabView.scrollView.startTimeTextField.prevVal);
                     var time;
                     if (sec >= 0) {
 
@@ -1596,6 +1605,12 @@ Rectangle {
                             curentContestant.startTimeScore = getTakeOffScore(tabView.scrollView.startTimeDifferenceText, curentContestant.time_window_size, curentContestant.time_window_penalty, totalPointsScore);
                         else
                             curentContestant.startTimeScore = 0;
+                    }
+                    else {
+
+                        curentContestant.startTimeMeasured = "";
+                        curentContestant.startTimeDifference = "";
+                        curentContestant.startTimeScore = 0;
                     }
                 }
 
