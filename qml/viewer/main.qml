@@ -889,7 +889,13 @@ ApplicationWindow {
                     // recalculate manual values score / markers, photos, ...
                     if (contestant.filename !== "") {
                         recalculateContestnatManualScoreValues(row);
+
+                        var score = getTotalScore(row);
+
+                        contestantsListModel.setProperty(row, "scorePoints", score);
+                        recalculateScoresTo1000();
                     }
+
                 }
 
                 if (role === "startTime") sortListModelByStartTime();
@@ -1281,6 +1287,9 @@ ApplicationWindow {
                         contestantsListModel.setProperty(row, "speedSectionsScoreDetails", curentContestant.speedSectionsScoreDetails);
                         contestantsListModel.setProperty(row, "altitudeSectionsScoreDetails", curentContestant.altitudeSectionsScoreDetails);
                         contestantsListModel.setProperty(row, "spaceSectionsScoreDetails", curentContestant.spaceSectionsScoreDetails);
+
+                        // set current values as prev results - used as cache when recomputing score
+                        saveCurrentResultValues(row, ctnt);
 
                         // recalculate score
                         var score = getTotalScore(row);
@@ -2288,6 +2297,8 @@ ApplicationWindow {
                     if (tracks.tracks[t].name === curCnt.category)
                         trItem = tracks.tracks[t]
                 }
+
+
 
                 // check previous results state
                 var csvFileFromOffice = resultsCSV[j] !== undefined && resultsCSV[j].length >= 30; // CSV from office has only 30 columns;
@@ -3808,6 +3819,8 @@ ApplicationWindow {
         contestantsListModel.setProperty(current, "prevResultsFilename", contestant.filename);
         contestantsListModel.setProperty(current, "prevResultsTrackHas", trHash);
 
+        // set current values as prev results - used as cache when recomputing score
+        saveCurrentResultValues(current, contestant);
 
         // save changes to CSV
         writeScoreManulaValToCSV();
@@ -3819,6 +3832,27 @@ ApplicationWindow {
 
         console.timeEnd("computeScore")
         return str;
+    }
+
+    function saveCurrentResultValues(ctntIndex, contestant) {
+
+        contestantsListModel.setProperty(ctntIndex, "prevResultsWPT", contestant.wptScoreDetails);
+        contestantsListModel.setProperty(ctntIndex, "prevResultsSpeedSec", contestant.speedSectionsScoreDetails);
+        contestantsListModel.setProperty(ctntIndex, "prevResultsSpaceSec", contestant.spaceSectionsScoreDetails);
+        contestantsListModel.setProperty(ctntIndex, "prevResultsAltSec", contestant.altitudeSectionsScoreDetails);
+        contestantsListModel.setProperty(ctntIndex, "prevResultsMarkersOk", contestant.markersOk);
+        contestantsListModel.setProperty(ctntIndex, "prevResultsMarkersNok", contestant.markersNok);
+        contestantsListModel.setProperty(ctntIndex, "prevResultsMarkersFalse", contestant.markersFalse);
+        contestantsListModel.setProperty(ctntIndex, "prevResultsPhotosOk", contestant.photosOk);
+        contestantsListModel.setProperty(ctntIndex, "prevResultsPhotosNok", contestant.photosNok);
+        contestantsListModel.setProperty(ctntIndex, "prevResultsPhotosFalse", contestant.photosFalse);
+        contestantsListModel.setProperty(ctntIndex, "prevResultsStartTimeMeasured", contestant.startTimeMeasured);
+        contestantsListModel.setProperty(ctntIndex, "prevResultsLandingScore", contestant.landingScore);
+        //contestantsListModel.setProperty(ctntIndex, "circlingCount", item.prevResultsCirclingCount);
+        contestantsListModel.setProperty(ctntIndex, "prevResultsOppositeCount", contestant.oppositeCount);
+        contestantsListModel.setProperty(ctntIndex, "prevResultsOtherPoints", contestant.otherPoints);
+        contestantsListModel.setProperty(ctntIndex, "prevResultsOtherPenalty", contestant.otherPenalty);
+        contestantsListModel.setProperty(ctntIndex, "prevResultsPointNote", contestant.pointNote);
     }
 
     function writeScoreManulaValToCSV() {
