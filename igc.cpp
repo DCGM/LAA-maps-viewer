@@ -85,7 +85,9 @@ bool IgcFile::load(const QString& path, QTextCodec* codec) {
     QFile f(url.path());
 
     if (!f.open(QIODevice::ReadOnly)) {
+
         qDebug() << "Couldn't open " << path << ".";
+        qDebug() << "Err info: " << f.errorString() << ", err code: " << f.error();
         return false;
     }
 
