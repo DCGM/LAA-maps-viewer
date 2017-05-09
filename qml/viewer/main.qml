@@ -1160,7 +1160,7 @@ ApplicationWindow {
                         tool_bar.startTime = ctnt.startTime;
 
                         var filePath = pathConfiguration.igcDirectory + "/" + ctnt.filename;
-                        if (!file_reader.file_exists(filePath)) {
+                        if (!file_reader.file_exists(Qt.resolvedUrl(filePath))) {
 
                             if (!(evaluateTimer.running) && !(resultsExporterTimer.running)) { // dont show err dialog when computing/generating results
 
@@ -1180,7 +1180,7 @@ ApplicationWindow {
                         else {
 
                             // remove prefix "file:///"
-                            igc.load( file_reader.toLocal(filePath), ctnt.startTime)
+                            igc.load( file_reader.toLocal(Qt.resolvedUrl(filePath)), ctnt.startTime)
                         }
                     }
 
@@ -1952,7 +1952,7 @@ ApplicationWindow {
 
         contestantsTable.selection.clear();
 
-        var f_data = file_reader.read(filename);
+        var f_data = file_reader.read(Qt.resolvedUrl(filename));
         var data = [];
         var resCSV = [];
 

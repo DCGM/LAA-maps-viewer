@@ -82,7 +82,8 @@ QVariant IgcFile::data(const QModelIndex &index, int role) const {
 bool IgcFile::load(const QString& path, QTextCodec* codec) {
     QUrl url(path);
 
-    QFile f(url.path());
+    //QFile f(url.path());
+    QFile f(path);
 
     if (!f.open(QIODevice::ReadOnly)) {
 
