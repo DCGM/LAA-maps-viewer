@@ -1180,7 +1180,7 @@ ApplicationWindow {
                         else {
 
                             // remove prefix "file:///"
-                            igc.load( file_reader.toLocal(Qt.resolvedUrl(filePath)), ctnt.startTime)
+                            igc.load( file_reader.toLocal(Qt.resolvedUrl(filePath)), ctnt.startTime);
                         }
                     }
 

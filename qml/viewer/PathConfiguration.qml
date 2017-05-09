@@ -1008,7 +1008,7 @@ ApplicationWindow {
                         mipmap: true
                         //visible: apiKeyStatus !== "unknown"
                         source: apiKeyStatus === "ok" ? "./data/ic_check_circle_black_48dp/ic_check_circle_black_48dp/web/ic_check_circle_black_48dp_1x.png"
-                                                      : ((apiKeyStatus === "nok") ? "./data/ic_error_black_48dp/ic_error_black_48dp/web/ic_error_black_48dp_1x.png"
+                                                      : ((apiKeyStatus === "nok") ? "./data/ic_error_red_48dp/ic_error_red_48dp/web/ic_error_red_48dp_1x.png"
                                                                                   : "./data/ic_help_black_48dp/ic_help_black_48dp/web/ic_help_black_48dp_1x.png")
 
                     }
