@@ -3,6 +3,7 @@ import QtQuick.Controls 1.4
 import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.1
 import "functions.js" as F
+import cz.mlich 1.0
 
 Item {
 
@@ -110,7 +111,9 @@ Item {
             var api_key_value = config.get("api_key", "");
 
             // start uploading in another thread           
-            sendFile(F.base_url + "/competitionFilesAjax2.php", filesToUpload[0].fileName, String(fileData), id, api_key_value);
+//            sendFile(F.base_url + "/competitionFilesAjax2.php", filesToUpload[0].fileName, String(fileData), id, api_key_value);
+            uploader.sendFile(F.base_url + "/competitionFilesAjax2.php", file_reader.toLocal(filesToUpload[0].fileUrl), id, api_key_value);
+//            sendFile(F.base_url + "/competitionFilesAjax2.php", filesToUpload[0].fileName, String(fileData), id, api_key_value);
         }
     }
 
@@ -288,111 +291,62 @@ Item {
 
     function sendFile(url, fileName, fileData, compId, api_key) {
 
-        var status = 0;
-
-        var http = new XMLHttpRequest();
-
-        http.open("POST", url, true);
+        uploader.sendFile(url, fileName, compId, api_key);
 
         // set timeout
         var timer = Qt.createQmlObject("import QtQuick 2.5; Timer {interval: 5000; repeat: false; running: true;}", resultsUploader, "MyTimer");
                         timer.triggered.connect(function(){
-
-                            http.abort();
+                            uploader.abortLastReply();
                         });
 
-        http.onreadystatechange = function() {
-
-            var status;
-
-            timer.running = false;
-
-            if (http.readyState === XMLHttpRequest.DONE) {
-
-                if (http.status === 200) {
-
-                    try{
-
-                        var response = JSON.parse(http.responseText);
-                        if (response.status !== undefined) {
-                            status = parseInt(response.status, 10);
-                            //console.log( "response.status = " + status )
-                        }  else {
-                            status = -1;
-                        }
-
-                    } catch (e) {
-                        status = -2;
-                    }
-                }
-                // Connection error
-                else {
-                    status = -3;
-                }
-                if (status !== 0) {
-                    console.log( "sendFile() response.status = " + status + " " + http.responseText )
-                }
-
-                // add current file into list od processed files
-                uploaderDialog.filesListModelAlias.append({"fileName" : filesToUpload[filesToUploadIterator].fileName, "uploadState" : status});
-
-                // upload next file
-                filesToUploadIterator++;
-                uploaderDialog.processedFiles = filesToUploadIterator;
-
-                if (filesToUploadIterator < filesToUpload.length && uploaderDialog.visible && !errMessageDialog.visible) {
-
-                    var api_key_value = config.get("api_key", "");
-                    var fileData = file_reader.read(filesToUpload[filesToUploadIterator].fileUrl);
-
-                    sendFile(url, filesToUpload[filesToUploadIterator].fileName, String(fileData), destinationCompetitionId, api_key_value);
-                }
-                else {
-
-                    // init evaluation of the uploaded files on the server
-                    callUploadFinish(F.base_url + "/competitionFilesFinish.php", compId, api_key);
-                }
-            }
-        }
-
-        var boundary = '---------------------------';
-        boundary += Math.floor(Math.random()*32768);
-        boundary += Math.floor(Math.random()*32768);
-        boundary += Math.floor(Math.random()*32768);
-        http.setRequestHeader("Content-Type", 'multipart/form-data; boundary=' + boundary);
-        var body = '';
-        body += '--' + boundary
-        body += '\r\n'
-        body += 'Content-Disposition: form-data; name="files"; filename="' + fileName + '"';
-        body += '\r\n'
-        body += 'Content-Type: application/octet-stream'
-        body += '\r\n\r\n'
-        body += fileData
-        body += '\r\n'
-
-        body += '--' + boundary
-        body += '\r\n'
-        body += 'Content-Disposition: form-data; name="id"'
-        body += '\r\n'
-        body += '\r\n'
-        body += compId
-        body += '\r\n'
-
-        body += '--' + boundary
-        body += '\r\n'
-        body += 'Content-Disposition: form-data; name="api_key"'
-        body += '\r\n'
-        body += '\r\n'
-        body += api_key
-        body += '\r\n'
-        body += '--' + boundary + '--'
-        body += '\r\n'
-
-        http.setRequestHeader('Content-length', body.length);
-
-//        console.log(body);
-
-        http.send(body)
         return status;
     }
+
+    Uploader {
+        id: uploader;
+
+        onUploadFinished: {
+            var status = uploader.errorCode
+
+            try{
+                console.log(uploader.response);
+                var response = JSON.parse(uploader.response);
+                if (response.status !== undefined) {
+                    status = parseInt(response.status, 10);
+                    //console.log( "response.status = " + status )
+                }  else {
+                    status = -1;
+                }
+
+            } catch (e) {
+                status = -2;
+            }
+
+
+
+            // add current file into list od processed files
+            uploaderDialog.filesListModelAlias.append({"fileName" : filesToUpload[filesToUploadIterator].fileName, "uploadState" : status});
+
+            // upload next file
+            filesToUploadIterator++;
+            uploaderDialog.processedFiles = filesToUploadIterator;
+
+            if (filesToUploadIterator < filesToUpload.length && uploaderDialog.visible && !errMessageDialog.visible) {
+
+                var api_key_value = config.get("api_key", "");
+                var fileData = file_reader.read(filesToUpload[filesToUploadIterator].fileUrl);
+
+                // FIXME
+//                sendFile(url, filesToUpload[filesToUploadIterator].fileName, String(fileData), destinationCompetitionId, api_key_value);
+//                uploader.sendFile(, filesToUpload[filesToUploadIterator].fileName, String(fileData), destinationCompetitionId, api_key_value)
+            }
+            else {
+
+                // init evaluation of the uploaded files on the server
+                callUploadFinish(F.base_url + "/competitionFilesFinish.php", compId, api_key);
+            }
+
+        }
+    }
+
 }
