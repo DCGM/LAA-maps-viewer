@@ -21,6 +21,7 @@
 #include "sortfilterproxymodel.h"
 #include "resultscreater.h"
 #include "worker.h"
+#include "uploader.h"
 
 void myMessageHandler(QtMsgType type, const QMessageLogContext& context, const QString& msg) {
     QString txt;
@@ -70,6 +71,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<PdfWriter>("cz.mlich", 1, 0, "PdfWriter");
     qmlRegisterType<ResultsCreater>("cz.mlich", 1, 0, "ResultsCreater");
     qmlRegisterType<Worker>("cz.mlich", 1, 0, "CppWorker");
+    qmlRegisterType<Uploader>("cz.mlich", 1, 0, "Uploader");
 
     QTranslator translator;
     QTranslator qtTranslator;

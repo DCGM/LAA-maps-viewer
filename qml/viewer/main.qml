@@ -450,6 +450,16 @@ ApplicationWindow {
         }
     }
 
+    Uploader {
+        id: uploader;
+    }
+    Component.onCompleted:  {
+
+        uploader.sendFile(F.base_url + "/competitionFilesAjax2.php", "/home/imlich/workspace/tucek/LAA-maps/igcFiles/026T01V1R1_LAA26.igc", 46, "734927a66fc08b008ffb099c361d7123");
+        console.log("sendFile post")
+
+    }
+
     SelectCompetitionDialog {
 
         id: selectCompetitionOnlineDialog

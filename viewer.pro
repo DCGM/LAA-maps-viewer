@@ -22,7 +22,8 @@ SOURCES += main.cpp \
     sortfilterproxymodel.cpp \
     pdfwriter.cpp \
     resultscreater.cpp \
-    worker.cpp
+    worker.cpp \
+    uploader.cpp
 
 # Installation path
 # target.path =
@@ -41,7 +42,8 @@ HEADERS += \
     sortfilterproxymodel.h \
     pdfwriter.h \
     resultscreater.h \
-    worker.h
+    worker.h \
+    uploader.h
 
 QT += qml quick widgets printsupport
 

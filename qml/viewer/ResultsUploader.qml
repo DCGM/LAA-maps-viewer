@@ -119,6 +119,7 @@ Item {
         var http = new XMLHttpRequest();
 
         http.open("POST", url + "?id=" + compId + "&api_key=" + api_key, true);
+        console.log("http request: " + url + "?id=" + compId + "&api_key=" + api_key)
 
         // set timeout
         var timer = Qt.createQmlObject("import QtQuick 2.5; Timer {interval: 5000; repeat: false; running: true;}", resultsUploader, "MyTimer");
@@ -364,7 +365,7 @@ Item {
         body += '\r\n'
         body += 'Content-Disposition: form-data; name="files"; filename="' + fileName + '"';
         body += '\r\n'
-        body += 'Content-Type: text/csv'
+        body += 'Content-Type: application/octet-stream'
         body += '\r\n\r\n'
         body += fileData
         body += '\r\n'

@@ -371,6 +371,8 @@ ApplicationWindow {
 
         http.open(method, baseUrl + "?id=" + id + "&errors=text" + "&api_key=" + api_key, true);
 
+        console.log("getContestants: " + baseUrl + "?id=" + id + "&errors=text" + "&api_key=" + api_key)
+
         // set timeout
         var timer = Qt.createQmlObject("import QtQuick 2.5; Timer {interval: 5000; repeat: false; running: true;}", competitionListWindow, "MyTimer");
                         timer.triggered.connect(function(){
@@ -513,6 +515,8 @@ ApplicationWindow {
 
         http.open(method, url + "?api_key=" + api_key, true);
 
+        console.log("getCompetitionsData: " + url + "?api_key=" + api_key)
+
         // set timeout
         var timer = Qt.createQmlObject("import QtQuick 2.5; Timer {interval: 5000; repeat: false; running: true;}", competitionListWindow, "MyTimer");
                         timer.triggered.connect(function(){
@@ -533,6 +537,7 @@ ApplicationWindow {
                     try{
                         var result = (http.responseText);
 
+//                        console.log(result)
                         var resultObject = JSON.parse(result);
 
                         for (var i = 0; i < resultObject.length; i++) {
