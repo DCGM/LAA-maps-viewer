@@ -40,10 +40,7 @@ ApplicationWindow {
 
         var cmItem = cm.get(crow); // contestant from contestant Table
 
-        if (cmItem === undefined)
-            return;
-
-        var selectedFilename = cmItem.filename; //
+        var selectedFilename = cmItem === undefined ? "" : cmItem.filename; //
 
         lateSelect = -1;
         fileContestantPairModel.clear();
