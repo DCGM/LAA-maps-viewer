@@ -16,6 +16,8 @@ Item {
 
     property int destinationCompetitionId;
 
+    property string fileUploadURL: F.base_url + "/competitionFilesAjax.php"
+
     MessageDialog {
 
          id: errMessageDialog
@@ -111,9 +113,7 @@ Item {
             var api_key_value = config.get("api_key", "");
 
             // start uploading in another thread           
-//            sendFile(F.base_url + "/competitionFilesAjax2.php", filesToUpload[0].fileName, String(fileData), id, api_key_value);
-            uploader.sendFile(F.base_url + "/competitionFilesAjax2.php", file_reader.toLocal(filesToUpload[0].fileUrl), id, api_key_value);
-//            sendFile(F.base_url + "/competitionFilesAjax2.php", filesToUpload[0].fileName, String(fileData), id, api_key_value);
+            uploader.sendFile(fileUploadURL, file_reader.toLocal(filesToUpload[0].fileUrl), destinationCompetitionId, api_key_value);
         }
     }
 
@@ -224,6 +224,8 @@ Item {
 
         http.open("GET", url + "?id=" + compId + "&api_key=" + api_key, true);
 
+        console.log("callUploadFinish: " + url + "?id=" + compId + "&api_key=" + api_key)
+
         // set timeout
         var timer = Qt.createQmlObject("import QtQuick 2.5; Timer {interval: 15000; repeat: false; running: true;}", resultsUploader, "MyTimer");
                         timer.triggered.connect(function(){
@@ -289,18 +291,6 @@ Item {
         http.send()
     }
 
-    function sendFile(url, fileName, fileData, compId, api_key) {
-
-        uploader.sendFile(url, fileName, compId, api_key);
-
-        // set timeout
-        var timer = Qt.createQmlObject("import QtQuick 2.5; Timer {interval: 5000; repeat: false; running: true;}", resultsUploader, "MyTimer");
-                        timer.triggered.connect(function(){
-                            uploader.abortLastReply();
-                        });
-
-        return status;
-    }
 
     Uploader {
         id: uploader;
@@ -308,8 +298,9 @@ Item {
         onUploadFinished: {
             var status = uploader.errorCode
 
+            console.log("Uploader ()" + status + ") response: " + uploader.response )
+
             try{
-                console.log(uploader.response);
                 var response = JSON.parse(uploader.response);
                 if (response.status !== undefined) {
                     status = parseInt(response.status, 10);
@@ -330,20 +321,15 @@ Item {
             // upload next file
             filesToUploadIterator++;
             uploaderDialog.processedFiles = filesToUploadIterator;
+            var api_key_value = config.get("api_key", "");
 
             if (filesToUploadIterator < filesToUpload.length && uploaderDialog.visible && !errMessageDialog.visible) {
-
-                var api_key_value = config.get("api_key", "");
-                var fileData = file_reader.read(filesToUpload[filesToUploadIterator].fileUrl);
-
-                // FIXME
-//                sendFile(url, filesToUpload[filesToUploadIterator].fileName, String(fileData), destinationCompetitionId, api_key_value);
-//                uploader.sendFile(, filesToUpload[filesToUploadIterator].fileName, String(fileData), destinationCompetitionId, api_key_value)
+                uploader.sendFile(fileUploadURL, file_reader.toLocal(filesToUpload[filesToUploadIterator].fileUrl), destinationCompetitionId, api_key_value);
             }
             else {
 
                 // init evaluation of the uploaded files on the server
-                callUploadFinish(F.base_url + "/competitionFilesFinish.php", compId, api_key);
+                callUploadFinish(F.base_url + "/competitionFilesFinish.php", destinationCompetitionId, api_key_value);
             }
 
         }

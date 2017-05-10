@@ -25,7 +25,7 @@ void Uploader::sendFile(QUrl api_url, QString fileName, int compId, QString api_
     QFileInfo fileinfo = QFileInfo(fileName);
 
     filePart.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("application/octet-stream"));
-    filePart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=\"files\"; filename=\"" + fileinfo.baseName() + "\""));
+    filePart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=\"files\"; filename=\"" + fileinfo.fileName() + "\""));
     QFile *file = new QFile(fileName);
     file->open(QIODevice::ReadOnly);
     filePart.setBodyDevice(file);
@@ -56,7 +56,9 @@ void Uploader::abortLastReply() {
 
 void Uploader::finished(QNetworkReply *reply) {
     lastReply = NULL;
-    if (reply->error() != QNetworkReply::NoError) {
+    m_lastErrorCode = reply->error();
+
+    if (m_lastErrorCode != QNetworkReply::NoError) {
         qDebug() << reply->errorString();
     }
 
@@ -67,6 +69,7 @@ void Uploader::finished(QNetworkReply *reply) {
 
 void Uploader::slotError(QNetworkReply::NetworkError e) {
 
+    qDebug() << "QNetworkReply::NetworkError e = " << e;
     m_lastErrorCode = e;
     switch(e) {
     case QNetworkReply::NoError: m_lastError = tr(""); break;
