@@ -1,4 +1,5 @@
 #include <QFile>
+#include <QFileInfo>
 #include <QUrl>
 #include <QDebug>
 #include "filereader.h"
@@ -51,8 +52,9 @@ void FileReader::copy_file(const QUrl &filename, const QUrl &newFilename) {
 
 void FileReader::remove_if_exists(const QUrl &filename) {
 
-    if (file_exists(filename))
+    if (file_exists(filename)) {
         QFile::remove(filename.toLocalFile());
+    }
 }
 
 void FileReader::writeUTF8(const QUrl &filename, QByteArray data) {
@@ -84,7 +86,7 @@ bool FileReader::file_exists(const QUrl &filename) {
 }
 
 bool FileReader::file_exists_local(const QString &filename) {
-    return QFile(filename).exists();
+    return QFileInfo(filename).isFile() && QFile(filename).exists();
 }
 
 bool FileReader::is_local_file(const QUrl &filename) {

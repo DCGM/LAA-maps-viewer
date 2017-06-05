@@ -1134,6 +1134,8 @@ ApplicationWindow {
 
                     ctnt = contestantsListModel.get(current)
 
+                    console.log("selected row " +current + ": " + ctnt.name);
+
                     var arr = [];
                     if (tracks !== undefined && tracks.tracks !== undefined) {
                         arr = tracks.tracks;
@@ -1160,28 +1162,13 @@ ApplicationWindow {
                         tool_bar.startTime = ctnt.startTime;
 
                         var filePath = pathConfiguration.igcDirectory + "/" + ctnt.filename;
-                        if (!file_reader.file_exists(Qt.resolvedUrl(filePath))) {
-
-                            if (!(evaluateTimer.running) && !(resultsExporterTimer.running)) { // dont show err dialog when computing/generating results
-
-                                //% "IGC file"
-                                errorMessage.title = qsTrId("contestant-table-row-selected-err-dialog-title");
-
-                                //% "File \"%1\" not found!"
-                                errorMessage.text = qsTrId("contestant-table-row-selected-file-not-found").arg(filePath)
-                                errorMessage.open();
-                            }
-
-                            igc.clear(); // clear current igc
-
-                            igcChooseDialog.crow = current; // remove selected igc (igc not found)
-                            igcChooseDialog.choosenFilename("","");
-                        }
-                        else {
-
-                            // remove prefix "file:///"
+                        if (file_reader.file_exists(Qt.resolvedUrl(filePath))) {
                             igc.load( file_reader.toLocal(Qt.resolvedUrl(filePath)), ctnt.startTime);
+                        } else {
+                            console.log(ctnt.name + "igc file " + ctnt.filename + " doesn't exists")
+                            igc.clear();
                         }
+
                     }
 
                     map.requestUpdate()
@@ -1449,7 +1436,7 @@ ApplicationWindow {
                 currentPositionShow: true;
 
                 onTpiComputedData:  {
-
+                    console.log("onTpiComputedData")
                     if (!updateContestantMenu.menuVisible && !resultsExporterTimer.running) {
                         //computeScore(tpi, polys)
                         computingTimer.tpi = tpi;
@@ -3064,11 +3051,11 @@ ApplicationWindow {
             return;
         }
 
-
         if (tpiData.length > 0) {
             printMapWindow.makeImage();
+        } else {
+            console.log("tpiData.length <= 0")
         }
-
 
         // load manual values into list models - used when compute score
         loadStringIntoListModel(wptNewScoreListManualValuesCache, ctnt.prevResultsWPT, "; ");
