@@ -368,21 +368,21 @@ Rectangle {
         var l = getCenter()
         longitude = l[1]
         latitude = l[0]
-        updateGeocaches();
+        canvas.requestPaint()
+
     }
 
     function requestUpdate() {
-        var start = getCoordFromScreenpoint(0,0)
-        var end = getCoordFromScreenpoint(pinchmap.width,pinchmap.height)
-        //         controller.updateGeocaches(start[0], start[1], end[0], end[1])
-        updateGeocaches()
+//        var start = getCoordFromScreenpoint(0,0)
+//        var end = getCoordFromScreenpoint(pinchmap.width,pinchmap.height)
+        canvas.requestPaint()
+
        // console.debug("Update requested.")
     }
 
     function requestUpdateDetails() {
         var start = getCoordFromScreenpoint(0,0)
         var end = getCoordFromScreenpoint(pinchmap.width,pinchmap.height)
-        //        controller.downloadGeocaches(start[0], start[1], end[0], end[1])
         console.debug("Download requested.")
     }
 
@@ -1494,32 +1494,6 @@ Rectangle {
         font.pixelSize: 24
     }
 
-    function updateGeocaches () {
-        //        console.debug("Update polygons called")
-
-        /*
-      var from = getCoordFromScreenpoint(0,0)
-        var to = getCoordFromScreenpoint(pinchmap.width,pinchmap.height)
-
-
-        FlightData.sendMessage({
-                                   'action': 'visibleMapChanged',
-                                   'simple_objects': simple_objects,
-                                   'polygon_objects': polygon_objects,
-                                   'min_latitude':  Math.min(from[0],to[0]),
-                                   'min_longitude': Math.min(from[1],to[1]),
-                                   'max_latitude':  Math.max(from[0],to[0]),
-                                   'max_longitude': Math.max(from[1],to[1]),
-                                   'zoom': zoomLevel,
-                                   'flight_data_container': flight_data_container
-                                   //                                 'mapPtr': map,
-                                   //                                 'tmpCoord': tmpCoord
-                               });
-*/
-        canvas.requestPaint()
-
-
-    }
 
     PinchArea {
         id: pincharea;
