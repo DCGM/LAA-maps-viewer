@@ -342,6 +342,9 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
 
     // trajectory
     QUrl trajectoryImgUrl = QUrl(filename + ".png");
+    if (!file.file_exists(trajectoryImgUrl)) {
+        qDebug() << "Image \"" << trajectoryImgUrl << "\" doesn't exists";
+    }
     html += file.file_exists(trajectoryImgUrl) ? getHTMLResponsiveImage(getImageBase64(trajectoryImgUrl)) : "";
 
     html += "   </div>";
@@ -453,7 +456,7 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
                                       << (isTG ? "" : getFontColorStartTag("#bfbfbf")) + (jsonObject["tg_score"].toDouble() < 0 ? "0" : QString::number(jsonObject["tg_score"].toDouble())) + (isTG ? "" : getFontColorEndTag())
                                       << (isTP ? "" : getFontColorStartTag("#bfbfbf")) + (jsonObject["tp_score"].toDouble() < 0 ? "0" : QString::number(jsonObject["tp_score"].toDouble())) + (isTP ? "" : getFontColorEndTag())
                                       << (isSG ? "" : getFontColorStartTag("#bfbfbf")) + (jsonObject["sg_score"].toDouble() < 0 ? "0" : QString::number(jsonObject["sg_score"].toDouble())) + (isSG ? "" : getFontColorEndTag())
-                                      << (altLimit ? "" : getFontColorStartTag("#bfbfbf")) + (jsonObject["alt_score"].toDouble() == -1 ? "0" : QString::number(jsonObject["alt_score"].toDouble())) + (altLimit ? "" : getFontColorStartTag("#bfbfbf"))
+                                      << (altLimit ? "" : getFontColorStartTag("#bfbfbf")) + (jsonObject["alt_score"].toDouble() == -1 ? "0" : QString::number(jsonObject["alt_score"].toDouble())) + (altLimit ? "" : getFontColorEndTag())
                         );
         }
         html += getHTMLHorizontalTable(rows);
