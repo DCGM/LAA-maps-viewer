@@ -1,7 +1,7 @@
 .pragma library
 
-//var base_url = 'https://pcmlich.fit.vutbr.cz/ppt'
-var base_url = 'http://ppt.laacr.cz'
+var base_url = 'https://pcmlich.fit.vutbr.cz/ppt'
+//var base_url = 'http://ppt.laacr.cz'
 
 var earth_radius = 6371000;
 var global_center_lat = 0;
@@ -262,6 +262,9 @@ var ARC_GRANULARITY = 0.05;
 // from/to angle
 function insertMidArcByAngle(center_lat, center_lon, from, to, clock_wise, radius) {
     var result = [];
+    var from_to_diff = Math.abs(from - to);
+    ARC_GRANULARITY = (from_to_diff < 0.25) ? 0.25 * from_to_diff : 0.05; // ensure at least 5 points in arc
+
     if (clock_wise) {
         if (to < from) {
             to += 2*Math.PI;
