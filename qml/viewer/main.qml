@@ -3047,7 +3047,9 @@ ApplicationWindow {
         // no igc assigned
         if (item.filename === "") return;
 
-        if ((item.score !== undefined) && (item.score !== "")) { // pokud je vypocitane, tak nepocitame znovu
+        var imagePath = Qt.resolvedUrl(pathConfiguration.resultsFolder+"/"+item.fullName+".png");
+
+        if ((item.score !== undefined) && (item.score !== "") && file_reader.file_exists(imagePath)) { // pokud je vypocitane, tak nepocitame znovu
             return;
         }
 
