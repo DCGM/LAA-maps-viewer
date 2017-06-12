@@ -147,7 +147,6 @@ Rectangle {
 
     function pointsInBounds() {
 
-
         if ((trackModel === undefined) || (trackModel.points === undefined)) {
             return;
         }
@@ -171,9 +170,6 @@ Rectangle {
             p = points[i]
             plat = parseFloat(p.lat)
             plon = parseFloat(p.lon)
-
-//            console.log("pointsInBounds " + i + " " + plat + " " + plon)
-
             if (plat > max_lat) {
                 max_lat = plat
             }
@@ -377,7 +373,7 @@ Rectangle {
 //        var end = getCoordFromScreenpoint(pinchmap.width,pinchmap.height)
         canvas.requestPaint()
 
-       // console.debug("Update requested.")
+        console.debug("Update requested.")
     }
 
     function requestUpdateDetails() {
@@ -456,10 +452,10 @@ Rectangle {
 
     function getMappointFromCoord(lat, lon) {
         //        console.count()
-        var tile = deg2num(lat, lon)
-        var realX = (tile[0] - cornerTileX) * tileSize
-        var realY = (tile[1] - cornerTileY) * tileSize
-        return [realX, realY]      
+        var tile = deg2num(lat, lon);
+        var realX = (tile[0] - cornerTileX) * tileSize;
+        var realY = (tile[1] - cornerTileY) * tileSize;
+        return [realX, realY];
     }
 
     function getCenter() {
@@ -591,7 +587,6 @@ Rectangle {
                     source: "./data/noimage.png"
                 }
 
-
                 Image {
                     id: img;
                     anchors.fill: parent;
@@ -651,7 +646,6 @@ Rectangle {
         visible: false;
     }
 
-
     Ruler {
         id: ruler
         mapx: map.x
@@ -660,12 +654,10 @@ Rectangle {
         endPoint:  getMappointFromCoord(0, 0)
     }
 
-
-
     function getPtByPid(pid, points) {
         for (var i = 0; i < points.length; i++) {
             var item = points[i]
-            if (item.pid == pid) {
+            if (item.pid === pid) {
                 return item;
             }
         }
@@ -699,9 +691,9 @@ Rectangle {
 
     function getFlagsMask(current, defaults, mask) {
         if (current < 0) {
-            return ((defaults & mask) == mask)
+            return ((defaults & mask) === mask)
         }
-        return ((current & mask) == mask)
+        return ((current & mask) === mask)
 
     }
 
@@ -871,6 +863,7 @@ Rectangle {
                             if (center !== undefined) {
 
                                 var tmp = F.insertMidArc(center.lat, center.lon, item.lat, item.lon, prevItem.lat, prevItem.lon, cw);
+
                                 if (tmp.length > 2) {
                                     var tmpFirst = tmp[0];
                                     var tmpLast = tmp[tmp.length-1];
@@ -888,11 +881,11 @@ Rectangle {
                             }
                             break;
                         }
+
                         trackInfo.push({
                                            "idx": 0,
                                            "distance": 0
                                        });
-
 
                         trackInfo.push({
                                            "idx": 0,
@@ -914,7 +907,6 @@ Rectangle {
                         var angle = ((F.getBearingTo(prevItem.lat, prevItem.lon, item.lat, item.lon)+90)%360);
 
                         polygonCachePoints.push({"lat": prevItem.lat, "lon": prevItem.lon})
-
 
                         switch (c.type) {
                         case "none":
@@ -972,6 +964,7 @@ Rectangle {
                             } else {
 
                                 var tmp = F.insertMidArc(center.lat, center.lon, item.lat, item.lon, prevItem.lat, prevItem.lon, cw);
+
                                 if (tmp.length > 2) {
                                     var tmpFirst = tmp[0];
                                     var tmpLast = tmp[tmp.length-1];
@@ -1182,7 +1175,7 @@ Rectangle {
                             tmp.push({
                                          "cid": 1,
                                          "name": "gate",
-                                         "color": "FF0000",
+                                         "color": "0000ff",
                                          "points": [
                                              {"lat": gateA.lat, "lon": gateA.lon},
                                              {"lat": gateB.lat, "lon": gateB.lon},
@@ -1325,7 +1318,7 @@ Rectangle {
                                 tmp.push({
                                              "cid": 1,
                                              "name": "gate",
-                                             "color": "FF0000",
+                                             "color": "0000FF",
                                              "points": [
                                                  {"lat": gateA.lat, "lon": gateA.lon},
                                                  {"lat": gateB.lat, "lon": gateB.lon},
