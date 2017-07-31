@@ -2768,7 +2768,7 @@ ApplicationWindow {
 
         // gen start list
         createStartList();
-    }  
+    }
 
     function initScorePointsArrray () {
 
@@ -3488,7 +3488,7 @@ ApplicationWindow {
         contestantsListModel.setProperty(current, "wptScoreDetails", "");
         contestantsListModel.setProperty(current, "speedSectionsScoreDetails", "");
         contestantsListModel.setProperty(current, "spaceSectionsScoreDetails", "");
-        contestantsListModel.setProperty(current, "altitudeSectionsScoreDetails", "");              
+        contestantsListModel.setProperty(current, "altitudeSectionsScoreDetails", "");
 
         var category_alt_penalty = trItem.alt_penalty;
         var category_marker_max_score = trItem.marker_max_score;
@@ -3935,7 +3935,7 @@ ApplicationWindow {
         file_reader.write(Qt.resolvedUrl(pathConfiguration.csvResultsFile), str);
     }
 
-    function writeCSV() {      
+    function writeCSV() {
 
         var str = "";
 

@@ -18,7 +18,6 @@ ApplicationWindow {
 
     onVisibleChanged: {
         if(visible) {
-
             workingTimer.running = false;  // stop working timer - spin box in main.qml
         }
     }

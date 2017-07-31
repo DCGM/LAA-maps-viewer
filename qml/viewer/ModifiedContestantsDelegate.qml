@@ -11,7 +11,7 @@ Component {
     Rectangle {
 
         id: rowDelegate
-        height: 30
+        height: rowReadOnly.height
         width: parent.width
         color: index % 2 ? "#eee" : "#fff"
 
@@ -33,13 +33,14 @@ Component {
         RowLayout {
 
             id: rowReadOnly
-            height: parent.height
+            height: childrenRect.height
+
             spacing: 50
             visible: rowDelegate.readOnly
             width: listView.width
 
             Item {
-                height: parent.height
+                height: Math.max(checkBoxReadOnlyDelegate.height, crewNameText.height) + 16
                 Layout.preferredWidth: 330;
                 Layout.fillWidth: true;
 
@@ -61,19 +62,41 @@ Component {
                 }
 
                 NativeText {
+                    id: crewNameText
                     anchors.left: checkBoxReadOnlyDelegate.right;
                     anchors.leftMargin: 10;
                     anchors.right: parent.right;
                     anchors.verticalCenter: parent.verticalCenter
                     text: name;
-                    color: !selected ? "#aaa" : "black" }
+                    color: !selected ? "#aaa" : "black"
+                }
             }
 
-            NativeText { text: category; Layout.preferredWidth: 100; color: !selected ? "#aaa" : "black" }
-            NativeText { text: speed; Layout.preferredWidth:50; color: !selected ? "#aaa" : "black" }
-            NativeText { text: F.addTimeStrFormat(F.addUtcToTime(F.timeToUnix(startTime), applicationWindow.utc_offset_sec)); Layout.preferredWidth: 80; color: !selected ? "#aaa" : "black" }
-            NativeText { text: aircraft_registration; Layout.preferredWidth: 110; color: !selected ? "#aaa" : "black" }
-            NativeText { text: aircraft_type; Layout.preferredWidth: 150; color: !selected ? "#aaa" : "black" }
+            NativeText {
+                text: category;
+                Layout.preferredWidth: 100;
+                color: !selected ? "#aaa" : "black"
+            }
+            NativeText {
+                text: speed;
+                Layout.preferredWidth:50;
+                color: !selected ? "#aaa" : "black"
+            }
+            NativeText {
+                text: F.addTimeStrFormat(F.addUtcToTime(F.timeToUnix(startTime), applicationWindow.utc_offset_sec));
+                Layout.preferredWidth: 80;
+                color: !selected ? "#aaa" : "black"
+            }
+            NativeText {
+                text: aircraft_registration;
+                Layout.preferredWidth: 110;
+                color: !selected ? "#aaa" : "black"
+            }
+            NativeText {
+                text: aircraft_type;
+                Layout.preferredWidth: 150;
+                color: !selected ? "#aaa" : "black"
+            }
         }
 
         // editable delegate
@@ -110,7 +133,7 @@ Component {
                         onCheckedStateChanged: {
                             rowDelegate.ListView.view.model.setProperty(index, "selected", checked ? 1 : 0);
                         }
-                    }                    
+                    }
                 }
 
                 Item {
@@ -165,7 +188,11 @@ Component {
             Row {
                 Layout.preferredWidth: 250
 
-                NativeText { text: category; width: parent.width * 2/5; color: categorySwitch.checked || !selected ? "#aaa" : "black" }
+                NativeText {
+                    text: category;
+                    width: parent.width * 2/5;
+                    color: categorySwitch.checked || !selected ? "#aaa" : "black"
+                }
 
                 Item {
                     width: parent.width/5;
@@ -184,13 +211,22 @@ Component {
                     }
                 }
 
-                NativeText { text: newCategory; width: parent.width * 2/5; horizontalAlignment: Text.AlignRight; color: !categorySwitch.checked || !selected ? "#aaa" : "black"}
+                NativeText {
+                    text: newCategory;
+                    width: parent.width * 2/5;
+                    horizontalAlignment: Text.AlignRight;
+                    color: !categorySwitch.checked || !selected ? "#aaa" : "black"
+                }
             }
 
             Row {
                 Layout.preferredWidth: 150
 
-                NativeText { text: speed; width: parent.width * 2/5; color: speedSwitch.checked || !selected ? "#aaa" : "black" }
+                NativeText {
+                    text: speed;
+                    width: parent.width * 2/5;
+                    color: speedSwitch.checked || !selected ? "#aaa" : "black"
+                }
 
                 Item {
                     width: parent.width/5;
@@ -208,13 +244,22 @@ Component {
                     }
                 }
 
-                NativeText { text: newSpeed; width: parent.width * 2/5; horizontalAlignment: Text.AlignRight; color: !speedSwitch.checked || !selected ? "#aaa" : "black"}
+                NativeText {
+                    text: newSpeed;
+                    width: parent.width * 2/5;
+                    horizontalAlignment: Text.AlignRight;
+                    color: !speedSwitch.checked || !selected ? "#aaa" : "black"
+                }
             }
 
             Row {
                 Layout.preferredWidth: 220
 
-                NativeText { text: F.addTimeStrFormat(F.addUtcToTime(F.timeToUnix(startTime), applicationWindow.utc_offset_sec)); width: parent.width * 2/5; color: startTimeSwitch.checked || !selected ? "#aaa" : "black"}
+                NativeText {
+                    text: F.addTimeStrFormat(F.addUtcToTime(F.timeToUnix(startTime), applicationWindow.utc_offset_sec));
+                    width: parent.width * 2/5;
+                    color: startTimeSwitch.checked || !selected ? "#aaa" : "black"
+                }
 
                 Item {
                     width: parent.width/5;
@@ -227,18 +272,26 @@ Component {
                         checked: startTimeSelector
 
                         onClicked: {
-                           rowDelegate.ListView.view.model.setProperty(index, "startTimeSelector", checked ? 1 : 0);
+                            rowDelegate.ListView.view.model.setProperty(index, "startTimeSelector", checked ? 1 : 0);
                         }
                     }
                 }
 
-                NativeText { text: F.addTimeStrFormat(F.addUtcToTime(F.timeToUnix(newStartTime), applicationWindow.utc_offset_sec)); width: parent.width * 2/5; horizontalAlignment: Text.AlignRight; color: !startTimeSwitch.checked || !selected ? "#aaa" : "black"}
+                NativeText {
+                    text: F.addTimeStrFormat(F.addUtcToTime(F.timeToUnix(newStartTime), applicationWindow.utc_offset_sec));
+                    width: parent.width * 2/5;
+                    horizontalAlignment: Text.AlignRight;
+                    color: !startTimeSwitch.checked || !selected ? "#aaa" : "black"}
             }
 
             Row {
                 Layout.preferredWidth: 270
 
-                NativeText { text: aircraft_registration; width: parent.width * 2/5; color: planeRegistrationSwitch.checked || !selected ? "#aaa" : "black"}
+                NativeText {
+                    text: aircraft_registration;
+                    width: parent.width * 2/5;
+                    color: planeRegistrationSwitch.checked || !selected ? "#aaa" : "black"
+                }
 
                 Item {
                     width: parent.width/5;
@@ -251,12 +304,17 @@ Component {
                         checked: planeRegSelector
 
                         onClicked: {
-                           rowDelegate.ListView.view.model.setProperty(index, "planeRegSelector", checked ? 1 : 0);
+                            rowDelegate.ListView.view.model.setProperty(index, "planeRegSelector", checked ? 1 : 0);
                         }
                     }
                 }
 
-                NativeText { text: newAircraft_registration; width: parent.width * 2/5; horizontalAlignment: Text.AlignRight; color: !planeRegistrationSwitch.checked || !selected ? "#aaa" : "black"}
+                NativeText {
+                    text: newAircraft_registration;
+                    width: parent.width * 2/5;
+                    horizontalAlignment: Text.AlignRight;
+                    color: !planeRegistrationSwitch.checked || !selected ? "#aaa" : "black"
+                }
             }
 
             Row {
@@ -264,7 +322,11 @@ Component {
                 anchors.right: parent.right
                 anchors.rightMargin: 10
 
-                NativeText { text: aircraft_type; width: parent.width * 2/5; color: planeTypeSwitch.checked || !selected ? "#aaa" : "black"}
+                NativeText {
+                    text: aircraft_type;
+                    width: parent.width * 2/5;
+                    color: planeTypeSwitch.checked || !selected ? "#aaa" : "black"
+                }
 
                 Item {
                     width: parent.width/5;
@@ -282,7 +344,12 @@ Component {
                     }
                 }
 
-                NativeText { text: newAircraft_type; width: parent.width * 2/5; horizontalAlignment: Text.AlignRight; color: !planeTypeSwitch.checked || !selected ? "#aaa" : "black"}
+                NativeText {
+                    text: newAircraft_type;
+                    width: parent.width * 2/5;
+                    horizontalAlignment: Text.AlignRight;
+                    color: !planeTypeSwitch.checked || !selected ? "#aaa" : "black"
+                }
             }
         }
     }

@@ -10,7 +10,7 @@ Rectangle {
     anchors.right: parent.right
     anchors.leftMargin: 10
     anchors.rightMargin: 30
-    height: model.count * 30 + selectAllCheckBoxItem.height + 1
+    height: listView.contentHeight + selectAllCheckBoxItem.height + 1
     border.color: "grey"
     border.width: 1
 
