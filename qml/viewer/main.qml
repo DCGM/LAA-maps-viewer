@@ -744,19 +744,6 @@ ApplicationWindow {
 
         id: competitionClassModel
 
-        ListElement { text: "-"}    // proc to tu je???
-        ListElement { text: "R-AL1"}
-        ListElement { text: "R-AL2"}
-        ListElement { text: "S-AL1"}
-        ListElement { text: "S-AL2"}
-        ListElement { text: "R-WL1"}
-        ListElement { text: "R-WL2"}
-        ListElement { text: "S-WL1"}
-        ListElement { text: "S-WL2"}
-        ListElement { text: "CUSTOM1"}
-        ListElement { text: "CUSTOM2"}
-        ListElement { text: "CUSTOM3"}
-        ListElement { text: "CUSTOM4"}
     }
 
     ListModel {
@@ -2721,7 +2708,6 @@ ApplicationWindow {
     function recalculateScoresTo1000() {
 
         var i, item;
-
         maxPointsArr = {
             "R-AL1": 1,
             "R-AL2": 1,
@@ -4390,26 +4376,18 @@ ApplicationWindow {
         var contestant;
         var index;
 
-        var resArr = ['R-AL1', 'R-AL2', 'S-AL1', 'S-AL2', 'R-WL1', 'R-WL2', 'S-WL1', 'S-WL2', 'CUSTOM1', 'CUSTOM2', 'CUSTOM3', 'CUSTOM4'];
+        // neni nactena trat
+        if (tracks !== undefined && tracks.tracks !== undefined) {
+            return;
+        }
 
-        /// nefunguje PROC???
-        //for (var key in resArr) {
-        //    resArr[key] = [];
-        //}
+        var resArr = [];
+        var trtr = tracks.tracks
+        for (var i = 0; i < trtr.length; i++) {
+            var category_name = trtr[i].name;
+            resArr[category_name] = [];
+        }
 
-        // humus - viz vyse
-        resArr['R-AL1'] = [];
-        resArr['R-AL2'] = [];
-        resArr['S-AL1'] = [];
-        resArr['S-AL2'] = [];
-        resArr['R-WL1'] = [];
-        resArr['R-WL2'] = [];
-        resArr['S-WL1'] = [];
-        resArr['S-WL2'] = [];
-        resArr['CUSTOM1'] = [];
-        resArr['CUSTOM2'] = [];
-        resArr['CUSTOM3'] = [];
-        resArr['CUSTOM4'] = [];
 
         for (var i = 0; i < contestantsListModel.count; i++) {
 
@@ -4445,24 +4423,10 @@ ApplicationWindow {
             }
         }
 
-        for (var key in resArr) {
+        for (var i = 0; i < trtr.length; i++) {
+            var category_name = trtr[i].name;
+            resArr[category_name].sort(compareBy21thColumn);
 
-            /// nefunguje PROC???
-            //resArr[key].sort(compareSeventhColumn) // score points to 1000
-
-            // humus - viz vyse
-            resArr['R-AL1'].sort(compareBy21thColumn);
-            resArr['R-AL2'].sort(compareBy21thColumn);
-            resArr['S-AL1'].sort(compareBy21thColumn);
-            resArr['S-AL2'].sort(compareBy21thColumn);
-            resArr['R-WL1'].sort(compareBy21thColumn);
-            resArr['R-WL2'].sort(compareBy21thColumn);
-            resArr['S-WL1'].sort(compareBy21thColumn);
-            resArr['S-WL2'].sort(compareBy21thColumn);
-            resArr['CUSTOM1'].sort(compareBy21thColumn);
-            resArr['CUSTOM2'].sort(compareBy21thColumn);
-            resArr['CUSTOM3'].sort(compareBy21thColumn);
-            resArr['CUSTOM4'].sort(compareBy21thColumn);
         }
 
         return resArr;
@@ -4591,6 +4555,15 @@ ApplicationWindow {
                     // clear contestant in categories counters
                     if (file_reader.file_exists(Qt.resolvedUrl(pathConfiguration.trackFile ))) {
                         tracks = JSON.parse(file_reader.read(Qt.resolvedUrl(pathConfiguration.trackFile )))
+
+                        competitionClassModel.clear();
+                        competitionClassModel.append({text:"-"})
+                        for (var i = 0; i < tracks.tracks.length; i++) {
+                            var category_name = tracks.tracks[i].name;
+                            competitionClassModel.append({text: category_name})
+                        }
+
+
 
                         // load VTB and preparation times
                         tracksVbtTimes = [];
