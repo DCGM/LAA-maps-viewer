@@ -48,6 +48,7 @@ void ResultsCreater::createContinuousResultsHTML(const QString &filePath,
 
     // list size must be even
     // first half of the array are the classes names, second half is the content for each class
+
     if (resList.size() % 2)  {
         qDebug() << "ResultsCreater::createContinuousResultsHTML() resList.size() % 2 == 1" + QString::number(resList.size() % 2);
         return;

@@ -9,6 +9,8 @@ Rectangle {
     clip: true
     color: "transparent"
 
+//    property var allModels: []
+
     property alias listModelRal1: ral1;
     property alias listModelRal2: ral2;
     property alias listModelSal1: sal1;
@@ -37,6 +39,10 @@ Rectangle {
 
     function initLists() {
 
+//        for (var i = 0; i < allModels.length; i++) {
+
+//        }
+
         ral1.clear();
         ral2.clear();
         sal1.clear();
@@ -52,7 +58,6 @@ Rectangle {
     }
 
     function appendToList(key, data) {
-
         var listModel = null;
 
         switch(key) {
@@ -97,6 +102,7 @@ Rectangle {
                 return;
         }
 
+
         listModel.append({
                             "order" : (listModel.count + 1),
                             "name" : data[0],
@@ -105,9 +111,12 @@ Rectangle {
                             "speed" : data[3],
                             "planeReg" : data[4],
                             "planeType" : data[5],
-                            "points" : data[6],
-                            "points1000" : data[7]
-                 });
+//                            "points" : data[6],
+//                            "points1000" : data[7]
+                             "points" : data[20],
+                             "points1000" : data[21]
+
+                         });
     }
     ScrollView {
 

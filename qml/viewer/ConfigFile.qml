@@ -28,7 +28,7 @@ Item {
                             }
                         })
         } catch (err) {
-                console.log("Error set table in database: " + err);
+                console.warn("Error set table in database: " + err);
         };
     }
 
@@ -61,7 +61,7 @@ Item {
                         }
                         )
         } catch (err) {
-                console.log("Error get table in database: " + err);
+                console.warn("Error get table in database: " + err);
         };
 //        console.log(key + " : " + result)
         return result;

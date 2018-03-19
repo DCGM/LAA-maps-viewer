@@ -1705,6 +1705,22 @@ ApplicationWindow {
                 NativeText {text: qsTrId("html-results-competition-date") + ": " +  pathConfiguration.competitionDate}
             }
 
+//            ListModel {
+//                id:statusBarCategoryCountersModel
+//                ListElement { name: "R-AL1" }
+//                ListElement { name: "R-AL2" }
+//            }
+
+//            Row {
+
+//                Repeater {
+//                    model:  statusBarCategoryCountersModel;
+//                    NativeText {
+//                        text: name
+//                    }
+//                }
+//            }
+
             Row {
                 id: statusBarCategoryCounters
                 visible: mainViewMenuCategoryCountersStatusBar.checked;
@@ -2352,6 +2368,7 @@ ApplicationWindow {
     function generateContinuousResults() {
 
         var res = getContinuousResults();
+
         var csvString = "";
 
         //% "Continuous results"
@@ -2361,8 +2378,14 @@ ApplicationWindow {
         var recSize = 21;
 
         var reStringArr = [];
-        for (var key in res) {
 
+        // add Category names first
+        for (var key in res) {
+            reStringArr.push(key);
+        }
+
+        // add data as stringlist
+        for (var key in res) {
             reStringArr.push(JSON.stringify(res[key]));
         }
 
@@ -2384,6 +2407,8 @@ ApplicationWindow {
         var catArray = [];
         var item;
         continuousResultsView.initLists();
+
+//        console.log("generateContinuousResults: " + JSON.stringify(res))
 
         for(var key in res) {
 
@@ -2454,13 +2479,6 @@ ApplicationWindow {
         results_creator.createStartListHTML(pathConfiguration.resultsFolder + "/" + pathConfiguration.competitionName + "_" + filename, date, pathConfiguration.competitionName, applicationWindow.utc_offset_sec);
     }
 
-
-    // DEBUG func
-    function listProperty(item)
-    {
-        for (var p in item)
-            console.log(p + ": " + item[p]);
-    }
 
     function getAltitudeAndSpaceSectionsPenaltyPoints(igcRow, totalPoints) {
 
@@ -4377,11 +4395,12 @@ ApplicationWindow {
         var index;
 
         // neni nactena trat
-        if (tracks !== undefined && tracks.tracks !== undefined) {
+        if (tracks === undefined || tracks.tracks === undefined) {
             return;
         }
 
-        var resArr = [];
+        var resArr = {};
+
         var trtr = tracks.tracks
         for (var i = 0; i < trtr.length; i++) {
             var category_name = trtr[i].name;
@@ -4393,31 +4412,34 @@ ApplicationWindow {
 
             contestant = contestantsListModel.get(i);
 
-            if (resArr.indexOf(contestant.category) !== -1) {
-
-                resArr[contestant.category].push([contestant.name,
-                                                  contestant.category,
-                                                  String(contestant.tgScoreSum),
-                                                  String(contestant.tpScoreSum),
-                                                  String(contestant.sgScoreSum),
-                                                  String(contestant.altLimitsScoreSum),
-                                                  String(contestant.speedSecScoreSum),
-                                                  String(contestant.altSecScoreSum),
-                                                  String(contestant.spaceSecScoreSum),
-                                                  String(getMarkersScore(contestant.markersOk, 0, 0, contestant.marker_max_score)),
-                                                  String(getMarkersScore(0, contestant.markersNok, 0, contestant.marker_max_score)),
-                                                  String(getMarkersScore(0, 0, contestant.markersFalse, contestant.marker_max_score)),
-                                                  String(getPhotosScore(contestant.photosOk, 0, 0, contestant.photos_max_score)),
-                                                  String(getPhotosScore(0, contestant.photosNok, 0, contestant.photos_max_score)),
-                                                  String(getPhotosScore(0, 0, contestant.photosFalse, contestant.photos_max_score)),
-                                                  String(contestant.landingScore),
-                                                  String(contestant.startTimeScore),
-                                                  //String(contestant.circlingScore),
-                                                  String(contestant.oppositeScore),
-                                                  String(contestant.otherPoints),
-                                                  String(contestant.otherPenalty),
-                                                  String(contestant.scorePoints),
-                                                  String(contestant.scorePoints1000)]);
+            if (resArr[contestant.category] !== undefined) {
+                var category_name = contestant.category
+                resArr[category_name].push
+                        ([
+                             contestant.name,
+                             contestant.category,
+                             String(contestant.tgScoreSum),
+                             String(contestant.tpScoreSum),
+                             String(contestant.sgScoreSum),
+                             String(contestant.altLimitsScoreSum),
+                             String(contestant.speedSecScoreSum),
+                             String(contestant.altSecScoreSum),
+                             String(contestant.spaceSecScoreSum),
+                             String(getMarkersScore(contestant.markersOk, 0, 0, contestant.marker_max_score)),
+                             String(getMarkersScore(0, contestant.markersNok, 0, contestant.marker_max_score)),
+                             String(getMarkersScore(0, 0, contestant.markersFalse, contestant.marker_max_score)),
+                             String(getPhotosScore(contestant.photosOk, 0, 0, contestant.photos_max_score)),
+                             String(getPhotosScore(0, contestant.photosNok, 0, contestant.photos_max_score)),
+                             String(getPhotosScore(0, 0, contestant.photosFalse, contestant.photos_max_score)),
+                             String(contestant.landingScore),
+                             String(contestant.startTimeScore),
+                             //String(contestant.circlingScore),
+                             String(contestant.oppositeScore),
+                             String(contestant.otherPoints),
+                             String(contestant.otherPenalty),
+                             String(contestant.scorePoints),
+                             String(contestant.scorePoints1000)
+                         ]);
                 //(parseInt(igcItem.scorePoints) < 0 ? "" : String(igcItem.scorePoints)),
                 //(parseInt(igcItem.scorePoints1000) < 0 ? "" : String(igcItem.scorePoints1000))])
             }
@@ -4428,7 +4450,6 @@ ApplicationWindow {
             resArr[category_name].sort(compareBy21thColumn);
 
         }
-
         return resArr;
     }
 
