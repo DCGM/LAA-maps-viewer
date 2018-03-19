@@ -483,7 +483,7 @@ ApplicationWindow {
                         }
 
                     } catch (e) {
-                        console.log("ERR getContestants: parse failed" + e)
+                        console.log("ERR getContestants: parse failed" + e + " " + http.responseText)
                     }
                 }
                 // Connection error
