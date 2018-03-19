@@ -1391,14 +1391,6 @@ ApplicationWindow {
                 }
             }
 
-            ContinuousResultsView {
-
-                id: continuousResultsView
-                width: parent.width
-                height: applicationWindow.height/2
-//                visible: mainViewMenuContinuousResults.checked && !resultsDetailComponent.visible
-                visible: false;
-            }
         }
         ///// Map
         Rectangle {
@@ -1705,40 +1697,27 @@ ApplicationWindow {
                 NativeText {text: qsTrId("html-results-competition-date") + ": " +  pathConfiguration.competitionDate}
             }
 
-//            ListModel {
-//                id:statusBarCategoryCountersModel
-//                ListElement { name: "R-AL1" }
-//                ListElement { name: "R-AL2" }
-//            }
+            ListModel {
+                id:statusBarCategoryCountersModel
+            }
 
-//            Row {
-
-//                Repeater {
-//                    model:  statusBarCategoryCountersModel;
-//                    NativeText {
-//                        text: name
-//                    }
-//                }
-//            }
 
             Row {
                 id: statusBarCategoryCounters
                 visible: mainViewMenuCategoryCountersStatusBar.checked;
+                spacing: 20
 
-                property int columns: 12
+                Repeater {
+                    model:  statusBarCategoryCountersModel;
+                    height: 30
+                    anchors.fill: parent;
+                    NativeText {
+                        text: name + ": " + number_of_contestants
+                        color:
+                            (number_of_contestants < applicationWindow.minContestantInCategory && number_of_contestants > 0) ? "red" : "black"
+                    }
+                }
 
-                NativeText { width: applicationWindow.width/statusBarCategoryCounters.columns; text: 'R-AL1: ' +  continuousResultsView.listModelRal1.count; color: continuousResultsView.listModelRal1.count < applicationWindow.minContestantInCategory && continuousResultsView.listModelRal1.count > 0 ? "red" : "black" }
-                NativeText { width: applicationWindow.width/statusBarCategoryCounters.columns; text: 'R-AL2: ' +  continuousResultsView.listModelRal2.count; color: continuousResultsView.listModelRal2.count < applicationWindow.minContestantInCategory && continuousResultsView.listModelRal2.count > 0 ? "red" : "black" }
-                NativeText { width: applicationWindow.width/statusBarCategoryCounters.columns; text: 'S-AL1: ' +  continuousResultsView.listModelSal1.count; color: continuousResultsView.listModelSal1.count < applicationWindow.minContestantInCategory && continuousResultsView.listModelSal1.count > 0 ? "red" : "black" }
-                NativeText { width: applicationWindow.width/statusBarCategoryCounters.columns; text: 'S-AL2: ' +  continuousResultsView.listModelSal2.count; color: continuousResultsView.listModelSal2.count < applicationWindow.minContestantInCategory && continuousResultsView.listModelSal2.count > 0 ? "red" : "black" }
-                NativeText { width: applicationWindow.width/statusBarCategoryCounters.columns; text: 'R-WL1: ' +  continuousResultsView.listModelRwl1.count; color: continuousResultsView.listModelRwl1.count < applicationWindow.minContestantInCategory && continuousResultsView.listModelRwl1.count > 0 ? "red" : "black" }
-                NativeText { width: applicationWindow.width/statusBarCategoryCounters.columns; text: 'R-WL2: ' +  continuousResultsView.listModelRwl2.count; color: continuousResultsView.listModelRwl2.count < applicationWindow.minContestantInCategory && continuousResultsView.listModelRwl2.count > 0 ? "red" : "black" }
-                NativeText { width: applicationWindow.width/statusBarCategoryCounters.columns; text: 'S-WL1: ' +  continuousResultsView.listModelSwl1.count; color: continuousResultsView.listModelSwl1.count < applicationWindow.minContestantInCategory && continuousResultsView.listModelSwl1.count > 0 ? "red" : "black" }
-                NativeText { width: applicationWindow.width/statusBarCategoryCounters.columns; text: 'S-WL2: ' +  continuousResultsView.listModelSwl2.count; color: continuousResultsView.listModelSwl2.count < applicationWindow.minContestantInCategory && continuousResultsView.listModelSwl2.count > 0 ? "red" : "black" }
-                NativeText { width: applicationWindow.width/statusBarCategoryCounters.columns; text: 'CUSTOM1: ' +  continuousResultsView.listModelCustom1.count; color: continuousResultsView.listModelCustom1.count < applicationWindow.minContestantInCategory && continuousResultsView.listModelCustom1.count > 0 ? "red" : "black" }
-                NativeText { width: applicationWindow.width/statusBarCategoryCounters.columns; text: 'CUSTOM2: ' +  continuousResultsView.listModelCustom2.count; color: continuousResultsView.listModelCustom2.count < applicationWindow.minContestantInCategory && continuousResultsView.listModelCustom2.count > 0 ? "red" : "black" }
-                NativeText { width: applicationWindow.width/statusBarCategoryCounters.columns; text: 'CUSTOM3: ' +  continuousResultsView.listModelCustom3.count; color: continuousResultsView.listModelCustom3.count < applicationWindow.minContestantInCategory && continuousResultsView.listModelCustom3.count > 0 ? "red" : "black" }
-                NativeText { width: applicationWindow.width/statusBarCategoryCounters.columns; text: 'CUSTOM4: ' +  continuousResultsView.listModelCustom4.count; color: continuousResultsView.listModelCustom4.count < applicationWindow.minContestantInCategory && continuousResultsView.listModelCustom4.count > 0 ? "red" : "black" }
             }
         }
     }
@@ -2379,15 +2358,21 @@ ApplicationWindow {
 
         var reStringArr = [];
 
+        statusBarCategoryCountersModel.clear();
         // add Category names first
         for (var key in res) {
             reStringArr.push(key);
+            var number_of_contestants_val = res[key].length;
+            if (number_of_contestants_val > 0) {
+                statusBarCategoryCountersModel.append({name: key, number_of_contestants: number_of_contestants_val})
+            }
         }
 
         // add data as stringlist
         for (var key in res) {
             reStringArr.push(JSON.stringify(res[key]));
         }
+
 
         // HTML
         results_creator.createContinuousResultsHTML(pathConfiguration.resultsFolder + "/" + pathConfiguration.competitionName + "_" + resultsFilename,
@@ -2406,7 +2391,6 @@ ApplicationWindow {
         // CSV and local listmodels
         var catArray = [];
         var item;
-        continuousResultsView.initLists();
 
 //        console.log("generateContinuousResults: " + JSON.stringify(res))
 
@@ -2422,9 +2406,6 @@ ApplicationWindow {
             for (var i = 0; i < catArray.length; i++) {
 
                 item = catArray[i];
-
-                // add data into local list
-                continuousResultsView.appendToList(item[1], item);
 
                 csvString += "\"" + i + "\";"
 
@@ -2726,20 +2707,13 @@ ApplicationWindow {
     function recalculateScoresTo1000() {
 
         var i, item;
-        maxPointsArr = {
-            "R-AL1": 1,
-            "R-AL2": 1,
-            "S-AL1": 1,
-            "S-AL2": 1,
-            "R-WL1": 1,
-            "R-WL2": 1,
-            "S-WL1": 1,
-            "S-WL2": 1,
-            "CUSTOM1": 1,
-            "CUSTOM2": 1,
-            "CUSTOM3": 1,
-            "CUSTOM4": 1
-        };
+        maxPointsArr = {};
+
+        var trtr = tracks.tracks
+        for (var i = 0; i < trtr.length; i++) {
+            var category_name = trtr[i].name;
+            maxPointsArr[category_name] = 1;
+        }
 
         for (i = 0; i < contestantsListModel.count; i++) {
             item = contestantsListModel.get(i)
@@ -2776,20 +2750,14 @@ ApplicationWindow {
 
     function initScorePointsArrray () {
 
-        categoriesScorePoints = {
-            "R-AL1": [],
-            "S-AL1": [],
-            "R-AL2": [],
-            "S-AL2": [],
-            "R-WL1": [],
-            "S-WL1": [],
-            "R-WL2": [],
-            "S-WL2": [],
-            "CUSTOM1": [],
-            "CUSTOM2": [],
-            "CUSTOM3": [],
-            "CUSTOM4": []
+        categoriesScorePoints = {};
+
+        var trtr = tracks.tracks
+        for (var i = 0; i < trtr.length; i++) {
+            var category_name = trtr[i].name;
+            categoriesScorePoints[category_name] = [];
         }
+
     }
 
     function recalculateContestantsScoreOrder () {
