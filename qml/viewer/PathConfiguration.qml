@@ -10,8 +10,8 @@ ApplicationWindow {
     id: pathConfiguration
     width: 700;
     height: 500;
-    minimumHeight: 500
-    minimumWidth: 700
+    minimumHeight: 550
+    minimumWidth: 750
     modality: "WindowModal"
     //% "Configuration"
     title: qsTrId("path-configuration-dialog-title")
@@ -775,9 +775,6 @@ ApplicationWindow {
 
                 RowLayout {
                     spacing: 10;
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    anchors.bottom: parent.bottom
                     Spacer {}
 
                     Item {
