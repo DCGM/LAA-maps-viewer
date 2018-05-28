@@ -224,7 +224,8 @@ Rectangle {
             property string value: '00:00:00' // in CEST
             // FIXME validator
             // FIXME UTC vs. CEST
-            text: F.addTimeStrFormat(F.addUtcToTime(F.timeToUnix(value), applicationWindow.utc_offset_sec))
+            text: F.addTimeStrFormat(F.subUtcFromTime(F.timeToUnix(value), applicationWindow.utc_offset_sec));
+
             Layout.minimumWidth: 50
         }
         NativeText {
