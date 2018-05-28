@@ -1,7 +1,7 @@
-import QtQuick 2.5
+import QtQuick 2.9
 import QtQuick.Controls 1.4
 import QtQuick.Dialogs 1.2
-import QtQuick.Layouts 1.1
+import QtQuick.Layouts 1.3
 import QtQuick.Controls.Styles 1.4
 import QtCharts 2.0
 
@@ -11,14 +11,8 @@ Rectangle {
 
     id: resultsMainWindow
 
+    property int crew_id;
     property variant curentContestant;
-
-    property string pilotName;
-    property string copilotName;
-    property string category;
-    property string speed;
-    property string startTime;
-
     property int totalPointsScore: -1;
 
     signal ok();
@@ -53,25 +47,10 @@ Rectangle {
         recalculateAltSpaceSecPoints();
     }
 
-    ListModel {
-
-        id: currentWptScoreList
-    }
-
-    ListModel {
-
-        id: currentSpeedSectionsScoreList
-    }
-
-    ListModel {
-
-        id: currentAltitudeSectionsScoreList
-    }
-
-    ListModel {
-
-        id: currentSpaceSectionsScoreList
-    }
+    ListModel { id: currentWptScoreList }
+    ListModel { id: currentSpeedSectionsScoreList }
+    ListModel { id: currentAltitudeSectionsScoreList }
+    ListModel { id: currentSpaceSectionsScoreList }
 
     Component.onCompleted: {
         curentContestant = createBlankUserObject();
@@ -124,43 +103,41 @@ Rectangle {
 
         if (visible) {
 
+            resultsHeader.resultsHeaderUpdateFromCurrentContestant();
+
+            var i = 0;
+
             currentWptScoreList.clear();
-            if (curentContestant.wptScoreDetails != "") {
+            if (curentContestant.wptScoreDetails !== "") {
                 var arr = curentContestant.wptScoreDetails.split("; ")
-                for (var i = 0; i < arr.length; i++) {
+                for (i = 0; i < arr.length; i++) {
                     currentWptScoreList.append(JSON.parse(arr[i]))
                 }
             }
 
             currentSpaceSectionsScoreList.clear();
-            if (curentContestant.spaceSectionsScoreDetails != "") {
+            if (curentContestant.spaceSectionsScoreDetails !== "") {
                 arr = curentContestant.spaceSectionsScoreDetails.split("; ")
-                for (var i = 0; i < arr.length; i++) {
+                for (i = 0; i < arr.length; i++) {
                     currentSpaceSectionsScoreList.append(JSON.parse(arr[i]))
                 }
             }
 
             currentAltitudeSectionsScoreList.clear();
-            if (curentContestant.altitudeSectionsScoreDetails != "") {
+            if (curentContestant.altitudeSectionsScoreDetails !== "") {
                 arr = curentContestant.altitudeSectionsScoreDetails.split("; ")
-                for (var i = 0; i < arr.length; i++) {
+                for (i = 0; i < arr.length; i++) {
                     currentAltitudeSectionsScoreList.append(JSON.parse(arr[i]))
                 }
             }
 
             currentSpeedSectionsScoreList.clear();
-            if (curentContestant.speedSectionsScoreDetails != "") {
+            if (curentContestant.speedSectionsScoreDetails !== "") {
                 arr = curentContestant.speedSectionsScoreDetails.split("; ")
-                for (var i = 0; i < arr.length; i++) {
+                for (i = 0; i < arr.length; i++) {
                     currentSpeedSectionsScoreList.append(JSON.parse(arr[i]))
                 }
             }
-
-            pilotName = (curentContestant.name).split(' – ')[0];
-            copilotName = (curentContestant.name).split(' – ')[1] === undefined ? "" : (curentContestant.name).split(' – ')[1];
-            category = curentContestant.category;
-            speed = curentContestant.speed;
-            startTime = curentContestant.startTime;
 
             // get tab status
             var previousActive = tabView.getActive();
@@ -230,27 +207,70 @@ Rectangle {
         spacing: 30
 
         NativeText {
-            text: curentContestant.name
+            id: resultsHeaderPilotName
             font.bold : true
         }
         NativeText {
-            text: curentContestant.category
+            id: resultsHeaderCoPilotName
+            font.bold : true
+        }
+        NativeText {
+            property int value: 0
+            id: resultsHeaderCategory
             Layout.minimumWidth: 50
         }
         NativeText {
-            text: F.addTimeStrFormat(F.addUtcToTime(F.timeToUnix(curentContestant.startTime), applicationWindow.utc_offset_sec))
+            id: resultsHeaderStartTime
+            property string value: '00:00:00' // in CEST
+            // FIXME validator
+            // FIXME UTC vs. CEST
+            text: F.addTimeStrFormat(F.addUtcToTime(F.timeToUnix(value), applicationWindow.utc_offset_sec))
             Layout.minimumWidth: 50
         }
         NativeText {
-            text: curentContestant.speed + " km/h"
+            id: resultsHeaderSpeed
+            property string value: '0';
+            text: value + " km/h"
             Layout.minimumWidth: 50
         }
         NativeText {
-            text: curentContestant.aircraft_registration
+            id: resultsHeaderAircraftRegistration
         }
         NativeText {
-            text: curentContestant.aircraft_type
+            id: resultsHeaderAircraftType
         }
+        NativeText {
+            id: resultsHeaderClassify
+            property int value: 0;
+            text: translateClassify(value);
+
+            function translateClassify(value) {
+                for (var i = 0; i < scoreListClassifyListModel.count; i++) {
+                    var item = scoreListClassifyListModel.get(i)
+                    return item.classify;
+                }
+
+                return '';
+            }
+
+        }
+
+
+        function resultsHeaderUpdateFromCurrentContestant() {
+            resultsHeaderPilotName.text = (curentContestant.name).split(' – ')[0];
+            resultsHeaderCoPilotName.text = (curentContestant.name).split(' – ')[1] === undefined ? "" : (curentContestant.name).split(' – ')[1];
+            resultsHeaderCategory.text = curentContestant.category;
+            resultsHeaderStartTime.value = curentContestant.startTime;
+            resultsHeaderSpeed.value = curentContestant.speed;
+            resultsHeaderAircraftRegistration.text = curentContestant.aircraft_registration;
+            resultsHeaderAircraftType.text = curentContestant.aircraft_type;
+            resultsHeaderClassify.value = curentContestant.classify;
+        }
+
+        Component.onCompleted: {
+            resultsHeaderUpdateFromCurrentContestant();
+        }
+
     }
 
     TabView {
@@ -266,6 +286,10 @@ Rectangle {
         property alias scrollView: manualValuesTab.item
 
         function getActive() {
+            if (crewDetailTab.visible) {
+                return "crewDetail";
+            }
+
             if (manualValuesTab.visible) {
                 return "manVals";
             }
@@ -294,6 +318,9 @@ Rectangle {
             altSecValuesTab.visible = false;
             spaceSecValuesTab.visible = false;
             switch (name) {
+            case "crewDetail":
+                crewDetailTab.visible = true;
+                break;
             case "manVals":
                 manualValuesTab.visible = true;
                 break;
@@ -315,6 +342,59 @@ Rectangle {
             default:
                 break;
             }
+        }
+
+        Tab {
+            id: crewDetailTab
+
+            //% "Crew detail"
+            title: qsTrId("create-contestant-tab-title")
+
+            CreateContestantTab {
+                id: createContestantGrid
+
+                anchors.fill: parent;
+
+                pilotName: resultsHeaderPilotName.text
+                copilotName: resultsHeaderCoPilotName.text
+                category: resultsHeaderCategory.value
+                speed: resultsHeaderSpeed.value;
+                startTime: resultsHeaderStartTime.value;
+                registration: resultsHeaderAircraftRegistration.text
+                planeType: resultsHeaderAircraftType.text;
+                classify: resultsHeaderClassify.value;
+
+                onPilotNameChanged: {
+                    resultsHeaderPilotName.text = pilotName
+                }
+                onCopilotNameChanged: {
+                    resultsHeaderCoPilotName.text = copilotName
+                }
+                onCategoryChanged: {
+                    resultsHeaderCategory.text = category;
+                }
+
+                onSpeedChanged: {
+                    resultsHeaderSpeed.value = speed;
+                }
+                onStartTimeChanged: {
+                    resultsHeaderStartTime.value = startTime;
+                }
+                onRegistrationChanged: {
+                    resultsHeaderAircraftRegistration.text = registration;
+                }
+                onPlaneTypeChanged: {
+                    resultsHeaderAircraftType.text = planeType;
+                }
+                onClassifyChanged: {
+                    resultsHeaderClassify.value = classify;
+                }
+
+
+            }
+
+
+
         }
 
         Tab {
@@ -1395,12 +1475,12 @@ Rectangle {
                 model = curentContestant;
 
                 penaltySum = 0;
-                penaltySum += summaryTab.model.startTimeScore != -1 ? summaryTab.model.startTimeScore : 0;
-                //penaltySum += summaryTab.model.circlingScore != -1 ? summaryTab.model.circlingScore : 0;
-                penaltySum += summaryTab.model.oppositeScore != -1 ? summaryTab.model.oppositeScore : 0;
-                penaltySum += summaryTab.model.otherPenalty != -1 ? summaryTab.model.otherPenalty : 0;
-                penaltySum += summaryTab.model.spaceSecScoreSum != -1 ? summaryTab.model.spaceSecScoreSum : 0;
-                penaltySum += summaryTab.model.altSecScoreSum != -1 ? summaryTab.model.altSecScoreSum : 0;
+                penaltySum += summaryTab.model.startTimeScore !== -1 ? summaryTab.model.startTimeScore : 0;
+                //penaltySum += summaryTab.model.circlingScore !== -1 ? summaryTab.model.circlingScore : 0;
+                penaltySum += summaryTab.model.oppositeScore !== -1 ? summaryTab.model.oppositeScore : 0;
+                penaltySum += summaryTab.model.otherPenalty !== -1 ? summaryTab.model.otherPenalty : 0;
+                penaltySum += summaryTab.model.spaceSecScoreSum !== -1 ? summaryTab.model.spaceSecScoreSum : 0;
+                penaltySum += summaryTab.model.altSecScoreSum !== -1 ? summaryTab.model.altSecScoreSum : 0;
             }
 
             Component.onCompleted: {
@@ -1422,10 +1502,10 @@ Rectangle {
 
                     theme: ChartView.ChartThemeBlueNcs
                     antialiasing: true
-                    legend.visible: false
                     Layout.fillHeight: true
                     Layout.fillWidth: true;
                     animationOptions: ChartView.SeriesAnimations
+                    legend.visible: false;
 
                     //% "Points"
                     title: qsTrId("points-chart-title")
@@ -1438,8 +1518,10 @@ Rectangle {
 
                         property double armLengthFactor: 0.4
 
+
                         MPieSlice { mVal: getMarkersScore(summaryTab.model.markersOk, 0, 0, summaryTab.model.marker_max_score); mLabelShortcut: qmlTranslator.myTranslate("html-results-ctnt-markersOk-shortcut"); mLabelDetail: String(summaryTab.model.markersOk) + " x " + String(summaryTab.model.marker_max_score) + qmlTranslator.myTranslate("html-points-shortcut"); }
                         MPieSlice { mVal: getPhotosScore(summaryTab.model.photosOk, 0, 0, summaryTab.model.photos_max_score); mLabelShortcut: qmlTranslator.myTranslate("html-results-ctnt-photosOk-shortcut"); mLabelDetail: String(summaryTab.model.photosOk) + " x " + String(summaryTab.model.photos_max_score) + qmlTranslator.myTranslate("html-points-shortcut"); }
+                        MPieSlice { mVal: (summaryTab.model.landingScore); mLabelShortcut: qmlTranslator.myTranslate("html-results-ctnt-landing-shortcut"); mLabelDetail: String(summaryTab.model.landingScore) + " " + qmlTranslator.myTranslate("html-results-landing-accurancy");}
                         MPieSlice { mAbs: true; mVal: summaryTab.model.otherPoints; mLabelShortcut: qmlTranslator.myTranslate("html-results-ctnt-otherPoints-shortcut"); }
                         MPieSlice { mAbs: true; mVal: summaryTab.model.tgScoreSum +
                                                    summaryTab.model.tpScoreSum +
@@ -1468,10 +1550,10 @@ Rectangle {
                     id: chartViewNegative
                     theme: ChartView.ChartThemeBlueNcs
                     antialiasing: true
-                    legend.visible: false
                     Layout.fillHeight: true
                     Layout.preferredWidth: summaryTab.penaltySum !== 0 ? parent.width/2 : 0;
                     animationOptions: ChartView.SeriesAnimations
+                    legend.visible: false;
 
                     //% "Penalty"
                     title: qsTrId("penalty-chart-title")
@@ -1516,6 +1598,98 @@ Rectangle {
     }
 
 
+
+    function updateResultsData() {
+
+
+        // get tab status
+        var previousActive = tabView.getActive();
+        var tabPrevActived = (previousActive  === "manVals");
+
+        curentContestant.name = (resultsHeaderCoPilotName.text === "") ? resultsHeaderPilotName.text : resultsHeaderPilotName.text + ' – ' + resultsHeaderCoPilotName.text;
+        curentContestant.category = resultsHeaderCategory.text;
+        curentContestant.speed = parseInt("0"+resultsHeaderSpeed.value, 10)
+        curentContestant.startTime = resultsHeaderStartTime.text;
+        curentContestant.aircraft_registration = resultsHeaderAircraftRegistration.text;
+        curentContestant.aircraft_type = resultsHeaderAircraftType.text;
+        curentContestant.classify = resultsHeaderClassify.value;
+
+        // set tab active
+        if (!tabPrevActived) tabView.activateTabByName("manVals");
+
+        curentContestant.landingScore = parseInt(tabView.scrollView.landingScoreText) || 0;
+
+        curentContestant.markersOk = tabView.scrollView.markersOkValue;
+        curentContestant.markersNok = tabView.scrollView.markersNokValue;
+        curentContestant.markersFalse = tabView.scrollView.markersFalseValue;
+        curentContestant.markersScore = getMarkersScore(curentContestant.markersOk, curentContestant.markersNok, curentContestant.markersFalse, curentContestant.marker_max_score);
+
+        curentContestant.photosOk = tabView.scrollView.photosOkValue;
+        curentContestant.photosNok = tabView.scrollView.photosNokValue;
+        curentContestant.photosFalse = tabView.scrollView.photosFalseValue;
+        curentContestant.photosScore = getPhotosScore(curentContestant.photosOk, curentContestant.photosNok, curentContestant.photosFalse, curentContestant.photos_max_score);
+
+        curentContestant.otherPoints = parseInt(tabView.scrollView.otherPointsText) || 0;
+        curentContestant.otherPenalty = parseInt(tabView.scrollView.otherPenaltyText) || 0;
+
+        curentContestant.pointNote = tabView.scrollView.pointNoteText;
+
+        //curentContestant.circlingCount = tabView.scrollView.circlingCountValue;
+
+        curentContestant.oppositeCount = tabView.scrollView.oppositeCountValue;
+
+        var res = getScorePointsSum(curentContestant)
+        curentContestant.tgScoreSum = res.tgScoreSum;
+        curentContestant.sgScoreSum = res.sgScoreSum;
+        curentContestant.tpScoreSum = res.tpScoreSum;
+        curentContestant.altLimitsScoreSum = res.altLimitsScoreSum;
+        curentContestant.speedSecScoreSum = res.speedSecScoreSum;
+        resultsMainWindow.totalPointsScore = res.sum;
+
+        // validate and save start time
+        var str = tabView.scrollView.startTimeText;
+        if (str === "") {
+
+            curentContestant.startTimeMeasured = "";//curentContestant.startTime;
+            curentContestant.startTimeDifference = "";//F.addTimeStrFormat(0);
+            curentContestant.startTimeScore = 0;
+        }
+        else {
+
+            var sec = F.strTimeValidator(str) >= 0 ? F.strTimeValidator(str) : F.strTimeValidator(tabView.scrollView.startTimeTextField.prevVal);
+            var time;
+            if (sec >= 0) {
+
+                time = F.addTimeStrFormat(F.subUtcFromTime(sec, applicationWindow.utc_offset_sec));
+
+                curentContestant.startTimeMeasured = time;
+                var refVal = F.timeToUnix(curentContestant.startTime);
+                var diff = Math.abs(refVal - (F.subUtcFromTime(sec, applicationWindow.utc_offset_sec)));
+                curentContestant.startTimeDifference = F.addTimeStrFormat(diff);
+
+                // add penalty
+                if (diff > curentContestant.time_window_size) {
+                    curentContestant.startTimeScore = getTakeOffScore(tabView.scrollView.startTimeDifferenceText, curentContestant.time_window_size, curentContestant.time_window_penalty, totalPointsScore);
+                } else {
+                    curentContestant.startTimeScore = 0;
+                }
+            } else {
+
+                curentContestant.startTimeMeasured = "";
+                curentContestant.startTimeDifference = "";
+                curentContestant.startTimeScore = 0;
+            }
+        }
+
+        curentContestant.startTimeScore = getTakeOffScore(tabView.scrollView.startTimeDifferenceText, curentContestant.time_window_size, curentContestant.time_window_penalty, totalPointsScore);
+        //curentContestant.circlingScore = getGyreScore(tabView.scrollView.circlingCountValue, curentContestant.gyre_penalty, totalPointsScore);
+        curentContestant.oppositeScore = getOppositeDirScore(tabView.scrollView.oppositeCountValue, curentContestant.oposite_direction_penalty, totalPointsScore);
+
+        // recover tab status
+        if (!tabPrevActived) tabView.activateTabByName(previousActive);
+
+    }
+
     /// Action Buttons
 
     Row {
@@ -1529,7 +1703,7 @@ Rectangle {
             //% "Ok & show"
             text: qsTrId("path-configuration-ok-show-button")
             onClicked: {
-
+                updateResultsData();
                 // close window, confirm changes and show results
                 okAndView();
                 resultsMainWindow.visible = false;
@@ -1542,84 +1716,7 @@ Rectangle {
             focus: true;
             isDefault: true;
             onClicked: {
-
-                // get tab status
-                var previousActive = tabView.getActive();
-                var tabPrevActived = (previousActive  === "manVals");
-
-                // set tab active
-                if (!tabPrevActived) tabView.activateTabByName("manVals");
-
-                curentContestant.landingScore = parseInt(tabView.scrollView.landingScoreText) || 0;
-
-                curentContestant.markersOk = tabView.scrollView.markersOkValue;
-                curentContestant.markersNok = tabView.scrollView.markersNokValue;
-                curentContestant.markersFalse = tabView.scrollView.markersFalseValue;
-                curentContestant.markersScore = getMarkersScore(curentContestant.markersOk, curentContestant.markersNok, curentContestant.markersFalse, curentContestant.marker_max_score);
-
-                curentContestant.photosOk = tabView.scrollView.photosOkValue;
-                curentContestant.photosNok = tabView.scrollView.photosNokValue;
-                curentContestant.photosFalse = tabView.scrollView.photosFalseValue;
-                curentContestant.photosScore = getPhotosScore(curentContestant.photosOk, curentContestant.photosNok, curentContestant.photosFalse, curentContestant.photos_max_score);
-
-                curentContestant.otherPoints = parseInt(tabView.scrollView.otherPointsText) || 0;
-                curentContestant.otherPenalty = parseInt(tabView.scrollView.otherPenaltyText) || 0;
-
-                curentContestant.pointNote = tabView.scrollView.pointNoteText;
-
-                //curentContestant.circlingCount = tabView.scrollView.circlingCountValue;
-
-                curentContestant.oppositeCount = tabView.scrollView.oppositeCountValue;
-
-                var res = getScorePointsSum(curentContestant)
-                curentContestant.tgScoreSum = res.tgScoreSum;
-                curentContestant.sgScoreSum = res.sgScoreSum;
-                curentContestant.tpScoreSum = res.tpScoreSum;
-                curentContestant.altLimitsScoreSum = res.altLimitsScoreSum;
-                curentContestant.speedSecScoreSum = res.speedSecScoreSum;
-                resultsMainWindow.totalPointsScore = res.sum;
-
-                // validate and save start time
-                var str = tabView.scrollView.startTimeText;
-                if (str === "") {
-
-                    curentContestant.startTimeMeasured = "";//curentContestant.startTime;
-                    curentContestant.startTimeDifference = "";//F.addTimeStrFormat(0);
-                    curentContestant.startTimeScore = 0;
-                }
-                else {
-
-                    var sec = F.strTimeValidator(str) >= 0 ? F.strTimeValidator(str) : F.strTimeValidator(tabView.scrollView.startTimeTextField.prevVal);
-                    var time;
-                    if (sec >= 0) {
-
-                        time = F.addTimeStrFormat(F.subUtcFromTime(sec, applicationWindow.utc_offset_sec));
-
-                        curentContestant.startTimeMeasured = time;
-                        var refVal = F.timeToUnix(curentContestant.startTime);
-                        var diff = Math.abs(refVal - (F.subUtcFromTime(sec, applicationWindow.utc_offset_sec)));
-                        curentContestant.startTimeDifference = F.addTimeStrFormat(diff);
-
-                        // add penalty
-                        if (diff > curentContestant.time_window_size)
-                            curentContestant.startTimeScore = getTakeOffScore(tabView.scrollView.startTimeDifferenceText, curentContestant.time_window_size, curentContestant.time_window_penalty, totalPointsScore);
-                        else
-                            curentContestant.startTimeScore = 0;
-                    }
-                    else {
-
-                        curentContestant.startTimeMeasured = "";
-                        curentContestant.startTimeDifference = "";
-                        curentContestant.startTimeScore = 0;
-                    }
-                }
-
-                curentContestant.startTimeScore = getTakeOffScore(tabView.scrollView.startTimeDifferenceText, curentContestant.time_window_size, curentContestant.time_window_penalty, totalPointsScore);
-                //curentContestant.circlingScore = getGyreScore(tabView.scrollView.circlingCountValue, curentContestant.gyre_penalty, totalPointsScore);
-                curentContestant.oppositeScore = getOppositeDirScore(tabView.scrollView.oppositeCountValue, curentContestant.oposite_direction_penalty, totalPointsScore);
-
-                // recover tab status
-                if (!tabPrevActived) tabView.activateTabByName(previousActive)
+                updateResultsData();
 
                 // close window and confirm changes
                 ok();

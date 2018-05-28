@@ -1,7 +1,7 @@
-import QtQuick 2.5
+import QtQuick 2.9
 import QtQuick.Controls 1.4
 import QtQuick.Dialogs 1.2
-import QtQuick.Layouts 1.1
+import QtQuick.Layouts 1.3
 import "functions.js" as F
 import "md5.js" as MD5
 
@@ -52,7 +52,7 @@ ApplicationWindow {
 
     property string competitionName: "";
     property string competitionType: "0";
-    property string competitionTypeText: getCompetitionTypeString(parseInt(pathConfiguration.competitionType));
+    property string competitionTypeText: getCompetitionTypeString(parseInt(pathConfiguration.competitionType, 10));
     property string competitionDirector: "";
     property string competitionDirectorAvatar: "";
     property variant competitionArbitr: [""];

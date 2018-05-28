@@ -1,4 +1,4 @@
-import QtQuick 2.5
+import QtQuick 2.9
 import QtQuick.Controls 1.4
 import "functions.js" as F
 
@@ -64,6 +64,7 @@ Item {
         Connections {
             target: loaderEditor.item
             onNewValue: {
+                var num =0;
 
                 switch (styleData.role) {
 
@@ -84,7 +85,7 @@ Item {
 
                     case "alt_manual":
 
-                        var num = parseFloat(value);
+                        num = parseFloat(value);
                         if (isNaN(num)) {
                             changeModel(styleData.row, styleData.role, -1)
                         } else {
@@ -111,7 +112,7 @@ Item {
 
                     case "manualSpeed":
 
-                        var num = parseInt(value);
+                        num = parseInt(value);
                         if (isNaN(num)) {
                             changeModel(styleData.row, styleData.role, -1)
                         } else {
@@ -121,7 +122,7 @@ Item {
                         break;
 
                     case "manualAltMinEntriesCount":
-                        var num = parseInt(value);
+                        num = parseInt(value);
                         if (isNaN(num)) {
                             changeModel(styleData.row, styleData.role, -1)
                             changeModel(styleData.row, "manualAltMinEntriesTime", -1)
@@ -134,7 +135,7 @@ Item {
 
                     case "manualAltMaxEntriesCount":
 
-                        var num = parseInt(value);
+                        num = parseInt(value);
                         if (isNaN(num)) {
                             changeModel(styleData.row, styleData.role, -1)
                             changeModel(styleData.row, "manualAltMaxEntriesTime", -1)
@@ -147,7 +148,7 @@ Item {
 
                     case "manualEntries_out":
 
-                        var num = parseInt(value);
+                        num = parseInt(value);
                         if (isNaN(num)) {
                             changeModel(styleData.row, styleData.role, -1)
                             changeModel(styleData.row, "manualTime_spent_out", -1)
@@ -341,7 +342,7 @@ Item {
             case "tp_score":
             case "sg_score":
             case "alt_score":
-                show = show == -1 ? "" : show;
+                show = show === -1 ? "" : show;
                 break;
 
             case "type":

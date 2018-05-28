@@ -1,4 +1,4 @@
-import QtQuick 2.5
+import QtQuick 2.9
 import "functions.js" as F
 import QtQuick.Controls 1.4
 
@@ -32,13 +32,14 @@ Item {
                   styleData.role === "category" ||
                   styleData.role === "classify" ||
                   styleData.role === "aircraftRegistration" ||
+                  styleData.role === "scorePoints" ||
                   (styleData.role === "scorePoints1000" && styleData.value !== -1) ||
                   (styleData.role === "classOrder" && styleData.value !== -1))
 
         MouseArea {
             id: mMouseArea
             anchors.fill: parent
-            visible: styleData.role === "name"
+            visible: parent.visible;
             acceptedButtons: Qt.LeftButton | Qt.RightButton
 
             Timer{
@@ -91,7 +92,6 @@ Item {
             target: loaderCombobox.item
 
             onCategorySelected: {
-
                 changeModel(styleData.row, styleData.role, newVal)
             }
 
@@ -119,9 +119,7 @@ Item {
 
                 model: scoreListClassifyListModel
                 textRole: "classify"
-                currentIndex: styleData.value === -1 ? 0 : styleData.value
-
-                enabled: styleData.value !== -1
+                currentIndex: styleData.value === -1 ? 0 : styleData.value // FIXME (nejak to nefunguje)
 
                 onCurrentIndexChanged: {
                     classifyChanged(currentIndex);
@@ -197,61 +195,61 @@ Item {
 
     }
 
-    Loader { // Initialize text editor lazily to improve performance
-        id: loaderButton
-        //            anchors.fill: parent
-        anchors.left: parent.left
-        anchors.verticalCenter: parent.verticalCenter
+//    Loader { // Initialize text editor lazily to improve performance
+//        id: loaderButton
+//        //            anchors.fill: parent
+//        anchors.left: parent.left
+//        anchors.verticalCenter: parent.verticalCenter
 
-        anchors.margins: 4
-        Connections {
-            target: loaderButton.item
+//        anchors.margins: 4
+//        Connections {
+//            target: loaderButton.item
 
-            onButtonPressed: {
+//            onButtonPressed: {
 
-                showResults(row);
-            }
+//                showResults(row);
+//            }
 
-            onRightButtonPressed: {
+//            onRightButtonPressed: {
 
-                if (applicationWindow.debug) {
-                    recalculateScoreMenu.selectedRow = row;
-                    recalculateScoreMenu.popup();
-                }
-            }
-        }
+//                if (applicationWindow.debug) {
+//                    recalculateScoreMenu.selectedRow = row;
+//                    recalculateScoreMenu.popup();
+//                }
+//            }
+//        }
 
-        sourceComponent: styleData.role === "scorePoints"? contestantButton : null;
+//        sourceComponent: styleData.role === "scorePoints"? contestantButton : null;
 
 
-        Component {
-            id: contestantButton
-            Button {
-                width: delegate.width - 10;
-                height: delegate.height - 4;
-                text: (styleData.value < 0 ? 0 : styleData.value)
-                enabled: styleData.value >= 0
+//        Component {
+//            id: contestantButton
+//            Button {
+//                width: delegate.width - 10;
+//                height: delegate.height - 4;
+//                text: (styleData.value < 0 ? 0 : styleData.value)
+//                enabled: styleData.value >= 0
 
-                signal buttonPressed(int row);
-                signal rightButtonPressed(int row);
+//                signal buttonPressed(int row);
+//                signal rightButtonPressed(int row);
 
-                MouseArea {
+//                MouseArea {
 
-                   // id: mouse
-                    anchors.fill: parent
-                    acceptedButtons: Qt.LeftButton | Qt.RightButton
+//                   // id: mouse
+//                    anchors.fill: parent
+//                    acceptedButtons: Qt.LeftButton | Qt.RightButton
 
-                    onPressed: {
+//                    onPressed: {
 
-                        if (mouse.button === Qt.RightButton)
-                            rightButtonPressed(styleData.row); //recalculate results
-                        else
-                            buttonPressed(styleData.row);
-                    }
-                }
-            }
-        }
-    }
+//                        if (mouse.button === Qt.RightButton)
+//                            rightButtonPressed(styleData.row); //recalculate results
+//                        else
+//                            buttonPressed(styleData.row);
+//                    }
+//                }
+//            }
+//        }
+//    }
 
     //editbox
 

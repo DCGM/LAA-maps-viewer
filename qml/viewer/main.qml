@@ -1,9 +1,9 @@
-import QtQuick 2.5
-import QtQuick.Window 2.0
-import QtQuick.Layouts 1.1
+import QtQuick 2.9
+import QtQuick.Window 2.3
+import QtQuick.Layouts 1.3
 import QtQuick.Controls 1.4
 import QtQuick.Dialogs 1.2
-import Qt.labs.folderlistmodel 2.1
+import Qt.labs.folderlistmodel 2.2
 import cz.mlich 1.0
 import "functions.js" as F
 import "csv.js" as CSVJS
@@ -15,7 +15,7 @@ ApplicationWindow {
     //% "Trajectory viewer"
     title: qsTrId("application-window-title")
     width: 1280
-    height: 860
+    height: 660 // FIXME 860
 
     property bool debug: false;
 
@@ -34,12 +34,6 @@ ApplicationWindow {
 
     property int utc_offset_sec: 0
 
-    onVisibleChanged: {
-
-        if(visible) {
-            startUpMessage.open();  // clean or reload prev settings
-        }
-    }
 
     UploaderDialog {
         id: uploaderDialog
@@ -107,18 +101,7 @@ ApplicationWindow {
                 enabled: (contestantsListModel.count > 0)
                 shortcut: "Ctrl+R"
             }
-/*
-            MenuItem {
-                //% "Regenerate contestants results"
-                text: qsTrId("main-results-menu-regenerate-contestants-results");
-                onTriggered: {
 
-                    regenerateResultsFile();
-                }
-                enabled: (contestantsListModel.count > 0)
-                shortcut: "Ctrl+G"
-            }
-*/
             MenuItem {
                 //% "Export result&s"
                 text: qsTrId("main-results-menu-export-final-results");
@@ -537,22 +520,25 @@ ApplicationWindow {
         for(i = 0; i < unmodifiedContestants.count; i++) {
             item = unmodifiedContestants.get(i);
 
-            if (item.selected)
+            if (item.selected) {
                 contestantsListModel.append(item);
+            }
         }
 
         for(i = 0; i < removedContestants.count; i++) {
             item = removedContestants.get(i);
 
-            if (item.selected)
+            if (item.selected) {
                 contestantsListModel.append(item);
+            }
         }
 
         for(i = 0; i < addedContestants.count; i++) {
             item = addedContestants.get(i);
 
-            if (item.selected)
+            if (item.selected) {
                 contestantsListModel.append(item);
+            }
         }
 
         for(i = 0; i < updatedContestants.count; i++) {
@@ -585,23 +571,23 @@ ApplicationWindow {
         return 0;
     }
 
-    CreateContestantDialog {
+//    CreateContestantDialog {
 
-        id: createContestantDialog
+//        id: createContestantDialog
 
-        onOk: {
+//        onOk: {
 
-            // select new or updated contestant
-            var index = getContestantIndexByProperty(name, category, speed, planeType, planeRegistration);
+//            // select new or updated contestant
+//            var index = getContestantIndexByProperty(name, category, speed, planeType, planeRegistration);
 
-            contestantsTable.selection.clear();
-            if (contestantsListModel.count > 0) {
+//            contestantsTable.selection.clear();
+//            if (contestantsListModel.count > 0) {
 
-                contestantsTable.selection.select(index);
-                contestantsTable.currentRow = index;
-            }
-        }
-    }
+//                contestantsTable.selection.select(index);
+//                contestantsTable.currentRow = index;
+//            }
+//        }
+//    }
 
     CppWorker {
 
@@ -628,7 +614,6 @@ ApplicationWindow {
         onChoosenFilename: {
 
             contestantsListModel.changeLisModel(crow, "filename", filename);
-            contestantsListModel.changeLisModel(crow, "classify", filename === "" ? -1 : contestantsListModel.get(crow).prevResultsClassify);
 
             contestantsTable.selectRow(crow);
 
@@ -660,12 +645,18 @@ ApplicationWindow {
         property bool menuVisible: false
 
         MenuItem {
-            //% "Append contestant"
+            //% "Create crew"
             text: qsTrId("scorelist-table-menu-append-contestant")
 
             onTriggered: {
-                createContestantDialog.contestantsListModelRow = contestantsListModel.count;
-                createContestantDialog.show();
+                console.log("FIXME: new crew")
+//                createContestantDialog.contestantsListModelRow = contestantsListModel.count;
+//                createContestantDialog.show();
+                resultsDetailComponent.curentContestant = createBlankUserObject();
+                resultsDetailComponent.crew_id = -1; // new crew
+                resultsDetailComponent.visible = true;
+                // contestantsTableShowResultsDialog(-1) // row?
+
             }
         }
     }
@@ -680,9 +671,7 @@ ApplicationWindow {
         signal openFormForEdit();
 
         onOpenFormForEdit: {
-
-            createContestantDialog.contestantsListModelRow = updateContestantMenu.row;
-            createContestantDialog.show();
+            contestantsTableShowResultsDialog(updateContestantMenu.row);
         }
 
         onShowMenu: {
@@ -709,12 +698,13 @@ ApplicationWindow {
         }
 
         MenuItem {
-            //% "Append contestant"
+            //% "Create crew"
             text: qsTrId("scorelist-table-menu-append-contestant")
 
             onTriggered: {
-                createContestantDialog.contestantsListModelRow = contestantsListModel.count;
-                createContestantDialog.show();
+                console.log("FIXME: new crew")
+//                createContestantDialog.contestantsListModelRow = contestantsListModel.count;
+//                createContestantDialog.show();
             }
         }
 
@@ -785,7 +775,7 @@ ApplicationWindow {
 
                // init classify combobox for contestant
                if (parseInt(contestant.classify) === -1) {
-                    contestantsListModel.setProperty(row, "classify", contestant.filename === "" ? -1 : contestant.prevResultsClassify);
+                    contestantsListModel.setProperty(row, "classify", contestant.prevResultsClassify);
                }
 
                 if (role === "category") {
@@ -1020,67 +1010,24 @@ ApplicationWindow {
                     }
 
                     onShowContestnatEditForm: {
+                        console.log("onShowContestnatEditForm")
 
                         updateContestantMenu.openFormForEdit();
                     }
 
                     onShowResults: {
-
-
-                        // load cattegory property
-                        var currentTrck;
-                        var found = false;
-                        var arr = tracks.tracks;
-                        var ctntCategory = contestantsListModel.get(row).category
-
-                        for (var i = 0; i < arr.length; i++) {
-                            currentTrck = arr[i];
-
-                            if (currentTrck.name === ctntCategory) {
-
-                                contestantsListModel.setProperty(row, "time_window_penalty", parseInt(currentTrck.time_window_penalty));
-                                contestantsListModel.setProperty(row, "time_window_size", parseInt(currentTrck.time_window_size));
-                                contestantsListModel.setProperty(row, "photos_max_score", parseInt(currentTrck.photos_max_score));
-                                contestantsListModel.setProperty(row, "oposite_direction_penalty", parseInt(currentTrck.oposite_direction_penalty));
-                                contestantsListModel.setProperty(row, "marker_max_score", parseInt(currentTrck.marker_max_score));
-                                contestantsListModel.setProperty(row, "gyre_penalty", parseInt(currentTrck.gyre_penalty));
-                                found = true;
-                                break;
-                            }
-                        }
-
-                        if (!found) {
-                            console.log("onShowResults " + "unable to get category property for: " + ctntCategory)
-
-                            contestantsListModel.setProperty(row, "time_window_penalty", 0);
-                            contestantsListModel.setProperty(row, "time_window_size", 0);
-                            contestantsListModel.setProperty(row, "photos_max_score", 0);
-                            contestantsListModel.setProperty(row, "oposite_direction_penalty", 0);
-                            contestantsListModel.setProperty(row, "marker_max_score", 0);
-                            contestantsListModel.setProperty(row, "gyre_penalty", 0);
-                        }
-
-                        // load contestant property
-                        ctnt = contestantsListModel.get(row);
-
-                        // TODO - prasarna aby byla kopie a ne stejny objekt
-                        resultsDetailComponent.curentContestant = createBlankUserObject();
-                        resultsDetailComponent.curentContestant = JSON.parse(JSON.stringify(ctnt));
-
-                        // select row
-                        contestantsTable.selectRow(row);
-
-                        resultsDetailComponent.visible = true;
+                        contestantsTableShowResultsDialog(row);
                     }
                 }
 
 
                 rowDelegate: Rectangle {
+                    id: rowRectangle
                     height: 30;
                     color: styleData.selected ? "#0077cc" : (styleData.alternate? "#eee" : "#fff")
 
                     MouseArea {
-                        anchors.fill: parent
+                        anchors.fill: rowRectangle;
                         acceptedButtons: Qt.LeftButton | Qt.RightButton
 
                         onClicked: {
@@ -1231,47 +1178,81 @@ ApplicationWindow {
                     function saveValuesFromDialogModel() {
 
                         // copy manual values into list models
-                        var row = contestantsTable.currentRow;
+                        var row = resultsDetailComponent.crew_id;
+                        if (row != -1) { // edit crew details
 
-                        contestantsListModel.setProperty(row, "markersOk", curentContestant.markersOk);
-                        contestantsListModel.setProperty(row, "markersNok", curentContestant.markersNok);
-                        contestantsListModel.setProperty(row, "markersFalse", curentContestant.markersFalse);
-                        contestantsListModel.setProperty(row, "markersScore", curentContestant.markersScore);
-                        contestantsListModel.setProperty(row, "photosOk", curentContestant.photosOk);
-                        contestantsListModel.setProperty(row, "photosNok", curentContestant.photosNok);
-                        contestantsListModel.setProperty(row, "photosFalse", curentContestant.photosFalse);
-                        contestantsListModel.setProperty(row, "photosScore", curentContestant.photosScore);
-                        contestantsListModel.setProperty(row, "startTimeMeasured", curentContestant.startTimeMeasured);
-                        contestantsListModel.setProperty(row, "startTimeDifference", curentContestant.startTimeDifference);
-                        contestantsListModel.setProperty(row, "startTimeScore", curentContestant.startTimeScore);
-                        contestantsListModel.setProperty(row, "landingScore", curentContestant.landingScore);
-                        //contestantsListModel.setProperty(row, "circlingCount", curentContestant.circlingCount);
-                        //contestantsListModel.setProperty(row, "circlingScore", curentContestant.circlingScore);
-                        contestantsListModel.setProperty(row, "oppositeCount", curentContestant.oppositeCount);
-                        contestantsListModel.setProperty(row, "oppositeScore", curentContestant.oppositeScore);
-                        contestantsListModel.setProperty(row, "otherPoints", curentContestant.otherPoints);
-                        contestantsListModel.setProperty(row, "otherPenalty", curentContestant.otherPenalty);
-                        contestantsListModel.setProperty(row, "pointNote", curentContestant.pointNote);
+                            contestantsListModel.setProperty(row, "name", curentContestant.name);
+                            contestantsListModel.setProperty(row, "category", curentContestant.category);
+                            contestantsListModel.setProperty(row, "speed", curentContestant.speed);
+                            contestantsListModel.setProperty(row, "startTime", curentContestant.startTime) ;
+                            contestantsListModel.setProperty(row, "aircraft_registration", curentContestant.aircraft_registration);
+                            contestantsListModel.setProperty(row, "aircraft_type", curentContestant.aircraft_type);
+                            contestantsListModel.setProperty(row, "classify", curentContestant.classify);
 
-                        // reload current contestant
-                        ctnt = contestantsListModel.get(row);
+                            contestantsListModel.setProperty(row, "markersOk", curentContestant.markersOk);
+                            contestantsListModel.setProperty(row, "markersNok", curentContestant.markersNok);
+                            contestantsListModel.setProperty(row, "markersFalse", curentContestant.markersFalse);
+                            contestantsListModel.setProperty(row, "markersScore", curentContestant.markersScore);
+                            contestantsListModel.setProperty(row, "photosOk", curentContestant.photosOk);
+                            contestantsListModel.setProperty(row, "photosNok", curentContestant.photosNok);
+                            contestantsListModel.setProperty(row, "photosFalse", curentContestant.photosFalse);
+                            contestantsListModel.setProperty(row, "photosScore", curentContestant.photosScore);
+                            contestantsListModel.setProperty(row, "startTimeMeasured", curentContestant.startTimeMeasured);
+                            contestantsListModel.setProperty(row, "startTimeDifference", curentContestant.startTimeDifference);
+                            contestantsListModel.setProperty(row, "startTimeScore", curentContestant.startTimeScore);
+                            contestantsListModel.setProperty(row, "landingScore", curentContestant.landingScore);
+                            //contestantsListModel.setProperty(row, "circlingCount", curentContestant.circlingCount);
+                            //contestantsListModel.setProperty(row, "circlingScore", curentContestant.circlingScore);
+                            contestantsListModel.setProperty(row, "oppositeCount", curentContestant.oppositeCount);
+                            contestantsListModel.setProperty(row, "oppositeScore", curentContestant.oppositeScore);
+                            contestantsListModel.setProperty(row, "otherPoints", curentContestant.otherPoints);
+                            contestantsListModel.setProperty(row, "otherPenalty", curentContestant.otherPenalty);
+                            contestantsListModel.setProperty(row, "pointNote", curentContestant.pointNote);
 
-                        // load and save modified score lists
-                        contestantsListModel.setProperty(row, "wptScoreDetails", curentContestant.wptScoreDetails);
-                        contestantsListModel.setProperty(row, "speedSectionsScoreDetails", curentContestant.speedSectionsScoreDetails);
-                        contestantsListModel.setProperty(row, "altitudeSectionsScoreDetails", curentContestant.altitudeSectionsScoreDetails);
-                        contestantsListModel.setProperty(row, "spaceSectionsScoreDetails", curentContestant.spaceSectionsScoreDetails);
+                            // reload current contestant
+                            ctnt = contestantsListModel.get(row);
 
-                        // set current values as prev results - used as cache when recomputing score
-                        saveCurrentResultValues(row, ctnt);
+                            // load and save modified score lists
+                            contestantsListModel.setProperty(row, "wptScoreDetails", curentContestant.wptScoreDetails);
+                            contestantsListModel.setProperty(row, "speedSectionsScoreDetails", curentContestant.speedSectionsScoreDetails);
+                            contestantsListModel.setProperty(row, "altitudeSectionsScoreDetails", curentContestant.altitudeSectionsScoreDetails);
+                            contestantsListModel.setProperty(row, "spaceSectionsScoreDetails", curentContestant.spaceSectionsScoreDetails);
 
-                        // recalculate score
-                        var score = getTotalScore(row);
-                        contestantsListModel.setProperty(row, "scorePoints", score);
-                        recalculateScoresTo1000();
+                            // set current values as prev results - used as cache when recomputing score
+                            saveCurrentResultValues(row, ctnt);
 
-                        // save changes into CSV
-                        writeScoreManulaValToCSV();
+                            // recalculate score
+                            var score = getTotalScore(row);
+                            contestantsListModel.setProperty(row, "scorePoints", score);
+                            recalculateScoresTo1000();
+
+                            // save changes into CSV
+                            writeScoreManulaValToCSV();
+                        } else { // add new crew
+
+                            // create blank user
+                            var new_contestant = createBlankUserObject();
+
+                            // fill user params
+                            new_contestant.name = curentContestant.name;
+                            new_contestant.category = curentContestant.category;
+                            new_contestant.startTime = curentContestant.startTime
+                            new_contestant.fullName = curentContestant.name + "_" + curentContestant.category;
+                            new_contestant.speed = parseInt("0"+curentContestant.speed, 10);
+                            new_contestant.aircraft_type = curentContestant.aircraft_type;
+                            new_contestant.aircraft_registration = curentContestant.aircraft_registration;
+                            new_contestant.classify = curentContestant.classify;
+
+                            // append into list model
+                            contestantsListModel.append(new_contestant);
+
+//                            // used instead of the append due to some post processing (call some on change method)
+//                            contestantsListModel.changeLisModel(contestantsListModel.count - 1, "category", curentContestant.category);
+//                            contestantsListModel.changeLisModel(contestantsListModel.count - 1, "speed", parseInt("0"+curentContestant.speed, 10));
+//                            contestantsListModel.changeLisModel(contestantsListModel.count - 1, "startTime", curentContestant.startTime);
+
+
+                        }
                     }
 
                     onOk: {
@@ -1310,7 +1291,6 @@ ApplicationWindow {
                              refreshContestantsDialog.visible ||
                              startUpMessage.visible ||
                              uploaderDialog.visible ||
-                             createContestantDialog.visible ||
                              igcChooseDialog.visible;
 
                     BusyIndicator {
@@ -1526,6 +1506,57 @@ ApplicationWindow {
 
         }
     }
+
+
+    function contestantsTableShowResultsDialog(row) {
+        // load cattegory property
+        var currentTrck;
+        var found = false;
+        var arr = tracks.tracks;
+        var ctntCategory = contestantsListModel.get(row).category
+
+        for (var i = 0; i < arr.length; i++) {
+            currentTrck = arr[i];
+
+            if (currentTrck.name === ctntCategory) {
+
+                contestantsListModel.setProperty(row, "time_window_penalty", parseInt(currentTrck.time_window_penalty));
+                contestantsListModel.setProperty(row, "time_window_size", parseInt(currentTrck.time_window_size));
+                contestantsListModel.setProperty(row, "photos_max_score", parseInt(currentTrck.photos_max_score));
+                contestantsListModel.setProperty(row, "oposite_direction_penalty", parseInt(currentTrck.oposite_direction_penalty));
+                contestantsListModel.setProperty(row, "marker_max_score", parseInt(currentTrck.marker_max_score));
+                contestantsListModel.setProperty(row, "gyre_penalty", parseInt(currentTrck.gyre_penalty));
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) {
+            console.log("onShowResults " + "unable to get category property for: " + ctntCategory)
+
+            contestantsListModel.setProperty(row, "time_window_penalty", 0);
+            contestantsListModel.setProperty(row, "time_window_size", 0);
+            contestantsListModel.setProperty(row, "photos_max_score", 0);
+            contestantsListModel.setProperty(row, "oposite_direction_penalty", 0);
+            contestantsListModel.setProperty(row, "marker_max_score", 0);
+            contestantsListModel.setProperty(row, "gyre_penalty", 0);
+        }
+
+        // load contestant property
+        ctnt = contestantsListModel.get(row);
+
+        // TODO - prasarna aby byla kopie a ne stejny objekt
+        resultsDetailComponent.curentContestant = createBlankUserObject();
+        resultsDetailComponent.curentContestant = JSON.parse(JSON.stringify(ctnt));
+        resultsDetailComponent.crew_id = row;
+
+        // select row
+        contestantsTable.selectRow(row);
+
+        resultsDetailComponent.visible = true;
+
+    }
+
 
     FileReader {
         id: file_reader
@@ -1924,12 +1955,13 @@ ApplicationWindow {
         var f_data = file_reader.read(Qt.resolvedUrl(filename));
         var data = [];
         var resCSV = [];
+        var i;
 
         // parse CSV, fast cpp variant or slow JS
         if (String(f_data).indexOf(cppWorker.csv_join_parse_delimeter_property) == -1) {
 
             resCSV = cppWorker.parseCSV(String(f_data));
-            for (var i = 0; i < resCSV.length; i++) {
+            for (i = 0; i < resCSV.length; i++) {
 
                 var resItem = resCSV[i];
                 data.push(resItem.split(cppWorker.csv_join_parse_delimeter_property))
@@ -1942,7 +1974,7 @@ ApplicationWindow {
 
         contestantsListModel.clear()
 
-        for (var i = 0; i < data.length; i++) {
+        for (i = 0; i < data.length; i++) {
 
             var item = data[i];
             var itemName = item[0]
@@ -1964,7 +1996,7 @@ ApplicationWindow {
                 new_contestant.fullName = item[2];
                 new_contestant.startTime = (item[3] === "null" || item[3] === null) ? "00:00:00" : item[3];
                 new_contestant.filename = (csvFileFromViewer && item[4] === "" ? resultsCSV[j][38] : item[4]);
-                new_contestant.speed = parseInt(item[5]);
+                new_contestant.speed = parseInt("0"+item[5], 10);
                 new_contestant.aircraft_type = item[6];
                 new_contestant.aircraft_registration = item[7];
                 new_contestant.crew_id = item[8];
@@ -2140,7 +2172,7 @@ ApplicationWindow {
                     new_contestant.fullName = item[2];
                     new_contestant.startTime = item[3];
                     new_contestant.filename = item[4];
-                    new_contestant.speed = parseInt(item[5]);
+                    new_contestant.speed = parseInt("0"+item[5],10);
                     new_contestant.aircraft_type = item[6];
                     new_contestant.aircraft_registration = item[7];
                     new_contestant.crew_id = item[8];
@@ -2161,7 +2193,7 @@ ApplicationWindow {
                     currentCrew.newName = itemName;
                     currentCrew.newCategory = item[1];
                     currentCrew.newStartTime = item[3];
-                    currentCrew.newSpeed = parseInt(item[5]);
+                    currentCrew.newSpeed = parseInt("0"+item[5], 10);
                     currentCrew.newAircraft_type = item[6];
                     currentCrew.newAircraft_registration = item[7];
                     currentCrew.pilot_id = item[9];
@@ -2206,6 +2238,7 @@ ApplicationWindow {
         var resultsCSV = [];
         var resCSV = [];
         var index = -1;
+        var i;
 
         // try to load manual data
         if (file_reader.file_exists(Qt.resolvedUrl(pathConfiguration.csvResultsFile))) {
@@ -2215,7 +2248,7 @@ ApplicationWindow {
             if (String(cnt).indexOf(cppWorker.csv_join_parse_delimeter_property) == -1) {
 
                 resCSV = cppWorker.parseCSV(String(cnt));
-                for (var i = 0; i < resCSV.length; i++) {
+                for (i = 0; i < resCSV.length; i++) {
 
                     var resItem = resCSV[i];
                     resultsCSV.push(resItem.split(cppWorker.csv_join_parse_delimeter_property))
@@ -2233,7 +2266,6 @@ ApplicationWindow {
             var pilotID_resCSV = isNaN(parseInt(resultsCSV[j][28])) ? -1 : parseInt(resultsCSV[j][28]);
             var pilotName_resCSV = resultsCSV[j][0];
             var curCnt;
-            var i;
 
             index = -1;
 
@@ -2273,7 +2305,7 @@ ApplicationWindow {
                 var csvFileFromOffice = resultsCSV[j] !== undefined && resultsCSV[j].length >= 30; // CSV from office has only 30 columns;
                 var csvFileFromViewer = resultsCSV[j] !== undefined && resultsCSV[j].length >= 48; // CSV from viewer has more then 48 columns;
 
-                curCnt.prevResultsSpeed = (csvFileFromViewer ? parseInt(resultsCSV[j][31]) : -1);
+                curCnt.prevResultsSpeed = (csvFileFromViewer ? parseInt("0"+resultsCSV[j][31], 10) : -1);
                 curCnt.prevResultsStartTime = (csvFileFromViewer ? resultsCSV[j][32] : "");
                 curCnt.prevResultsCategory = (csvFileFromViewer ? resultsCSV[j][33] : "");
                 curCnt.prevResultsFilename = (csvFileFromViewer ? resultsCSV[j][38] : "");
@@ -2319,7 +2351,7 @@ ApplicationWindow {
                     curCnt.prevResultsAltSecScoreSum = (csvFileFromViewer ? parseInt(resultsCSV[j][26]) : -1);
                     curCnt.prevResultsSpaceSecScoreSum = (csvFileFromViewer ? parseInt(resultsCSV[j][27]) : -1);
 
-                    curCnt.prevResultsSpeed = (csvFileFromViewer ? parseInt(resultsCSV[j][31]) : -1);
+                    curCnt.prevResultsSpeed = (csvFileFromViewer ? parseInt("0"+resultsCSV[j][31], 10) : -1);
                     curCnt.prevResultsStartTime = (csvFileFromViewer ? resultsCSV[j][32] : "");
                     curCnt.prevResultsCategory = (csvFileFromViewer ? resultsCSV[j][33] : "");
                     curCnt.prevResultsTrackHas = (csvFileFromViewer ? resultsCSV[j][30] : "");
@@ -2525,6 +2557,7 @@ ApplicationWindow {
         var tpScoreSum = 0;
         var speedSecScoreSum = 0;
         var altLimitsScoreSum = 0;
+        var i;
 
         if (contestant === undefined) return 0;
 
@@ -2534,7 +2567,7 @@ ApplicationWindow {
             wptNewScoreListManualValuesCache.clear();
             var arr = contestant.wptScoreDetails.split("; ")
 
-            for (var i = 0; i < arr.length; i++) {
+            for (i = 0; i < arr.length; i++) {
                 wptNewScoreListManualValuesCache.append(JSON.parse(arr[i]))
             }
 
@@ -2555,7 +2588,7 @@ ApplicationWindow {
 
             speedSectionsScoreListManualValuesCache.clear();
             arr = contestant.speedSectionsScoreDetails.split("; ")
-            for (var i = 0; i < arr.length; i++) {
+            for (i = 0; i < arr.length; i++) {
                 speedSectionsScoreListManualValuesCache.append(JSON.parse(arr[i]))
             }
 
@@ -2710,7 +2743,7 @@ ApplicationWindow {
         maxPointsArr = {};
 
         var trtr = tracks.tracks
-        for (var i = 0; i < trtr.length; i++) {
+        for (i = 0; i < trtr.length; i++) {
             var category_name = trtr[i].name;
             maxPointsArr[category_name] = 1;
         }
@@ -3051,6 +3084,7 @@ ApplicationWindow {
         contestantsListModel.setProperty(current, "otherPoints", item.prevResultsOtherPoints);
         contestantsListModel.setProperty(current, "otherPenalty", item.prevResultsOtherPenalty);
         contestantsListModel.setProperty(current, "pointNote", item.prevResultsPointNote);
+        contestantsListModel.setProperty(current, "classify", item.prevResultsClassify);
 
         // calc new start time difference
         var sec = F.strTimeValidator(item.prevResultsStartTimeMeasured);
@@ -3343,7 +3377,7 @@ ApplicationWindow {
                                     var prevPoint = polygon[0]
                                     for (var z = 1; z < polygon.length; z++) {
                                         var point = polygon[z];
-                                        if ((point.lat == prevPoint.lat)&& (point.lon == prevPoint.lon)) {
+                                        if ((point.lat === prevPoint.lat)&& (point.lon === prevPoint.lon)) {
                                             continue;
                                         }
 
@@ -3599,7 +3633,7 @@ ApplicationWindow {
 
             for (var j = 0; j < section_speed_array_length; j++) {
                 section = section_speed_array[j]
-                if (section.start == item.tid) {
+                if (section.start === item.tid) {
                     speed = section.speed;
                     if (section.measure || (section.time_start === 0)) {
                         speed = '';
@@ -3609,7 +3643,7 @@ ApplicationWindow {
 
             for (var j = 0; j < section_alt_array_length; j++) {
                 section = section_alt_array[j]
-                if (section.start == item.tid) {
+                if (section.start === item.tid) {
                     alt_min = section.alt_min;
                     alt_min_time = section.alt_min_time;
                     alt_min_count = section.entries_below;
@@ -3627,7 +3661,7 @@ ApplicationWindow {
 
             for (var j = 0; j < section_space_array_length; j++) {
                 section = section_space_array[j]
-                if (section.start == item.tid) {
+                if (section.start === item.tid) {
                     distance_max  = section.distance
                     distance_time = section.distance_time;
                     distance_out_count = section.entries_out;
@@ -3814,6 +3848,8 @@ ApplicationWindow {
         contestantsListModel.setProperty(ctntIndex, "prevResultsOtherPoints", contestant.otherPoints);
         contestantsListModel.setProperty(ctntIndex, "prevResultsOtherPenalty", contestant.otherPenalty);
         contestantsListModel.setProperty(ctntIndex, "prevResultsPointNote", contestant.pointNote);
+        contestantsListModel.setProperty(ctntIndex, "prevResultsClassify", contestant.classify);
+
     }
 
     function writeScoreManulaValToCSV() {
@@ -4954,7 +4990,7 @@ ApplicationWindow {
 
         onButtonClicked: {
 
-            if (clickedButton == StandardButton.Yes) {
+            if (clickedButton === StandardButton.Yes) {
 
                 close();
                 pathConfiguration.close();
@@ -4982,6 +5018,7 @@ ApplicationWindow {
             if (file_reader.file_exists(Qt.resolvedUrl(pathConfiguration.assignFile))) {
                 var cnt = file_reader.read(Qt.resolvedUrl(pathConfiguration.assignFile));
                 var assign = CSVJS.parseCSV(String(cnt))
+                var i;
                 for (var line = 0; line < assign.length; line++) {
                     if (assign[line].length < 2) {
                         continue;
@@ -5000,7 +5037,7 @@ ApplicationWindow {
 
                     var contestant_index = 0;
 
-                    for (var i = 0; i < contestantsListModel.count; i++) {
+                    for (i = 0; i < contestantsListModel.count; i++) {
                         var contestant = contestantsListModel.get(i);
                         if (contestant.fullName === assignFullName) {
                             contestant_index = i;
@@ -5013,7 +5050,7 @@ ApplicationWindow {
                     var igc_index = -1;
 
                     if (filename === "") {
-                        for (var i = 0; i < igcFilesModel.count; i++) {
+                        for (i = 0; i < igcFilesModel.count; i++) {
                             var item = igcFilesModel.get(i);
                             if (item.contestant === 0) {
                                 igc_index = i;
@@ -5021,7 +5058,7 @@ ApplicationWindow {
                             }
                         }
                     } else {
-                        for (var i = 0; i < igcFilesModel.count; i++) {
+                        for (i = 0; i < igcFilesModel.count; i++) {
                             var item = igcFilesModel.get(i);
                             if (item.filename === filename) {
                                 igc_index = i;
@@ -5055,5 +5092,9 @@ ApplicationWindow {
 
     ConfigFile {
         id: config
+    }
+
+    Component.onCompleted: {
+        startUpMessage.open();  // clean or reload prev settings
     }
 }
