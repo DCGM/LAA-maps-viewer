@@ -734,6 +734,17 @@ ApplicationWindow {
 
         id: competitionClassModel
 
+        function getName(i) {
+            if (i < count) {
+                var item = competitionClassModel.get(i);
+                if (item.text !== undefined) {
+                    return item.text
+                }
+            }
+
+            return '-';
+        }
+
         function categoryToIndex(name) {
             for (var i = 0; i < count; i++) {
                 var item = get(i);
@@ -753,6 +764,28 @@ ApplicationWindow {
             classify: qsTrId("scorelist-table-classify-yes") }
         ListElement { //% "no"
             classify: qsTrId("scorelist-table-classify-no") }
+
+
+        function classifyToIndex(name) {
+            for (var i = 0; i < count; i++) {
+                var item = get(i);
+                if (item.text === name) {
+                    return i;
+                }
+            }
+            return 0;
+        }
+
+        function getName(value) {
+            for (var i = 0; i < scoreListClassifyListModel.count; i++) {
+                var item = scoreListClassifyListModel.get(i)
+                return item.classify;
+            }
+
+            return '';
+        }
+
+
     }
 
 

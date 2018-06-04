@@ -218,7 +218,7 @@ Rectangle {
             property int value: 0
             id: resultsHeaderCategory
             Layout.minimumWidth: 50
-            text: competitionClassModel.get(value).text;
+            text: competitionClassModel.getName(resultsHeaderCategory.value);
         }
         NativeText {
             id: resultsHeaderStartTime
@@ -244,16 +244,7 @@ Rectangle {
         NativeText {
             id: resultsHeaderClassify
             property int value: 0;
-            text: translateClassify(value);
-
-            function translateClassify(value) {
-                for (var i = 0; i < scoreListClassifyListModel.count; i++) {
-                    var item = scoreListClassifyListModel.get(i)
-                    return item.classify;
-                }
-
-                return '';
-            }
+            text: scoreListClassifyListModel.getName(value);
 
         }
 
