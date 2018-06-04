@@ -218,6 +218,7 @@ Rectangle {
             property int value: 0
             id: resultsHeaderCategory
             Layout.minimumWidth: 50
+            text: competitionClassModel.get(value).text;
         }
         NativeText {
             id: resultsHeaderStartTime
@@ -260,7 +261,7 @@ Rectangle {
         function resultsHeaderUpdateFromCurrentContestant() {
             resultsHeaderPilotName.text = (curentContestant.name).split(' – ')[0];
             resultsHeaderCoPilotName.text = (curentContestant.name).split(' – ')[1] === undefined ? "" : (curentContestant.name).split(' – ')[1];
-            resultsHeaderCategory.text = curentContestant.category;
+            resultsHeaderCategory.value = competitionClassModel.categoryToIndex(curentContestant.category);
             resultsHeaderStartTime.value = curentContestant.startTime;
             resultsHeaderSpeed.value = curentContestant.speed;
             resultsHeaderAircraftRegistration.text = curentContestant.aircraft_registration;
@@ -372,7 +373,7 @@ Rectangle {
                     resultsHeaderCoPilotName.text = copilotName
                 }
                 onCategoryChanged: {
-                    resultsHeaderCategory.text = category;
+                    resultsHeaderCategory.value = category;
                 }
 
                 onSpeedChanged: {

@@ -734,6 +734,16 @@ ApplicationWindow {
 
         id: competitionClassModel
 
+        function categoryToIndex(name) {
+            for (var i = 0; i < count; i++) {
+                var item = get(i);
+                if (item.text === name) {
+                    return i;
+                }
+            }
+            return 0;
+        }
+
     }
 
     ListModel {
