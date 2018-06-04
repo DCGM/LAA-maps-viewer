@@ -1788,6 +1788,11 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
         <source>Classify</source>
         <translation>Classify</translation>
     </message>
+    <message id="contestantsTableShowResultsDialog-missing-track">
+        <source>Track file is missing</source>
+        <oldsource>Track is missing</oldsource>
+        <translation>Track file is missing</translation>
+    </message>
 </context>
 <context>
     <name>CalendarWindow</name>

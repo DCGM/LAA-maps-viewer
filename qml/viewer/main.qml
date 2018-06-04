@@ -1509,6 +1509,14 @@ ApplicationWindow {
 
 
     function contestantsTableShowResultsDialog(row) {
+
+        if (tracks === undefined) {
+            //% "Track file is missing"
+            errorMessage.text = qsTrId("contestantsTableShowResultsDialog-missing-track");
+            errorMessage.open();
+            return;
+        }
+
         // load cattegory property
         var currentTrck;
         var found = false;
