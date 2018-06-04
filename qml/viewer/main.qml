@@ -2739,6 +2739,10 @@ ApplicationWindow {
     // recalculate score points to 1000
     function recalculateScoresTo1000() {
 
+        if (tracks === undefined) {
+            return;
+        }
+
         var i, item;
         maxPointsArr = {};
 
@@ -2784,6 +2788,10 @@ ApplicationWindow {
     function initScorePointsArrray () {
 
         categoriesScorePoints = {};
+
+        if (tracks === undefined) {
+            return;
+        }
 
         var trtr = tracks.tracks
         for (var i = 0; i < trtr.length; i++) {
