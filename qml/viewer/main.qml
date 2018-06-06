@@ -571,24 +571,6 @@ ApplicationWindow {
         return 0;
     }
 
-//    CreateContestantDialog {
-
-//        id: createContestantDialog
-
-//        onOk: {
-
-//            // select new or updated contestant
-//            var index = getContestantIndexByProperty(name, category, speed, planeType, planeRegistration);
-
-//            contestantsTable.selection.clear();
-//            if (contestantsListModel.count > 0) {
-
-//                contestantsTable.selection.select(index);
-//                contestantsTable.currentRow = index;
-//            }
-//        }
-//    }
-
     CppWorker {
 
         id: cppWorker;
@@ -649,13 +631,10 @@ ApplicationWindow {
             text: qsTrId("scorelist-table-menu-append-contestant")
 
             onTriggered: {
-                console.log("FIXME: new crew")
-//                createContestantDialog.contestantsListModelRow = contestantsListModel.count;
-//                createContestantDialog.show();
+                // new crew
                 resultsDetailComponent.curentContestant = createBlankUserObject();
-                resultsDetailComponent.crew_id = -1; // new crew
+                resultsDetailComponent.crew_id = -1;
                 resultsDetailComponent.visible = true;
-                // contestantsTableShowResultsDialog(-1) // row?
 
             }
         }
@@ -703,8 +682,6 @@ ApplicationWindow {
 
             onTriggered: {
                 console.log("FIXME: new crew")
-//                createContestantDialog.contestantsListModelRow = contestantsListModel.count;
-//                createContestantDialog.show();
             }
         }
 
@@ -802,151 +779,151 @@ ApplicationWindow {
 
         onChangeLisModel: {
 
-               //console.log("row: " + row + " role: " + role + " value: " + value + " count: " + contestantsListModel.count)
+            //console.log("row: " + row + " role: " + role + " value: " + value + " count: " + contestantsListModel.count)
 
-               if (row >= contestantsListModel.count || row < 0) {
-                   console.log("WUT? row role value " +row + " " +role + " " +value)
-                   return;
-               }
+            if (row >= contestantsListModel.count || row < 0) {
+                console.log("WUT? row role value " +row + " " +role + " " +value)
+                return;
+            }
 
-               var prevRow = contestantsTable.selection.count === 1 ? contestantsTable.currentRow : -1;
-               var prevItem = contestantsListModel.get(row);
-               var prevName = prevItem.name;
+            var prevRow = contestantsTable.selection.count === 1 ? contestantsTable.currentRow : -1;
+            var prevItem = contestantsListModel.get(row);
+            var prevName = prevItem.name;
 
-               contestantsListModel.setProperty(row, role, value)
-               var contestant = contestantsListModel.get(row);
+            contestantsListModel.setProperty(row, role, value)
+            var contestant = contestantsListModel.get(row);
 
-               // init classify combobox for contestant
-               if (parseInt(contestant.classify) === -1) {
-                    contestantsListModel.setProperty(row, "classify", contestant.prevResultsClassify);
-               }
+            // init classify combobox for contestant
+            if (parseInt(contestant.classify) === -1) {
+                contestantsListModel.setProperty(row, "classify", contestant.prevResultsClassify);
+            }
 
-                if (role === "category") {
+            if (role === "category") {
 
-                    // change full name and reload item
-                    contestantsListModel.setProperty(row, "fullName", F.getContestantResultFileName(contestant.name, contestant.category));
-                    contestant = contestantsListModel.get(row);
-                }
-                if (role === "filename" || role === "speed" || role === "startTime" || role === "category") {
+                // change full name and reload item
+                contestantsListModel.setProperty(row, "fullName", F.getContestantResultFileName(contestant.name, contestant.category));
+                contestant = contestantsListModel.get(row);
+            }
+            if (role === "filename" || role === "speed" || role === "startTime" || role === "category") {
 
-                    trItem = [];
+                trItem = [];
 
-                    // load contestant category
-                    if (tracks !== undefined && tracks.tracks !== undefined) {
+                // load contestant category
+                if (tracks !== undefined && tracks.tracks !== undefined) {
 
-                        for (var t = 0; t < tracks.tracks.length; t++) {
+                    for (var t = 0; t < tracks.tracks.length; t++) {
 
-                            if (tracks.tracks[t].name === contestant.category)
-                                trItem = tracks.tracks[t]
-                        }
+                        if (tracks.tracks[t].name === contestant.category)
+                            trItem = tracks.tracks[t]
                     }
-
-                    // reload update ctnt
-                    contestant = contestantsListModel.get(row);
-
-                    // no results for this values
-                    if (contestant.filename === "" || !resultsValid(contestant.speed,
-                                                                    contestant.startTime,
-                                                                    contestant.category,
-                                                                    contestant.filename,
-                                                                    MD5.MD5(JSON.stringify(trItem)),
-                                                                    contestant.prevResultsSpeed,
-                                                                    contestant.prevResultsStartTime,
-                                                                    contestant.prevResultsCategory,
-                                                                    contestant.prevResultsFilename,
-                                                                    contestant.prevResultsTrackHas)) {
-
-                            contestantsListModel.setProperty(row, "score", "");        //compute new score
-                            contestantsListModel.setProperty(row, "scorePoints", -1);
-                            contestantsListModel.setProperty(row, "scorePoints1000", -1);
-                            //contestantsListModel.setProperty(row, "wptScoreDetails", contestant.prevResultsWPT);
-                            //contestantsListModel.setProperty(row, "speedSectionsScoreDetails", contestant.prevResultsSpeedSec);
-                            //contestantsListModel.setProperty(row, "spaceSectionsScoreDetails", contestant.prevResultsSpaceSec);
-                            //contestantsListModel.setProperty(row, "altitudeSectionsScoreDetails", contestant.prevResultsAltSec);
-                            contestantsListModel.setProperty(row, "score_json", "");
-                            contestantsListModel.setProperty(row, "trackHash", "");
-                    }
-                    // load prev results
-                    else {
-
-                        contestantsListModel.setProperty(row, "markersScore", contestant.prevResultsMarkersScore);
-                        contestantsListModel.setProperty(row, "photosScore", contestant.prevResultsPhotosScore);
-                        contestantsListModel.setProperty(row, "startTimeDifference", contestant.prevResultsStartTimeDifference);
-                        contestantsListModel.setProperty(row, "startTimeScore", contestant.prevResultsStartTimeScore);
-                        //contestantsListModel.setProperty(row, "circlingScore", contestant.prevResultsCirclingScore);
-                        contestantsListModel.setProperty(row, "oppositeScore", contestant.prevResultsOppositeScore);
-                        contestantsListModel.setProperty(row, "tgScoreSum", contestant.prevResultsTgScoreSum);
-                        contestantsListModel.setProperty(row, "tpScoreSum", contestant.prevResultsTpScoreSum);
-                        contestantsListModel.setProperty(row, "sgScoreSum", contestant.prevResultsSgScoreSum);
-                        contestantsListModel.setProperty(row, "altLimitsScoreSum", contestant.prevResultsAltLimitsScoreSum);
-                        contestantsListModel.setProperty(row, "speedSecScoreSum", contestant.prevResultsSpeedSecScoreSum);
-                        contestantsListModel.setProperty(row, "altSecScoreSum", contestant.prevResultsAltSecScoreSum);
-                        contestantsListModel.setProperty(row, "spaceSecScoreSum", contestant.prevResultsSpaceSecScoreSum);
-                        contestantsListModel.setProperty(row, "markersOk", contestant.prevResultsMarkersOk);
-                        contestantsListModel.setProperty(row, "markersNok", contestant.prevResultsMarkersNok);
-                        contestantsListModel.setProperty(row, "markersFalse", contestant.prevResultsMarkersFalse);
-                        contestantsListModel.setProperty(row, "photosOk", contestant.prevResultsPhotosOk);
-                        contestantsListModel.setProperty(row, "photosNok", contestant.prevResultsPhotosNok);
-                        contestantsListModel.setProperty(row, "photosFalse", contestant.prevResultsPhotosFalse);
-                        contestantsListModel.setProperty(row, "startTimeMeasured", contestant.prevResultsStartTimeMeasured);
-                        contestantsListModel.setProperty(row, "landingScore", contestant.prevResultsLandingScore);
-                        //contestantsListModel.setProperty(row, "circlingCount", contestant.prevResultsCirclingCount);
-                        contestantsListModel.setProperty(row, "oppositeCount", contestant.prevResultsOppositeCount);
-                        contestantsListModel.setProperty(row, "otherPoints", contestant.prevResultsOtherPoints);
-                        contestantsListModel.setProperty(row, "otherPenalty", contestant.prevResultsOtherPenalty);
-                        contestantsListModel.setProperty(row, "pointNote", contestant.prevResultsPointNote);
-
-                        contestantsListModel.setProperty(row, "trackHash", contestant.prevResultsTrackHas);
-                        contestantsListModel.setProperty(row, "wptScoreDetails", contestant.prevResultsWPT);
-                        contestantsListModel.setProperty(row, "speedSectionsScoreDetails", contestant.prevResultsSpeedSec);
-                        contestantsListModel.setProperty(row, "spaceSectionsScoreDetails", contestant.prevResultsSpaceSec);
-                        contestantsListModel.setProperty(row, "altitudeSectionsScoreDetails", contestant.prevResultsAltSec);
-                        contestantsListModel.setProperty(row, "score_json", contestant.prevResultsScoreJson)
-                        contestantsListModel.setProperty(row, "score", contestant.prevResultsScore)
-                        contestantsListModel.setProperty(row, "scorePoints", contestant.prevResultsScorePoints);
-                    }
-
-                    // recalculate manual values score / markers, photos, ...
-                    if (contestant.filename !== "") {
-                        recalculateContestnatManualScoreValues(row);
-
-                        var score = getTotalScore(row);
-
-                        contestantsListModel.setProperty(row, "scorePoints", score);
-                        recalculateScoresTo1000();
-                    }
-
                 }
 
-                if (role === "startTime") sortListModelByStartTime();
+                // reload update ctnt
+                contestant = contestantsListModel.get(row);
 
-                // select row
-                if (prevRow === row) {
+                // no results for this values
+                if (contestant.filename === "" || !resultsValid(contestant.speed,
+                                                                contestant.startTime,
+                                                                contestant.category,
+                                                                contestant.filename,
+                                                                MD5.MD5(JSON.stringify(trItem)),
+                                                                contestant.prevResultsSpeed,
+                                                                contestant.prevResultsStartTime,
+                                                                contestant.prevResultsCategory,
+                                                                contestant.prevResultsFilename,
+                                                                contestant.prevResultsTrackHas)) {
 
-                    contestantsTable.selection.clear();
+                    contestantsListModel.setProperty(row, "score", "");        //compute new score
+                    contestantsListModel.setProperty(row, "scorePoints", -1);
+                    contestantsListModel.setProperty(row, "scorePoints1000", -1);
+                    //contestantsListModel.setProperty(row, "wptScoreDetails", contestant.prevResultsWPT);
+                    //contestantsListModel.setProperty(row, "speedSectionsScoreDetails", contestant.prevResultsSpeedSec);
+                    //contestantsListModel.setProperty(row, "spaceSectionsScoreDetails", contestant.prevResultsSpaceSec);
+                    //contestantsListModel.setProperty(row, "altitudeSectionsScoreDetails", contestant.prevResultsAltSec);
+                    contestantsListModel.setProperty(row, "score_json", "");
+                    contestantsListModel.setProperty(row, "trackHash", "");
+                }
+                // load prev results
+                else {
 
-                    for (var i = 0; i < contestantsListModel.count; i++) {
-                        var ctIt = contestantsListModel.get(i);
+                    contestantsListModel.setProperty(row, "markersScore", contestant.prevResultsMarkersScore);
+                    contestantsListModel.setProperty(row, "photosScore", contestant.prevResultsPhotosScore);
+                    contestantsListModel.setProperty(row, "startTimeDifference", contestant.prevResultsStartTimeDifference);
+                    contestantsListModel.setProperty(row, "startTimeScore", contestant.prevResultsStartTimeScore);
+                    //contestantsListModel.setProperty(row, "circlingScore", contestant.prevResultsCirclingScore);
+                    contestantsListModel.setProperty(row, "oppositeScore", contestant.prevResultsOppositeScore);
+                    contestantsListModel.setProperty(row, "tgScoreSum", contestant.prevResultsTgScoreSum);
+                    contestantsListModel.setProperty(row, "tpScoreSum", contestant.prevResultsTpScoreSum);
+                    contestantsListModel.setProperty(row, "sgScoreSum", contestant.prevResultsSgScoreSum);
+                    contestantsListModel.setProperty(row, "altLimitsScoreSum", contestant.prevResultsAltLimitsScoreSum);
+                    contestantsListModel.setProperty(row, "speedSecScoreSum", contestant.prevResultsSpeedSecScoreSum);
+                    contestantsListModel.setProperty(row, "altSecScoreSum", contestant.prevResultsAltSecScoreSum);
+                    contestantsListModel.setProperty(row, "spaceSecScoreSum", contestant.prevResultsSpaceSecScoreSum);
+                    contestantsListModel.setProperty(row, "markersOk", contestant.prevResultsMarkersOk);
+                    contestantsListModel.setProperty(row, "markersNok", contestant.prevResultsMarkersNok);
+                    contestantsListModel.setProperty(row, "markersFalse", contestant.prevResultsMarkersFalse);
+                    contestantsListModel.setProperty(row, "photosOk", contestant.prevResultsPhotosOk);
+                    contestantsListModel.setProperty(row, "photosNok", contestant.prevResultsPhotosNok);
+                    contestantsListModel.setProperty(row, "photosFalse", contestant.prevResultsPhotosFalse);
+                    contestantsListModel.setProperty(row, "startTimeMeasured", contestant.prevResultsStartTimeMeasured);
+                    contestantsListModel.setProperty(row, "landingScore", contestant.prevResultsLandingScore);
+                    //contestantsListModel.setProperty(row, "circlingCount", contestant.prevResultsCirclingCount);
+                    contestantsListModel.setProperty(row, "oppositeCount", contestant.prevResultsOppositeCount);
+                    contestantsListModel.setProperty(row, "otherPoints", contestant.prevResultsOtherPoints);
+                    contestantsListModel.setProperty(row, "otherPenalty", contestant.prevResultsOtherPenalty);
+                    contestantsListModel.setProperty(row, "pointNote", contestant.prevResultsPointNote);
 
-                        // find and select current item (after sort)
-                        if (ctIt.name === prevName && prevName !== undefined) {
-                            row = i;
-                            break;
-                        }
-                    }
-
-                    contestantsTable.selection.select(row);
-                    contestantsTable.currentRow = row;
+                    contestantsListModel.setProperty(row, "trackHash", contestant.prevResultsTrackHas);
+                    contestantsListModel.setProperty(row, "wptScoreDetails", contestant.prevResultsWPT);
+                    contestantsListModel.setProperty(row, "speedSectionsScoreDetails", contestant.prevResultsSpeedSec);
+                    contestantsListModel.setProperty(row, "spaceSectionsScoreDetails", contestant.prevResultsSpaceSec);
+                    contestantsListModel.setProperty(row, "altitudeSectionsScoreDetails", contestant.prevResultsAltSec);
+                    contestantsListModel.setProperty(row, "score_json", contestant.prevResultsScoreJson)
+                    contestantsListModel.setProperty(row, "score", contestant.prevResultsScore)
+                    contestantsListModel.setProperty(row, "scorePoints", contestant.prevResultsScorePoints);
                 }
 
-                // save results into CSV
-                writeCSV();
-                recalculateScoresTo1000();
-                writeScoreManulaValToCSV();
+                // recalculate manual values score / markers, photos, ...
+                if (contestant.filename !== "") {
+                    recalculateContestnatManualScoreValues(row);
 
-                // gen new results sheet
-                genResultsDetailTimer.showOnFinished = false;   // dont open results automatically
-                genResultsDetailTimer.running = true;
+                    var score = getTotalScore(row);
+
+                    contestantsListModel.setProperty(row, "scorePoints", score);
+                    recalculateScoresTo1000();
+                }
+
+            }
+
+            if (role === "startTime") sortListModelByStartTime();
+
+            // select row
+            if (prevRow === row) {
+
+                contestantsTable.selection.clear();
+
+                for (var i = 0; i < contestantsListModel.count; i++) {
+                    var ctIt = contestantsListModel.get(i);
+
+                    // find and select current item (after sort)
+                    if (ctIt.name === prevName && prevName !== undefined) {
+                        row = i;
+                        break;
+                    }
+                }
+
+                contestantsTable.selection.select(row);
+                contestantsTable.currentRow = row;
+            }
+
+            // save results into CSV
+            writeCSV();
+            recalculateScoresTo1000();
+            writeScoreManulaValToCSV();
+
+            // gen new results sheet
+            genResultsDetailTimer.showOnFinished = false;   // dont open results automatically
+            genResultsDetailTimer.running = true;
         }
     }
 
@@ -1289,10 +1266,10 @@ ApplicationWindow {
                             // append into list model
                             contestantsListModel.append(new_contestant);
 
-//                            // used instead of the append due to some post processing (call some on change method)
-//                            contestantsListModel.changeLisModel(contestantsListModel.count - 1, "category", curentContestant.category);
-//                            contestantsListModel.changeLisModel(contestantsListModel.count - 1, "speed", parseInt("0"+curentContestant.speed, 10));
-//                            contestantsListModel.changeLisModel(contestantsListModel.count - 1, "startTime", curentContestant.startTime);
+                            //                            // used instead of the append due to some post processing (call some on change method)
+                            //                            contestantsListModel.changeLisModel(contestantsListModel.count - 1, "category", curentContestant.category);
+                            //                            contestantsListModel.changeLisModel(contestantsListModel.count - 1, "speed", parseInt("0"+curentContestant.speed, 10));
+                            //                            contestantsListModel.changeLisModel(contestantsListModel.count - 1, "startTime", curentContestant.startTime);
 
 
                         }
@@ -1373,20 +1350,20 @@ ApplicationWindow {
 
                                     switch (workingTimer.action) {
 
-                                        case ("pathOnOk"):
-                                            //% "Recovering application settings..."
-                                            mText = qsTrId("recovering-settings-status-title")
-                                            break;
+                                    case ("pathOnOk"):
+                                        //% "Recovering application settings..."
+                                        mText = qsTrId("recovering-settings-status-title")
+                                        break;
 
-                                        case ("refreshDialogOnOk"):
-                                        case ("refreshContestant"):
-                                            //% "Loading..."
-                                            mText = qsTrId("loading-status-title")
-                                            break;
+                                    case ("refreshDialogOnOk"):
+                                    case ("refreshContestant"):
+                                        //% "Loading..."
+                                        mText = qsTrId("loading-status-title")
+                                        break;
 
-                                        default:
-                                            //% "Working..."
-                                            mText =  qsTrId("working-status-title")
+                                    default:
+                                        //% "Working..."
+                                        mText =  qsTrId("working-status-title")
                                     }
                                 }
                                 else {
@@ -1909,9 +1886,9 @@ ApplicationWindow {
             "oppositeCount": 0,
             "oppositeScore": 0,
             "otherPoints": 0,
-//            "otherPointsNote": "",
+            //            "otherPointsNote": "",
             "otherPenalty": 0,
-//            "otherPenaltyNote": "",
+            //            "otherPenaltyNote": "",
             "pointNote": "",
 
             "time_window_penalty": 0,
@@ -2254,11 +2231,11 @@ ApplicationWindow {
 
                     // add modified crew into updated list model
                     if (currentCrew.name !== currentCrew.newName ||
-                        currentCrew.category !== currentCrew.newCategory ||
-                        currentCrew.startTime !== (F.strTimeValidator(currentCrew.newStartTime) === -1 ? F.addTimeStrFormat(0) : currentCrew.newStartTime) ||
-                        currentCrew.speed !== currentCrew.newSpeed ||
-                        currentCrew.aircraft_type !== currentCrew.newAircraft_type ||
-                        currentCrew.aircraft_registration !== currentCrew.newAircraft_registration) {
+                            currentCrew.category !== currentCrew.newCategory ||
+                            currentCrew.startTime !== (F.strTimeValidator(currentCrew.newStartTime) === -1 ? F.addTimeStrFormat(0) : currentCrew.newStartTime) ||
+                            currentCrew.speed !== currentCrew.newSpeed ||
+                            currentCrew.aircraft_type !== currentCrew.newAircraft_type ||
+                            currentCrew.aircraft_registration !== currentCrew.newAircraft_registration) {
 
                         updatedContestants.append(currentCrew);
                     }
@@ -2465,23 +2442,23 @@ ApplicationWindow {
 
         // HTML
         results_creator.createContinuousResultsHTML(pathConfiguration.resultsFolder + "/" + pathConfiguration.competitionName + "_" + resultsFilename,
-                                                            reStringArr,
-                                                            recSize,
-                                                            pathConfiguration.competitionName,
-                                                            pathConfiguration.getCompetitionTypeString(pathConfiguration.competitionType),
-                                                            pathConfiguration.competitionDirector,
-                                                            pathConfiguration.competitionDirectorAvatar,
-                                                            pathConfiguration.competitionArbitr,
-                                                            pathConfiguration.competitionArbitrAvatar,
-                                                            pathConfiguration.competitionDate,
-                                                            pathConfiguration.competitionRound,
-                                                            pathConfiguration.competitionGroupName);
+                                                    reStringArr,
+                                                    recSize,
+                                                    pathConfiguration.competitionName,
+                                                    pathConfiguration.getCompetitionTypeString(pathConfiguration.competitionType),
+                                                    pathConfiguration.competitionDirector,
+                                                    pathConfiguration.competitionDirectorAvatar,
+                                                    pathConfiguration.competitionArbitr,
+                                                    pathConfiguration.competitionArbitrAvatar,
+                                                    pathConfiguration.competitionDate,
+                                                    pathConfiguration.competitionRound,
+                                                    pathConfiguration.competitionGroupName);
 
         // CSV and local listmodels
         var catArray = [];
         var item;
 
-//        console.log("generateContinuousResults: " + JSON.stringify(res))
+        //        console.log("generateContinuousResults: " + JSON.stringify(res))
 
         for(var key in res) {
 
@@ -2529,17 +2506,17 @@ ApplicationWindow {
             startTimeSec = F.timeToUnix(item.startTime);
 
             date.push(JSON.stringify({ "name": item.name,
-                        "category": item.category,
-                        "speed": item.speed,
-                        "startTimePrepTime": (tracksPrepTimes === undefined ? item.startTime : F.addTimeStrFormat(startTimeSec - parseInt(tracksPrepTimes[item.category] === undefined ? 0 : tracksPrepTimes[item.category]))),
-                        "startTime": item.startTime,
-                        "startTimeVBT": (tracksVbtTimes === undefined ? item.startTime : F.addTimeStrFormat(startTimeSec + parseInt(tracksVbtTimes[item.category] === undefined ? 0 : tracksVbtTimes[item.category]))),
-                        "aircraft_type": item.aircraft_type,
-                        "aircraft_registration": item.aircraft_registration,
-                        "startTimeMeasured": "",
-                        "landing": "",
-                        "photo": ""
-                      }));
+                                         "category": item.category,
+                                         "speed": item.speed,
+                                         "startTimePrepTime": (tracksPrepTimes === undefined ? item.startTime : F.addTimeStrFormat(startTimeSec - parseInt(tracksPrepTimes[item.category] === undefined ? 0 : tracksPrepTimes[item.category]))),
+                                         "startTime": item.startTime,
+                                         "startTimeVBT": (tracksVbtTimes === undefined ? item.startTime : F.addTimeStrFormat(startTimeSec + parseInt(tracksVbtTimes[item.category] === undefined ? 0 : tracksVbtTimes[item.category]))),
+                                         "aircraft_type": item.aircraft_type,
+                                         "aircraft_registration": item.aircraft_registration,
+                                         "startTimeMeasured": "",
+                                         "landing": "",
+                                         "photo": ""
+                                     }));
         }
 
         //% "Start list"
@@ -2667,15 +2644,15 @@ ApplicationWindow {
         contestant.speedSecScoreSum = speedSecScoreSum;
 
         sum = tgScoreSum +
-              sgScoreSum +
-              tpScoreSum +
-              altLimitsScoreSum +
-              speedSecScoreSum +
-              contestant.markersScore +
-              contestant.photosScore +
-              contestant.landingScore +
-              contestant.otherPoints -
-              contestant.otherPenalty;
+                sgScoreSum +
+                tpScoreSum +
+                altLimitsScoreSum +
+                speedSecScoreSum +
+                contestant.markersScore +
+                contestant.photosScore +
+                contestant.landingScore +
+                contestant.otherPoints -
+                contestant.otherPenalty;
 
         wptNewScoreListManualValuesCache.clear();
         speedSectionsScoreListManualValuesCache.clear();
@@ -2954,10 +2931,10 @@ ApplicationWindow {
             return -1;
 
         return Math.round(parseFloat(
-                    (flags & (0x1 << 3)) && (flags & (0x1 << 4)) ? getMinAltScore(altManual, altAuto, altMin, altPenalty) + getMaxAltScore(altManual, altAuto, altMax, altPenalty) : (
-                                                                       (flags & (0x1 << 3)) ? getMinAltScore(altManual, altAuto, altMin, altPenalty) : (
-                                                                                                  (flags & (0x1 << 4)) ? getMaxAltScore(altManual, altAuto, altMax, altPenalty) :
-                                                                                                                         -1))))
+                              (flags & (0x1 << 3)) && (flags & (0x1 << 4)) ? getMinAltScore(altManual, altAuto, altMin, altPenalty) + getMaxAltScore(altManual, altAuto, altMax, altPenalty) : (
+                                                                                 (flags & (0x1 << 3)) ? getMinAltScore(altManual, altAuto, altMin, altPenalty) : (
+                                                                                                            (flags & (0x1 << 4)) ? getMaxAltScore(altManual, altAuto, altMax, altPenalty) :
+                                                                                                                                   -1))))
     }
 
     function getSGScore(sgManualVal, sgHitAuto, sgMaxScore) {
@@ -3936,7 +3913,7 @@ ApplicationWindow {
         // Find classify field in igc for current contestant
         for (j = 0; j < contestantsListModel.count; j++) {
 
-             // contestant item
+            // contestant item
             ct = contestantsListModel.get(j);
 
             str += "\"" + F.addSlashes(ct.name) + "\";"
@@ -4623,142 +4600,142 @@ ApplicationWindow {
 
             switch(action) {
 
-                case "showRegenMessageDialog":
+            case "showRegenMessageDialog":
 
-                    running = false;
-                    regenResultsMessage.open();
-                    action = "";
+                running = false;
+                regenResultsMessage.open();
+                action = "";
 
-                    break;
+                break;
 
-                case "pathOnOk":
+            case "pathOnOk":
 
-                    running = false;
+                running = false;
 
-                    // save downloaded applications
-                    if (pathConfiguration.contestantsDownloadedString !== "") {
+                // save downloaded applications
+                if (pathConfiguration.contestantsDownloadedString !== "") {
 
-                        file_reader.write(Qt.resolvedUrl(pathConfiguration.contestantsFile), pathConfiguration.contestantsDownloadedString);
-                        pathConfiguration.contestantsDownloadedString = "";
+                    file_reader.write(Qt.resolvedUrl(pathConfiguration.contestantsFile), pathConfiguration.contestantsDownloadedString);
+                    pathConfiguration.contestantsDownloadedString = "";
+                }
+
+                // clear contestant in categories counters
+                if (file_reader.file_exists(Qt.resolvedUrl(pathConfiguration.trackFile ))) {
+                    tracks = JSON.parse(file_reader.read(Qt.resolvedUrl(pathConfiguration.trackFile )))
+
+                    competitionClassModel.clear();
+                    competitionClassModel.append({text:"-"})
+                    for (var i = 0; i < tracks.tracks.length; i++) {
+                        var category_name = tracks.tracks[i].name;
+                        competitionClassModel.append({text: category_name})
                     }
 
-                    // clear contestant in categories counters
-                    if (file_reader.file_exists(Qt.resolvedUrl(pathConfiguration.trackFile ))) {
-                        tracks = JSON.parse(file_reader.read(Qt.resolvedUrl(pathConfiguration.trackFile )))
-
-                        competitionClassModel.clear();
-                        competitionClassModel.append({text:"-"})
-                        for (var i = 0; i < tracks.tracks.length; i++) {
-                            var category_name = tracks.tracks[i].name;
-                            competitionClassModel.append({text: category_name})
-                        }
 
 
+                    // load VTB and preparation times
+                    tracksVbtTimes = [];
+                    tracksPrepTimes = [];
 
-                        // load VTB and preparation times
-                        tracksVbtTimes = [];
-                        tracksPrepTimes = [];
+                    for (var t = 0; t < tracks.tracks.length; t++) {
 
-                        for (var t = 0; t < tracks.tracks.length; t++) {
+                        trItem = tracks.tracks[t]
 
-                            trItem = tracks.tracks[t]
-
-                            tracksVbtTimes[trItem.name] = trItem.conn[0] === undefined ? 0 : trItem.conn[0].addTime;
-                            tracksPrepTimes[trItem.name] = trItem.preparation_time;
-                        }
-
-                    } else {
-
-                        //% "Track file"
-                        errorMessage.title = qsTrId("trackFile-not-found-dialog-title");
-                        //% "File %1 not found!"
-                        errorMessage.text = qsTrId("trackFile-not-found-dialog-text").arg(pathConfiguration.trackFile);
-                        errorMessage.open();
+                        tracksVbtTimes[trItem.name] = trItem.conn[0] === undefined ? 0 : trItem.conn[0].addTime;
+                        tracksPrepTimes[trItem.name] = trItem.preparation_time;
                     }
 
-                    if (file_reader.file_exists(Qt.resolvedUrl(pathConfiguration.contestantsFile))) {
+                } else {
 
-                        loadContestants(Qt.resolvedUrl(pathConfiguration.contestantsFile))
-                        loadPrevResults();
-                    }
+                    //% "Track file"
+                    errorMessage.title = qsTrId("trackFile-not-found-dialog-title");
+                    //% "File %1 not found!"
+                    errorMessage.text = qsTrId("trackFile-not-found-dialog-text").arg(pathConfiguration.trackFile);
+                    errorMessage.open();
+                }
 
-                    // load igc
-                    igcFolderModel.folder = "";
-                    igcFolderModel.folder = pathConfiguration.igcDirectory;
+                if (file_reader.file_exists(Qt.resolvedUrl(pathConfiguration.contestantsFile))) {
 
-                    recalculateContestantsScoreOrder();
-
-                    storeTrackSettings(pathConfiguration.tsFile);
-                    map.requestUpdate();
-
-                    // changed competition property, regenerate results only if needed
-                    if (pathConfiguration.prevSettingsMD5 != pathConfiguration.currentSettingsMD5){
-
-                        running = true;
-                        action = "showRegenMessageDialog";
-                    }
-                    else {
-                        action = "";
-                    }
-
-                    // save manual values
-                    writeCSV();
-                    recalculateScoresTo1000();
-                    writeScoreManulaValToCSV();
-
-                    break;
-
-                case "refreshDialogOnOk":
-
-                    running = false;
-
-                    // create one cotestant list models
-                    joinContestantsListModels();
-
-                    // load prev results
+                    loadContestants(Qt.resolvedUrl(pathConfiguration.contestantsFile))
                     loadPrevResults();
+                }
 
-                    // drop tmp list models
-                    unmodifiedContestants.clear();
-                    updatedContestants.clear();
-                    addedContestants.clear();
-                    removedContestants.clear();
+                // load igc
+                igcFolderModel.folder = "";
+                igcFolderModel.folder = pathConfiguration.igcDirectory;
 
-                    // save manual values
-                    writeCSV();
-                    recalculateScoresTo1000();
-                    writeScoreManulaValToCSV();
+                recalculateContestantsScoreOrder();
 
-                    // sort list model by startTime
+                storeTrackSettings(pathConfiguration.tsFile);
+                map.requestUpdate();
+
+                // changed competition property, regenerate results only if needed
+                if (pathConfiguration.prevSettingsMD5 != pathConfiguration.currentSettingsMD5){
+
                     running = true;
-                    action = "sortlistModelByStartTime";
-
-                    break;
-
-                case "sortlistModelByStartTime":
-
-                    running = false;
-
-                    // sort list model by startTime
-                    sortListModelByStartTime();
-
+                    action = "showRegenMessageDialog";
+                }
+                else {
                     action = "";
-                    break;
+                }
 
-                case "refreshContestant":
+                // save manual values
+                writeCSV();
+                recalculateScoresTo1000();
+                writeScoreManulaValToCSV();
 
-                    running = false;
+                break;
 
-                    selectCompetitionOnlineDialog.refreshApplications();
+            case "refreshDialogOnOk":
 
-                    action = "";
-                    break;
+                running = false;
 
-                default:
-                    running = false;
-                    action = "";
-                    //console.log("working timer: unknown action: " + action)
-                    //running = false;
+                // create one cotestant list models
+                joinContestantsListModels();
+
+                // load prev results
+                loadPrevResults();
+
+                // drop tmp list models
+                unmodifiedContestants.clear();
+                updatedContestants.clear();
+                addedContestants.clear();
+                removedContestants.clear();
+
+                // save manual values
+                writeCSV();
+                recalculateScoresTo1000();
+                writeScoreManulaValToCSV();
+
+                // sort list model by startTime
+                running = true;
+                action = "sortlistModelByStartTime";
+
+                break;
+
+            case "sortlistModelByStartTime":
+
+                running = false;
+
+                // sort list model by startTime
+                sortListModelByStartTime();
+
+                action = "";
+                break;
+
+            case "refreshContestant":
+
+                running = false;
+
+                selectCompetitionOnlineDialog.refreshApplications();
+
+                action = "";
+                break;
+
+            default:
+                running = false;
+                action = "";
+                //console.log("working timer: unknown action: " + action)
+                //running = false;
 
             }
         }
@@ -4931,7 +4908,7 @@ ApplicationWindow {
             mainViewMenuCompetitionPropertyStatusBar.checked = config.get("v2_mainViewMenuCompetitionPropertyStatusBar_checked", "no") === "yes" ? true : false;
             mainViewMenuCategoryCountersStatusBar.checked = config.get("v2_mainViewMenuCategoryCountersStatusBar_checked", "no") === "yes" ? true : false;
             mainViewMenuAltChart.checked = config.get("v2_mainViewMenuAltChart_checked", "no") === "yes" ? true : false;
-//            mainViewMenuContinuousResults.checked = config.get("v2_mainViewMenuContinuousResults_checked", "no") === "yes" ? true : false;
+            //            mainViewMenuContinuousResults.checked = config.get("v2_mainViewMenuContinuousResults_checked", "no") === "yes" ? true : false;
             mainViewMenuTables.checked = config.get("v2_mainViewMenuTables_checked", "yes") === "yes" ? true : false;
 
             // map view settings
@@ -4973,10 +4950,10 @@ ApplicationWindow {
             mainViewMenuCompetitionPropertyStatusBar.checked = false;
             mainViewMenuCategoryCountersStatusBar.checked = false;
             mainViewMenuAltChart.checked = false;
-//            mainViewMenuContinuousResults.checked = false;
+            //            mainViewMenuContinuousResults.checked = false;
             mainViewMenuTables.checked = true;
             config.set("v2_mainViewMenuTables_checked", mainViewMenuTables.checked ? "yes" : "no"); // set default as last selected value
-//            config.set("v2_mainViewMenuContinuousResults_checked", mainViewMenuContinuousResults.checked ? "yes" : "no"); // set default as last selected value
+            //            config.set("v2_mainViewMenuContinuousResults_checked", mainViewMenuContinuousResults.checked ? "yes" : "no"); // set default as last selected value
             config.set("v2_mainViewMenuAltChart_checked", mainViewMenuAltChart.checked ? "yes" : "no"); // set default as last selected value
             config.set("v2_mainViewMenuCategoryCountersStatusBar_checked", mainViewMenuCategoryCountersStatusBar.checked ? "yes" : "no"); // set default as last selected value
             config.set("v2_mainViewMenuCompetitionPropertyStatusBar_checked", mainViewMenuCompetitionPropertyStatusBar.checked ? "yes" : "no"); // set default as last selected value
@@ -4998,16 +4975,16 @@ ApplicationWindow {
         airspaceLocal.checked = false;
 
         switch(airSpaceSettings) {
-            case "main-map-menu-airspace-off":
-                airspaceOff.checked = true;
-                break;
-            case "main-map-menu-airspace-prosoar":
-                airspaceProsoar.checked = true;
-                break;
-            case "main-map-menu-airspace-local":
-                airspaceLocal.checked = true;
-                break;
-            default:
+        case "main-map-menu-airspace-off":
+            airspaceOff.checked = true;
+            break;
+        case "main-map-menu-airspace-prosoar":
+            airspaceProsoar.checked = true;
+            break;
+        case "main-map-menu-airspace-local":
+            airspaceLocal.checked = true;
+            break;
+        default:
         }
     }
 
@@ -5022,28 +4999,28 @@ ApplicationWindow {
         mapCustom.checked = false;
 
         switch(mapSettings) {
-            case "main-map-menu-none":
-                mapNone.checked = true;
-                break;
-            case "main-map-menu-local":
-                mapLocal.checked = true;
-                break;
-            case "main-map-menu-osm":
-                mapOsm.checked = true;
-                break;
-            case "main-map-menu-google-roadmap":
-                mapGoogleRoadmap.checked = true;
-                break;
-            case "main-map-menu-google-terrain":
-                mapGoogleTerrain.checked = true;
-                break;
-            case "main-map-menu-google-satellite":
-                mapGoogleSatelite.checked = true;
-                break;
-            case "main-map-menu-custom-tile-layer":
-                mapCustom.checked = true;
-                break;
-            default:
+        case "main-map-menu-none":
+            mapNone.checked = true;
+            break;
+        case "main-map-menu-local":
+            mapLocal.checked = true;
+            break;
+        case "main-map-menu-osm":
+            mapOsm.checked = true;
+            break;
+        case "main-map-menu-google-roadmap":
+            mapGoogleRoadmap.checked = true;
+            break;
+        case "main-map-menu-google-terrain":
+            mapGoogleTerrain.checked = true;
+            break;
+        case "main-map-menu-google-satellite":
+            mapGoogleSatelite.checked = true;
+            break;
+        case "main-map-menu-custom-tile-layer":
+            mapCustom.checked = true;
+            break;
+        default:
         }
     }
 
