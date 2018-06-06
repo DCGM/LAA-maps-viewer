@@ -843,8 +843,6 @@ Rectangle {
                             RowLayout {
 
                                 spacing: 10;
-                                anchors.leftMargin: 30
-                                anchors.left: parent.left
 
                                 //% "circling on track count"
                                 //NativeText { text: qsTrId("score-table-circling-count"); Layout.preferredWidth: manualValuesTab.columnWidth}
@@ -859,8 +857,6 @@ Rectangle {
                             RowLayout {
 
                                 spacing: 10;
-                                anchors.leftMargin: 30
-                                anchors.left: parent.left
                                 /*
                                 Item { Layout.preferredWidth: manualValuesTab.columnWidth; Layout.preferredHeight: 23;
                                     MySpinBox {
@@ -917,8 +913,6 @@ Rectangle {
 
                             RowLayout {
 
-                                anchors.left: parent.left
-                                anchors.leftMargin: 30
                                 spacing: parent.spacing
 
                                 //% "other points"
@@ -937,8 +931,6 @@ Rectangle {
                             RowLayout {
 
                                 spacing: parent.spacing
-                                anchors.left: parent.left
-                                anchors.leftMargin: 30
 
                                 Item {
                                     Layout.preferredWidth: manualValuesTab.columnWidth;
@@ -993,8 +985,6 @@ Rectangle {
                             RowLayout {
 
                                 spacing: parent.spacing
-                                anchors.left: parent.left
-                                anchors.leftMargin: 30
 
                                 //% "penalty"
                                 NativeText {
@@ -1011,8 +1001,6 @@ Rectangle {
                             RowLayout {
 
                                 spacing: parent.spacing
-                                anchors.left: parent.left
-                                anchors.leftMargin: 30
 
                                 Item {
                                     Layout.preferredWidth: manualValuesTab.columnWidth;
@@ -1069,8 +1057,6 @@ Rectangle {
                             NativeText {
                                 text: qsTrId("score-table-other-points-note");
                                 Layout.preferredWidth: parent.width//manualValuesTab.columnWidth * 2
-                                anchors.left: parent.left
-                                anchors.leftMargin: 38
                             }
 
                             TextArea {
@@ -1078,8 +1064,6 @@ Rectangle {
                                 text: curentContestant.pointNote;
                                 Layout.preferredWidth: parent.width//manualValuesTab.columnWidth * 2;
                                 Layout.fillHeight: true
-                                anchors.left: parent.left
-                                anchors.leftMargin: 38
 
                                 style: TextAreaStyle {
                                     renderType: Text.NativeRendering
