@@ -1507,13 +1507,15 @@ ApplicationWindow {
                             }
 
                             HorizontalDelimeter {
-                                width: parent.width - 5
-                                anchors.horizontalCenter: parent.horizontalCenter
+                                Layout.fillWidth: true;
+                                Layout.margins: 2;
+                                Layout.alignment: Qt.AlignHCenter;
                             }
 
                             Rectangle {
-                                width: parent.width
-                                height: parent.height/2
+                                Layout.fillWidth: true;
+                                Layout.preferredHeight: parent.height/2;
+
 
 
                                 MyImage {

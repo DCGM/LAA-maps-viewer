@@ -1141,12 +1141,10 @@ ApplicationWindow {
 
     RowLayout {
         id: actionButtons;
-        Layout.alignment: Qt.AlignRight | Qt.AlignBottom;
+        anchors.left: parent.left;
+        anchors.right: parent.right;
         anchors.bottom: parent.bottom;
-        anchors.topMargin: 20
-        anchors.bottomMargin: 10
-        anchors.leftMargin: 10
-        anchors.rightMargin: 10
+        anchors.margins: 10;
 
         Row {
 

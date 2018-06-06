@@ -73,20 +73,22 @@ ApplicationWindow {
             anchors.bottomMargin: 10
 
             RowLayout {
+                Layout.fillWidth: true;
+
 
                 NativeText {
 
-                    anchors.left: parent.left
+                    Layout.alignment: Qt.AlignLeft
                     anchors.leftMargin: 2
 
-                                                            //% "Uploading file"
+                    //% "Uploading file"
                     text: (processedFiles !== filesCount) ? qsTrId("uploader-window-dialog-text")
                                                             //% "Done"
                                                           : qsTrId("done")
                 }
                 NativeText {
 
-                    anchors.right: parent.right
+                    Layout.alignment: Qt.AlignRight
                     anchors.rightMargin: 5
 
                     text: (processedFiles + "/" + filesCount)
@@ -99,61 +101,51 @@ ApplicationWindow {
                 minimumValue: 0
                 maximumValue: 100
                 value: 0
-                anchors.left: parent.left
-                anchors.right: parent.right
+                Layout.fillWidth: true;
             }
 
             Rectangle {
 
                 height: 10
-                anchors.left: parent.left
-                anchors.right: parent.right
+                Layout.fillWidth: true;
             }
 
             ScrollView {
 
-                anchors.left: parent.left
-                anchors.right: parent.right
-                Layout.fillHeight: true
+                Layout.fillWidth: true;
+                Layout.fillHeight: true;
 
                 ListView {
 
                     model: filesListModel
 
-                    delegate: Rectangle {
+                    delegate: RowLayout {
+                        width: parent.width;
+                        height: filenameText.paintedHeight;
 
-                        width: parent.width
-                        height: 20
+                        NativeText {
+                            id: filenameText
+                            text: fileName;
+                            Layout.alignment: Qt.AlignLeft;
+                            Layout.fillWidth: true;
+                            Layout.leftMargin: 5
+                        }
 
-                        RowLayout {
-                            anchors.fill: parent
+                        Image {
+                            id: okImg
+                            Layout.maximumHeight: 15;
+                            Layout.maximumWidth: 15;
 
-                            NativeText {
-                                text: fileName;
-                                anchors.left: parent.left
-                                anchors.leftMargin: 5
-                            }
-
-                            Item {
-                                height: parent.height
-                                width: parent.height
-                                anchors.right: parent.right
-                                anchors.rightMargin: 5
-
-                                Image {
-                                    id: okImg
-
-                                    anchors.fill: parent
-                                    anchors.margins: 2
-                                    mipmap: true
-                                    fillMode: Image.PreserveAspectFit
-                                    source: (parseInt(uploadState, 10) === 0) ? "./data/ic_check_circle_black_48dp/ic_check_circle_black_48dp/web/ic_check_circle_black_48dp_1x.png"
-                                                                          : "./data/ic_error_red_48dp/ic_error_red_48dp/web/ic_error_red_48dp_1x.png"
-                                }
-                            }
+                            Layout.alignment: Qt.AlignRight
+                            Layout.margins: 2
+                            mipmap: true
+                            fillMode: Image.PreserveAspectFit
+                            source: (parseInt(uploadState, 10) === 0) ? "./data/ic_check_circle_black_48dp/ic_check_circle_black_48dp/web/ic_check_circle_black_48dp_1x.png"
+                                                                      : "./data/ic_error_red_48dp/ic_error_red_48dp/web/ic_error_red_48dp_1x.png"
                         }
                     }
                 }
+
             }
         }
     }
