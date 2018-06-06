@@ -398,11 +398,13 @@ ApplicationWindow {
 
     TabView {
         id: tabView
+        Layout.fillWidth: true;
         anchors.top: parent.top
         anchors.left: parent.left;
         anchors.right: parent.right;
         anchors.bottom: actionButtons.top;
         anchors.margins: 10;
+
 
         property alias pathTabAlias: pathTab.item;
         property alias competitionTabAlias: competitionTab.item;
@@ -518,7 +520,7 @@ ApplicationWindow {
 
                         RadioButton {
                             id: track_default
-                            anchors.verticalCenter: parent.verticalCenter
+                            Layout.alignment: Qt.AlignVCenter;
                             exclusiveGroup: trackGroup
                             //% "Default"
                             text: qsTrId("path-configuration-track-default")
@@ -529,7 +531,7 @@ ApplicationWindow {
                     Item {
                         width: 25
                         height: 25
-                        anchors.verticalCenter: parent.verticalCenter
+                        Layout.alignment: Qt.AlignVCenter;
 
                         Image {
                             anchors.fill: parent
@@ -551,8 +553,6 @@ ApplicationWindow {
                 RowLayout {
                     id: tracksFolderRow
                     spacing: 10;
-                    anchors.left: parent.left
-                    anchors.right: parent.right
                     Spacer {}
 
                     RadioButton {
@@ -560,7 +560,7 @@ ApplicationWindow {
                         //% "User defined"
                         text: qsTrId("path-configuration-track-user-defined")
                         exclusiveGroup: trackGroup
-                        anchors.verticalCenter: parent.verticalCenter
+                        Layout.alignment: Qt.AlignVCenter;
 
                         onCheckedChanged: {
 
@@ -576,7 +576,7 @@ ApplicationWindow {
                         readOnly: true//!track_user_defined.checked
                         Layout.fillWidth:true;
                         Layout.preferredWidth: parent.width/2
-                        anchors.verticalCenter: parent.verticalCenter
+                        Layout.alignment: Qt.AlignVCenter;
 
                         onTextChanged: {
                             pathConfiguration.trackFile = text;
@@ -618,8 +618,6 @@ ApplicationWindow {
 
                 RowLayout {
                     spacing: 10;
-                    anchors.left: parent.left
-                    anchors.right: parent.right
                     Spacer {}
 
                     RadioButton {
@@ -627,7 +625,7 @@ ApplicationWindow {
                         //% "User defined"
                         text: qsTrId("path-configuration-igc-folder-user-defined")
                         exclusiveGroup: igcGroup
-                        anchors.verticalCenter: parent.verticalCenter
+                        Layout.alignment: Qt.AlignVCenter;
 
                         onCheckedChanged: {
                             if(checked && pathConfiguration.igcDirectory_user_defined === "") {
@@ -642,7 +640,7 @@ ApplicationWindow {
                         readOnly: true//!igc_user_defined.checked
                         Layout.fillWidth:true;
                         Layout.preferredWidth: parent.width/2
-                        anchors.verticalCenter: parent.verticalCenter
+                        Layout.alignment: Qt.AlignVCenter;
 
                         onTextChanged: {
                             pathConfiguration.igcDirectory = text;
@@ -679,7 +677,7 @@ ApplicationWindow {
                         RadioButton {
                             id: results_default
                             exclusiveGroup: resultsFolderGroup
-                            anchors.verticalCenter: parent.verticalCenter
+                            Layout.alignment: Qt.AlignVCenter;
                             //% "Default"
                             text: qsTrId("path-configuration-flight-results-default")
                             checked: true
@@ -689,7 +687,7 @@ ApplicationWindow {
                     Item {
                         width: 25
                         height: 25
-                        anchors.verticalCenter: parent.verticalCenter
+                        Layout.alignment: Qt.AlignVCenter;
 
                         Image {
                             anchors.fill: parent
@@ -711,8 +709,6 @@ ApplicationWindow {
                 RowLayout {
                     id: resultsFolderRow
                     spacing: 10;
-                    anchors.left: parent.left
-                    anchors.right: parent.right
                     Spacer {}
 
                     RadioButton {
@@ -720,7 +716,7 @@ ApplicationWindow {
                         //% "User defined"
                         text: qsTrId("path-configuration-flight-results-user-defined")
                         exclusiveGroup: resultsFolderGroup
-                        anchors.verticalCenter: parent.verticalCenter
+                        Layout.alignment: Qt.AlignVCenter;
                         onCheckedChanged: {
                             if(checked && pathConfiguration.resultsFolder_user_defined === "") {
                                 resultsDirectoryDialog.open();
@@ -734,7 +730,7 @@ ApplicationWindow {
                         readOnly: true//!resultsFolder_user_defined.checked
                         Layout.fillWidth:true;
                         Layout.preferredWidth: parent.width/2
-                        anchors.verticalCenter: parent.verticalCenter
+                        Layout.alignment: Qt.AlignVCenter;
 
                         onTextChanged: {
                             pathConfiguration.resultsFolder = text;
@@ -777,17 +773,13 @@ ApplicationWindow {
                     spacing: 10;
                     Spacer {}
 
-                    Item {
-
-                        width: resultsFolder_user_defined.width
-                        height: resultsFolderRow.height
-
                         RadioButton {
                             id: status_online
                             //% "Online"
                             text: qsTrId("path-configuration-competition-online")
                             exclusiveGroup: statusGroup
-                            anchors.verticalCenter: parent.verticalCenter
+                            Layout.alignment: Qt.AlignVCenter
+
                             onCheckedChanged: {
 
                                 if (checked && pathConfiguration.getEnviromentTabCompName() === "") {
@@ -796,14 +788,14 @@ ApplicationWindow {
                                 }
                             }
                         }
-                    }
+
                     TextField {
                         id: status_online_text_field
                         //text: status_online.checked ? selectCompetitionOnlineDialog.selectedCompetition : ""
                         readOnly: true
                         Layout.fillWidth:true;
                         Layout.preferredWidth: parent.width/2
-                        anchors.verticalCenter: parent.verticalCenter
+                        Layout.alignment: Qt.AlignVCenter;
                     }
                     Button {
                         //% "Browse ..."
@@ -1149,10 +1141,8 @@ ApplicationWindow {
 
     RowLayout {
         id: actionButtons;
-        anchors.bottom: parent.bottom
-        anchors.right: parent.right
-        anchors.left: parent.left
-        anchors.margins: 10
+        Layout.alignment: Qt.AlignRight | Qt.AlignBottom;
+        anchors.bottom: parent.bottom;
         anchors.topMargin: 20
         anchors.bottomMargin: 10
         anchors.leftMargin: 10

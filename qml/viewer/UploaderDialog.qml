@@ -74,9 +74,6 @@ ApplicationWindow {
 
             RowLayout {
 
-                anchors.left: parent.left
-                anchors.right: parent.right
-
                 NativeText {
 
                     anchors.left: parent.left
