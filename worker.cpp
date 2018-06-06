@@ -56,7 +56,7 @@ QStringList Worker::parseCSV(QString str) {
     return retArr;
 }
 
-const int Worker::getOffsetFromUtcSec(const QString date, const QString format) {
+int Worker::getOffsetFromUtcSec(const QString date, const QString format) {
 
     return QDateTime::fromString(date, format).offsetFromUtc();
 }

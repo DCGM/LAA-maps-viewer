@@ -18,7 +18,7 @@ public:
     QString CsvJoinDelimeterReadFunc() const { return csv_join_parse_delimeter_string; }
 
     Q_INVOKABLE QStringList parseCSV(QString str);
-    Q_INVOKABLE const int getOffsetFromUtcSec(const QString date, const QString format);
+    Q_INVOKABLE int getOffsetFromUtcSec(const QString date, const QString format);
 
 private:
 

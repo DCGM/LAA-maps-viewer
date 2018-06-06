@@ -96,7 +96,7 @@ void Uploader::slotError(QNetworkReply::NetworkError e) {
     case QNetworkReply::UnknownProxyError: m_lastError = tr("Unknown Proxy Error"); break;
     case QNetworkReply::UnknownContentError: m_lastError = tr("Unknown Content Error"); break;
     case QNetworkReply::ProtocolFailure: m_lastError = tr("Protocol Failure"); break;
-
+        default: m_lastError = tr("Other Error %1").arg(e); break;
     }
 
     emit errorOccured();

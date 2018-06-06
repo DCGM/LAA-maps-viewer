@@ -945,12 +945,12 @@ const QString ResultsCreater::getTranslatedString(QString sourceString) {
 }
 
 
-const int ResultsCreater::timeToSec(const QTime &time) {
+int ResultsCreater::timeToSec(const QTime &time) {
 
     return QTime(0, 0, 0).secsTo(time);
 }
 
-const int ResultsCreater::addUtcToTime(const int timeSec, const int utcOffsetSec) {
+int ResultsCreater::addUtcToTime(const int timeSec, const int utcOffsetSec) {
 
     if (timeSec <= 0) {
         return 0;
@@ -960,7 +960,7 @@ const int ResultsCreater::addUtcToTime(const int timeSec, const int utcOffsetSec
     }
 }
 
-const int ResultsCreater::addUtcToTime(const QTime &time, const int utcOffsetSec) {
+int ResultsCreater::addUtcToTime(const QTime &time, const int utcOffsetSec) {
 
     int timeSec = timeToSec(time);
 
@@ -973,7 +973,7 @@ const int ResultsCreater::addUtcToTime(const QTime &time, const int utcOffsetSec
 }
 
 
-const int ResultsCreater::subUtcFromTime(const int timeSec, const int utcOffsetSec) {
+int ResultsCreater::subUtcFromTime(const int timeSec, const int utcOffsetSec) {
 
     if (timeSec <= 0) {
         return 0;
@@ -983,7 +983,7 @@ const int ResultsCreater::subUtcFromTime(const int timeSec, const int utcOffsetS
     }
 }
 
-const int ResultsCreater::subUtcFromTime(const QTime &time, const int utcOffsetSec) {
+int ResultsCreater::subUtcFromTime(const QTime &time, const int utcOffsetSec) {
 
     int timeSec = timeToSec(time);
 
