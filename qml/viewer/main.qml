@@ -681,7 +681,10 @@ ApplicationWindow {
             text: qsTrId("scorelist-table-menu-append-contestant")
 
             onTriggered: {
-                console.log("FIXME: new crew")
+                // new crew
+                resultsDetailComponent.curentContestant = createBlankUserObject();
+                resultsDetailComponent.crew_id = -1;
+                resultsDetailComponent.visible = true;
             }
         }
 
@@ -1058,8 +1061,7 @@ ApplicationWindow {
                             if (mouse.button === Qt.RightButton) {
 
                                 createContestantMenu.popup();
-                            }
-                            else {
+                            } else {
                                 if (row >= 0 && row < contestantsListModel.count) {
                                     contestantsTable.selectRow(row);
                                 }
@@ -1203,10 +1205,11 @@ ApplicationWindow {
 
                             contestantsListModel.setProperty(row, "name", curentContestant.name);
                             contestantsListModel.setProperty(row, "category", curentContestant.category);
-                            contestantsListModel.setProperty(row, "speed", curentContestant.speed);
+                            contestantsListModel.setProperty(row, "speed", parseInt("0"+curentContestant.speed, 10));
                             contestantsListModel.setProperty(row, "startTime", curentContestant.startTime) ;
                             contestantsListModel.setProperty(row, "aircraft_registration", curentContestant.aircraft_registration);
                             contestantsListModel.setProperty(row, "aircraft_type", curentContestant.aircraft_type);
+                            contestantsListModel.setProperty(row, "fullName", curentContestant.name + "_" + curentContestant.category);
                             contestantsListModel.setProperty(row, "classify", curentContestant.classify);
 
                             contestantsListModel.setProperty(row, "markersOk", curentContestant.markersOk);
@@ -1241,13 +1244,6 @@ ApplicationWindow {
                             // set current values as prev results - used as cache when recomputing score
                             saveCurrentResultValues(row, ctnt);
 
-                            // recalculate score
-                            var score = getTotalScore(row);
-                            contestantsListModel.setProperty(row, "scorePoints", score);
-                            recalculateScoresTo1000();
-
-                            // save changes into CSV
-                            writeScoreManulaValToCSV();
                         } else { // add new crew
 
                             // create blank user
@@ -1256,23 +1252,61 @@ ApplicationWindow {
                             // fill user params
                             new_contestant.name = curentContestant.name;
                             new_contestant.category = curentContestant.category;
-                            new_contestant.startTime = curentContestant.startTime
-                            new_contestant.fullName = curentContestant.name + "_" + curentContestant.category;
                             new_contestant.speed = parseInt("0"+curentContestant.speed, 10);
-                            new_contestant.aircraft_type = curentContestant.aircraft_type;
+                            new_contestant.startTime = curentContestant.startTime
                             new_contestant.aircraft_registration = curentContestant.aircraft_registration;
+                            new_contestant.aircraft_type = curentContestant.aircraft_type;
+                            new_contestant.fullName = curentContestant.name + "_" + curentContestant.category;
                             new_contestant.classify = curentContestant.classify;
+
+                            new_contestant.markersOk = curentContestant.markersOk;
+                            new_contestant.markersNok = curentContestant.markersNok;
+                            new_contestant.markersFalse = curentContestant.markersFalse;
+                            new_contestant.markersScore = curentContestant.markersScore;
+                            new_contestant.photosOk = curentContestant.photosOk;
+                            new_contestant.photosNok = curentContestant.photosNok;
+                            new_contestant.photosFalse = curentContestant.photosFalse;
+                            new_contestant.photosScore = curentContestant.photosScore;
+                            new_contestant.startTimeMeasured = curentContestant.startTimeMeasured;
+                            new_contestant.startTimeDifference = curentContestant.startTimeDifference;
+                            new_contestant.startTimeScore = curentContestant.startTimeScore;
+                            new_contestant.landingScore = curentContestant.landingScore;
+
+                            //new_contestant.circlingCount = curentContestant.circlingCount;
+                            //new_contestant.circlingScore = curentContestant.circlingScore;
+                            new_contestant.oppositeCount = curentContestant.oppositeCount;
+                            new_contestant.oppositeScore = curentContestant.oppositeScore;
+                            new_contestant.otherPoints = curentContestant.otherPoints;
+                            new_contestant.otherPenalty = curentContestant.otherPenalty;
+                            new_contestant.pointNote = curentContestant.pointNote;
+
+
+                            new_contestant.wptScoreDetails = curentContestant.wptScoreDetails;
+                            new_contestant.speedSectionsScoreDetails = curentContestant.speedSectionsScoreDetails;
+                            new_contestant.altitudeSectionsScoreDetails = curentContestant.altitudeSectionsScoreDetails;
+                            new_contestant.spaceSectionsScoreDetails = curentContestant.spaceSectionsScoreDetails;
+
+//                            saveCurrentResultValues(row, ctnt); // FIXME?
 
                             // append into list model
                             contestantsListModel.append(new_contestant);
 
-                            //                            // used instead of the append due to some post processing (call some on change method)
-                            //                            contestantsListModel.changeLisModel(contestantsListModel.count - 1, "category", curentContestant.category);
-                            //                            contestantsListModel.changeLisModel(contestantsListModel.count - 1, "speed", parseInt("0"+curentContestant.speed, 10));
-                            //                            contestantsListModel.changeLisModel(contestantsListModel.count - 1, "startTime", curentContestant.startTime);
+//                            // used instead of the append due to some post processing (call some on change method)
+//                            contestantsListModel.changeLisModel(contestantsListModel.count - 1, "category", curentContestant.category);
+//                            contestantsListModel.changeLisModel(contestantsListModel.count - 1, "speed", parseInt("0"+curentContestant.speed, 10));
+//                            contestantsListModel.changeLisModel(contestantsListModel.count - 1, "startTime", curentContestant.startTime);
 
 
                         }
+
+                        // recalculate score
+                        var score = getTotalScore(row);
+                        contestantsListModel.setProperty(row, "scorePoints", score);
+                        recalculateScoresTo1000();
+
+                        // save changes into CSV
+                        writeScoreManulaValToCSV();
+
                     }
 
                     onOk: {
