@@ -633,7 +633,7 @@ ApplicationWindow {
             onTriggered: {
                 // new crew
                 resultsDetailComponent.curentContestant = createBlankUserObject();
-                resultsDetailComponent.crew_id = -1;
+                resultsDetailComponent.crew_row_index = -1;
                 resultsDetailComponent.visible = true;
 
             }
@@ -683,7 +683,7 @@ ApplicationWindow {
             onTriggered: {
                 // new crew
                 resultsDetailComponent.curentContestant = createBlankUserObject();
-                resultsDetailComponent.crew_id = -1;
+                resultsDetailComponent.crew_row_index = -1;
                 resultsDetailComponent.visible = true;
             }
         }
@@ -1200,7 +1200,7 @@ ApplicationWindow {
                     function saveValuesFromDialogModel() {
 
                         // copy manual values into list models
-                        var row = resultsDetailComponent.crew_id;
+                        var row = resultsDetailComponent.crew_row_index;
                         if (row != -1) { // edit crew details
 
                             contestantsListModel.setProperty(row, "name", curentContestant.name);
@@ -1621,7 +1621,7 @@ ApplicationWindow {
         // TODO - prasarna aby byla kopie a ne stejny objekt
         resultsDetailComponent.curentContestant = createBlankUserObject();
         resultsDetailComponent.curentContestant = JSON.parse(JSON.stringify(ctnt));
-        resultsDetailComponent.crew_id = row;
+        resultsDetailComponent.crew_row_index = row;
 
         // select row
         contestantsTable.selectRow(row);

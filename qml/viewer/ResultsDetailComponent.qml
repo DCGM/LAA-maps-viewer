@@ -11,7 +11,7 @@ Rectangle {
 
     id: resultsMainWindow
 
-    property int crew_id;
+    property int crew_row_index;
     property variant curentContestant;
     property int totalPointsScore: -1;
 
