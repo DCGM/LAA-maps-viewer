@@ -19,7 +19,6 @@ ApplicationWindow {
 
     property bool autoConfirmFlag: false;
     property bool dontShowRegenResultsDialog: false;
-
     property string igcDirectory_default: Qt.resolvedUrl("../../../../../igcFiles");
     property string igcDirectory_user_defined;
 

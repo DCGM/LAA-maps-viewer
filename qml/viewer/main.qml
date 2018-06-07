@@ -715,7 +715,7 @@ ApplicationWindow {
         id: competitionClassModel
 
         function getName(i) {
-            if (i < count) {
+            if ((i >= 0) && (i < count)) {
                 var item = competitionClassModel.get(i);
                 if (item.text !== undefined) {
                     return item.text
@@ -756,13 +756,15 @@ ApplicationWindow {
             return 0;
         }
 
-        function getName(value) {
-            for (var i = 0; i < scoreListClassifyListModel.count; i++) {
+        function getName(i) {
+            if ((i >= 0) && (i < count)) {
                 var item = scoreListClassifyListModel.get(i)
-                return item.classify;
+                if (item.classify !== undefined) {
+                    return item.classify;
+                }
             }
 
-            return '';
+            return '-';
         }
 
 

@@ -259,6 +259,7 @@ Rectangle {
             resultsHeaderAircraftRegistration.text = curentContestant.aircraft_registration;
             resultsHeaderAircraftType.text = curentContestant.aircraft_type;
             resultsHeaderClassify.value = curentContestant.classify;
+            console.log("======================> Classify value: " + curentContestant.classify + " " + resultsHeaderClassify.value  +" " + resultsHeaderClassify.text)
         }
 
         Component.onCompleted: {
