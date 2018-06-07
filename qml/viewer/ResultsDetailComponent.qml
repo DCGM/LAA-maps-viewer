@@ -29,8 +29,9 @@ Rectangle {
         // set tab active
         if (!tabPrevActived) tabView.activateTabByName("manVals");
 
-        if (tabView.scrollView === null)
+        if (tabView.scrollView === null) {
             return;
+        }
 
         curentContestant.startTimeScore = getTakeOffScore(tabView.scrollView.startTimeDifferenceText, curentContestant.time_window_size, curentContestant.time_window_penalty, totalPointsScore);
         tabView.scrollView.startTimeScoreText = curentContestant.startTimeScore;
