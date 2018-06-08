@@ -143,6 +143,7 @@ GridLayout {
             Layout.fillWidth:true;
             Layout.preferredWidth: parent.width/2
             model: scoreListClassifyListModel
+
         }
     }
 

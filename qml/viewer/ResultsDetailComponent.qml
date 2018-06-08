@@ -259,7 +259,6 @@ Rectangle {
             resultsHeaderAircraftRegistration.text = curentContestant.aircraft_registration;
             resultsHeaderAircraftType.text = curentContestant.aircraft_type;
             resultsHeaderClassify.value = curentContestant.classify;
-            console.log("======================> Classify value: " + curentContestant.classify + " " + resultsHeaderClassify.value  +" " + resultsHeaderClassify.text)
         }
 
         Component.onCompleted: {
@@ -357,7 +356,13 @@ Rectangle {
                 startTime: resultsHeaderStartTime.value;
                 registration: resultsHeaderAircraftRegistration.text
                 planeType: resultsHeaderAircraftType.text;
-                classify: resultsHeaderClassify.value;
+//                classify: resultsHeaderClassify.value;
+                // workaround for broken binding;
+                Binding {
+                    target: createContestantGrid
+                    property: "classify"
+                    value: resultsHeaderClassify.value
+                }
 
                 onPilotNameChanged: {
                     resultsHeaderPilotName.text = pilotName

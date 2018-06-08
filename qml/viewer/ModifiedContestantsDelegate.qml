@@ -319,8 +319,7 @@ Component {
 
             Row {
                 Layout.preferredWidth: 350
-                anchors.right: parent.right
-                anchors.rightMargin: 10
+                Layout.alignment: Qt.AlignRight;
 
                 NativeText {
                     text: aircraft_type;

@@ -1015,9 +1015,17 @@ ApplicationWindow {
 
                 onSelectRow: {
 
+                    var previous = -1;
+                    contestantsTable.selection.forEach( function(rowIndex) { previous = rowIndex; } )
+
                     contestantsTable.selection.clear();
                     contestantsTable.selection.select(row);
                     contestantsTable.currentRow = row;
+
+                    if (row == previous) { // if already selected
+                        contestantsTableShowResultsDialog(row);
+                    }
+
                 }
 
                 itemDelegate: ContestantsDelegate {
@@ -1040,9 +1048,6 @@ ApplicationWindow {
                         updateContestantMenu.openFormForEdit();
                     }
 
-                    onShowResults: {
-                        contestantsTableShowResultsDialog(row);
-                    }
                 }
 
 
@@ -1064,7 +1069,7 @@ ApplicationWindow {
 
                                 createContestantMenu.popup();
                             } else {
-                                if (row >= 0 && row < contestantsListModel.count) {
+                                if ((row >= 0) && (row < contestantsListModel.count)) {
                                     contestantsTable.selectRow(row);
                                 }
                             }
@@ -1625,8 +1630,14 @@ ApplicationWindow {
         resultsDetailComponent.curentContestant = JSON.parse(JSON.stringify(ctnt));
         resultsDetailComponent.crew_row_index = row;
 
+
+        var previous = -1;
+        contestantsTable.selection.forEach( function(rowIndex) { previous = rowIndex; } )
+
         // select row
-        contestantsTable.selectRow(row);
+        if (previous !== row) {
+            contestantsTable.selectRow(row);
+        }
 
         resultsDetailComponent.visible = true;
 

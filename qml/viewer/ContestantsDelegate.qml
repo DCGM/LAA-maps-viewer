@@ -10,7 +10,6 @@ Item {
     anchors.fill: parent;
 
     signal changeModel(int row, string role, variant value);
-    signal showResults(int row);
     signal selectRow(int row);
     signal showContestnatEditForm();
 
@@ -195,61 +194,6 @@ Item {
 
     }
 
-//    Loader { // Initialize text editor lazily to improve performance
-//        id: loaderButton
-//        //            anchors.fill: parent
-//        anchors.left: parent.left
-//        anchors.verticalCenter: parent.verticalCenter
-
-//        anchors.margins: 4
-//        Connections {
-//            target: loaderButton.item
-
-//            onButtonPressed: {
-
-//                showResults(row);
-//            }
-
-//            onRightButtonPressed: {
-
-//                if (applicationWindow.debug) {
-//                    recalculateScoreMenu.selectedRow = row;
-//                    recalculateScoreMenu.popup();
-//                }
-//            }
-//        }
-
-//        sourceComponent: styleData.role === "scorePoints"? contestantButton : null;
-
-
-//        Component {
-//            id: contestantButton
-//            Button {
-//                width: delegate.width - 10;
-//                height: delegate.height - 4;
-//                text: (styleData.value < 0 ? 0 : styleData.value)
-//                enabled: styleData.value >= 0
-
-//                signal buttonPressed(int row);
-//                signal rightButtonPressed(int row);
-
-//                MouseArea {
-
-//                   // id: mouse
-//                    anchors.fill: parent
-//                    acceptedButtons: Qt.LeftButton | Qt.RightButton
-
-//                    onPressed: {
-
-//                        if (mouse.button === Qt.RightButton)
-//                            rightButtonPressed(styleData.row); //recalculate results
-//                        else
-//                            buttonPressed(styleData.row);
-//                    }
-//                }
-//            }
-//        }
-//    }
 
     //editbox
 
