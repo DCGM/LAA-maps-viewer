@@ -898,7 +898,10 @@ function timeToUnix(str) {
     var result = regexp.exec(str);
     if (result) {
         return parseInt(result[1], 10) * 3600 + parseInt(result[2], 10) * 60 + parseInt(result[3], 10);
+    } else if (str === '') {
+        return 0;
     }
+    console.warn("timeToUnix regexp doesn't match \"" +str+"\"")
     return 0;
 }
 
