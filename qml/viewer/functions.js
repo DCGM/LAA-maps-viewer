@@ -894,7 +894,7 @@ function getFlagsByIndex(flag_index, value) {
 
 
 function timeToUnix(str) {
-    var regexp = /^(\d\d):(\d\d):(\d\d)$/;
+    var regexp = /^(-?\d+):(-?\d+):(-?\d+\.?\d*)$/;
     var result = regexp.exec(str);
     if (result) {
         return parseInt(result[1], 10) * 3600 + parseInt(result[2], 10) * 60 + parseInt(result[3], 10);

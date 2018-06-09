@@ -1015,16 +1015,10 @@ ApplicationWindow {
 
                 onSelectRow: {
 
-                    var previous = -1;
-                    contestantsTable.selection.forEach( function(rowIndex) { previous = rowIndex; } )
-
                     contestantsTable.selection.clear();
                     contestantsTable.selection.select(row);
                     contestantsTable.currentRow = row;
 
-                    if (row == previous) { // if already selected
-                        contestantsTableShowResultsDialog(row);
-                    }
 
                 }
 
