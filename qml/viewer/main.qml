@@ -3368,8 +3368,9 @@ ApplicationWindow {
 
                         var angle_ok = (((angle_low < flight_angle) && (flight_angle < angle_high)) || ((angle_low < flight_angle2) && (flight_angle2 < angle_high)))
 
+                        var already_intersected = (F.timeToUnix(tpiData[j].time) > 0); // measure only first intersection
 
-                        if (angle_ok) {
+                        if (angle_ok && !already_intersected) {
                             tpiData[j].time = igcthis.time
                             tpiData[j].sg_hit = true
                             tpiData[j].alt = parseFloat(igcthis.alt)
