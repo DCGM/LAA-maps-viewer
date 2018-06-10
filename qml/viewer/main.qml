@@ -2286,7 +2286,7 @@ ApplicationWindow {
                     // add modified crew into updated list model
                     if (currentCrew.name !== currentCrew.newName ||
                             currentCrew.category !== currentCrew.newCategory ||
-                            currentCrew.startTime !== (F.strTimeValidator(currentCrew.newStartTime) === -1 ? F.addTimeStrFormat(0) : currentCrew.newStartTime) ||
+                            currentCrew.startTime !== (F.timeToUnix(currentCrew.newStartTime) === -1 ? F.addTimeStrFormat(0) : currentCrew.newStartTime) ||
                             currentCrew.speed !== currentCrew.newSpeed ||
                             currentCrew.aircraft_type !== currentCrew.newAircraft_type ||
                             currentCrew.aircraft_registration !== currentCrew.newAircraft_registration) {
@@ -3183,7 +3183,7 @@ ApplicationWindow {
         contestantsListModel.setProperty(current, "classify", item.prevResultsClassify);
 
         // calc new start time difference
-        var sec = F.strTimeValidator(item.prevResultsStartTimeMeasured);
+        var sec = F.timeToUnix(item.prevResultsStartTimeMeasured);
         var time;
         if (sec >= 0) { // valid time
 

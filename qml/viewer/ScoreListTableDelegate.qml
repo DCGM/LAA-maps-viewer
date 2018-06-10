@@ -96,7 +96,7 @@ Item {
                     case "tg_time_manual":
 
                         var str = value;
-                        var sec = F.strTimeValidator(str);
+                        var sec = F.timeToUnix(str);
                         if (sec >= 0) {
                             changeModel(styleData.row, styleData.role, F.subUtcFromTime(sec, applicationWindow.utc_offset_sec));
                         }

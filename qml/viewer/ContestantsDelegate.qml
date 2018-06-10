@@ -284,20 +284,19 @@ Item {
 
                 onAccepted: {
 
-                    var sec = F.strTimeValidator(text);
-                    if (sec < 0) {
+                    var sec = F.timeToUnix(text);
+                    if (sec <= 0) {
                         text = prevVal;
-                    }
-                    else {
-
+                    } else {
                         newValue(F.addTimeStrFormat(F.subUtcFromTime(sec, applicationWindow.utc_offset_sec)));
                     }
                 }
 
                 onActiveFocusChanged: {
 
-                    if (focus)
+                    if (focus) {
                         prevVal = text;
+                    }
                 }
 
                 MouseArea {

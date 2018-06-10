@@ -79,11 +79,10 @@ GridLayout {
 
             onAccepted: {
 
-                var sec = F.strTimeValidator(text);
-                if (sec < 0) {
+                var sec = F.timeToUnix(text);
+                if (sec <= 0) {
                     text = prevVal;
-                }
-                else {
+                } else {
                     text = F.addTimeStrFormat(sec);
                 }
             }

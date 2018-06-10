@@ -224,9 +224,7 @@ Rectangle {
         NativeText {
             id: resultsHeaderStartTime
             property string value: '00:00:00' // in CEST
-            // FIXME validator
-            // FIXME UTC vs. CEST
-            text: F.addTimeStrFormat(F.subUtcFromTime(F.timeToUnix(value), applicationWindow.utc_offset_sec));
+            text: F.addTimeStrFormat(F.addUtcToTime(F.timeToUnix(value), applicationWindow.utc_offset_sec));
 
             Layout.minimumWidth: 50
         }
@@ -517,7 +515,7 @@ Rectangle {
                                     }
                                     else {
 
-                                        var sec = F.strTimeValidator(str);
+                                        var sec = F.timeToUnix(str);
                                         var time;
                                         if (sec < 0) {
                                             text = prevVal;
@@ -1640,7 +1638,7 @@ Rectangle {
         }
         else {
 
-            var sec = F.strTimeValidator(str) >= 0 ? F.strTimeValidator(str) : F.strTimeValidator(tabView.scrollView.startTimeTextField.prevVal);
+            var sec = (F.timeToUnix(str) > 0) ? F.timeToUnix(str) : F.timeToUnix(tabView.scrollView.startTimeTextField.prevVal);
             var time;
             if (sec >= 0) {
 

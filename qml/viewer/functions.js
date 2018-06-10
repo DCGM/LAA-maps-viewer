@@ -123,41 +123,6 @@ function nameValidator(string) {
     return nameRegexp.exec(string);
 }
 
-function strTimeValidator(newVal) {
-
-    var regexp1 = /^(\d{0,2}):(\d{0,2}):(\d{0,2})$/;
-    var regexp2 = /^(\d{0,2}):(\d{0,2}):$/;
-    var regexp3 = /^(\d{0,2}):(\d{0,2})$/;
-    var regexp4 = /^(\d{0,2}):$/;
-
-    var res;
-
-    var result = regexp1.exec(newVal);
-    if (!result) {
-
-        result = regexp2.exec(newVal);
-        if(!result) {
-
-            result = regexp3.exec(newVal);
-            if(!result) {
-
-                result = regexp4.exec(newVal);
-                if(!result) {
-                    return -1;
-                }
-            }
-        }
-    }
-
-    var h = (result[1] === undefined || result[1] === "" ? 0 : parseInt(result[1]));
-    var m = (result[2] === undefined || result[2] === "" ? 0 : (String(result[2]).length == 2 ? parseInt(result[2]) : parseInt(result[2]) * 10));
-    var s = (result[3] === undefined || result[3] === "" ? 0 : (String(result[3]).length == 2 ? parseInt(result[3]) : parseInt(result[3]) * 10));
-
-    var num = h * 3600 + m * 60 + s;
-
-    return(num);
-}
-
 function addUtcToTime(timeSec, utcOffsetSec) {
 
     if (timeSec === 0) {
@@ -172,8 +137,7 @@ function subUtcFromTime(timeSec, utcOffsetSec) {
 
     if (timeSec === 0) {
         return 0;
-    }
-    else {
+    } else {
         return timeSec - utcOffsetSec;
     }
 }
