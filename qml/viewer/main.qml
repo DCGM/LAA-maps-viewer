@@ -629,6 +629,7 @@ ApplicationWindow {
         MenuItem {
             //% "Create crew"
             text: qsTrId("scorelist-table-menu-append-contestant")
+            enabled: (tracks !== undefined)
 
             onTriggered: {
                 // new crew
@@ -670,6 +671,7 @@ ApplicationWindow {
         MenuItem {
             //% "Edit contestant"
             text: qsTrId("scorelist-table-menu-edit-contestant")
+            enabled: (tracks !== undefined)
 
             onTriggered: {
                 updateContestantMenu.openFormForEdit();
@@ -679,6 +681,7 @@ ApplicationWindow {
         MenuItem {
             //% "Create crew"
             text: qsTrId("scorelist-table-menu-append-contestant")
+            enabled: (tracks !== undefined)
 
             onTriggered: {
                 // new crew
@@ -691,6 +694,7 @@ ApplicationWindow {
         MenuItem {
             //% "Remove contestant"
             text: qsTrId("scorelist-table-menu-remove-contestant")
+            enabled: (tracks !== undefined)
 
             onTriggered: {
 
