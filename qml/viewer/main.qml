@@ -1290,13 +1290,12 @@ ApplicationWindow {
 
                             // append into list model
                             contestantsListModel.append(new_contestant);
-
                             row = contestantsListModel.count - 1;
-//                            // used instead of the append due to some post processing (call some on change method)
 
 
                         }
 
+                        // used instead of the append due to some post processing (call some on change method)
                         contestantsListModel.changeLisModel(row, "category", curentContestant.category);
                         contestantsListModel.changeLisModel(row, "speed", parseInt("0"+curentContestant.speed, 10));
                         contestantsListModel.changeLisModel(row, "startTime", curentContestant.startTime);
@@ -2030,7 +2029,6 @@ ApplicationWindow {
     }
 
     function loadContestants(filename) {
-
         contestantsTable.selection.clear();
 
         var f_data = file_reader.read(Qt.resolvedUrl(filename));
@@ -2043,12 +2041,11 @@ ApplicationWindow {
 
             resCSV = cppWorker.parseCSV(String(f_data));
             for (i = 0; i < resCSV.length; i++) {
-
                 var resItem = resCSV[i];
+                console.log("cppWorker resItem[]:" + JSON.stringify(resItem))
                 data.push(resItem.split(cppWorker.csv_join_parse_delimeter_property))
             }
-        }
-        else {
+        } else {
             console.log("have to use slow variant of CSV parser for contestant \n")
             data = CSVJS.parseCSV(String(f_data));
         }
@@ -4084,7 +4081,7 @@ ApplicationWindow {
     function getPtByPid(pid, points) {
         for (var i = 0; i < points.length; i++) {
             var item = points[i]
-            if (item.pid == pid) {
+            if (item.pid === pid) {
                 return item;
             }
         }
@@ -4093,7 +4090,7 @@ ApplicationWindow {
     function getPolyByCid(cid, poly) {
         for (var i = 0; i < poly.length; i++) {
             var item = poly[i];
-            if (item.cid == cid) {
+            if (item.cid === cid) {
                 return item;
             }
         }
@@ -4607,8 +4604,7 @@ ApplicationWindow {
 
                 // create contestant html file
                 contestantsTable.generateResults(current, false);
-            }
-            else {
+            } else {
 
                 // load contestant
                 contestant = contestantsListModel.get(current);
@@ -4671,6 +4667,8 @@ ApplicationWindow {
                     pathConfiguration.contestantsDownloadedString = "";
                 }
 
+                contestantsListModel.clear(); // avoid damaging of model by clearing list of classes
+
                 // clear contestant in categories counters
                 if (file_reader.file_exists(Qt.resolvedUrl(pathConfiguration.trackFile ))) {
                     tracks = JSON.parse(file_reader.read(Qt.resolvedUrl(pathConfiguration.trackFile )))
@@ -4681,8 +4679,6 @@ ApplicationWindow {
                         var category_name = tracks.tracks[i].name;
                         competitionClassModel.append({text: category_name})
                     }
-
-
 
                     // load VTB and preparation times
                     tracksVbtTimes = [];
