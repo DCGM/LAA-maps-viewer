@@ -2042,7 +2042,6 @@ ApplicationWindow {
             resCSV = cppWorker.parseCSV(String(f_data));
             for (i = 0; i < resCSV.length; i++) {
                 var resItem = resCSV[i];
-                console.log("cppWorker resItem[]:" + JSON.stringify(resItem))
                 data.push(resItem.split(cppWorker.csv_join_parse_delimeter_property))
             }
         } else {
