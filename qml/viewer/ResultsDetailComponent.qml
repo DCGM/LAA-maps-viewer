@@ -522,10 +522,9 @@ Rectangle {
 
                                         var sec = F.timeToUnix(str);
                                         var time;
-                                        if (sec < 0) {
+                                        if (sec <= 0) {
                                             text = prevVal;
-                                        }
-                                        else {
+                                        } else {
 
                                             time = F.addTimeStrFormat(F.subUtcFromTime(sec, applicationWindow.utc_offset_sec));
 
