@@ -1114,8 +1114,7 @@ ApplicationWindow {
                     if (!found) {
                         map.filterCupData = 3
                         console.log("ctnt.category \"" + ctnt.category + "\" not found in track!")
-                    }
-                    else {
+                    } else {
 
                         //                console.log("setFilter" + ctnt.startTime)
                         tool_bar.startTime = ctnt.startTime;
@@ -1289,18 +1288,18 @@ ApplicationWindow {
                             new_contestant.altitudeSectionsScoreDetails = curentContestant.altitudeSectionsScoreDetails;
                             new_contestant.spaceSectionsScoreDetails = curentContestant.spaceSectionsScoreDetails;
 
-//                            saveCurrentResultValues(row, ctnt); // FIXME?
-
                             // append into list model
                             contestantsListModel.append(new_contestant);
 
+                            row = contestantsListModel.count - 1;
 //                            // used instead of the append due to some post processing (call some on change method)
-//                            contestantsListModel.changeLisModel(contestantsListModel.count - 1, "category", curentContestant.category);
-//                            contestantsListModel.changeLisModel(contestantsListModel.count - 1, "speed", parseInt("0"+curentContestant.speed, 10));
-//                            contestantsListModel.changeLisModel(contestantsListModel.count - 1, "startTime", curentContestant.startTime);
 
 
                         }
+
+                        contestantsListModel.changeLisModel(row, "category", curentContestant.category);
+                        contestantsListModel.changeLisModel(row, "speed", parseInt("0"+curentContestant.speed, 10));
+                        contestantsListModel.changeLisModel(row, "startTime", curentContestant.startTime);
 
                         // recalculate score
                         var score = getTotalScore(row);
