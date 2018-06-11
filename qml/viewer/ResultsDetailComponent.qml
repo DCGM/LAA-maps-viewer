@@ -371,7 +371,6 @@ Rectangle {
                 onCategoryChanged: {
                     resultsHeaderCategory.value = category;
                 }
-
                 onSpeedChanged: {
                     resultsHeaderSpeed.value = speed;
                 }
@@ -485,7 +484,9 @@ Rectangle {
                                 mheight: parent.height
                             }
                         }
-                        Item { Layout.preferredWidth: manualValuesTab.columnWidth; Layout.preferredHeight: 23;
+                        Item {
+                            Layout.preferredWidth: manualValuesTab.columnWidth;
+                            Layout.preferredHeight: 23;
                             MyEditableTextField {
 
                                 id: startTimeMeasuredTextField
@@ -512,8 +513,7 @@ Rectangle {
                                         text = (curentContestant.startTimeMeasured !== "" ? F.addTimeStrFormat(F.addUtcToTime(F.timeToUnix(curentContestant.startTimeMeasured), applicationWindow.utc_offset_sec)) : ""); // TU SE TO KURVI
                                         curentContestant.startTimeDifference = "";//F.addTimeStrFormat(0);
                                         startTimeDifferenceTextField.text = "";//F.addTimeStrFormat(0);
-                                    }
-                                    else {
+                                    } else {
 
                                         var sec = F.timeToUnix(str);
                                         var time;
@@ -543,7 +543,9 @@ Rectangle {
                                 }
                             }
                         }
-                        Item { Layout.preferredWidth: manualValuesTab.columnWidth; Layout.preferredHeight: 23;
+                        Item {
+                            Layout.preferredWidth: manualValuesTab.columnWidth;
+                            Layout.preferredHeight: 23;
                             MyReadOnlyTextField {
                                 id: startTimeDifferenceTextField;
                                 text: curentContestant.startTimeDifference;
@@ -561,7 +563,9 @@ Rectangle {
                                 }
                             }
                         }
-                        Item { Layout.preferredWidth: manualValuesTab.columnWidth; Layout.preferredHeight: 23;
+                        Item {
+                            Layout.preferredWidth: manualValuesTab.columnWidth;
+                            Layout.preferredHeight: 23;
                             MyReadOnlyTextField {
                                 id: startTimeScoreTextField;
                                 text: curentContestant.startTimeScore;
@@ -645,7 +649,9 @@ Rectangle {
                         anchors.leftMargin: 30
                         anchors.left: parent.left
 
-                        Item { Layout.preferredWidth: manualValuesTab.columnWidth; Layout.preferredHeight: 23;
+                        Item {
+                            Layout.preferredWidth: manualValuesTab.columnWidth;
+                            Layout.preferredHeight: 23;
                             MySpinBox {
                                 id: markersOkSpinBox
                                 value: curentContestant.markersOk;
@@ -667,7 +673,9 @@ Rectangle {
                                 }
                             }
                         }
-                        Item { Layout.preferredWidth: manualValuesTab.columnWidth; Layout.preferredHeight: 23;
+                        Item {
+                            Layout.preferredWidth: manualValuesTab.columnWidth;
+                            Layout.preferredHeight: 23;
                             MySpinBox {
                                 id: markersNokSpinBox
                                 value: curentContestant.markersNok;
@@ -1591,7 +1599,7 @@ Rectangle {
         curentContestant.name = (resultsHeaderCoPilotName.text === "") ? resultsHeaderPilotName.text : resultsHeaderPilotName.text + ' – ' + resultsHeaderCoPilotName.text;
         curentContestant.category = resultsHeaderCategory.text;
         curentContestant.speed = parseInt("0"+resultsHeaderSpeed.value, 10)
-        curentContestant.startTime = resultsHeaderStartTime.text;
+        curentContestant.startTime = resultsHeaderStartTime.value;
         curentContestant.aircraft_registration = resultsHeaderAircraftRegistration.text;
         curentContestant.aircraft_type = resultsHeaderAircraftType.text;
         curentContestant.classify = resultsHeaderClassify.value;

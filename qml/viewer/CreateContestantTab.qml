@@ -11,7 +11,7 @@ GridLayout {
         property alias pilotName: pilotNameTextField.text
         property alias copilotName: copilotNameTextField.text;
         property alias category: categoryCombo.currentIndex;
-        property alias startTime: startTimeTextField.text;
+        property alias startTime: startTimeTextField.value;
         property alias speed: speedTextField.text;
         property alias registration: registrationTextField.text
         property alias planeType: planeTypeTextField.text;
@@ -70,14 +70,15 @@ GridLayout {
 
         TextField {
             id: startTimeTextField
-            Layout.fillWidth:true;
+            Layout.fillWidth: true;
             Layout.preferredWidth: parent.width/2
             placeholderText: qsTrId("create-contestant-start-time")
 
-            property string prevVal: "08:00:00";
-            validator: RegExpValidator { regExp: /\d+:\d+:\d+/ }
+            property string value
+            property string prevVal: "00:00:00";
+            text: F.addTimeStrFormat(F.addUtcToTime(F.timeToUnix(value), applicationWindow.utc_offset_sec));
 
-            onAccepted: {
+            onEditingFinished: {
 
                 var sec = F.timeToUnix(text);
                 if (sec <= 0) {
@@ -85,12 +86,15 @@ GridLayout {
                 } else {
                     text = F.addTimeStrFormat(sec);
                 }
+                value = F.addTimeStrFormat(F.subUtcFromTime(sec, applicationWindow.utc_offset_sec));
+
             }
 
             onActiveFocusChanged: {
 
-                if (focus)
+                if (focus) {
                     prevVal = text;
+                }
             }
         }
 
