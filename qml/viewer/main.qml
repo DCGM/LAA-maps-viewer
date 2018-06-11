@@ -1126,7 +1126,7 @@ ApplicationWindow {
                         if (file_reader.file_exists(Qt.resolvedUrl(filePath))) {
                             igc.load( file_reader.toLocal(Qt.resolvedUrl(filePath)), ctnt.startTime);
                         } else {
-                            console.log(ctnt.name + "igc file " + ctnt.filename + " doesn't exists")
+                            console.log(ctnt.name + ": igc file \"" + ctnt.filename + "\" doesn't exists")
                             igc.clear();
                         }
 
