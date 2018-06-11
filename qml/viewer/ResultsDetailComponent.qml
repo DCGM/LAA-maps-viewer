@@ -351,7 +351,6 @@ Rectangle {
                 copilotName: resultsHeaderCoPilotName.text
                 category: resultsHeaderCategory.value
                 speed: resultsHeaderSpeed.value;
-                startTime: resultsHeaderStartTime.value;
                 registration: resultsHeaderAircraftRegistration.text
                 planeType: resultsHeaderAircraftType.text;
 //                classify: resultsHeaderClassify.value;
@@ -360,6 +359,12 @@ Rectangle {
                     target: createContestantGrid
                     property: "classify"
                     value: resultsHeaderClassify.value
+                }
+//                startTime: resultsHeaderStartTime.value;
+                Binding {
+                    target: createContestantGrid
+                    property: "startTime"
+                    value: resultsHeaderStartTime.value
                 }
 
                 onPilotNameChanged: {

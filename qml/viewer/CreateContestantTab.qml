@@ -75,27 +75,37 @@ GridLayout {
             placeholderText: qsTrId("create-contestant-start-time")
 
             property string value
-            property string prevVal: "00:00:00";
             text: F.addTimeStrFormat(F.addUtcToTime(F.timeToUnix(value), applicationWindow.utc_offset_sec));
 
+            onValueChanged: {
+                var t = F.addTimeStrFormat(F.addUtcToTime(F.timeToUnix(value), applicationWindow.utc_offset_sec));
+                if (text !== t) {
+                    text = t;
+                }
+            }
+
+
+            onAccepted: {
+                updateValue();
+            }
             onEditingFinished: {
+                updateValue();
+            }
+            onTextChanged: {
+                var regexp = /^\d\d:\d\d:\d\d$/
+                if (regexp.exec(text)) {
+                    updateValue();
+                }
+            }
 
+            function updateValue() {
                 var sec = F.timeToUnix(text);
-                if (sec <= 0) {
-                    text = prevVal;
-                } else {
-                    text = F.addTimeStrFormat(sec);
-                }
-                value = F.addTimeStrFormat(F.subUtcFromTime(sec, applicationWindow.utc_offset_sec));
-
-            }
-
-            onActiveFocusChanged: {
-
-                if (focus) {
-                    prevVal = text;
+                if (sec > 0) {
+                    value = F.addTimeStrFormat(F.subUtcFromTime(sec, applicationWindow.utc_offset_sec));
                 }
             }
+
+
         }
 
         NativeText {

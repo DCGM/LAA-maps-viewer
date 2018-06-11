@@ -1031,12 +1031,10 @@ ApplicationWindow {
                     id: contestantsTableDelegate
 
                     onSelectRow: {
-
                         contestantsTable.selectRow(row);
                     }
 
                     onChangeModel: {
-
                         contestantsListModel.changeLisModel(row, role, value);
                     }
 

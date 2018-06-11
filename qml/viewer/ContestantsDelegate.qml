@@ -118,7 +118,7 @@ Item {
 
                 model: scoreListClassifyListModel
                 textRole: "classify"
-                currentIndex: styleData.value === -1 ? 0 : styleData.value // FIXME (nejak to nefunguje)
+                currentIndex: styleData.value === -1 ? 0 : styleData.value
 
                 onCurrentIndexChanged: {
                     classifyChanged(currentIndex);
@@ -149,11 +149,13 @@ Item {
 
                 onCurrentTextChanged: {
 
-                    if (currentIndex === 0 && prevIndex !== -1)
+                    if (currentIndex === 0 && prevIndex !== -1) {
                         currentIndex = prevIndex;
+                    }
 
-                    if (currentIndex > 0)
+                    if (currentIndex > 0) {
                         categorySelected(currentText);
+                    }
                 }
 
             }
@@ -170,7 +172,6 @@ Item {
         Connections {
             target: loaderFilenameButton.item
             onClicked: {
-
                 igcChooseDialog.crow = styleData.row;
                 igcChooseDialog.show();
             }
