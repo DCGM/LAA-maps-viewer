@@ -737,7 +737,8 @@ ApplicationWindow {
             //% "Generate contestant results"
             text: qsTrId("scorelist-table-menu-generate-contestant-results")
             onTriggered: {
-                contestantsTable.generateResults(updateContestantMenu.selectedRow, true);
+                console.log(updateContestantMenu.selectedRow+", "+true)
+                contestantsTable.generateResults(updateContestantMenu.row, true);
             }
         }
 
