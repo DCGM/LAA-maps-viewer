@@ -1,15 +1,8 @@
-# Add more folders to ship with the application, here
-folder_01.source = qml/viewer
-folder_01.target = qml
-DEPLOYMENTFOLDERS = folder_01
 
-# Additional import path used to resolve QML modules in Creator's code model
-QML_IMPORT_PATH =
+QT += qml quick widgets printsupport
 
-# If your application uses the Qt Mobility libraries, uncomment the following
-# lines and add the respective components to the MOBILITY variable.
-# CONFIG += mobility
-# MOBILITY +=
+#CONFIG += qtquickcompiler
+CONFIG += c++11
 
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += main.cpp \
@@ -25,12 +18,7 @@ SOURCES += main.cpp \
     worker.cpp \
     uploader.cpp
 
-# Installation path
-# target.path =
-
-# Please do not modify the following two lines. Required for deployment.
-include(qtquick2applicationviewer/qtquick2applicationviewer.pri)
-qtcAddDeployment()
+QML_IMPORT_PATH =
 
 HEADERS += \
     igc.h \
@@ -45,7 +33,6 @@ HEADERS += \
     worker.h \
     uploader.h
 
-QT += qml quick widgets printsupport
 
 
 LANGUAGES = cs_CZ en_US
@@ -56,7 +43,7 @@ defineReplace(prependAll) {
     return($$result)
 }
 
-LRELEASE = lrelease
+LRELEASE = lrelease-qt5
 
 TRANSLATIONS = $$prependAll(LANGUAGES, $$PWD/i18n/viewer_,.ts)
 
@@ -80,17 +67,4 @@ RC_ICON = viewer64.ico
 
 RESOURCES += \
     viewer.qrc
-
-OTHER_FILES += \
-    qml/viewer/csv.js \
-    qml/viewer/functions.js \
-    qml/viewer/md5.js \
-
-# CONFIG += qtquickcompiler
-
-DISTFILES += \
-    ImportDialog.qml \
-    HorizontalDelimeter.qml \
-    qml/viewer/MyEditableTextField.qml \
-    qml/viewer/ResultsDetailComponent.qml
 

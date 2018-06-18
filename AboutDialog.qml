@@ -102,6 +102,15 @@ Window {
                     Qt.openUrlExternally(link)
                 }
             }
+
+            NativeText {
+                //% "Build %1 %2"
+                text: qsTrId("about-build-date").arg(builddate).arg(buildtime);
+                anchors.left: parent.left
+                anchors.right: parent.right
+                wrapMode: Text.WordWrap
+            }
+
         }
     }
 
@@ -135,12 +144,5 @@ Window {
             }
         }
 
-        NativeText {
-            //% "Build %1 %2"
-            text: qsTrId("about-build-date").arg(builddate).arg(buildtime);
-            anchors.bottom: parent.bottom
-            anchors.horizontalCenter: parent.horizontalCenter
-            wrapMode: Text.WordWrap
-        }
     }
 }

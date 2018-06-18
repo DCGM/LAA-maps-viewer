@@ -5,7 +5,6 @@
 #include <QObject>
 
 #include <QQmlApplicationEngine>
-#include <QtWidgets/QApplication>
 #include <QtQml>
 #include <QQuickWindow>
 #include <QLoggingCategory>
@@ -25,29 +24,41 @@
 
 void myMessageHandler(QtMsgType type, const QMessageLogContext& context, const QString& msg) {
     QString txt;
-    switch (type) {
-    case QtDebugMsg:
 
-        txt = QString("Debug: %1:%2 in %3 %4").arg(context.file).arg(context.line).arg(context.function).arg(msg);
-        break;
-    case QtWarningMsg:
-        txt = QString("Warning: %1:%2 in %3 %4").arg(context.file).arg(context.line).arg(context.function).arg(msg);
-        break;
-    case QtCriticalMsg:
-        txt = QString("Critical: %1:%2 in %3 %4").arg(context.file).arg(context.line).arg(context.function).arg(msg);
-        break;
-    case QtFatalMsg:
-        txt = QString("Fatal: %1:%2 in %3 %4").arg(context.file).arg(context.line).arg(context.function).arg(msg);
-        abort();
-    default:
-        txt = QString("Other: %1:%2 in %3 %4").arg(context.file).arg(context.line).arg(context.function).arg(msg);
-        break;
-
-    }
     QFile outFile("viewer.log");
     outFile.open(QIODevice::WriteOnly | QIODevice::Append);
     QTextStream ts(&outFile);
+
+    QTextStream std_out(stdout, QIODevice::WriteOnly);
+    QTextStream std_err(stderr, QIODevice::WriteOnly);
+
+
+    switch (type) {
+    case QtDebugMsg:
+
+        txt = QString("Debug: [%1:%2@%3]: %4").arg(context.file).arg(context.line).arg(context.function).arg(msg);
+        std_out << txt << endl;
+        break;
+    case QtWarningMsg:
+        txt = QString("Warning: [%1:%2@%3]: %4").arg(context.file).arg(context.line).arg(context.function).arg(msg);
+        std_out << txt << endl;
+        break;
+    case QtCriticalMsg:
+        txt = QString("Critical: [%1:%2@%3]: %4").arg(context.file).arg(context.line).arg(context.function).arg(msg);
+        std_err << txt << endl;
+        break;
+    case QtFatalMsg:
+        txt = QString("Fatal: [%1:%2@%3]: %4").arg(context.file).arg(context.line).arg(context.function).arg(msg);
+        std_err << txt << endl;
+        abort();
+    default:
+        txt = QString("Other: [%1:%2@%3]: %4").arg(context.file).arg(context.line).arg(context.function).arg(msg);
+        std_err << txt << endl;
+        break;
+
+    }
     ts << txt << endl;
+
     outFile.close();
 
 }
@@ -57,14 +68,12 @@ int main(int argc, char *argv[])
 {
     QLoggingCategory::setFilterRules("qt.network.ssl.warning=false");  // disable SSL warnings
 
-    QApplication app(argc, argv);
+    QGuiApplication app(argc, argv);
 
-    //qInstallMessageHandler(myMessageHandler); // FIXME: timto se zapina vytvareni logu do souboru
+    qInstallMessageHandler(myMessageHandler);
 
     QQmlApplicationEngine engine;
 
-    //    qmlRegisterType< QList<IgcEvent*> >("cz.mlich", 1, 0, "IgcEventList");
-    //    qmlRegisterType<IgcEvent>("cz.mlich", 1, 0, "IgcEvent");
     qmlRegisterType<IgcFiltered>("cz.mlich", 1, 0, "IgcFile");
     qmlRegisterType<FileReader>("cz.mlich", 1, 0, "FileReader");
     qmlRegisterType<ImageSaver>("cz.mlich", 1, 0, "ImageSaver");
@@ -102,19 +111,13 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("builddate", QString::fromLocal8Bit(__DATE__));
     engine.rootContext()->setContextProperty("buildtime", QString::fromLocal8Bit(__TIME__));
 
-    //    IgcFile igc;
-    //    igc.load("/home/imlich/workspace/tucek/igctest/laa31T01V1R1_laa31.igc");
-
-    //    QQmlContext *ctx = engine.rootContext();
-    //    ctx->setContextProperty("igc",&igc);
-
     NetworkAccessManagerFactory namFactory;
 
     engine.setNetworkAccessManagerFactory(&namFactory);
     engine.rootContext()->setContextProperty("QStandardPathsHomeLocation", QStandardPaths::standardLocations(QStandardPaths::HomeLocation)[0]);
     engine.rootContext()->setContextProperty("QStandardPathsApplicationFilePath", QFileInfo( QCoreApplication::applicationFilePath() ).dir().absolutePath() );
 
-    engine.load(QUrl("qml/viewer/main.qml"));
+    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 
     //engine.setOfflineStoragePath( QFileInfo( QCoreApplication::applicationFilePath() ).dir().absolutePath());
     //QString str = engine.offlineStoragePath();
