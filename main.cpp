@@ -41,7 +41,7 @@ void myMessageHandler(QtMsgType type, const QMessageLogContext& context, const Q
         break;
     case QtWarningMsg:
         txt = QString("Warning: [%1:%2@%3]: %4").arg(context.file).arg(context.line).arg(context.function).arg(msg);
-        std_out << txt << endl;
+//        std_out << txt << endl;
         break;
     case QtCriticalMsg:
         txt = QString("Critical: [%1:%2@%3]: %4").arg(context.file).arg(context.line).arg(context.function).arg(msg);
