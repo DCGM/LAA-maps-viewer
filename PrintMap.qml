@@ -430,7 +430,7 @@ Rectangle {
 
             if (polygonCache !== undefined) {
 
-                for (var i = 0; i < polygonCache.length; i++) {
+                for (i = 0; i < polygonCache.length; i++) {
                     var polygonCacheItem = polygonCache[i]
                     ctx.strokeStyle="#" + polygonCacheItem.color;
                     ctx.beginPath()
@@ -439,12 +439,12 @@ Rectangle {
                     if (points.length < 2) {
                         continue;
                     }
-                    var item = points[0];
+                    item = points[0];
                     screenPoint = getMappointFromCoord(item.lat,item.lon)
                     ctx.moveTo(screenPoint[0], screenPoint[1])
 
                     for (var j = 1; j < points.length; j++) {
-                        var item = points[j];
+                        item = points[j];
                         screenPoint = getMappointFromCoord(item.lat,item.lon)
                         ctx.lineTo(screenPoint[0], screenPoint[1])
 

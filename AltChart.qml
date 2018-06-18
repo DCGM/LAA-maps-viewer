@@ -30,9 +30,11 @@ Canvas {
         }
 
         var dataWidth = gpsModel.count;
+        var i;
+        var ctx;
 
         if (dataWidth <= 0) {
-            var ctx = canvas.getContext("2d");
+            ctx = canvas.getContext("2d");
             ctx.lineCap = "butt"
             ctx.lineJoin = "bevel"
             ctx.lineWidth = 2;
@@ -44,13 +46,13 @@ Canvas {
         var minAlt = item.alt;
         var maxAlt = item.alt;
 
-        for (var i = 1; i < gpsModel.count; i++) {
-            var item = gpsModel.get(i);
+        for (i = 1; i < gpsModel.count; i++) {
+            item = gpsModel.get(i);
             minAlt = Math.min(minAlt, item.alt);
             maxAlt = Math.max(maxAlt, item.alt);
         }
 
-        var ctx = canvas.getContext("2d");
+        ctx = canvas.getContext("2d");
         ctx.lineCap = "butt"
         ctx.lineJoin = "bevel"
         ctx.lineWidth = 1;
@@ -60,9 +62,11 @@ Canvas {
 
         var step = 50;
         var stepRoundedMin = Math.round(minAlt/step)*step
-        for (var i = stepRoundedMin; i < maxAlt; i += step) {
+        var xCoord = 0;
+        var yCoord = 0;
+        for (i = stepRoundedMin; i < maxAlt; i += step) {
 
-            var yCoord = height-(height*(i-minAlt)/dataHeight);
+            yCoord = height-(height*(i-minAlt)/dataHeight);
 
             ctx.strokeStyle="#66cccccc";
             ctx.beginPath();
@@ -72,26 +76,26 @@ Canvas {
 
         }
 
-        var item = gpsModel.get(0);
-        var xCoord = 0;
-        var yCoord = height-(height*(item.alt-minAlt)/dataHeight);
+        item = gpsModel.get(0);
+
+        yCoord = height-(height*(item.alt-minAlt)/dataHeight);
 
         ctx.lineWidth = 2;
         ctx.strokeStyle="#ff0000";
         ctx.beginPath();
         ctx.moveTo(xCoord, yCoord);
 
-        for (var i = 1; i < gpsModel.count; i++) {
-            var item = gpsModel.get(i);
+        for (i = 1; i < gpsModel.count; i++) {
+            item = gpsModel.get(i);
 
-            var xCoord = width*i/dataWidth;
-            var yCoord = height-(height*(item.alt-minAlt)/dataHeight);
+            xCoord = width*i/dataWidth;
+            yCoord = height-(height*(item.alt-minAlt)/dataHeight);
             ctx.lineTo(xCoord, yCoord);
 
         }
         ctx.stroke();
 
-        var xCoord = width*currentPositionIndex/dataWidth;
+        xCoord = width*currentPositionIndex/dataWidth;
         ctx.strokeStyle="#660000ff";
         ctx.beginPath();
         ctx.moveTo(xCoord, 0);

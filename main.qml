@@ -334,10 +334,26 @@ ApplicationWindow {
                 }
                 onCheckedChanged: {
                     if (checked) {
-                        map.airspaceUrl = "../../../../Maps/airspace/tiles/%(zoom)d/%(x)d/%(y)d.png"
-                        map.mapAirspaceVisible = true;
+                        setLocalPath();
                     }
                 }
+
+                function setLocalPath() {
+                    var homepath = QStandardPathsHomeLocation+"/Maps/airspace/tiles/"
+                    var binpath = QStandardPathsApplicationFilePath +"/Maps/airspace/tiles/";
+                    map.url_subdomains = [];
+                    if (file_reader.is_dir_and_exists_local(binpath)) {
+                        console.log("local map " + binpath)
+                        map.url = Qt.resolvedUrl("file://"+binpath) + "%(zoom)d/%(x)d/%(y)d.png"
+                    } else if (file_reader.is_dir_and_exists_local(homepath)) {
+                        console.log("local map " + homepath)
+                        map.url = Qt.resolvedUrl("file://"+homepath) + "%(zoom)d/%(x)d/%(y)d.png"
+                    } else {
+                        map.url = "";
+                        console.warn("local map not found")
+                    }
+                }
+
             }
 
             MenuItem {
@@ -467,7 +483,6 @@ ApplicationWindow {
     }
 
     MyTranslator {
-
         id: qmlTranslator
     }
 
@@ -588,7 +603,6 @@ ApplicationWindow {
     }
 
     CppWorker {
-
         id: cppWorker;
     }
 
@@ -616,24 +630,6 @@ ApplicationWindow {
             contestantsTable.selectRow(crow);
 
             visible = false;
-        }
-    }
-
-    Menu {
-        id: recalculateScoreMenu;
-
-        property int selectedRow: -1
-
-        MenuItem {
-            //% "Recalculate"
-            text: qsTrId("scorelist-table-menu-recalculate-score")
-            onTriggered: { contestantsTable.recalculateResults(recalculateScoreMenu.selectedRow); }
-        }
-
-        MenuItem {
-            //% "Generate contestant results"
-            text: qsTrId("scorelist-table-menu-generate-contestant-results")
-            onTriggered: { contestantsTable.generateResults(recalculateScoreMenu.selectedRow, true); }
         }
     }
 
@@ -728,6 +724,23 @@ ApplicationWindow {
                 writeScoreManulaValToCSV();
             }
         }
+
+        MenuItem {
+            //% "Recalculate"
+            text: qsTrId("scorelist-table-menu-recalculate-score")
+            onTriggered: {
+                contestantsTable.recalculateResults(updateContestantMenu.row);
+            }
+        }
+
+        MenuItem {
+            //% "Generate contestant results"
+            text: qsTrId("scorelist-table-menu-generate-contestant-results")
+            onTriggered: {
+                contestantsTable.generateResults(updateContestantMenu.selectedRow, true);
+            }
+        }
+
     }
 
     ListModel {
@@ -851,7 +864,7 @@ ApplicationWindow {
                                                                 contestant.startTime,
                                                                 contestant.category,
                                                                 contestant.filename,
-                                                                MD5.MD5(JSON.stringify(trItem)),
+                                                                MD5.md5(JSON.stringify(trItem)),
                                                                 contestant.prevResultsSpeed,
                                                                 contestant.prevResultsStartTime,
                                                                 contestant.prevResultsCategory,
@@ -980,7 +993,7 @@ ApplicationWindow {
             orientation: Qt.Vertical
             visible: mainViewMenuTables.checked
 
-            ///// IGC file list
+            ////
             TableView {
                 id: contestantsTable;
                 model: contestantsListModel;
@@ -1039,7 +1052,6 @@ ApplicationWindow {
                     contestantsTable.selection.select(row);
                     contestantsTable.currentRow = row;
 
-
                 }
 
                 itemDelegate: ContestantsDelegate {
@@ -1059,7 +1071,6 @@ ApplicationWindow {
 
                         updateContestantMenu.openFormForEdit();
                     }
-
                 }
 
 
@@ -1154,7 +1165,6 @@ ApplicationWindow {
                     title: qsTrId("filelist-table-contestants")
                     role: "name"
                 }
-
                 TableViewColumn {
                     //% "File name"
                     title: qsTrId("filelist-table-filename")
@@ -2431,7 +2441,7 @@ ApplicationWindow {
                 curCnt.prevResultsSpaceSec = (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][36]) : "");
 
                 // check results validity due to the contestant values
-                if (resultsValid(curCnt.speed, curCnt.startTime, curCnt.category, curCnt.filename, MD5.MD5(JSON.stringify(trItem)),
+                if (resultsValid(curCnt.speed, curCnt.startTime, curCnt.category, curCnt.filename, MD5.md5(JSON.stringify(trItem)),
                                  curCnt.prevResultsSpeed, curCnt.prevResultsStartTime, curCnt.prevResultsCategory, curCnt.prevResultsFilename, curCnt.prevResultsTrackHas)) {
 
                     curCnt.prevResultsMarkersScore = (csvFileFromViewer ? parseInt(resultsCSV[j][41]) : 0);
@@ -2528,18 +2538,17 @@ ApplicationWindow {
             catArray = res[key];
 
             // no results, just category labels, skip
-            if (!Array.isArray(catArray))
+            if (!Array.isArray(catArray)) {
                 continue;
+            }
 
             // save each contestant
             for (var i = 0; i < catArray.length; i++) {
 
                 item = catArray[i];
-
                 csvString += "\"" + i + "\";"
 
                 for(var j = 0; j < item.length; j++) {
-
                     csvString += "\"" + F.addSlashes(item[j]) + "\";"
                 }
                 csvString += "\n";
@@ -2552,7 +2561,6 @@ ApplicationWindow {
     }
 
     function showStartList() {
-
         Qt.openUrlExternally(Qt.resolvedUrl(pathConfiguration.resultsFolder + "/" + pathConfiguration.competitionName + "_" + qsTrId("start-list-filename") + ".html"));
     }
 
@@ -3893,7 +3901,7 @@ ApplicationWindow {
             str += "\"" + poly_result.alt_max + "\";";
         }
 
-        var trHash = MD5.MD5(JSON.stringify(trItem));
+        var trHash = MD5.md5(JSON.stringify(trItem));
         contestantsListModel.setProperty(current, "trackHash", trHash);
         contestantsListModel.setProperty(current, "wptScoreDetails", wptString.join("; "));
         contestantsListModel.setProperty(current, "speedSectionsScoreDetails", JSON.stringify(new_section_speed_array));

@@ -138,7 +138,7 @@ Window {
             trackFileExist = file_reader.file_exists(Qt.resolvedUrl(pathConfiguration.trackFile));
 
             // MD5 from comp. property
-            prevSettingsMD5 = MD5.MD5(JSON.stringify(getCompetitionTabContent()));
+            prevSettingsMD5 = MD5.md5(JSON.stringify(getCompetitionTabContent()));
         }
         else {
 
@@ -1182,7 +1182,7 @@ Window {
 
                     // get current values from competition property tab
                     var competitionTabValues = getCompetitionTabContent();
-                    currentSettingsMD5 = String(MD5.MD5(JSON.stringify(competitionTabValues)));
+                    currentSettingsMD5 = String(MD5.md5(JSON.stringify(competitionTabValues)));
 
                     // split string into array od arbiters
                     var arr = [];
