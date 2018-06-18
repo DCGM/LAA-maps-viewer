@@ -41,7 +41,7 @@ void myMessageHandler(QtMsgType type, const QMessageLogContext& context, const Q
         break;
     case QtWarningMsg:
         txt = QString("Warning: [%1:%2@%3]: %4").arg(context.file).arg(context.line).arg(context.function).arg(msg);
-//        std_out << txt << endl;
+        std_out << txt << endl;
         break;
     case QtCriticalMsg:
         txt = QString("Critical: [%1:%2@%3]: %4").arg(context.file).arg(context.line).arg(context.function).arg(msg);
@@ -125,7 +125,7 @@ int main(int argc, char *argv[])
 
     QObject *topLevel = engine.rootObjects().value(0);
     QQuickWindow *window = qobject_cast<QQuickWindow *>(topLevel);
-    window->setIcon(QIcon(":/viewer64.png"));
+    window->setIcon(QIcon("qrc:/viewer64.png"));
     window->show();
     return app.exec();
 
