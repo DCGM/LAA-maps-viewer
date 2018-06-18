@@ -1,4 +1,5 @@
 #include <QFile>
+#include <QDir>
 #include <QFileInfo>
 #include <QUrl>
 #include <QDebug>
@@ -100,3 +101,18 @@ bool FileReader::delete_file(const QUrl &filename) {
 bool FileReader::delete_file_local(const QString &filename) {
     return QFile(filename).remove();
 }
+
+bool FileReader::is_dir_and_exists_local(const QString &dirname) {
+    QFileInfo info(dirname);
+//    qDebug() << "is dir and exists " <<dirname;
+//    qDebug() << info.exists();
+//    qDebug() << info.isDir();
+
+    return info.exists() && info.isDir();
+}
+
+QString FileReader::dirname_local(const QString &filename) {
+    QFileInfo info(filename);
+    QUrl u = info.dir().path();
+    return u.toLocalFile();
+ }
