@@ -986,11 +986,10 @@ ApplicationWindow {
         anchors.fill: parent;
         orientation: Qt.Horizontal
 
-        SplitView {
+        Item {
             id: splitViewIgcResults
             width: 1110;
             height: parent.height
-            orientation: Qt.Vertical
             visible: mainViewMenuTables.checked
 
             ////
@@ -998,7 +997,7 @@ ApplicationWindow {
                 id: contestantsTable;
                 model: contestantsListModel;
                 width: parent.width;
-                Layout.fillHeight: true;
+                height: parent.height;
                 clip: true;
                 //visible: !resultsDetailComponent.visible
 
@@ -1072,7 +1071,6 @@ ApplicationWindow {
                         updateContestantMenu.openFormForEdit();
                     }
                 }
-
 
                 rowDelegate: Rectangle {
                     id: rowRectangle
@@ -1218,235 +1216,234 @@ ApplicationWindow {
                     role: "classify"
                     width: 80
                 }
+            }
+            ResultsDetailComponent {
 
-                ResultsDetailComponent {
+                id: resultsDetailComponent
+                anchors.fill: parent
+                visible: false
 
-                    id: resultsDetailComponent
-                    anchors.fill: parent
-                    visible: false
+                function saveValuesFromDialogModel() {
 
-                    function saveValuesFromDialogModel() {
+                    // copy manual values into list models
+                    var row = resultsDetailComponent.crew_row_index;
+                    if (row != -1) { // edit crew details
 
-                        // copy manual values into list models
-                        var row = resultsDetailComponent.crew_row_index;
-                        if (row != -1) { // edit crew details
+                        contestantsListModel.setProperty(row, "name", curentContestant.name);
+                        contestantsListModel.setProperty(row, "category", curentContestant.category);
+                        contestantsListModel.setProperty(row, "speed", parseInt("0"+curentContestant.speed, 10));
+                        contestantsListModel.setProperty(row, "startTime", curentContestant.startTime) ;
+                        contestantsListModel.setProperty(row, "aircraft_registration", curentContestant.aircraft_registration);
+                        contestantsListModel.setProperty(row, "aircraft_type", curentContestant.aircraft_type);
+                        contestantsListModel.setProperty(row, "fullName", curentContestant.name + "_" + curentContestant.category);
+                        contestantsListModel.setProperty(row, "classify", curentContestant.classify);
 
-                            contestantsListModel.setProperty(row, "name", curentContestant.name);
-                            contestantsListModel.setProperty(row, "category", curentContestant.category);
-                            contestantsListModel.setProperty(row, "speed", parseInt("0"+curentContestant.speed, 10));
-                            contestantsListModel.setProperty(row, "startTime", curentContestant.startTime) ;
-                            contestantsListModel.setProperty(row, "aircraft_registration", curentContestant.aircraft_registration);
-                            contestantsListModel.setProperty(row, "aircraft_type", curentContestant.aircraft_type);
-                            contestantsListModel.setProperty(row, "fullName", curentContestant.name + "_" + curentContestant.category);
-                            contestantsListModel.setProperty(row, "classify", curentContestant.classify);
+                        contestantsListModel.setProperty(row, "markersOk", curentContestant.markersOk);
+                        contestantsListModel.setProperty(row, "markersNok", curentContestant.markersNok);
+                        contestantsListModel.setProperty(row, "markersFalse", curentContestant.markersFalse);
+                        contestantsListModel.setProperty(row, "markersScore", curentContestant.markersScore);
+                        contestantsListModel.setProperty(row, "photosOk", curentContestant.photosOk);
+                        contestantsListModel.setProperty(row, "photosNok", curentContestant.photosNok);
+                        contestantsListModel.setProperty(row, "photosFalse", curentContestant.photosFalse);
+                        contestantsListModel.setProperty(row, "photosScore", curentContestant.photosScore);
+                        contestantsListModel.setProperty(row, "startTimeMeasured", curentContestant.startTimeMeasured);
+                        contestantsListModel.setProperty(row, "startTimeDifference", curentContestant.startTimeDifference);
+                        contestantsListModel.setProperty(row, "startTimeScore", curentContestant.startTimeScore);
+                        contestantsListModel.setProperty(row, "landingScore", curentContestant.landingScore);
+                        //contestantsListModel.setProperty(row, "circlingCount", curentContestant.circlingCount);
+                        //contestantsListModel.setProperty(row, "circlingScore", curentContestant.circlingScore);
+                        contestantsListModel.setProperty(row, "oppositeCount", curentContestant.oppositeCount);
+                        contestantsListModel.setProperty(row, "oppositeScore", curentContestant.oppositeScore);
+                        contestantsListModel.setProperty(row, "otherPoints", curentContestant.otherPoints);
+                        contestantsListModel.setProperty(row, "otherPenalty", curentContestant.otherPenalty);
+                        contestantsListModel.setProperty(row, "pointNote", curentContestant.pointNote);
 
-                            contestantsListModel.setProperty(row, "markersOk", curentContestant.markersOk);
-                            contestantsListModel.setProperty(row, "markersNok", curentContestant.markersNok);
-                            contestantsListModel.setProperty(row, "markersFalse", curentContestant.markersFalse);
-                            contestantsListModel.setProperty(row, "markersScore", curentContestant.markersScore);
-                            contestantsListModel.setProperty(row, "photosOk", curentContestant.photosOk);
-                            contestantsListModel.setProperty(row, "photosNok", curentContestant.photosNok);
-                            contestantsListModel.setProperty(row, "photosFalse", curentContestant.photosFalse);
-                            contestantsListModel.setProperty(row, "photosScore", curentContestant.photosScore);
-                            contestantsListModel.setProperty(row, "startTimeMeasured", curentContestant.startTimeMeasured);
-                            contestantsListModel.setProperty(row, "startTimeDifference", curentContestant.startTimeDifference);
-                            contestantsListModel.setProperty(row, "startTimeScore", curentContestant.startTimeScore);
-                            contestantsListModel.setProperty(row, "landingScore", curentContestant.landingScore);
-                            //contestantsListModel.setProperty(row, "circlingCount", curentContestant.circlingCount);
-                            //contestantsListModel.setProperty(row, "circlingScore", curentContestant.circlingScore);
-                            contestantsListModel.setProperty(row, "oppositeCount", curentContestant.oppositeCount);
-                            contestantsListModel.setProperty(row, "oppositeScore", curentContestant.oppositeScore);
-                            contestantsListModel.setProperty(row, "otherPoints", curentContestant.otherPoints);
-                            contestantsListModel.setProperty(row, "otherPenalty", curentContestant.otherPenalty);
-                            contestantsListModel.setProperty(row, "pointNote", curentContestant.pointNote);
+                        // reload current contestant
+                        ctnt = contestantsListModel.get(row);
 
-                            // reload current contestant
-                            ctnt = contestantsListModel.get(row);
+                        // load and save modified score lists
+                        contestantsListModel.setProperty(row, "wptScoreDetails", curentContestant.wptScoreDetails);
+                        contestantsListModel.setProperty(row, "speedSectionsScoreDetails", curentContestant.speedSectionsScoreDetails);
+                        contestantsListModel.setProperty(row, "altitudeSectionsScoreDetails", curentContestant.altitudeSectionsScoreDetails);
+                        contestantsListModel.setProperty(row, "spaceSectionsScoreDetails", curentContestant.spaceSectionsScoreDetails);
 
-                            // load and save modified score lists
-                            contestantsListModel.setProperty(row, "wptScoreDetails", curentContestant.wptScoreDetails);
-                            contestantsListModel.setProperty(row, "speedSectionsScoreDetails", curentContestant.speedSectionsScoreDetails);
-                            contestantsListModel.setProperty(row, "altitudeSectionsScoreDetails", curentContestant.altitudeSectionsScoreDetails);
-                            contestantsListModel.setProperty(row, "spaceSectionsScoreDetails", curentContestant.spaceSectionsScoreDetails);
+                        // set current values as prev results - used as cache when recomputing score
+                        saveCurrentResultValues(row, ctnt);
 
-                            // set current values as prev results - used as cache when recomputing score
-                            saveCurrentResultValues(row, ctnt);
+                    } else { // add new crew
 
-                        } else { // add new crew
+                        // create blank user
+                        var new_contestant = createBlankUserObject();
 
-                            // create blank user
-                            var new_contestant = createBlankUserObject();
+                        // fill user params
+                        new_contestant.name = curentContestant.name;
+                        new_contestant.category = curentContestant.category;
+                        new_contestant.speed = parseInt("0"+curentContestant.speed, 10);
+                        new_contestant.startTime = curentContestant.startTime
+                        new_contestant.aircraft_registration = curentContestant.aircraft_registration;
+                        new_contestant.aircraft_type = curentContestant.aircraft_type;
+                        new_contestant.fullName = curentContestant.name + "_" + curentContestant.category;
+                        new_contestant.classify = curentContestant.classify;
 
-                            // fill user params
-                            new_contestant.name = curentContestant.name;
-                            new_contestant.category = curentContestant.category;
-                            new_contestant.speed = parseInt("0"+curentContestant.speed, 10);
-                            new_contestant.startTime = curentContestant.startTime
-                            new_contestant.aircraft_registration = curentContestant.aircraft_registration;
-                            new_contestant.aircraft_type = curentContestant.aircraft_type;
-                            new_contestant.fullName = curentContestant.name + "_" + curentContestant.category;
-                            new_contestant.classify = curentContestant.classify;
+                        new_contestant.markersOk = curentContestant.markersOk;
+                        new_contestant.markersNok = curentContestant.markersNok;
+                        new_contestant.markersFalse = curentContestant.markersFalse;
+                        new_contestant.markersScore = curentContestant.markersScore;
+                        new_contestant.photosOk = curentContestant.photosOk;
+                        new_contestant.photosNok = curentContestant.photosNok;
+                        new_contestant.photosFalse = curentContestant.photosFalse;
+                        new_contestant.photosScore = curentContestant.photosScore;
+                        new_contestant.startTimeMeasured = curentContestant.startTimeMeasured;
+                        new_contestant.startTimeDifference = curentContestant.startTimeDifference;
+                        new_contestant.startTimeScore = curentContestant.startTimeScore;
+                        new_contestant.landingScore = curentContestant.landingScore;
 
-                            new_contestant.markersOk = curentContestant.markersOk;
-                            new_contestant.markersNok = curentContestant.markersNok;
-                            new_contestant.markersFalse = curentContestant.markersFalse;
-                            new_contestant.markersScore = curentContestant.markersScore;
-                            new_contestant.photosOk = curentContestant.photosOk;
-                            new_contestant.photosNok = curentContestant.photosNok;
-                            new_contestant.photosFalse = curentContestant.photosFalse;
-                            new_contestant.photosScore = curentContestant.photosScore;
-                            new_contestant.startTimeMeasured = curentContestant.startTimeMeasured;
-                            new_contestant.startTimeDifference = curentContestant.startTimeDifference;
-                            new_contestant.startTimeScore = curentContestant.startTimeScore;
-                            new_contestant.landingScore = curentContestant.landingScore;
-
-                            //new_contestant.circlingCount = curentContestant.circlingCount;
-                            //new_contestant.circlingScore = curentContestant.circlingScore;
-                            new_contestant.oppositeCount = curentContestant.oppositeCount;
-                            new_contestant.oppositeScore = curentContestant.oppositeScore;
-                            new_contestant.otherPoints = curentContestant.otherPoints;
-                            new_contestant.otherPenalty = curentContestant.otherPenalty;
-                            new_contestant.pointNote = curentContestant.pointNote;
-
-
-                            new_contestant.wptScoreDetails = curentContestant.wptScoreDetails;
-                            new_contestant.speedSectionsScoreDetails = curentContestant.speedSectionsScoreDetails;
-                            new_contestant.altitudeSectionsScoreDetails = curentContestant.altitudeSectionsScoreDetails;
-                            new_contestant.spaceSectionsScoreDetails = curentContestant.spaceSectionsScoreDetails;
-
-                            // append into list model
-                            contestantsListModel.append(new_contestant);
-                            row = contestantsListModel.count - 1;
+                        //new_contestant.circlingCount = curentContestant.circlingCount;
+                        //new_contestant.circlingScore = curentContestant.circlingScore;
+                        new_contestant.oppositeCount = curentContestant.oppositeCount;
+                        new_contestant.oppositeScore = curentContestant.oppositeScore;
+                        new_contestant.otherPoints = curentContestant.otherPoints;
+                        new_contestant.otherPenalty = curentContestant.otherPenalty;
+                        new_contestant.pointNote = curentContestant.pointNote;
 
 
-                        }
+                        new_contestant.wptScoreDetails = curentContestant.wptScoreDetails;
+                        new_contestant.speedSectionsScoreDetails = curentContestant.speedSectionsScoreDetails;
+                        new_contestant.altitudeSectionsScoreDetails = curentContestant.altitudeSectionsScoreDetails;
+                        new_contestant.spaceSectionsScoreDetails = curentContestant.spaceSectionsScoreDetails;
 
-                        // used instead of the append due to some post processing (call some on change method)
-                        contestantsListModel.changeLisModel(row, "category", curentContestant.category);
-                        contestantsListModel.changeLisModel(row, "speed", parseInt("0"+curentContestant.speed, 10));
-                        contestantsListModel.changeLisModel(row, "startTime", curentContestant.startTime);
+                        // append into list model
+                        contestantsListModel.append(new_contestant);
+                        row = contestantsListModel.count - 1;
 
-                        // recalculate score
-                        var score = getTotalScore(row);
-                        contestantsListModel.setProperty(row, "scorePoints", score);
-                        recalculateScoresTo1000();
-
-                        // save changes into CSV
-                        writeScoreManulaValToCSV();
 
                     }
 
-                    onOk: {
+                    // used instead of the append due to some post processing (call some on change method)
+                    contestantsListModel.changeLisModel(row, "category", curentContestant.category);
+                    contestantsListModel.changeLisModel(row, "speed", parseInt("0"+curentContestant.speed, 10));
+                    contestantsListModel.changeLisModel(row, "startTime", curentContestant.startTime);
 
-                        saveValuesFromDialogModel();
+                    // recalculate score
+                    var score = getTotalScore(row);
+                    contestantsListModel.setProperty(row, "scorePoints", score);
+                    recalculateScoresTo1000();
 
-                        // gen new results sheet
-                        genResultsDetailTimer.showOnFinished = false;   // dont open results automatically
-                        genResultsDetailTimer.running = true;
-                    }
+                    // save changes into CSV
+                    writeScoreManulaValToCSV();
 
-                    onOkAndView: {
-
-                        saveValuesFromDialogModel();
-
-                        // gen new results sheet
-                        genResultsDetailTimer.showOnFinished = true;   // open results automatically
-                        genResultsDetailTimer.running = true;
-                    }
-
-                    onCancel: {
-                    }
                 }
 
-                Rectangle { // disable
-                    id: workingStatusRectangle
-                    color: "#ffffff";
-                    opacity: 0.7;
-                    anchors.fill: parent;
-                    visible: evaluateTimer.running ||
+                onOk: {
+
+                    saveValuesFromDialogModel();
+
+                    // gen new results sheet
+                    genResultsDetailTimer.showOnFinished = false;   // dont open results automatically
+                    genResultsDetailTimer.running = true;
+                }
+
+                onOkAndView: {
+
+                    saveValuesFromDialogModel();
+
+                    // gen new results sheet
+                    genResultsDetailTimer.showOnFinished = true;   // open results automatically
+                    genResultsDetailTimer.running = true;
+                }
+
+                onCancel: {
+                }
+            }
+
+            Rectangle { // disable
+                id: workingStatusRectangle
+                color: "#ffffff";
+                opacity: 0.7;
+                anchors.fill: parent;
+                visible: evaluateTimer.running ||
+                         computingTimer.running ||
+                         workingTimer.running ||
+                         resultsExporterTimer.running  ||
+                         pathConfiguration.visible ||
+                         selectCompetitionOnlineDialog.visible ||
+                         refreshContestantsDialog.visible ||
+                         startUpMessage.visible ||
+                         uploaderDialog.visible ||
+                         igcChooseDialog.visible;
+
+                BusyIndicator {
+                    id: busyIndicator
+                    running: evaluateTimer.running ||
                              computingTimer.running ||
                              workingTimer.running ||
-                             resultsExporterTimer.running  ||
-                             pathConfiguration.visible ||
-                             selectCompetitionOnlineDialog.visible ||
-                             refreshContestantsDialog.visible ||
-                             startUpMessage.visible ||
-                             uploaderDialog.visible ||
-                             igcChooseDialog.visible;
+                             resultsExporterTimer.running;
 
-                    BusyIndicator {
-                        id: busyIndicator
-                        running: evaluateTimer.running ||
-                                 computingTimer.running ||
-                                 workingTimer.running ||
-                                 resultsExporterTimer.running;
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
 
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.horizontalCenter: parent.horizontalCenter
-                    }
+                NativeText {
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.top: busyIndicator.bottom
+                    anchors.topMargin: 30
+                    font.pixelSize: 15
+                    visible: busyIndicator.visible
+                    text: mText
 
-                    NativeText {
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.top: busyIndicator.bottom
-                        anchors.topMargin: 30
-                        font.pixelSize: 15
-                        visible: busyIndicator.visible
-                        text: mText
+                    property string mText: "";
 
-                        property string mText: "";
+                    onVisibleChanged: {
 
-                        onVisibleChanged: {
+                        if (visible) {
 
-                            if (visible) {
+                            if (computingTimer.running || evaluateTimer.running) {
+                                //% "Computing..."
+                                mText = qsTrId("computing-status-title")
+                            }
+                            else if(resultsExporterTimer.running) {
+                                //% "Generating results..."
+                                mText = qsTrId("generating-results-status-title")
+                            }
+                            else if(workingTimer.running) {
 
-                                if (computingTimer.running || evaluateTimer.running) {
-                                    //% "Computing..."
-                                    mText = qsTrId("computing-status-title")
-                                }
-                                else if(resultsExporterTimer.running) {
-                                    //% "Generating results..."
-                                    mText = qsTrId("generating-results-status-title")
-                                }
-                                else if(workingTimer.running) {
+                                switch (workingTimer.action) {
 
-                                    switch (workingTimer.action) {
+                                case ("pathOnOk"):
+                                    //% "Recovering application settings..."
+                                    mText = qsTrId("recovering-settings-status-title")
+                                    break;
 
-                                    case ("pathOnOk"):
-                                        //% "Recovering application settings..."
-                                        mText = qsTrId("recovering-settings-status-title")
-                                        break;
+                                case ("refreshDialogOnOk"):
+                                case ("refreshContestant"):
+                                    //% "Loading..."
+                                    mText = qsTrId("loading-status-title")
+                                    break;
 
-                                    case ("refreshDialogOnOk"):
-                                    case ("refreshContestant"):
-                                        //% "Loading..."
-                                        mText = qsTrId("loading-status-title")
-                                        break;
-
-                                    default:
-                                        //% "Working..."
-                                        mText =  qsTrId("working-status-title")
-                                    }
-                                }
-                                else {
+                                default:
                                     //% "Working..."
                                     mText =  qsTrId("working-status-title")
                                 }
                             }
+                            else {
+                                //% "Working..."
+                                mText =  qsTrId("working-status-title")
+                            }
                         }
                     }
+                }
 
-                    MouseArea {
-                        anchors.fill: parent;
-                        onClicked: {
+                MouseArea {
+                    anchors.fill: parent;
+                    onClicked: {
 
-                            if (evaluateTimer.running) {
-                                console.log("onClick is disabled when evaluateTimer.running");
-                                evaluateTimer.running = false;
-                            }
-                            if (resultsExporterTimer.running) {
-                                console.log("onClick is disabled when resultsExporterTimer.running");
-                                resultsExporterTimer.stop();
-                            }
+                        if (evaluateTimer.running) {
+                            console.log("onClick is disabled when evaluateTimer.running");
+                            evaluateTimer.running = false;
+                        }
+                        if (resultsExporterTimer.running) {
+                            console.log("onClick is disabled when resultsExporterTimer.running");
+                            resultsExporterTimer.stop();
                         }
                     }
                 }
@@ -2477,7 +2474,6 @@ ApplicationWindow {
 
     // function show results in local web viewer
     function showResults() {
-
         Qt.openUrlExternally(Qt.resolvedUrl(pathConfiguration.resultsFolder + "/" + pathConfiguration.competitionName + "_" + qsTrId("file-name-ontinuous-results") + ".html"));
     }
 
@@ -3178,7 +3174,7 @@ ApplicationWindow {
         }
 
         // load manual values into list models - used when compute score
-        loadStringIntoListModel(wptNewScoreListManualValuesCache, ctnt.prevResultsWPT, "; ");
+        loadStringIntoListModel(wptNewScoreListManualValuesCache, (ctnt.prevResultsWPT !== undefined) ? ctnt.prevResultsWPT : '', "; ");
         loadStringIntoListModel(speedSectionsScoreListManualValuesCache, ctnt.prevResultsSpeedSec, "; ");
         loadStringIntoListModel(spaceSectionsScoreListManualValuesCache, ctnt.prevResultsSpaceSec, "; ");
         loadStringIntoListModel(altSectionsScoreListManualValuesCache, ctnt.prevResultsAltSec, "; ");
