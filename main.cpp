@@ -118,6 +118,9 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("QStandardPathsApplicationFilePath", QFileInfo( QCoreApplication::applicationFilePath() ).dir().absolutePath() );
 
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+    if (engine.rootObjects().isEmpty()) {
+        return -1;
+    }
 
     //engine.setOfflineStoragePath( QFileInfo( QCoreApplication::applicationFilePath() ).dir().absolutePath());
     //QString str = engine.offlineStoragePath();
@@ -125,7 +128,7 @@ int main(int argc, char *argv[])
 
     QObject *topLevel = engine.rootObjects().value(0);
     QQuickWindow *window = qobject_cast<QQuickWindow *>(topLevel);
-    window->setIcon(QIcon("qrc:/viewer64.png"));
+    window->setIcon(QIcon(":/viewer64.png"));
     window->show();
     return app.exec();
 
