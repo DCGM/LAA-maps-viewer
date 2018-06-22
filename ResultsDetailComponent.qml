@@ -3,7 +3,7 @@ import QtQuick.Controls 1.4
 import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Styles 1.4
-import QtCharts 2.0
+import QtCharts 2.2
 
 import "functions.js" as F
 

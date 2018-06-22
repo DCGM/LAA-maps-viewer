@@ -1,8 +1,8 @@
 
-QT += qml quick widgets printsupport
+QT += qml quick charts
 
 CONFIG += qtquickcompiler
-#CONFIG += c++11
+CONFIG += c++11
 
 TARGET = viewer
 TEMPLATE = app
