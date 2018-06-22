@@ -125,7 +125,7 @@ Item {
         console.log("http request: " + url + "?id=" + compId + "&api_key=" + api_key)
 
         // set timeout
-        var timer = Qt.createQmlObject("import QtQuick 2.5; Timer {interval: 5000; repeat: false; running: true;}", resultsUploader, "MyTimer");
+        var timer = Qt.createQmlObject("import QtQuick 2.9; Timer {interval: 5000; repeat: false; running: true;}", resultsUploader, "MyTimer");
                         timer.triggered.connect(function(){
 
                             http.abort();
@@ -227,7 +227,7 @@ Item {
         console.log("callUploadFinish: " + url + "?id=" + compId + "&api_key=" + api_key)
 
         // set timeout
-        var timer = Qt.createQmlObject("import QtQuick 2.5; Timer {interval: 15000; repeat: false; running: true;}", resultsUploader, "MyTimer");
+        var timer = Qt.createQmlObject("import QtQuick 2.9; Timer {interval: 15000; repeat: false; running: true;}", resultsUploader, "MyTimer");
                         timer.triggered.connect(function(){
                             console.log("callUploadFinish: http.abort() called")
                             http.abort();

@@ -1,12 +1,11 @@
 import QtQuick 2.9
-import QtQuick.Window 2.3
 import QtQuick.Controls 1.4
 import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.3
 import "functions.js" as F
 import "md5.js" as MD5
 
-Window {
+ApplicationWindow {
 
     id: pathConfiguration
     width: 700;
@@ -1074,7 +1073,7 @@ Window {
                     http.open(method, url + "?api_key=" + api_key, true);
 
                     // set timeout
-                    var timer = Qt.createQmlObject("import QtQuick 2.5; Timer {interval: 5000; repeat: false; running: true;}", pathConfiguration, "MyTimer");
+                    var timer = Qt.createQmlObject("import QtQuick 2.9; Timer {interval: 5000; repeat: false; running: true;}", pathConfiguration, "MyTimer");
                     timer.triggered.connect(function(){
                         http.abort();
                     });

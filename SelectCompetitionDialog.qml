@@ -1,11 +1,10 @@
 import QtQuick 2.9
-import QtQuick.Window 2.3
 import QtQuick.Controls 1.4
 import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.3
 import "functions.js" as F
 
-Window {
+ApplicationWindow {
 
     id: competitionListWindow
     width: 800;
@@ -375,7 +374,7 @@ Window {
         console.log("getContestants: " + baseUrl + "?id=" + id + "&errors=text" + "&api_key=" + api_key)
 
         // set timeout
-        var timer = Qt.createQmlObject("import QtQuick 2.5; Timer {interval: 5000; repeat: false; running: true;}", competitionListWindow, "MyTimer");
+        var timer = Qt.createQmlObject("import QtQuick 2.9; Timer {interval: 5000; repeat: false; running: true;}", competitionListWindow, "MyTimer");
                         timer.triggered.connect(function(){
 
                             http.abort();
@@ -519,7 +518,7 @@ Window {
         console.log("getCompetitionsData: " + url + "?api_key=" + api_key)
 
         // set timeout
-        var timer = Qt.createQmlObject("import QtQuick 2.5; Timer {interval: 5000; repeat: false; running: true;}", competitionListWindow, "MyTimer");
+        var timer = Qt.createQmlObject("import QtQuick 2.9; Timer {interval: 5000; repeat: false; running: true;}", competitionListWindow, "MyTimer");
                         timer.triggered.connect(function(){
 
                             http.abort();

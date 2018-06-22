@@ -1,11 +1,10 @@
 import QtQuick 2.9
-import QtQuick.Window 2.3
 import QtQuick.Controls 1.4
 import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.3
 import "functions.js" as F
 
-Window {
+ApplicationWindow {
     id: igcChooseDialog;
     modality: "WindowModal"
     width: 550;

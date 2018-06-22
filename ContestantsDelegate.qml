@@ -179,7 +179,6 @@ Item {
         sourceComponent: styleData.role === "filename" ? filenameButton : null;
 
 
-
         Component {
             id: filenameButton
             Button {
