@@ -1,4 +1,4 @@
-#include <QtGui/QGuiApplication>
+#include <QApplication>
 #include <QtDebug>
 #include <QFile>
 #include <QTextStream>
@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
 {
     QLoggingCategory::setFilterRules("qt.network.ssl.warning=false");  // disable SSL warnings
 
-    QGuiApplication app(argc, argv);
+    QApplication app(argc, argv);
 
     qInstallMessageHandler(myMessageHandler);
 
