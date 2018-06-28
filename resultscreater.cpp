@@ -923,7 +923,7 @@ const QStringList ResultsCreater::getTranslatedStringList(QStringList sourceList
     QVariant returnedValue;
     QStringList translatedList;
     QQmlEngine engine;
-    QQmlComponent component(&engine, QStringLiteral("qml/viewer/MyTranslator.qml"));
+    QQmlComponent component(&engine, QStringLiteral("qrc:/MyTranslator.qml"));
     QObject *object = component.create();
 
     for (int i = 0; i < sourceList.length(); i++) {
