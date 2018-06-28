@@ -10,6 +10,7 @@ Source0:        https://github.com/DCGM/LAA-maps-viewer/archive/master.tar.gz#/%
 
 BuildRequires:  desktop-file-utils
 BuildRequires:  qt5-devel >= 5.10.0
+BuildRequires:  qt5-qtcharts-devel
 BuildRequires:  qt5-linguist
 
 %description
