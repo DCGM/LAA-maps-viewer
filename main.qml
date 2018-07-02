@@ -990,7 +990,7 @@ ApplicationWindow {
 
         Item {
             id: splitViewIgcResults
-            width: 1110;
+            width: 1010;
             height: parent.height
             visible: mainViewMenuTables.checked
 
@@ -1198,13 +1198,13 @@ ApplicationWindow {
                     //% "Score"
                     title: qsTrId("filelist-table-score")
                     role: "scorePoints"
-                    width: 120
+                    width: 60
                 }
                 TableViewColumn {
                     //% "Score to 1000"
                     title: qsTrId("filelist-table-score-to-1000")
                     role: "scorePoints1000"
-                    width: 120
+                    width: 60
                 }
                 TableViewColumn {
                     //% "Class order"
