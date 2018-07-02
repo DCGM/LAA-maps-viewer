@@ -19,13 +19,13 @@ ApplicationWindow {
 
     property bool autoConfirmFlag: false;
     property bool dontShowRegenResultsDialog: false;
-    property string igcDirectory_default: Qt.resolvedUrl("file:///"+QStandardPathsApplicationFilePath+"/igcFiles");
+    property string igcDirectory_default: Qt.resolvedUrl("file:///"+QStandardPathsApplicationFilePath+"/../igcFiles");
     property string igcDirectory_user_defined;
 
-    property string trackFile_default: Qt.resolvedUrl("file:///"+QStandardPathsApplicationFilePath+"/track.json");
+    property string trackFile_default: Qt.resolvedUrl("file:///"+QStandardPathsApplicationFilePath+"/../track.json");
     property string trackFile_user_defined;
 
-    property string resultsFolder_default: Qt.resolvedUrl("file:///"+QStandardPathsApplicationFilePath+"/results");
+    property string resultsFolder_default: Qt.resolvedUrl("file:///"+QStandardPathsApplicationFilePath+"/../results");
     property string resultsFolder_user_defined;
 
     property string contestantsFile: pathConfiguration.resultsFolder + "/" + contestantsFileName
