@@ -174,9 +174,9 @@ ApplicationWindow {
                     var binpath = QStandardPathsApplicationFilePath +"/Maps/OSM/";
                     map.url_subdomains = [];
                     if (file_reader.is_dir_and_exists_local(binpath)) {
-                        map.url = "file://"+binpath + "%(zoom)d/%(x)d/%(y)d.png"
+                        map.url = "file:///"+binpath + "%(zoom)d/%(x)d/%(y)d.png"
                     } else if (file_reader.is_dir_and_exists_local(homepath)) {
-                        map.url = "file://"+homepath + "%(zoom)d/%(x)d/%(y)d.png"
+                        map.url = "file:///"+homepath + "%(zoom)d/%(x)d/%(y)d.png"
                     } else {
                         map.url = "";
                         console.warn("local map not found")
@@ -341,11 +341,11 @@ ApplicationWindow {
                     var binpath = QStandardPathsApplicationFilePath +"/Maps/airspace/tiles/";
                     map.url_subdomains = [];
                     if (file_reader.is_dir_and_exists_local(binpath)) {
-                        map.airspaceUrl = Qt.resolvedUrl("file://"+binpath) + "%(zoom)d/%(x)d/%(y)d.png"
+                        map.airspaceUrl = Qt.resolvedUrl("file:///"+binpath) + "%(zoom)d/%(x)d/%(y)d.png"
                         map.mapAirspaceVisible = true;
 
                     } else if (file_reader.is_dir_and_exists_local(homepath)) {
-                        map.airspaceUrl = Qt.resolvedUrl("file://"+homepath) + "%(zoom)d/%(x)d/%(y)d.png"
+                        map.airspaceUrl = Qt.resolvedUrl("file:///"+homepath) + "%(zoom)d/%(x)d/%(y)d.png"
                         map.mapAirspaceVisible = true;
                     } else {
                         map.airspaceUrl = "";
