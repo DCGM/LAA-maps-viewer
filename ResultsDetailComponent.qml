@@ -500,6 +500,8 @@ Rectangle {
                                 mwidth: manualValuesTab.columnWidth/2
                                 mheight: parent.height
 
+                                KeyNavigation.tab: landingScoreTextField;
+
                                 property string prevVal: "";
 
                                 onVisibleChanged: {
@@ -661,6 +663,7 @@ Rectangle {
                                 value: curentContestant.markersOk;
                                 mwidth: manualValuesTab.columnWidth/2
                                 mheight: 23
+                                KeyNavigation.tab: photosOkSpinBox
 
                                 on__TextChanged: {
                                     curentContestant.markersOk = value;
