@@ -34,6 +34,7 @@ Rectangle {
         }
 
         curentContestant.startTimeScore = getTakeOffScore(tabView.scrollView.startTimeDifferenceText, curentContestant.time_window_size, curentContestant.time_window_penalty, totalPointsScore);
+//        console.log("FIXME: curentContestant.startTimeScore = " + curentContestant.startTimeScore  )
         tabView.scrollView.startTimeScoreText = curentContestant.startTimeScore;
 
         //curentContestant.circlingScore = getGyreScore(tabView.scrollView.circlingCountValue, curentContestant.gyre_penalty, totalPointsScore);
@@ -179,6 +180,7 @@ Rectangle {
             resultsMainWindow.totalPointsScore = res.sum;
 
             curentContestant.startTimeScore = getTakeOffScore(tabView.scrollView.startTimeDifferenceText, curentContestant.time_window_size, curentContestant.time_window_penalty, totalPointsScore);
+//            console.log("FIXME: curentContestant.startTimeScore  = " + curentContestant.startTimeScore )
             tabView.scrollView.startTimeScoreText = curentContestant.startTimeScore;
 
             //curentContestant.circlingScore = getGyreScore(tabView.scrollView.circlingCountValue, curentContestant.gyre_penalty, totalPointsScore);
@@ -506,8 +508,9 @@ Rectangle {
 
                                 onVisibleChanged: {
 
-                                    if (visible)
+                                    if (visible) {
                                         text = (curentContestant.startTimeMeasured !== "" ? F.addTimeStrFormat(F.addUtcToTime(F.timeToUnix(curentContestant.startTimeMeasured), applicationWindow.utc_offset_sec)) : "");
+                                    }
                                 }
 
                                 onAccepted: {
@@ -560,12 +563,14 @@ Rectangle {
 
                                 onTextChanged: {
 
-                                    if (tabView.scrollView === null)
+                                    if (tabView.scrollView === null) {
                                         return;
+                                    }
 
                                     // add penalty
                                     curentContestant.startTimeScore = getTakeOffScore(tabView.scrollView.startTimeDifferenceText, curentContestant.time_window_size, curentContestant.time_window_penalty, totalPointsScore);
                                     startTimeScoreTextField.text = curentContestant.startTimeScore;
+//                                    console.log("FIXME: curentContestant.startTimeScore = " + curentContestant.startTimeScore)
                                 }
                             }
                         }
@@ -1680,8 +1685,11 @@ Rectangle {
             }
         }
 
-        curentContestant.startTimeScore = getTakeOffScore(tabView.scrollView.startTimeDifferenceText, curentContestant.time_window_size, curentContestant.time_window_penalty, totalPointsScore);
-        //curentContestant.circlingScore = getGyreScore(tabView.scrollView.circlingCountValue, curentContestant.gyre_penalty, totalPointsScore);
+        //        curentContestant.startTimeScore = getTakeOffScore(tabView.scrollView.startTimeDifferenceText, curentContestant.time_window_size, curentContestant.time_window_penalty, totalPointsScore);
+
+//        console.log("FIXME: startTime/Measured/Difference/Score: "+ curentContestant.startTime + " / " + curentContestant.startTimeMeasured + " / " + curentContestant.startTimeDifference + " / " + curentContestant.startTimeScore )
+
+//        curentContestant.circlingScore = getGyreScore(tabView.scrollView.circlingCountValue, curentContestant.gyre_penalty, totalPointsScore);
         curentContestant.oppositeScore = getOppositeDirScore(tabView.scrollView.oppositeCountValue, curentContestant.oposite_direction_penalty, totalPointsScore);
 
         // recover tab status

@@ -1108,13 +1108,13 @@ ApplicationWindow {
 
                                 } catch (e) {
                                     userNameValidity.text = "ERR: parse failed" + e
-                                    console.log("ERR validApiKey: parse failed" + e)
+                                    console.error("validApiKey: parse failed" + e)
                                 }
                             }
                             // Connection error
                             else {
 
-                                console.log("ERR validApiKey http status: " + http.status)
+                                console.error("validApiKey http status: " + http.status)
 
                                 userNameValidity.text = "";
                                 userKeyValidity.text = "";

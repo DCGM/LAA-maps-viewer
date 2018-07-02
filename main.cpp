@@ -26,6 +26,9 @@ void myMessageHandler(QtMsgType type, const QMessageLogContext& context, const Q
     QString txt;
 
 #if defined(Q_OS_LINUX)
+    if (!QDir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)).exists()) {
+        QDir().mkpath(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation));
+    }
     QFile outFile(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QDir::separator() +"viewer.log");
 #elif (defined (Q_OS_WIN) || defined (Q_OS_WIN32) || defined (Q_OS_WIN64))
     QFile outFile("viewer.log");
@@ -61,10 +64,13 @@ void myMessageHandler(QtMsgType type, const QMessageLogContext& context, const Q
         break;
 
     }
-    ts << txt << endl;
+    ts << txt;
+#if (defined (Q_OS_WIN) || defined (Q_OS_WIN32) || defined (Q_OS_WIN64))
+    ts << ('\r');
+#endif
+    ts << endl;
 
     outFile.close();
-
 }
 
 

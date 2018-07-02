@@ -166,7 +166,7 @@ Item {
                             // err
                             else {
 
-                                console.log("ERR initCompetitionFileStorage: " + http.responseText)
+                                console.error("initCompetitionFileStorage: " + http.responseText)
 
                                 // Set and show error dialog
                                 //% "Results upload error dialog title"
@@ -181,7 +181,7 @@ Item {
                         // unknown err
                         else {
 
-                            console.log("ERR initCompetitionFileStorage: " + http.responseText)
+                            console.error("initCompetitionFileStorage: " + http.responseText)
 
                             // Set and show error dialog
                             //% "Results upload error dialog title"
@@ -194,13 +194,13 @@ Item {
                         }
                     } catch (e) {
 
-                        console.log("ERR initCompetitionFileStorage: parse failed" + e)                        
+                        console.error("initCompetitionFileStorage: parse failed" + e)
                     }
                 }
                 // Connection error
                 else {
 
-                    console.log("ERR initCompetitionFileStorage http status: " + http.status)
+                    console.error("initCompetitionFileStorage http status: " + http.status)
 
                     // Set and show error dialog
                     //% "Connection error dialog title"
@@ -269,7 +269,7 @@ Item {
                         }
                     } catch (e) {
 
-                        console.log("ERR callUploadFinish: parse failed" + e)
+                        console.error("ERR callUploadFinish: parse failed" + e)
                     }
                 }
                 // Connection error

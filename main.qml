@@ -174,15 +174,14 @@ ApplicationWindow {
                     var binpath = QStandardPathsApplicationFilePath +"/Maps/OSM/";
                     map.url_subdomains = [];
                     if (file_reader.is_dir_and_exists_local(binpath)) {
-                        console.log("local map " + binpath)
-                        map.url = Qt.resolvedUrl("file://"+binpath) + "%(zoom)d/%(x)d/%(y)d.png"
+                        map.url = "file://"+binpath + "%(zoom)d/%(x)d/%(y)d.png"
                     } else if (file_reader.is_dir_and_exists_local(homepath)) {
-                        console.log("local map " + homepath)
-                        map.url = Qt.resolvedUrl("file://"+homepath) + "%(zoom)d/%(x)d/%(y)d.png"
+                        map.url = "file://"+homepath + "%(zoom)d/%(x)d/%(y)d.png"
                     } else {
                         map.url = "";
                         console.warn("local map not found")
                     }
+                    console.log(map.url);
                 }
 
 
@@ -342,15 +341,18 @@ ApplicationWindow {
                     var binpath = QStandardPathsApplicationFilePath +"/Maps/airspace/tiles/";
                     map.url_subdomains = [];
                     if (file_reader.is_dir_and_exists_local(binpath)) {
-                        console.log("local map " + binpath)
-                        map.url = Qt.resolvedUrl("file://"+binpath) + "%(zoom)d/%(x)d/%(y)d.png"
+                        map.airspaceUrl = Qt.resolvedUrl("file://"+binpath) + "%(zoom)d/%(x)d/%(y)d.png"
+                        map.mapAirspaceVisible = true;
+
                     } else if (file_reader.is_dir_and_exists_local(homepath)) {
-                        console.log("local map " + homepath)
-                        map.url = Qt.resolvedUrl("file://"+homepath) + "%(zoom)d/%(x)d/%(y)d.png"
+                        map.airspaceUrl = Qt.resolvedUrl("file://"+homepath) + "%(zoom)d/%(x)d/%(y)d.png"
+                        map.mapAirspaceVisible = true;
                     } else {
-                        map.url = "";
+                        map.airspaceUrl = "";
+                        map.mapAirspaceVisible = false;
                         console.warn("local map not found")
                     }
+                    console.log(map.airspaceUrl)
                 }
 
             }
@@ -1645,6 +1647,7 @@ ApplicationWindow {
         // TODO - prasarna aby byla kopie a ne stejny objekt
         resultsDetailComponent.curentContestant = createBlankUserObject();
         resultsDetailComponent.curentContestant = JSON.parse(JSON.stringify(ctnt));
+        console.log("resultsDetailComponent.curentContestant.startTimeScore = " + resultsDetailComponent.curentContestant.startTimeScore)
         resultsDetailComponent.crew_row_index = row;
 
 
@@ -2816,6 +2819,7 @@ ApplicationWindow {
         var totalPointsScore = res.sum;
 
         ctnt.startTimeScore = getTakeOffScore(ctnt.startTimeDifference, trItem.time_window_size, trItem.time_window_penalty, totalPointsScore);
+//        console.log("FIXME: ctnt.startTimeScore = " + ctnt.startTimeScore);
         //ctnt.circlingScore = getGyreScore(ctnt.circlingCount, trItem.gyre_penalty, totalPointsScore);
         ctnt.oppositeScore = getOppositeDirScore(ctnt.oppositeCount, trItem.oposite_direction_penalty, totalPointsScore);
 
@@ -3036,10 +3040,13 @@ ApplicationWindow {
 
     function getTakeOffScore(startTimeDifferenceText, time_window_size, time_window_penalty, totalPointsScore) {
 
-        if (F.timeToUnix(startTimeDifferenceText) > time_window_size)
+//        console.log("FIXME: startTimeDifferenceText, time_window_size, time_window_penalty, totalPointsScore: "
+//                    + startTimeDifferenceText+", "+time_window_size+", "+time_window_penalty +", "+ totalPointsScore)
+        if (F.timeToUnix(startTimeDifferenceText) > time_window_size) {
             return Math.round(totalPointsScore/100 * time_window_penalty) * -1;
-        else
+        } else {
             return 0;
+        }
     }
 
     function getGyreScore(circlingCountValue, gyre_penalty, totalPointsScore) {
