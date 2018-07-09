@@ -2819,7 +2819,7 @@ ApplicationWindow {
         var totalPointsScore = res.sum;
 
         ctnt.startTimeScore = getTakeOffScore(ctnt.startTimeDifference, trItem.time_window_size, trItem.time_window_penalty, totalPointsScore);
-//        console.log("FIXME: ctnt.startTimeScore = " + ctnt.startTimeScore);
+        console.log("FIXME: ctnt.startTimeScore = " + ctnt.startTimeScore);
         //ctnt.circlingScore = getGyreScore(ctnt.circlingCount, trItem.gyre_penalty, totalPointsScore);
         ctnt.oppositeScore = getOppositeDirScore(ctnt.oppositeCount, trItem.oposite_direction_penalty, totalPointsScore);
 
@@ -3040,11 +3040,13 @@ ApplicationWindow {
 
     function getTakeOffScore(startTimeDifferenceText, time_window_size, time_window_penalty, totalPointsScore) {
 
-//        console.log("FIXME: startTimeDifferenceText, time_window_size, time_window_penalty, totalPointsScore: "
-//                    + startTimeDifferenceText+", "+time_window_size+", "+time_window_penalty +", "+ totalPointsScore)
-        if (F.timeToUnix(startTimeDifferenceText) > time_window_size) {
+        var tdiff = F.timeToUnix(startTimeDifferenceText);
+        console.log("tdiff: " + tdiff)
+        if ((tdiff > time_window_size) || (tdiff < 0)) {
+            console.log("getTakeOffScore() -> penalty");
             return Math.round(totalPointsScore/100 * time_window_penalty) * -1;
         } else {
+            console.log("getTakeOffScore() -> no penalty");
             return 0;
         }
     }
@@ -5212,5 +5214,9 @@ ApplicationWindow {
 
     Component.onCompleted: {
         startUpMessage.open();  // clean or reload prev settings
+//        if (1) { // test enabled
+        //            F.test_addTimeStrFormat();
+                    F.test_timeToUnix();
+//        }
     }
 }

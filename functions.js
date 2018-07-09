@@ -144,18 +144,77 @@ function subUtcFromTime(timeSec, utcOffsetSec) {
 
 function addTimeStrFormat(str) {
     var t = parseInt(str, 10);
+    if (isNaN(t)) {
+        return "";
+    }
+    var ta = Math.abs(t)
+    var hours = Math.floor(ta/3600)
+    var minutes = Math.floor((ta%3600)/60)
+    var seconds = Math.floor(ta%60);
+
     if (t >= 0) {
-        var hours = Math.floor(t/3600)
-        var minutes = Math.floor((t%3600)/60)
-        var seconds = Math.floor(t%60);
         return pad2(hours) + ":" + pad2(minutes) + ":" + pad2(seconds)
     } else {
-        if (isNaN(t)) {
-            return "";
-        }
 
-        return t
+        return "-"+pad2(hours) + ":" + pad2(minutes) + ":" + pad2(seconds)
     }
+}
+
+function test_addTimeStrFormat() {
+
+    var t = [
+                {
+                    "input": 0,
+                    "expected" : "00:00:00"
+                },
+                {
+                    "input": 1,
+                    "expected" : "00:00:01"
+                },
+                {
+                    "input": 60,
+                    "expected" : "00:01:00"
+                },
+                {
+                    "input": 61,
+                    "expected" : "00:01:01"
+                },
+                {
+                    "input": 3600,
+                    "expected" : "01:00:00"
+                },
+                {
+                    "input": 3661,
+                    "expected" : "01:01:01"
+                },
+                {
+                    "input": 3600,
+                    "expected" : "01:00:00"
+                },
+                {
+                    "input": -1,
+                    "expected" : "-00:00:01"
+                },
+                {
+                    "input": -60,
+                    "expected" : "-00:01:00"
+                },
+                {
+                    "input": -3600,
+                    "expected" : "-01:00:00"
+                },
+                {
+                    "input": -3661,
+                    "expected" : "-01:01:01"
+                },
+            ]
+    for (var i = 0; i < t.length; i++) {
+        var item = t[i]
+        if (item.expected !== addTimeStrFormat(item.input)) {
+            console.error(item.input + " " + item.expected + " "  + addTimeStrFormat(item.input));
+        }
+    }
+
 }
 
 function pad2(i) {
@@ -863,12 +922,76 @@ function timeToUnix(str) {
         if (isNaN(parseInt(result[3],10))) {
             result[3] = 0;
         }
-        return parseInt(result[1], 10) * 3600 + parseInt(result[2], 10) * 60 + parseInt(result[3], 10);
+        var h = parseInt(result[1], 10);
+        var m = parseInt(result[2], 10);
+        var s = parseInt(result[3], 10);
+        var positive = ((h >= 0) && (m >= 0) && (s >= 0)) ? 1 : -1;
+        console.log("POSITIVE " + str + " " + positive)
+        return positive * (h * 3600 +  m * 60 + s);
     } else if (str === '') {
         return 0;
     }
     console.warn("timeToUnix regexp doesn't match \"" +str+"\"")
     return 0;
+}
+
+function test_timeToUnix() {
+    var t = [
+                {
+                    "input": "00:00:00",
+                    "expected" : 0
+                },
+                {
+                    "input": "00:00:01",
+                    "expected" : 1
+                },
+                {
+                    "input": "00:01:00",
+                    "expected" : 60
+                },
+                {
+                    "input": "00:01:01",
+                    "expected" : 61
+                },
+                {
+                    "input": "01:00:00",
+                    "expected" : 3600
+                },
+                {
+                    "input": "01:01:01",
+                    "expected" : 3661
+                },
+                {
+                    "input": "01:00:00",
+                    "expected" : 3600,
+                },
+                {
+                    "input": "-00:00:01",
+                    "expected" : -1,
+                },
+                {
+                    "input": "-00:01:00",
+                    "expected" : -60,
+                },
+                {
+                    "input": "-01:00:00",
+                    "expected" : -3600,
+                },
+                {
+                    "input": "-01:01:01",
+                    "expected" : -3661,
+                },
+            ]
+    for (var i = 0; i < t.length; i++) {
+        var item = t[i]
+        console.log(item.input + " " + item.expected + " "  + timeToUnix(item.input));
+
+        if (item.expected !== timeToUnix(item.input)) {
+            console.error(item.input + " " + item.expected + " "  + timeToUnix(item.input));
+        }
+    }
+
+
 }
 
 function addSlashes(input) {

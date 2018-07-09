@@ -517,6 +517,8 @@ Rectangle {
 
                                     var str = text;
 
+                                    console.log("startTimeMeasuredTextField.text = " + str)
+
                                     // remove start time
                                     if (str === "") {
                                         curentContestant.startTimeMeasured = "";//F.addTimeStrFormat(F.addUtcToTime(F.timeToUnix(curentContestant.startTime), applicationWindow.utc_offset_sec));
@@ -537,11 +539,13 @@ Rectangle {
                                             text = F.addTimeStrFormat(F.addUtcToTime(F.timeToUnix(curentContestant.startTimeMeasured), applicationWindow.utc_offset_sec));
 
                                             var refVal = F.timeToUnix(curentContestant.startTime);
-                                            var diff = Math.abs(refVal - (F.subUtcFromTime(sec, applicationWindow.utc_offset_sec)));
+                                            var diff = (F.subUtcFromTime(sec, applicationWindow.utc_offset_sec)) - refVal ;
+                                            console.log("DIFF: " +diff)
                                             curentContestant.startTimeDifference = F.addTimeStrFormat(diff);
                                             startTimeDifferenceTextField.text = curentContestant.startTimeDifference;
                                         }
                                     }
+                                    console.log("startTimeDifferenceTextField.text: " + startTimeDifferenceTextField.text )
                                 }
 
                                 onActiveFocusChanged: {
