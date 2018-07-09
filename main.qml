@@ -3041,12 +3041,11 @@ ApplicationWindow {
     function getTakeOffScore(startTimeDifferenceText, time_window_size, time_window_penalty, totalPointsScore) {
 
         var tdiff = F.timeToUnix(startTimeDifferenceText);
-        console.log("tdiff: " + tdiff)
         if ((tdiff > time_window_size) || (tdiff < 0)) {
-            console.log("getTakeOffScore() -> penalty");
+            console.log("getTakeOffScore() -> penalty" + startTimeDifferenceText);
             return Math.round(totalPointsScore/100 * time_window_penalty) * -1;
         } else {
-            console.log("getTakeOffScore() -> no penalty");
+            console.log("getTakeOffScore() -> no penalty" + startTimeDifferenceText);
             return 0;
         }
     }

@@ -917,16 +917,15 @@ function getFlagsByIndex(flag_index, value) {
 
 
 function timeToUnix(str) {
-    var result = /^(-?\d+):(-?\d+):?(-?\d*\.?\d*)$/.exec(str);
+    var result = /^(-?)(\d+):(-?\d+):?(-?\d*\.?\d*)$/.exec(str);
     if (result) {
-        if (isNaN(parseInt(result[3],10))) {
-            result[3] = 0;
+        if (isNaN(parseInt(result[4],10))) {
+            result[4] = 0;
         }
-        var h = parseInt(result[1], 10);
-        var m = parseInt(result[2], 10);
-        var s = parseInt(result[3], 10);
-        var positive = ((h >= 0) && (m >= 0) && (s >= 0)) ? 1 : -1;
-        console.log("POSITIVE " + str + " " + positive)
+        var h = parseInt(result[2], 10);
+        var m = parseInt(result[3], 10);
+        var s = parseInt(result[4], 10);
+        var positive = ((result[1] !== "-") && (m >= 0) && (s >= 0)) ? 1 : -1;
         return positive * (h * 3600 +  m * 60 + s);
     } else if (str === '') {
         return 0;
@@ -981,13 +980,16 @@ function test_timeToUnix() {
                     "input": "-01:01:01",
                     "expected" : -3661,
                 },
+                {
+                    "input": "6:00",
+                    "expected" : 21600,
+                },
             ]
     for (var i = 0; i < t.length; i++) {
         var item = t[i]
-        console.log(item.input + " " + item.expected + " "  + timeToUnix(item.input));
 
         if (item.expected !== timeToUnix(item.input)) {
-            console.error(item.input + " " + item.expected + " "  + timeToUnix(item.input));
+            console.error(item.input + ": " + item.expected + " != "  + timeToUnix(item.input) + " Doesn't match with expected value");
         }
     }
 
