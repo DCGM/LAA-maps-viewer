@@ -3205,7 +3205,7 @@ ApplicationWindow {
         // calc new start time difference
         var sec = F.timeToUnix(item.prevResultsStartTimeMeasured);
         var time;
-        if (sec >= 0) { // valid time
+        if (sec > 0) { // valid time
 
             var refVal = F.timeToUnix(item.startTime);
             var diff = Math.abs(refVal - sec);

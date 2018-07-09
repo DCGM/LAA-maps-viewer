@@ -97,16 +97,10 @@ Item {
 
                         var str = value;
                         var sec = F.timeToUnix(str);
-                        if (sec >= 0) {
+                        if (sec > 0) {
                             changeModel(styleData.row, styleData.role, F.subUtcFromTime(sec, applicationWindow.utc_offset_sec));
-                        }
-                        else {
-                            var num = parseFloat(str);
-                            if (isNaN(num)) {
-                                changeModel(styleData.row, styleData.role, -1)
-                            } else {
-                                changeModel(styleData.row, styleData.role, F.subUtcFromTime(num, applicationWindow.utc_offset_sec))
-                            }
+                        } else {
+                            changeModel(styleData.row, styleData.role, -1)
                         }
                         break;
 

@@ -1662,7 +1662,7 @@ Rectangle {
 
             var sec = (F.timeToUnix(str) > 0) ? F.timeToUnix(str) : F.timeToUnix(tabView.scrollView.startTimeTextField.prevVal);
             var time;
-            if (sec >= 0) {
+            if (sec > 0) {
 
                 time = F.addTimeStrFormat(F.subUtcFromTime(sec, applicationWindow.utc_offset_sec));
 
