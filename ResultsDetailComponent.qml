@@ -34,7 +34,7 @@ Rectangle {
         }
 
         curentContestant.startTimeScore = getTakeOffScore(tabView.scrollView.startTimeDifferenceText, curentContestant.time_window_size, curentContestant.time_window_penalty, totalPointsScore);
-//        console.log("FIXME: curentContestant.startTimeScore = " + curentContestant.startTimeScore  )
+        console.log("FIXME: curentContestant.startTimeScore = " + curentContestant.startTimeScore  )
         tabView.scrollView.startTimeScoreText = curentContestant.startTimeScore;
 
         //curentContestant.circlingScore = getGyreScore(tabView.scrollView.circlingCountValue, curentContestant.gyre_penalty, totalPointsScore);
@@ -180,7 +180,7 @@ Rectangle {
             resultsMainWindow.totalPointsScore = res.sum;
 
             curentContestant.startTimeScore = getTakeOffScore(tabView.scrollView.startTimeDifferenceText, curentContestant.time_window_size, curentContestant.time_window_penalty, totalPointsScore);
-//            console.log("FIXME: curentContestant.startTimeScore  = " + curentContestant.startTimeScore )
+            console.log("FIXME: curentContestant.startTimeScore  = " + curentContestant.startTimeScore )
             tabView.scrollView.startTimeScoreText = curentContestant.startTimeScore;
 
             //curentContestant.circlingScore = getGyreScore(tabView.scrollView.circlingCountValue, curentContestant.gyre_penalty, totalPointsScore);
@@ -540,7 +540,6 @@ Rectangle {
 
                                             var refVal = F.timeToUnix(curentContestant.startTime);
                                             var diff = (F.subUtcFromTime(sec, applicationWindow.utc_offset_sec)) - refVal ;
-                                            console.log("DIFF: " +diff)
                                             curentContestant.startTimeDifference = F.addTimeStrFormat(diff);
                                             startTimeDifferenceTextField.text = curentContestant.startTimeDifference;
                                         }
@@ -574,7 +573,7 @@ Rectangle {
                                     // add penalty
                                     curentContestant.startTimeScore = getTakeOffScore(tabView.scrollView.startTimeDifferenceText, curentContestant.time_window_size, curentContestant.time_window_penalty, totalPointsScore);
                                     startTimeScoreTextField.text = curentContestant.startTimeScore;
-//                                    console.log("FIXME: curentContestant.startTimeScore = " + curentContestant.startTimeScore)
+                                    console.log("FIXME: curentContestant.startTimeScore = " + curentContestant.startTimeScore)
                                 }
                             }
                         }
@@ -1674,6 +1673,7 @@ Rectangle {
                 var refVal = F.timeToUnix(curentContestant.startTime);
                 var diff = Math.abs(refVal - (F.subUtcFromTime(sec, applicationWindow.utc_offset_sec)));
                 curentContestant.startTimeDifference = F.addTimeStrFormat(diff);
+                console.log("FIXME: curentContestant.startTimeDifference = " + curentContestant.startTimeDifference)
 
                 // add penalty
                 if (diff > curentContestant.time_window_size) {
@@ -1691,7 +1691,7 @@ Rectangle {
 
         //        curentContestant.startTimeScore = getTakeOffScore(tabView.scrollView.startTimeDifferenceText, curentContestant.time_window_size, curentContestant.time_window_penalty, totalPointsScore);
 
-//        console.log("FIXME: startTime/Measured/Difference/Score: "+ curentContestant.startTime + " / " + curentContestant.startTimeMeasured + " / " + curentContestant.startTimeDifference + " / " + curentContestant.startTimeScore )
+        console.log("FIXME: startTime/Measured/Difference/Score: "+ curentContestant.startTime + " / " + curentContestant.startTimeMeasured + " / " + curentContestant.startTimeDifference + " / " + curentContestant.startTimeScore )
 
 //        curentContestant.circlingScore = getGyreScore(tabView.scrollView.circlingCountValue, curentContestant.gyre_penalty, totalPointsScore);
         curentContestant.oppositeScore = getOppositeDirScore(tabView.scrollView.oppositeCountValue, curentContestant.oposite_direction_penalty, totalPointsScore);

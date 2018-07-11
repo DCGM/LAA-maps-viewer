@@ -1260,6 +1260,9 @@ ApplicationWindow {
                         contestantsListModel.setProperty(row, "otherPenalty", curentContestant.otherPenalty);
                         contestantsListModel.setProperty(row, "pointNote", curentContestant.pointNote);
 
+
+                        console.log("curentContestant["+row+"].startTimeDifference: " + curentContestant.startTimeDifference)
+
                         // reload current contestant
                         ctnt = contestantsListModel.get(row);
 
@@ -1320,6 +1323,7 @@ ApplicationWindow {
 
 
                     }
+                    contestantsListModel.submit()
 
                     // used instead of the append due to some post processing (call some on change method)
                     contestantsListModel.changeLisModel(row, "category", curentContestant.category);
@@ -2819,7 +2823,7 @@ ApplicationWindow {
         var totalPointsScore = res.sum;
 
         ctnt.startTimeScore = getTakeOffScore(ctnt.startTimeDifference, trItem.time_window_size, trItem.time_window_penalty, totalPointsScore);
-        console.log("FIXME: ctnt.startTimeScore = " + ctnt.startTimeScore);
+        console.log("FIXME: ctnt.startTimeScore = " + ctnt.startTimeScore + "  ctnt.startTimeDifference = " + ctnt.startTimeDifference);
         //ctnt.circlingScore = getGyreScore(ctnt.circlingCount, trItem.gyre_penalty, totalPointsScore);
         ctnt.oppositeScore = getOppositeDirScore(ctnt.oppositeCount, trItem.oposite_direction_penalty, totalPointsScore);
 
@@ -3042,10 +3046,10 @@ ApplicationWindow {
 
         var tdiff = F.timeToUnix(startTimeDifferenceText);
         if ((tdiff > time_window_size) || (tdiff < 0)) {
-            console.log("getTakeOffScore() -> penalty" + startTimeDifferenceText);
+            console.log("getTakeOffScore() -> penalty \"" + startTimeDifferenceText + "\"");
             return Math.round(totalPointsScore/100 * time_window_penalty) * -1;
         } else {
-            console.log("getTakeOffScore() -> no penalty" + startTimeDifferenceText);
+            console.log("getTakeOffScore() -> no penalty \"" + startTimeDifferenceText + "\"");
             return 0;
         }
     }
