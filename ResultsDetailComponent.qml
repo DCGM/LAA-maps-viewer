@@ -249,7 +249,6 @@ Rectangle {
 
         }
 
-
         function resultsHeaderUpdateFromCurrentContestant() {
             resultsHeaderPilotName.text = (curentContestant.name).split(' – ')[0];
             resultsHeaderCoPilotName.text = (curentContestant.name).split(' – ')[1] === undefined ? "" : (curentContestant.name).split(' – ')[1];
@@ -1655,6 +1654,7 @@ Rectangle {
 
         // validate and save start time
         var str = tabView.scrollView.startTimeText;
+        console.log("startTimeText:" + str)
         if (str === "") {
 
             curentContestant.startTimeMeasured = "";//curentContestant.startTime;

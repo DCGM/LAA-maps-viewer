@@ -1272,10 +1272,8 @@ ApplicationWindow {
                         contestantsListModel.setProperty(row, "altitudeSectionsScoreDetails", curentContestant.altitudeSectionsScoreDetails);
                         contestantsListModel.setProperty(row, "spaceSectionsScoreDetails", curentContestant.spaceSectionsScoreDetails);
 
-                        // set current values as prev results - used as cache when recomputing score
-                        saveCurrentResultValues(row, ctnt);
-
                     } else { // add new crew
+
 
                         // create blank user
                         var new_contestant = createBlankUserObject();
@@ -1317,13 +1315,16 @@ ApplicationWindow {
                         new_contestant.altitudeSectionsScoreDetails = curentContestant.altitudeSectionsScoreDetails;
                         new_contestant.spaceSectionsScoreDetails = curentContestant.spaceSectionsScoreDetails;
 
+
                         // append into list model
                         contestantsListModel.append(new_contestant);
                         row = contestantsListModel.count - 1;
 
 
                     }
-                    contestantsListModel.submit()
+
+                    // set current values as prev results - used as cache when recomputing score
+                    saveCurrentResultValues(row, ctnt);
 
                     // used instead of the append due to some post processing (call some on change method)
                     contestantsListModel.changeLisModel(row, "category", curentContestant.category);
@@ -1652,6 +1653,8 @@ ApplicationWindow {
         resultsDetailComponent.curentContestant = createBlankUserObject();
         resultsDetailComponent.curentContestant = JSON.parse(JSON.stringify(ctnt));
         console.log("resultsDetailComponent.curentContestant.startTimeScore = " + resultsDetailComponent.curentContestant.startTimeScore)
+        console.log("startTimeMeasured = " + resultsDetailComponent.curentContestant.startTimeMeasured)
+        console.log("startTimeDifference = " + resultsDetailComponent.curentContestant.startTimeDifference) // FIXME tady je to spatne
         resultsDetailComponent.crew_row_index = row;
 
 
@@ -2385,15 +2388,14 @@ ApplicationWindow {
 
                 curCnt = contestantsListModel.get(i);
 
-                if(pilotID_resCSV !== -1) { // search by id
-                    if (pilotID_resCSV === parseInt(curCnt.pilot_id)) {
+                if (pilotID_resCSV !== -1) { // search by id
+                    if (pilotID_resCSV === parseInt(curCnt.pilot_id, 10)) {
                         index = j;
                         break;
                     }
-                }
-                else { // locally added crew - search by name (id should by -1)
+                } else { // locally added crew - search by name (id should by -1)
 
-                    if (pilotName_resCSV === curCnt.name && pilotID_resCSV === -1) {
+                    if ((pilotName_resCSV === curCnt.name) && (pilotID_resCSV === -1)) {
                         index = j;
                         break;
                     }
@@ -2432,6 +2434,7 @@ ApplicationWindow {
                 curCnt.prevResultsPhotosNok = (csvFileFromOffice ? parseInt(resultsCSV[j][5]) : 0);
                 curCnt.prevResultsPhotosFalse = (csvFileFromOffice ? parseInt(resultsCSV[j][6]) : 0);
                 curCnt.prevResultsStartTimeMeasured = (csvFileFromOffice ? resultsCSV[j][11] : "");
+//                console.log("crew / curCnt.prevResultsStartTimeMeasured: " + curCnt.name + " / " + curCnt.prevResultsStartTimeMeasured )
                 curCnt.prevResultsLandingScore = (csvFileFromOffice ? parseInt(resultsCSV[j][7]) : 0);
                 //curCnt.prevResultsCirclingCount = (csvFileFromViewer ? parseInt(resultsCSV[j][44]) : (!csvFileFromOffice ? 0 : parseInt(resultsCSV[j][13])));
                 curCnt.prevResultsOppositeCount = (csvFileFromViewer ? parseInt(resultsCSV[j][46]) : 0);
@@ -2451,6 +2454,7 @@ ApplicationWindow {
                     curCnt.prevResultsMarkersScore = (csvFileFromViewer ? parseInt(resultsCSV[j][41]) : 0);
                     curCnt.prevResultsPhotosScore = (csvFileFromViewer ? parseInt(resultsCSV[j][42]) : 0);
                     curCnt.prevResultsStartTimeDifference = (csvFileFromOffice ? resultsCSV[j][43] : "");
+                    console.log("crew / prevResultsStartTimeDifference: " + curCnt.name + " / " + curCnt.prevResultsStartTimeDifference)
                     curCnt.prevResultsStartTimeScore = (csvFileFromOffice ? parseInt(resultsCSV[j][12]) : 0);
                     //curCnt.prevResultsCirclingScore = (csvFileFromViewer ? parseInt(resultsCSV[j][45]) : (!csvFileFromOffice ? 0 : parseInt(resultsCSV[j][14] * -1)));
                     curCnt.prevResultsOppositeScore = (csvFileFromViewer ? parseInt(resultsCSV[j][47]) : 0);
@@ -3214,7 +3218,8 @@ ApplicationWindow {
 
             var refVal = F.timeToUnix(item.startTime);
             var diff = Math.abs(refVal - sec);
-
+// FIXME FIXME
+            console.log("startTimeDifference" + F.addTimeStrFormat(diff) + "diff " + diff)
             contestantsListModel.setProperty(current, "startTimeDifference", F.addTimeStrFormat(diff));
         }
 
