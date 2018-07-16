@@ -45,6 +45,7 @@ Item {
 
         filesToUpload = [];
         filesToUploadIterator = 0;
+        var i = 0;
 
         // track file
         var trackFileUrlArray = pathConfiguration.trackFile.split("/");
@@ -58,7 +59,7 @@ Item {
         filesToUpload.push({"fileUrl": trackFileUrlArray.join("/"), "fileName": resultsUploaderComponent.trackFileName});
 
         // csv files: csvFilesToExport
-        for (var i = 0; i < csvFilesToExport.length; i++) {
+        for (i = 0; i < csvFilesToExport.length; i++) {
 
             if (file_reader.file_exists(Qt.resolvedUrl(pathConfiguration.resultsFolder + "/" + csvFilesToExport[i]))) {
                 filesToUpload.push({"fileUrl": pathConfiguration.resultsFolder + "/" + csvFilesToExport[i], "fileName": csvFilesToExport[i]});
@@ -66,18 +67,18 @@ Item {
         }
 
         // igc files
-        for (var i = 0; i < igcFolderModel.count; i++) {
+        for (i = 0; i < igcFolderModel.count; i++) {
 
             filesToUpload.push({"fileUrl": Qt.resolvedUrl(igcFolderModel.get(i, "fileURL")), "fileName": igcFolderModel.get(i, "fileName")});
         }
 
         // html files
-        for (var i = 0; i < contestantsListModel.count; i++) {
+        for (i = 0; i < contestantsListModel.count; i++) {
 
             var contestant = contestantsListModel.get(i);
             var fileName = F.getContestantResultFileName(contestant.name, contestant.category);
 
-            if (contestant.scorePoints != -1 && file_reader.file_exists(pathConfiguration.resultsFolder + "/"+ fileName + ".html")) {
+            if (contestant.scorePoints !== -1 && file_reader.file_exists(pathConfiguration.resultsFolder + "/"+ fileName + ".html")) {
                 filesToUpload.push({"fileUrl": pathConfiguration.resultsFolder + "/" + fileName + ".html", "fileName": fileName + ".html"});
             }
         }
@@ -157,7 +158,7 @@ Item {
                                 // Set and show error dialog
                                 //% "Results upload error dialog title"
                                 errMessageDialog.title = qsTrId("results-upload-readonly-error-dialog-title")
-                                //% "Selected competition is read only. Please check the settings and try it again."
+                                //% "Selected competition was already published and is currently in readonly mode. Please check the settings and try it again."
                                 errMessageDialog.text = qsTrId("results-upload-readonly-error-dialog-text")
                                 errMessageDialog.standardButtons = StandardButton.Close
                                 //errMessageDialog.showDialog();
@@ -252,9 +253,8 @@ Item {
 
                             // ok - init upload of files
                             if (status === 0) {
-
-                            }
-                            else {
+                                console.log("callUploadFinish OK " + http.responseText)
+                            } else {
 
                                 console.log("ERR callUploadFinish: " + http.responseText)
 
