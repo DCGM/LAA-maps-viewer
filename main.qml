@@ -853,8 +853,9 @@ ApplicationWindow {
 
                     for (var t = 0; t < tracks.tracks.length; t++) {
 
-                        if (tracks.tracks[t].name === contestant.category)
+                        if (tracks.tracks[t].name === contestant.category) {
                             trItem = tracks.tracks[t]
+                        }
                     }
                 }
 
@@ -3183,6 +3184,20 @@ ApplicationWindow {
             console.log("tpiData.length <= 0")
         }
 
+        trItem = [];
+
+        // load contestant category
+        if (tracks !== undefined && tracks.tracks !== undefined) {
+
+            for (var t = 0; t < tracks.tracks.length; t++) {
+
+                if (tracks.tracks[t].name === item.category) {
+                    trItem = tracks.tracks[t]
+                }
+            }
+        }
+
+
         // load manual values into list models - used when compute score
         loadStringIntoListModel(wptNewScoreListManualValuesCache, (ctnt.prevResultsWPT !== undefined) ? ctnt.prevResultsWPT : '', "; ");
         loadStringIntoListModel(speedSectionsScoreListManualValuesCache, ctnt.prevResultsSpeedSec, "; ");
@@ -3746,7 +3761,6 @@ ApplicationWindow {
             var distance_out_bi_spent = '';
 
             var trItemCurrentPoint = trItem.conn[i];
-
 
             // suma extra casu a vzdalenosti od VBT
             distance_cumul += item.distance;
