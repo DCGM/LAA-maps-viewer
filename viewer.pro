@@ -73,6 +73,8 @@ CODECFORSRC = UTF-8
 
 RESOURCES += viewer.qrc
 
+RC_ICONS = viewer64.ico
+
 unix: !andorid: {
     isEmpty(PREFIX) {
         PREFIX = /usr/local
