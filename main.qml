@@ -1738,7 +1738,7 @@ ApplicationWindow {
     Timer {
         id: genResultsDetailTimer
         running: false;
-        interval: 1;
+        interval: 20;
 
         property bool showOnFinished: false
 
@@ -4672,7 +4672,7 @@ ApplicationWindow {
         id: workingTimer
         repeat: true;
         running: false;
-        interval: 1;
+        interval: 20;
 
         property string action; //["pathOnOk", "refreshDialogOnOk", "refreshContestant", "showRegenMessageDialog", "sortlistModelByStartTime"]
 
@@ -4825,7 +4825,7 @@ ApplicationWindow {
     Timer {
         id: evaluateTimer
         // evaluate all via timer;
-        interval: 500;
+        interval: 50;
         repeat: true;
         running: false;
         onTriggered: {
@@ -4849,14 +4849,16 @@ ApplicationWindow {
 
             var item = contestantsListModel.get(current);
 
+            var imagePath = Qt.resolvedUrl(pathConfiguration.resultsFolder+"/"+item.fullName+".png");
 
-            if ((item.filename === "") || (item.score !== ""))  { // if ((no contestent selected) or (already computed))
+            if ((item.filename === "") || ( (item.score !== "") && file_reader.file_exists(imagePath)))  { // if ((no contestent selected) or (already computed))
                 if (current + 1 == contestantsListModel.count) { // finsihed
                     running = false;
 
                     regenerateResultsFile(); // toto tu musi byt, pri tom generovani se asi neco nesyncne a pak se vysedku generuji z prazdneho listmodelu
 
                 } else { // go to next
+                    console.log("selecting: row[" + (current+1) + "]: " + item.fullName )
                     contestantsTable.selection.clear();
                     contestantsTable.selection.select(current + 1)
                     contestantsTable.currentRow = current + 1;
