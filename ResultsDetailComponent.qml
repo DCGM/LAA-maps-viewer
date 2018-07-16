@@ -34,7 +34,6 @@ Rectangle {
         }
 
         curentContestant.startTimeScore = getTakeOffScore(tabView.scrollView.startTimeDifferenceText, curentContestant.time_window_size, curentContestant.time_window_penalty, totalPointsScore);
-        console.log("FIXME: curentContestant.startTimeScore = " + curentContestant.startTimeScore  )
         tabView.scrollView.startTimeScoreText = curentContestant.startTimeScore;
 
         //curentContestant.circlingScore = getGyreScore(tabView.scrollView.circlingCountValue, curentContestant.gyre_penalty, totalPointsScore);
@@ -516,8 +515,6 @@ Rectangle {
 
                                     var str = text;
 
-                                    console.log("startTimeMeasuredTextField.text = " + str)
-
                                     // remove start time
                                     if (str === "") {
                                         curentContestant.startTimeMeasured = "";//F.addTimeStrFormat(F.addUtcToTime(F.timeToUnix(curentContestant.startTime), applicationWindow.utc_offset_sec));
@@ -543,7 +540,6 @@ Rectangle {
                                             startTimeDifferenceTextField.text = curentContestant.startTimeDifference;
                                         }
                                     }
-                                    console.log("startTimeDifferenceTextField.text: " + startTimeDifferenceTextField.text )
                                 }
 
                                 onActiveFocusChanged: {
@@ -572,7 +568,6 @@ Rectangle {
                                     // add penalty
                                     curentContestant.startTimeScore = getTakeOffScore(tabView.scrollView.startTimeDifferenceText, curentContestant.time_window_size, curentContestant.time_window_penalty, totalPointsScore);
                                     startTimeScoreTextField.text = curentContestant.startTimeScore;
-                                    console.log("FIXME: curentContestant.startTimeScore = " + curentContestant.startTimeScore)
                                 }
                             }
                         }
@@ -1655,43 +1650,34 @@ Rectangle {
         // validate and save start time
         var str = tabView.scrollView.startTimeText;
         console.log("startTimeText:" + str)
-        if (str === "") {
 
-            curentContestant.startTimeMeasured = "";//curentContestant.startTime;
+        if (str === "") {
+            curentContestant.startTimeMeasured = "";//F.addTimeStrFormat(F.addUtcToTime(F.timeToUnix(curentContestant.startTime), applicationWindow.utc_offset_sec));
             curentContestant.startTimeDifference = "";//F.addTimeStrFormat(0);
             curentContestant.startTimeScore = 0;
-        }
-        else {
+        } else {
 
-            var sec = (F.timeToUnix(str) > 0) ? F.timeToUnix(str) : F.timeToUnix(tabView.scrollView.startTimeTextField.prevVal);
+            var sec = F.timeToUnix(str);
             var time;
-            if (sec > 0) {
+            if (sec <= 0) {
+                curentContestant.startTimeMeasured = "";
+                curentContestant.startTimeDifference = "";
+                curentContestant.startTimeScore = 0;
+
+            } else {
 
                 time = F.addTimeStrFormat(F.subUtcFromTime(sec, applicationWindow.utc_offset_sec));
 
                 curentContestant.startTimeMeasured = time;
+
                 var refVal = F.timeToUnix(curentContestant.startTime);
-                var diff = Math.abs(refVal - (F.subUtcFromTime(sec, applicationWindow.utc_offset_sec)));
+                var diff = (F.subUtcFromTime(sec, applicationWindow.utc_offset_sec)) - refVal ;
                 curentContestant.startTimeDifference = F.addTimeStrFormat(diff);
-                console.log("FIXME: curentContestant.startTimeDifference = " + curentContestant.startTimeDifference)
-
-                // add penalty
-                if (diff > curentContestant.time_window_size) {
-                    curentContestant.startTimeScore = getTakeOffScore(tabView.scrollView.startTimeDifferenceText, curentContestant.time_window_size, curentContestant.time_window_penalty, totalPointsScore);
-                } else {
-                    curentContestant.startTimeScore = 0;
-                }
-            } else {
-
-                curentContestant.startTimeMeasured = "";
-                curentContestant.startTimeDifference = "";
-                curentContestant.startTimeScore = 0;
+                curentContestant.startTimeScore = getTakeOffScore(tabView.scrollView.startTimeDifferenceText, curentContestant.time_window_size, curentContestant.time_window_penalty, totalPointsScore);
             }
         }
 
         //        curentContestant.startTimeScore = getTakeOffScore(tabView.scrollView.startTimeDifferenceText, curentContestant.time_window_size, curentContestant.time_window_penalty, totalPointsScore);
-
-        console.log("FIXME: startTime/Measured/Difference/Score: "+ curentContestant.startTime + " / " + curentContestant.startTimeMeasured + " / " + curentContestant.startTimeDifference + " / " + curentContestant.startTimeScore )
 
 //        curentContestant.circlingScore = getGyreScore(tabView.scrollView.circlingCountValue, curentContestant.gyre_penalty, totalPointsScore);
         curentContestant.oppositeScore = getOppositeDirScore(tabView.scrollView.oppositeCountValue, curentContestant.oposite_direction_penalty, totalPointsScore);

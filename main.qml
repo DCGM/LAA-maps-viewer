@@ -1260,9 +1260,6 @@ ApplicationWindow {
                         contestantsListModel.setProperty(row, "otherPenalty", curentContestant.otherPenalty);
                         contestantsListModel.setProperty(row, "pointNote", curentContestant.pointNote);
 
-
-                        console.log("curentContestant["+row+"].startTimeDifference: " + curentContestant.startTimeDifference)
-
                         // reload current contestant
                         ctnt = contestantsListModel.get(row);
 
@@ -1652,9 +1649,6 @@ ApplicationWindow {
         // TODO - prasarna aby byla kopie a ne stejny objekt
         resultsDetailComponent.curentContestant = createBlankUserObject();
         resultsDetailComponent.curentContestant = JSON.parse(JSON.stringify(ctnt));
-        console.log("resultsDetailComponent.curentContestant.startTimeScore = " + resultsDetailComponent.curentContestant.startTimeScore)
-        console.log("startTimeMeasured = " + resultsDetailComponent.curentContestant.startTimeMeasured)
-        console.log("startTimeDifference = " + resultsDetailComponent.curentContestant.startTimeDifference) // FIXME tady je to spatne
         resultsDetailComponent.crew_row_index = row;
 
 
@@ -2454,7 +2448,6 @@ ApplicationWindow {
                     curCnt.prevResultsMarkersScore = (csvFileFromViewer ? parseInt(resultsCSV[j][41]) : 0);
                     curCnt.prevResultsPhotosScore = (csvFileFromViewer ? parseInt(resultsCSV[j][42]) : 0);
                     curCnt.prevResultsStartTimeDifference = (csvFileFromOffice ? resultsCSV[j][43] : "");
-                    console.log("crew / prevResultsStartTimeDifference: " + curCnt.name + " / " + curCnt.prevResultsStartTimeDifference)
                     curCnt.prevResultsStartTimeScore = (csvFileFromOffice ? parseInt(resultsCSV[j][12]) : 0);
                     //curCnt.prevResultsCirclingScore = (csvFileFromViewer ? parseInt(resultsCSV[j][45]) : (!csvFileFromOffice ? 0 : parseInt(resultsCSV[j][14] * -1)));
                     curCnt.prevResultsOppositeScore = (csvFileFromViewer ? parseInt(resultsCSV[j][47]) : 0);
@@ -2827,7 +2820,6 @@ ApplicationWindow {
         var totalPointsScore = res.sum;
 
         ctnt.startTimeScore = getTakeOffScore(ctnt.startTimeDifference, trItem.time_window_size, trItem.time_window_penalty, totalPointsScore);
-        console.log("FIXME: ctnt.startTimeScore = " + ctnt.startTimeScore + "  ctnt.startTimeDifference = " + ctnt.startTimeDifference);
         //ctnt.circlingScore = getGyreScore(ctnt.circlingCount, trItem.gyre_penalty, totalPointsScore);
         ctnt.oppositeScore = getOppositeDirScore(ctnt.oppositeCount, trItem.oposite_direction_penalty, totalPointsScore);
 
@@ -3050,10 +3042,8 @@ ApplicationWindow {
 
         var tdiff = F.timeToUnix(startTimeDifferenceText);
         if ((tdiff > time_window_size) || (tdiff < 0)) {
-            console.log("getTakeOffScore() -> penalty \"" + startTimeDifferenceText + "\"");
             return Math.round(totalPointsScore/100 * time_window_penalty) * -1;
         } else {
-            console.log("getTakeOffScore() -> no penalty \"" + startTimeDifferenceText + "\"");
             return 0;
         }
     }
@@ -3175,11 +3165,15 @@ ApplicationWindow {
         var item = contestantsListModel.get(current)
 
         // no igc assigned
-        if (item.filename === "") return;
+        if (item.filename === "") {
+            console.log("item.filename not assigned")
+            return;
+        }
 
         var imagePath = Qt.resolvedUrl(pathConfiguration.resultsFolder+"/"+item.fullName+".png");
 
         if ((item.score !== undefined) && (item.score !== "") && file_reader.file_exists(imagePath)) { // pokud je vypocitane, tak nepocitame znovu
+            console.log("item.score is defined and imagePath exists");
             return;
         }
 
@@ -3217,10 +3211,11 @@ ApplicationWindow {
         if (sec > 0) { // valid time
 
             var refVal = F.timeToUnix(item.startTime);
-            var diff = Math.abs(refVal - sec);
-// FIXME FIXME
-            console.log("startTimeDifference" + F.addTimeStrFormat(diff) + "diff " + diff)
+            var diff = (sec - refVal);
             contestantsListModel.setProperty(current, "startTimeDifference", F.addTimeStrFormat(diff));
+        } else {
+            // if prevResultsStartTimeMeasured not valid, difference is not valid -> no penalty
+            contestantsListModel.setProperty(current, "startTimeDifference", "");
         }
 
         console.time("computeScore")
@@ -3438,7 +3433,7 @@ ApplicationWindow {
                             }
 
                         } else {
-                            console.log("wrong direction on "+ti.name  +":  B1 < A < B2: " + angle_ok + " " + Math.round(angle_low) + " " + Math.round(flight_angle) + "(+360) " + Math.round(angle_high))
+                            console.log(igcthis.time+ ": wrong direction on "+ ti.name  +":  B1 < A < B2: " + " " + Math.round(angle_low) + " " + Math.round(flight_angle) + "(+360) " + Math.round(angle_high))
                         }
 
                     }
@@ -3969,6 +3964,7 @@ ApplicationWindow {
         contestantsListModel.setProperty(ctntIndex, "prevResultsPhotosNok", contestant.photosNok);
         contestantsListModel.setProperty(ctntIndex, "prevResultsPhotosFalse", contestant.photosFalse);
         contestantsListModel.setProperty(ctntIndex, "prevResultsStartTimeMeasured", contestant.startTimeMeasured);
+        contestantsListModel.setProperty(ctntIndex, "prevResultsStartTimeDifference",  contestant.startTimeDifference);
         contestantsListModel.setProperty(ctntIndex, "prevResultsLandingScore", contestant.landingScore);
         //contestantsListModel.setProperty(ctntIndex, "circlingCount", item.prevResultsCirclingCount);
         contestantsListModel.setProperty(ctntIndex, "prevResultsOppositeCount", contestant.oppositeCount);
@@ -4587,7 +4583,7 @@ ApplicationWindow {
     Timer {
 
         id: computingTimer
-        interval: 1;
+        interval: 20;
         repeat: false;
         running: false;
 
