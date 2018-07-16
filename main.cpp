@@ -96,26 +96,22 @@ int main(int argc, char *argv[])
     QTranslator qtTranslator;
     QTranslator qtBaseTranslator;
 
-    // used for standart buttons
-    if (qtTranslator.load(QLocale::system(), "qt", "_", "./")) {
-        qDebug() << "qtTranslator ok";
-        app.installTranslator(&qtTranslator);
-    }
-    if (qtBaseTranslator.load("qtbase_" + QLocale::system().name(), "./")) {
-        qDebug() << "qtBaseTranslator ok";
-        app.installTranslator(&qtBaseTranslator);
-    }
-
     // custom components
     if (translator.load(QLatin1String("viewer_") + QLocale::system().name(), "./")) {
+        app.installTranslator(&translator);
+        engine.rootContext()->setContextProperty("locale", QLocale::system().bcp47Name());
+    } else if (translator.load(QLatin1String("viewer_") + QLocale::system().name(), QLibraryInfo::location(QLibraryInfo::TranslationsPath))) {
         app.installTranslator(&translator);
         engine.rootContext()->setContextProperty("locale", QLocale::system().bcp47Name());
     } else {
         qDebug() << "translation.load() failed - falling back to English";
 
-        if (translator.load(QLatin1String("viewer_en_US")   , "./")) {
+        if (translator.load(QLatin1String("viewer_en_US"), "./")) {
+            app.installTranslator(&translator);
+        } else if (translator.load(QLatin1String("viewer_en_US"), QLibraryInfo::location(QLibraryInfo::TranslationsPath))) {
             app.installTranslator(&translator);
         }
+
         engine.rootContext()->setContextProperty("locale","en");
     }
     engine.rootContext()->setContextProperty("builddate", QString::fromLocal8Bit(__DATE__));
