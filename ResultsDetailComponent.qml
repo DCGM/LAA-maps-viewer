@@ -1189,7 +1189,6 @@ Rectangle {
                 rowDelegate: Rectangle {
                     height: 30;
                     color: styleData.selected ? "#0077cc" : (styleData.alternate? "#eee" : "#fff")
-
                 }
 
                 //% "Name"

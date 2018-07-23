@@ -2418,6 +2418,7 @@ ApplicationWindow {
                 curCnt.prevResultsCategory = (csvFileFromViewer ? resultsCSV[j][33] : "");
                 curCnt.prevResultsFilename = (csvFileFromViewer ? resultsCSV[j][38] : "");
                 curCnt.prevResultsTrackHas = (csvFileFromViewer ? resultsCSV[j][30] : "");
+                curCnt.prevResultsClassify = (csvFileFromOffice ? (resultsCSV[j][19] === "yes" ? 0 : 1) : 0);
 
                 curCnt.filename = (csvFileFromViewer && curCnt.filename === "" ? resultsCSV[j][38] : curCnt.filename);
 
@@ -2468,7 +2469,6 @@ ApplicationWindow {
                     curCnt.prevResultsScorePoints = (csvFileFromOffice ? parseInt(resultsCSV[j][17]) : -1);
                     curCnt.prevResultsScore = (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][39]) : "");
                     curCnt.prevResultsScoreJson = (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][40]) : "");
-                    curCnt.prevResultsClassify = (csvFileFromOffice ? (resultsCSV[j][19] === "yes" ? 0 : 1) : 0);
                 }
 
                 // save changes
