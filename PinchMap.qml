@@ -666,7 +666,7 @@ Rectangle {
     function getPolyByCid(cid, poly) {
         for (var i = 0; i < poly.length; i++) {
             var item = poly[i];
-            if (item.cid == cid) {
+            if (item.cid === cid) {
                 return item;
             }
         }
@@ -1239,6 +1239,8 @@ Rectangle {
 
 
 
+
+
                         for (var i = 1; i < conns.length; i++) {
                             var c = conns[i];
                             var item = getPtByPid(c.pid, points);
@@ -1300,7 +1302,7 @@ Rectangle {
 
                                 var gateA = F.getCoordByDistanceBearing(item.lat, item.lon, (angle)%360, radius)
                                 var gateB = F.getCoordByDistanceBearing(item.lat, item.lon, (180+angle)%360, radius)
-                                var gateC = F.getCoordByDistanceBearing(item.lat, item.lon, (270+angle)%360, 100)
+                                var gateC = F.getCoordByDistanceBearing(item.lat, item.lon, (270+angle)%360, 0.2*radius)
                                 var screenPointGA = getMappointFromCoord(gateA.lat, gateA.lon)
                                 var screenPointGB = getMappointFromCoord(gateB.lat, gateB.lon)
                                 var screenPointGC = getMappointFromCoord(gateC.lat, gateC.lon)

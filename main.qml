@@ -2679,7 +2679,6 @@ ApplicationWindow {
 
             for (p = 0; p < wptNewScoreListManualValuesCache.count; p++) {
                 modelItem = wptNewScoreListManualValuesCache.get(p);
-
                 tgScoreSum += Math.max(modelItem.tg_score, 0);
                 sgScoreSum += Math.max(modelItem.sg_score, 0);
                 tpScoreSum += Math.max(modelItem.tp_score, 0);
