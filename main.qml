@@ -1112,7 +1112,6 @@ ApplicationWindow {
                     }
 
                     var current = -1;
-
                     contestantsTable.selection.forEach( function(rowIndex) { current = rowIndex; } )
 
                     if (current < 0) {
@@ -1364,6 +1363,9 @@ ApplicationWindow {
                 }
 
                 onCancel: {
+                }
+                onClickedMeasuredTime: {
+                    map.currentPositionTimeUnix = time;
                 }
             }
 
@@ -3182,6 +3184,7 @@ ApplicationWindow {
             console.log("item.score is defined and imagePath exists");
             return;
         }
+
 
         if (tpiData.length > 0) {
             printMapWindow.makeImage();

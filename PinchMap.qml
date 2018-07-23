@@ -25,6 +25,7 @@ Rectangle {
 
     property alias currentPositionShow: positionIndicator.visible
     property int currentPositionIndex: 0
+    property int currentPositionTimeUnix: 0;
     property double currentPositionLat: 0
     property double currentPositionLon: 0
     property double currentPositionAzimuth: 0;
@@ -235,6 +236,20 @@ Rectangle {
         }
     }
 
+    onCurrentPositionTimeUnixChanged: {
+        if ((gpsModel !== undefined) && (gpsModel.count < 2)) {
+            return;
+        }
+        var i = 0;
+        for (var i = 0; i < gpsModel.count; i++) {
+            var item = gpsModel.get(i);
+            var ut= F.timeToUnix(item.time);
+            if (currentPositionTimeUnix === ut) {
+                currentPositionIndex = i;
+            }
+        }
+
+    }
 
     onCurrentPositionIndexChanged: {
         refreshGPSModelCurrentPosition();
@@ -252,6 +267,9 @@ Rectangle {
             currentPositionTime = item.time;
             currentPositionAltitude = item.alt;
             currentPositionAzimuth = F.getBearingTo(item.lat, item.lon, nextItem.lat, nextItem.lon)
+            if (zoomLevel > 12) {
+                setCenterLatLon(currentPositionLat, currentPositionLon);
+            }
         }
     }
 

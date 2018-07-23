@@ -18,6 +18,7 @@ Rectangle {
     signal ok();
     signal okAndView();
     signal cancel();
+    signal clickedMeasuredTime(int time)
 
     // recalculate percent points
     onTotalPointsScoreChanged: {
@@ -179,7 +180,6 @@ Rectangle {
             resultsMainWindow.totalPointsScore = res.sum;
 
             curentContestant.startTimeScore = getTakeOffScore(tabView.scrollView.startTimeDifferenceText, curentContestant.time_window_size, curentContestant.time_window_penalty, totalPointsScore);
-            console.log("FIXME: curentContestant.startTimeScore  = " + curentContestant.startTimeScore )
             tabView.scrollView.startTimeScoreText = curentContestant.startTimeScore;
 
             //curentContestant.circlingScore = getGyreScore(tabView.scrollView.circlingCountValue, curentContestant.gyre_penalty, totalPointsScore);
@@ -1247,6 +1247,22 @@ Rectangle {
 
                 //% "Point altitude score"
                 TableViewColumn {title: qsTrId("score-table-alt_score"); role: "alt_score"; width: 100;}
+
+                Component.onCompleted: {
+                    selection.selectionChanged.connect(rowSelected);
+                }
+
+                function rowSelected() {
+                    var current = -1;
+                    newScoreTablePoints.selection.forEach( function(rowIndex) { current = rowIndex; } )
+                    if (current < 0) {
+                        return;
+                    }
+
+                    var item = currentWptScoreList.get(current);
+                    clickedMeasuredTime(item.tg_time_measured)
+
+                }
             }
         }
 

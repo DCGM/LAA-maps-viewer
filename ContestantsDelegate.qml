@@ -32,6 +32,7 @@ Item {
                   styleData.role === "classify" ||
                   styleData.role === "aircraftRegistration" ||
                   styleData.role === "scorePoints" ||
+                  styleData.role === "tgScoreSum" ||
                   (styleData.role === "scorePoints1000" && styleData.value !== -1) ||
                   (styleData.role === "classOrder" && styleData.value !== -1))
 
@@ -235,6 +236,7 @@ Item {
                 styleData.role !== "filename" &&
                 styleData.role !== "category" &&
                 styleData.role !== "classify" &&
+                styleData.role !== "tgScoreSum" &&
                 styleData.role !== "scorePoints" &&
                 styleData.role !== "scorePoints1000" &&
                 styleData.role !== "contestant" &&
