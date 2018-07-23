@@ -3170,18 +3170,18 @@ ApplicationWindow {
             return;
         }
 
-        var item = contestantsListModel.get(current)
+        var contestant = contestantsListModel.get(current)
 
         // no igc assigned
-        if (item.filename === "") {
-            console.log("item.filename not assigned")
+        if (contestant.filename === "") {
+            console.log("contestant.filename not assigned")
             return;
         }
 
-        var imagePath = Qt.resolvedUrl(pathConfiguration.resultsFolder+"/"+item.fullName+".png");
+        var imagePath = Qt.resolvedUrl(pathConfiguration.resultsFolder+"/"+contestant.fullName+".png");
 
-        if ((item.score !== undefined) && (item.score !== "") && (item.tgScoreSum > 0) && file_reader.file_exists(imagePath)) { // pokud je vypocitane, tak nepocitame znovu
-            console.log("item.score is defined and imagePath exists");
+        if ((contestant.score !== undefined) && (contestant.score !== "") && (contestant.tgScoreSum > 0) && file_reader.file_exists(imagePath)) { // pokud je vypocitane, tak nepocitame znovu
+            console.log("contestant.score is defined and imagePath exists");
             return;
         }
 
@@ -3199,7 +3199,7 @@ ApplicationWindow {
 
             for (var t = 0; t < tracks.tracks.length; t++) {
 
-                if (tracks.tracks[t].name === item.category) {
+                if (tracks.tracks[t].name === contestant.category) {
                     trItem = tracks.tracks[t]
                 }
             }
@@ -3207,33 +3207,33 @@ ApplicationWindow {
 
 
         // load manual values into list models - used when compute score
-        loadStringIntoListModel(wptNewScoreListManualValuesCache, (ctnt.prevResultsWPT !== undefined) ? ctnt.prevResultsWPT : '', "; ");
-        loadStringIntoListModel(speedSectionsScoreListManualValuesCache, ctnt.prevResultsSpeedSec, "; ");
-        loadStringIntoListModel(spaceSectionsScoreListManualValuesCache, ctnt.prevResultsSpaceSec, "; ");
-        loadStringIntoListModel(altSectionsScoreListManualValuesCache, ctnt.prevResultsAltSec, "; ");
+        loadStringIntoListModel(wptNewScoreListManualValuesCache, (contestant.prevResultsWPT !== undefined) ? ctnt.prevResultsWPT : '', "; ");
+        loadStringIntoListModel(speedSectionsScoreListManualValuesCache, contestant.prevResultsSpeedSec, "; ");
+        loadStringIntoListModel(spaceSectionsScoreListManualValuesCache, contestant.prevResultsSpaceSec, "; ");
+        loadStringIntoListModel(altSectionsScoreListManualValuesCache, contestant.prevResultsAltSec, "; ");
 
         // load manual values from prev results cache
-        contestantsListModel.setProperty(current, "markersOk", item.prevResultsMarkersOk);
-        contestantsListModel.setProperty(current, "markersNok", item.prevResultsMarkersNok);
-        contestantsListModel.setProperty(current, "markersFalse", item.prevResultsMarkersFalse);
-        contestantsListModel.setProperty(current, "photosOk", item.prevResultsPhotosOk);
-        contestantsListModel.setProperty(current, "photosNok", item.prevResultsPhotosNok);
-        contestantsListModel.setProperty(current, "photosFalse", item.prevResultsPhotosFalse);
-        contestantsListModel.setProperty(current, "startTimeMeasured", item.prevResultsStartTimeMeasured);
-        contestantsListModel.setProperty(current, "landingScore", item.prevResultsLandingScore);
-        //contestantsListModel.setProperty(current, "circlingCount", item.prevResultsCirclingCount);
-        contestantsListModel.setProperty(current, "oppositeCount", item.prevResultsOppositeCount);
-        contestantsListModel.setProperty(current, "otherPoints", item.prevResultsOtherPoints);
-        contestantsListModel.setProperty(current, "otherPenalty", item.prevResultsOtherPenalty);
-        contestantsListModel.setProperty(current, "pointNote", item.prevResultsPointNote);
-        contestantsListModel.setProperty(current, "classify", item.prevResultsClassify);
+        contestantsListModel.setProperty(current, "markersOk", contestant.prevResultsMarkersOk);
+        contestantsListModel.setProperty(current, "markersNok", contestant.prevResultsMarkersNok);
+        contestantsListModel.setProperty(current, "markersFalse", contestant.prevResultsMarkersFalse);
+        contestantsListModel.setProperty(current, "photosOk", contestant.prevResultsPhotosOk);
+        contestantsListModel.setProperty(current, "photosNok", contestant.prevResultsPhotosNok);
+        contestantsListModel.setProperty(current, "photosFalse", contestant.prevResultsPhotosFalse);
+        contestantsListModel.setProperty(current, "startTimeMeasured", contestant.prevResultsStartTimeMeasured);
+        contestantsListModel.setProperty(current, "landingScore", contestant.prevResultsLandingScore);
+        //contestantsListModel.setProperty(current, "circlingCount", contestant.prevResultsCirclingCount);
+        contestantsListModel.setProperty(current, "oppositeCount", contestant.prevResultsOppositeCount);
+        contestantsListModel.setProperty(current, "otherPoints", contestant.prevResultsOtherPoints);
+        contestantsListModel.setProperty(current, "otherPenalty", contestant.prevResultsOtherPenalty);
+        contestantsListModel.setProperty(current, "pointNote", contestant.prevResultsPointNote);
+        contestantsListModel.setProperty(current, "classify", contestant.prevResultsClassify);
 
         // calc new start time difference
-        var sec = F.timeToUnix(item.prevResultsStartTimeMeasured);
+        var sec = F.timeToUnix(contestant.prevResultsStartTimeMeasured);
         var time;
         if (sec > 0) { // valid time
 
-            var refVal = F.timeToUnix(item.startTime);
+            var refVal = F.timeToUnix(contestant.startTime);
             var diff = (sec - refVal);
             contestantsListModel.setProperty(current, "startTimeDifference", F.addTimeStrFormat(diff));
         } else {
@@ -3278,71 +3278,67 @@ ApplicationWindow {
             distance_cumul += ti.distance;
 
             if (section_speed_end && (section_speed_start_tid >= 0)) {
-                var item = {
-                    "start": section_speed_start_tid,
-                    "end": ti.tid,
-                    "distance": distance_cumul,
-                    "time_start": 0,
-                    "time_end": 0,
-                    "speed": 0,
-                    "startName": startPointName,
-                    "endName": ti.name
-                }
-
-                section_speed_array.push(item);
+                section_speed_array.push({
+                                             "start": section_speed_start_tid,
+                                             "end": ti.tid,
+                                             "distance": distance_cumul,
+                                             "time_start": 0,
+                                             "time_end": 0,
+                                             "speed": 0,
+                                             "startName": startPointName,
+                                             "endName": ti.name
+                                         });
                 section_speed_start_tid = -1;
             }
 
             if (section_alt_end && (section_alt_start_tid >= 0)) {
-                var item = {
-                    "start": section_alt_start_tid,
-                    "end": ti.tid,
-                    "measure" : false,
-                    "threshold_max": section_alt_threshold_max,
-                    "threshold_min": section_alt_threshold_min,
-                    "alt_max": F.alt_max_init,
-                    "alt_max_time" : "00:00:00",
-                    "alt_min": F.alt_min_init,
-                    "alt_min_time" : "00:00:00",
-                    "alt_cumul": 0,
-                    "alt_count": 0,
-                    "entries_below": 0,
-                    "entries_above": 0,
-                    "time_spent_below": 0,
-                    "time_spent_above": 0,
-                    "alt_is_above": false,
-                    "alt_is_below": false,
-                    "startName": startPointName,
-                    "endName": ti.name
+                section_alt_array.push({
+                                           "start": section_alt_start_tid,
+                                           "end": ti.tid,
+                                           "measure" : false,
+                                           "threshold_max": section_alt_threshold_max,
+                                           "threshold_min": section_alt_threshold_min,
+                                           "alt_max": F.alt_max_init,
+                                           "alt_max_time" : "00:00:00",
+                                           "alt_min": F.alt_min_init,
+                                           "alt_min_time" : "00:00:00",
+                                           "alt_cumul": 0,
+                                           "alt_count": 0,
+                                           "entries_below": 0,
+                                           "entries_above": 0,
+                                           "time_spent_below": 0,
+                                           "time_spent_above": 0,
+                                           "alt_is_above": false,
+                                           "alt_is_below": false,
+                                           "startName": startPointName,
+                                           "endName": ti.name
 
-                    // defaults
-                }
-                section_alt_array.push(item);
+                                           // defaults
+                                       });
                 section_alt_start_tid = -1;
             }
 
             if (section_space_end && (section_space_start_tid >= 0)) {
-                var item = {
-                    "start": section_space_start_tid,
-                    "end": ti.tid,
-                    "measure" : false,
-                    "distance": 0,
-                    "distance_time": "00:00:00",
-                    "entries_out": 0,
-                    "entries_out_bi": 0,
-                    "time_spent_out": 0,
-                    "time_spent_out_bi": 0,
-                    "is_out": false,
-                    "is_out_alt_min": false,
-                    "is_out_alt_max": false,
-                    "is_out_bi": false,
-                    "threshold": section_space_threshold,
-                    "alt_max_threshold": section_space_alt_threshold_max,
-                    "alt_min_threshold": section_space_alt_threshold_min,
-                    "startName": startPointName,
-                    "endName": ti.name
-                }
-                section_space_array.push(item);
+                section_space_array.push({
+                                             "start": section_space_start_tid,
+                                             "end": ti.tid,
+                                             "measure" : false,
+                                             "distance": 0,
+                                             "distance_time": "00:00:00",
+                                             "entries_out": 0,
+                                             "entries_out_bi": 0,
+                                             "time_spent_out": 0,
+                                             "time_spent_out_bi": 0,
+                                             "is_out": false,
+                                             "is_out_alt_min": false,
+                                             "is_out_alt_max": false,
+                                             "is_out_bi": false,
+                                             "threshold": section_space_threshold,
+                                             "alt_max_threshold": section_space_alt_threshold_max,
+                                             "alt_min_threshold": section_space_alt_threshold_min,
+                                             "startName": startPointName,
+                                             "endName": ti.name
+                                         });
                 section_space_start_tid = -1;
             }
 
@@ -3387,6 +3383,8 @@ ApplicationWindow {
         var section_space_array_length = section_space_array.length
 
         var intersections = 0;
+
+        console.log(contestant.name + " " + contestant.startTime)
 
         if (igc.count > 0) {
             igcnext = igc.get(0);
@@ -3661,7 +3659,8 @@ ApplicationWindow {
         var str = "";
         var dataArr = [];
         distance_cumul = 0;
-        var extra_time_cmul = F.timeToUnix(ctnt.startTime);
+        var extra_time_cmul = F.timeToUnix(contestant.startTime);
+        console.log(F.addTimeStrFormat(extra_time_cmul ))
 
         var new_section_speed_array = [];
         var new_section_alt_array = [];
@@ -3672,21 +3671,20 @@ ApplicationWindow {
         var altitude_sections_score = 0;
 
         // create and compute speed sections data
-        var item;
         var arr_item;
         var speed_sec_score = 0;
 
         for (i = 0; i < section_speed_array.length; i++) {
-            item = section_speed_array[i];
+            var ss_item = section_speed_array[i];
 
             // get manual val from cache if exist(index != -1)
-            var index = returnListModelIndexByContent(speedSectionsScoreListManualValuesCache, "startPointName", item.startName, "endPointName", item.endName);
+            var index = returnListModelIndexByContent(speedSectionsScoreListManualValuesCache, "startPointName", ss_item.startName, "endPointName", ss_item.endName);
 
             arr_item = {
-                "startPointName" : item.startName,
-                "endPointName" : item.endName,
-                "distance ": item.distance,
-                "calculatedSpeed": Math.round(item.speed),
+                "startPointName" : ss_item.startName,
+                "endPointName" : ss_item.endName,
+                "distance ": ss_item.distance,
+                "calculatedSpeed": Math.round(ss_item.speed),
                 "speedDifference": 0,
                 "manualSpeed" : (index !== -1 ? speedSectionsScoreListManualValuesCache.get(index).manualSpeed : -1),
                 "speedSecScore": -1,
@@ -3695,7 +3693,8 @@ ApplicationWindow {
                 "speedPenaly" : category_speed_penalty
             }
 
-            arr_item['speedDifference'] = (arr_item.manualSpeed === -1 ? Math.abs(ctnt.speed - arr_item.calculatedSpeed) : Math.abs(ctnt.speed - arr_item.manualSpeed));
+            arr_item['speedDifference'] = (arr_item.manualSpeed === -1 ? Math.abs(ss_item.speed - arr_item.calculatedSpeed) : Math.abs(ss_item.speed - arr_item.manualSpeed));
+
             speed_sec_score = getSpeedSectionScore(arr_item['speedDifference'], category_speed_tolerance, category_tg_max_score, category_speed_penalty);
             arr_item['speedSecScore'] = speed_sec_score;
             speed_sections_score += speed_sec_score;
@@ -3706,21 +3705,21 @@ ApplicationWindow {
 
         // create and alt sections data
         for (i = 0; i < section_alt_array.length; i++) {
-            item = section_alt_array[i];
+            var sa_item = section_alt_array[i];
 
             // get manual val from cache if exist(index != -1)
-            var index = returnListModelIndexByContent(altSectionsScoreListManualValuesCache, "startPointName", item.startName, "endPointName", item.endName);
+            var index = returnListModelIndexByContent(altSectionsScoreListManualValuesCache, "startPointName", sa_item.startName, "endPointName", sa_item.endName);
 
             arr_item = {
-                "startPointName" : item.startName,
-                "endPointName" : item.endName,
-                "altMinEntriesCount" : item.entries_below,
+                "startPointName" : sa_item.startName,
+                "endPointName" : sa_item.endName,
+                "altMinEntriesCount" : sa_item.entries_below,
                 "manualAltMinEntriesCount" : (index !== -1 ? altSectionsScoreListManualValuesCache.get(index).manualAltMinEntriesCount : -1),
-                "altMinEntriesTime" : item.time_spent_below,
+                "altMinEntriesTime" : sa_item.time_spent_below,
                 "manualAltMinEntriesTime" : (index !== -1 ? altSectionsScoreListManualValuesCache.get(index).manualAltMinEntriesTime : -1),
-                "altMaxEntriesCount" : item.entries_above,
+                "altMaxEntriesCount" : sa_item.entries_above,
                 "manualAltMaxEntriesCount" : (index !== -1 ? altSectionsScoreListManualValuesCache.get(index).manualAltMaxEntriesCount : -1),
-                "altMaxEntriesTime" : item.time_spent_above,
+                "altMaxEntriesTime" : sa_item.time_spent_above,
                 "manualAltMaxEntriesTime" : (index !== -1 ? altSectionsScoreListManualValuesCache.get(index).manualAltMaxEntriesTime : -1),
                 "penaltyPercent": category_out_of_sector_penalty,
                 "altSecScore": -1
@@ -3731,17 +3730,17 @@ ApplicationWindow {
 
         // create and space sections data
         for (i = 0; i < section_space_array.length; i++) {
-            item = section_space_array[i];
+            var sp_item = section_space_array[i];
 
             // get manual val from cache if exist(index != -1)
-            var index = returnListModelIndexByContent(spaceSectionsScoreListManualValuesCache, "startPointName", item.startName, "endPointName", item.endName);
+            var index = returnListModelIndexByContent(spaceSectionsScoreListManualValuesCache, "startPointName", sp_item.startName, "endPointName", sp_item.endName);
 
             arr_item = {
-                "startPointName" : item.startName,
-                "endPointName" : item.endName,
-                "entries_out": item.entries_out,
+                "startPointName" : sp_item.startName,
+                "endPointName" : sp_item.endName,
+                "entries_out": sp_item.entries_out,
                 "manualEntries_out": (index !== -1 ? spaceSectionsScoreListManualValuesCache.get(index).manualEntries_out : -1),
-                "time_spent_out": item.time_spent_out,
+                "time_spent_out": sp_item.time_spent_out,
                 "manualTime_spent_out": (index !== -1 ? spaceSectionsScoreListManualValuesCache.get(index).manualTime_spent_out : -1),
                 "penaltyPercent": category_out_of_sector_penalty,
                 "spaceSecScore": -1
@@ -3751,7 +3750,7 @@ ApplicationWindow {
         }
 
         for (i = 0; i < tpiData.length; i++ ) {
-            var item = tpiData[i];
+            var tpi_item = tpiData[i];
             var speed = '';
             var alt_min = '';
             var alt_min_time = '';
@@ -3771,13 +3770,13 @@ ApplicationWindow {
             var trItemCurrentPoint = trItem.conn[i];
 
             // suma extra casu a vzdalenosti od VBT
-            distance_cumul += item.distance;
+            distance_cumul += tpi_item.distance;
             extra_time_cmul += trItemCurrentPoint.addTime;
 
 
             for (var j = 0; j < section_speed_array_length; j++) {
                 section = section_speed_array[j]
-                if (section.start === item.tid) {
+                if (section.start === tpi_item.tid) {
                     speed = section.speed;
                     if (section.measure || (section.time_start === 0)) {
                         speed = '';
@@ -3787,7 +3786,7 @@ ApplicationWindow {
 
             for (var j = 0; j < section_alt_array_length; j++) {
                 section = section_alt_array[j]
-                if (section.start === item.tid) {
+                if (section.start === tpi_item.tid) {
                     alt_min = section.alt_min;
                     alt_min_time = section.alt_min_time;
                     alt_min_count = section.entries_below;
@@ -3805,7 +3804,7 @@ ApplicationWindow {
 
             for (var j = 0; j < section_space_array_length; j++) {
                 section = section_space_array[j]
-                if (section.start === item.tid) {
+                if (section.start === tpi_item.tid) {
                     distance_max  = section.distance
                     distance_time = section.distance_time;
                     distance_out_count = section.entries_out;
@@ -3819,16 +3818,16 @@ ApplicationWindow {
             }
 
             var newData = {
-                "tid": item.tid,
-                "title": item.name,
-                "alt": String(item.alt),
-                "lat": F.getLat(item.lat, {coordinateFormat: "DMS"}),
-                "lon": F.getLon(item.lon, {coordinateFormat: "DMS"}),
-                "radius": parseFloat(item.radius),
-                "angle": item.angle,
-                "time": item.time,
-                "hit": item.hit,
-                "sg_hit": item.sg_hit,
+                "tid": tpi_item.tid,
+                "title": tpi_item.name,
+                "alt": String(tpi_item.alt),
+                "lat": F.getLat(tpi_item.lat, {coordinateFormat: "DMS"}),
+                "lon": F.getLon(tpi_item.lon, {coordinateFormat: "DMS"}),
+                "radius": parseFloat(tpi_item.radius),
+                "angle": tpi_item.angle,
+                "time": tpi_item.time,
+                "hit": tpi_item.hit,
+                "sg_hit": tpi_item.sg_hit,
                 "speed": String(Math.round(speed)),
                 "altmax": String(Math.round(alt_max)),
                 "altmaxtime": String(alt_max_time),
@@ -3846,23 +3845,28 @@ ApplicationWindow {
                 "altmaxtime_spent": String(F.addTimeStrFormat(alt_max_time_spent)),
             }
 
-            var tg_time_calculated = Math.round(distance_cumul * 3.6/ctnt.speed + extra_time_cmul);
-            var tg_time_measured = F.timeToUnix(item.time);
-            var tg_time_manual = returnManualValueFromListModelIfExist(wptNewScoreListManualValuesCache, "tg_time_manual", -1, "tid", item.tid);
+            var tg_time_calculated = Math.round(distance_cumul * 3.6/contestant.speed + extra_time_cmul);
+
+            var tg_time_measured = F.timeToUnix(tpi_item.time);
+            var tg_time_manual = returnManualValueFromListModelIfExist(wptNewScoreListManualValuesCache, "tg_time_manual", -1, "tid", tpi_item.tid);
 
             var tg_time_difference = tg_time_manual === -1 ? Math.abs(tg_time_calculated - tg_time_measured) : Math.abs(tg_time_calculated - tg_time_manual);
 
-            var tp_manual = returnManualValueFromListModelIfExist(wptNewScoreListManualValuesCache, "tp_hit_manual", -1, "tid", item.tid);
-            var sg_manual = returnManualValueFromListModelIfExist(wptNewScoreListManualValuesCache, "sg_hit_manual", -1, "tid", item.tid);
-            var alt_manual = returnManualValueFromListModelIfExist(wptNewScoreListManualValuesCache, "alt_manual", -1, "tid", item.tid);
+            var tp_manual = returnManualValueFromListModelIfExist(wptNewScoreListManualValuesCache, "tp_hit_manual", -1, "tid", tpi_item.tid);
+            var sg_manual = returnManualValueFromListModelIfExist(wptNewScoreListManualValuesCache, "sg_hit_manual", -1, "tid", tpi_item.tid);
+            var alt_manual = returnManualValueFromListModelIfExist(wptNewScoreListManualValuesCache, "alt_manual", -1, "tid", tpi_item.tid);
             var point_alt_min = trItemCurrentPoint.alt_min;
             var point_alt_max = trItemCurrentPoint.alt_max;
 
+            if (i === 0) {
+                console.log(F.addTimeStrFormat(tg_time_calculated) + " " + F.addTimeStrFormat(tg_time_measured))
+            }
+
             var newScoreData = {
 
-                "tid": item.tid,
-                "title": item.name,
-                "type": item.flags,
+                "tid": tpi_item.tid,
+                "title": tpi_item.name,
+                "type": tpi_item.flags,
                 "distance_from_vbt": distance_cumul,
 
                 "tg_time_calculated": tg_time_calculated,
@@ -3874,19 +3878,19 @@ ApplicationWindow {
                 "tg_category_penalty": category_tg_penalty,
                 "tg_score": 0,
 
-                "tp_hit_measured": item.hit,
+                "tp_hit_measured": tpi_item.hit,
                 "tp_hit_manual": tp_manual,
                 "tp_category_max_score": category_tp_max_score,
                 "tp_score": 0,
 
-                "sg_hit_measured": item.sg_hit,
+                "sg_hit_measured": tpi_item.sg_hit,
                 "sg_hit_manual": sg_manual,
                 "sg_category_max_score": category_sg_max_score,
                 "sg_score": 0,
 
                 "alt_max": point_alt_max,
                 "alt_min": point_alt_min,
-                "alt_measured": isNaN(parseInt(item.alt)) ? -1 : parseInt(item.alt),
+                "alt_measured": isNaN(parseInt(tpi_item.alt)) ? -1 : parseInt(tpi_item.alt),
                                                             "alt_manual": alt_manual,
                                                             "alt_score": 0,
                                                             "category_alt_penalty": category_alt_penalty
@@ -3900,10 +3904,10 @@ ApplicationWindow {
 
 
             dataArr.push(newData)
-            str += "\"" + item.time + "\";";
-            str += "\"" + (item.hit ? "YES" : "NO" )+ "\";";
-            str += "\"" + (item.sg_hit ? "YES" : "NO" ) + "\";";
-            str += "\"" + item.alt + "\";";
+            str += "\"" + tpi_item.time + "\";";
+            str += "\"" + (tpi_item.hit ? "YES" : "NO" )+ "\";";
+            str += "\"" + (tpi_item.sg_hit ? "YES" : "NO" ) + "\";";
+            str += "\"" + tpi_item.alt + "\";";
             str += "\"" + speed + "\";";
             //str += "\"" + alt_min + "\";";
             //str += "\"" + alt_max + "\";";
@@ -3922,7 +3926,7 @@ ApplicationWindow {
         }
         str += "\"\";";
 
-        for (var i = 0; i < poly_results.length; i++) {
+        for (i = 0; i < poly_results.length; i++) {
             var poly_result = poly_results[i];
             str += "\"" + poly_result.count + "\";";
             str += "\"" + poly_result.time_start + "\";";
@@ -4547,6 +4551,7 @@ ApplicationWindow {
         var igcItem;
         var contestant;
         var index;
+        var i;
 
         // neni nactena trat
         if (tracks === undefined || tracks.tracks === undefined) {
@@ -4556,13 +4561,13 @@ ApplicationWindow {
         var resArr = {};
 
         var trtr = tracks.tracks
-        for (var i = 0; i < trtr.length; i++) {
+        for (i = 0; i < trtr.length; i++) {
             var category_name = trtr[i].name;
             resArr[category_name] = [];
         }
 
 
-        for (var i = 0; i < contestantsListModel.count; i++) {
+        for (i = 0; i < contestantsListModel.count; i++) {
 
             contestant = contestantsListModel.get(i);
 
@@ -4599,7 +4604,7 @@ ApplicationWindow {
             }
         }
 
-        for (var i = 0; i < trtr.length; i++) {
+        for (i = 0; i < trtr.length; i++) {
             var category_name = trtr[i].name;
             resArr[category_name].sort(compareBy21thColumn);
 
@@ -5202,10 +5207,11 @@ ApplicationWindow {
                     }
 
                     var igc_index = -1;
+                    var item;
 
                     if (filename === "") {
                         for (i = 0; i < igcFilesModel.count; i++) {
-                            var item = igcFilesModel.get(i);
+                            item = igcFilesModel.get(i);
                             if (item.contestant === 0) {
                                 igc_index = i;
                                 break;
@@ -5213,7 +5219,7 @@ ApplicationWindow {
                         }
                     } else {
                         for (i = 0; i < igcFilesModel.count; i++) {
-                            var item = igcFilesModel.get(i);
+                            item = igcFilesModel.get(i);
                             if (item.filename === filename) {
                                 igc_index = i;
                                 break;
