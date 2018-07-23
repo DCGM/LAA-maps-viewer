@@ -298,7 +298,7 @@ Item {
         onUploadFinished: {
             var status = uploader.errorCode
 
-            console.log("Uploader ()" + status + ") response: " + uploader.response )
+            console.log("Uploader (" + status + ") response: " + uploader.response )
 
             try{
                 var response = JSON.parse(uploader.response);

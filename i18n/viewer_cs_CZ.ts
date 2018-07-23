@@ -1797,6 +1797,10 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
         <oldsource>Track is missing</oldsource>
         <translation>Chybí soubor s tratí</translation>
     </message>
+    <message id="filelist-table-tgScoreSum">
+        <source>Time gates score</source>
+        <translation>ČB body</translation>
+    </message>
 </context>
 <context>
     <name>CalendarWindow</name>

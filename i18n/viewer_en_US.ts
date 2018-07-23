@@ -1794,6 +1794,10 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
         <oldsource>Track is missing</oldsource>
         <translation>Track file is missing</translation>
     </message>
+    <message id="filelist-table-tgScoreSum">
+        <source>Time gates score</source>
+        <translation>TG score</translation>
+    </message>
 </context>
 <context>
     <name>CalendarWindow</name>

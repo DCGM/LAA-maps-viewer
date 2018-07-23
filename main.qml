@@ -991,7 +991,7 @@ ApplicationWindow {
 
         Item {
             id: splitViewIgcResults
-            width: 1010;
+            width: 1090;
             height: parent.height
             visible: mainViewMenuTables.checked
 
@@ -1121,7 +1121,7 @@ ApplicationWindow {
 
                     ctnt = contestantsListModel.get(current)
 
-                    console.log("selected row " +current + ": " + ctnt.name);
+                    console.log("selected row " +current + ": " + ctnt.name + " " +ctnt.startTime);
 
                     var arr = [];
                     if (tracks !== undefined && tracks.tracks !== undefined) {
@@ -1194,6 +1194,12 @@ ApplicationWindow {
                     title: qsTrId("filelist-table-aircraft-registration")
                     role: "aircraft_registration"
                     width: 120
+                }
+                TableViewColumn {
+                    //% "Time gates score"
+                    title: qsTrId("filelist-table-tgScoreSum");
+                    role: "tgScoreSum"
+                    width: 80
                 }
                 TableViewColumn {
                     //% "Score"
@@ -1888,7 +1894,7 @@ ApplicationWindow {
         igcFilesModel.setProperty(igcRow, "startTime", contestant.startTime);
         igcFilesModel.setProperty(igcRow, "category", conntestantIndex === 0 ? "" : contestant.category);
         igcFilesModel.setProperty(igcRow, "speed", parseInt(contestant.speed));
-        igcFilesModel.setProperty(igcRow, "classify", conntestantIndex === 0 ? -1 : contestant.prevResultsClassify);
+        igcFilesModel.setProperty(igcRow, "classify", (conntestantIndex === 0) ? -1 : contestant.prevResultsClassify);
         igcFilesModel.setProperty(igcRow, "aircraftRegistration", contestant.aircraft_registration);
     }
 
@@ -3172,7 +3178,7 @@ ApplicationWindow {
 
         var imagePath = Qt.resolvedUrl(pathConfiguration.resultsFolder+"/"+item.fullName+".png");
 
-        if ((item.score !== undefined) && (item.score !== "") && file_reader.file_exists(imagePath)) { // pokud je vypocitane, tak nepocitame znovu
+        if ((item.score !== undefined) && (item.score !== "") && (item.tgScoreSum > 0) && file_reader.file_exists(imagePath)) { // pokud je vypocitane, tak nepocitame znovu
             console.log("item.score is defined and imagePath exists");
             return;
         }
@@ -4038,9 +4044,14 @@ ApplicationWindow {
             str += "\"" + Math.max(ct.scorePoints, 0) + "\";"
             str += "\"" + Math.max(ct.scorePoints1000, 0) + "\";"
 
+            if (parseInt(ct.classify) === -1) {
+                ct.classify = ct.prevResultsClassify;
+            }
+
             var classify = ct.classify === 0 ? "yes" : "no";
 
             str += "\"" + classify + "\";"   //index 20
+
 
             //str += "\"" + F.addSlashes(ct.otherPointsNote) + "/&/" + F.addSlashes(ct.otherPenaltyNote) + "\";" //note delimeter
             str += "\"" + F.addSlashes(ct.pointNote) + "\";"
@@ -4854,6 +4865,7 @@ ApplicationWindow {
             // select first item of list
             if (current < 0) {
                 current = 0
+                contestantsTable.positionViewAtRow(current, ListView.Visible);
                 contestantsTable.selection.clear();
                 contestantsTable.selection.select(current)
                 contestantsTable.currentRow = current;
@@ -4872,9 +4884,11 @@ ApplicationWindow {
 
                 } else { // go to next
                     console.log("selecting: row[" + (current+1) + "]: " + item.fullName )
+                    contestantsTable.positionViewAtRow(current+1, ListView.Visible);
                     contestantsTable.selection.clear();
                     contestantsTable.selection.select(current + 1)
                     contestantsTable.currentRow = current + 1;
+
                 }
             }
         }
@@ -5234,8 +5248,8 @@ ApplicationWindow {
     Component.onCompleted: {
         startUpMessage.open();  // clean or reload prev settings
 //        if (1) { // test enabled
-        //            F.test_addTimeStrFormat();
-                    F.test_timeToUnix();
+//                    F.test_addTimeStrFormat();
+//                    F.test_timeToUnix();
 //        }
     }
 }
