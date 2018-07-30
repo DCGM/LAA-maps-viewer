@@ -1330,17 +1330,44 @@ Rectangle {
                 //% "Speed sections start point name"
                 TableViewColumn {title: qsTrId("speed-sections-score-table-start-name"); role: "startPointName"; width: 150;}
 
+                //% "Speed sections start point time"
+                TableViewColumn {title: qsTrId("speed-sections-score-table-time-start"); role: "time_start"; width: 80; }
+
                 //% "Speed sections end point name"
                 TableViewColumn {title: qsTrId("speed-sections-score-table-end-name"); role: "endPointName"; width: 150;}
 
+                //% "Speed sections end point time"
+                TableViewColumn {title: qsTrId("speed-sections-score-table-time-end"); role: "time_end"; width: 80; }
+
+                //% "Speed sections distance"
+                TableViewColumn {title: qsTrId("speed-sections-score-table-distance"); role: "distance"; width: 80; }
+
+                //% "Speed sections time difference"
+                TableViewColumn {title: qsTrId("speed-sections-score-table-time-diff"); role: "time_diff"; width: 80; }
+
                 //% "Speed sections measured speed"
-                TableViewColumn {title: qsTrId("speed-sections-score-table-measured"); role: "manualSpeed"; width: 150;}
+                TableViewColumn {title: qsTrId("speed-sections-score-table-measured"); role: "manualSpeed"; width: 80;}
 
                 //% "Speed sections speed difference"
-                TableViewColumn {title: qsTrId("speed-sections-score-table-difference"); role: "speedDifference"; width: 150;}
+                TableViewColumn {title: qsTrId("speed-sections-score-table-difference"); role: "speedDifference"; width: 80;}
 
                 //% "Speed sections score points"
-                TableViewColumn {title: qsTrId("speed-sections-score-table-score"); role: "speedSecScore"; width: 150;}
+                TableViewColumn {title: qsTrId("speed-sections-score-table-score"); role: "speedSecScore"; width: 80;}
+
+
+//                TableViewColumn {title: "calculatedSpeed"; role: "calculatedSpeed"; width: 50; }
+//                TableViewColumn {title: "maxScore"; role: "maxScore"; width: 50; }
+//                TableViewColumn {title: "speedPenaly"; role: "speedPenaly"; width: 50; }
+//                TableViewColumn {title: "speedTolerance"; role: "speedTolerance"; width: 50; }
+//                TableViewColumn {title: "declared_speed"; role: "declared_speed"; width: 50; }
+
+//                Component.onCompleted: {
+//                    for (var i = 0; i < currentSpeedSectionsScoreList.count; i++) {
+//                        var item = currentSpeedSectionsScoreList.get(i);
+//                        console.log(JSON.stringify(item, null, 2))
+//                    }
+//                }
+
             }
 
         }

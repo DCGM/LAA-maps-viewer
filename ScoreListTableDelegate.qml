@@ -45,7 +45,10 @@ Item {
                   (styleData.role === "manualAltMaxEntriesTime") ||
                   (styleData.role === "manualTime_spent_out") ||
                   (styleData.role === "altSecScore") ||
-                  (styleData.role === "spaceSecScore")
+                  (styleData.role === "spaceSecScore") ||
+                  (styleData.role === "time_diff") ||
+                  (styleData.role === "time_start") ||
+                  (styleData.role === "time_end")
                   ) ||
                   (!styleData.selected && (styleData.role !== "classify"))
     }
@@ -182,13 +185,16 @@ Item {
                 styleData.role !== "alt_score" &&
                 styleData.role !== "startPointName" &&
                 styleData.role !== "endPointName" &&
-                styleData.role !== "speedDifference"&&
-                styleData.role !== "speedSecScore"&&
-                styleData.role !== "manualAltMinEntriesTime"&&
-                styleData.role !== "manualAltMaxEntriesTime"&&
-                styleData.role !== "altSecScore"&&
-                styleData.role !== "manualTime_spent_out"&&
-                styleData.role !== "spaceSecScore"
+                styleData.role !== "speedDifference" &&
+                styleData.role !== "speedSecScore" &&
+                styleData.role !== "manualAltMinEntriesTime" &&
+                styleData.role !== "manualAltMaxEntriesTime" &&
+                styleData.role !== "altSecScore" &&
+                styleData.role !== "manualTime_spent_out" &&
+                styleData.role !== "spaceSecScore" &&
+                styleData.role !== "time_diff" &&
+                styleData.role !== "time_start" &&
+                styleData.role !== "time_end"
 
              ) && (styleData.selected)
             ? editor : null
@@ -290,7 +296,6 @@ Item {
                     it = currentSpaceSectionsScoreList.get(styleData.row);
                     show = it.time_spent_out;
                     break;
-
                 case "type":
                     break;
 
@@ -352,6 +357,14 @@ Item {
 
             case "classify":
             case "flags":
+                break;
+
+            case "time_diff":
+                show = F.addTimeStrFormat(show);
+                break;
+            case "time_start":
+            case "time_end":
+                show = F.addTimeStrFormat(F.addUtcToTime(show, applicationWindow.utc_offset_sec));
                 break;
 
             default:

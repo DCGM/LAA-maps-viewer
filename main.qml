@@ -3284,6 +3284,7 @@ ApplicationWindow {
                                              "distance": distance_cumul,
                                              "time_start": 0,
                                              "time_end": 0,
+                                             "time_diff": 0,
                                              "speed": 0,
                                              "startName": startPointName,
                                              "endName": ti.name
@@ -3436,6 +3437,8 @@ ApplicationWindow {
                                     var timeDiff = Math.abs(timeEnd - timeStart);
                                     var distance = section_speed_array[k].distance;
                                     var speed = distance / timeDiff;
+                                    section_speed_array[k].time_end = timeEnd;
+                                    section_speed_array[k].time_diff = timeDiff;
                                     section_speed_array[k].speed = Math.round(speed * 3.6); // m/s to km/h
                                 }
                             }
@@ -3679,25 +3682,31 @@ ApplicationWindow {
 
             // get manual val from cache if exist(index != -1)
             var index = returnListModelIndexByContent(speedSectionsScoreListManualValuesCache, "startPointName", ss_item.startName, "endPointName", ss_item.endName);
-
             arr_item = {
                 "startPointName" : ss_item.startName,
                 "endPointName" : ss_item.endName,
-                "distance ": ss_item.distance,
+                "distance": ss_item.distance,
                 "calculatedSpeed": Math.round(ss_item.speed),
                 "speedDifference": 0,
                 "manualSpeed" : (index !== -1 ? speedSectionsScoreListManualValuesCache.get(index).manualSpeed : -1),
                 "speedSecScore": -1,
                 "maxScore" : category_tg_max_score,
                 "speedTolerance" : category_speed_tolerance,
-                "speedPenaly" : category_speed_penalty
+                "speedPenaly" : category_speed_penalty,
+                "time_start": ss_item.time_start,
+                "time_end": ss_item.time_end,
+                "time_diff": ss_item.time_diff,
+                "declared_speed": contestant.speed,
             }
 
-            arr_item['speedDifference'] = (arr_item.manualSpeed === -1 ? Math.abs(ss_item.speed - arr_item.calculatedSpeed) : Math.abs(ss_item.speed - arr_item.manualSpeed));
+            arr_item['speedDifference'] = (arr_item.manualSpeed === -1 ? Math.abs(contestant.speed - arr_item.calculatedSpeed) : Math.abs(contestant.speed - arr_item.manualSpeed));
 
             speed_sec_score = getSpeedSectionScore(arr_item['speedDifference'], category_speed_tolerance, category_tg_max_score, category_speed_penalty);
             arr_item['speedSecScore'] = speed_sec_score;
             speed_sections_score += speed_sec_score;
+
+//            console.log(JSON.stringify(ss_item, null, 2))
+//            console.log(JSON.stringify(arr_item, null, 2))
 
             // speedSectionsScoreList.append(arr_item);
             new_section_speed_array.push(arr_item);
