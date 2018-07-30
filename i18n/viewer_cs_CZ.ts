@@ -1801,6 +1801,22 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
         <source>Time gates score</source>
         <translation>ČB body</translation>
     </message>
+    <message id="speed-sections-score-table-time-start">
+        <source>Speed sections start point time</source>
+        <translation>Čas vstupu</translation>
+    </message>
+    <message id="speed-sections-score-table-time-end">
+        <source>Speed sections end point time</source>
+        <translation>Čas opuštění</translation>
+    </message>
+    <message id="speed-sections-score-table-distance">
+        <source>Speed sections distance</source>
+        <translation>Vzdálenost</translation>
+    </message>
+    <message id="speed-sections-score-table-time-diff">
+        <source>Speed sections time difference</source>
+        <translation>Doba letu</translation>
+    </message>
 </context>
 <context>
     <name>CalendarWindow</name>

@@ -1798,6 +1798,22 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
         <source>Time gates score</source>
         <translation>TG score</translation>
     </message>
+    <message id="speed-sections-score-table-time-start">
+        <source>Speed sections start point time</source>
+        <translation>Start time</translation>
+    </message>
+    <message id="speed-sections-score-table-time-end">
+        <source>Speed sections end point time</source>
+        <translation>End time</translation>
+    </message>
+    <message id="speed-sections-score-table-distance">
+        <source>Speed sections distance</source>
+        <translation>Distance</translation>
+    </message>
+    <message id="speed-sections-score-table-time-diff">
+        <source>Speed sections time difference</source>
+        <translation>Time of flight</translation>
+    </message>
 </context>
 <context>
     <name>CalendarWindow</name>
