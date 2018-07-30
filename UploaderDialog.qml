@@ -21,6 +21,7 @@ ApplicationWindow {
 
     property double processedFiles;
     property double filesCount;
+    property bool finishRunning: false;
 
     property alias filesListModelAlias: filesListModel
 
@@ -81,17 +82,17 @@ ApplicationWindow {
                     Layout.alignment: Qt.AlignLeft
                     anchors.leftMargin: 2
 
-                    //% "Uploading file"
-                    text: (processedFiles !== filesCount) ? qsTrId("uploader-window-dialog-text")
-                                                            //% "Done"
-                                                          : qsTrId("done")
-                }
-                NativeText {
 
-                    Layout.alignment: Qt.AlignRight
-                    anchors.rightMargin: 5
+                    text: (processedFiles !== filesCount) ?
+                              //% "Uploading file %1"
+                              qsTrId("uploader-window-dialog-text").arg(processedFiles + "/" + filesCount) :
+                              (dialogWindow.finishRunning ?
+                                   //% "Processing results ..."
+                                   qsTrId("uploader-window-dialog-processing") :
+                                   //% "Done"
+                                   qsTrId("done")
+                               )
 
-                    text: (processedFiles + "/" + filesCount)
                 }
             }
 

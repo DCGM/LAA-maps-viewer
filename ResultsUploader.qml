@@ -228,7 +228,7 @@ Item {
         console.log("callUploadFinish: " + url + "?id=" + compId + "&api_key=" + api_key)
 
         // set timeout
-        var timer = Qt.createQmlObject("import QtQuick 2.9; Timer {interval: 15000; repeat: false; running: true;}", resultsUploader, "MyTimer");
+        var timer = Qt.createQmlObject("import QtQuick 2.9; Timer {interval: 30000; repeat: false; running: true;}", resultsUploader, "MyTimer");
                         timer.triggered.connect(function(){
                             console.log("callUploadFinish: http.abort() called")
                             http.abort();
@@ -254,6 +254,7 @@ Item {
                             // ok - init upload of files
                             if (status === 0) {
                                 console.log("callUploadFinish OK " + http.responseText)
+                                uploaderDialog.finishRunning  = false;
                             } else {
 
                                 console.log("ERR callUploadFinish: " + http.responseText)
@@ -265,11 +266,13 @@ Item {
                                 errMessageDialog.text = qsTrId("results-upload-finishing-error-dialog-text")
                                 errMessageDialog.standardButtons = StandardButton.Close
                                 errMessageDialog.showDialog();
+                                uploaderDialog.finishRunning  = false;
                             }
                         }
                     } catch (e) {
 
                         console.error("ERR callUploadFinish: parse failed" + e)
+                        uploaderDialog.finishRunning  = false;
                     }
                 }
                 // Connection error
@@ -284,10 +287,12 @@ Item {
                     errMessageDialog.text = qsTrId("results-upload-connection-error-dialog-text")
                     errMessageDialog.standardButtons = StandardButton.Close
                     errMessageDialog.showDialog();
+                    uploaderDialog.finishRunning  = false;
                 }
             }
         }
 
+        uploaderDialog.finishRunning = true;
         http.send()
     }
 

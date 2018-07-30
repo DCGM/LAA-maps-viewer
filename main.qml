@@ -3685,7 +3685,7 @@ ApplicationWindow {
             arr_item = {
                 "startPointName" : ss_item.startName,
                 "endPointName" : ss_item.endName,
-                "distance": ss_item.distance,
+                "distance": Math.round(ss_item.distance),
                 "calculatedSpeed": Math.round(ss_item.speed),
                 "speedDifference": 0,
                 "manualSpeed" : (index !== -1 ? speedSectionsScoreListManualValuesCache.get(index).manualSpeed : -1),

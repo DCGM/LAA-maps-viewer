@@ -1740,8 +1740,9 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
         <translation>Odeslání výsledků</translation>
     </message>
     <message id="uploader-window-dialog-text">
-        <source>Uploading file</source>
-        <translation>Odesílám soubor</translation>
+        <source>Uploading file %1</source>
+        <oldsource>Uploading file</oldsource>
+        <translation>Odesílá se soubor %1</translation>
     </message>
     <message id="done">
         <source>Done</source>
@@ -1816,6 +1817,11 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
     <message id="speed-sections-score-table-time-diff">
         <source>Speed sections time difference</source>
         <translation>Doba letu</translation>
+    </message>
+    <message id="uploader-window-dialog-processing">
+        <source>Processing results ...</source>
+        <oldsource>Processing results</oldsource>
+        <translation>Zpracování výsledků ...</translation>
     </message>
 </context>
 <context>
