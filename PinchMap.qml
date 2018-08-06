@@ -125,6 +125,7 @@ Rectangle {
                 var item = getPtByPid(conn.pid, trackModel.points)
                 if (item !== undefined) {
                     setCenterLatLon(item.lat, item.lon)
+                    console.log("onTracksSelectedTidChanged: " + tracksSelectedTid + " + setCenterLatLon()")
                 }
 
             }
@@ -267,9 +268,6 @@ Rectangle {
             currentPositionTime = item.time;
             currentPositionAltitude = item.alt;
             currentPositionAzimuth = F.getBearingTo(item.lat, item.lon, nextItem.lat, nextItem.lon)
-            if (zoomLevel > 12) {
-                setCenterLatLon(currentPositionLat, currentPositionLon);
-            }
         }
     }
 
