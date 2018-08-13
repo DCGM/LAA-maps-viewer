@@ -343,9 +343,9 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
 
     // trajectory
     QUrl trajectoryImgUrl = QUrl(filename + ".png");
-    if (!file.file_exists(trajectoryImgUrl)) {
-        qDebug() << "Image \"" << trajectoryImgUrl << "\" doesn't exists";
-    }
+//    if (!file.file_exists(trajectoryImgUrl)) {
+//        qDebug() << "Image \"" << trajectoryImgUrl << "\" doesn't exists";
+//    }
     html += file.file_exists(trajectoryImgUrl) ? getHTMLResponsiveImage(getImageBase64(trajectoryImgUrl)) : "";
 
     html += "   </div>";

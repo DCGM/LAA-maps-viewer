@@ -3649,26 +3649,24 @@ ApplicationWindow {
             }
         }
 
-        if (false) {
-
-            var iter = 0;
+        if (false) { // FIXME disabled (as not reported anyway)
             console.time("self intersection")
             if (igc.count > 60) {
                 var last_fix = igc.count - 60; // avoid check of minute after landing
                 var l = 0;
                 var igck1, igck2, igcl1, igcl2;
-                var STEP = 30; // 30 seconds (less than ~ 2 km of flight)
-                var DETECTION_WINDOW = 600; // 10 minutes
+                var STEP = 10; // 10 seconds
+                var STEP_DISTANCE = STEP*60; // STEP*60m/s (216 km/h)
 
                 igcnext = igc.get(0);
                 for (i = 0; i < last_fix; i+= STEP) {
                     igcnext = igc.get(i);
 
-                    for (j = i; ((j < last_fix) && (j < (i + DETECTION_WINDOW))); j+= STEP) {
+                    for (j = i; j < last_fix; j+= STEP) {
                         var igc2next = igc.get(j);
 
                         distance = F.getDistanceTo(igcnext.lat, igcnext.lon, igc2next.lat, igc2next.lon);
-                        if (distance > 4000) {
+                        if (distance > STEP_DISTANCE) {
                             continue;
                         }
 
@@ -3685,7 +3683,6 @@ ApplicationWindow {
                                 if (distance > 150) {
                                     continue;
                                 }
-                                iter++;
 
                                 var self_inter = F.lineIntersection(
                                             igck1.lat, igck1.lon,
@@ -3704,8 +3701,6 @@ ApplicationWindow {
                 } // for (i)
             }
             console.timeEnd("self intersection")
-            console.log('iterations ' + iter )
-
         }
 
         var wptString = [];
