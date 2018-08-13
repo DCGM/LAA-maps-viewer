@@ -1820,6 +1820,14 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
         <oldsource>Processing results</oldsource>
         <translation>Processing results ...</translation>
     </message>
+    <message id="toolbar-trimmed-end-fixes" numerus="yes">
+        <source>Trimmed landing %n</source>
+        <oldsource>Trimmed langing %n</oldsource>
+        <translation>
+            <numerusform>Trimmed landing %n</numerusform>
+            <numerusform>Trimmed landing %n</numerusform>
+        </translation>
+    </message>
 </context>
 <context>
     <name>CalendarWindow</name>

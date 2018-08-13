@@ -1459,7 +1459,7 @@ Rectangle {
                 ctx.strokeStyle="#ff0000"
                 ctx.beginPath()
 
-                item = gpsModel.get(0);
+                var item = gpsModel.get(0);
                 screenPoint = getMappointFromCoord(item.lat, item.lon)
                 ctx.moveTo(screenPoint[0], screenPoint[1])
 
@@ -1562,7 +1562,7 @@ Rectangle {
             }
 
             onDoubleClicked: {
-                if (mouse.button == Qt.RightButton) {
+                if (mouse.button === Qt.RightButton) {
                     return;
                 }
 
@@ -1594,7 +1594,7 @@ Rectangle {
 
 
             onPressed: {
-                if (mouse.button == Qt.RightButton) {
+                if (mouse.button === Qt.RightButton) {
                     showRuler = !showRuler;
                     return;
                 }
@@ -1640,7 +1640,7 @@ Rectangle {
             }
 
             onReleased: {
-                if (mouse.button == Qt.RightButton) {
+                if (mouse.button === Qt.RightButton) {
                     return;
                 }
                 focus = true;
@@ -1695,7 +1695,7 @@ Rectangle {
             }
 
             onPositionChanged: {
-                if (mouse.button == Qt.RightButton) {
+                if (mouse.button === Qt.RightButton) {
                     return;
                 }
 

@@ -386,6 +386,10 @@ function euclidDistance(a_x, a_y, b_x, b_y) {
     return Math.sqrt(d_x*d_x + d_y*d_y);
 }
 
+function manhatanDistance(a_x, a_y, b_x, b_y) {
+    return Math.abs(a_x - b_x) + Math.abs(a_y - b_y);
+}
+
 function lineIntersection(Ax, Ay, Bx, By, Cx, Cy, Dx, Dy) {
 
     //  Fail if either line is undefined.

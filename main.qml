@@ -1823,6 +1823,12 @@ ApplicationWindow {
                 }
 
                 NativeText {
+                    //% "Trimmed landing %n"
+                    text: qsTrId("toolbar-trimmed-end-fixes", igc.trimmedEndCount);
+                    visible: igc.trimmedEndCount > 0;
+                }
+
+                NativeText {
                     //% "Fixes %n"
                     text: qsTrId("toolbar-igc-count", igc.count)
                     visible: (igc.count + igc.trimmedCount + igc.invalidCount) > 0
@@ -3389,11 +3395,11 @@ ApplicationWindow {
         console.log(contestant.name + " " + contestant.startTime)
 
         if (igc.count > 0) {
+
             igcnext = igc.get(0);
             for (i = 1; i < igc.count; i++) {
                 igcthis = igcnext
                 igcnext = igc.get(i);
-
 
                 for (j = 0; j < tpiData.length; j++) {
                     var ti = tpiData[j]
@@ -3639,7 +3645,67 @@ ApplicationWindow {
                     poly_results[j] = poly_result;
                 }
 
+
             }
+        }
+
+        if (false) {
+
+            var iter = 0;
+            console.time("self intersection")
+            if (igc.count > 60) {
+                var last_fix = igc.count - 60; // avoid check of minute after landing
+                var l = 0;
+                var igck1, igck2, igcl1, igcl2;
+                var STEP = 30; // 30 seconds (less than ~ 2 km of flight)
+                var DETECTION_WINDOW = 600; // 10 minutes
+
+                igcnext = igc.get(0);
+                for (i = 0; i < last_fix; i+= STEP) {
+                    igcnext = igc.get(i);
+
+                    for (j = i; ((j < last_fix) && (j < (i + DETECTION_WINDOW))); j+= STEP) {
+                        var igc2next = igc.get(j);
+
+                        distance = F.getDistanceTo(igcnext.lat, igcnext.lon, igc2next.lat, igc2next.lon);
+                        if (distance > 4000) {
+                            continue;
+                        }
+
+                        igck2 = igcnext
+                        for (k = i+1;  (k < (i + STEP)); k++) {
+                            igck1 = igck2;
+                            igck2 = igc.get(k);
+                            igcl2 = igc2next;
+                            for (l = j+1; l < (j + STEP); l++) {
+                                igcl1 = igcl2;
+                                igcl2 = igc.get(l)
+
+                                distance = F.getDistanceTo(igck1.lat, igck1.lon, igcl1.lat, igcl1.lon);
+                                if (distance > 150) {
+                                    continue;
+                                }
+                                iter++;
+
+                                var self_inter = F.lineIntersection(
+                                            igck1.lat, igck1.lon,
+                                            igck2.lat, igck2.lon,
+                                            igcl1.lat, igcl1.lon,
+                                            igcl2.lat, igcl2.lon
+                                            );
+                                if (self_inter) {
+                                    console.log("SELF Intersection: " + igck1.time + " " +igcl1.time + " (distance of fixes " + distance+ ")")
+                                }
+
+                            } // for (l)
+                        } // for (k)
+
+                    } // for (j)
+                } // for (i)
+            }
+            console.timeEnd("self intersection")
+            console.log('iterations ' + iter )
+
         }
 
         var wptString = [];
@@ -3670,7 +3736,6 @@ ApplicationWindow {
         var dataArr = [];
         distance_cumul = 0;
         var extra_time_cmul = F.timeToUnix(contestant.startTime);
-        console.log(F.addTimeStrFormat(extra_time_cmul ))
 
         var new_section_speed_array = [];
         var new_section_alt_array = [];
@@ -3873,10 +3938,6 @@ ApplicationWindow {
             var alt_manual = returnManualValueFromListModelIfExist(wptNewScoreListManualValuesCache, "alt_manual", -1, "tid", tpi_item.tid);
             var point_alt_min = trItemCurrentPoint.alt_min;
             var point_alt_max = trItemCurrentPoint.alt_max;
-
-            if (i === 0) {
-                console.log(F.addTimeStrFormat(tg_time_calculated) + " " + F.addTimeStrFormat(tg_time_measured))
-            }
 
             var newScoreData = {
 

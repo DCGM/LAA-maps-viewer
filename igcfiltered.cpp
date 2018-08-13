@@ -7,11 +7,21 @@ IgcFiltered::IgcFiltered(QObject *parent) :  QAbstractListModel(parent) {
     igcFile = new IgcFile();
     m_invalid_count = 0;
     m_trimmed_count = 0;
+    m_trimmed_end_count = 0;
 }
 
 IgcFiltered::~IgcFiltered() {
     delete igcFile;
 
+}
+
+qreal IgcFiltered::getDistanceTo(qreal lat, qreal lon, qreal tlat, qreal tlon) {
+
+    qreal dlat = pow(sin((tlat-lat) * (M_PI/180.0) / 2), 2);
+    qreal dlon = pow(sin((tlon-lon) * (M_PI/180.0) / 2), 2);
+    qreal a = dlat + cos(lat * (M_PI/180.0)) * cos(tlat * (M_PI/180.0)) * dlon;
+    qreal c = 2 * atan2(sqrt(a), sqrt(1-a));
+    return 6371000.0 * c;
 }
 
 
@@ -23,7 +33,16 @@ bool IgcFiltered::load(const QString &path, const QTime after) {
     filtered_events.clear();
     m_invalid_count = 0;
     m_trimmed_count = 0;
+    m_trimmed_end_count = 0;
     QList<IgcEvent*>::iterator it;
+
+    qreal prevLat = 0;
+    qreal prevLon = 0;
+    qreal lat = 0;
+    qreal lon = 0;
+    qreal speed_m_s = 0;
+    int m_fixes_after = 60;
+    int m_valid_count = 0;
     for (it = events.begin(); it != events.end(); ++it) {
         int type = (*it)->getEventType();
         if (type != IgcEvent::FIX) {
@@ -41,7 +60,25 @@ bool IgcFiltered::load(const QString &path, const QTime after) {
             continue;
         }
 
-        filtered_events.append((*it));
+        m_valid_count++;
+
+        prevLat = lat;
+        prevLon = lon;
+        lat = igcFix->getLat();
+        lon = igcFix->getLon();
+        speed_m_s = getDistanceTo(lat, lon, prevLat, prevLon);
+
+        if ((speed_m_s < 10) && (m_valid_count > 3000)) { // speed lower than 10 m/s (36 km/h) and 50 minutes of valid fixes before
+            if (m_fixes_after > 0) {
+                filtered_events.append((*it));
+                m_fixes_after--;
+            } else {
+                m_trimmed_end_count++;
+            }
+
+        } else {
+            filtered_events.append((*it));
+        }
 
     }
 

@@ -1823,6 +1823,15 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
         <oldsource>Processing results</oldsource>
         <translation>Zpracování výsledků ...</translation>
     </message>
+    <message id="toolbar-trimmed-end-fixes" numerus="yes">
+        <source>Trimmed landing %n</source>
+        <oldsource>Trimmed langing %n</oldsource>
+        <translation>
+            <numerusform>Oříznutých přist. %n</numerusform>
+            <numerusform>Oříznutých přist. %n</numerusform>
+            <numerusform>Oříznutých přist. %n</numerusform>
+        </translation>
+    </message>
 </context>
 <context>
     <name>CalendarWindow</name>

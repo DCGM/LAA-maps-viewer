@@ -42,9 +42,13 @@ public:
 
     Q_PROPERTY(int invalidCount READ getInvalidCount NOTIFY eventsChanged)
     Q_PROPERTY(int trimmedCount READ getTrimmedCount NOTIFY eventsChanged)
+    Q_PROPERTY(int trimmedEndCount READ getTrimmedEndCount NOTIFY eventsChanged)
 
     int getInvalidCount() { return m_invalid_count; }
     int getTrimmedCount() { return m_trimmed_count; }
+    int getTrimmedEndCount() { return m_trimmed_end_count; }
+
+    qreal getDistanceTo(qreal lat1, qreal lon1, qreal lat2, qreal lon2);
 
     Q_PROPERTY(QDate date READ date)
     QDate date() const { return igcFile->date(); }
@@ -62,6 +66,7 @@ private:
     QList<IgcEvent*> filtered_events;
     int m_invalid_count;
     int m_trimmed_count;
+    int m_trimmed_end_count;
 
 };
 
