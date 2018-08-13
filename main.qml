@@ -919,6 +919,8 @@ ApplicationWindow {
                     contestantsListModel.setProperty(row, "speedSectionsScoreDetails", contestant.prevResultsSpeedSec);
                     contestantsListModel.setProperty(row, "spaceSectionsScoreDetails", contestant.prevResultsSpaceSec);
                     contestantsListModel.setProperty(row, "altitudeSectionsScoreDetails", contestant.prevResultsAltSec);
+//                    contestantsListModel.setProperty(row, "poly_results", contestant.prevPolyResults);
+
                     contestantsListModel.setProperty(row, "score_json", contestant.prevResultsScoreJson)
                     contestantsListModel.setProperty(row, "score", contestant.prevResultsScore)
                     contestantsListModel.setProperty(row, "scorePoints", contestant.prevResultsScorePoints);
@@ -1122,6 +1124,7 @@ ApplicationWindow {
 
                     console.log("selected row " +current + ": " + ctnt.name + " " +ctnt.startTime);
 
+
                     var arr = [];
                     if (tracks !== undefined && tracks.tracks !== undefined) {
                         arr = tracks.tracks;
@@ -1273,6 +1276,8 @@ ApplicationWindow {
                         contestantsListModel.setProperty(row, "wptScoreDetails", curentContestant.wptScoreDetails);
                         contestantsListModel.setProperty(row, "speedSectionsScoreDetails", curentContestant.speedSectionsScoreDetails);
                         contestantsListModel.setProperty(row, "altitudeSectionsScoreDetails", curentContestant.altitudeSectionsScoreDetails);
+                        contestantsListModel.setProperty(row, "poly_results", curentContestant.poly_results);
+
                         contestantsListModel.setProperty(row, "spaceSectionsScoreDetails", curentContestant.spaceSectionsScoreDetails);
 
                     } else { // add new crew
@@ -1316,6 +1321,8 @@ ApplicationWindow {
                         new_contestant.wptScoreDetails = curentContestant.wptScoreDetails;
                         new_contestant.speedSectionsScoreDetails = curentContestant.speedSectionsScoreDetails;
                         new_contestant.altitudeSectionsScoreDetails = curentContestant.altitudeSectionsScoreDetails;
+                        new_contestant.poly_results = curentContestant.poly_results;
+
                         new_contestant.spaceSectionsScoreDetails = curentContestant.spaceSectionsScoreDetails;
 
 
@@ -2040,6 +2047,7 @@ ApplicationWindow {
             "speedSectionsScoreDetails" : "",
             "spaceSectionsScoreDetails" : "",
             "altitudeSectionsScoreDetails" : "",
+//            "poly_results": "",
             "classOrder": -1,
 
             "tgScoreSum": 0,
@@ -2642,6 +2650,10 @@ ApplicationWindow {
             altSectionsScoreListManualValuesCache.clear();
         }
 
+        if (ctItem.poly_results !== "") {
+//            console.log("FIXME : poly_results")
+        }
+
         // space
         if (ctItem.spaceSectionsScoreDetails !== "") {
 
@@ -2794,6 +2806,10 @@ ApplicationWindow {
             altSectionsScoreListManualValuesCache.clear();
         }
         contestantsListModel.setProperty(row, "altSecScoreSum", altSecPenaltySum);
+
+        if (contestant.poly_results !== "") {
+//            console.log("FIXME poly_results")
+        }
 
         // space sec
         if (contestant.spaceSectionsScoreDetails !== "") {
@@ -3376,14 +3392,16 @@ ApplicationWindow {
         for (j = 0; j < polys.length; j++) {
             var poly = polys[j];
             var poly_result = {
-                "time_start": "00:00:00",
-                "time_end": "00:00:00",
-                "time_outside_start" : "00:00:00",
-                "time_outside_end" : "00:00:00",
-                "count": 0,
-                "count_outside": 0,
-                "alt_min": poly_alt_min,
-                "alt_max": poly_alt_max,
+                "inside_time_start": "00:00:00",
+                "inside_time_end": "00:00:00",
+                "inside_count": 0,
+                "inside_alt_min": poly_alt_min,
+                "inside_alt_max": poly_alt_max,
+                "outside_time_start" : "00:00:00",
+                "outside_time_end" : "00:00:00",
+                "outside_count": 0,
+                "outside_alt_min": poly_alt_min,
+                "outside_alt_max": poly_alt_max,
             }
             poly_results.push(poly_result);
         }
@@ -3628,19 +3646,21 @@ ApplicationWindow {
 
                     var indise = F.pointInPolygon(poly.points, igcthis)
                     if (indise) {
-                        if (poly_result.count === 0) {
-                            poly_result.time_start = igcthis.time;
+                        if (poly_result.inside_count === 0) {
+                            poly_result.inside_time_start = igcthis.time;
                         }
-                        poly_result.time_end = igcthis.time;
-                        poly_result.alt_min = Math.min(poly_result.alt_min, igcthis.alt)
-                        poly_result.alt_max = Math.max(poly_result.alt_max, igcthis.alt)
-                        poly_result.count = poly_result.count + 1;
+                        poly_result.inside_time_end = igcthis.time;
+                        poly_result.inside_alt_min = Math.min(poly_result.inside_alt_min, igcthis.alt)
+                        poly_result.inside_alt_max = Math.max(poly_result.inside_alt_max, igcthis.alt)
+                        poly_result.inside_count = poly_result.inside_count + 1;
                     } else {
-                        if (poly_result.count_outside === 0) {
-                            poly_result.time_outside_start = igcthis.time;
+                        if (poly_result.outside_count=== 0) {
+                            poly_result.outside_time_start = igcthis.time;
                         }
-                        poly_result.time_outside_end = igcthis.time;
-                        poly_result.count_outside = poly_result.count + 1;
+                        poly_result.outside_time_end = igcthis.time;
+                        poly_result.outside_alt_min = Math.min(poly_result.outside_alt_min, igcthis.alt)
+                        poly_result.outside_alt_max = Math.max(poly_result.outside_alt_max, igcthis.alt)
+                        poly_result.outside_count = poly_result.outside_count + 1;
                     }
                     poly_results[j] = poly_result;
                 }
@@ -3709,6 +3729,7 @@ ApplicationWindow {
         contestantsListModel.setProperty(current, "speedSectionsScoreDetails", "");
         contestantsListModel.setProperty(current, "spaceSectionsScoreDetails", "");
         contestantsListModel.setProperty(current, "altitudeSectionsScoreDetails", "");
+        contestantsListModel.setProperty(current, "poly_results", "");
 
         var category_alt_penalty = trItem.alt_penalty;
         var category_marker_max_score = trItem.marker_max_score;
@@ -4005,7 +4026,6 @@ ApplicationWindow {
             str += "\"" + poly_result.time_end + "\";";
             str += "\"" + poly_result.alt_min + "\";";
             str += "\"" + poly_result.alt_max + "\";";
-            console.log("Polygon data " + poly_result.name + ": " + poly_result.count + " " + poly_result.time_start + " " + poly_result.time_end + " " + poly_result.count_outside + " " + poly_result.time_outside_start + " " + poly_result.time_outside_end)
         }
 
         var trHash = MD5.md5(JSON.stringify(trItem));
@@ -4014,6 +4034,8 @@ ApplicationWindow {
         contestantsListModel.setProperty(current, "speedSectionsScoreDetails", JSON.stringify(new_section_speed_array));
         contestantsListModel.setProperty(current, "spaceSectionsScoreDetails", JSON.stringify(new_section_space_array));
         contestantsListModel.setProperty(current, "altitudeSectionsScoreDetails", JSON.stringify(new_section_alt_array));
+        contestantsListModel.setProperty(current, "poly_results", JSON.stringify(poly_results));
+
 
         contestantsListModel.setProperty(current, "score_json", JSON.stringify(dataArr))
         contestantsListModel.setProperty(current, "score", str)
@@ -4056,6 +4078,7 @@ ApplicationWindow {
         contestantsListModel.setProperty(ctntIndex, "prevResultsSpeedSec", contestant.speedSectionsScoreDetails);
         contestantsListModel.setProperty(ctntIndex, "prevResultsSpaceSec", contestant.spaceSectionsScoreDetails);
         contestantsListModel.setProperty(ctntIndex, "prevResultsAltSec", contestant.altitudeSectionsScoreDetails);
+        contestantsListModel.setProperty(ctntIndex, "poly_results", contestant.poly_results)
         contestantsListModel.setProperty(ctntIndex, "prevResultsMarkersOk", contestant.markersOk);
         contestantsListModel.setProperty(ctntIndex, "prevResultsMarkersNok", contestant.markersNok);
         contestantsListModel.setProperty(ctntIndex, "prevResultsMarkersFalse", contestant.markersFalse);
@@ -4153,6 +4176,7 @@ ApplicationWindow {
             str += "\"" + F.replaceDoubleQuotes(ct.speedSectionsScoreDetails) + "\";"
             str += "\"" + F.replaceDoubleQuotes(ct.spaceSectionsScoreDetails) + "\";"
             str += "\"" + F.replaceDoubleQuotes(ct.altitudeSectionsScoreDetails) + "\";"
+//            console.log("FIXME poly_results")
             str += "\"" + F.addSlashes(ct.filename) + "\";"
             str += "\"" + F.replaceDoubleQuotes(ct.score) + "\";"
             str += "\"" + F.replaceDoubleQuotes(ct.score_json) + "\";"
