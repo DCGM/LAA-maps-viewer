@@ -3372,7 +3372,10 @@ ApplicationWindow {
             var poly_result = {
                 "time_start": "00:00:00",
                 "time_end": "00:00:00",
+                "time_outside_start" : "00:00:00",
+                "time_outside_end" : "00:00:00",
                 "count": 0,
+                "count_outside": 0,
                 "alt_min": poly_alt_min,
                 "alt_max": poly_alt_max,
             }
@@ -3382,8 +3385,6 @@ ApplicationWindow {
         var section_speed_array_length = section_speed_array.length
         var section_alt_array_length = section_alt_array.length
         var section_space_array_length = section_space_array.length
-
-        var intersections = 0;
 
         console.log(contestant.name + " " + contestant.startTime)
 
@@ -3617,10 +3618,10 @@ ApplicationWindow {
                 for (j = 0; j < polys.length; j++) {
                     var poly = polys[j];
                     var poly_result = poly_results[j];
+                    poly_result.name = poly.name;
 
-                    var intersection = F.pointInPolygon(poly.points, igcthis)
-                    if (intersection) {
-                        intersections++;
+                    var indise = F.pointInPolygon(poly.points, igcthis)
+                    if (indise) {
                         if (poly_result.count === 0) {
                             poly_result.time_start = igcthis.time;
                         }
@@ -3628,8 +3629,14 @@ ApplicationWindow {
                         poly_result.alt_min = Math.min(poly_result.alt_min, igcthis.alt)
                         poly_result.alt_max = Math.max(poly_result.alt_max, igcthis.alt)
                         poly_result.count = poly_result.count + 1;
-                        poly_results[j] = poly_result;
+                    } else {
+                        if (poly_result.count_outside === 0) {
+                            poly_result.time_outside_start = igcthis.time;
+                        }
+                        poly_result.time_outside_end = igcthis.time;
+                        poly_result.count_outside = poly_result.count + 1;
                     }
+                    poly_results[j] = poly_result;
                 }
 
             }
@@ -3942,6 +3949,7 @@ ApplicationWindow {
             str += "\"" + poly_result.time_end + "\";";
             str += "\"" + poly_result.alt_min + "\";";
             str += "\"" + poly_result.alt_max + "\";";
+            console.log("Polygon data " + poly_result.name + ": " + poly_result.count + " " + poly_result.time_start + " " + poly_result.time_end + " " + poly_result.count_outside + " " + poly_result.time_outside_start + " " + poly_result.time_outside_end)
         }
 
         var trHash = MD5.md5(JSON.stringify(trItem));
