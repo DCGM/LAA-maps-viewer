@@ -1832,6 +1832,30 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
             <numerusform>Oříznutých přist. %n</numerusform>
         </translation>
     </message>
+    <message id="results-window-dialog-poly-results">
+        <source>Polygons</source>
+        <translation>Polygony</translation>
+    </message>
+    <message id="results-window-dialog-poly-name">
+        <source>Name</source>
+        <translation>Jméno</translation>
+    </message>
+    <message id="results-window-dialog-poly-time">
+        <source>Inside start</source>
+        <translation>Začátek unitř</translation>
+    </message>
+    <message id="results-window-dialog-poly-time-end">
+        <source>Inside end</source>
+        <translation>Konec uvnitř</translation>
+    </message>
+    <message id="results-window-dialog-poly-time-outside">
+        <source>Outside start</source>
+        <translation>Začátek vně</translation>
+    </message>
+    <message id="results-window-dialog-poly-time-outside-end">
+        <source>Outside end</source>
+        <translation>Konec vně</translation>
+    </message>
 </context>
 <context>
     <name>CalendarWindow</name>

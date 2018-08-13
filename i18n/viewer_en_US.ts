@@ -1828,6 +1828,30 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
             <numerusform>Trimmed landing %n</numerusform>
         </translation>
     </message>
+    <message id="results-window-dialog-poly-results">
+        <source>Polygons</source>
+        <translation>Polygons</translation>
+    </message>
+    <message id="results-window-dialog-poly-name">
+        <source>Name</source>
+        <translation>Name</translation>
+    </message>
+    <message id="results-window-dialog-poly-time">
+        <source>Inside start</source>
+        <translation>Start inside</translation>
+    </message>
+    <message id="results-window-dialog-poly-time-end">
+        <source>Inside end</source>
+        <translation>Inside end</translation>
+    </message>
+    <message id="results-window-dialog-poly-time-outside">
+        <source>Outside start</source>
+        <translation>Outside start</translation>
+    </message>
+    <message id="results-window-dialog-poly-time-outside-end">
+        <source>Outside end</source>
+        <translation>Outside end</translation>
+    </message>
 </context>
 <context>
     <name>CalendarWindow</name>

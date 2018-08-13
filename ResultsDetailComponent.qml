@@ -1519,6 +1519,7 @@ Rectangle {
 //            id: polyResultsValuesTab;
 //            //% "Polygons"
 //            title: qsTrId("results-window-dialog-poly-results")
+//            enabled: (currentPolyResultsScoreList.count > 0);
 
 //            TableView {
 //                anchors.fill: parent
