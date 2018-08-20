@@ -919,7 +919,8 @@ ApplicationWindow {
                     contestantsListModel.setProperty(row, "speedSectionsScoreDetails", contestant.prevResultsSpeedSec);
                     contestantsListModel.setProperty(row, "spaceSectionsScoreDetails", contestant.prevResultsSpaceSec);
                     contestantsListModel.setProperty(row, "altitudeSectionsScoreDetails", contestant.prevResultsAltSec);
-//                    contestantsListModel.setProperty(row, "poly_results", contestant.prevPolyResults);
+//                    console.log ("prevPolyResults"contestant.prevPoly_results)
+                    contestantsListModel.setProperty(row, "poly_results", contestant.prevPoly_results);
 
                     contestantsListModel.setProperty(row, "score_json", contestant.prevResultsScoreJson)
                     contestantsListModel.setProperty(row, "score", contestant.prevResultsScore)
@@ -1071,8 +1072,6 @@ ApplicationWindow {
                     }
 
                     onShowContestnatEditForm: {
-                        console.log("onShowContestnatEditForm")
-
                         updateContestantMenu.openFormForEdit();
                     }
                 }
@@ -2034,6 +2033,7 @@ ApplicationWindow {
             "prevResultsScore": "",
             "prevResultsScoreJson": "",
             "prevResultsClassify": 0,
+            "prevPoly_results": "",
 
             // items from igc files model
             "filePath": "",
@@ -2047,7 +2047,7 @@ ApplicationWindow {
             "speedSectionsScoreDetails" : "",
             "spaceSectionsScoreDetails" : "",
             "altitudeSectionsScoreDetails" : "",
-//            "poly_results": "",
+            "poly_results": "",
             "classOrder": -1,
 
             "tgScoreSum": 0,
@@ -2464,6 +2464,7 @@ ApplicationWindow {
                 curCnt.prevResultsSpeedSec = (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][35]) : "");
                 curCnt.prevResultsAltSec = (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][37]) : "");
                 curCnt.prevResultsSpaceSec = (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][36]) : "");
+                curCnt.prevPoly_results = (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][48]) : "");
 
                 // check results validity due to the contestant values
                 if (resultsValid(curCnt.speed, curCnt.startTime, curCnt.category, curCnt.filename, MD5.md5(JSON.stringify(trItem)),
@@ -2650,9 +2651,6 @@ ApplicationWindow {
             altSectionsScoreListManualValuesCache.clear();
         }
 
-        if (ctItem.poly_results !== "") {
-//            console.log("FIXME : poly_results")
-        }
 
         // space
         if (ctItem.spaceSectionsScoreDetails !== "") {
@@ -2806,10 +2804,6 @@ ApplicationWindow {
             altSectionsScoreListManualValuesCache.clear();
         }
         contestantsListModel.setProperty(row, "altSecScoreSum", altSecPenaltySum);
-
-        if (contestant.poly_results !== "") {
-//            console.log("FIXME poly_results")
-        }
 
         // space sec
         if (contestant.spaceSectionsScoreDetails !== "") {
@@ -4019,15 +4013,6 @@ ApplicationWindow {
         }
         str += "\"\";";
 
-        for (i = 0; i < poly_results.length; i++) {
-            var poly_result = poly_results[i];
-            str += "\"" + poly_result.count + "\";";
-            str += "\"" + poly_result.time_start + "\";";
-            str += "\"" + poly_result.time_end + "\";";
-            str += "\"" + poly_result.alt_min + "\";";
-            str += "\"" + poly_result.alt_max + "\";";
-        }
-
         var trHash = MD5.md5(JSON.stringify(trItem));
         contestantsListModel.setProperty(current, "trackHash", trHash);
         contestantsListModel.setProperty(current, "wptScoreDetails", wptString.join("; "));
@@ -4078,7 +4063,7 @@ ApplicationWindow {
         contestantsListModel.setProperty(ctntIndex, "prevResultsSpeedSec", contestant.speedSectionsScoreDetails);
         contestantsListModel.setProperty(ctntIndex, "prevResultsSpaceSec", contestant.spaceSectionsScoreDetails);
         contestantsListModel.setProperty(ctntIndex, "prevResultsAltSec", contestant.altitudeSectionsScoreDetails);
-        contestantsListModel.setProperty(ctntIndex, "poly_results", contestant.poly_results)
+        contestantsListModel.setProperty(ctntIndex, "prevPoly_results", contestant.poly_results)
         contestantsListModel.setProperty(ctntIndex, "prevResultsMarkersOk", contestant.markersOk);
         contestantsListModel.setProperty(ctntIndex, "prevResultsMarkersNok", contestant.markersNok);
         contestantsListModel.setProperty(ctntIndex, "prevResultsMarkersFalse", contestant.markersFalse);
@@ -4176,7 +4161,6 @@ ApplicationWindow {
             str += "\"" + F.replaceDoubleQuotes(ct.speedSectionsScoreDetails) + "\";"
             str += "\"" + F.replaceDoubleQuotes(ct.spaceSectionsScoreDetails) + "\";"
             str += "\"" + F.replaceDoubleQuotes(ct.altitudeSectionsScoreDetails) + "\";"
-//            console.log("FIXME poly_results")
             str += "\"" + F.addSlashes(ct.filename) + "\";"
             str += "\"" + F.replaceDoubleQuotes(ct.score) + "\";"
             str += "\"" + F.replaceDoubleQuotes(ct.score_json) + "\";"
@@ -4187,6 +4171,7 @@ ApplicationWindow {
             str += "\"" + ct.circlingScore + "\";"
             str += "\"" + ct.oppositeCount + "\";"
             str += "\"" + ct.oppositeScore + "\";"
+            str += "\"" + F.replaceDoubleQuotes(ct.poly_results) + "\";"
 
             str += "\n";
         }

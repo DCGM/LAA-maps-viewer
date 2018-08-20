@@ -133,9 +133,11 @@ Rectangle {
                     currentAltitudeSectionsScoreList.append(JSON.parse(arr[i]))
                 }
             }
-            if (curentContestant.poly_results !== undefined) {
+            currentPolyResultsScoreList.clear();
+            if (curentContestant.poly_results !== "") {
                 arr = curentContestant.poly_results.split("; ")
                 for (i = 0; i < arr.length; i++) {
+
                     currentPolyResultsScoreList.append(JSON.parse(arr[i]))
                 }
 
@@ -1515,35 +1517,45 @@ Rectangle {
             }
         }
 
-//        Tab {
-//            id: polyResultsValuesTab;
-//            //% "Polygons"
-//            title: qsTrId("results-window-dialog-poly-results")
-//            enabled: (currentPolyResultsScoreList.count > 0);
+        Tab {
+            id: polyResultsValuesTab;
+            //% "Polygons"
+            title: qsTrId("results-window-dialog-poly-results")
+            enabled: (currentPolyResultsScoreList.count > 0);
 
-//            TableView {
-//                anchors.fill: parent
-//                model: currentPolyResultsScoreList;
+            TableView {
+                anchors.fill: parent
+                model: currentPolyResultsScoreList;
 
-//                //% "Name"
-//                TableViewColumn {title: qsTrId("results-window-dialog-poly-name"); role: "name"; width: 150;}
-//                //% "Inside start"
-//                TableViewColumn {title: qsTrId("results-window-dialog-poly-time"); role: "inside_time_start"; width: 90;}
-//                //% "Inside end"
-//                TableViewColumn {title: qsTrId("results-window-dialog-poly-time-end"); role: "inside_time_end"; width: 90;}
-//                //% "Outside start"
-//                TableViewColumn {title: qsTrId("results-window-dialog-poly-time-outside"); role: "outside_time_start"; width: 90;}
-//                //% "Outside end"
-//                TableViewColumn {title: qsTrId("results-window-dialog-poly-time-outside-end"); role: "outside_time_end"; width: 90;}
+                rowDelegate: Rectangle {
+                    height: 30;
+                    color: styleData.selected ? "#0077cc" : (styleData.alternate? "#eee" : "#fff")
 
-////                TableViewColumn {title: "results-window-dialog-poly-outside-alt-max"; role: "inside_alt_max"; width: 90;}
-////                TableViewColumn {title: "results-window-dialog-poly-outside-alt-min"; role: "inside_alt_min"; width: 90;}
-////                TableViewColumn {title: "results-window-dialog-poly-outside-alt-max"; role: "outside_alt_max"; width: 90;}
-////                TableViewColumn {title: "results-window-dialog-poly-outside-alt-min"; role: "outside_alt_min"; width: 90;}
-////                TableViewColumn {title: "results-window-dialog-poly-inside-count"; role: "inside_count"; width: 90;}
-////                TableViewColumn {title: "results-window-dialog-poly-outside-count"; role: "outside_count"; width: 90;}
-//            }
-//        }
+                }
+
+                itemDelegate: PolyResultsTableItemDelegate {
+
+                }
+
+                //% "Name"
+                TableViewColumn {title: qsTrId("results-window-dialog-poly-name"); role: "name"; width: 150;}
+                //% "Inside start"
+                TableViewColumn {title: qsTrId("results-window-dialog-poly-time"); role: "inside_time_start"; width: 90;}
+                //% "Inside end"
+                TableViewColumn {title: qsTrId("results-window-dialog-poly-time-end"); role: "inside_time_end"; width: 90;}
+                //% "Outside start"
+                TableViewColumn {title: qsTrId("results-window-dialog-poly-time-outside"); role: "outside_time_start"; width: 90;}
+                //% "Outside end"
+                TableViewColumn {title: qsTrId("results-window-dialog-poly-time-outside-end"); role: "outside_time_end"; width: 90;}
+
+//                TableViewColumn {title: "results-window-dialog-poly-outside-alt-max"; role: "inside_alt_max"; width: 90;}
+//                TableViewColumn {title: "results-window-dialog-poly-outside-alt-min"; role: "inside_alt_min"; width: 90;}
+//                TableViewColumn {title: "results-window-dialog-poly-outside-alt-max"; role: "outside_alt_max"; width: 90;}
+//                TableViewColumn {title: "results-window-dialog-poly-outside-alt-min"; role: "outside_alt_min"; width: 90;}
+//                TableViewColumn {title: "results-window-dialog-poly-inside-count"; role: "inside_count"; width: 90;}
+//                TableViewColumn {title: "results-window-dialog-poly-outside-count"; role: "outside_count"; width: 90;}
+            }
+        }
 
         /////////////////////
         Tab {
