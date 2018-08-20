@@ -1574,8 +1574,8 @@ Rectangle {
 
         Tab {
             id: circlingResultsValuesTab;
-            //% "Circling"
-            title: qsTrId("results-window-dialog-circling-results")
+            //% "Circling (%1)"
+            title: qsTrId("results-window-dialog-circling-results").arg(currentCirclingScoreList.count)
             enabled: (currentCirclingScoreList.count > 0);
 
             TableView {

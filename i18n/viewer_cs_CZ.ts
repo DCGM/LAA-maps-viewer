@@ -1857,8 +1857,9 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
         <translation>Konec vně</translation>
     </message>
     <message id="results-window-dialog-circling-results">
-        <source>Circling</source>
-        <translation>Kroužení</translation>
+        <source>Circling (%1)</source>
+        <oldsource>Circling (%n)</oldsource>
+        <translation type="unfinished">Kroužení (%1)</translation>
     </message>
     <message id="results-window-dialog-circling-time1">
         <source>Time</source>

@@ -1495,7 +1495,6 @@ ApplicationWindow {
                 currentPositionShow: true;
 
                 onTpiComputedData:  {
-                    console.log("onTpiComputedData")
                     if (!resultsDetailComponent.visible && !resultsExporterTimer.running) {
                         //computeScore(tpi, polys)
                         computingTimer.tpi = tpi;

@@ -1853,8 +1853,9 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
         <translation>Outside end</translation>
     </message>
     <message id="results-window-dialog-circling-results">
-        <source>Circling</source>
-        <translation>Circling</translation>
+        <source>Circling (%1)</source>
+        <oldsource>Circling (%n)</oldsource>
+        <translation type="unfinished">Circling (%1)</translation>
     </message>
     <message id="results-window-dialog-circling-time1">
         <source>Time</source>
