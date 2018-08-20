@@ -3690,8 +3690,6 @@ ApplicationWindow {
                 exit_point_time = F.timeToUnix(tpiData[exit_point_index].time);
             }
 
-            console.log(entry_point_time + " " + exit_point_time)
-
             igcnext = igc.get(0);
             for (i = 0; i < last_fix; i+= STEP) {
                 igcnext = igc.get(i);
