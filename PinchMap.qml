@@ -757,53 +757,8 @@ Rectangle {
 
 
             if (trackModel === undefined ) {
+                console.warn("trackModel is undefined")
                 return;
-            }
-
-            if (filterCupData < 2) { // 0 , 1 == Tab(points, polygons)
-
-                // draw points -> points are drawed as an Images
-
-
-                // draw polygons
-                if (trackModel.poly !== undefined) {
-                    var poly = trackModel.poly;
-                    if (poly[0] !== undefined) {
-                        for (i = 0; i < poly.length; i++) {
-                            var polygon = poly[i]
-                            if (polygon.points !== undefined) {
-                                var polygon_points = polygon.points;
-                                var polygon_points_length  = polygon_points.length;
-                                if (polygon_points_length > 1) {
-
-                                    ctx.strokeStyle="#"+ polygon.color;
-                                    ctx.beginPath()
-
-                                    item = polygon_points[0];
-                                    screenPoint = getMappointFromCoord(item.lat, item.lon)
-                                    ctx.moveTo(screenPoint[0], screenPoint[1])
-
-                                    for (var j = 1; j < polygon_points_length; j++) {
-                                        item = polygon_points[j];
-                                        screenPoint = getMappointFromCoord(item.lat, item.lon)
-                                        ctx.lineTo(screenPoint[0], screenPoint[1])
-
-                                    }
-                                    if (polygon.closed) {
-                                        ctx.closePath();
-                                    }
-
-                                    ctx.stroke();
-                                    //complexityCounter++;
-                                }
-                            }
-
-                        }
-                    }
-                }
-
-
-
             }
 
             polygonCache = [];
@@ -1450,6 +1405,8 @@ Rectangle {
 
 
 
+            } else {
+                console.warn("filterCupData: " + filterCupData)
             }
 
             ///////////////
@@ -1469,6 +1426,8 @@ Rectangle {
                     ctx.lineTo(screenPoint[0], screenPoint[1])
                 }
                 ctx.stroke();
+            } else {
+                console.warn("gpsModel is undefined")
             }
 
             ctx.restore();

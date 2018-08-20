@@ -1496,7 +1496,7 @@ ApplicationWindow {
 
                 onTpiComputedData:  {
                     console.log("onTpiComputedData")
-                    if (!updateContestantMenu.menuVisible && !resultsExporterTimer.running) {
+                    if (!resultsDetailComponent.visible && !resultsExporterTimer.running) {
                         //computeScore(tpi, polys)
                         computingTimer.tpi = tpi;
                         computingTimer.polys = polys;
@@ -4751,7 +4751,7 @@ ApplicationWindow {
         property variant polys;
 
         onTriggered: {
-
+            console.log("computing Timer")
             computeScore(tpi, polys);
             running = false;
         }
