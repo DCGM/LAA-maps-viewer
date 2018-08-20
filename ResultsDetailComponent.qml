@@ -1604,7 +1604,6 @@ Rectangle {
 
                 Component.onCompleted: {
                     selection.selectionChanged.connect(rowSelected);
-                    console.log("connect")
                 }
 
                 function rowSelected() {
