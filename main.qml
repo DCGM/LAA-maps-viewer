@@ -1495,7 +1495,7 @@ ApplicationWindow {
                 currentPositionShow: true;
 
                 onTpiComputedData:  {
-                    if (!updateContestantMenu.menuVisible && !resultsExporterTimer.running) {
+                    if (!updateContestantMenu.menuVisible && !resultsDetailComponent.visible && !resultsExporterTimer.running) {
                         //computeScore(tpi, polys)
                         computingTimer.tpi = tpi;
                         computingTimer.polys = polys;
@@ -1919,7 +1919,7 @@ ApplicationWindow {
                           prevSpeed, prevStartTime, prevCategory, prevIgcFilename, prevTrackHash) {
 
         return (currentStartTime === prevStartTime &&
-                parseInt(currentSpeed) === parseInt(prevSpeed) &&
+                parseInt(currentSpeed, 10) === parseInt(prevSpeed, 10) &&
                 currentCategory === prevCategory &&
                 currentIgcFilename === prevIgcFilename &&
                 currentTrackHash === prevTrackHash);
@@ -3201,7 +3201,7 @@ ApplicationWindow {
 
         var imagePath = Qt.resolvedUrl(pathConfiguration.resultsFolder+"/"+contestant.fullName+".png");
 
-        if ((contestant.score !== undefined) && (contestant.score !== "") && (contestant.tgScoreSum > 0) && file_reader.file_exists(imagePath)) { // pokud je vypocitane, tak nepocitame znovu
+        if ((contestant.score !== undefined) && (contestant.score !== "") && file_reader.file_exists(imagePath)) { // pokud je vypocitane, tak nepocitame znovu
             console.log("contestant.score is defined and imagePath exists");
             return;
         }
