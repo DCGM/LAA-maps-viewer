@@ -33,6 +33,7 @@
         <file>MyEditableTextField.qml</file>
         <file>PathConfiguration.qml</file>
         <file>PolyResultsTableItemDelegate.qml</file>
+        <file>CirclingResultsTableItemDelegate.qml</file>
         <file>AboutDialog.qml</file>
         <file>data/emblem_readonly.png</file>
         <file>data/position-indicator.png</file>

@@ -1852,6 +1852,27 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
         <source>Outside end</source>
         <translation>Outside end</translation>
     </message>
+    <message id="results-window-dialog-circling-results">
+        <source>Circling</source>
+        <translation>Circling</translation>
+    </message>
+    <message id="results-window-dialog-circling-time1">
+        <source>Time</source>
+        <translation>Time</translation>
+    </message>
+    <message id="results-window-dialog-circling-time2">
+        <source>Time</source>
+        <translation>Time</translation>
+    </message>
+    <message id="results-window-dialog-circling-lon">
+        <source>Longitude</source>
+        <oldsource>Latitude</oldsource>
+        <translation>Longitude</translation>
+    </message>
+    <message id="results-window-dialog-circling-lat">
+        <source>Latitude</source>
+        <translation>Latitude</translation>
+    </message>
 </context>
 <context>
     <name>CalendarWindow</name>

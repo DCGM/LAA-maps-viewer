@@ -54,6 +54,7 @@ Rectangle {
     ListModel { id: currentAltitudeSectionsScoreList }
     ListModel { id: currentSpaceSectionsScoreList }
     ListModel { id: currentPolyResultsScoreList }
+    ListModel { id: currentCirclingScoreList }
 
     Component.onCompleted: {
         curentContestant = createBlankUserObject();
@@ -137,8 +138,15 @@ Rectangle {
             if (curentContestant.poly_results !== "") {
                 arr = curentContestant.poly_results.split("; ")
                 for (i = 0; i < arr.length; i++) {
-
                     currentPolyResultsScoreList.append(JSON.parse(arr[i]))
+                }
+
+            }
+            currentCirclingScoreList.clear();
+            if (curentContestant.circling_results !== "") {
+                arr = curentContestant.circling_results.split("; ")
+                for (i = 0; i < arr.length; i++) {
+                    currentCirclingScoreList.append(JSON.parse(arr[i]))
                 }
 
             }
@@ -307,6 +315,10 @@ Rectangle {
             if (spaceSecValuesTab.visible) {
                 return "spaceSecVals"
             }
+            if (polyResultsValuesTab.visible) {
+                return "polyResultsVals";
+            }
+
             if (summaryTab.visible) {
                 return "summaryTab"
             }
@@ -319,6 +331,7 @@ Rectangle {
             speedSecValuesTab.visible = false;
             altSecValuesTab.visible = false;
             spaceSecValuesTab.visible = false;
+            polyResultsValuesTab.visible = false;
             switch (name) {
             case "crewDetail":
                 crewDetailTab.visible = true;
@@ -337,6 +350,9 @@ Rectangle {
                 break;
             case "spaceSecVals":
                 spaceSecValuesTab.visible = true;
+                break;
+            case "polyResultsVals":
+                polyResultsValuesTab.visible = true;
                 break;
             case "summaryTab":
                 summaryTab.visible = true;
@@ -1271,7 +1287,6 @@ Rectangle {
 
                     var item = currentWptScoreList.get(current);
                     clickedMeasuredTime(item.tg_time_measured)
-
                 }
             }
         }
@@ -1555,6 +1570,57 @@ Rectangle {
 //                TableViewColumn {title: "results-window-dialog-poly-inside-count"; role: "inside_count"; width: 90;}
 //                TableViewColumn {title: "results-window-dialog-poly-outside-count"; role: "outside_count"; width: 90;}
             }
+        }
+
+        Tab {
+            id: circlingResultsValuesTab;
+            //% "Circling"
+            title: qsTrId("results-window-dialog-circling-results")
+            enabled: (currentCirclingScoreList.count > 0);
+
+            TableView {
+                id: circlingResultsValuesTable
+                anchors.fill: parent
+                model: currentCirclingScoreList;
+
+                itemDelegate: CirclingResultsTableItemDelegate {
+
+                }
+
+                rowDelegate: Rectangle {
+                    height: 30;
+                    color: styleData.selected ? "#0077cc" : (styleData.alternate? "#eee" : "#fff")
+
+                }
+
+                //% "Time"
+                TableViewColumn {title: qsTrId("results-window-dialog-circling-time1"); role: "time1"; width: 90;}
+                //% "Time"
+                TableViewColumn {title: qsTrId("results-window-dialog-circling-time2"); role: "time2"; width: 90;}
+                //% "Latitude"
+                TableViewColumn {title: qsTrId("results-window-dialog-circling-lat"); role: "lat"; width: 150;}
+                //% "Longitude"
+                TableViewColumn {title: qsTrId("results-window-dialog-circling-lon"); role: "lon"; width: 150;}
+
+                Component.onCompleted: {
+                    selection.selectionChanged.connect(rowSelected);
+                    console.log("connect")
+                }
+
+                function rowSelected() {
+                    var current = -1;
+                    circlingResultsValuesTable.selection.forEach( function(rowIndex) { current = rowIndex; } )
+                    if (current < 0) {
+                        return;
+                    }
+
+                    var item = currentCirclingScoreList.get(current);
+                    clickedMeasuredTime(F.timeToUnix(item.time1))
+                }
+
+            }
+
+
         }
 
         /////////////////////

@@ -1856,6 +1856,27 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
         <source>Outside end</source>
         <translation>Konec vně</translation>
     </message>
+    <message id="results-window-dialog-circling-results">
+        <source>Circling</source>
+        <translation>Kroužení</translation>
+    </message>
+    <message id="results-window-dialog-circling-time1">
+        <source>Time</source>
+        <translation>Čas</translation>
+    </message>
+    <message id="results-window-dialog-circling-time2">
+        <source>Time</source>
+        <translation>Čas</translation>
+    </message>
+    <message id="results-window-dialog-circling-lon">
+        <source>Longitude</source>
+        <oldsource>Latitude</oldsource>
+        <translation>Zeměpisná délka</translation>
+    </message>
+    <message id="results-window-dialog-circling-lat">
+        <source>Latitude</source>
+        <translation>Zeměpisná šířka</translation>
+    </message>
 </context>
 <context>
     <name>CalendarWindow</name>

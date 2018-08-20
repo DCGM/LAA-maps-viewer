@@ -921,6 +921,7 @@ ApplicationWindow {
                     contestantsListModel.setProperty(row, "altitudeSectionsScoreDetails", contestant.prevResultsAltSec);
 //                    console.log ("prevPolyResults"contestant.prevPoly_results)
                     contestantsListModel.setProperty(row, "poly_results", contestant.prevPoly_results);
+                    contestantsListModel.setProperty(row, "circling_results", contestant.prevCircling_results);
 
                     contestantsListModel.setProperty(row, "score_json", contestant.prevResultsScoreJson)
                     contestantsListModel.setProperty(row, "score", contestant.prevResultsScore)
@@ -1276,6 +1277,7 @@ ApplicationWindow {
                         contestantsListModel.setProperty(row, "speedSectionsScoreDetails", curentContestant.speedSectionsScoreDetails);
                         contestantsListModel.setProperty(row, "altitudeSectionsScoreDetails", curentContestant.altitudeSectionsScoreDetails);
                         contestantsListModel.setProperty(row, "poly_results", curentContestant.poly_results);
+                        contestantsListModel.setProperty(row, "circling_results", curentContestant.circling_results);
 
                         contestantsListModel.setProperty(row, "spaceSectionsScoreDetails", curentContestant.spaceSectionsScoreDetails);
 
@@ -1321,6 +1323,7 @@ ApplicationWindow {
                         new_contestant.speedSectionsScoreDetails = curentContestant.speedSectionsScoreDetails;
                         new_contestant.altitudeSectionsScoreDetails = curentContestant.altitudeSectionsScoreDetails;
                         new_contestant.poly_results = curentContestant.poly_results;
+                        new_contestant.circling_results = curentContestant.circling_results;
 
                         new_contestant.spaceSectionsScoreDetails = curentContestant.spaceSectionsScoreDetails;
 
@@ -2034,6 +2037,7 @@ ApplicationWindow {
             "prevResultsScoreJson": "",
             "prevResultsClassify": 0,
             "prevPoly_results": "",
+            "prevCircling_results": "",
 
             // items from igc files model
             "filePath": "",
@@ -2048,6 +2052,7 @@ ApplicationWindow {
             "spaceSectionsScoreDetails" : "",
             "altitudeSectionsScoreDetails" : "",
             "poly_results": "",
+            "circling_results": "",
             "classOrder": -1,
 
             "tgScoreSum": 0,
@@ -2465,6 +2470,7 @@ ApplicationWindow {
                 curCnt.prevResultsAltSec = (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][37]) : "");
                 curCnt.prevResultsSpaceSec = (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][36]) : "");
                 curCnt.prevPoly_results = (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][48]) : "");
+                curCnt.prevCircling_results = (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][49]) : "");
 
                 // check results validity due to the contestant values
                 if (resultsValid(curCnt.speed, curCnt.startTime, curCnt.category, curCnt.filename, MD5.md5(JSON.stringify(trItem)),
@@ -3275,6 +3281,8 @@ ApplicationWindow {
         var section_alt_array = [];
         var section_space_array = [];
 
+        var circling_results = [];
+
         var distance_cumul = 0;
         var sectorCache =  map.sectorCache;
 
@@ -3663,59 +3671,95 @@ ApplicationWindow {
             }
         }
 
-        if (false) { // FIXME disabled (as not reported anyway)
-            console.time("self intersection")
-            if (igc.count > 60) {
-                var last_fix = igc.count - 60; // avoid check of minute after landing
-                var l = 0;
-                var igck1, igck2, igcl1, igcl2;
-                var STEP = 10; // 10 seconds
-                var STEP_DISTANCE = STEP*60; // STEP*60m/s (216 km/h)
+        console.time("self intersection")
+        if (igc.count > 60) {
+            var last_fix = igc.count - 60; // avoid check of minute after landing
+            var l = 0;
+            var igck1, igck2, igcl1, igcl2;
+            var STEP = 10; // 10 seconds
+            var STEP_DISTANCE = STEP*60; // STEP*60m/s (216 km/h)
 
-                igcnext = igc.get(0);
-                for (i = 0; i < last_fix; i+= STEP) {
-                    igcnext = igc.get(i);
 
-                    for (j = i; j < last_fix; j+= STEP) {
-                        var igc2next = igc.get(j);
+            var entry_point_time = 0;
+            if ((tpiData[0] !== undefined) && (tpiData[0].time !== undefined)) {
+                entry_point_time = F.timeToUnix(tpiData[0].time);
+            }
+            var exit_point_time = 86400;
+            var exit_point_index = tpiData.length-1;
+            if ((exit_point_index > 0) && (tpiData[exit_point_index].time !== undefined)) {
+                exit_point_time = F.timeToUnix(tpiData[exit_point_index].time);
+            }
 
-                        distance = F.getDistanceTo(igcnext.lat, igcnext.lon, igc2next.lat, igc2next.lon);
-                        if (distance > STEP_DISTANCE) {
+            console.log(entry_point_time + " " + exit_point_time)
+
+            igcnext = igc.get(0);
+            for (i = 0; i < last_fix; i+= STEP) {
+                igcnext = igc.get(i);
+
+                for (j = i; j < last_fix; j+= STEP) {
+                    var igc2next = igc.get(j);
+
+                    distance = F.getDistanceTo(igcnext.lat, igcnext.lon, igc2next.lat, igc2next.lon);
+                    if (distance > STEP_DISTANCE) {
+                        continue;
+                    }
+
+                    igck2 = igcnext
+                    for (k = i+1;  (k < (i + STEP)); k++) {
+                        igck1 = igck2;
+                        igck2 = igc.get(k);
+                        igcl2 = igc2next;
+
+                        var igck1_time = F.timeToUnix(igck1.time);
+                        if (igck1_time < entry_point_time) {
                             continue;
                         }
+                        if (igck1_time > exit_point_time) {
+                            break;
+                        }
 
-                        igck2 = igcnext
-                        for (k = i+1;  (k < (i + STEP)); k++) {
-                            igck1 = igck2;
-                            igck2 = igc.get(k);
-                            igcl2 = igc2next;
-                            for (l = j+1; l < (j + STEP); l++) {
-                                igcl1 = igcl2;
-                                igcl2 = igc.get(l)
+                        for (l = j+1; l < (j + STEP); l++) {
+                            igcl1 = igcl2;
+                            igcl2 = igc.get(l)
 
-                                distance = F.getDistanceTo(igck1.lat, igck1.lon, igcl1.lat, igcl1.lon);
-                                if (distance > 150) {
-                                    continue;
-                                }
+                            var igcl1_time = F.timeToUnix(igcl1.time);
 
-                                var self_inter = F.lineIntersection(
-                                            igck1.lat, igck1.lon,
-                                            igck2.lat, igck2.lon,
-                                            igcl1.lat, igcl1.lon,
-                                            igcl2.lat, igcl2.lon
-                                            );
-                                if (self_inter) {
-                                    console.log("SELF Intersection: " + igck1.time + " " +igcl1.time + " (distance of fixes " + distance+ ")")
-                                }
+                            if (igcl1_time < entry_point_time) {
+                                continue;
+                            }
+                            if (igcl1_time > exit_point_time) {
+                                continue;
+                            }
 
-                            } // for (l)
-                        } // for (k)
+                            distance = F.getDistanceTo(igck1.lat, igck1.lon, igcl1.lat, igcl1.lon);
+                            if (distance > 150) {
+                                continue;
+                            }
 
-                    } // for (j)
-                } // for (i)
-            }
-            console.timeEnd("self intersection")
+
+                            var self_inter = F.lineIntersection(
+                                        igck1.lat, igck1.lon,
+                                        igck2.lat, igck2.lon,
+                                        igcl1.lat, igcl1.lon,
+                                        igcl2.lat, igcl2.lon
+                                        );
+                            if (self_inter) {
+                                console.log("SELF Intersection: " + contestant.name + " " + igck1.time + " " +igcl1.time + " (distance of fixes " + distance+ ")")
+                                circling_results.push({
+                                                          time1: igck1.time,
+                                                          time2: igcl1.time,
+                                                          lat: igck1.lat, // fixme position of intersection
+                                                          lon: igck1.lon,
+                                                      })
+                            }
+
+                        } // for (l)
+                    } // for (k)
+
+                } // for (j)
+            } // for (i)
         }
+        console.timeEnd("self intersection")
 
         var wptString = [];
         contestantsListModel.setProperty(current, "trackHash", "");
@@ -3724,6 +3768,7 @@ ApplicationWindow {
         contestantsListModel.setProperty(current, "spaceSectionsScoreDetails", "");
         contestantsListModel.setProperty(current, "altitudeSectionsScoreDetails", "");
         contestantsListModel.setProperty(current, "poly_results", "");
+        contestantsListModel.setProperty(current, "circling_results", "");
 
         var category_alt_penalty = trItem.alt_penalty;
         var category_marker_max_score = trItem.marker_max_score;
@@ -4020,6 +4065,7 @@ ApplicationWindow {
         contestantsListModel.setProperty(current, "spaceSectionsScoreDetails", JSON.stringify(new_section_space_array));
         contestantsListModel.setProperty(current, "altitudeSectionsScoreDetails", JSON.stringify(new_section_alt_array));
         contestantsListModel.setProperty(current, "poly_results", JSON.stringify(poly_results));
+        contestantsListModel.setProperty(current, "circling_results", JSON.stringify(circling_results));
 
 
         contestantsListModel.setProperty(current, "score_json", JSON.stringify(dataArr))
@@ -4064,6 +4110,7 @@ ApplicationWindow {
         contestantsListModel.setProperty(ctntIndex, "prevResultsSpaceSec", contestant.spaceSectionsScoreDetails);
         contestantsListModel.setProperty(ctntIndex, "prevResultsAltSec", contestant.altitudeSectionsScoreDetails);
         contestantsListModel.setProperty(ctntIndex, "prevPoly_results", contestant.poly_results)
+        contestantsListModel.setProperty(ctntIndex, "prevCircling_results", contestant.circling_results)
         contestantsListModel.setProperty(ctntIndex, "prevResultsMarkersOk", contestant.markersOk);
         contestantsListModel.setProperty(ctntIndex, "prevResultsMarkersNok", contestant.markersNok);
         contestantsListModel.setProperty(ctntIndex, "prevResultsMarkersFalse", contestant.markersFalse);
@@ -4172,6 +4219,7 @@ ApplicationWindow {
             str += "\"" + ct.oppositeCount + "\";"
             str += "\"" + ct.oppositeScore + "\";"
             str += "\"" + F.replaceDoubleQuotes(ct.poly_results) + "\";"
+            str += "\"" + F.replaceDoubleQuotes(ct.circling_results) + "\";"
 
             str += "\n";
         }
