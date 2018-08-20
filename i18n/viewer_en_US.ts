@@ -1858,11 +1858,11 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
     </message>
     <message id="results-window-dialog-circling-time1">
         <source>Time</source>
-        <translation>Time</translation>
+        <translation type="vanished">Time</translation>
     </message>
     <message id="results-window-dialog-circling-time2">
         <source>Time</source>
-        <translation>Time</translation>
+        <translation type="vanished">Time</translation>
     </message>
     <message id="results-window-dialog-circling-lon">
         <source>Longitude</source>
@@ -1872,6 +1872,14 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
     <message id="results-window-dialog-circling-lat">
         <source>Latitude</source>
         <translation>Latitude</translation>
+    </message>
+    <message id="results-window-dialog-circling-first-time">
+        <source>First Time</source>
+        <translation>First time</translation>
+    </message>
+    <message id="results-window-dialog-circling-second-time">
+        <source>Second Time</source>
+        <translation>Second time</translation>
     </message>
 </context>
 <context>

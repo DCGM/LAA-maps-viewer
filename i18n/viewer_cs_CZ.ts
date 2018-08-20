@@ -1862,11 +1862,11 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
     </message>
     <message id="results-window-dialog-circling-time1">
         <source>Time</source>
-        <translation>Čas</translation>
+        <translation type="vanished">Čas</translation>
     </message>
     <message id="results-window-dialog-circling-time2">
         <source>Time</source>
-        <translation>Čas</translation>
+        <translation type="vanished">Čas</translation>
     </message>
     <message id="results-window-dialog-circling-lon">
         <source>Longitude</source>
@@ -1876,6 +1876,14 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
     <message id="results-window-dialog-circling-lat">
         <source>Latitude</source>
         <translation>Zeměpisná šířka</translation>
+    </message>
+    <message id="results-window-dialog-circling-first-time">
+        <source>First Time</source>
+        <translation>První čas</translation>
+    </message>
+    <message id="results-window-dialog-circling-second-time">
+        <source>Second Time</source>
+        <translation>Druhý čas</translation>
     </message>
 </context>
 <context>

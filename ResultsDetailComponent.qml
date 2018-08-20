@@ -1593,10 +1593,10 @@ Rectangle {
 
                 }
 
-                //% "Time"
-                TableViewColumn {title: qsTrId("results-window-dialog-circling-time1"); role: "time1"; width: 90;}
-                //% "Time"
-                TableViewColumn {title: qsTrId("results-window-dialog-circling-time2"); role: "time2"; width: 90;}
+                //% "First Time"
+                TableViewColumn {title: qsTrId("results-window-dialog-circling-first-time"); role: "time1"; width: 90;}
+                //% "Second Time"
+                TableViewColumn {title: qsTrId("results-window-dialog-circling-second-time"); role: "time2"; width: 90;}
                 //% "Latitude"
                 TableViewColumn {title: qsTrId("results-window-dialog-circling-lat"); role: "lat"; width: 150;}
                 //% "Longitude"
