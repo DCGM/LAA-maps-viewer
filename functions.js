@@ -391,6 +391,14 @@ function manhatanDistance(a_x, a_y, b_x, b_y) {
 }
 
 function lineIntersection(Ax, Ay, Bx, By, Cx, Cy, Dx, Dy) {
+    Ax = Number(Ax);
+    Ay = Number(Ay);
+    Bx = Number(Bx);
+    By = Number(By);
+    Cx = Number(Cx);
+    Cy = Number(Cy);
+    Dx = Number(Dx);
+    Dy = Number(Dy);
 
     //  Fail if either line is undefined.
     if (Ax===Bx && Ay===By || Cx===Dx && Cy===Dy) return false;
@@ -426,11 +434,11 @@ function lineIntersection(Ax, Ay, Bx, By, Cx, Cy, Dx, Dy) {
     if (ABpos<0. || ABpos>distAB) return false;
 
     //  (4) Apply the discovered position to line A-B in the original coordinate system.
-    var X=Ax+ABpos*theCos;
-    var Y=Ay+ABpos*theSin;
+    var X = (Number(Ax) + ABpos*theCos);
+    var Y = Ay + ABpos*theSin;
 
     //  Success.
-    return true;
+    return {x: X, y: Y};
 
 }
 

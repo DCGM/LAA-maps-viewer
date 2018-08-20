@@ -3436,7 +3436,7 @@ ApplicationWindow {
 
                     var gate_inter = F.lineIntersection(parseFloat(igcthis.lat), parseFloat(igcthis.lon), parseFloat(igcnext.lat), parseFloat(igcnext.lon), ti.gateALat, ti.gateALon, ti.gateBLat, ti.gateBLon);
 
-                    if (gate_inter) {
+                    if (gate_inter !== false) {
 
                         var angle_low = ti.angle + 180;
                         var angle_high = angle_low + 180;
@@ -3623,7 +3623,7 @@ ApplicationWindow {
                     }
                     var gate_inter = F.lineIntersection(parseFloat(igcthis.lat), parseFloat(igcthis.lon), parseFloat(igcnext.lat), parseFloat(igcnext.lon), ti.gateALat, ti.gateALon, ti.gateBLat, ti.gateBLon);
 
-                    if (gate_inter) {
+                    if (gate_inter !== false) {
                         for (k = 0; k < section_alt_array_length; k++) {
                             section = section_alt_array[k]
                             if (section.end === ti.tid) {
@@ -3678,7 +3678,6 @@ ApplicationWindow {
             var STEP = 10; // 10 seconds
             var STEP_DISTANCE = STEP*60; // STEP*60m/s (216 km/h)
 
-
             var entry_point_time = 0;
             if ((tpiData[0] !== undefined) && (tpiData[0].time !== undefined)) {
                 entry_point_time = F.timeToUnix(tpiData[0].time);
@@ -3689,7 +3688,6 @@ ApplicationWindow {
                 exit_point_time = F.timeToUnix(tpiData[exit_point_index].time);
             }
 
-            igcnext = igc.get(0);
             for (i = 0; i < last_fix; i+= STEP) {
                 igcnext = igc.get(i);
 
@@ -3740,13 +3738,13 @@ ApplicationWindow {
                                         igcl1.lat, igcl1.lon,
                                         igcl2.lat, igcl2.lon
                                         );
-                            if (self_inter) {
-                                console.log("SELF Intersection: " + contestant.name + " " + igck1.time + " " +igcl1.time + " (distance of fixes " + distance+ ")")
+                            if (self_inter !== false) {
+                                console.log("SELF Intersection: " + contestant.name + " " + igck1.time + " " +igcl1.time + " (distance of fixes " + distance+ ")" )
                                 circling_results.push({
                                                           time1: igck1.time,
                                                           time2: igcl1.time,
-                                                          lat: igck1.lat, // fixme position of intersection
-                                                          lon: igck1.lon,
+                                                          lat: self_inter.x, // fixme position of intersection
+                                                          lon: self_inter.y,
                                                       })
                             }
 
