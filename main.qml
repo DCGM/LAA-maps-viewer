@@ -1495,7 +1495,7 @@ ApplicationWindow {
                 currentPositionShow: true;
 
                 onTpiComputedData:  {
-                    if (!resultsDetailComponent.visible && !resultsExporterTimer.running) {
+                    if (!updateContestantMenu.menuVisible && !resultsExporterTimer.running) {
                         //computeScore(tpi, polys)
                         computingTimer.tpi = tpi;
                         computingTimer.polys = polys;

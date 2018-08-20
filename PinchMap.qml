@@ -757,7 +757,6 @@ Rectangle {
 
 
             if (trackModel === undefined ) {
-                console.warn("trackModel is undefined")
                 return;
             }
 
@@ -1426,8 +1425,6 @@ Rectangle {
                     ctx.lineTo(screenPoint[0], screenPoint[1])
                 }
                 ctx.stroke();
-            } else {
-                console.warn("gpsModel is undefined")
             }
 
             ctx.restore();

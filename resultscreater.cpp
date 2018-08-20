@@ -205,7 +205,7 @@ void ResultsCreater::createStartListHTML(const QString &filename,
                                          const QStringList &cntList,
                                          const QString &competitionName,
                                          const int utc_offset_sec) {
-
+    Q_UNUSED(competitionName)
     QJsonDocument jsonResponse;
     QJsonObject jsonObject;
     QString html = "";
