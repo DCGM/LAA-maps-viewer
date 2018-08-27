@@ -47,7 +47,6 @@ ApplicationWindow {
         Menu {
             //% "&File"
             title: qsTrId("main-file-menu")
-
             MenuItem {
                 //% "&Settings"
                 text: qsTrId("main-file-menu-settings")
@@ -874,16 +873,7 @@ ApplicationWindow {
                 contestant = contestantsListModel.get(row);
 
                 // no results for this values
-                if (contestant.filename === "" || !resultsValid(contestant.speed,
-                                                                contestant.startTime,
-                                                                contestant.category,
-                                                                contestant.filename,
-                                                                MD5.md5(JSON.stringify(trItem)),
-                                                                contestant.prevResultsSpeed,
-                                                                contestant.prevResultsStartTime,
-                                                                contestant.prevResultsCategory,
-                                                                contestant.prevResultsFilename,
-                                                                contestant.prevResultsTrackHas)) {
+                if (!applyPrevResultsSingle(row, contestant)) { // does resultsValid()
 
                     contestantsListModel.setProperty(row, "score", "");        //compute new score
                     contestantsListModel.setProperty(row, "scorePoints", -1);
@@ -894,49 +884,9 @@ ApplicationWindow {
                     //contestantsListModel.setProperty(row, "altitudeSectionsScoreDetails", contestant.prevResultsAltSec);
                     contestantsListModel.setProperty(row, "score_json", "");
                     contestantsListModel.setProperty(row, "trackHash", "");
-                }
-                // load prev results
-                else {
 
-                    contestantsListModel.setProperty(row, "markersScore", contestant.prevResultsMarkersScore);
-                    contestantsListModel.setProperty(row, "photosScore", contestant.prevResultsPhotosScore);
-                    contestantsListModel.setProperty(row, "startTimeDifference", contestant.prevResultsStartTimeDifference);
-                    contestantsListModel.setProperty(row, "startTimeScore", contestant.prevResultsStartTimeScore);
-                    //contestantsListModel.setProperty(row, "circlingScore", contestant.prevResultsCirclingScore);
-                    contestantsListModel.setProperty(row, "oppositeScore", contestant.prevResultsOppositeScore);
-                    contestantsListModel.setProperty(row, "tgScoreSum", contestant.prevResultsTgScoreSum);
-                    contestantsListModel.setProperty(row, "tpScoreSum", contestant.prevResultsTpScoreSum);
-                    contestantsListModel.setProperty(row, "sgScoreSum", contestant.prevResultsSgScoreSum);
-                    contestantsListModel.setProperty(row, "altLimitsScoreSum", contestant.prevResultsAltLimitsScoreSum);
-                    contestantsListModel.setProperty(row, "speedSecScoreSum", contestant.prevResultsSpeedSecScoreSum);
-                    contestantsListModel.setProperty(row, "altSecScoreSum", contestant.prevResultsAltSecScoreSum);
-                    contestantsListModel.setProperty(row, "spaceSecScoreSum", contestant.prevResultsSpaceSecScoreSum);
-                    contestantsListModel.setProperty(row, "markersOk", contestant.prevResultsMarkersOk);
-                    contestantsListModel.setProperty(row, "markersNok", contestant.prevResultsMarkersNok);
-                    contestantsListModel.setProperty(row, "markersFalse", contestant.prevResultsMarkersFalse);
-                    contestantsListModel.setProperty(row, "photosOk", contestant.prevResultsPhotosOk);
-                    contestantsListModel.setProperty(row, "photosNok", contestant.prevResultsPhotosNok);
-                    contestantsListModel.setProperty(row, "photosFalse", contestant.prevResultsPhotosFalse);
-                    contestantsListModel.setProperty(row, "startTimeMeasured", contestant.prevResultsStartTimeMeasured);
-                    contestantsListModel.setProperty(row, "landingScore", contestant.prevResultsLandingScore);
-                    //contestantsListModel.setProperty(row, "circlingCount", contestant.prevResultsCirclingCount);
-                    contestantsListModel.setProperty(row, "oppositeCount", contestant.prevResultsOppositeCount);
-                    contestantsListModel.setProperty(row, "otherPoints", contestant.prevResultsOtherPoints);
-                    contestantsListModel.setProperty(row, "otherPenalty", contestant.prevResultsOtherPenalty);
-                    contestantsListModel.setProperty(row, "pointNote", contestant.prevResultsPointNote);
+                    console.log("Recompute score for " + contestant.name + " (filename === \"\" || !resultValid)");
 
-                    contestantsListModel.setProperty(row, "trackHash", contestant.prevResultsTrackHas);
-                    contestantsListModel.setProperty(row, "wptScoreDetails", contestant.prevResultsWPT);
-                    contestantsListModel.setProperty(row, "speedSectionsScoreDetails", contestant.prevResultsSpeedSec);
-                    contestantsListModel.setProperty(row, "spaceSectionsScoreDetails", contestant.prevResultsSpaceSec);
-                    contestantsListModel.setProperty(row, "altitudeSectionsScoreDetails", contestant.prevResultsAltSec);
-//                    console.log ("prevPolyResults"contestant.prevPoly_results)
-                    contestantsListModel.setProperty(row, "poly_results", contestant.prevPoly_results);
-                    contestantsListModel.setProperty(row, "circling_results", contestant.prevCircling_results);
-
-                    contestantsListModel.setProperty(row, "score_json", contestant.prevResultsScoreJson)
-                    contestantsListModel.setProperty(row, "score", contestant.prevResultsScore)
-                    contestantsListModel.setProperty(row, "scorePoints", contestant.prevResultsScorePoints);
                 }
 
                 // recalculate manual values score / markers, photos, ...
@@ -2094,7 +2044,7 @@ ApplicationWindow {
         return user;
     }
 
-    function loadContestants(filename) {
+    function loadContestants(filename) { // posadky.csv
         contestantsTable.selection.clear();
 
         var f_data = file_reader.read(Qt.resolvedUrl(filename));
@@ -2150,6 +2100,7 @@ ApplicationWindow {
 
                 // append into list model
                 contestantsListModel.append(new_contestant);
+
             }
         }
 
@@ -2509,12 +2460,85 @@ ApplicationWindow {
                     curCnt.prevResultsScorePoints = (csvFileFromOffice ? parseInt(resultsCSV[j][17]) : -1);
                     curCnt.prevResultsScore = (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][39]) : "");
                     curCnt.prevResultsScoreJson = (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][40]) : "");
+
                 }
 
                 // save changes
                 contestantsListModel.set(i, curCnt);
             }
         }
+    }
+
+    function applyPrevResults() {
+        for (var i = 0; i < contestantsListModel.count; i++) {
+            var contestant = contestantsListModel.get(i)
+            applyPrevResultsSingle(i, contestant);
+        }
+    }
+
+    function applyPrevResultsSingle(row, contestant) {
+        // load contestant category
+        var trItem = [];
+        for (var t = 0; t < tracks.tracks.length; t++) {
+
+            if (tracks.tracks[t].name === contestant.category) {
+                trItem = tracks.tracks[t];
+            }
+        }
+        var valid = (contestant.filename !== "" && resultsValid(contestant.speed,
+                                                        contestant.startTime,
+                                                        contestant.category,
+                                                        contestant.filename,
+                                                        MD5.md5(JSON.stringify(trItem)),
+                                                        contestant.prevResultsSpeed,
+                                                        contestant.prevResultsStartTime,
+                                                        contestant.prevResultsCategory,
+                                                        contestant.prevResultsFilename,
+                                                        contestant.prevResultsTrackHas));
+        if (valid) {
+
+            contestantsListModel.setProperty(row, "markersScore", contestant.prevResultsMarkersScore);
+            contestantsListModel.setProperty(row, "photosScore", contestant.prevResultsPhotosScore);
+            contestantsListModel.setProperty(row, "startTimeDifference", contestant.prevResultsStartTimeDifference);
+            contestantsListModel.setProperty(row, "startTimeScore", contestant.prevResultsStartTimeScore);
+            //contestantsListModel.setProperty(row, "circlingScore", contestant.prevResultsCirclingScore);
+            contestantsListModel.setProperty(row, "oppositeScore", contestant.prevResultsOppositeScore);
+            contestantsListModel.setProperty(row, "tgScoreSum", contestant.prevResultsTgScoreSum);
+            contestantsListModel.setProperty(row, "tpScoreSum", contestant.prevResultsTpScoreSum);
+            contestantsListModel.setProperty(row, "sgScoreSum", contestant.prevResultsSgScoreSum);
+            contestantsListModel.setProperty(row, "altLimitsScoreSum", contestant.prevResultsAltLimitsScoreSum);
+            contestantsListModel.setProperty(row, "speedSecScoreSum", contestant.prevResultsSpeedSecScoreSum);
+            contestantsListModel.setProperty(row, "altSecScoreSum", contestant.prevResultsAltSecScoreSum);
+            contestantsListModel.setProperty(row, "spaceSecScoreSum", contestant.prevResultsSpaceSecScoreSum);
+            contestantsListModel.setProperty(row, "markersOk", contestant.prevResultsMarkersOk);
+            contestantsListModel.setProperty(row, "markersNok", contestant.prevResultsMarkersNok);
+            contestantsListModel.setProperty(row, "markersFalse", contestant.prevResultsMarkersFalse);
+            contestantsListModel.setProperty(row, "photosOk", contestant.prevResultsPhotosOk);
+            contestantsListModel.setProperty(row, "photosNok", contestant.prevResultsPhotosNok);
+            contestantsListModel.setProperty(row, "photosFalse", contestant.prevResultsPhotosFalse);
+            contestantsListModel.setProperty(row, "startTimeMeasured", contestant.prevResultsStartTimeMeasured);
+            contestantsListModel.setProperty(row, "landingScore", contestant.prevResultsLandingScore);
+//            contestantsListModel.setProperty(row, "circlingCount", contestant.prevResultsCirclingCount);
+            contestantsListModel.setProperty(row, "oppositeCount", contestant.prevResultsOppositeCount);
+            contestantsListModel.setProperty(row, "otherPoints", contestant.prevResultsOtherPoints);
+            contestantsListModel.setProperty(row, "otherPenalty", contestant.prevResultsOtherPenalty);
+            contestantsListModel.setProperty(row, "pointNote", contestant.prevResultsPointNote);
+
+            contestantsListModel.setProperty(row, "trackHash", contestant.prevResultsTrackHas);
+            contestantsListModel.setProperty(row, "wptScoreDetails", contestant.prevResultsWPT);
+            contestantsListModel.setProperty(row, "speedSectionsScoreDetails", contestant.prevResultsSpeedSec);
+            contestantsListModel.setProperty(row, "spaceSectionsScoreDetails", contestant.prevResultsSpaceSec);
+            contestantsListModel.setProperty(row, "altitudeSectionsScoreDetails", contestant.prevResultsAltSec);
+//            console.log ("prevPolyResults"contestant.prevPoly_results)
+            contestantsListModel.setProperty(row, "poly_results", contestant.prevPoly_results);
+            contestantsListModel.setProperty(row, "circling_results", contestant.prevCircling_results);
+
+            contestantsListModel.setProperty(row, "score_json", contestant.prevResultsScoreJson)
+            contestantsListModel.setProperty(row, "score", contestant.prevResultsScore)
+            contestantsListModel.setProperty(row, "scorePoints", contestant.prevResultsScorePoints);
+        }
+
+        return valid;
     }
 
     // function show results in local web viewer
@@ -2845,7 +2869,7 @@ ApplicationWindow {
     // recalculate score points for manual values - markers, photos, indirection flight,...
     function recalculateContestnatManualScoreValues(row) {
 
-        ctnt = contestantsListModel.get(row);
+        var ctnt = contestantsListModel.get(row);
 
         //calc contestant manual values score - markers, photos,..
         ctnt.markersScore = getMarkersScore(ctnt.markersOk, ctnt.markersNok, ctnt.markersFalse, trItem.marker_max_score);
@@ -3695,8 +3719,8 @@ ApplicationWindow {
 
         console.time("self intersection")
 
-//        circling_results = self_intersetion_calculate(entry_point_time, exit_point_time);
-        circling_results = self_intersetion_calculate2(entry_point_time, exit_point_time);
+//        circling_results = self_intersetion_calculate(entry_point_time, exit_point_time); // very slow implementation
+        circling_results = self_intersetion_calculate2(entry_point_time, exit_point_time); // FIXME
 
         console.timeEnd("self intersection")
 
@@ -4019,8 +4043,6 @@ ApplicationWindow {
         contestantsListModel.setProperty(current, "scorePoints", score);
         recalculateScoresTo1000();
 
-        var contestant = contestantsListModel.get(current);
-
         // save current results property
         contestantsListModel.setProperty(current, "prevResultsSpeed", contestant.speed);
         contestantsListModel.setProperty(current, "prevResultsStartTime", contestant.startTime);
@@ -4177,6 +4199,7 @@ ApplicationWindow {
         contestantsListModel.setProperty(ctntIndex, "prevResultsAltSec", contestant.altitudeSectionsScoreDetails);
         contestantsListModel.setProperty(ctntIndex, "prevPoly_results", contestant.poly_results)
         contestantsListModel.setProperty(ctntIndex, "prevCircling_results", contestant.circling_results)
+
         contestantsListModel.setProperty(ctntIndex, "prevResultsMarkersOk", contestant.markersOk);
         contestantsListModel.setProperty(ctntIndex, "prevResultsMarkersNok", contestant.markersNok);
         contestantsListModel.setProperty(ctntIndex, "prevResultsMarkersFalse", contestant.markersFalse);
@@ -4184,6 +4207,7 @@ ApplicationWindow {
         contestantsListModel.setProperty(ctntIndex, "prevResultsPhotosNok", contestant.photosNok);
         contestantsListModel.setProperty(ctntIndex, "prevResultsPhotosFalse", contestant.photosFalse);
         contestantsListModel.setProperty(ctntIndex, "prevResultsStartTimeMeasured", contestant.startTimeMeasured);
+        // FIXME prevResultsStartTimeDifference ?
         contestantsListModel.setProperty(ctntIndex, "prevResultsStartTimeDifference",  contestant.startTimeDifference);
         contestantsListModel.setProperty(ctntIndex, "prevResultsLandingScore", contestant.landingScore);
         //contestantsListModel.setProperty(ctntIndex, "circlingCount", item.prevResultsCirclingCount);
@@ -4276,7 +4300,7 @@ ApplicationWindow {
             str += "\"" + F.replaceDoubleQuotes(ct.altitudeSectionsScoreDetails) + "\";"
             str += "\"" + F.addSlashes(ct.filename) + "\";"
             str += "\"" + F.replaceDoubleQuotes(ct.score) + "\";"
-            str += "\"" + F.replaceDoubleQuotes(ct.score_json) + "\";"
+            str += "\"" + F.replaceDoubleQuotes(ct.score_json) + "\";" // 40
             str += "\"" + ct.markersScore + "\";"
             str += "\"" + ct.photosScore + "\";"
             str += "\"" + ct.startTimeDifference + "\";"
@@ -4964,6 +4988,7 @@ ApplicationWindow {
 
                     loadContestants(Qt.resolvedUrl(pathConfiguration.contestantsFile))
                     loadPrevResults();
+                    applyPrevResults();
                 }
 
                 // load igc
@@ -5451,17 +5476,28 @@ ApplicationWindow {
 
     function test_self_intersetion_calculate2() {
         console.log("running test")
-        var igc_path = "file:///home/jmlich/workspace/tucek/migration/53-LKHB/igcFiles/321T01V1R1_LENGAL1.igc"
-        var clipStartTime = "07:35:00";
+        var igc_path, clipStartTime, entry_point_time, exit_point_time;
+        if (0) { // Mikolajek
+            igc_path = "file:///home/jmlich/workspace/tucek/migration/53-LKHB/igcFiles/321T01V1R1_LENGAL1.igc"
+            clipStartTime = "07:35:00";
+            entry_point_time = 27667;
+            exit_point_time = 31322;
+        } else if (1) {
+            // Zeman Prokop
+            igc_path = "file:///home/jmlich/workspace/tucek/migration/53-LKHB/igcFiles/222T01V1R1_CHVOJKA1.igc"
+            clipStartTime = "09:06:00";
+            entry_point_time = 33118;
+            exit_point_time = 35546;
+        }
+
         igc.load( file_reader.toLocal(Qt.resolvedUrl(igc_path)), clipStartTime , true);
-        var entry_point_time = 27667;
-        var exit_point_time = 31322;
-        var arr1 = [], arr_ref = [];
+
+        var arr1 = [];
 
         console.time("self intersection")
         arr1 = self_intersetion_calculate2(entry_point_time, exit_point_time);
-//        arr1 = self_intersetion_calculate(entry_point_time, exit_point_time);
-        //        file_reader.write_local("int1.json", JSON.stringify(arr1));
+//        arr1 = self_intersetion_calculate(entry_point_time, exit_point_time); // slow method
+//        file_reader.write_local("int1.json", JSON.stringify(arr1));
 
         console.timeEnd("self intersection")
 
