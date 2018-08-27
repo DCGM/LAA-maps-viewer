@@ -391,14 +391,6 @@ function manhatanDistance(a_x, a_y, b_x, b_y) {
 }
 
 function lineIntersection(Ax, Ay, Bx, By, Cx, Cy, Dx, Dy) {
-    Ax = Number(Ax);
-    Ay = Number(Ay);
-    Bx = Number(Bx);
-    By = Number(By);
-    Cx = Number(Cx);
-    Cy = Number(Cy);
-    Dx = Number(Dx);
-    Dy = Number(Dy);
 
     //  Fail if either line is undefined.
     if (Ax===Bx && Ay===By || Cx===Dx && Cy===Dy) return false;

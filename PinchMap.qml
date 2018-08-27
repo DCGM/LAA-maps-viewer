@@ -837,8 +837,8 @@ Rectangle {
                                 if (tmp.length > 2) {
                                     var tmpFirst = tmp[0];
                                     var tmpLast = tmp[tmp.length-1];
-                                    var firstDistance = F.getDistanceTo(tmpFirst[0], tmpFirst[1], item.lat, item.lon);
-                                    var lastDistance = F.getDistanceTo(tmpLast[0], tmpLast[1], item.lat, item.lon);
+                                    var firstDistance = igc.getDistanceTo(tmpFirst[0], tmpFirst[1], item.lat, item.lon);
+                                    var lastDistance = igc.getDistanceTo(tmpLast[0], tmpLast[1], item.lat, item.lon);
 
                                     if (firstDistance > lastDistance) {
                                         angle = ((F.getBearingTo(prevItem.lat, prevItem.lon, tmpFirst[0], tmpFirst[1])+90)%360);
@@ -873,7 +873,7 @@ Rectangle {
                         }
 
                         screenPoint = getMappointFromCoord(item.lat, item.lon)
-                        var distance = F.getDistanceTo(item.lat, item.lon, prevItem.lat, prevItem.lon);
+                        var distance = igc.getDistanceTo(item.lat, item.lon, prevItem.lat, prevItem.lon);
                         var angle = ((F.getBearingTo(prevItem.lat, prevItem.lon, item.lat, item.lon)+90)%360);
 
                         polygonCachePoints.push({"lat": prevItem.lat, "lon": prevItem.lon})
@@ -906,10 +906,10 @@ Rectangle {
                                     var screenPoint2 = getMappointFromCoord(selPolyItem.lat, selPolyItem.lon)
                                     ctx.lineTo(screenPoint2[0], screenPoint2[1])
                                     polygonCachePoints.push({"lat": selPolyItem.lat, "lon": selPolyItem.lon})
-                                    distance = distance + F.getDistanceTo(selPolyItem.lat, selPolyItem.lon, prevPolyItem.lat, prevPolyItem.lon);
+                                    distance = distance + igc.getDistanceTo(selPolyItem.lat, selPolyItem.lon, prevPolyItem.lat, prevPolyItem.lon);
                                     prevPolyItem = selPolyItem;
                                 }
-                                distance = distance + F.getDistanceTo(prevPolyItem.lat, prevPolyItem.lon, item.lat, item.lon)
+                                distance = distance + igc.getDistanceTo(prevPolyItem.lat, prevPolyItem.lon, item.lat, item.lon)
                                 angle = ((F.getBearingTo(prevPolyItem.lat, prevPolyItem.lon, item.lat, item.lon)+90)%360);
 
                                 ctx.lineTo(screenPoint[0], screenPoint[1])
@@ -938,14 +938,14 @@ Rectangle {
                                 if (tmp.length > 2) {
                                     var tmpFirst = tmp[0];
                                     var tmpLast = tmp[tmp.length-1];
-                                    var firstDistance = F.getDistanceTo(tmpFirst[0], tmpFirst[1], item.lat, item.lon);
-                                    var lastDistance = F.getDistanceTo(tmpLast[0], tmpLast[1], item.lat, item.lon);
+                                    var firstDistance = igc.getDistanceTo(tmpFirst[0], tmpFirst[1], item.lat, item.lon);
+                                    var lastDistance = igc.getDistanceTo(tmpLast[0], tmpLast[1], item.lat, item.lon);
 
                                     if (firstDistance > lastDistance) {
                                         for (var k = 0; k < tmp.length; k++) {
                                             var arcItem = tmp[k]
                                             var screenPoint2 = getMappointFromCoord(arcItem[0], arcItem[1]);
-                                            distance = distance + F.getDistanceTo(arcItem[0], arcItem[1], prevArcItem[0], prevArcItem[1]);
+                                            distance = distance + igc.getDistanceTo(arcItem[0], arcItem[1], prevArcItem[0], prevArcItem[1]);
 
                                             ctx.lineTo(screenPoint2[0], screenPoint2[1])
                                             polygonCachePoints.push({"lat": arcItem[0], "lon": arcItem[1]})
@@ -955,7 +955,7 @@ Rectangle {
                                         for (var k = tmp.length-1; k >=0; k--) {
                                             var arcItem = tmp[k]
                                             var screenPoint2 = getMappointFromCoord(arcItem[0], arcItem[1]);
-                                            distance = distance + F.getDistanceTo(arcItem[0], arcItem[1], prevArcItem[0], prevArcItem[1]);
+                                            distance = distance + igc.getDistanceTo(arcItem[0], arcItem[1], prevArcItem[0], prevArcItem[1]);
                                             ctx.lineTo(screenPoint2[0], screenPoint2[1])
                                             polygonCachePoints.push({"lat": arcItem[0], "lon": arcItem[1]})
                                             prevArcItem = arcItem
@@ -963,7 +963,7 @@ Rectangle {
                                     }
 
                                     angle = ((F.getBearingTo(prevArcItem[0], prevArcItem[1], item.lat, item.lon)+90)%360);
-                                    distance = distance + F.getDistanceTo(item.lat, item.lon, prevArcItem[0], prevArcItem[1]);
+                                    distance = distance + igc.getDistanceTo(item.lat, item.lon, prevArcItem[0], prevArcItem[1]);
 
                                     ctx.lineTo(screenPoint[0], screenPoint[1])
                                     polygonCachePoints.push({"lat": item.lat, "lon": item.lon})
@@ -1533,7 +1533,7 @@ Rectangle {
                         var item = pointsListModel.get(i);
                         var screen = getScreenpointFromCoord(item.lat, item.lon)
                         var distance = F.euclidDistance(screen[0], screen[1], mouse.x, mouse.y);
-                        //                                F.getDistanceTo(item.lat, item.lon, c[0], c[1]);
+                        //                                igc.getDistanceTo(item.lat, item.lon, c[0], c[1]);
                         if (distance < minDistance) {
                             minIndex = i;
                             minDistance = distance;
@@ -1633,7 +1633,7 @@ Rectangle {
                     if ((gpsModel !== undefined) && (gpsModel.count > 2)) {
                         for (i = 0; i < gpsModel.count; i++) {
                             item = gpsModel.get(i);
-                            var dist = F.getDistanceTo(click_coord[0], click_coord[1], item.lat, item.lon);
+                            var dist = igc.getDistanceTo(click_coord[0], click_coord[1], item.lat, item.lon);
                             if (dist < minDist) {
                                 minDist = dist;
                                 minIndex = i;
@@ -1656,7 +1656,7 @@ Rectangle {
                 }
 
                 //                var pos = getCoordFromScreenpoint(mouse.x, mouse.y)
-                //                distanceToMouse = F.getDistanceTo(pos[0], pos[1], currentPositionLat, currentPositionLon);
+                //                distanceToMouse = igc.getDistanceTo(pos[0], pos[1], currentPositionLat, currentPositionLon);
 
 
                 if (showRuler) {
@@ -1664,8 +1664,8 @@ Rectangle {
                     ruler.endPoint = getMappointFromCoord(pos[0], pos[1])
 
                     var posFirst = getCoordFromScreenpoint(__firstX, __firstY);
-                    rulerDistance = F.getDistanceTo(pos[0], pos[1], posFirst[0], posFirst[1])
-                    ruler.distance = F.getDistanceTo(pos[0], pos[1], posFirst[0], posFirst[1]).toFixed(1) + " m"
+                    rulerDistance = igc.getDistanceTo(pos[0], pos[1], posFirst[0], posFirst[1])
+                    ruler.distance = igc.getDistanceTo(pos[0], pos[1], posFirst[0], posFirst[1]).toFixed(1) + " m"
 
                 }
 

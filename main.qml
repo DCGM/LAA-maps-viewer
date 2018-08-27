@@ -3436,7 +3436,7 @@ ApplicationWindow {
                     var ti = tpiData[j]
 
 
-                    var distance = F.getDistanceTo(ti.lat, ti.lon, igcnext.lat, igcnext.lon);
+                    var distance = igc.getDistanceTo(ti.lat, ti.lon, igcnext.lat, igcnext.lon);
                     if (distance > (ti.radius + 500)) {
                         continue;
                     }
@@ -3566,7 +3566,7 @@ ApplicationWindow {
                                         }
 
                                         var proj = F.projectionPointToLineLatLon(point.lat, point.lon, prevPoint.lat, prevPoint.lon, parseFloat(igcthis.lat), parseFloat(igcthis.lon))
-                                        var distance = F.getDistanceTo(proj[0], proj[1], parseFloat(igcthis.lat), parseFloat(igcthis.lon));
+                                        var distance = igc.getDistanceTo(proj[0], proj[1], parseFloat(igcthis.lat), parseFloat(igcthis.lon));
 
                                         mindistance = Math.min(distance, mindistance);
                                         prevPoint = point;
@@ -3629,7 +3629,7 @@ ApplicationWindow {
 
                 for (j = 0; j < tpiData.length; j++) {
                     var ti = tpiData[j]
-                    var distance = F.getDistanceTo(ti.lat, ti.lon, igcnext.lat, igcnext.lon);
+                    var distance = igc.getDistanceTo(ti.lat, ti.lon, igcnext.lat, igcnext.lon);
                     if (distance > (ti.radius + 500)) {
                         continue;
                     }
@@ -3682,91 +3682,24 @@ ApplicationWindow {
             }
         }
 
-        console.time("self intersection")
-        if (igc.count > 60) {
-            var last_fix = igc.count - 60; // avoid check of minute after landing
-            var l = 0;
-            var igck1, igck2, igcl1, igcl2;
-            var STEP = 10; // 10 seconds
-            var STEP_DISTANCE = STEP*60; // STEP*60m/s (216 km/h)
-
-            var entry_point_time = 0;
-            if ((tpiData[0] !== undefined) && (tpiData[0].time !== undefined)) {
-                entry_point_time = F.timeToUnix(tpiData[0].time);
-            }
-            var exit_point_time = 86400;
-            var exit_point_index = tpiData.length-1;
-            if ((exit_point_index > 0) && (tpiData[exit_point_index].time !== undefined)) {
-                exit_point_time = F.timeToUnix(tpiData[exit_point_index].time);
-            }
-
-            for (i = 0; i < last_fix; i+= STEP) {
-                igcnext = igc.get(i);
-
-                for (j = i; j < last_fix; j+= STEP) {
-                    var igc2next = igc.get(j);
-
-                    distance = F.getDistanceTo(igcnext.lat, igcnext.lon, igc2next.lat, igc2next.lon);
-                    if (distance > STEP_DISTANCE) {
-                        continue;
-                    }
-
-                    igck2 = igcnext
-                    for (k = i+1;  (k < (i + STEP)); k++) {
-                        igck1 = igck2;
-                        igck2 = igc.get(k);
-                        igcl2 = igc2next;
-
-                        var igck1_time = F.timeToUnix(igck1.time);
-                        if (igck1_time < entry_point_time) {
-                            continue;
-                        }
-                        if (igck1_time > exit_point_time) {
-                            break;
-                        }
-
-                        for (l = j+1; l < (j + STEP); l++) {
-                            igcl1 = igcl2;
-                            igcl2 = igc.get(l)
-
-                            var igcl1_time = F.timeToUnix(igcl1.time);
-
-                            if (igcl1_time < entry_point_time) {
-                                continue;
-                            }
-                            if (igcl1_time > exit_point_time) {
-                                continue;
-                            }
-
-                            distance = F.getDistanceTo(igck1.lat, igck1.lon, igcl1.lat, igcl1.lon);
-                            if (distance > 150) {
-                                continue;
-                            }
-
-
-                            var self_inter = F.lineIntersection(
-                                        igck1.lat, igck1.lon,
-                                        igck2.lat, igck2.lon,
-                                        igcl1.lat, igcl1.lon,
-                                        igcl2.lat, igcl2.lon
-                                        );
-                            if (self_inter !== false) {
-                                console.log("SELF Intersection: " + contestant.name + " " + igck1.time + " " +igcl1.time + " (distance of fixes " + distance+ ")" )
-                                circling_results.push({
-                                                          time1: igck1.time,
-                                                          time2: igcl1.time,
-                                                          lat: self_inter.x, // fixme position of intersection
-                                                          lon: self_inter.y,
-                                                      })
-                            }
-
-                        } // for (l)
-                    } // for (k)
-
-                } // for (j)
-            } // for (i)
+        var entry_point_time = 0;
+        if ((tpiData[0] !== undefined) && (tpiData[0].time !== undefined)) {
+            entry_point_time = F.timeToUnix(tpiData[0].time);
         }
+
+        var exit_point_time = 86400;
+        var exit_point_index = tpiData.length-1;
+        if ((exit_point_index > 0) && (tpiData[exit_point_index].time !== undefined)) {
+            exit_point_time = F.timeToUnix(tpiData[exit_point_index].time);
+        }
+
+        console.time("self intersection")
+
+//        circling_results = self_intersetion_calculate(entry_point_time, exit_point_time);
+        circling_results = self_intersetion_calculate2(entry_point_time, exit_point_time);
+
         console.timeEnd("self intersection")
+
 
         var wptString = [];
         contestantsListModel.setProperty(current, "trackHash", "");
@@ -4109,6 +4042,132 @@ ApplicationWindow {
         console.timeEnd("computeScore")
         return str;
     }
+
+    function self_intersetion_calculate2(entry_point_time, exit_point_time) {
+
+        var circling_results = [];
+        if (igc.count > 60) {
+            var i = 0, j = 0, k = 0, l = 0;
+            var igck1, igck2, igcl1, igcl2;
+            var STEP = 10; // 10 seconds
+            var STEP_DISTANCE = STEP*60; // STEP*60m/s (216 km/h)
+            var distance = 100000;
+
+            var igci = igc.get(0)
+            var igci_time = F.timeToUnix(igci.time);
+            var entry_point_fix = (entry_point_time > igci_time) ? (entry_point_time - igci_time) : 0;
+            var exit_point_fix = entry_point_fix + (exit_point_time - entry_point_time);
+            var last_fix = igc.count - 60; // avoid check of minute after landing
+            last_fix = (exit_point_fix < last_fix) ? exit_point_fix : last_fix;
+
+
+            for (i = entry_point_fix; i < last_fix; i+= STEP) {
+                var igcnext = igc.get(i);
+
+                for (j = i; j < last_fix; j+= STEP) {
+                    var igc2next = igc.get(j);
+
+                    distance = igc.getDistanceTo(igcnext.lat, igcnext.lon, igc2next.lat, igc2next.lon);
+                    if (distance > STEP_DISTANCE) {
+                        continue;
+                    }
+
+                    igck2 = igcnext
+                    for (k = i+1;  (k <= (i + STEP)) && (k < last_fix); k++) {
+                        igck1 = igck2;
+                        igck2 = igc.get(k);
+                        igcl2 = igc2next;
+
+                        for (l = j+1; (l <= (j + STEP)) && (k < last_fix); l++) {
+                            igcl1 = igcl2;
+                            igcl2 = igc.get(l)
+
+                            distance = igc.getDistanceTo(igck1.lat, igck1.lon, igcl1.lat, igcl1.lon);
+                            if (distance > 150) {
+                                continue;
+                            }
+
+
+                            var self_inter = F.lineIntersection(
+                                        parseFloat(igck1.lat), parseFloat(igck1.lon),
+                                        parseFloat(igck2.lat), parseFloat(igck2.lon),
+                                        parseFloat(igcl1.lat), parseFloat(igcl1.lon),
+                                        parseFloat(igcl2.lat), parseFloat(igcl2.lon)
+                                        );
+                            if (self_inter !== false) {
+
+                                var push_item = {
+                                    time1: igck1.time,
+                                    time2: igcl1.time,
+                                    lat: self_inter.x, // fixme position of intersection
+                                    lon: self_inter.y,
+                                }
+                                circling_results.push(push_item)
+                                //                                console.log(JSON.stringify(push_item, null, 2) + " (distance of fixes " + distance+ ")"  )
+                                console.log(igck1.time + " " + igcl1.time + " (distance of fixes " + distance+ ")"  )
+                            }
+
+                        } // for (l)
+                    } // for (k)
+
+                } // for (j)
+            } // for (i)
+        }
+
+        return circling_results;
+    }
+
+
+    /**
+      * dummy implementation
+      */
+
+    function self_intersetion_calculate(entry_point_time, exit_point_time) {
+        var circling_results = [];
+        if (igc.count > 60) {
+
+            var igck1, igck2, igcl1, igcl2;
+            igck2 = igc.get(0);
+            for (var k = 1; k < igc.count; k++) {
+                igck1 = igck2;
+                igck2 = igc.get(k);
+                igcl2 = igck2;
+
+                for (var l = k+1; l < igc.count; l++) {
+                    igcl1 = igcl2;
+                    igcl2 = igc.get(l)
+
+                    var distance = igc.getDistanceTo(igck1.lat, igck1.lon, igcl1.lat, igcl1.lon);
+                    if (distance > 150) {
+                        continue;
+                    }
+
+                    var self_inter = F.lineIntersection(
+                                Number(igck1.lat), Number(igck1.lon),
+                                Number(igck2.lat), Number(igck2.lon),
+                                Number(igcl1.lat), Number(igcl1.lon),
+                                Number(igcl2.lat), Number(igcl2.lon)
+                                );
+                    if (self_inter !== false) {
+                        var push_item = {
+                            time1: igck1.time,
+                            time2: igcl1.time,
+                            lat: self_inter.x, // fixme position of intersection
+                            lon: self_inter.y,
+                        }
+                        console.log(JSON.stringify(push_item, null, 2))
+
+                        circling_results.push(push_item)
+                    }
+                }
+            }
+
+
+        }
+
+        return circling_results;
+    }
+
 
     function saveCurrentResultValues(ctntIndex, contestant) {
 
@@ -5390,11 +5449,32 @@ ApplicationWindow {
         id: config
     }
 
+    function test_self_intersetion_calculate2() {
+        console.log("running test")
+        var igc_path = "file:///home/jmlich/workspace/tucek/migration/53-LKHB/igcFiles/321T01V1R1_LENGAL1.igc"
+        var clipStartTime = "07:35:00";
+        igc.load( file_reader.toLocal(Qt.resolvedUrl(igc_path)), clipStartTime , true);
+        var entry_point_time = 27667;
+        var exit_point_time = 31322;
+        var arr1 = [], arr_ref = [];
+
+        console.time("self intersection")
+        arr1 = self_intersetion_calculate2(entry_point_time, exit_point_time);
+//        arr1 = self_intersetion_calculate(entry_point_time, exit_point_time);
+        //        file_reader.write_local("int1.json", JSON.stringify(arr1));
+
+        console.timeEnd("self intersection")
+
+    }
+
+
     Component.onCompleted: {
+        if (1) { // test enabled
+//            F.test_addTimeStrFormat();
+//            F.test_timeToUnix();
+//            test_self_intersetion_calculate2();
+        }
+
         startUpMessage.open();  // clean or reload prev settings
-//        if (1) { // test enabled
-//                    F.test_addTimeStrFormat();
-//                    F.test_timeToUnix();
-//        }
     }
 }

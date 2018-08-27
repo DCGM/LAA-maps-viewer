@@ -48,7 +48,7 @@ public:
     int getTrimmedCount() { return m_trimmed_count; }
     int getTrimmedEndCount() { return m_trimmed_end_count; }
 
-    qreal getDistanceTo(qreal lat1, qreal lon1, qreal lat2, qreal lon2);
+    Q_INVOKABLE qreal getDistanceTo(qreal lat1, qreal lon1, qreal lat2, qreal lon2);
 
     Q_PROPERTY(QDate date READ date)
     QDate date() const { return igcFile->date(); }
