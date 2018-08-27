@@ -1774,8 +1774,14 @@ ApplicationWindow {
                 }
 
                 NativeText {
+                    text: F.formatCoordinate(map.currentPositionLat, map.currentPositionLon, {coordinateFormat: "DMS"})
+                    visible: map.currentPositionShow
+
+                }
+
+                NativeText {
                     text: map.currentPositionAltitude + " m";
-                    visible: (map.currentPositionAltitude !== "");
+                    visible: map.currentPositionShow
                 }
 
                 NativeText {
