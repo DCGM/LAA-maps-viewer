@@ -95,4 +95,5 @@ unix: !andorid: {
 
 }
 
+DEFINES += GIT_VERSION='"\\\"$$system(git describe --dirty --always --tags)\\\""'
 

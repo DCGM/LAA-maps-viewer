@@ -103,8 +103,8 @@ ApplicationWindow {
             }
 
             NativeText {
-                //% "Build %1 %2"
-                text: qsTrId("about-build-date").arg(builddate).arg(buildtime);
+                //% "Build %1 %2 %3"
+                text: qsTrId("about-build-date").arg(builddate).arg(buildtime).arg(version);
                 anchors.left: parent.left
                 anchors.right: parent.right
                 wrapMode: Text.WordWrap

@@ -576,7 +576,7 @@
     <message id="toolbar-trimmed-fixes" numerus="yes">
         <source>Trimmed takeoff %n</source>
         <oldsource>Trimmed %n</oldsource>
-        <translation type="unfinished">
+        <translation>
             <numerusform>Oříznutých vzlet %n</numerusform>
             <numerusform>Oříznutých vzlet %n</numerusform>
             <numerusform>Oříznutých vzlet %n</numerusform>
@@ -811,9 +811,9 @@
         <translation>LAA prohližeč trajektorii Viewer+ verze 1.0</translation>
     </message>
     <message id="about-build-date">
-        <source>Build %1 %2</source>
-        <oldsource>Build %1</oldsource>
-        <translation>Vytvořeno %1 %2</translation>
+        <source>Build %1 %2 %3</source>
+        <oldsource>Build %1 %2</oldsource>
+        <translation>Vytvořeno %1 %2 %3</translation>
     </message>
     <message id="about-licence">
         <source>

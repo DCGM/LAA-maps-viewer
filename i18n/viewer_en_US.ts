@@ -574,7 +574,7 @@
     <message id="toolbar-trimmed-fixes" numerus="yes">
         <source>Trimmed takeoff %n</source>
         <oldsource>Trimmed %n</oldsource>
-        <translation type="unfinished">
+        <translation>
             <numerusform>Trimmed takeoff %n</numerusform>
             <numerusform>Trimmed takeoff %n</numerusform>
         </translation>
@@ -808,9 +808,9 @@
         <translation>LAA Trajectory Viewer+ version 1.0</translation>
     </message>
     <message id="about-build-date">
-        <source>Build %1 %2</source>
-        <oldsource>Build %1</oldsource>
-        <translation>Build %1 %2</translation>
+        <source>Build %1 %2 %3</source>
+        <oldsource>Build %1 %2</oldsource>
+        <translation>Build %1 %2 %3</translation>
     </message>
     <message id="about-licence">
         <source>
