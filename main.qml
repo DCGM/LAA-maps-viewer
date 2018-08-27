@@ -3720,7 +3720,9 @@ ApplicationWindow {
         console.time("self intersection")
 
 //        circling_results = self_intersetion_calculate(entry_point_time, exit_point_time); // very slow implementation
-        circling_results = self_intersetion_calculate2(entry_point_time, exit_point_time); // FIXME
+//        entry_point_time = mainViewMenuClipIgc.checked ? entry_point_time : 0;
+//        exit_point_time = mainViewMenuClipIgc.checked  ? entry_point_time : 86400;
+        circling_results = self_intersetion_calculate2(entry_point_time, exit_point_time);
 
         console.timeEnd("self intersection")
 
@@ -4094,13 +4096,18 @@ ApplicationWindow {
                         continue;
                     }
 
-                    igck2 = igcnext
-                    for (k = i+1;  (k <= (i + STEP)) && (k < last_fix); k++) {
+                    var k_first = ((i - STEP) > 0) ? i - STEP : 0;
+                    var k_last = ((i + STEP) < last_fix) ? (i + STEP) : last_fix
+                    var l_first = ((j - STEP) > 0) ? j - STEP : 0;
+                    var l_last = ((j + STEP) < last_fix) ? (j + STEP) : last_fix
+                    igck2 = igc.get(k_first);
+
+                    for (k = k_first+1;  k < k_last; k++) {
                         igck1 = igck2;
                         igck2 = igc.get(k);
-                        igcl2 = igc2next;
 
-                        for (l = j+1; (l <= (j + STEP)) && (k < last_fix); l++) {
+                        igcl2 = igc.get(l_first);
+                        for (l = l_first; l < l_last; l++) {
                             igcl1 = igcl2;
                             igcl2 = igc.get(l)
 
@@ -4118,15 +4125,27 @@ ApplicationWindow {
                                         );
                             if (self_inter !== false) {
 
-                                var push_item = {
-                                    time1: igck1.time,
-                                    time2: igcl1.time,
-                                    lat: self_inter.x, // fixme position of intersection
-                                    lon: self_inter.y,
+                                // avoid double insert
+                                var found = false;
+                                for (var cind = 0; cind < circling_results.length; cind++) {
+                                    var cint = circling_results[cind];
+                                    if (cint.time1 === igck1.time) {
+                                        found = true;
+                                        break;
+                                    }
                                 }
-                                circling_results.push(push_item)
-                                //                                console.log(JSON.stringify(push_item, null, 2) + " (distance of fixes " + distance+ ")"  )
-                                console.log(igck1.time + " " + igcl1.time + " (distance of fixes " + distance+ ")"  )
+
+                                if (!found) {
+                                    var push_item = {
+                                        time1: igck1.time,
+                                        time2: igcl1.time,
+                                        lat: self_inter.x, // fixme position of intersection
+                                        lon: self_inter.y,
+                                    }
+                                    circling_results.push(push_item)
+                                    //                                console.log(JSON.stringify(push_item, null, 2) + " (distance of fixes " + distance+ ")"  )
+                                    console.log(igck1.time + " " + igcl1.time + " (distance of fixes " + distance+ ")"  )
+                                }
                             }
 
                         } // for (l)
@@ -4155,9 +4174,26 @@ ApplicationWindow {
                 igck2 = igc.get(k);
                 igcl2 = igck2;
 
+                var igck_time = F.timeToUnix(igck1.time);
+                if (igck_time < entry_point_time) {
+                    continue;
+                }
+                if (igck_time > exit_point_time) {
+                    continue;
+                }
+
                 for (var l = k+1; l < igc.count; l++) {
                     igcl1 = igcl2;
                     igcl2 = igc.get(l)
+
+                    var igcl_time = F.timeToUnix(igcl2.time);
+                    if (igcl_time < entry_point_time) {
+                        continue;
+                    }
+                    if (igcl_time > exit_point_time) {
+                        continue;
+                    }
+
 
                     var distance = igc.getDistanceTo(igck1.lat, igck1.lon, igcl1.lat, igcl1.lon);
                     if (distance > 150) {
@@ -5505,11 +5541,9 @@ ApplicationWindow {
 
 
     Component.onCompleted: {
-        if (1) { // test enabled
 //            F.test_addTimeStrFormat();
 //            F.test_timeToUnix();
 //            test_self_intersetion_calculate2();
-        }
 
         startUpMessage.open();  // clean or reload prev settings
     }
