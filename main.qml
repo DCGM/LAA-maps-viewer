@@ -3719,9 +3719,9 @@ ApplicationWindow {
 
         console.time("self intersection")
 
-//        circling_results = self_intersetion_calculate(entry_point_time, exit_point_time); // very slow implementation
 //        entry_point_time = mainViewMenuClipIgc.checked ? entry_point_time : 0;
 //        exit_point_time = mainViewMenuClipIgc.checked  ? entry_point_time : 86400;
+//        circling_results = self_intersetion_calculate(entry_point_time, exit_point_time); // very slow implementation
         circling_results = self_intersetion_calculate2(entry_point_time, exit_point_time);
 
         console.timeEnd("self intersection")
@@ -5024,7 +5024,7 @@ ApplicationWindow {
 
                     loadContestants(Qt.resolvedUrl(pathConfiguration.contestantsFile))
                     loadPrevResults();
-                    applyPrevResults();
+                    applyPrevResults(); // do it for whole list (not just visible part)
                 }
 
                 // load igc
