@@ -4748,7 +4748,6 @@ ApplicationWindow {
         property variant polys;
 
         onTriggered: {
-            console.log("computing Timer")
             computeScore(tpi, polys);
             running = false;
         }
