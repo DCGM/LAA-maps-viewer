@@ -139,11 +139,6 @@
         <source>Enter URL</source>
         <translation>Zadejte adresu</translation>
     </message>
-    <message id="contestant-table-row-selected-file-not-found">
-        <source>File \&quot;%1\&quot; not found!</source>
-        <oldsource>File \&quot;%1\&quot; not found</oldsource>
-        <translation type="vanished">Soubor &quot;%1&quot; nenalezen!</translation>
-    </message>
     <message id="file-name-ontinuous-results">
         <source>Continuous results</source>
         <translation>vysledky</translation>
@@ -258,14 +253,6 @@
     <message id="results-window-dialog-manual-values-circling-opposite-dirrection">
         <source>Results window manual values circling and opposite dirrection</source>
         <translation>Kroužení na trati, protisměrný let</translation>
-    </message>
-    <message id="score-table-circling-count">
-        <source>circling on track count</source>
-        <translation type="vanished">Kroužení počet</translation>
-    </message>
-    <message id="score-table-circling-score">
-        <source>circling on track score</source>
-        <translation type="vanished">Kroužení body</translation>
     </message>
     <message id="score-table-opposite-count">
         <source>circling on track countcircling on track scoreopposite dirrection on track count</source>
@@ -508,17 +495,9 @@
         <source>Evaluate all</source>
         <translation>Vyhodnotit vše</translation>
     </message>
-    <message id="main-results-menu-regenerate-contestants-results">
-        <source>Regenerate contestants results</source>
-        <translation type="vanished">Přegenerovat výsledky</translation>
-    </message>
     <message id="main-view-menu-contestants">
         <source>&amp;Contestants</source>
         <translation>&amp;Soutěžící</translation>
-    </message>
-    <message id="contestant-table-row-selected-err-dialog-title">
-        <source>IGC file</source>
-        <translation type="vanished">IGC soubor</translation>
     </message>
     <message id="filelist-table-aircraft-registration">
         <source>Aircraft registration</source>
@@ -1600,14 +1579,6 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
         <source>Others</source>
         <translation>Ostatní</translation>
     </message>
-    <message id="create-contestant-window-title">
-        <source>Create new contestant</source>
-        <translation type="vanished">Vytvořit posádku</translation>
-    </message>
-    <message id="update-contestant-window-title">
-        <source>Update contestant</source>
-        <translation type="vanished">Upravit posádku</translation>
-    </message>
     <message id="create-contestant-pilot-name">
         <source>Pilot name</source>
         <oldsource>Pilot name*</oldsource>
@@ -1646,39 +1617,6 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
     <message id="create-contestant-plane-type">
         <source>Plane type</source>
         <translation>Typ</translation>
-    </message>
-    <message id="ok-button">
-        <source>Ok</source>
-        <translation type="vanished">Ok</translation>
-    </message>
-    <message id="contestant-update-error-dialog-title">
-        <source>Contestant update error dialog title</source>
-        <translation type="vanished">Neplatné hodnoty</translation>
-    </message>
-    <message id="contestant-update-error-dialog-startTime-text">
-        <source>Invalid value for start time!</source>
-        <translation type="vanished">Neplatné hodnoty! Zadejte prosím čas startu ve formátu [hh:mm:ss] a volbu opakujte znovu.</translation>
-    </message>
-    <message id="contestant-update-error-dialog-pilotName-text">
-        <source>Invalid value for pilot name!</source>
-        <translation type="vanished">Neplatné hodnoty! Zadejte prosím celé jméno pilota a volbu opakujte znovu.</translation>
-    </message>
-    <message id="contestant-update-error-dialog-copilotName-text">
-        <source>Invalid value for copilot name!</source>
-        <translation type="vanished">Neplatné hodnoty! Zadejte prosím celé jméno kopilota a volbu opakujte znovu.</translation>
-    </message>
-    <message id="contestant-update-error-dialog-speed-text">
-        <source>Invalid value for speed!</source>
-        <translation type="vanished">Neplatné hodnoty! Zadejte prosím rychlost a volbu opakujte znovu.</translation>
-    </message>
-    <message id="contestant-update-error-dialog-text">
-        <source>Invalid values! Please check the values for: pilot name, speed and start time.</source>
-        <oldsource>Invalid values. Can not update or create contestant. Please check the values for: pilot name, speed and start time.</oldsource>
-        <translation type="vanished">Neplatné hodnoty! Zkontrolujte prosím povinné položky a volbu opakujte.</translation>
-    </message>
-    <message id="cancel-button">
-        <source>Cancel</source>
-        <translation type="vanished">Zrušit</translation>
     </message>
     <message id="igc-choose-dialog">
         <source>Choose IGC File</source>
@@ -1862,14 +1800,6 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
         <oldsource>Circling (%n)</oldsource>
         <translation>Kroužení (%1)</translation>
     </message>
-    <message id="results-window-dialog-circling-time1">
-        <source>Time</source>
-        <translation type="vanished">Čas</translation>
-    </message>
-    <message id="results-window-dialog-circling-time2">
-        <source>Time</source>
-        <translation type="vanished">Čas</translation>
-    </message>
     <message id="results-window-dialog-circling-lon">
         <source>Longitude</source>
         <oldsource>Latitude</oldsource>
@@ -1897,17 +1827,6 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
     <message>
         <source>calendar</source>
         <translation>Kalendář</translation>
-    </message>
-</context>
-<context>
-    <name>DefaultMessageDialog</name>
-    <message>
-        <source>Yes</source>
-        <translation type="vanished">Ano</translation>
-    </message>
-    <message>
-        <source>No</source>
-        <translation type="vanished">Ne</translation>
     </message>
 </context>
 <context>

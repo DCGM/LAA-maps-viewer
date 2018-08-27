@@ -139,11 +139,6 @@
         <source>Enter URL</source>
         <translation>Enter URL</translation>
     </message>
-    <message id="contestant-table-row-selected-file-not-found">
-        <source>File \&quot;%1\&quot; not found!</source>
-        <oldsource>File \&quot;%1\&quot; not found</oldsource>
-        <translation type="vanished">File &quot;%1&quot; not found!</translation>
-    </message>
     <message id="file-name-ontinuous-results">
         <source>Continuous results</source>
         <translation>results</translation>
@@ -258,14 +253,6 @@
     <message id="results-window-dialog-manual-values-circling-opposite-dirrection">
         <source>Results window manual values circling and opposite dirrection</source>
         <translation>Circling on the track, countercurrent flight</translation>
-    </message>
-    <message id="score-table-circling-count">
-        <source>circling on track count</source>
-        <translation type="vanished">Circling count</translation>
-    </message>
-    <message id="score-table-circling-score">
-        <source>circling on track score</source>
-        <translation type="vanished">Circling score</translation>
     </message>
     <message id="score-table-opposite-count">
         <source>circling on track countcircling on track scoreopposite dirrection on track count</source>
@@ -507,17 +494,9 @@
         <source>Evaluate all</source>
         <translation>Evaluate all</translation>
     </message>
-    <message id="main-results-menu-regenerate-contestants-results">
-        <source>Regenerate contestants results</source>
-        <translation type="vanished">Regenerate results</translation>
-    </message>
     <message id="main-view-menu-contestants">
         <source>&amp;Contestants</source>
         <translation>&amp;Contestants</translation>
-    </message>
-    <message id="contestant-table-row-selected-err-dialog-title">
-        <source>IGC file</source>
-        <translation type="vanished">IGC file</translation>
     </message>
     <message id="filelist-table-aircraft-registration">
         <source>Aircraft registration</source>
@@ -1597,14 +1576,6 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
         <source>VBT time</source>
         <translation>Entry</translation>
     </message>
-    <message id="create-contestant-window-title">
-        <source>Create new contestant</source>
-        <translation type="vanished">Create crew</translation>
-    </message>
-    <message id="update-contestant-window-title">
-        <source>Update contestant</source>
-        <translation type="vanished">Edit crew</translation>
-    </message>
     <message id="create-contestant-pilot-name">
         <source>Pilot name</source>
         <oldsource>Pilot name*</oldsource>
@@ -1643,39 +1614,6 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
     <message id="create-contestant-plane-type">
         <source>Plane type</source>
         <translation>Type</translation>
-    </message>
-    <message id="ok-button">
-        <source>Ok</source>
-        <translation type="vanished">Ok</translation>
-    </message>
-    <message id="contestant-update-error-dialog-title">
-        <source>Contestant update error dialog title</source>
-        <translation type="vanished">Invalid values</translation>
-    </message>
-    <message id="contestant-update-error-dialog-startTime-text">
-        <source>Invalid value for start time!</source>
-        <translation type="vanished">Invalid values! Please insert the correct form [hh:mm:ss] of the start time and try it again.</translation>
-    </message>
-    <message id="contestant-update-error-dialog-pilotName-text">
-        <source>Invalid value for pilot name!</source>
-        <translation type="vanished">Invalid values! Please insert the pilots full name and try it again.</translation>
-    </message>
-    <message id="contestant-update-error-dialog-copilotName-text">
-        <source>Invalid value for copilot name!</source>
-        <translation type="vanished">Invalid values! Please insert the copilots full name and try it again.</translation>
-    </message>
-    <message id="contestant-update-error-dialog-speed-text">
-        <source>Invalid value for speed!</source>
-        <translation type="vanished">Invalid values! Please insert the speed and try it again.</translation>
-    </message>
-    <message id="contestant-update-error-dialog-text">
-        <source>Invalid values! Please check the values for: pilot name, speed and start time.</source>
-        <oldsource>Invalid values. Can not update or create contestant. Please check the values for: pilot name, speed and start time.</oldsource>
-        <translation type="vanished">Invalid values! Please check the required fields and try it again.</translation>
-    </message>
-    <message id="cancel-button">
-        <source>Cancel</source>
-        <translation type="vanished">Cancel</translation>
     </message>
     <message id="igc-choose-dialog">
         <source>Choose IGC File</source>
@@ -1857,14 +1795,6 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
         <source>Circling (%1)</source>
         <oldsource>Circling (%n)</oldsource>
         <translation>Circling (%1)</translation>
-    </message>
-    <message id="results-window-dialog-circling-time1">
-        <source>Time</source>
-        <translation type="vanished">Time</translation>
-    </message>
-    <message id="results-window-dialog-circling-time2">
-        <source>Time</source>
-        <translation type="vanished">Time</translation>
     </message>
     <message id="results-window-dialog-circling-lon">
         <source>Longitude</source>
