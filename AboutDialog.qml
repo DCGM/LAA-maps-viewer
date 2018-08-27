@@ -69,10 +69,10 @@ ApplicationWindow {
                 wrapMode: Text.WordWrap
                 textFormat: Text.RichText
                 /*% "
-                Authors: <br/>\n
-                Jozef Mlich, Adam Siroky, Pavel Zemcik, <a href=\"http://www.fit.vutbr.cz/\">FIT VUT Brno</a> <br/> <br/>\n\n
+                Authors: <br/>
+                Jozef Mlich, Adam Siroky, Pavel Zemcik, <a href=\"http://www.fit.vutbr.cz/\">FIT VUT Brno</a> <br/> <br/>
 
-                Licence: <br/>\n
+                Licence: <br/>
 
                 BUT OPEN SOURCE LICENCE
                 Version 1.
