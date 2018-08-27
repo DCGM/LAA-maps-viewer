@@ -13,7 +13,7 @@ ApplicationWindow {
     NativeText {
         id: titleLabel;
         font.pixelSize: 25;
-        //% "LAA Trajectory Viewer+"
+        //% "LAA Trajectory Viewer"
         text: qsTrId("about-app-title")
         anchors.top: parent.top
         anchors.left: parent.left;
@@ -21,6 +21,8 @@ ApplicationWindow {
         wrapMode: Text.WordWrap
         anchors.margins: 10;
     }
+
+
 
     Rectangle {
         id: flickableScrollDecorator
@@ -51,6 +53,14 @@ ApplicationWindow {
             anchors.right: parent.right
             spacing: 20;
             anchors.margins: 10;
+
+            NativeText {
+                //% "Build %1 %2 %3"
+                text: qsTrId("about-build-date").arg(builddate).arg(buildtime).arg(version);
+                anchors.left: parent.left
+                anchors.right: parent.right
+                wrapMode: Text.WordWrap
+            }
 
             NativeText {
                 id: aboutTextLabel
@@ -100,14 +110,6 @@ ApplicationWindow {
                 onLinkActivated: {
                     Qt.openUrlExternally(link)
                 }
-            }
-
-            NativeText {
-                //% "Build %1 %2 %3"
-                text: qsTrId("about-build-date").arg(builddate).arg(buildtime).arg(version);
-                anchors.left: parent.left
-                anchors.right: parent.right
-                wrapMode: Text.WordWrap
             }
 
         }

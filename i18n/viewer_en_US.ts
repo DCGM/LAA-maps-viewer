@@ -782,9 +782,9 @@
         <translation>About</translation>
     </message>
     <message id="about-app-title">
-        <source>LAA Trajectory Viewer+</source>
-        <oldsource>LAA Trajectory Viewer</oldsource>
-        <translation>LAA Trajectory Viewer+ version 1.0</translation>
+        <source>LAA Trajectory Viewer</source>
+        <oldsource>LAA Trajectory Viewer+</oldsource>
+        <translation>LAA Trajectory Viewer</translation>
     </message>
     <message id="about-build-date">
         <source>Build %1 %2 %3</source>
