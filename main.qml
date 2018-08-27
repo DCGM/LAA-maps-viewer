@@ -394,11 +394,13 @@ ApplicationWindow {
                 //% "Zoom &in"
                 text: qsTrId("main-view-menu-zoom-in")
                 onTriggered: map.zoomIn();
+                shortcut: "Ctrl++"
             }
             MenuItem {
                 //% "Zoom &out"
                 text: qsTrId("main-view-menu-zoom-out")
                 onTriggered: map.zoomOut();
+                shortcut: "Ctrl+-"
             }
             MenuItem {
                 id: mainViewMenuRuler;
