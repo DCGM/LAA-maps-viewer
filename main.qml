@@ -376,11 +376,20 @@ ApplicationWindow {
             //% "&View"
             title: qsTrId("main-view-menu")
             MenuItem {
+                //% "Center to position"
+                text: qsTrId("main-view-menu-zoom-to-position")
+                onTriggered: map.setCenterLatLon(map.currentPositionLat, map.currentPositionLon)
+                shortcut: "Ctrl+9"
+                enabled: (igc.count > 0);
+            }
+
+            MenuItem {
                 //% "&Zoom to track"
                 text: qsTrId("main-view-menu-zoom-to-points")
                 onTriggered: map.pointsInBounds();
                 shortcut: "Ctrl+0"
             }
+
             MenuItem {
                 //% "Zoom &in"
                 text: qsTrId("main-view-menu-zoom-in")
@@ -1454,7 +1463,7 @@ ApplicationWindow {
                 gpsModel: igc;
                 trackModel: tracks;
                 filterCupData: 2
-                currentPositionShow: true;
+                currentPositionShow: (igc.count > 0);
 
                 onTpiComputedData:  {
                     if (!updateContestantMenu.menuVisible && !resultsDetailComponent.visible && !resultsExporterTimer.running) {
@@ -1492,7 +1501,8 @@ ApplicationWindow {
 
                             MyImage {
                                 source: "./data/ic_my_location_black_24dp/ic_my_location_black_24dp/web/ic_my_location_black_24dp_1x.png"
-                                onMouse_clicked: map.pointsInBounds();
+                                onMouse_clicked: map.setCenterLatLon(map.currentPositionLat, map.currentPositionLon)
+
                             }
                         }
                     }
