@@ -404,6 +404,17 @@ ApplicationWindow {
                 }
             }
             MenuItem {
+                id: mainViewMenuClipIgc
+                //% "Clip GPS log"
+                text: qsTrId("main-view-menu-clip-igc")
+                checkable: true;
+                checked: true; // default
+                onCheckedChanged: {
+                    contestantsTable.rowSelected();
+                }
+            }
+
+            MenuItem {
                 id: mainViewMenuTables
                 //% "&Contestants"
                 text: qsTrId("main-view-menu-contestants")
@@ -1151,7 +1162,8 @@ ApplicationWindow {
 
                         var filePath = pathConfiguration.igcDirectory + "/" + ctnt.filename;
                         if (file_reader.file_exists(Qt.resolvedUrl(filePath))) {
-                            igc.load( file_reader.toLocal(Qt.resolvedUrl(filePath)), ctnt.startTime);
+                            var clipStartTime = mainViewMenuClipIgc.checked ? ctnt.startTime : "00:00:00" ;
+                            igc.load( file_reader.toLocal(Qt.resolvedUrl(filePath)), clipStartTime , mainViewMenuClipIgc.checked);
                         } else {
                             console.log(ctnt.name + ": igc file \"" + ctnt.filename + "\" doesn't exists")
                             igc.clear();

@@ -1859,7 +1859,7 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
     <message id="results-window-dialog-circling-results">
         <source>Circling (%1)</source>
         <oldsource>Circling (%n)</oldsource>
-        <translation type="unfinished">Kroužení (%1)</translation>
+        <translation>Kroužení (%1)</translation>
     </message>
     <message id="results-window-dialog-circling-time1">
         <source>Time</source>
@@ -1885,6 +1885,10 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
     <message id="results-window-dialog-circling-second-time">
         <source>Second Time</source>
         <translation>Druhý čas</translation>
+    </message>
+    <message id="main-view-menu-clip-igc">
+        <source>Clip GPS log</source>
+        <translation>Oříznout GPS log</translation>
     </message>
 </context>
 <context>

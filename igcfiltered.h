@@ -25,7 +25,7 @@ public:
     explicit IgcFiltered(QObject *parent = 0);
     ~IgcFiltered();
 
-    Q_INVOKABLE bool load(const QString &path, const QTime after);
+    Q_INVOKABLE bool load(const QString &path, const QTime after, const bool removeAfterLanding);
     Q_INVOKABLE void clear();
     Q_INVOKABLE QVariant get(int row);
 

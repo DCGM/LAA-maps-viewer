@@ -1855,7 +1855,7 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
     <message id="results-window-dialog-circling-results">
         <source>Circling (%1)</source>
         <oldsource>Circling (%n)</oldsource>
-        <translation type="unfinished">Circling (%1)</translation>
+        <translation>Circling (%1)</translation>
     </message>
     <message id="results-window-dialog-circling-time1">
         <source>Time</source>
@@ -1881,6 +1881,10 @@ BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, 
     <message id="results-window-dialog-circling-second-time">
         <source>Second Time</source>
         <translation>Second time</translation>
+    </message>
+    <message id="main-view-menu-clip-igc">
+        <source>Clip GPS log</source>
+        <translation>Clip GPS log</translation>
     </message>
 </context>
 <context>

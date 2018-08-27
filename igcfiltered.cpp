@@ -25,7 +25,7 @@ qreal IgcFiltered::getDistanceTo(qreal lat, qreal lon, qreal tlat, qreal tlon) {
 }
 
 
-bool IgcFiltered::load(const QString &path, const QTime after) {
+bool IgcFiltered::load(const QString &path, const QTime after, const bool removeAfterLanding) {
     igcFile->load(path);
 
 
@@ -68,7 +68,7 @@ bool IgcFiltered::load(const QString &path, const QTime after) {
         lon = igcFix->getLon();
         speed_m_s = getDistanceTo(lat, lon, prevLat, prevLon);
 
-        if ((speed_m_s < 10) && (m_valid_count > 3000)) { // speed lower than 10 m/s (36 km/h) and 50 minutes of valid fixes before
+        if (removeAfterLanding && (speed_m_s < 10) && (m_valid_count > 3000)) { // speed lower than 10 m/s (36 km/h) and 50 minutes of valid fixes before
             if (m_fixes_after > 0) {
                 filtered_events.append((*it));
                 m_fixes_after--;
