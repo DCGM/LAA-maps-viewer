@@ -574,11 +574,12 @@
         </translation>
     </message>
     <message id="toolbar-trimmed-fixes" numerus="yes">
-        <source>Trimmed %n</source>
-        <translation>
-            <numerusform>Oříznutých %n</numerusform>
-            <numerusform>Oříznutých %n</numerusform>
-            <numerusform>Oříznutých %n</numerusform>
+        <source>Trimmed takeoff %n</source>
+        <oldsource>Trimmed %n</oldsource>
+        <translation type="unfinished">
+            <numerusform>Oříznutých vzlet %n</numerusform>
+            <numerusform>Oříznutých vzlet %n</numerusform>
+            <numerusform>Oříznutých vzlet %n</numerusform>
         </translation>
     </message>
     <message id="main-file-menu-settings">

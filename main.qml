@@ -1837,7 +1837,7 @@ ApplicationWindow {
                 }
 
                 NativeText {
-                    //% "Trimmed %n"
+                    //% "Trimmed takeoff %n"
                     text: qsTrId("toolbar-trimmed-fixes", igc.trimmedCount);
                     visible: igc.trimmedCount > 0;
                 }

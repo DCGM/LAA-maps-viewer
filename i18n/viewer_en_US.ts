@@ -572,10 +572,11 @@
         </translation>
     </message>
     <message id="toolbar-trimmed-fixes" numerus="yes">
-        <source>Trimmed %n</source>
-        <translation>
-            <numerusform>Trimmed %n</numerusform>
-            <numerusform>Trimmed %n</numerusform>
+        <source>Trimmed takeoff %n</source>
+        <oldsource>Trimmed %n</oldsource>
+        <translation type="unfinished">
+            <numerusform>Trimmed takeoff %n</numerusform>
+            <numerusform>Trimmed takeoff %n</numerusform>
         </translation>
     </message>
     <message id="main-file-menu-settings">
