@@ -147,7 +147,7 @@ GridLayout {
         }
 
         NativeText {
-            //% "Classify
+            //% "Classify"
             text: qsTrId("create-contestant-classify")
         }
 
