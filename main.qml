@@ -3735,14 +3735,16 @@ ApplicationWindow {
             exit_point_time = F.timeToUnix(tpiData[exit_point_index].time);
         }
 
-        console.time("self intersection")
+        if (pathConfiguration.enableSelfIntersectionDetector) {
+            console.time("self intersection")
 
-//        entry_point_time = mainViewMenuClipIgc.checked ? entry_point_time : 0;
-//        exit_point_time = mainViewMenuClipIgc.checked  ? entry_point_time : 86400;
-//        circling_results = self_intersetion_calculate(entry_point_time, exit_point_time); // very slow implementation
-        circling_results = self_intersetion_calculate2(entry_point_time, exit_point_time);
+            //        entry_point_time = mainViewMenuClipIgc.checked ? entry_point_time : 0;
+            //        exit_point_time = mainViewMenuClipIgc.checked  ? entry_point_time : 86400;
+            //        circling_results = self_intersetion_calculate(entry_point_time, exit_point_time); // very slow implementation
+            circling_results = self_intersetion_calculate2(entry_point_time, exit_point_time);
 
-        console.timeEnd("self intersection")
+            console.timeEnd("self intersection")
+        }
 
 
         var wptString = [];
@@ -5269,6 +5271,8 @@ ApplicationWindow {
             pathConfiguration.selectedCompetition = config.get("v2_onlineOffline_user_defined", "");
             selectCompetitionOnlineDialog.selectedCompetitionId = config.get("v2_selectedCompetitionId", 0);
             selectCompetitionOnlineDialog.selectedCompetition = pathConfiguration.selectedCompetition;
+
+            pathConfiguration.enableSelfIntersectionDetector = parseInt(config.get("selfIntersectionDetection", 0), 10);
 
             if (pathConfiguration.igcDirectory_user_defined !== "") {
                 igcPrevCheckBox = 1;    // set combobox to user defined

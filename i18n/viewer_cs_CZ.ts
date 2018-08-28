@@ -867,7 +867,7 @@
                 This agreement is governed by law of the Czech Republic. In case of a dispute, the jurisdiction shall be that of courts in the Czech Republic.
                 By installing, copying or other use of Software User declares he/she has read this terms and conditions, understands them and his/her use of Software is a demonstration of his/her free will absent of any duress.
                 </oldsource>
-        <translation type="unfinished">
+        <translation>
                 Autoři: &lt;br/&gt;
                 Jozef Mlich, Adam Siroky, Pavel Zemcik, &lt;a href=\&quot;http://www.fit.vutbr.cz/\&quot;&gt;FIT VUT Brno&lt;/a&gt; &lt;br/&gt; &lt;br/&gt;
 
@@ -1845,6 +1845,10 @@
     <message id="main-view-menu-zoom-to-position">
         <source>Center to position</source>
         <translation>Na střed polohy</translation>
+    </message>
+    <message id="path-configuration-competition-circling-detection">
+        <source>Circling detection (could be slow)</source>
+        <translation>Detekce kroužení (může být pomalé)</translation>
     </message>
 </context>
 <context>

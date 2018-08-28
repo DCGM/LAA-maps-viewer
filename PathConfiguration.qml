@@ -42,6 +42,8 @@ ApplicationWindow {
     property string trackFile;
     property string resultsFolder;
 
+    property bool enableSelfIntersectionDetector: false;
+
     signal ok();
     signal cancel();
 
@@ -121,7 +123,9 @@ ApplicationWindow {
                                pathConfiguration.trackCheckBox,
                                pathConfiguration.igcFolderCheckBox,
                                pathConfiguration.resultsFolderCheckBox,
-                               pathConfiguration.onlineOfflineCheckBox);
+                               pathConfiguration.onlineOfflineCheckBox,
+                               pathConfiguration.enableSelfIntersectionDetector
+                               );
 
             // competition property
             setCompetitionTabContent(pathConfiguration.competitionName,
@@ -230,7 +234,7 @@ ApplicationWindow {
         return ret;
     }
 
-    function setFilesTabContent(selectedCompetition, trackCheckBox, igcFolderCheckBox, resultsFolderCheckBox, onlineOfflineCheckBox) {
+    function setFilesTabContent(selectedCompetition, trackCheckBox, igcFolderCheckBox, resultsFolderCheckBox, onlineOfflineCheckBox, selfIntersectionDetector) {
 
         // get tab status
         var previousActive = tabView.getActive();
@@ -254,6 +258,7 @@ ApplicationWindow {
         tabView.pathTabAlias.onlineOfflineDefaultCheckBoxAlias = !tabView.pathTabAlias.onlineOfflineUserDefinedCheckBoxAlias;
 
         tabView.pathTabAlias.downloadedCompetitionNameAlias = selectedCompetition; //reinit value, checkbox deleted textfield value
+        tabView.pathTabAlias.selfIntersectionDetectorAlias = selfIntersectionDetector;
 
         // recover tab status
         if (!tabPrevActived) tabView.activateTabByName(previousActive)
@@ -471,6 +476,8 @@ ApplicationWindow {
 
                 property alias onlineOfflineUserDefinedCheckBoxAlias: status_online.checked;
                 property alias onlineOfflineDefaultCheckBoxAlias: status_default.checked;
+
+                property alias selfIntersectionDetectorAlias: selfIntersectionCheckbox.checked;
 
                 onOnlineOfflineDefaultCheckBoxAliasChanged: {
 
@@ -805,6 +812,15 @@ ApplicationWindow {
 
                             selectCompetitionOnlineDialog.show();
                         }
+                    }
+                }
+
+                CheckBox{
+                    id: selfIntersectionCheckbox
+                    //% "Circling detection (could be slow)"
+                    text: qsTrId("path-configuration-competition-circling-detection")
+                    onCheckedChanged: {
+                        pathConfiguration.enableSelfIntersectionDetector = checked
                     }
                 }
             }
@@ -1235,6 +1251,7 @@ ApplicationWindow {
                     config.set("userNameValidity", loginTabValues[1]);
                     config.set("userKeyValidity", loginTabValues[2]);
 
+                    config.set("selfIntersectionDetection", pathConfiguration.enableSelfIntersectionDetector);
                     ok();
                     pathConfiguration.close();
                 }
