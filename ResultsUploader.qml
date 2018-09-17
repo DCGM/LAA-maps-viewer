@@ -228,7 +228,7 @@ Item {
         console.log("callUploadFinish: " + url + "?id=" + compId + "&api_key=" + api_key)
 
         // set timeout
-        var timer = Qt.createQmlObject("import QtQuick 2.9; Timer {interval: 30000; repeat: false; running: true;}", resultsUploader, "MyTimer");
+        var timer = Qt.createQmlObject("import QtQuick 2.9; Timer {interval: 60000; repeat: false; running: true;}", resultsUploader, "MyTimer");
                         timer.triggered.connect(function(){
                             console.log("callUploadFinish: http.abort() called")
                             http.abort();
@@ -278,7 +278,7 @@ Item {
                 // Connection error
                 else {
 
-                    console.log("ERR callUploadFinish http status: " + http.status)
+                    console.error("ERR callUploadFinish http status: " + http.status + " " + http.responseText)
 
                     // Set and show error dialog
                     //% "Connection error dialog title"
