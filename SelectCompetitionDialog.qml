@@ -395,9 +395,9 @@ ApplicationWindow {
                     try{
 
                         // check for errors in response
-                        if (http.responseText.indexOf("\"status\":") != -1) {
-
-                            console.log("ERR getContestants DONE: " + http.responseText)
+                        var response = JSON.parse(http.responseText);
+                        if ((response.status !== undefined) && (parseInt(response.status, 10) !== 0)) {
+                            console.warn(" " + response.status + " " + http.responseText)
 
                             // set offline state
                             var enviromentTabValues = pathConfiguration.getEnviromentTabContent();
@@ -405,10 +405,9 @@ ApplicationWindow {
                                                                  enviromentTabValues[1] ? 1 : 0,
                                                                  enviromentTabValues[2] ? 1 : 0,
                                                                  enviromentTabValues[3] ? 1 : 0,
-                                                                 0);
+                                                                 0,
+                                                                                          pathConfiguration.enableSelfIntersectionDetector);
 
-                            var response = JSON.parse(http.responseText);
-                            if (response.status !== undefined) {
                                 status = parseInt(response.status, 10);
 
                                 // Set and show error dialog
@@ -428,15 +427,12 @@ ApplicationWindow {
                                     errMessageDialog.text = qsTrId("contestant-download-access-error-dialog-text")
                                     errMessageDialog.standardButtons = StandardButton.Close
                                 }
-
                                 errMessageDialog.showDialog();
-                            }
+
                         }
                         // no errors, json downloaded
                         else {
-                            var result = (http.responseText);
 
-                            var resultObject = JSON.parse(result);
                             var csvArrr = [];
                             var item;
                             var pilotName;
@@ -445,12 +441,12 @@ ApplicationWindow {
                             var str = "";
 
                             // parse json into csv
-                            for (var i = 0; i < resultObject.length; i++) {
+                            for (var i = 0; i < response.length; i++) {
 
-                                item = resultObject[i];
+                                item = response[i];
 
-                                pilotName = (item.pilot_csv_name == null || item.pilot_csv_name == undefined || item.pilot_csv_name == "" ? item.pilot_surname + " " + item.pilot_firstname : item.pilot_csv_name);
-                                copilotName = (item.copilot_csv_name == null || item.copilot_csv_name == undefined || item.copilot_csv_name == "" ? (item.copilot_surname == null || item.copilot_surname == undefined ? "" : item.copilot_surname + " " + item.copilot_firstname) : item.copilot_csv_name);
+                                pilotName = (item.pilot_csv_name === null || item.pilot_csv_name === undefined || item.pilot_csv_name === "" ? item.pilot_surname + " " + item.pilot_firstname : item.pilot_csv_name);
+                                copilotName = (item.copilot_csv_name === null || item.copilot_csv_name === undefined || item.copilot_csv_name === "" ? (item.copilot_surname === null || item.copilot_surname === undefined ? "" : item.copilot_surname + " " + item.copilot_firstname) : item.copilot_csv_name);
 
                                 name = copilotName == "" ? pilotName : pilotName + " – " + copilotName;
 
@@ -483,7 +479,13 @@ ApplicationWindow {
                         }
 
                     } catch (e) {
-                        console.log("ERR getContestants: parse failed" + e + " " + http.responseText)
+                        console.error("getContestants: parse failed: " + e + " " + http.responseText)
+
+                        errMessageDialog.title = "Error"
+                        //% "Can not download registrations for selected competition. Please check the settings (e.g. api_key) and try it again."
+                        errMessageDialog.text = e.message
+                        errMessageDialog.standardButtons = StandardButton.Close
+                        errMessageDialog.showDialog();
                     }
                 }
                 // Connection error
@@ -567,7 +569,7 @@ ApplicationWindow {
 
                     } catch (e) {
 
-                        console.log("ERR getCompetitionsData: parse failed" + e)
+                        console.error("getCompetitionsData: parse failed: " + e)
                     }
                 }
                 // Connection error
