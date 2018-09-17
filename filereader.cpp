@@ -33,6 +33,8 @@ QByteArray FileReader::read(const QUrl &filename) {
         QString resource_fn = ":" + filename.toString(QUrl::RemoveScheme);
         return read_local(resource_fn);
     }
+    qWarning() << "Cannot open " << filename << "for reading";
+
     return QByteArray();
 }
 
@@ -40,8 +42,10 @@ QByteArray FileReader::read(const QUrl &filename) {
 QByteArray FileReader::read_local(const QString &filename)
 {
     QFile file(filename);
-    if (!file.open(QIODevice::ReadOnly))
+    if (!file.open(QIODevice::ReadOnly)) {
+        qWarning() << "Cannot open " << filename << "for reading";
         return QByteArray();
+    }
 
     return file.readAll();
 }
@@ -82,6 +86,7 @@ void FileReader::writeUTF8(const QUrl &filename, QByteArray data) {
 void FileReader::write_local(const QString &filename, QByteArray data) {
     QFile file (filename);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+        qWarning() << "Cannot open " << filename << "for writing";
         return;
     }
 

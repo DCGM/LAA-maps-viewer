@@ -3248,7 +3248,7 @@ ApplicationWindow {
         var contestant = contestantsListModel.get(current)
 
         // no igc assigned
-        if (contestant.filename === "") {
+        if ((contestant.filename === undefined) || (contestant.filename === "")) {
             console.log("contestant.filename not assigned")
             return;
         }

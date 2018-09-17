@@ -931,10 +931,10 @@ function timeToUnix(str) {
         var s = parseInt(result[4], 10);
         var positive = ((result[1] !== "-") && (m >= 0) && (s >= 0)) ? 1 : -1;
         return positive * (h * 3600 +  m * 60 + s);
-    } else if (str === '') {
+    } else if ((str === '') || (str === null) || (str === "null")) {
         return 0;
     }
-    console.warn("timeToUnix regexp doesn't match \"" +str+"\"")
+    console.warn("timeToUnix regexp doesn't match \"" +str+"\"" + typeof str)
     return 0;
 }
 
