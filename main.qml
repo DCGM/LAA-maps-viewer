@@ -2924,6 +2924,15 @@ ApplicationWindow {
 
     }
 
+    function perfromance_class_from_category(category) {
+        var performance_class = String(category);
+        if (performance_class.match(/-/)) {
+            performance_class = performance_class.split("-")[0];
+        }
+        return performance_class;
+
+    }
+
     // recalculate score points to 1000
     function recalculateScoresTo1000() {
 
@@ -2933,18 +2942,19 @@ ApplicationWindow {
 
         var i, item;
         maxPointsArr = {};
+        var performance_class;
 
         var trtr = tracks.tracks
         for (i = 0; i < trtr.length; i++) {
-            var category_name = trtr[i].name;
-            maxPointsArr[category_name] = 1;
+            maxPointsArr[perfromance_class_from_category(trtr[i].name)] = 1;
         }
 
         for (i = 0; i < contestantsListModel.count; i++) {
             item = contestantsListModel.get(i)
+            performance_class = perfromance_class_from_category(item.category);
 
-            if (maxPointsArr[item.category] < item.scorePoints && !item.classify) {
-                maxPointsArr[item.category] = item.scorePoints;
+            if (maxPointsArr[performance_class] < item.scorePoints && !item.classify) {
+                maxPointsArr[performance_class] = item.scorePoints;
             }
         }
 
@@ -2957,9 +2967,10 @@ ApplicationWindow {
                 contestantsListModel.setProperty(i, "scorePoints1000", -1);
                 continue;
             }
+            performance_class = perfromance_class_from_category(item.category)
 
             if (item.scorePoints >= 0) {
-                contestantsListModel.setProperty(i, "scorePoints1000", Math.round(item.scorePoints/maxPointsArr[item.category] * 1000));
+                contestantsListModel.setProperty(i, "scorePoints1000", Math.round(item.scorePoints/maxPointsArr[performance_class] * 1000));
             }
         }
 
