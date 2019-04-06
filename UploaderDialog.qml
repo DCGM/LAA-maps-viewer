@@ -172,6 +172,7 @@ ApplicationWindow {
             id: cancelButtonSettings
             //% "Close"
             text: qsTrId("uploader-dialog-close-button")
+            enabled: !finishRunning;
 
             onClicked: {
 
