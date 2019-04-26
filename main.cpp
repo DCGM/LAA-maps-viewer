@@ -82,6 +82,10 @@ int main(int argc, char *argv[])
 
     qInstallMessageHandler(myMessageHandler);
 
+    app.setOrganizationName("Brno University of Technology");
+    app.setOrganizationDomain("fit.vutbr.cz");
+    app.setApplicationName("LAA Maps Viewer");
+
     QQmlApplicationEngine engine;
 
     qmlRegisterType<IgcFiltered>("cz.mlich", 1, 0, "IgcFile");
