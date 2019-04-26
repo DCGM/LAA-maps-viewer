@@ -71,8 +71,9 @@
         <translation>Vyzdušné prostory vypnuty</translation>
     </message>
     <message id="main-map-menu-airspace-prosoar">
-        <source>Airspace (prosoar.de)</source>
-        <translation>Vzdušné prostory (prosoar.de)</translation>
+        <source>Airspace (skylines.aero)</source>
+        <oldsource>Airspace (prosoar.de)</oldsource>
+        <translation>Vzdušné prostory (skylines.aero)</translation>
     </message>
     <message id="main-map-menu-airspace-local">
         <source>Airspace (local)</source>

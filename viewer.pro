@@ -104,5 +104,5 @@ unix: !andorid: {
 
 }
 
-DEFINES += GIT_VERSION='"\\\"$$system(git describe --dirty --always --tags)\\\""'
+DEFINES += GIT_VERSION='"\\\"$$system(git describe --dirty --broken --always --tags)\\\""'
 

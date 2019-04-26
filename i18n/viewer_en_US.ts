@@ -71,8 +71,9 @@
         <translation>Airspace Off</translation>
     </message>
     <message id="main-map-menu-airspace-prosoar">
-        <source>Airspace (prosoar.de)</source>
-        <translation>Airspace (prosoar.de)</translation>
+        <source>Airspace (skylines.aero)</source>
+        <oldsource>Airspace (prosoar.de)</oldsource>
+        <translation>Airspace (skylines.aero)</translation>
     </message>
     <message id="main-map-menu-airspace-local">
         <source>Airspace (local)</source>
