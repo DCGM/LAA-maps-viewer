@@ -1,5 +1,5 @@
 Name:           viewer
-Version:        %(git describe --tags --abbrev=0)
+Version:        0.4
 Release:        %(date +%Y%m%d%H)%{?dist}
 Summary:        viewer of LAA Competition tracks
 
