@@ -22,6 +22,10 @@
 #include "worker.h"
 #include "uploader.h"
 
+
+// turns on logging of context (file+line number) in c++
+#define QT_MESSAGELOGCONTEXT
+
 void myMessageHandler(QtMsgType type, const QMessageLogContext& context, const QString& msg) {
     QString txt;
 
