@@ -1668,6 +1668,17 @@ ApplicationWindow {
         id: results_creator;
     }
 
+    // load data but don't show them
+    IgcFile {
+        id: igc_helper;
+        onCountChanged: {
+            if (count === 0) {
+                return;
+            }
+        }
+    }
+
+
     IgcFile {
         id: igc
         onCountChanged: {
