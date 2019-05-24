@@ -53,6 +53,46 @@ public:
     Q_PROPERTY(QDate date READ date)
     QDate date() const { return igcFile->date(); }
 
+    /// Return altimeter pressure setting in hectopascals or zero
+    /// if it was not specified.
+    /// This value doesn't affect altitudes returned in fixes in any way.
+    /// All recorded altitudes use 1013.25 as a base pressure.
+    Q_PROPERTY(qreal altimeterSetting READ altimeterSetting)
+    qreal altimeterSetting() const { return igcFile->altimeterSetting(); }
+
+    /// Return competition class or null string.
+    Q_PROPERTY(QString competitionClass READ competitionClass)
+    QString competitionClass() const { return igcFile->competitionClass(); }
+
+    /// Return glider competition ID or null string.
+    Q_PROPERTY(QString competitionId READ competitionId)
+    QString competitionId() const { return igcFile->competitionId(); }
+
+    /// Return FR manufacturer or null string.
+    Q_PROPERTY(QString manufacturer READ manufacturer)
+    QString manufacturer() const { return igcFile->manufacturer(); }
+
+    /// Return FR type or null string.
+    Q_PROPERTY(QString frType READ frType)
+    QString frType() const { return igcFile->frType(); }
+
+    /// Return glider registration number or null string.
+    Q_PROPERTY(QString gliderId READ gliderId)
+    QString gliderId() const { return igcFile->gliderId(); }
+
+    /// Return GPS receiver type or null string.
+    Q_PROPERTY(QString gps READ gps)
+    QString gps() const { return igcFile->gps(); }
+
+    /// Return glider model or null string.
+    Q_PROPERTY(QString gliderType READ gliderType)
+    QString gliderType() const { return igcFile->gliderType(); }
+
+    /// Return pilot name or null string.
+    Q_PROPERTY(QString pilot READ pilot)
+    QString pilot() const { return igcFile->pilot(); }
+
+
 
 signals:
     void eventsChanged();
