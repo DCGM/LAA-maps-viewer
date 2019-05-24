@@ -14,6 +14,7 @@ Rectangle {
     property int crew_row_index;
     property variant curentContestant;
     property int totalPointsScore: -1;
+    property alias currentSelectedPositionsListAlias: currentSelectedPositionsList
 
     signal ok();
     signal okAndView();
@@ -55,6 +56,7 @@ Rectangle {
     ListModel { id: currentSpaceSectionsScoreList }
     ListModel { id: currentPolyResultsScoreList }
     ListModel { id: currentCirclingScoreList }
+    ListModel { id: currentSelectedPositionsList }
 
     Component.onCompleted: {
         curentContestant = createBlankUserObject();
@@ -150,6 +152,16 @@ Rectangle {
                 }
 
             }
+
+            currentSelectedPositionsList.clear();
+            if (curentContestant.selectedPositions !== "") {
+                arr = curentContestant.selectedPositions.split("; ")
+                for (i = 0; i < arr.length; i++) {
+                    currentSelectedPositionsList.append(JSON.parse(arr[i]))
+                }
+
+            }
+
 
             currentSpeedSectionsScoreList.clear();
             if (curentContestant.speedSectionsScoreDetails !== "") {
@@ -1615,6 +1627,61 @@ Rectangle {
 
                     var item = currentCirclingScoreList.get(current);
                     clickedMeasuredTime(F.timeToUnix(item.time1))
+                }
+
+            }
+
+
+        }
+
+        Tab {
+            id: selectedPositionsTab;
+            //% "Selected Positions (%1)"
+            title: qsTrId("results-window-dialog-selected-positions").arg(currentSelectedPositionsList.count)
+            enabled: (currentSelectedPositionsList.count > 0);
+
+            TableView {
+                id: selectedPositionsTable
+                anchors.fill: parent
+                model: currentSelectedPositionsList;
+
+                itemDelegate:  CirclingResultsTableItemDelegate {
+                }
+
+                rowDelegate: Rectangle {
+                    height: 30;
+                    color: styleData.selected ? "#0077cc" : (styleData.alternate? "#eee" : "#fff")
+
+                }
+
+                //% "ID"
+                TableViewColumn {title: qsTrId("results-window-dialog-selected-position-gpsindex"); role: "gpsindex"; width: 90;}
+                //% "Time"
+                TableViewColumn {title: qsTrId("results-window-dialog-selected-position-time"); role: "time"; width: 90;}
+                //% "Latitude"
+                TableViewColumn {title: qsTrId("results-window-dialog-selected-position-lat"); role: "lat"; width: 150;}
+                //% "Longitude"
+                TableViewColumn {title: qsTrId("results-window-dialog-selected-position-lon"); role: "lon"; width: 150;}
+                //% "Altitude
+                TableViewColumn {title: qsTrId("results-window-dialog-selected-position-alt"); role: "alt"; width: 90;}
+                //% "Direction"
+                TableViewColumn {title: qsTrId("results-window-dialog-selected-position-azimuth"); role: "azimuth"; width: 90;}
+
+                Component.onCompleted: {
+                    selection.selectionChanged.connect(rowSelected);
+                }
+
+                function rowSelected() {
+                    var current = -1;
+                    selectedPositionsTable.selection.forEach( function(rowIndex) { current = rowIndex; } )
+                    if (current < 0) {
+                        return;
+                    }
+
+                    var item = currentSelectedPositionsList.get(current);
+
+                    clickedMeasuredTime(F.timeToUnix(item.time))
+//                    console.log(JSON.stringify(item))
                 }
 
             }

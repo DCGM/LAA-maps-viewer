@@ -20,6 +20,7 @@ Item {
         }
         switch (role) {
 
+            case "time":
             case "time1":
             case "time2":
                 var ret = F.addTimeStrFormat(F.addUtcToTime(F.timeToUnix(value), applicationWindow.utc_offset_sec));;

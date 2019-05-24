@@ -375,6 +375,15 @@ ApplicationWindow {
         Menu {
             //% "&View"
             title: qsTrId("main-view-menu")
+
+            MenuItem {
+                //% "Select position"
+                text: qsTrId("main-view-menu-mark-position")
+                onTriggered: map.triggerSelectPosition();
+                enabled: contestantsTable.selection.count === 1;
+                shortcut: "Space"
+            }
+
             MenuItem {
                 //% "Center to position"
                 text: qsTrId("main-view-menu-zoom-to-position")
@@ -1253,6 +1262,7 @@ ApplicationWindow {
                         contestantsListModel.setProperty(row, "circling_results", curentContestant.circling_results);
 
                         contestantsListModel.setProperty(row, "spaceSectionsScoreDetails", curentContestant.spaceSectionsScoreDetails);
+                        contestantsListModel.setProperty(row, "selectedPositions", curentContestant.selectedPositions);
 
                     } else { // add new crew
 
@@ -1299,6 +1309,7 @@ ApplicationWindow {
                         new_contestant.circling_results = curentContestant.circling_results;
 
                         new_contestant.spaceSectionsScoreDetails = curentContestant.spaceSectionsScoreDetails;
+                        new_contestant.selectedPositions = curentContestant.selectedPositions;
 
 
                         // append into list model
@@ -1475,6 +1486,66 @@ ApplicationWindow {
 
                         computingTimer.running = true;
                     }
+                }
+
+                onSelectPosition: {
+
+                    var current = -1;
+                    contestantsTable.selection.forEach( function(rowIndex) { current = rowIndex; } )
+                    if (current < 0) {
+                        return;
+                    }
+
+                    var con = contestantsListModel.get(current);
+
+                    var positions = [];
+                    if (con.selectedPositions !== undefined && con.selectedPositions !== "") {
+                        positions = JSON.parse(con.selectedPositions);
+                    }
+
+                    var item = {}
+                    var pos_index = -1;
+                    for(var i = 0 ; i < positions.length; i++) {
+                        item = positions[i];
+                        if (item.gpsindex === gpsindex) {
+                            pos_index = i;
+                            break;
+                        }
+                    }
+                    if (pos_index === -1) {
+                        item = {
+                            "gpsindex" : gpsindex,
+                            "lat" : lat,
+                            "lon" : lon,
+                            "time" : time,
+                            "alt" : alt,
+                            "azimuth" : azimuth
+                        }
+                        positions.push(item);
+                    } else {
+                        var removed = positions.splice(pos_index,1);
+                        console.log("removed " + pos_index)
+                    }
+
+                    if (resultsDetailComponent.visible) {
+                        var m = resultsDetailComponent.currentSelectedPositionsListAlias;
+                        var found = false;
+                        for (i = 0; i < m.count; i++) {
+                            var search_item = m.get(i)
+                            if (search_item.gpsindex === gpsindex) {
+                                m.remove(i);
+                                found = true;
+                            }
+                        }
+                        if (!found) {
+                            m.append(item)
+                        }
+                    }
+
+                    contestantsListModel.setProperty(current, "selectedPositions", JSON.stringify(positions))
+
+//                    console.log("Measured position at: " + JSON.stringify(positions));
+
                 }
 
                 // navigation icons
@@ -1986,6 +2057,7 @@ ApplicationWindow {
             "time_window_size": 0,
             "oposite_direction_penalty": 0,
             "gyre_penalty": 0,
+            "selectedPositions": "[]",
 
             "prevResultsMarkersScore": 0,
             "prevResultsPhotosScore": 0,
@@ -2462,6 +2534,7 @@ ApplicationWindow {
                 curCnt.prevResultsSpaceSec = (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][36]) : "");
                 curCnt.prevPoly_results = (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][48]) : "");
                 curCnt.prevCircling_results = (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][49]) : "");
+                curCnt.selectedPositions = (csvFileFromViewer ? F.replaceSingleQuotes(resultsCSV[j][50]) : "");
 
                 // check results validity due to the contestant values
                 if (resultsValid(curCnt.speed, curCnt.startTime, curCnt.category, curCnt.filename, MD5.md5(JSON.stringify(trItem)),
@@ -2561,7 +2634,7 @@ ApplicationWindow {
 //            console.log ("prevPolyResults"contestant.prevPoly_results)
             contestantsListModel.setProperty(row, "poly_results", contestant.prevPoly_results);
             contestantsListModel.setProperty(row, "circling_results", contestant.prevCircling_results);
-
+            contestantsListModel.setProperty(row, "selectedPositions", contestant.selectedPositions);
             contestantsListModel.setProperty(row, "score_json", contestant.prevResultsScoreJson)
             contestantsListModel.setProperty(row, "score", contestant.prevResultsScore)
             contestantsListModel.setProperty(row, "scorePoints", contestant.prevResultsScorePoints);
@@ -4277,7 +4350,7 @@ ApplicationWindow {
         contestantsListModel.setProperty(ctntIndex, "prevResultsAltSec", contestant.altitudeSectionsScoreDetails);
         contestantsListModel.setProperty(ctntIndex, "prevPoly_results", contestant.poly_results)
         contestantsListModel.setProperty(ctntIndex, "prevCircling_results", contestant.circling_results)
-
+        contestantsListModel.setProperty(ctntIndex, "selectedPositions", contestant.selectedPositions);
         contestantsListModel.setProperty(ctntIndex, "prevResultsMarkersOk", contestant.markersOk);
         contestantsListModel.setProperty(ctntIndex, "prevResultsMarkersNok", contestant.markersNok);
         contestantsListModel.setProperty(ctntIndex, "prevResultsMarkersFalse", contestant.markersFalse);
@@ -4388,6 +4461,7 @@ ApplicationWindow {
             str += "\"" + ct.oppositeScore + "\";"
             str += "\"" + F.replaceDoubleQuotes(ct.poly_results) + "\";"
             str += "\"" + F.replaceDoubleQuotes(ct.circling_results) + "\";"
+            str += "\"" + F.replaceDoubleQuotes(ct.selectedPositions) + "\";" // 50
 
             str += "\n";
         }

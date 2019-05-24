@@ -1896,6 +1896,39 @@
         <source>gps</source>
         <translation>GPS</translation>
     </message>
+    <message id="results-window-dialog-selected-positions">
+        <source>Selected Positions (%1)</source>
+        <translation>Selected positions (%1)</translation>
+    </message>
+    <message id="results-window-dialog-selected-position-gpsindex">
+        <source>ID</source>
+        <translation>ID</translation>
+    </message>
+    <message id="results-window-dialog-selected-position-time">
+        <source>Time</source>
+        <translation>Time</translation>
+    </message>
+    <message id="results-window-dialog-selected-position-lat">
+        <source>Latitude</source>
+        <translation>Latitude</translation>
+    </message>
+    <message id="results-window-dialog-selected-position-lon">
+        <source>Longitude</source>
+        <translation>Longitude</translation>
+    </message>
+    <message id="results-window-dialog-selected-position-alt">
+        <source>Altitude</source>
+        <translation>Altitude</translation>
+    </message>
+    <message id="results-window-dialog-selected-position-azimuth">
+        <source>Direction</source>
+        <translation>Direction</translation>
+    </message>
+    <message id="main-view-menu-mark-position">
+        <source>Select position</source>
+        <oldsource>Mark position</oldsource>
+        <translation>Select position</translation>
+    </message>
 </context>
 <context>
     <name>CalendarWindow</name>

@@ -90,6 +90,7 @@ Rectangle {
     signal pannedManually
     signal trackRendered();
     signal trackInBounds();
+    signal selectPosition( int gpsindex, real lat, real lon, string time, real alt, real azimuth);
 
     transform: Rotation {
         angle: 0
@@ -1734,6 +1735,10 @@ Rectangle {
             break;
         }
 
+    }
+
+    function triggerSelectPosition() {
+        selectPosition(currentPositionIndex, currentPositionLat, currentPositionLon, currentPositionTime, currentPositionAltitude, currentPositionAzimuth)
     }
 
     FileReader {
