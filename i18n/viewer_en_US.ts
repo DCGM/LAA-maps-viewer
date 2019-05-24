@@ -1847,6 +1847,54 @@
         <source>Circling detection (could be slow)</source>
         <translation>Circling detection (could be slow)</translation>
     </message>
+    <message id="IGC-Choose-dialog-fix-first">
+        <source>First fix</source>
+        <translation>First fix</translation>
+    </message>
+    <message id="IGC-Choose-dialog-fix-last">
+        <source>Last fix</source>
+        <translation>Last fix</translation>
+    </message>
+    <message id="IGC-Choose-dialog-fix-count">
+        <source>Count of fixes</source>
+        <translation>Count</translation>
+    </message>
+    <message id="IGC-Choose-dialog-date">
+        <source>Date</source>
+        <translation>Date</translation>
+    </message>
+    <message id="IGC-Choose-dialog-pilot">
+        <source>Pilot</source>
+        <translation>Pilot</translation>
+    </message>
+    <message id="IGC-Choose-dialog-altimeterSetting">
+        <source>Altimeter Setting</source>
+        <translation>Altimeter Settings</translation>
+    </message>
+    <message id="IGC-Choose-dialog-competitionClass">
+        <source>competitionClass</source>
+        <translation>competition class</translation>
+    </message>
+    <message id="IGC-Choose-dialog-competitionId">
+        <source>competitionId</source>
+        <translation>competition id</translation>
+    </message>
+    <message id="IGC-Choose-dialog-manufacturer">
+        <source>manufacturer</source>
+        <translation>Manufacturer</translation>
+    </message>
+    <message id="IGC-Choose-dialog-frType">
+        <source>frType</source>
+        <translation>recoreder type</translation>
+    </message>
+    <message id="IGC-Choose-dialog-gliderId">
+        <source>gliderId</source>
+        <translation>glider id</translation>
+    </message>
+    <message id="IGC-Choose-dialog-gps">
+        <source>gps</source>
+        <translation>gps</translation>
+    </message>
 </context>
 <context>
     <name>CalendarWindow</name>

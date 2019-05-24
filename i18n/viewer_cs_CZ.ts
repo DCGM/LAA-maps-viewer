@@ -1851,6 +1851,54 @@
         <source>Circling detection (could be slow)</source>
         <translation>Detekce kroužení (může být pomalé)</translation>
     </message>
+    <message id="IGC-Choose-dialog-fix-first">
+        <source>First fix</source>
+        <translation>První fix</translation>
+    </message>
+    <message id="IGC-Choose-dialog-fix-last">
+        <source>Last fix</source>
+        <translation>Poslední fix</translation>
+    </message>
+    <message id="IGC-Choose-dialog-fix-count">
+        <source>Count of fixes</source>
+        <translation>Počet</translation>
+    </message>
+    <message id="IGC-Choose-dialog-date">
+        <source>Date</source>
+        <translation>Datum</translation>
+    </message>
+    <message id="IGC-Choose-dialog-pilot">
+        <source>Pilot</source>
+        <translation>Pilot</translation>
+    </message>
+    <message id="IGC-Choose-dialog-altimeterSetting">
+        <source>Altimeter Setting</source>
+        <translation>Nastavení výškoměru</translation>
+    </message>
+    <message id="IGC-Choose-dialog-competitionClass">
+        <source>competitionClass</source>
+        <translation>třída</translation>
+    </message>
+    <message id="IGC-Choose-dialog-competitionId">
+        <source>competitionId</source>
+        <translation>soutěžní id</translation>
+    </message>
+    <message id="IGC-Choose-dialog-manufacturer">
+        <source>manufacturer</source>
+        <translation>Výrobce</translation>
+    </message>
+    <message id="IGC-Choose-dialog-frType">
+        <source>frType</source>
+        <translation>typ zapisovače</translation>
+    </message>
+    <message id="IGC-Choose-dialog-gliderId">
+        <source>gliderId</source>
+        <translation>id letounu</translation>
+    </message>
+    <message id="IGC-Choose-dialog-gps">
+        <source>gps</source>
+        <translation>gps</translation>
+    </message>
 </context>
 <context>
     <name>CalendarWindow</name>
