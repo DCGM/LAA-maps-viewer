@@ -1653,8 +1653,9 @@
         <translation>Soutěžící</translation>
     </message>
     <message id="IGC-Choose-dialog-match-count">
-        <source>Count</source>
-        <translation>Počet</translation>
+        <source>Crew count</source>
+        <oldsource>Count</oldsource>
+        <translation>Počet posádek</translation>
     </message>
     <message id="IGC-Choose-Dialog-ok">
         <source>Ok</source>
@@ -1877,11 +1878,11 @@
     </message>
     <message id="IGC-Choose-dialog-competitionClass">
         <source>competitionClass</source>
-        <translation>třída</translation>
+        <translation>Soutěžní třída</translation>
     </message>
     <message id="IGC-Choose-dialog-competitionId">
         <source>competitionId</source>
-        <translation>soutěžní id</translation>
+        <translation>Soutěžní id</translation>
     </message>
     <message id="IGC-Choose-dialog-manufacturer">
         <source>manufacturer</source>
@@ -1889,15 +1890,15 @@
     </message>
     <message id="IGC-Choose-dialog-frType">
         <source>frType</source>
-        <translation>typ zapisovače</translation>
+        <translation>Typ zapisovače</translation>
     </message>
     <message id="IGC-Choose-dialog-gliderId">
         <source>gliderId</source>
-        <translation>id letounu</translation>
+        <translation>ID letounu</translation>
     </message>
     <message id="IGC-Choose-dialog-gps">
         <source>gps</source>
-        <translation>gps</translation>
+        <translation>GPS</translation>
     </message>
 </context>
 <context>

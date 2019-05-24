@@ -65,7 +65,6 @@ ApplicationWindow {
             fixLast = igc_helper.get(fixCount - 1).time
             fixLast = F.addTimeStrFormat(F.addUtcToTime(F.timeToUnix(fixLast), applicationWindow.utc_offset_sec));
 
-
             fileContestantPairModel.append
                     ({
                          "filepath" : filepath,
@@ -75,7 +74,7 @@ ApplicationWindow {
                          "fixFirst": fixFirst,
                          "fixLast": fixLast,
                          "fixCount": fixCount,
-                         "date": igc_helper.date,
+                         "date": igc_helper.date.toLocaleDateString(Qt.locale(locale), Locale.ShortFormat),
                          "altimeterSetting": igc_helper.altimeterSetting,
                          "competitionClass": igc_helper.competitionClass,
                          "competitionId": igc_helper.competitionId,
@@ -145,7 +144,7 @@ ApplicationWindow {
             width: 300
         }
         TableViewColumn {
-            //% "Count"
+            //% "Crew count"
             title: qsTrId("IGC-Choose-dialog-match-count")
             role: "matchCount"
             width: 40
@@ -173,7 +172,7 @@ ApplicationWindow {
             //% "Date"
             title: qsTrId("IGC-Choose-dialog-date")
             role: "date"
-            width: 140
+            width: 80
         }
 
         TableViewColumn {

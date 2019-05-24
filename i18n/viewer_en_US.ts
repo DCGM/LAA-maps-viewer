@@ -1650,8 +1650,9 @@
         <translation>Contestant</translation>
     </message>
     <message id="IGC-Choose-dialog-match-count">
-        <source>Count</source>
-        <translation>Count</translation>
+        <source>Crew count</source>
+        <oldsource>Count</oldsource>
+        <translation>Crew count</translation>
     </message>
     <message id="IGC-Choose-Dialog-ok">
         <source>Ok</source>
@@ -1873,11 +1874,11 @@
     </message>
     <message id="IGC-Choose-dialog-competitionClass">
         <source>competitionClass</source>
-        <translation>competition class</translation>
+        <translation>Competition class</translation>
     </message>
     <message id="IGC-Choose-dialog-competitionId">
         <source>competitionId</source>
-        <translation>competition id</translation>
+        <translation>Competition id</translation>
     </message>
     <message id="IGC-Choose-dialog-manufacturer">
         <source>manufacturer</source>
@@ -1885,15 +1886,15 @@
     </message>
     <message id="IGC-Choose-dialog-frType">
         <source>frType</source>
-        <translation>recoreder type</translation>
+        <translation>Recoreder type</translation>
     </message>
     <message id="IGC-Choose-dialog-gliderId">
         <source>gliderId</source>
-        <translation>glider id</translation>
+        <translation>Glider id</translation>
     </message>
     <message id="IGC-Choose-dialog-gps">
         <source>gps</source>
-        <translation>gps</translation>
+        <translation>GPS</translation>
     </message>
 </context>
 <context>

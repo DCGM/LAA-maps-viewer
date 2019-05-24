@@ -112,9 +112,11 @@ int main(int argc, char *argv[])
     if (translator.load(QLatin1String("viewer_") + QLocale::system().name(), "./")) {
         app.installTranslator(&translator);
         engine.rootContext()->setContextProperty("locale", QLocale::system().bcp47Name());
+        qDebug() << QLocale::system().name() << QLocale::system().bcp47Name();
     } else if (translator.load(QLatin1String("viewer_") + QLocale::system().name(), QLibraryInfo::location(QLibraryInfo::TranslationsPath))) {
         app.installTranslator(&translator);
         engine.rootContext()->setContextProperty("locale", QLocale::system().bcp47Name());
+        qDebug() << QLocale::system().name() << QLocale::system().bcp47Name() << QLibraryInfo::location(QLibraryInfo::TranslationsPath);
     } else {
         qDebug() << "translation.load() failed - falling back to English";
 
