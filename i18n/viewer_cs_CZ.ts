@@ -1906,7 +1906,7 @@
     </message>
     <message id="results-window-dialog-selected-position-gpsindex">
         <source>ID</source>
-        <translation>ID</translation>
+        <translation type="vanished">ID</translation>
     </message>
     <message id="results-window-dialog-selected-position-time">
         <source>Time</source>
@@ -1937,6 +1937,10 @@
         <source>Triangle area of first three points: %1 km²</source>
         <oldsource>Triangle area of first 3 points: %1 km²</oldsource>
         <translation>Obsah trojúhelníku z prvních tří bodů: %1 km²</translation>
+    </message>
+    <message id="results-window-dialog-selected-position-distance-previous">
+        <source>Distance to previous</source>
+        <translation>Vzdálenost k předchozímu</translation>
     </message>
 </context>
 <context>

@@ -56,7 +56,25 @@ Rectangle {
     ListModel { id: currentSpaceSectionsScoreList }
     ListModel { id: currentPolyResultsScoreList }
     ListModel { id: currentCirclingScoreList }
-    ListModel { id: currentSelectedPositionsList }
+    ListModel { id: currentSelectedPositionsList;
+        onCountChanged: {
+            console.log("recomputing distances " + count);
+            if (count <= 1) {
+                return;
+            }
+
+            var item = get(0);
+            setProperty(0, "distanceprev", 0);
+            var previtem = item;
+            for (var i = 1; i < count; i++) {
+                item = get(i);
+
+                setProperty(i, "distanceprev", F.getDistanceTo(previtem.lat, previtem.lon, item.lat, item.lon));
+
+                previtem = item;
+            }
+        }
+    }
 
     Component.onCompleted: {
         curentContestant = createBlankUserObject();
@@ -1680,8 +1698,6 @@ Rectangle {
 
                     }
 
-                    //% "ID"
-                    TableViewColumn {title: qsTrId("results-window-dialog-selected-position-gpsindex"); role: "gpsindex"; width: 90;}
                     //% "Time"
                     TableViewColumn {title: qsTrId("results-window-dialog-selected-position-time"); role: "time"; width: 90;}
                     //% "Latitude"
@@ -1692,6 +1708,9 @@ Rectangle {
                     TableViewColumn {title: qsTrId("results-window-dialog-selected-position-alt"); role: "alt"; width: 90;}
                     //% "Direction"
                     TableViewColumn {title: qsTrId("results-window-dialog-selected-position-azimuth"); role: "azimuth"; width: 90;}
+
+                    //% "Distance to previous"
+                    TableViewColumn {title: qsTrId("results-window-dialog-selected-position-distance-previous"); role: "distanceprev"; width: 90;}
 
                     Component.onCompleted: {
                         selection.selectionChanged.connect(rowSelected);
