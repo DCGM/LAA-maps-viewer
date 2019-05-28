@@ -1929,6 +1929,11 @@
         <oldsource>Mark position</oldsource>
         <translation>Select position</translation>
     </message>
+    <message id="results-window-dialog-selected-positions-triangle-area">
+        <source>Triangle area of first three points: %1 km²</source>
+        <oldsource>Triangle area of first 3 points: %1 km²</oldsource>
+        <translation>Triangle area of first three points: %1 km²</translation>
+    </message>
 </context>
 <context>
     <name>CalendarWindow</name>

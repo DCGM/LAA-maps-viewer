@@ -29,6 +29,8 @@ Item {
                 return F.getLat(value, {coordinateFormat: "DMS"});
             case "lon":
                 return F.getLon(value, {coordinateFormat: "DMS"});
+            case "azimuth":
+                return parseFloat(value).toFixed(2);
             default:
                 return value;
         }

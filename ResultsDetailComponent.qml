@@ -1636,57 +1636,83 @@ Rectangle {
 
         Tab {
             id: selectedPositionsTab;
+            anchors.fill: parent;
             //% "Selected Positions (%1)"
             title: qsTrId("results-window-dialog-selected-positions").arg(currentSelectedPositionsList.count)
             enabled: (currentSelectedPositionsList.count > 0);
 
-            TableView {
-                id: selectedPositionsTable
-                anchors.fill: parent
-                model: currentSelectedPositionsList;
+            property real triangleSize: (currentSelectedPositionsList.count >= 3) ?
+                                            F.triangle_area_heron_points(
+                                                currentSelectedPositionsList.get(0).lat, currentSelectedPositionsList.get(0).lon,
+                                                currentSelectedPositionsList.get(1).lat, currentSelectedPositionsList.get(1).lon,
+                                                currentSelectedPositionsList.get(2).lat, currentSelectedPositionsList.get(2).lon,
+                                                ) : 0.0
 
-                itemDelegate:  CirclingResultsTableItemDelegate {
+            Rectangle {
+                anchors.fill: parent;
+
+                NativeText {
+                    id: triangleSizeText
+                    anchors.bottom: parent.bottom;
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.margins: 6;
+                    //% "Triangle area of first three points: %1 km²"
+                    text: qsTrId("results-window-dialog-selected-positions-triangle-area").arg(F.formatArea(selectedPositionsTab.triangleSize, "km2"));
+                    height: triangleSizeText.paintedHeight
                 }
 
-                rowDelegate: Rectangle {
-                    height: 30;
-                    color: styleData.selected ? "#0077cc" : (styleData.alternate? "#eee" : "#fff")
+                TableView {
+                    id: selectedPositionsTable;
+                    anchors.bottom: triangleSizeText.top;
+                    anchors.top: parent.top;
+                    anchors.left: parent.left;
+                    anchors.right: parent.right;
 
-                }
+                    model: currentSelectedPositionsList;
 
-                //% "ID"
-                TableViewColumn {title: qsTrId("results-window-dialog-selected-position-gpsindex"); role: "gpsindex"; width: 90;}
-                //% "Time"
-                TableViewColumn {title: qsTrId("results-window-dialog-selected-position-time"); role: "time"; width: 90;}
-                //% "Latitude"
-                TableViewColumn {title: qsTrId("results-window-dialog-selected-position-lat"); role: "lat"; width: 150;}
-                //% "Longitude"
-                TableViewColumn {title: qsTrId("results-window-dialog-selected-position-lon"); role: "lon"; width: 150;}
-                //% "Altitude
-                TableViewColumn {title: qsTrId("results-window-dialog-selected-position-alt"); role: "alt"; width: 90;}
-                //% "Direction"
-                TableViewColumn {title: qsTrId("results-window-dialog-selected-position-azimuth"); role: "azimuth"; width: 90;}
-
-                Component.onCompleted: {
-                    selection.selectionChanged.connect(rowSelected);
-                }
-
-                function rowSelected() {
-                    var current = -1;
-                    selectedPositionsTable.selection.forEach( function(rowIndex) { current = rowIndex; } )
-                    if (current < 0) {
-                        return;
+                    itemDelegate:  CirclingResultsTableItemDelegate {
                     }
 
-                    var item = currentSelectedPositionsList.get(current);
+                    rowDelegate: Rectangle {
+                        height: 30;
+                        color: styleData.selected ? "#0077cc" : (styleData.alternate? "#eee" : "#fff")
 
-                    clickedMeasuredTime(F.timeToUnix(item.time))
-//                    console.log(JSON.stringify(item))
+                    }
+
+                    //% "ID"
+                    TableViewColumn {title: qsTrId("results-window-dialog-selected-position-gpsindex"); role: "gpsindex"; width: 90;}
+                    //% "Time"
+                    TableViewColumn {title: qsTrId("results-window-dialog-selected-position-time"); role: "time"; width: 90;}
+                    //% "Latitude"
+                    TableViewColumn {title: qsTrId("results-window-dialog-selected-position-lat"); role: "lat"; width: 150;}
+                    //% "Longitude"
+                    TableViewColumn {title: qsTrId("results-window-dialog-selected-position-lon"); role: "lon"; width: 150;}
+                    //% "Altitude"
+                    TableViewColumn {title: qsTrId("results-window-dialog-selected-position-alt"); role: "alt"; width: 90;}
+                    //% "Direction"
+                    TableViewColumn {title: qsTrId("results-window-dialog-selected-position-azimuth"); role: "azimuth"; width: 90;}
+
+                    Component.onCompleted: {
+                        selection.selectionChanged.connect(rowSelected);
+                    }
+
+                    function rowSelected() {
+                        var current = -1;
+                        selectedPositionsTable.selection.forEach( function(rowIndex) { current = rowIndex; } )
+                        if (current < 0) {
+                            return;
+                        }
+
+                        var item = currentSelectedPositionsList.get(current);
+
+                        clickedMeasuredTime(F.timeToUnix(item.time))
+                        //                    console.log(JSON.stringify(item))
+                    }
+
                 }
 
             }
-
-
         }
 
         /////////////////////

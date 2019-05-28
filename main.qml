@@ -1522,9 +1522,10 @@ ApplicationWindow {
                             "azimuth" : azimuth
                         }
                         positions.push(item);
+                        console.log("positions added " + positions.length)
                     } else {
                         var removed = positions.splice(pos_index,1);
-                        console.log("removed " + pos_index)
+                        console.log("positions removed " + pos_index)
                     }
 
                     if (resultsDetailComponent.visible) {
@@ -1546,6 +1547,7 @@ ApplicationWindow {
 
 //                    console.log("Measured position at: " + JSON.stringify(positions));
 
+                    writeScoreManulaValToCSV();
                 }
 
                 // navigation icons
