@@ -1499,7 +1499,7 @@ ApplicationWindow {
                     var con = contestantsListModel.get(current);
 
                     var positions = [];
-                    if (con.selectedPositions !== undefined && con.selectedPositions !== "") {
+                    if ((con.selectedPositions !== undefined) && (con.selectedPositions !== "undefined") && (con.selectedPositions !== "")) {
                         positions = JSON.parse(con.selectedPositions);
                     }
 
