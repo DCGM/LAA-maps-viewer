@@ -1663,7 +1663,7 @@ Rectangle {
                                             F.triangle_area_heron_points(
                                                 currentSelectedPositionsList.get(0).lat, currentSelectedPositionsList.get(0).lon,
                                                 currentSelectedPositionsList.get(1).lat, currentSelectedPositionsList.get(1).lon,
-                                                currentSelectedPositionsList.get(2).lat, currentSelectedPositionsList.get(2).lon,
+                                                currentSelectedPositionsList.get(2).lat, currentSelectedPositionsList.get(2).lon
                                                 ) : 0.0
 
             Rectangle {
