@@ -1519,7 +1519,8 @@ ApplicationWindow {
                             "lon" : lon,
                             "time" : time,
                             "alt" : alt,
-                            "azimuth" : azimuth
+                            "azimuth" : azimuth,
+                            "distanceprev": 0
                         }
                         positions.push(item);
                         console.log("positions added " + positions.length)
