@@ -1936,11 +1936,16 @@
     <message id="results-window-dialog-selected-positions-triangle-area">
         <source>Triangle area of first three points: %1 km²</source>
         <oldsource>Triangle area of first 3 points: %1 km²</oldsource>
-        <translation>Obsah trojúhelníku z prvních tří bodů: %1 km²</translation>
+        <translation type="vanished">Obsah trojúhelníku z prvních tří bodů: %1 km²</translation>
     </message>
     <message id="results-window-dialog-selected-position-distance-previous">
         <source>Distance to previous</source>
         <translation>Vzdálenost k předchozímu</translation>
+    </message>
+    <message id="results-window-dialog-selected-positions-triangle">
+        <source>Triangle area %1 km² and circuit %2 km</source>
+        <oldsource>Triangle area %1 km² and distance %2 km</oldsource>
+        <translation>Trojúhelník obsah %1 km² a obvod %2 km</translation>
     </message>
 </context>
 <context>

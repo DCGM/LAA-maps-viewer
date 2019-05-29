@@ -1118,6 +1118,13 @@ function pointInPolygon(polygon, point) {
     return c;
 }
 
+function triangle_distance_points(lat1, lon1, lat2, lon2, lat3, lon3) {
+    var a = getDistanceTo(lat1, lon1, lat2, lon2);
+    var b = getDistanceTo(lat2, lon2, lat3, lon3);
+    var c = getDistanceTo(lat3, lon3, lat1, lon1);
+    return a + b + c;
+}
+
 /**
   * Compute area of triangle given by geographical coordinates of three points
   * @return area in square meters

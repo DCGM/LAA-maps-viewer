@@ -1659,12 +1659,20 @@ Rectangle {
             title: qsTrId("results-window-dialog-selected-positions").arg(currentSelectedPositionsList.count)
             enabled: (currentSelectedPositionsList.count > 0);
 
-            property real triangleSize: (currentSelectedPositionsList.count >= 3) ?
+            property real triangleArea: (currentSelectedPositionsList.count >= 3) ?
                                             F.triangle_area_heron_points(
                                                 currentSelectedPositionsList.get(0).lat, currentSelectedPositionsList.get(0).lon,
                                                 currentSelectedPositionsList.get(1).lat, currentSelectedPositionsList.get(1).lon,
                                                 currentSelectedPositionsList.get(2).lat, currentSelectedPositionsList.get(2).lon
                                                 ) : 0.0
+            property real triangleDistance: (currentSelectedPositionsList.count >= 3) ?
+                                                parseFloat(
+                                                    F.triangle_distance_points(
+                                                        currentSelectedPositionsList.get(0).lat, currentSelectedPositionsList.get(0).lon,
+                                                        currentSelectedPositionsList.get(1).lat, currentSelectedPositionsList.get(1).lon,
+                                                        currentSelectedPositionsList.get(2).lat, currentSelectedPositionsList.get(2).lon
+                                                        )/1000
+                                                    ).toFixed(4) : 0.0
 
             Rectangle {
                 anchors.fill: parent;
@@ -1675,8 +1683,8 @@ Rectangle {
                     anchors.left: parent.left
                     anchors.right: parent.right
                     anchors.margins: 6;
-                    //% "Triangle area of first three points: %1 km²"
-                    text: qsTrId("results-window-dialog-selected-positions-triangle-area").arg(F.formatArea(selectedPositionsTab.triangleSize, "km2"));
+                    //% "Triangle area %1 km² and circuit %2 km"
+                    text: qsTrId("results-window-dialog-selected-positions-triangle").arg(F.formatArea(selectedPositionsTab.triangleArea, "km2")).arg(selectedPositionsTab.triangleDistance);
                     height: triangleSizeText.paintedHeight
                 }
 
