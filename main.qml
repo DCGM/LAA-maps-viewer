@@ -4665,9 +4665,12 @@ ApplicationWindow {
         }
         str += ""
 
-
-        file_reader.copy_file(Qt.resolvedUrl(pathConfiguration.csvFile), Qt.resolvedUrl(pathConfiguration.csvFile+"~"));
-        file_reader.write(Qt.resolvedUrl(pathConfiguration.csvFile), str);
+        if (str === "") {
+            console.error("No data to save")
+        } else {
+            file_reader.copy_file(Qt.resolvedUrl(pathConfiguration.csvFile), Qt.resolvedUrl(pathConfiguration.csvFile+"~"));
+            file_reader.write(Qt.resolvedUrl(pathConfiguration.csvFile), str);
+        }
 
         str = "";
         // polozka i = 0 je vyhrazena pro pouziti "prazdne polozky" v comboboxu; misto toho by mela jit hlavicka
@@ -4690,8 +4693,13 @@ ApplicationWindow {
 
             str += line + "\n";
         }
-        file_reader.copy_file(Qt.resolvedUrl(pathConfiguration.contestantsFile), Qt.resolvedUrl(pathConfiguration.contestantsFile+"~"));
-        file_reader.write(Qt.resolvedUrl(pathConfiguration.contestantsFile), str);
+
+        if (str === "") {
+            console.error("No data to save")
+        } else {
+            file_reader.copy_file(Qt.resolvedUrl(pathConfiguration.contestantsFile), Qt.resolvedUrl(pathConfiguration.contestantsFile+"~"));
+            file_reader.write(Qt.resolvedUrl(pathConfiguration.contestantsFile), str);
+        }
 
     }
 
