@@ -1118,4 +1118,3 @@ function pointInPolygon(polygon, point) {
     return c;
 }
 
-
