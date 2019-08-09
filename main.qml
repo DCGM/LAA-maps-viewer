@@ -34,6 +34,12 @@ ApplicationWindow {
     property int utc_offset_sec: 0
 
 
+    onClosing: {
+        writeAllNow()
+        console.log("Quitting app")
+
+    }
+
     UploaderDialog {
         id: uploaderDialog
     }
@@ -69,7 +75,11 @@ ApplicationWindow {
             MenuItem {
                 //% "E&xit"
                 text: qsTrId("main-file-menu-exit")
-                onTriggered: Qt.quit();
+                onTriggered: {
+                    writeAllNow()
+                    console.log("Quitting app")
+                    Qt.quit()
+                }
                 shortcut: "Alt+F4"
             }
         }
@@ -750,9 +760,7 @@ ApplicationWindow {
                 contestantsListModel.remove(updateContestantMenu.row, 1);
 
                 // save results into CSV
-                writeCSV();
-                recalculateScoresTo1000();
-                writeScoreManulaValToCSV();
+                writeAllRequest();
             }
         }
 
@@ -943,10 +951,7 @@ ApplicationWindow {
             }
 
             // save results into CSV
-            writeCSV();
-            recalculateScoresTo1000();
-            writeScoreManulaValToCSV();
-            writeJSONDump();
+            writeAllRequest();
 
             // gen new results sheet
             genResultsDetailTimer.showOnFinished = false;   // dont open results automatically
@@ -1334,7 +1339,7 @@ ApplicationWindow {
                     recalculateScoresTo1000();
 
                     // save changes into CSV
-                    writeScoreManulaValToCSV();
+                    writeAllRequest();
 
                 }
 
@@ -1549,7 +1554,7 @@ ApplicationWindow {
 
 //                    console.log("Measured position at: " + JSON.stringify(positions));
 
-                    writeScoreManulaValToCSV();
+                    writeAllRequest();
                 }
 
                 // navigation icons
@@ -1813,6 +1818,31 @@ ApplicationWindow {
     }
 
     Timer {
+        id: writeAllTimer
+        interval: 1000;
+        running: true;
+        repeat: true;
+        property bool shoot: false;
+        onTriggered: {
+            if (!shoot) {
+                return;
+            }
+            shoot = false;
+
+            if (genResultsDetailTimer.running
+                    || computingTimer.running
+                    || resultsExporterTimer.running
+                    || workingTimer.running
+                    || evaluateTimer.running
+                    ) {
+                console.log("other timer running, skipping write")
+                return;
+            }
+            writeAllNow();
+        }
+    }
+
+    Timer {
         id: genResultsDetailTimer
         running: false;
         interval: 20;
@@ -1832,6 +1862,7 @@ ApplicationWindow {
             contestantsTable.generateResults(current, showOnFinished);
 
             showOnFinished = false;
+            writeAllRequest();
         }
     }
 
@@ -2733,6 +2764,7 @@ ApplicationWindow {
             csvString += "\n";
         }
 
+        file_reader.copy_file(Qt.resolvedUrl(pathConfiguration.resultsFolder + "/" + pathConfiguration.competitionName + "_" + resultsFilename + ".csv"), Qt.resolvedUrl(pathConfiguration.resultsFolder + "/" + pathConfiguration.competitionName + "_" + resultsFilename + ".csv~"))
         file_reader.write(Qt.resolvedUrl(pathConfiguration.resultsFolder + "/" + pathConfiguration.competitionName + "_" + resultsFilename + ".csv"), csvString);
     }
 
@@ -4180,9 +4212,7 @@ ApplicationWindow {
         saveCurrentResultValues(current, contestant);
 
         // save changes to CSV
-        writeScoreManulaValToCSV();
-        writeCSV()
-        writeJSONDump();
+        writeAllRequest();
 
         // gen new results sheet
         genResultsDetailTimer.showOnFinished = false;   // dont open results automatically
@@ -4476,7 +4506,23 @@ ApplicationWindow {
             str += "\n";
         }
 
+        file_reader.copy_file(Qt.resolvedUrl(pathConfiguration.csvResultsFile),Qt.resolvedUrl(pathConfiguration.csvResultsFile+"~"))
         file_reader.write(Qt.resolvedUrl(pathConfiguration.csvResultsFile), str);
+    }
+
+    function writeAllRequest() {
+        console.count("dump of json data requested")
+
+        writeAllTimer.shoot = true;
+    }
+
+    function writeAllNow() {
+        console.time("write of all data")
+        writeCSV();
+        recalculateScoresTo1000();
+        writeScoreManulaValToCSV();
+        writeJSONDump();
+        console.timeEnd("write of all data")
     }
 
     function writeJSONDump() {
@@ -4599,6 +4645,7 @@ ApplicationWindow {
         };
 
         var str = JSON.stringify(fullSettings);
+        file_reader.copy_file(Qt.resolvedUrl(pathConfiguration.jsonDump),Qt.resolvedUrl(pathConfiguration.jsonDump+"~"))
         file_reader.write(Qt.resolvedUrl(pathConfiguration.jsonDump), str)
     }
 
@@ -4619,6 +4666,7 @@ ApplicationWindow {
         str += ""
 
 
+        file_reader.copy_file(Qt.resolvedUrl(pathConfiguration.csvFile), Qt.resolvedUrl(pathConfiguration.csvFile+"~"));
         file_reader.write(Qt.resolvedUrl(pathConfiguration.csvFile), str);
 
         str = "";
@@ -4642,6 +4690,7 @@ ApplicationWindow {
 
             str += line + "\n";
         }
+        file_reader.copy_file(Qt.resolvedUrl(pathConfiguration.contestantsFile), Qt.resolvedUrl(pathConfiguration.contestantsFile+"~"));
         file_reader.write(Qt.resolvedUrl(pathConfiguration.contestantsFile), str);
 
     }
@@ -4941,7 +4990,6 @@ ApplicationWindow {
 
         str += "</Folder></Document></kml>";
 
-
         file_reader.write(Qt.resolvedUrl(filename), str);
 
 
@@ -5148,11 +5196,7 @@ ApplicationWindow {
                 // category results
                 generateContinuousResults();
 
-                // save changes to CSV
-                writeScoreManulaValToCSV();
-
-                // tucek and tucek-settings CSV
-                writeCSV();
+                writeAllRequest();
 
                 return;
             }
@@ -5185,11 +5229,7 @@ ApplicationWindow {
                         // category results
                         generateContinuousResults();
 
-                        // save changes to CSV
-                        writeScoreManulaValToCSV();
-
-                        // tucek and tucek-settings CSV
-                        writeCSV();
+                        writeAllRequest();
 
                     } else { // go to next
                         contestantsTable.selection.clear();
@@ -5231,6 +5271,7 @@ ApplicationWindow {
                 // save downloaded applications
                 if (pathConfiguration.contestantsDownloadedString !== "") {
 
+                    file_reader.copy_file(Qt.resolvedUrl(pathConfiguration.contestantsFile), Qt.resolvedUrl(pathConfiguration.contestantsFile+"~"))
                     file_reader.write(Qt.resolvedUrl(pathConfiguration.contestantsFile), pathConfiguration.contestantsDownloadedString);
                     pathConfiguration.contestantsDownloadedString = "";
                 }
@@ -5296,10 +5337,7 @@ ApplicationWindow {
                 }
 
                 // save manual values
-                writeCSV();
-                recalculateScoresTo1000();
-                writeScoreManulaValToCSV();
-                writeJSONDump();
+                writeAllRequest();
 
                 break;
 
@@ -5320,10 +5358,7 @@ ApplicationWindow {
                 removedContestants.clear();
 
                 // save manual values
-                writeCSV();
-                recalculateScoresTo1000();
-                writeScoreManulaValToCSV();
-                writeJSONDump();
+                writeAllRequest();
 
                 // sort list model by startTime
                 running = true;
@@ -5357,6 +5392,7 @@ ApplicationWindow {
                 //running = false;
 
             }
+
         }
     }
 
@@ -5472,8 +5508,7 @@ ApplicationWindow {
                 pathConfiguration.competitionRound = pathConfiguration.competitionRound_default;
                 pathConfiguration.competitionGroupName = pathConfiguration.competitionGroupName_default;
 
-            }
-            else {
+            } else {
 
                 // set values from DB
                 pathConfiguration.competitionName = config.get("v2_competitionName", pathConfiguration.competitionName_default);
@@ -5751,7 +5786,6 @@ ApplicationWindow {
 
                 }
 
-                //                file_reader.write(Qt.resolvedUrl(pathConfiguration.assignFile), '');
                 file_reader.delete_file(Qt.resolvedUrl(pathConfiguration.assignFile));
 
 

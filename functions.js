@@ -1,6 +1,6 @@
 .pragma library
 
-var base_url = 'http://pcmlich.fit.vutbr.cz/ppt'
+var base_url = 'https://pcmlich.fit.vutbr.cz/ppt'
 //var base_url = 'http://ppt.laacr.cz'
 
 var earth_radius = 6371000;
