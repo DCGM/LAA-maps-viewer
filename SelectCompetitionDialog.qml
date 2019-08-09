@@ -482,7 +482,6 @@ ApplicationWindow {
                         console.error("getContestants: parse failed: " + e + " " + http.responseText)
 
                         errMessageDialog.title = "Error"
-                        //% "Can not download registrations for selected competition. Please check the settings (e.g. api_key) and try it again."
                         errMessageDialog.text = e.message
                         errMessageDialog.standardButtons = StandardButton.Close
                         errMessageDialog.showDialog();

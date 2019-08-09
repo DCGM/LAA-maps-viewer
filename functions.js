@@ -1118,3 +1118,45 @@ function pointInPolygon(polygon, point) {
     return c;
 }
 
+function triangle_distance_points(lat1, lon1, lat2, lon2, lat3, lon3) {
+    var a = getDistanceTo(lat1, lon1, lat2, lon2);
+    var b = getDistanceTo(lat2, lon2, lat3, lon3);
+    var c = getDistanceTo(lat3, lon3, lat1, lon1);
+    return a + b + c;
+}
+
+/**
+  * Compute area of triangle given by geographical coordinates of three points
+  * @return area in square meters
+  */
+
+function triangle_area_heron_points(lat1, lon1, lat2, lon2, lat3, lon3) {
+    var a = getDistanceTo(lat1, lon1, lat2, lon2);
+    var b = getDistanceTo(lat2, lon2, lat3, lon3);
+    var c = getDistanceTo(lat3, lon3, lat1, lon1);
+    return triangle_area_heron(a, b, c);
+}
+
+/**
+  * Compute area of triangle given by length of sides
+  */
+
+function triangle_area_heron(a, b, c) {
+    var s = (a + b + c) / 2;
+    return Math.sqrt(s * (s - a) * (s - b) * (s - c) );
+}
+
+/**
+  * format Area to something human readable lik
+  */
+
+function formatArea(size_in_meters, units) {
+    switch (units) {
+    case "km2":
+        return parseFloat(size_in_meters / 1000000).toFixed(4);
+    default:
+        return parseFloat(size_in_meters).toFixed(2);
+    }
+
+}
+

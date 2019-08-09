@@ -1902,7 +1902,7 @@
     </message>
     <message id="results-window-dialog-selected-position-gpsindex">
         <source>ID</source>
-        <translation>ID</translation>
+        <translation type="vanished">ID</translation>
     </message>
     <message id="results-window-dialog-selected-position-time">
         <source>Time</source>
@@ -1928,6 +1928,20 @@
         <source>Select position</source>
         <oldsource>Mark position</oldsource>
         <translation>Select position</translation>
+    </message>
+    <message id="results-window-dialog-selected-positions-triangle-area">
+        <source>Triangle area of first three points: %1 km²</source>
+        <oldsource>Triangle area of first 3 points: %1 km²</oldsource>
+        <translation type="vanished">Triangle area of first three points: %1 km²</translation>
+    </message>
+    <message id="results-window-dialog-selected-position-distance-previous">
+        <source>Distance to previous</source>
+        <translation>Distance to previous</translation>
+    </message>
+    <message id="results-window-dialog-selected-positions-triangle">
+        <source>Triangle area %1 km² and circuit %2 km</source>
+        <oldsource>Triangle area %1 km² and distance %2 km</oldsource>
+        <translation>Triangle area %1 km² and circuit %2 km</translation>
     </message>
 </context>
 <context>

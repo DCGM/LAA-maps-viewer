@@ -1500,7 +1500,7 @@ ApplicationWindow {
                     var con = contestantsListModel.get(current);
 
                     var positions = [];
-                    if (con.selectedPositions !== undefined && con.selectedPositions !== "") {
+                    if ((con.selectedPositions !== undefined) && (con.selectedPositions !== "undefined") && (con.selectedPositions !== "")) {
                         positions = JSON.parse(con.selectedPositions);
                     }
 
@@ -1520,12 +1520,14 @@ ApplicationWindow {
                             "lon" : lon,
                             "time" : time,
                             "alt" : alt,
-                            "azimuth" : azimuth
+                            "azimuth" : azimuth,
+                            "distanceprev": 0
                         }
                         positions.push(item);
+                        console.log("positions added " + positions.length)
                     } else {
                         var removed = positions.splice(pos_index,1);
-                        console.log("removed " + pos_index)
+                        console.log("positions removed " + pos_index)
                     }
 
                     if (resultsDetailComponent.visible) {
@@ -1547,6 +1549,7 @@ ApplicationWindow {
 
 //                    console.log("Measured position at: " + JSON.stringify(positions));
 
+                    writeScoreManulaValToCSV();
                 }
 
                 // navigation icons
