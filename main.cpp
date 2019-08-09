@@ -43,11 +43,16 @@ void myMessageHandler(QtMsgType type, const QMessageLogContext& context, const Q
 #else
     QFile outfile("viewer.log");
 #endif
-    outFile.open(QIODevice::WriteOnly | QIODevice::Append);
-    QTextStream ts(&outFile);
-
     QTextStream std_out(stdout, QIODevice::WriteOnly);
     QTextStream std_err(stderr, QIODevice::WriteOnly);
+
+    if (!outFile.open(QIODevice::WriteOnly | QIODevice::Append)) {
+        std_err << "Cannot open log file" << endl;
+    } else {
+        std_out << outFile.fileName() << endl;
+    }
+    QTextStream ts(&outFile);
+
 
     switch (type) {
     case QtDebugMsg:
@@ -88,11 +93,15 @@ int main(int argc, char *argv[])
 
     QApplication app(argc, argv);
 
-    qInstallMessageHandler(myMessageHandler);
-
     app.setOrganizationName("Brno University of Technology");
     app.setOrganizationDomain("fit.vutbr.cz");
     app.setApplicationName("LAA Maps Viewer");
+
+    qInstallMessageHandler(myMessageHandler);
+
+#if defined(Q_OS_LINUX)
+    qDebug() << QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QDir::separator() +"viewer.log";
+#endif
 
     QQmlApplicationEngine engine;
 
@@ -105,8 +114,6 @@ int main(int argc, char *argv[])
     qmlRegisterType<Uploader>("cz.mlich", 1, 0, "Uploader");
 
     QTranslator translator;
-    QTranslator qtTranslator;
-    QTranslator qtBaseTranslator;
 
     // custom components
     if (translator.load(QLatin1String("viewer_") + QLocale::system().name(), "./")) {

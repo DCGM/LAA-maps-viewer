@@ -2585,6 +2585,11 @@ ApplicationWindow {
     function applyPrevResultsSingle(row, contestant) {
         // load contestant category
         var trItem = [];
+        if (tracks === undefined || tracks.tracks === undefined) {
+            console.error("Cannot load tracks")
+            return;
+        }
+
         for (var t = 0; t < tracks.tracks.length; t++) {
 
             if (tracks.tracks[t].name === contestant.category) {
