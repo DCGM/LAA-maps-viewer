@@ -48,8 +48,6 @@ void myMessageHandler(QtMsgType type, const QMessageLogContext& context, const Q
 
     if (!outFile.open(QIODevice::WriteOnly | QIODevice::Append)) {
         std_err << "Cannot open log file" << endl;
-    } else {
-        std_out << outFile.fileName() << endl;
     }
     QTextStream ts(&outFile);
 
