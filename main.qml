@@ -5185,6 +5185,7 @@ ApplicationWindow {
 
         onTriggered: {
             computeScore(tpi, polys);
+            writeAllRequest();
             running = false;
         }
     }
