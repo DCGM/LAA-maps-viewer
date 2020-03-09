@@ -3547,12 +3547,14 @@ ApplicationWindow {
             var poly_result = {
                 "inside_time_start": "00:00:00",
                 "inside_time_end": "00:00:00",
+                "inside_seconds": 0,
                 "inside_count": 0,
                 "inside_alt_min": poly_alt_min,
                 "inside_alt_max": poly_alt_max,
                 "outside_time_start" : "00:00:00",
                 "outside_time_end" : "00:00:00",
                 "outside_count": 0,
+                "outside_seconds": 0,
                 "outside_alt_min": poly_alt_min,
                 "outside_alt_max": poly_alt_max,
             }
@@ -3797,8 +3799,8 @@ ApplicationWindow {
                     var poly_result = poly_results[j];
                     poly_result.name = poly.name;
 
-                    var indise = F.pointInPolygon(poly.points, igcthis)
-                    if (indise) {
+                    var inside = F.pointInPolygon(poly.points, igcthis)
+                    if (inside) {
                         if (poly_result.inside_count === 0) {
                             poly_result.inside_time_start = igcthis.time;
                         }
@@ -3806,6 +3808,7 @@ ApplicationWindow {
                         poly_result.inside_alt_min = Math.min(poly_result.inside_alt_min, igcthis.alt)
                         poly_result.inside_alt_max = Math.max(poly_result.inside_alt_max, igcthis.alt)
                         poly_result.inside_count = poly_result.inside_count + 1;
+                        poly_result.inside_seconds = F.timeToUnix(igcthis.time) - F.timeToUnix(poly_result.inside_time_start)
                     } else {
                         if (poly_result.outside_count=== 0) {
                             poly_result.outside_time_start = igcthis.time;
@@ -3814,6 +3817,7 @@ ApplicationWindow {
                         poly_result.outside_alt_min = Math.min(poly_result.outside_alt_min, igcthis.alt)
                         poly_result.outside_alt_max = Math.max(poly_result.outside_alt_max, igcthis.alt)
                         poly_result.outside_count = poly_result.outside_count + 1;
+                        poly_result.outside_seconds = F.timeToUnix(igcthis.time) - F.timeToUnix(poly_result.outside_time_start)
                     }
                     poly_results[j] = poly_result;
                 }

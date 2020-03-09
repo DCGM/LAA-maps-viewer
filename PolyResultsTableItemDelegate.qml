@@ -26,6 +26,9 @@ Item {
             case "outside_time_end":
                 var ret = F.addTimeStrFormat(F.addUtcToTime(F.timeToUnix(value), applicationWindow.utc_offset_sec));;
                 return ret;
+            case "inside_seconds":
+            case "outside_seconds":
+                return F.addTimeStrFormat(value)
             default:
                 return value;
         }

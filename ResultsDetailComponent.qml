@@ -1588,17 +1588,24 @@ Rectangle {
                 TableViewColumn {title: qsTrId("results-window-dialog-poly-time"); role: "inside_time_start"; width: 90;}
                 //% "Inside end"
                 TableViewColumn {title: qsTrId("results-window-dialog-poly-time-end"); role: "inside_time_end"; width: 90;}
+                //% "Inside fixes"
+                TableViewColumn {title: qsTrId("results-window-dialog-poly-inside-count"); role: "inside_count"; width: 90;}
+                //% "Inside time"
+                TableViewColumn {title: qsTrId("results-window-dialog-poly-inside-seconds"); role: "inside_seconds"; width: 90;}
+
                 //% "Outside start"
                 TableViewColumn {title: qsTrId("results-window-dialog-poly-time-outside"); role: "outside_time_start"; width: 90;}
                 //% "Outside end"
                 TableViewColumn {title: qsTrId("results-window-dialog-poly-time-outside-end"); role: "outside_time_end"; width: 90;}
+                //% "Outside fixes"
+                TableViewColumn {title: qsTrId("results-window-dialog-poly-outside-count"); role: "outside_count"; width: 90;}
+                //% "Outside time"
+                TableViewColumn {title: qsTrId("results-window-dialog-poly-outside-seconds"); role: "outside_seconds"; width: 90;}
 
 //                TableViewColumn {title: "results-window-dialog-poly-outside-alt-max"; role: "inside_alt_max"; width: 90;}
 //                TableViewColumn {title: "results-window-dialog-poly-outside-alt-min"; role: "inside_alt_min"; width: 90;}
 //                TableViewColumn {title: "results-window-dialog-poly-outside-alt-max"; role: "outside_alt_max"; width: 90;}
 //                TableViewColumn {title: "results-window-dialog-poly-outside-alt-min"; role: "outside_alt_min"; width: 90;}
-//                TableViewColumn {title: "results-window-dialog-poly-inside-count"; role: "inside_count"; width: 90;}
-//                TableViewColumn {title: "results-window-dialog-poly-outside-count"; role: "outside_count"; width: 90;}
             }
         }
 
