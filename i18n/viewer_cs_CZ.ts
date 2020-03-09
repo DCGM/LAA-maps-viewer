@@ -798,7 +798,7 @@
     <message id="about-licence">
         <source>
                 Authors: &lt;br/&gt;
-                Jozef Mlich, Adam Siroky, Pavel Zemcik, &lt;a href=\&quot;http://www.fit.vutbr.cz/\&quot;&gt;FIT VUT Brno&lt;/a&gt; &lt;br/&gt; &lt;br/&gt;
+                Jozef Mlich, Adam Siroky, Pavel Zemcik, &lt;a href=&quot;http://www.fit.vutbr.cz/&quot;&gt;FIT VUT Brno&lt;/a&gt; &lt;br/&gt; &lt;br/&gt;
 
                 Licence: &lt;br/&gt;
 
@@ -824,7 +824,7 @@
                 User may not copy, modify, grant sublicences or distribute Software in any other way than expressly provided for in this licence agreement. Any other copying, modifying, granting of sublicences or distribution of Software is illegal and will automatically result in termination of the rights granted by this licence. This does not affect rights of third parties acquired in good faith, as long as they abide by the terms and conditions of this licence agreement.
                 User may not use and/or distribute Software, if he/she cannot satisfy simultaneously obligations under this licence and any other pertinent obligations.
                 User is not responsible for enforcing terms of this agreement by third parties. &lt;br/&gt;
-                BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, TO THE EXTENT PERMITTED BY APPLICABLE LAW. EXCEPT WHEN OTHERWISE STATED IN WRITING, BUT PROVIDES SOFTWARE \&quot;AS IS\&quot; WITHOUT WARRANTY OF ANY KIND,EITHER EXPRESSED OR IMPLIED,INCLUDING,BUT NOT LIMITED TO,THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF SOFTWARE IS WITH USER. SHOULD SOFTWARE PROVE DEFECTIVE, USER SHALL ASSUME THE COST OF ALL NECESSARY SERVICING, REPAIR OR CORRECTION.
+                BECAUSE SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR SOFTWARE, TO THE EXTENT PERMITTED BY APPLICABLE LAW. EXCEPT WHEN OTHERWISE STATED IN WRITING, BUT PROVIDES SOFTWARE &quot;AS IS&quot; WITHOUT WARRANTY OF ANY KIND,EITHER EXPRESSED OR IMPLIED,INCLUDING,BUT NOT LIMITED TO,THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF SOFTWARE IS WITH USER. SHOULD SOFTWARE PROVE DEFECTIVE, USER SHALL ASSUME THE COST OF ALL NECESSARY SERVICING, REPAIR OR CORRECTION.
                 IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN WRITING WILL BRNO UNIVERSITY OF TECHNOLOGY BE LIABLE FOR DAMAGES, INCLUDING ANY GENERAL, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR INABILITY TO USE SOFTWARE (INCLUDING BUT NOT LIMITED TO LOSS OF DATA OR DATA BEING RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU OR THIRD PARTIES OR A FAILURE OF SOFTWARE TO OPERATE WITH ANY OTHER PROGRAMS). &lt;br/&gt;
                 Final provisions: &lt;br/&gt;
                 Any provision of this licence agreement that is prohibited, unenforceable, or not authorized in any jurisdiction shall, as to such jurisdiction, be ineffective to the extent of such prohibition, unenforceability, or non-authorization without invalidating or affecting the remaining provisions.
@@ -833,10 +833,10 @@
                 By installing, copying or other use of Software User declares he/she has read this terms and conditions, understands them and his/her use of Software is a demonstration of his/her free will absent of any duress.
                 </source>
         <oldsource>
-                Authors: &lt;br/&gt;\n
-                Jozef Mlich, Adam Siroky, Pavel Zemcik, &lt;a href=\&quot;http://www.fit.vutbr.cz/\&quot;&gt;FIT VUT Brno&lt;/a&gt; &lt;br/&gt; &lt;br/&gt;\n\n
+                Authors: &lt;br/&gt;
+                Jozef Mlich, Adam Siroky, Pavel Zemcik, &lt;a href=\&quot;http://www.fit.vutbr.cz/\&quot;&gt;FIT VUT Brno&lt;/a&gt; &lt;br/&gt; &lt;br/&gt;
 
-                Licence: &lt;br/&gt;\n
+                Licence: &lt;br/&gt;
 
                 BUT OPEN SOURCE LICENCE
                 Version 1.
@@ -1946,6 +1946,22 @@
         <source>Triangle area %1 km² and circuit %2 km</source>
         <oldsource>Triangle area %1 km² and distance %2 km</oldsource>
         <translation>Trojúhelník obsah %1 km² a obvod %2 km</translation>
+    </message>
+    <message id="results-window-dialog-poly-inside-count">
+        <source>Inside fixes</source>
+        <translation>Fixů uvnitř</translation>
+    </message>
+    <message id="results-window-dialog-poly-inside-seconds">
+        <source>Inside time</source>
+        <translation>Čas uvnitř</translation>
+    </message>
+    <message id="results-window-dialog-poly-outside-count">
+        <source>Outside fixes</source>
+        <translation>Fixů vně</translation>
+    </message>
+    <message id="results-window-dialog-poly-outside-seconds">
+        <source>Outside time</source>
+        <translation>Čas vně</translation>
     </message>
 </context>
 <context>
