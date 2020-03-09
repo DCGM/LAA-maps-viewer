@@ -34,6 +34,12 @@ ApplicationWindow {
     property int utc_offset_sec: 0
 
 
+    onClosing: {
+        writeAllNow()
+        console.log("Quitting app")
+
+    }
+
     UploaderDialog {
         id: uploaderDialog
     }
@@ -69,7 +75,11 @@ ApplicationWindow {
             MenuItem {
                 //% "E&xit"
                 text: qsTrId("main-file-menu-exit")
-                onTriggered: Qt.quit();
+                onTriggered: {
+                    writeAllNow()
+                    console.log("Quitting app")
+                    Qt.quit()
+                }
                 shortcut: "Alt+F4"
             }
         }
@@ -750,9 +760,7 @@ ApplicationWindow {
                 contestantsListModel.remove(updateContestantMenu.row, 1);
 
                 // save results into CSV
-                writeCSV();
-                recalculateScoresTo1000();
-                writeScoreManulaValToCSV();
+                writeAllRequest();
             }
         }
 
@@ -943,9 +951,7 @@ ApplicationWindow {
             }
 
             // save results into CSV
-            writeCSV();
-            recalculateScoresTo1000();
-            writeScoreManulaValToCSV();
+            writeAllRequest();
 
             // gen new results sheet
             genResultsDetailTimer.showOnFinished = false;   // dont open results automatically
@@ -1333,7 +1339,7 @@ ApplicationWindow {
                     recalculateScoresTo1000();
 
                     // save changes into CSV
-                    writeScoreManulaValToCSV();
+                    writeAllRequest();
 
                 }
 
@@ -1548,7 +1554,7 @@ ApplicationWindow {
 
 //                    console.log("Measured position at: " + JSON.stringify(positions));
 
-                    writeScoreManulaValToCSV();
+                    writeAllRequest();
                 }
 
                 // navigation icons
@@ -1812,6 +1818,31 @@ ApplicationWindow {
     }
 
     Timer {
+        id: writeAllTimer
+        interval: 1000;
+        running: true;
+        repeat: true;
+        property bool shoot: false;
+        onTriggered: {
+            if (!shoot) {
+                return;
+            }
+            shoot = false;
+
+            if (genResultsDetailTimer.running
+                    || computingTimer.running
+                    || resultsExporterTimer.running
+                    || workingTimer.running
+                    || evaluateTimer.running
+                    ) {
+                console.log("other timer running, skipping write")
+                return;
+            }
+            writeAllNow();
+        }
+    }
+
+    Timer {
         id: genResultsDetailTimer
         running: false;
         interval: 20;
@@ -1831,6 +1862,7 @@ ApplicationWindow {
             contestantsTable.generateResults(current, showOnFinished);
 
             showOnFinished = false;
+            writeAllRequest();
         }
     }
 
@@ -2584,6 +2616,11 @@ ApplicationWindow {
     function applyPrevResultsSingle(row, contestant) {
         // load contestant category
         var trItem = [];
+        if (tracks === undefined || tracks.tracks === undefined) {
+            console.error("Cannot load tracks")
+            return;
+        }
+
         for (var t = 0; t < tracks.tracks.length; t++) {
 
             if (tracks.tracks[t].name === contestant.category) {
@@ -2727,6 +2764,7 @@ ApplicationWindow {
             csvString += "\n";
         }
 
+        file_reader.copy_file(Qt.resolvedUrl(pathConfiguration.resultsFolder + "/" + pathConfiguration.competitionName + "_" + resultsFilename + ".csv"), Qt.resolvedUrl(pathConfiguration.resultsFolder + "/" + pathConfiguration.competitionName + "_" + resultsFilename + ".csv~"))
         file_reader.write(Qt.resolvedUrl(pathConfiguration.resultsFolder + "/" + pathConfiguration.competitionName + "_" + resultsFilename + ".csv"), csvString);
     }
 
@@ -4178,8 +4216,7 @@ ApplicationWindow {
         saveCurrentResultValues(current, contestant);
 
         // save changes to CSV
-        writeScoreManulaValToCSV();
-        writeCSV()
+        writeAllRequest();
 
         // gen new results sheet
         genResultsDetailTimer.showOnFinished = false;   // dont open results automatically
@@ -4473,7 +4510,147 @@ ApplicationWindow {
             str += "\n";
         }
 
+        file_reader.copy_file(Qt.resolvedUrl(pathConfiguration.csvResultsFile),Qt.resolvedUrl(pathConfiguration.csvResultsFile+"~"))
         file_reader.write(Qt.resolvedUrl(pathConfiguration.csvResultsFile), str);
+    }
+
+    function writeAllRequest() {
+        console.count("dump of json data requested")
+
+        writeAllTimer.shoot = true;
+    }
+
+    function writeAllNow() {
+        console.time("write of all data")
+        writeCSV();
+        recalculateScoresTo1000();
+        writeScoreManulaValToCSV();
+        writeJSONDump();
+        console.timeEnd("write of all data")
+    }
+
+    function writeJSONDump() {
+
+        var datamodel = []
+        var j = 0;
+        for (var i = 0; i < contestantsListModel.count; ++i){
+            var item = contestantsListModel.get(i)
+            var js_item = JSON.parse(JSON.stringify(item));
+
+            if (item.prevResultsScoreJson === "") {
+                js_item.prevResultsScoreJson = [];
+            } else {
+                try {
+                    js_item.prevResultsScoreJson = JSON.parse(item.prevResultsScoreJson);
+                } catch (e1) {
+                    js_item.prevResultsScoreJson = [];
+                    console.log(e1 + " prevResultsScoreJson["+i+"]: " + item.prevResultsScoreJson.substring(0, 20))
+                }
+            }
+
+            if (item.prevResultsWPT === "") {
+                js_item.prevResultsWPT = [];
+            } else {
+                try {
+                    var arr = item.prevResultsWPT.split("; ")
+                    var prevResultsWPT = []
+
+                    for (j = 0; j < arr.length; j++) {
+                        var prevResultsWPTItem = JSON.parse(arr[j]);
+                        prevResultsWPT.push(prevResultsWPTItem)
+                    }
+
+                    js_item.prevResultsWPT = prevResultsWPT;
+
+
+                } catch (e2) {
+                    js_item.prevResultsWPT = [];
+                    console.log(e2)
+                }
+            }
+
+            if (item.score_json === "") {
+                js_item.score_json = [];
+            } else {
+                try {
+                    js_item.score_json = JSON.parse(item.score_json);
+                } catch (e3) {
+                    js_item.score_json = [];
+                    console.log(e3 + " score_json["+i+"]:" + item.score_json.substring(0, 20))
+                }
+            }
+
+            if (item.wptScoreDetails === "") {
+                js_item.wptScoreDetails = [];
+            } else {
+                try {
+                    var arr2 = item.wptScoreDetails.split("; ")
+                    var wptScoreDetails = []
+
+                    for (j = 0; j < arr2.length; j++) {
+                        wptScoreDetails.push(JSON.parse(arr2[j]))
+                    }
+
+                    js_item.wptScoreDetails = wptScoreDetails;
+                } catch (e4) {
+                    js_item.wptScoreDetails = [];
+                    console.log(e4)
+                }
+            }
+
+            if (item.selectedPositions === "") {
+                js_item.selectedPositions = [];
+            } else {
+                try {
+                    js_item.selectedPositions = JSON.parse(item.selectedPositions);
+                } catch (e5) {
+                    js_item.selectedPositions = [];
+                    console.log(e5 + " selectedPositions["+i+"]:" + item.selectedPositions.substring(0, 20))
+                }
+            }
+
+            datamodel.push(js_item);
+        }
+
+        var fullSettings = {
+            "pathConfiguration" : {
+                "competitionArbitr": pathConfiguration.competitionArbitr,
+                "contestantsFile": pathConfiguration.contestantsFile,
+                "csvFile": pathConfiguration.csvFile,
+                "tsFile": pathConfiguration.tsFile,
+                "assignFile": pathConfiguration.assignFile,
+                "csvResultsFile": pathConfiguration.csvResultsFile,
+                "jsonDump": pathConfiguration.jsonDump,
+                "igcDirectory": pathConfiguration.igcDirectory,
+                "trackFile": pathConfiguration.trackFile,
+                "resultsFolder": pathConfiguration.resultsFolder,
+                "enableSelfIntersectionDetector": pathConfiguration.enableSelfIntersectionDetector,
+                "contestantsDownloadedString": pathConfiguration.contestantsDownloadedString,
+                "online": pathConfiguration.online,
+                "competitionName": pathConfiguration.competitionName,
+                "competitionType": pathConfiguration.competitionType,
+                "competitionTypeText": pathConfiguration.competitionTypeText,
+                "competitionDirector": pathConfiguration.competitionDirector,
+                "competitionDirectorAvatar": pathConfiguration.competitionDirectorAvatar,
+                "competitionArbitr": pathConfiguration.competitionArbitr,
+                "competitionArbitrAvatar": pathConfiguration.competitionArbitrAvatar,
+                "competitionDate": pathConfiguration.competitionDate,
+                "competitionRound": pathConfiguration.competitionRound,
+                "competitionGroupName": pathConfiguration.competitionGroupName,
+                "api_key_get_url": pathConfiguration.api_key_get_url,
+                "prevApi_key": pathConfiguration.prevApi_key,
+                "apiKeyStatus": pathConfiguration.apiKeyStatus,
+                "prevUserNameValidity" :pathConfiguration.prevUserNameValidity,
+                "prevUserKeyValidity": pathConfiguration.prevUserKeyValidity,
+                "contestantFileExist": pathConfiguration.contestantFileExist,
+                "trackFileExist": pathConfiguration.trackFileExist,
+            },
+            "data": datamodel,
+        };
+
+        var str = JSON.stringify(fullSettings);
+        file_reader.copy_file(Qt.resolvedUrl(pathConfiguration.jsonDump),Qt.resolvedUrl(pathConfiguration.jsonDump+"~"))
+        file_reader.write(Qt.resolvedUrl(pathConfiguration.jsonDump), str)
     }
 
     function writeCSV() {
@@ -4492,8 +4669,12 @@ ApplicationWindow {
         }
         str += ""
 
-
-        file_reader.write(Qt.resolvedUrl(pathConfiguration.csvFile), str);
+        if (str === "") {
+            console.error("No data to save")
+        } else {
+            file_reader.copy_file(Qt.resolvedUrl(pathConfiguration.csvFile), Qt.resolvedUrl(pathConfiguration.csvFile+"~"));
+            file_reader.write(Qt.resolvedUrl(pathConfiguration.csvFile), str);
+        }
 
         str = "";
         // polozka i = 0 je vyhrazena pro pouziti "prazdne polozky" v comboboxu; misto toho by mela jit hlavicka
@@ -4516,7 +4697,13 @@ ApplicationWindow {
 
             str += line + "\n";
         }
-        file_reader.write(Qt.resolvedUrl(pathConfiguration.contestantsFile), str);
+
+        if (str === "") {
+            console.error("No data to save")
+        } else {
+            file_reader.copy_file(Qt.resolvedUrl(pathConfiguration.contestantsFile), Qt.resolvedUrl(pathConfiguration.contestantsFile+"~"));
+            file_reader.write(Qt.resolvedUrl(pathConfiguration.contestantsFile), str);
+        }
 
     }
 
@@ -4815,7 +5002,6 @@ ApplicationWindow {
 
         str += "</Folder></Document></kml>";
 
-
         file_reader.write(Qt.resolvedUrl(filename), str);
 
 
@@ -5003,6 +5189,7 @@ ApplicationWindow {
 
         onTriggered: {
             computeScore(tpi, polys);
+            writeAllRequest();
             running = false;
         }
     }
@@ -5022,11 +5209,7 @@ ApplicationWindow {
                 // category results
                 generateContinuousResults();
 
-                // save changes to CSV
-                writeScoreManulaValToCSV();
-
-                // tucek and tucek-settings CSV
-                writeCSV();
+                writeAllRequest();
 
                 return;
             }
@@ -5059,11 +5242,7 @@ ApplicationWindow {
                         // category results
                         generateContinuousResults();
 
-                        // save changes to CSV
-                        writeScoreManulaValToCSV();
-
-                        // tucek and tucek-settings CSV
-                        writeCSV();
+                        writeAllRequest();
 
                     } else { // go to next
                         contestantsTable.selection.clear();
@@ -5105,6 +5284,7 @@ ApplicationWindow {
                 // save downloaded applications
                 if (pathConfiguration.contestantsDownloadedString !== "") {
 
+                    file_reader.copy_file(Qt.resolvedUrl(pathConfiguration.contestantsFile), Qt.resolvedUrl(pathConfiguration.contestantsFile+"~"))
                     file_reader.write(Qt.resolvedUrl(pathConfiguration.contestantsFile), pathConfiguration.contestantsDownloadedString);
                     pathConfiguration.contestantsDownloadedString = "";
                 }
@@ -5170,9 +5350,7 @@ ApplicationWindow {
                 }
 
                 // save manual values
-                writeCSV();
-                recalculateScoresTo1000();
-                writeScoreManulaValToCSV();
+                writeAllRequest();
 
                 break;
 
@@ -5193,9 +5371,7 @@ ApplicationWindow {
                 removedContestants.clear();
 
                 // save manual values
-                writeCSV();
-                recalculateScoresTo1000();
-                writeScoreManulaValToCSV();
+                writeAllRequest();
 
                 // sort list model by startTime
                 running = true;
@@ -5229,6 +5405,7 @@ ApplicationWindow {
                 //running = false;
 
             }
+
         }
     }
 
@@ -5344,8 +5521,7 @@ ApplicationWindow {
                 pathConfiguration.competitionRound = pathConfiguration.competitionRound_default;
                 pathConfiguration.competitionGroupName = pathConfiguration.competitionGroupName_default;
 
-            }
-            else {
+            } else {
 
                 // set values from DB
                 pathConfiguration.competitionName = config.get("v2_competitionName", pathConfiguration.competitionName_default);
@@ -5623,7 +5799,6 @@ ApplicationWindow {
 
                 }
 
-                //                file_reader.write(Qt.resolvedUrl(pathConfiguration.assignFile), '');
                 file_reader.delete_file(Qt.resolvedUrl(pathConfiguration.assignFile));
 
 

@@ -9,7 +9,7 @@ Item {
 
     id: resultsUploader
     property string trackFileName: "track.json";
-    property var csvFilesToExport: ["results.csv", "tucek.csv", "tucek-settings.csv", "posadky.csv"];
+    property var csvFilesToExport: ["results.csv", "tucek.csv", "tucek-settings.csv", "posadky.csv", "tucek.json"];
 
     property variant filesToUpload: [];
     property int filesToUploadIterator: 0;

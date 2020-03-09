@@ -33,6 +33,8 @@ ApplicationWindow {
     property string tsFile: pathConfiguration.resultsFolder + "/tucek-settings.csv"
     property string assignFile: pathConfiguration.resultsFolder + "/assign.csv"
     property string csvResultsFile: pathConfiguration.resultsFolder + "/results.csv"
+    property string jsonDump: pathConfiguration.resultsFolder + "/tucek.json"
+
 
     property string contestantsFileName: "posadky.csv"
 
