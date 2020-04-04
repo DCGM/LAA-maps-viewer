@@ -69,7 +69,7 @@ Rectangle {
             for (var i = 1; i < count; i++) {
                 item = get(i);
 
-                setProperty(i, "distanceprev", F.getDistanceTo(previtem.lat, previtem.lon, item.lat, item.lon));
+                setProperty(i, "distanceprev", G.getDistanceTo(previtem.lat, previtem.lon, item.lat, item.lon));
 
                 previtem = item;
             }
@@ -1667,14 +1667,14 @@ Rectangle {
             enabled: (currentSelectedPositionsList.count > 0);
 
             property real triangleArea: (currentSelectedPositionsList.count >= 3) ?
-                                            F.triangle_area_heron_points(
+                                            G.triangle_area_heron_points(
                                                 currentSelectedPositionsList.get(0).lat, currentSelectedPositionsList.get(0).lon,
                                                 currentSelectedPositionsList.get(1).lat, currentSelectedPositionsList.get(1).lon,
                                                 currentSelectedPositionsList.get(2).lat, currentSelectedPositionsList.get(2).lon
                                                 ) : 0.0
             property real triangleDistance: (currentSelectedPositionsList.count >= 3) ?
                                                 parseFloat(
-                                                    F.triangle_distance_points(
+                                                    G.triangle_distance_points(
                                                         currentSelectedPositionsList.get(0).lat, currentSelectedPositionsList.get(0).lon,
                                                         currentSelectedPositionsList.get(1).lat, currentSelectedPositionsList.get(1).lon,
                                                         currentSelectedPositionsList.get(2).lat, currentSelectedPositionsList.get(2).lon
@@ -1691,7 +1691,7 @@ Rectangle {
                     anchors.right: parent.right
                     anchors.margins: 6;
                     //% "Triangle area %1 km² and circuit %2 km"
-                    text: qsTrId("results-window-dialog-selected-positions-triangle").arg(F.formatArea(selectedPositionsTab.triangleArea, "km2")).arg(selectedPositionsTab.triangleDistance);
+                    text: qsTrId("results-window-dialog-selected-positions-triangle").arg(G.formatArea(selectedPositionsTab.triangleArea, "km2")).arg(selectedPositionsTab.triangleDistance);
                     height: triangleSizeText.paintedHeight
                 }
 
@@ -1955,7 +1955,7 @@ Rectangle {
 
                 var refVal = F.timeToUnix(curentContestant.startTime);
                 var diff = (F.subUtcFromTime(sec, applicationWindow.utc_offset_sec)) - refVal ;
-                curentContestant.startTimeDifference = F.addTimeStrFormat(diff);
+                curentContestant.startTimeDifference = G.addTimeStrFormat(diff);
                 curentContestant.startTimeScore = getTakeOffScore(tabView.scrollView.startTimeDifferenceText, curentContestant.time_window_size, curentContestant.time_window_penalty, totalPointsScore);
             }
         }

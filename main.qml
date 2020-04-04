@@ -5,6 +5,7 @@ import QtQuick.Dialogs 1.2
 import Qt.labs.folderlistmodel 2.2
 import cz.mlich 1.0
 import "functions.js" as F
+import "geom.js" as G
 import "csv.js" as CSVJS
 import "md5.js" as MD5
 
@@ -1891,7 +1892,7 @@ ApplicationWindow {
                 }
 
                 NativeText {
-                    text: F.formatCoordinate(map.currentPositionLat, map.currentPositionLon, {coordinateFormat: "DMS"})
+                    text: G.formatCoordinate(map.currentPositionLat, map.currentPositionLon, {coordinateFormat: "DMS"})
                     visible: map.currentPositionShow
 
                 }
@@ -1902,7 +1903,7 @@ ApplicationWindow {
                 }
 
                 NativeText {
-                    // text: F.formatDistance(map.rulerDistance, {'distanceUnit':'m'})
+                    // text: G.formatDistance(map.rulerDistance, {'distanceUnit':'m'})
                     text: map.rulerDistance.toFixed(1)+ " m"
                     visible: (map.rulerDistance > 0)
                 }
@@ -3626,13 +3627,13 @@ ApplicationWindow {
                     }
 
 
-                    var gate_inter = F.lineIntersection(parseFloat(igcthis.lat), parseFloat(igcthis.lon), parseFloat(igcnext.lat), parseFloat(igcnext.lon), ti.gateALat, ti.gateALon, ti.gateBLat, ti.gateBLon);
+                    var gate_inter = G.lineIntersection(parseFloat(igcthis.lat), parseFloat(igcthis.lon), parseFloat(igcnext.lat), parseFloat(igcnext.lon), ti.gateALat, ti.gateALon, ti.gateBLat, ti.gateBLon);
 
                     if (gate_inter !== false) {
 
                         var angle_low = ti.angle + 180;
                         var angle_high = angle_low + 180;
-                        var flight_angle = F.getBearingTo(parseFloat(igcthis.lat), parseFloat(igcthis.lon), parseFloat(igcnext.lat), parseFloat(igcnext.lon))
+                        var flight_angle = G.getBearingTo(parseFloat(igcthis.lat), parseFloat(igcthis.lon), parseFloat(igcnext.lat), parseFloat(igcnext.lon))
                         var flight_angle2 = flight_angle + 360;
 
                         var angle_ok = (((angle_low < flight_angle) && (flight_angle < angle_high)) || ((angle_low < flight_angle2) && (flight_angle2 < angle_high)))
@@ -3745,7 +3746,7 @@ ApplicationWindow {
                                             continue;
                                         }
 
-                                        var proj = F.projectionPointToLineLatLon(point.lat, point.lon, prevPoint.lat, prevPoint.lon, parseFloat(igcthis.lat), parseFloat(igcthis.lon))
+                                        var proj = G.projectionPointToLineLatLon(point.lat, point.lon, prevPoint.lat, prevPoint.lon, parseFloat(igcthis.lat), parseFloat(igcthis.lon))
                                         var distance = igc.getDistanceTo(proj[0], proj[1], parseFloat(igcthis.lat), parseFloat(igcthis.lon));
 
                                         mindistance = Math.min(distance, mindistance);
@@ -3813,7 +3814,7 @@ ApplicationWindow {
                     if (distance > (ti.radius + 500)) {
                         continue;
                     }
-                    var gate_inter = F.lineIntersection(parseFloat(igcthis.lat), parseFloat(igcthis.lon), parseFloat(igcnext.lat), parseFloat(igcnext.lon), ti.gateALat, ti.gateALon, ti.gateBLat, ti.gateBLon);
+                    var gate_inter = G.lineIntersection(parseFloat(igcthis.lat), parseFloat(igcthis.lon), parseFloat(igcnext.lat), parseFloat(igcnext.lon), ti.gateALat, ti.gateALon, ti.gateBLat, ti.gateBLon);
 
                     if (gate_inter !== false) {
                         for (k = 0; k < section_alt_array_length; k++) {
@@ -3837,7 +3838,7 @@ ApplicationWindow {
                     var poly_result = poly_results[j];
                     poly_result.name = poly.name;
 
-                    var inside = F.pointInPolygon(poly.points, igcthis)
+                    var inside = G.pointInPolygon(poly.points, igcthis)
                     if (inside) {
                         if (poly_result.inside_count === 0) {
                             poly_result.inside_time_start = igcthis.time;
@@ -4083,8 +4084,8 @@ ApplicationWindow {
                 "tid": tpi_item.tid,
                 "title": tpi_item.name,
                 "alt": String(tpi_item.alt),
-                "lat": F.getLat(tpi_item.lat, {coordinateFormat: "DMS"}),
-                "lon": F.getLon(tpi_item.lon, {coordinateFormat: "DMS"}),
+                "lat": G.getLat(tpi_item.lat, {coordinateFormat: "DMS"}),
+                "lon": G.getLon(tpi_item.lon, {coordinateFormat: "DMS"}),
                 "radius": parseFloat(tpi_item.radius),
                 "angle": tpi_item.angle,
                 "time": tpi_item.time,
@@ -4276,7 +4277,7 @@ ApplicationWindow {
                             }
 
 
-                            var self_inter = F.lineIntersection(
+                            var self_inter = G.lineIntersection(
                                         parseFloat(igck1.lat), parseFloat(igck1.lon),
                                         parseFloat(igck2.lat), parseFloat(igck2.lon),
                                         parseFloat(igcl1.lat), parseFloat(igcl1.lon),
@@ -4359,7 +4360,7 @@ ApplicationWindow {
                         continue;
                     }
 
-                    var self_inter = F.lineIntersection(
+                    var self_inter = G.lineIntersection(
                                 Number(igck1.lat), Number(igck1.lon),
                                 Number(igck2.lat), Number(igck2.lon),
                                 Number(igcl1.lat), Number(igcl1.lon),

@@ -1,5 +1,6 @@
 import QtQuick 2.9
 import "functions.js" as F
+import "geom.js" as G
 import cz.mlich 1.0
 
 Rectangle {
@@ -301,7 +302,7 @@ Rectangle {
         }
 
 
-        var res = Qt.resolvedUrl(F.getMapTile(url, tx, ty, zoomLevel));
+        var res = Qt.resolvedUrl(G.getMapTile(url, tx, ty, zoomLevel));
 
         return res;
 
@@ -505,7 +506,7 @@ Rectangle {
     }
 
     NativeText {
-        text: F.formatDistance(scaleBarLength[1], {'distanceUnit':'m'})
+        text: G.formatDistance(scaleBarLength[1], {'distanceUnit':'m'})
         anchors.horizontalCenter: scaleBar.horizontalCenter
         anchors.top: scaleBar.bottom
         anchors.topMargin: 8

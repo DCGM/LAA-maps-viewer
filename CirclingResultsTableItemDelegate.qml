@@ -1,5 +1,6 @@
 import QtQuick 2.9
 import "functions.js" as F
+import "geom.js" as G
 
 Item {
 
@@ -26,9 +27,9 @@ Item {
                 var ret = F.addTimeStrFormat(F.addUtcToTime(F.timeToUnix(value), applicationWindow.utc_offset_sec));;
                 return ret;
             case "lat":
-                return F.getLat(value, {coordinateFormat: "DMS"});
+                return G.getLat(value, {coordinateFormat: "DMS"});
             case "lon":
-                return F.getLon(value, {coordinateFormat: "DMS"});
+                return G.getLon(value, {coordinateFormat: "DMS"});
             case "distanceprev":
                 return parseFloat(value).toFixed(0);
             case "azimuth":

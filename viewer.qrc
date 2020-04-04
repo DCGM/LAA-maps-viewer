@@ -174,5 +174,6 @@
         <file>ResultsUploader.qml</file>
         <file>TableHeaderVerticalSplitter.qml</file>
         <file>RefreshDialogListViewWithCheckBox.qml</file>
+        <file>geom.js</file>
     </qresource>
 </RCC>
