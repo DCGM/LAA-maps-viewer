@@ -86,6 +86,10 @@ function getLat(lat, settings) {
     }
     if (settings.coordinateFormat === "D") {
         return c + " " + l.toFixed(5) + "°"
+    } else if (settings.coordinateFormat === "DM") {
+        var mxt = (l - Math.floor(l)) * 60
+        var s = (mxt - Math.floor(mxt))
+        return ("00" + Math.floor(l)).slice(-2) + ("00"+Math.floor(mxt)).slice(-2)+ "." + ("000" + s.toFixed(3)*1000).slice(-3) + c
     } else if (settings.coordinateFormat === "DMS") {
         var mxt = (l - Math.floor(l)) * 60
         var s = (mxt - Math.floor(mxt)) * 60
@@ -107,6 +111,10 @@ function getLon(lon, settings) {
     }
     if (settings.coordinateFormat === "D") {
         return c + " " + l.toFixed(5) + "°"
+    } else if (settings.coordinateFormat === "DM") {
+        var mxt = (l - Math.floor(l)) * 60
+        var s = (mxt - Math.floor(mxt))
+        return ("000" + Math.floor(l)).slice(-3) + ("00"+Math.floor(mxt)).slice(-2)+ "." + ("000" + s.toFixed(3)*1000).slice(-3) + c
     } else if (settings.coordinateFormat === "DMS") {
         var mxt = (l - Math.floor(l)) * 60
         var s = (mxt - Math.floor(mxt)) * 60
@@ -332,7 +340,7 @@ function DMStoFloat(str) {
 
     if (match === null) {
         console.log("error: \"" + str + "\" is not valid Latitude/Longitude data")
-        return 0.0;
+        return parseFloat(str, 0);
     }
 
     var dir, d, m, s;
@@ -464,19 +472,6 @@ function getCoordByDistanceBearing(lat, lon, bear, dist) {
     return {lat: rad2deg(lat2),lon: rad2deg(lon2)};
 
 }
-
-
-
-String.prototype.trunc =
-        function(n,useWordBoundary){
-            var toLong = this.length>n,
-                    s_ = toLong ? this.substr(0,n-1) : this;
-            s_ = useWordBoundary && toLong ? s_.substr(0,s_.lastIndexOf(' ')) : s_;
-            return  toLong ? s_ +'...' : s_;
-        };
-
-
-
 
 /////////// http://home.hiwaay.net/~taylorc/toolbox/geography/geoutm.html
 
