@@ -1820,7 +1820,7 @@ ApplicationWindow {
 
     Timer {
         id: writeAllTimer
-        interval: 1000;
+        interval: 10000;
         running: true;
         repeat: true;
         property bool shoot: false;
@@ -3906,6 +3906,7 @@ ApplicationWindow {
         var category_preparation_time = trItem.preparation_time; //sec
         var category_sg_max_score = trItem.sg_max_score;
         var category_speed_penalty = trItem.speed_penalty;
+        var category_speed_max_score = (trItem.speed_max_score !== undefined) ? trItem.speed_max_score : trItem.tg_max_score;
         var category_speed_tolerance = trItem.speed_tolerance;
         var category_tg_max_score = trItem.tg_max_score;
         var category_tg_penalty = trItem.tg_penalty;
@@ -3944,7 +3945,7 @@ ApplicationWindow {
                 "speedDifference": 0,
                 "manualSpeed" : (index !== -1 ? speedSectionsScoreListManualValuesCache.get(index).manualSpeed : -1),
                 "speedSecScore": -1,
-                "maxScore" : category_tg_max_score,
+                "maxScore" : category_speed_max_score,
                 "speedTolerance" : category_speed_tolerance,
                 "speedPenaly" : category_speed_penalty,
                 "time_start": ss_item.time_start,
@@ -3955,7 +3956,7 @@ ApplicationWindow {
 
             arr_item['speedDifference'] = (arr_item.manualSpeed === -1 ? Math.abs(contestant.speed - arr_item.calculatedSpeed) : Math.abs(contestant.speed - arr_item.manualSpeed));
 
-            speed_sec_score = getSpeedSectionScore(arr_item['speedDifference'], category_speed_tolerance, category_tg_max_score, category_speed_penalty);
+            speed_sec_score = getSpeedSectionScore(arr_item['speedDifference'], category_speed_tolerance, category_speed_max_score, category_speed_penalty);
             arr_item['speedSecScore'] = speed_sec_score;
             speed_sections_score += speed_sec_score;
 
@@ -4756,6 +4757,7 @@ ApplicationWindow {
             str += "\"" + trk.speed_tolerance + "\";";
             str += "\"" + trk.sg_max_score + "\";";
             str += "\"" + ((trk.preparation_time !== undefined) ? trk.preparation_time : 0) + "\";";
+            str += "\"" + trk.speed_max_score + "\";";
 
             //            str += "\n";
             //            str += "\"" + category_name + "___PART2" +"\";";

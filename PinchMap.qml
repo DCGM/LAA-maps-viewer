@@ -53,7 +53,6 @@ Rectangle {
     property alias angle: rot.angle
 
     property bool showRuler: false
-    property real rulerDistance: -1;
 
     property string url;
     // : "~/Maps/OSM/%(zoom)d/%(x)d/%(y)d.png"
@@ -1666,8 +1665,7 @@ Rectangle {
                     ruler.endPoint = getMappointFromCoord(pos[0], pos[1])
 
                     var posFirst = getCoordFromScreenpoint(__firstX, __firstY);
-                    rulerDistance = igc.getDistanceTo(pos[0], pos[1], posFirst[0], posFirst[1])
-                    ruler.distance = igc.getDistanceTo(pos[0], pos[1], posFirst[0], posFirst[1]).toFixed(1) + " m"
+                    ruler.text = igc.getDistanceTo(pos[0], pos[1], posFirst[0], posFirst[1]).toFixed(1) + " m / " + G.getBearingTo(posFirst[0], posFirst[1], pos[0], pos[1]).toFixed(1) + "°"
 
                 }
 
