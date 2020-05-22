@@ -6,6 +6,7 @@ import QtQuick.Controls.Styles 1.4
 import QtCharts 2.2
 
 import "functions.js" as F
+import "geom.js" as G
 
 Rectangle {
 
