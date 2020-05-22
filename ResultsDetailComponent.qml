@@ -1932,7 +1932,7 @@ Rectangle {
 
         // validate and save start time
         var str = tabView.scrollView.startTimeText;
-        console.log("startTimeText:" + str)
+        console.log("startTimeText: " + str)
 
         if (str === "") {
             curentContestant.startTimeMeasured = "";//F.addTimeStrFormat(F.addUtcToTime(F.timeToUnix(curentContestant.startTime), applicationWindow.utc_offset_sec));
@@ -1955,7 +1955,7 @@ Rectangle {
 
                 var refVal = F.timeToUnix(curentContestant.startTime);
                 var diff = (F.subUtcFromTime(sec, applicationWindow.utc_offset_sec)) - refVal ;
-                curentContestant.startTimeDifference = G.addTimeStrFormat(diff);
+                curentContestant.startTimeDifference = F.addTimeStrFormat(diff);
                 curentContestant.startTimeScore = getTakeOffScore(tabView.scrollView.startTimeDifferenceText, curentContestant.time_window_size, curentContestant.time_window_penalty, totalPointsScore);
             }
         }

@@ -11,7 +11,7 @@ void PdfWriter::createPDF(QString a_strFilename)
     QPdfWriter writer(a_strFilename);
     QPainter painter(&writer);
 
-    writer.setPageSize(QPagedPaintDevice::A4);
+    writer.setPageSize(QPageSize(QPageSize::A4));
     painter.drawPixmap(QRect(0,0,writer.logicalDpiX()*8.3,writer.logicalDpiY()*11.7),QPixmap("viewer.png"));
 
     painter.end();
