@@ -1904,7 +1904,7 @@ ApplicationWindow {
 
                 NativeText {
                     // text: G.formatDistance(map.rulerDistance, {'distanceUnit':'m'})
-                    text: map.rulerDistance.toFixed(1)+ " m"
+                    text: parseFloat(map.rulerDistance).toFixed(1)+ " m"
                     visible: (map.rulerDistance > 0)
                 }
 
