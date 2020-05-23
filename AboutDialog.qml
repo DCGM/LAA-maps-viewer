@@ -6,7 +6,8 @@ ApplicationWindow {
     id: dialog
     width: 600;
     height: 400;
-    modality: "WindowModal"
+    modality: Qt.ApplicationModal
+
     //% "About"
     title: qsTrId("about-dialog-title")
 

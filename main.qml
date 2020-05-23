@@ -503,6 +503,7 @@ ApplicationWindow {
                 //% "&About"
                 text: qsTrId("main-help-menu-about")
                 onTriggered: aboutDialog.show()
+                shortcut: "F1"
             }
         }
     }
