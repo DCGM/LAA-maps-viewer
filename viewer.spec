@@ -12,6 +12,8 @@ BuildRequires:  desktop-file-utils
 BuildRequires:  qt5-devel >= 5.10.0
 BuildRequires:  qt5-qtcharts-devel
 BuildRequires:  qt5-linguist
+BuildRequires:  git
+BuildRequires:  cmake
 
 %description
 viewer is tool for viewing of LAA Competion tracks
@@ -21,22 +23,22 @@ viewer is tool for viewing of LAA Competion tracks
 
 
 %build
-%{qmake_qt5} PREFIX=%{_prefix}
+%cmake
 make %{?_smp_mflags}
 
 %install
-make INSTALL_ROOT=$RPM_BUILD_ROOT install
-desktop-file-install --dir=${RPM_BUILD_ROOT}%{_datadir}/applications %{name}.desktop
+make DESTDIR=%{buildroot} install
+desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 
 %files
+%dir %{_datadir}/viewer
 %{_bindir}/viewer
 %{_datadir}/applications/viewer.desktop
-%{_datadir}/icons/hicolor/64x64/apps/viewer64.png
+%{_datadir}/icons/hicolor/applications/64x64/viewer64.ico
+%{_datadir}/icons/hicolor/applications/64x64/viewer64.png
 %{_datadir}/viewer/i18n/viewer_cs_CZ.qm
 %{_datadir}/viewer/i18n/viewer_en_US.qm
-
-#/opt/viewer/*
 
 
 %changelog
