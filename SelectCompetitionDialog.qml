@@ -264,39 +264,16 @@ ApplicationWindow {
 
         selectedCompetition = comp.name;
         pathConfiguration.setEnviromentTabCompName(comp.name);
+        pathConfiguration.competitionDirectorAvatar = comp.competitionDirectorAvatar;
 
-        // load manager
-        if (comp.manager === null || comp.manager === undefined || comp.manager.firstname === undefined || comp.manager.firstname === null) {
-
-            director = "";
-            pathConfiguration.competitionDirectorAvatar = "";
-        }
-        else {
-
-            director = comp.manager.firstname + " " + comp.manager.surname;
-            pathConfiguration.competitionDirectorAvatar = (comp.manager.avatar_thumb !== undefined) ? comp.manager.avatar_thumb : "";
-        }
-
-        // load arbiters
-        var item;
-        var arr = [];
-        var arrAvatar = [];
-        for (var i = 0; i < comp.referees.count; i++ ) {
-
-            item = comp.referees.get(i);
-            arr.push(item.firstname + " " + item.surname);
-            arrAvatar.push(item.avatar_thumb);
-        }
-
-        arbitr = arr.join(", ");
-        pathConfiguration.competitionArbitrAvatar = arrAvatar;
+        pathConfiguration.competitionArbitrAvatar = JSON.parse(comp.arbitrAvatar);
 
         pathConfiguration.competitionRound = comp.round;
         pathConfiguration.competitionGroupName = comp.group_name;
 
         console.log(comp.date)
 
-        pathConfiguration.setCompetitionTabContent(comp.name, parseInt(comp.type), director, arbitr, comp.date, comp.round, comp.group_name);
+        pathConfiguration.setCompetitionTabContent(comp.name, parseInt(comp.type, 10), comp.director, comp.arbitr, comp.date, comp.round, comp.group_name);
     }
 
     /// Action Buttons
@@ -542,8 +519,48 @@ ApplicationWindow {
                         var resultObject = JSON.parse(result);
 
                         for (var i = 0; i < resultObject.length; i++) {
+                            var resultItem = resultObject[i];
+                            var director = "";
+                            var competitionDirectorAvatar ="";
+                            var arbitr = "";
 
-                            model.append(resultObject[i])
+                            // load manager
+                            if (resultItem.manager !== null && resultItem.manager !== undefined && resultItem.manager.firstname !== undefined && resultItem.manager.firstname !== null) {
+                                director = resultItem.manager.firstname + " " + resultItem.manager.surname;
+                                competitionDirectorAvatar = (resultItem.manager.avatar_thumb !== undefined) ? resultItem.manager.avatar_thumb : "";
+                            }
+
+
+                            // load arbiters
+                            var arbitrArr = [];
+                            var arrAvatar = [];
+                            if (resultItem.referees !== undefined) {
+                                var refList = resultItem.referees;
+
+                                for (var j = 0; j < refList.length; j++ ) {
+                                    var ref = refList[j];
+                                    arbitrArr.push(ref.firstname + " " + ref.surname);
+                                    arrAvatar.push(ref.avatar_thumb);
+                                }
+                            }
+
+                            arbitr = arbitrArr.join(", ");
+
+
+                            var appendItem = {
+                                id: resultItem.id,
+                                round: resultItem.round,
+                                name: resultItem.name,
+                                date: resultItem.date,
+                                group_name: resultItem.group_name,
+                                type: resultItem.type,
+                                director: director,
+                                competitionDirectorAvatar: competitionDirectorAvatar,
+                                arbitr: arbitr,
+                                arbitrAvatar: JSON.stringify(arrAvatar),
+                            }
+
+                            competitions.append(appendItem )
                         }
 
                         // nothing to parse, check for error
