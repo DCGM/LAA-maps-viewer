@@ -91,15 +91,15 @@ Item {
         Connections {
             target: loaderCombobox.item
 
-            onCategorySelected: {
+            function onCategorySelected(newVal) {
                 changeModel(styleData.row, styleData.role, newVal)
             }
 
-            onClassifyChanged : {
+            function onClassifyChanged(index) {
                 changeModel(styleData.row, styleData.role, index)
             }
 
-            onComboBoxSelected : {
+            function onComboBoxSelected() {
 
                 selectRow(styleData.row);
             }
@@ -172,7 +172,7 @@ Item {
         anchors.margins: 4
         Connections {
             target: loaderFilenameButton.item
-            onClicked: {
+            function onClicked() {
                 igcChooseDialog.crow = styleData.row;
                 igcChooseDialog.show();
             }
@@ -207,7 +207,7 @@ Item {
         anchors.margins: 4
         Connections {
             target: loaderTextEdit.item
-            onNewValue: {
+            function onNewValue() {
 
                 switch (styleData.role) {
 
