@@ -1963,6 +1963,10 @@
         <source>Server</source>
         <translation>Server</translation>
     </message>
+    <message id="file-list-cannot-read-file-error">
+        <source>Cannot read file &apos;%1&apos;</source>
+        <translation>Cannot read file &apos;%1&apos;</translation>
+    </message>
 </context>
 <context>
     <name>CalendarWindow</name>

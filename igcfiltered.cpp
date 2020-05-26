@@ -90,7 +90,10 @@ bool IgcFiltered::load(const QString &path, const QTime after, const bool remove
 
 void IgcFiltered::clear() {
     filtered_events.clear();
-
+    m_invalid_count = 0;
+    m_trimmed_count = 0;
+    m_trimmed_end_count = 0;
+    emit eventsChanged();
 }
 
 int IgcFiltered::getCount() {

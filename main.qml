@@ -1142,8 +1142,16 @@ ApplicationWindow {
                         if (file_reader.file_exists(Qt.resolvedUrl(filePath))) {
                             var clipStartTime = mainViewMenuClipIgc.checked ? ctnt.startTime : "00:00:00" ;
                             igc.load( file_reader.toLocal(Qt.resolvedUrl(filePath)), clipStartTime , mainViewMenuClipIgc.checked);
+                            errorLine.text = "";
                         } else {
                             console.log(ctnt.name + ": igc file \"" + ctnt.filename + "\" doesn't exists")
+                            if (ctnt.filename !== "") {
+                                //% "Cannot read file '%1'"
+                                errorLine.text = qsTrId("file-list-cannot-read-file-error").arg(ctnt.filename)
+                            } else {
+                                errorLine.text = "";
+                            }
+
                             igc.clear();
                         }
 
@@ -1942,6 +1950,11 @@ ApplicationWindow {
                     font.bold: (igc.count < 500);
                     color: (igc.count < 500) ? "red" : "black"
                 }
+
+                NativeText {
+                    id: errorLine
+                }
+
             }
 
             Row {
