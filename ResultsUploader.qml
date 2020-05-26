@@ -16,7 +16,7 @@ Item {
 
     property int destinationCompetitionId;
 
-    property string fileUploadURL: F.base_url + "/competitionFilesAjax.php"
+    property string fileUploadURL: pathConfiguration.base_url + "/competitionFilesAjax.php"
 
     MessageDialog {
 
@@ -91,7 +91,7 @@ Item {
         // remove all files and inti upload
         var api_key_value = config.get("api_key", "");
 
-        initCompetitionFileStorage(F.base_url + "/competitionFilesInit.php", id, api_key_value)
+        initCompetitionFileStorage(pathConfiguration.base_url + "/competitionFilesInit.php", id, api_key_value)
     }
 
     // init uploading procedure
@@ -334,7 +334,7 @@ Item {
             else {
 
                 // init evaluation of the uploaded files on the server
-                callUploadFinish(F.base_url + "/competitionFilesFinish.php", destinationCompetitionId, api_key_value);
+                callUploadFinish(pathConfiguration.base_url + "/competitionFilesFinish.php", destinationCompetitionId, api_key_value);
             }
 
         }

@@ -1963,6 +1963,10 @@
         <source>Outside time</source>
         <translation>Čas vně</translation>
     </message>
+    <message id="api-server">
+        <source>Server</source>
+        <translation>Server</translation>
+    </message>
 </context>
 <context>
     <name>CalendarWindow</name>

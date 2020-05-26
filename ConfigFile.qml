@@ -10,7 +10,7 @@ Item {
     property int dbEstimatedSize: 100
 
     function set(key, value) {
-//        console.log(key + " = " + value)
+        console.log("config.set: " + key + " = " + value)
 
         var db = LocalStorage.openDatabaseSync(dbName, dbVersion, dbDisplayName, dbEstimatedSize);
         try {
@@ -63,7 +63,7 @@ Item {
         } catch (err) {
                 console.warn("Error get table in database: " + err);
         };
-//        console.log(key + " : " + result)
+        console.log("config.get: " + key + " : " + result)
         return result;
     }
 

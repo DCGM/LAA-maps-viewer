@@ -91,7 +91,7 @@ ApplicationWindow {
             var api_key_value = config.get("api_key", "");
 
             // download competitions list
-            getCompetitionsData(F.base_url + "/competitionListApi.php", "GET", competitions, api_key_value);
+            getCompetitionsData(pathConfiguration.base_url + "/competitionListApi.php", "GET", competitions, api_key_value);
         }
 
         // switch to offline state - nothing selected or connection error
@@ -122,7 +122,7 @@ ApplicationWindow {
              if (clickedButton == StandardButton.Open) {
 
                  // open url with errors
-                 Qt.openUrlExternally(F.base_url + "/exportCrews.php" + "?id=" + String(selectedCompetitionId) + "&errors=normal");
+                 Qt.openUrlExternally(pathConfiguration.base_url + "/exportCrews.php" + "?id=" + String(selectedCompetitionId) + "&errors=normal");
                  visible = false;
              }
              else {
@@ -238,7 +238,7 @@ ApplicationWindow {
 
                             var api_key_value = config.get("api_key", "");
 
-                            getContestants(F.base_url + "/exportCrewsApi.php", selectedCompetitionId, "GET", api_key_value);
+                            getContestants(pathConfiguration.base_url + "/exportCrewsApi.php", selectedCompetitionId, "GET", api_key_value);
 
                             //competitionListWindow.close()
                         }
@@ -309,7 +309,7 @@ ApplicationWindow {
 
                         var api_key_value = config.get("api_key", "");
 
-                        getContestants(F.base_url + "/exportCrewsApi.php", selectedCompetitionId, "GET", api_key_value);
+                        getContestants(pathConfiguration.base_url + "/exportCrewsApi.php", selectedCompetitionId, "GET", api_key_value);
                     }
                 }
             }
@@ -337,7 +337,7 @@ ApplicationWindow {
 
         var api_key_value = config.get("api_key", "");
 
-        getContestants(F.base_url + "/exportCrewsApi.php", selectedCompetitionId, "GET", api_key_value);
+        getContestants(pathConfiguration.base_url + "/exportCrewsApi.php", selectedCompetitionId, "GET", api_key_value);
     }
 
     function getContestants(baseUrl, id, method, api_key) {
