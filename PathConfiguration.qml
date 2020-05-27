@@ -70,10 +70,10 @@ ApplicationWindow {
         console.log("calc UTC offset: " + applicationWindow.utc_offset_sec + "/" + competitionDate);
     }
 
-    property string base_url
+    property string base_url: F.base_url_default
     property string api_key_get_url: pathConfiguration.base_url + "/apiKeys.php?action=create"
 
-    property string prev_api_server_index: "0"
+    property string prev_api_base_url: F.base_url_default
     property string prevApi_key: ""
     property string apiKeyStatus: "unknown" // ["ok", "nok", "unknown"]
 
@@ -109,27 +109,19 @@ ApplicationWindow {
     property string prevSettingsMD5: "";
     property string currentSettingsMD5: "";
 
-    ListModel {
-        id: serverList;
-        ListElement { url: "http://ppt.laacr.cz/"; text: "production" }
-        ListElement { url: "http://ppt_test.laacr.cz/"; text: "testing" }
-        ListElement { url: "http://pcmlich.fit.vutbr.cz/ppt"; text: "development" }
-    }
-
-
     onVisibleChanged: {
 
         // set current competition property
         if (visible) {
 
             // get last known api_key
-            prev_api_server_index = config.get("api_server_index", "0");
+            prev_api_base_url = config.get("api_base_url", "http://ppt.laacr.cz");
             prevApi_key = config.get("api_key", "");
             prevUserNameValidity = config.get("userNameValidity", "");
             prevUserKeyValidity = config.get("userKeyValidity", "");
 
             // set previous api key
-            setLoginTabValues(prev_api_server_index, prevApi_key, prevUserNameValidity, prevUserKeyValidity);
+            setLoginTabValues(prev_api_base_url, prevApi_key, prevUserNameValidity, prevUserKeyValidity);
 
             // set previous enviroment tab values
             setFilesTabContent(pathConfiguration.selectedCompetition,
@@ -191,7 +183,7 @@ ApplicationWindow {
 
         // load data into array
 
-        ret.push(tabView.loginTabAlias.apiServerIndex)
+        ret.push(tabView.loginTabAlias.apiBaseUrlAlias)
         ret.push(tabView.loginTabAlias.apiKeyAlias)
         ret.push(tabView.loginTabAlias.userNameValidityAlias)
         ret.push(tabView.loginTabAlias.userKeyValidityAlias)
@@ -202,7 +194,7 @@ ApplicationWindow {
         return ret;
     }
 
-    function setLoginTabValues(api_server_index, api_key, prevUserNameValidity, prevUserKeyValidity) {
+    function setLoginTabValues(api_base_url, api_key, prevUserNameValidity, prevUserKeyValidity) {
 
         // get tab status
         var previousActive = tabView.getActive();
@@ -212,7 +204,7 @@ ApplicationWindow {
         if (!tabPrevActived) tabView.activateTabByName("login");
 
         // login property
-        tabView.loginTabAlias.apiServerIndex = api_server_index;
+        tabView.loginTabAlias.apiBaseUrlAlias = api_base_url;
         tabView.loginTabAlias.apiKeyAlias = api_key;
         tabView.loginTabAlias.userNameValidityAlias = prevUserNameValidity;
         tabView.loginTabAlias.userKeyValidityAlias = prevUserKeyValidity;
@@ -994,7 +986,7 @@ ApplicationWindow {
 
             // save api key
             onVisibleChanged: {
-                config.set("api_server_index", tabView.loginTabAlias.apiServerIndex)
+                config.set("api_base_url", tabView.loginTabAlias.apiBaseUrlAlias)
                 config.set("api_key", tabView.loginTabAlias.apiKeyAlias);
                 config.set("userNameValidity", tabView.loginTabAlias.userNameValidityAlias);
                 config.set("userKeyValidity", tabView.loginTabAlias.userKeyValidityAlias);
@@ -1008,7 +1000,7 @@ ApplicationWindow {
                 columnSpacing: 10;
                 columns: 3
 
-                property alias apiServerIndex: serverCombo.currentIndex;
+                property alias apiBaseUrlAlias: api_base_url_textinput.text;
                 property alias apiKeyAlias: api_key.text;
                 property alias userNameValidityAlias: userNameValidity.text;
                 property alias userKeyValidityAlias: userKeyValidity.text;
@@ -1019,16 +1011,12 @@ ApplicationWindow {
                     text: qsTrId("api-server")
                 }
 
-                ComboBox {
-                    id: serverCombo
-
+                TextField {
+                    id: api_base_url_textinput
                     Layout.fillWidth:true;
                     Layout.preferredWidth: parent.width/2
-
-                    model: serverList;
-                    onCurrentIndexChanged: {
-                        console.log("server url : "+ serverList.get(currentIndex).url)
-                        pathConfiguration.base_url = serverList.get(currentIndex).url;
+                    onTextChanged: {
+                        pathConfiguration.base_url = text;
                     }
                 }
 
@@ -1303,7 +1291,7 @@ ApplicationWindow {
 
                 onClicked: {
 
-                    config.set("api_server_index", prev_api_server_index);
+                    config.set("api_base_url", prev_api_base_url);
                     config.set("api_key", prevApi_key); // restore
                     config.set("userNameValidity", prevUserNameValidity);
                     config.set("userKeyValidity", prevUserKeyValidity);
