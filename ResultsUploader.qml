@@ -276,7 +276,17 @@ Item {
                         }
                     } catch (e) {
 
-                        console.error("ERR callUploadFinish: parse failed" + e)
+
+                        // Set and show error dialog
+                        //% "Results upload error"
+                        errMessageDialog.title = qsTrId("results-upload-finishing-error-dialog-title")
+                        //% "Failed to parse response"
+                        errMessageDialog.text = qsTrId("results-upload-finishing-error-dialog-text")
+                        errMessageDialog.standardButtons = StandardButton.Close
+                        errMessageDialog.showDialog();
+                        uploaderDialog.finishRunning  = false;
+
+                        console.error("ERR callUploadFinish: parse failed" + e + " " + http.responseText)
                         uploaderDialog.finishRunning  = false;
                     }
                 }
