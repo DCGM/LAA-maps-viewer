@@ -38,6 +38,7 @@ void Uploader::sendFile(QUrl api_url, QString fileName, int compId, QString api_
 
     QUrl url(api_url);
     QNetworkRequest request(url);
+    request.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
 
     QNetworkReply *reply = manager->post(request, multiPart);
     lastReply = reply;
