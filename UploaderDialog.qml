@@ -121,7 +121,7 @@ ApplicationWindow {
                     model: filesListModel
 
                     delegate: RowLayout {
-                        width: parent.width;
+                        Layout.fillWidth: true;
                         height: filenameText.paintedHeight;
 
                         NativeText {

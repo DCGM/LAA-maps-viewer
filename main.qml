@@ -1834,21 +1834,21 @@ ApplicationWindow {
         repeat: true;
         property bool shoot: false;
         onTriggered: {
-            if (!shoot) {
-                return;
-            }
-            shoot = false;
+//            if (!shoot) {
+//                return;
+//            }
+//            shoot = false;
 
-            if (genResultsDetailTimer.running
-                    || computingTimer.running
-                    || resultsExporterTimer.running
-                    || workingTimer.running
-                    || evaluateTimer.running
-                    ) {
-                console.log("other timer running, skipping write")
-                return;
-            }
-            writeAllNow();
+//            if (genResultsDetailTimer.running
+//                    || computingTimer.running
+//                    || resultsExporterTimer.running
+//                    || workingTimer.running
+//                    || evaluateTimer.running
+//                    ) {
+//                console.log("other timer running, skipping write")
+//                return;
+//            }
+//            writeAllNow();
         }
     }
 
@@ -4531,7 +4531,7 @@ ApplicationWindow {
     }
 
     function writeAllRequest() {
-        console.count("dump of json data requested")
+//        console.count("dump of json data requested")
 
         writeAllTimer.shoot = true;
     }

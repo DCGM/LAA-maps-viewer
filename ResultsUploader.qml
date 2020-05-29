@@ -14,9 +14,15 @@ Item {
     property variant filesToUpload: [];
     property int filesToUploadIterator: 0;
 
+    property string api_key_value: config.get("api_key", "");
+
     property int destinationCompetitionId;
 
     property string fileUploadURL: pathConfiguration.base_url + "/competitionFilesAjax.php"
+
+    Component.onCompleted: {
+        api_key_value = config.get("api_key", "");
+    }
 
     MessageDialog {
 
@@ -89,7 +95,6 @@ Item {
     function uploadResults(id) {
 
         // remove all files and inti upload
-        var api_key_value = config.get("api_key", "");
 
         initCompetitionFileStorage(pathConfiguration.base_url + "/competitionFilesInit.php", id, api_key_value)
     }
@@ -326,7 +331,6 @@ Item {
             // upload next file
             filesToUploadIterator++;
             uploaderDialog.processedFiles = filesToUploadIterator;
-            var api_key_value = config.get("api_key", "");
 
             if (filesToUploadIterator < filesToUpload.length && uploaderDialog.visible && !errMessageDialog.visible) {
                 uploader.sendFile(fileUploadURL, file_reader.toLocal(filesToUpload[filesToUploadIterator].fileUrl), destinationCompetitionId, api_key_value);
