@@ -12,7 +12,8 @@ ApplicationWindow {
     height: 500;
     minimumHeight: 550
     minimumWidth: 750
-    modality: "WindowModal"
+    modality: Qt.ApplicationModal
+
     //% "Configuration"
     title: qsTrId("path-configuration-dialog-title")
     color: "#ffffff"
