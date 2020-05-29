@@ -307,6 +307,7 @@ Item {
 
         onUploadFinished: {
             var status = uploader.errorCode
+            var message = "undefined"
 
             console.log("Uploader (" + status + ") response: " + uploader.response )
 
@@ -314,6 +315,7 @@ Item {
                 var response = JSON.parse(uploader.response);
                 if (response.status !== undefined) {
                     status = parseInt(response.status, 10);
+                    message = response.message;
                     //console.log( "response.status = " + status )
                 }  else {
                     status = -1;
@@ -324,6 +326,15 @@ Item {
             }
 
 
+            if (status !== 0) {
+                //% "Connection error dialog title"
+                errMessageDialog.title = qsTrId("results-upload-connection-error-dialog-title")
+                errMessageDialog.text = message;
+                errMessageDialog.standardButtons = StandardButton.Close
+                errMessageDialog.showDialog();
+                uploaderDialog.finishRunning  = false;
+
+            }
 
             // add current file into list od processed files
             uploaderDialog.filesListModelAlias.append({"fileName" : filesToUpload[filesToUploadIterator].fileName, "uploadState" : status});
