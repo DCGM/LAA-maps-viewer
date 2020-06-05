@@ -1,6 +1,6 @@
 .pragma library
 
-var base_url_default = 'http://ppt.laacr.cz'
+var base_url_default = 'https://ppt.laacr.cz'
 
 var alt_hysteresis = 20; // meters
 var alt_max_init = -100000;
