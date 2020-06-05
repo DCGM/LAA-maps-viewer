@@ -6,7 +6,7 @@ import "functions.js" as F
 
 ApplicationWindow {
     id: igcChooseDialog;
-    modality: "WindowModal"
+    modality: Qt.ApplicationModal
     width: 900;
     height: 700;
 

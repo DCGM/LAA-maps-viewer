@@ -9,7 +9,7 @@ ApplicationWindow {
     id: competitionListWindow
     width: 800;
     height: 600;
-    modality: "ApplicationModal"
+    modality: Qt.ApplicationModal
     //% "Select competition window"
     title: qsTrId("select-competition-window-dialog-title")
     color: "#ffffff"

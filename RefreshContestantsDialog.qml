@@ -8,7 +8,7 @@ ApplicationWindow {
     id: refreshDialogMainWindow
     width: applicationWindow.width;
     height: applicationWindow.height;
-    modality: "WindowModal"
+    modality: Qt.ApplicationModal
     color: "#ffffff"
     //% "Refresh window title"
     title: qsTrId("refresh-window-dialog-title")

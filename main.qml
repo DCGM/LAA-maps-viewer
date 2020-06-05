@@ -3203,7 +3203,6 @@ ApplicationWindow {
         var alt_manual = scoreData["alt_manual"];
         var category_alt_penalty = scoreData["category_alt_penalty"];
         var alt_measured = scoreData["alt_measured"];
-
         var tg_score = (flags & (0x1 << 1) ? getTGScore(tg_time_difference, category_tg_max_score, category_tg_penalty, category_tg_tolerance) : -1);
         var tp_score = (flags & (0x1 << 0)) ? getTPScore(tp_manual, tp_hit_measured, category_tp_max_score)  : -1;
         var sg_score = (flags & (0x1 << 2)) ? getSGScore(sg_manual, sg_hit_measured, category_sg_max_score)  : -1;
@@ -3253,7 +3252,6 @@ ApplicationWindow {
     }
 
     function getTGScore(tgTimeDifference, tgMaxScore, tgPenalty, tgTolerance) {
-
         return Math.round(parseFloat((tgTimeDifference > tgTolerance) ? Math.max(tgMaxScore - (tgTimeDifference - tgTolerance) * tgPenalty, 0) : tgMaxScore));
     }
 
@@ -3430,7 +3428,6 @@ ApplicationWindow {
                 }
             }
         }
-
 
         // load manual values into list models - used when compute score
         loadStringIntoListModel(wptNewScoreListManualValuesCache, (contestant.prevResultsWPT !== undefined) ? ctnt.prevResultsWPT : '', "; ");
@@ -5478,7 +5475,7 @@ ApplicationWindow {
     MessageDialog {
         id: errorMessage;
         icon: StandardIcon.Critical;
-        modality: "ApplicationModal"
+        modality: Qt.ApplicationModal
     }
 
     function regenerateResultsFile() {
@@ -5490,7 +5487,7 @@ ApplicationWindow {
     MessageDialog {
         id: regenResultsMessage;
         icon: StandardIcon.Question;
-        modality: "ApplicationModal"
+        modality: Qt.ApplicationModal
         standardButtons: StandardButton.Yes | StandardButton.No
 
         //% "Regenerate results message title"
@@ -5511,7 +5508,7 @@ ApplicationWindow {
     MessageDialog {
         id: startUpMessage;
         icon: StandardIcon.Question;
-        modality: "ApplicationModal"
+        modality: Qt.ApplicationModal
         standardButtons: StandardButton.Yes | StandardButton.No
 
         //% "Recovery settings"
