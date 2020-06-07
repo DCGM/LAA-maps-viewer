@@ -78,6 +78,8 @@ Rectangle {
                 setProperty(i, "timetoprev_str", F.addTimeStrFormat(Math.abs(F.timeToUnix(item.time) - F.timeToUnix(previtem.time))));
                 previtem = item;
             }
+            curentContestant.selectedPositions = listModelToString(currentSelectedPositionsList);
+
         }
     }
 
