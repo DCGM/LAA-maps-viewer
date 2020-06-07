@@ -1418,7 +1418,6 @@ Rectangle {
                 //% "Speed sections score points"
                 TableViewColumn {title: qsTrId("speed-sections-score-table-score"); role: "speedSecScore"; width: 80;}
 
-
 //                TableViewColumn {title: "calculatedSpeed"; role: "calculatedSpeed"; width: 50; }
 //                TableViewColumn {title: "maxScore"; role: "maxScore"; width: 50; }
 //                TableViewColumn {title: "speedPenaly"; role: "speedPenaly"; width: 50; }
@@ -1738,6 +1737,16 @@ Rectangle {
                     //% "Time to previous"
                     TableViewColumn {title: qsTrId("results-window-dialog-selected-position-time-previous"); role: "timetoprev_str"; width: 90;}
 
+                    //% "Circling point"
+                    TableViewColumn {title: qsTrId("results-window-dialog-selected-position-pointName"); role: "pointName"; width: 90;  }
+                    //% "d_min"
+                    TableViewColumn {title: qsTrId("results-window-dialog-selected-position-minDistance"); role: "minDistance"; width: 60; }
+                    //% "t_min"
+                    TableViewColumn {title: qsTrId("results-window-dialog-selected-position-minTime"); role: "minTime"; width: 90; }
+                    //% "d_max"
+                    TableViewColumn {title: qsTrId("results-window-dialog-selected-position-maxDistance"); role: "maxDistance"; width: 60; }
+                    //% "t_max"
+                    TableViewColumn {title: qsTrId("results-window-dialog-selected-position-maxTime"); role: "maxTime"; width: 90; }
 
 
                     Component.onCompleted: {

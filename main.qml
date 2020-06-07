@@ -1547,6 +1547,11 @@ ApplicationWindow {
                             "distanceprev": 0,
                             "timetoprev": 0,
                             "timetoprev_str": "00:00:00",
+                            "pointName": "",
+                            "minDistance": 0,
+                            "minTime": "",
+                            "maxDistance": 0,
+                            "maxTime": "",
                         }
                         positions.push(item);
                         console.log("positions added " + positions.length)

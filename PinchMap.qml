@@ -1767,6 +1767,82 @@ Rectangle {
 
     function triggerSelectPosition() {
         selectPosition(currentPositionIndex, currentPositionLat, currentPositionLon, currentPositionTime, currentPositionAltitude, currentPositionAzimuth)
+        console.log(selectedPoints.count)
+
+        for (var i = 1 ; i < selectedPoints.count; i++) {
+            var first = selectedPoints.get(i-1);
+            var second = selectedPoints.get(i);
+            if (first.gpsindex > second.gpsindex) {
+                computeCirclingAccuracy(i-1, second, first)
+            } else {
+                computeCirclingAccuracy(i-1, first, second)
+            }
+        }
+    }
+
+    function computeCirclingAccuracy(spi, first, second) {
+        var first_index = first.gpsindex
+        var second_index = second.gpsindex
+
+        var fixes = Math.abs(first_index - second_index);
+        if (fixes > 600) {
+            console.log("Fixes " + fixes + " > 600: too long");
+            return;
+        }
+
+        var points = trackModel.points;
+        if (points.length <= 0) {
+            console.log("Track doesn't have points?")
+            return;
+        }
+
+
+        var maxPtDist = 1000000;
+        var maxPtIndex = 0;
+        for (var p = 0; p < points.length; p++) {
+            var pt = points[p];
+            var distance = igc.getDistanceTo(first.lat, first.lon, pt.lat, pt.lon)
+            if (distance < maxPtDist) {
+                maxPtDist = distance;
+                maxPtIndex = p;
+            }
+        }
+
+        if (maxPtDist > 10000) {
+            console.log(pt.name + " to far from " + first_index + ": 10000 < "+maxPtDist)
+            return;
+        }
+
+        pt = points[maxPtIndex];
+
+        var minDistance = 100000;
+        var maxDistance = 0;
+        var minTime = first.time;
+        var maxTime = minTime;
+
+        for (var i = first_index; i <= second_index; i++) {
+            var fix = gpsModel.get(i);
+// gps      {"alt":"791","lat":"49.557199999999995","lon":"16.266216666666665","pressureAlt":"791","time":"10:33:11.000","type":"1","valid":"true"}
+// first    {"gpsindex":1991,"lat":49.557199999999995,"lon":16.266216666666665,"time":"10:33:11.000","alt":791,"azimuth":307.6247367272202,"distanceprev":0,"timetoprev":0,"timetoprev_str":"00:00:00"}
+
+            distance = igc.getDistanceTo(fix.lat, fix.lon, pt.lat, pt.lon);
+//            console.log("[" + i + "]: " + fix.time + "  " + distance)
+            if (distance > maxDistance) {
+                maxDistance = distance
+                maxTime = fix.time;
+            }
+            if (distance < minDistance) {
+                minDistance = distance;
+                minTime = fix.time;
+            }
+        }
+        selectedPoints.setProperty(spi, "pointName", pt.name)
+        selectedPoints.setProperty(spi, "minDistance", minDistance);
+        selectedPoints.setProperty(spi, "minTime", minTime);
+        selectedPoints.setProperty(spi, "maxDistance", maxDistance);
+        selectedPoints.setProperty(spi, "maxTime", maxTime);
+
+        //        circlingAccuracyResults(pt.name, minDistance, minTime, maxDistance, maxTime)
     }
 
     FileReader {

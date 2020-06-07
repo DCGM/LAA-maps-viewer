@@ -33,7 +33,12 @@ Item {
             case "distanceprev":
                 return parseFloat(value).toFixed(0);
             case "azimuth":
+            case "minDistance":
+            case "maxDistance":
                 return parseFloat(value).toFixed(2);
+            case "minTime":
+            case "maxTime":
+                return F.addTimeStrFormat(F.timeToUnix(value));
             default:
                 return value;
         }

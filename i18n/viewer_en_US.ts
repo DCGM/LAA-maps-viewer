@@ -1968,6 +1968,26 @@
         <source>Unable to complete the results upload. Please check the api key, destination competition, uploaded files and try it again.</source>
         <translation>Unable to complete the results upload. Please check the api key, destination competition, uploaded files and try it again.</translation>
     </message>
+    <message id="results-window-dialog-selected-position-pointName">
+        <source>Circling point</source>
+        <translation>Circling point</translation>
+    </message>
+    <message id="results-window-dialog-selected-position-minDistance">
+        <source>d_min</source>
+        <translation>d_min</translation>
+    </message>
+    <message id="results-window-dialog-selected-position-minTime">
+        <source>t_min</source>
+        <translation>t_min</translation>
+    </message>
+    <message id="results-window-dialog-selected-position-maxDistance">
+        <source>d_max</source>
+        <translation>d_max</translation>
+    </message>
+    <message id="results-window-dialog-selected-position-maxTime">
+        <source>t_max</source>
+        <translation>t_max</translation>
+    </message>
 </context>
 <context>
     <name>CalendarWindow</name>
