@@ -1376,6 +1376,9 @@ ApplicationWindow {
                 onClickedMeasuredTime: {
                     map.currentPositionTimeUnix = time;
                 }
+                onSelectedPointsChaged: {
+                    map.requestUpdate();
+                }
             }
 
             Rectangle { // disable
@@ -1493,6 +1496,7 @@ ApplicationWindow {
                 trackModel: tracks;
                 filterCupData: 2
                 currentPositionShow: (igc.count > 0);
+                selectedPoints: resultsDetailComponent.currentSelectedPositionsListAlias
 
                 onTpiComputedData:  {
                     if (!updateContestantMenu.menuVisible && !resultsDetailComponent.visible && !resultsExporterTimer.running) {
@@ -1558,6 +1562,7 @@ ApplicationWindow {
                         if (!found) {
                             m.append(item)
                         }
+
                     }
 
                     contestantsListModel.setProperty(current, "selectedPositions", JSON.stringify(positions))
@@ -3648,7 +3653,7 @@ ApplicationWindow {
 
                         var angle_low = ti.angle + 180;
                         var angle_high = angle_low + 180;
-                        var flight_angle = G.getBearingTo(parseFloat(igcthis.lat), parseFloat(igcthis.lon), parseFloat(igcnext.lat), parseFloat(igcnext.lon))
+                        var flight_angle = igc.getBearingTo(parseFloat(igcthis.lat), parseFloat(igcthis.lon), parseFloat(igcnext.lat), parseFloat(igcnext.lon))
                         var flight_angle2 = flight_angle + 360;
 
                         var angle_ok = (((angle_low < flight_angle) && (flight_angle < angle_high)) || ((angle_low < flight_angle2) && (flight_angle2 < angle_high)))

@@ -86,6 +86,7 @@ Rectangle {
 
     property bool showTrackAnyway: true;
 
+    property var selectedPoints
 
     signal pannedManually
     signal trackRendered();
@@ -268,7 +269,7 @@ Rectangle {
             currentPositionLon = item.lon;
             currentPositionTime = item.time;
             currentPositionAltitude = item.alt;
-            currentPositionAzimuth = G.getBearingTo(item.lat, item.lon, nextItem.lat, nextItem.lon)
+            currentPositionAzimuth = igc.getBearingTo(item.lat, item.lon, nextItem.lat, nextItem.lon)
         }
     }
 
@@ -547,7 +548,6 @@ Rectangle {
     //        id: colorModification
     //    }
 
-
     Grid {
 
         id: map;
@@ -652,6 +652,16 @@ Rectangle {
         }
     }
 
+
+    Repeater {
+        model: selectedPoints
+        Waypoint {
+            targetPoint: getMappointFromCoord(lat, lon);
+            azimuth: 0;
+            mapx: map.x;
+            mapy: map.y;
+        }
+    }
 
     Waypoint {
         id: positionIndicator
@@ -814,16 +824,16 @@ Rectangle {
                         switch (c.type) {
                         case "none":
                         case "line":
-                            angle = ((G.getBearingTo(prevItem.lat, prevItem.lon, item.lat, item.lon)+90)%360);
+                            angle = ((igc.getBearingTo(prevItem.lat, prevItem.lon, item.lat, item.lon)+90)%360);
 
                             break;
                         case "polyline":
                             var selPoly = getPolyByCid(c.ptr, poly);
                             if (selPoly === undefined) {
-                                angle = ((G.getBearingTo(prevItem.lat, prevItem.lon, item.lat, item.lon)+90)%360);
+                                angle = ((igc.getBearingTo(prevItem.lat, prevItem.lon, item.lat, item.lon)+90)%360);
                             } else {
                                 var selPolyPoint = selPoly.points[0]
-                                angle = ((G.getBearingTo(prevItem.lat, prevItem.lon, selPolyPoint.lat, selPolyPoint.lon)+90)%360);
+                                angle = ((igc.getBearingTo(prevItem.lat, prevItem.lon, selPolyPoint.lat, selPolyPoint.lon)+90)%360);
                             }
                             break;
                         case "arc1":
@@ -842,9 +852,9 @@ Rectangle {
                                     var lastDistance = igc.getDistanceTo(tmpLast[0], tmpLast[1], item.lat, item.lon);
 
                                     if (firstDistance > lastDistance) {
-                                        angle = ((G.getBearingTo(prevItem.lat, prevItem.lon, tmpFirst[0], tmpFirst[1])+90)%360);
+                                        angle = ((igc.getBearingTo(prevItem.lat, prevItem.lon, tmpFirst[0], tmpFirst[1])+90)%360);
                                     } else {
-                                        angle = ((G.getBearingTo(prevItem.lat, prevItem.lon, tmpLast[0], tmpLast[1])+90)%360);
+                                        angle = ((igc.getBearingTo(prevItem.lat, prevItem.lon, tmpLast[0], tmpLast[1])+90)%360);
 
                                     }
                                 }
@@ -875,7 +885,7 @@ Rectangle {
 
                         screenPoint = getMappointFromCoord(item.lat, item.lon)
                         var distance = igc.getDistanceTo(item.lat, item.lon, prevItem.lat, prevItem.lon);
-                        var angle = ((G.getBearingTo(prevItem.lat, prevItem.lon, item.lat, item.lon)+90)%360);
+                        var angle = ((igc.getBearingTo(prevItem.lat, prevItem.lon, item.lat, item.lon)+90)%360);
 
                         polygonCachePoints.push({"lat": prevItem.lat, "lon": prevItem.lon})
 
@@ -911,7 +921,7 @@ Rectangle {
                                     prevPolyItem = selPolyItem;
                                 }
                                 distance = distance + igc.getDistanceTo(prevPolyItem.lat, prevPolyItem.lon, item.lat, item.lon)
-                                angle = ((G.getBearingTo(prevPolyItem.lat, prevPolyItem.lon, item.lat, item.lon)+90)%360);
+                                angle = ((igc.getBearingTo(prevPolyItem.lat, prevPolyItem.lon, item.lat, item.lon)+90)%360);
 
                                 ctx.lineTo(screenPoint[0], screenPoint[1])
                                 polygonCachePoints.push({"lat": item.lat, "lon": item.lon})
@@ -963,7 +973,7 @@ Rectangle {
                                         }
                                     }
 
-                                    angle = ((G.getBearingTo(prevArcItem[0], prevArcItem[1], item.lat, item.lon)+90)%360);
+                                    angle = ((igc.getBearingTo(prevArcItem[0], prevArcItem[1], item.lat, item.lon)+90)%360);
                                     distance = distance + igc.getDistanceTo(item.lat, item.lon, prevArcItem[0], prevArcItem[1]);
 
                                     ctx.lineTo(screenPoint[0], screenPoint[1])
@@ -1403,6 +1413,25 @@ Rectangle {
                     }
                 }
 
+                if (selectedPoints.count >= 3) {
+                    ctx.strokeStyle="#00ffff" ;
+                    ctx.beginPath()
+                    var st = selectedPoints.get(0);
+                    screenPoint = getMappointFromCoord(st.lat, st.lon);
+                    ctx.moveTo(screenPoint[0], screenPoint[1])
+
+                    var nd = selectedPoints.get(1);
+                    screenPoint = getMappointFromCoord(nd.lat, nd.lon)
+                    ctx.lineTo(screenPoint[0], screenPoint[1])
+
+                    var rd = selectedPoints.get(2);
+                    screenPoint = getMappointFromCoord(rd.lat, rd.lon)
+                    ctx.lineTo(screenPoint[0], screenPoint[1])
+                    ctx.closePath();
+                    ctx.stroke();
+
+                }
+
 
 
             } else {
@@ -1665,7 +1694,7 @@ Rectangle {
                     ruler.endPoint = getMappointFromCoord(pos[0], pos[1])
 
                     var posFirst = getCoordFromScreenpoint(__firstX, __firstY);
-                    ruler.text = igc.getDistanceTo(pos[0], pos[1], posFirst[0], posFirst[1]).toFixed(1) + " m / " + G.getBearingTo(posFirst[0], posFirst[1], pos[0], pos[1]).toFixed(1) + "°"
+                    ruler.text = igc.getDistanceTo(pos[0], pos[1], posFirst[0], posFirst[1]).toFixed(1) + " m / " + igc.getBearingTo(posFirst[0], posFirst[1], pos[0], pos[1]).toFixed(1) + "°"
 
                 }
 

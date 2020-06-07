@@ -21,6 +21,7 @@ Rectangle {
     signal okAndView();
     signal cancel();
     signal clickedMeasuredTime(int time)
+    signal selectedPointsChaged();
 
     // recalculate percent points
     onTotalPointsScoreChanged: {
@@ -60,6 +61,7 @@ Rectangle {
     ListModel { id: currentSelectedPositionsList;
         onCountChanged: {
             console.log("recomputing distances " + count);
+            selectedPointsChaged();
             if (count <= 1) {
                 return;
             }
@@ -71,7 +73,7 @@ Rectangle {
             var previtem = item;
             for (var i = 1; i < count; i++) {
                 item = get(i);
-                setProperty(i, "distanceprev", G.getDistanceTo(previtem.lat, previtem.lon, item.lat, item.lon));
+                setProperty(i, "distanceprev", igc.getDistanceTo(previtem.lat, previtem.lon, item.lat, item.lon));
                 setProperty(i, "timetoprev", F.timeToUnix(item.time) - F.timeToUnix(previtem.time));
                 setProperty(i, "timetoprev_str", F.addTimeStrFormat(Math.abs(F.timeToUnix(item.time) - F.timeToUnix(previtem.time))));
                 previtem = item;

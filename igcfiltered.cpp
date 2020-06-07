@@ -24,6 +24,17 @@ qreal IgcFiltered::getDistanceTo(qreal lat, qreal lon, qreal tlat, qreal tlon) {
     return 6371000.0 * c;
 }
 
+qreal IgcFiltered::getBearingTo(qreal lat, qreal lon, qreal tlat, qreal tlon) {
+    qreal lat1 = lat * (M_PI/180.0);
+    qreal lat2 = tlat * (M_PI/180.0);
+
+    qreal dlon = (tlon - lon) * (M_PI/180.0);
+    qreal y = sin(dlon) * cos(lat2);
+    qreal x = cos(lat1) * sin(lat2) - sin(lat1) * cos(lat2) * cos(dlon);
+    return fmod((360 + (atan2(y, x)) * (180.0/M_PI)), 360.0);
+}
+
+
 
 bool IgcFiltered::load(const QString &path, const QTime after, const bool removeAfterLanding) {
     igcFile->load(path);
