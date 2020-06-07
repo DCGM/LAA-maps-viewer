@@ -1520,7 +1520,11 @@ ApplicationWindow {
 
                     var positions = [];
                     if ((con.selectedPositions !== undefined) && (con.selectedPositions !== "undefined") && (con.selectedPositions !== "")) {
-                        positions = JSON.parse(con.selectedPositions);
+                        try {
+                            positions = JSON.parse(con.selectedPositions);
+                        } catch(err) {
+                            console.error(err)
+                        }
                     }
 
                     var item = {}
@@ -1540,7 +1544,9 @@ ApplicationWindow {
                             "time" : time,
                             "alt" : alt,
                             "azimuth" : azimuth,
-                            "distanceprev": 0
+                            "distanceprev": 0,
+                            "timetoprev": 0,
+                            "timetoprev_str": "00:00:00",
                         }
                         positions.push(item);
                         console.log("positions added " + positions.length)
@@ -4587,7 +4593,7 @@ ApplicationWindow {
 
                 } catch (e2) {
                     js_item.prevResultsWPT = [];
-                    console.log(e2)
+                    console.warn(e2)
                 }
             }
 
@@ -4598,7 +4604,7 @@ ApplicationWindow {
                     js_item.score_json = JSON.parse(item.score_json);
                 } catch (e3) {
                     js_item.score_json = [];
-                    console.log(e3 + " score_json["+i+"]:" + item.score_json.substring(0, 20))
+                    console.warn(e3 + " score_json["+i+"]:" + item.score_json.substring(0, 20))
                 }
             }
 
@@ -4616,7 +4622,7 @@ ApplicationWindow {
                     js_item.wptScoreDetails = wptScoreDetails;
                 } catch (e4) {
                     js_item.wptScoreDetails = [];
-                    console.log(e4)
+                    console.warn(e4)
                 }
             }
 
@@ -4627,7 +4633,7 @@ ApplicationWindow {
                     js_item.selectedPositions = JSON.parse(item.selectedPositions);
                 } catch (e5) {
                     js_item.selectedPositions = [];
-                    console.log(e5 + " selectedPositions["+i+"]:" + item.selectedPositions.substring(0, 20))
+                    console.warn(e5 + " selectedPositions["+i+"]:" + item.selectedPositions.substring(0, 20))
                 }
             }
 
