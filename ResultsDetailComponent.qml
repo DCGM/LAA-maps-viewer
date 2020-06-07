@@ -66,12 +66,14 @@ Rectangle {
 
             var item = get(0);
             setProperty(0, "distanceprev", 0);
+            setProperty(0, "timetoprev", 0);
+            setProperty(0, "timetoprev_str", "00:00:00");
             var previtem = item;
             for (var i = 1; i < count; i++) {
                 item = get(i);
-
                 setProperty(i, "distanceprev", G.getDistanceTo(previtem.lat, previtem.lon, item.lat, item.lon));
-
+                setProperty(i, "timetoprev", F.timeToUnix(item.time) - F.timeToUnix(previtem.time));
+                setProperty(i, "timetoprev_str", F.addTimeStrFormat(Math.abs(F.timeToUnix(item.time) - F.timeToUnix(previtem.time))));
                 previtem = item;
             }
         }
@@ -1727,6 +1729,10 @@ Rectangle {
 
                     //% "Distance to previous"
                     TableViewColumn {title: qsTrId("results-window-dialog-selected-position-distance-previous"); role: "distanceprev"; width: 90;}
+                    //% "Time to previous"
+                    TableViewColumn {title: qsTrId("results-window-dialog-selected-position-time-previous"); role: "timetoprev_str"; width: 90;}
+
+
 
                     Component.onCompleted: {
                         selection.selectionChanged.connect(rowSelected);

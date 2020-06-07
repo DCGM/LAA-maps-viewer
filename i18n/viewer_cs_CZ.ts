@@ -1740,12 +1740,14 @@
         <translation>Nelze se připojit na server. Zkontrolujte prosím připojení a zkuste to znovu.</translation>
     </message>
     <message id="results-upload-finishing-error-dialog-title">
-        <source>Results upload error dialog title</source>
-        <translation>Chyba</translation>
+        <source>Results upload error</source>
+        <oldsource>Results upload error dialog title</oldsource>
+        <translation>Chyba při narávání</translation>
     </message>
     <message id="results-upload-finishing-error-dialog-text">
-        <source>Unable to complete the results upload. Please check the api key, destination competition, uploaded files and try it again.</source>
-        <translation>Nelze dokončit upload výsledků. Zkontrolujte prosím API klíč, zvolenou soutěž, nahrané soubory a zkuste to znovu.</translation>
+        <source>Failed to parse response</source>
+        <oldsource>Unable to complete the results upload. Please check the api key, destination competition, uploaded files and try it again.</oldsource>
+        <translation>Nepodařilo se přečíst odpověď</translation>
     </message>
     <message id="create-contestant-tab-title">
         <source>Crew detail</source>
@@ -1904,10 +1906,6 @@
         <source>Selected Positions (%1)</source>
         <translation>Zvolené body (%1)</translation>
     </message>
-    <message id="results-window-dialog-selected-position-gpsindex">
-        <source>ID</source>
-        <translation type="vanished">ID</translation>
-    </message>
     <message id="results-window-dialog-selected-position-time">
         <source>Time</source>
         <translation>Čas</translation>
@@ -1932,11 +1930,6 @@
         <source>Select position</source>
         <oldsource>Mark position</oldsource>
         <translation>Zvolit polohu</translation>
-    </message>
-    <message id="results-window-dialog-selected-positions-triangle-area">
-        <source>Triangle area of first three points: %1 km²</source>
-        <oldsource>Triangle area of first 3 points: %1 km²</oldsource>
-        <translation type="vanished">Obsah trojúhelníku z prvních tří bodů: %1 km²</translation>
     </message>
     <message id="results-window-dialog-selected-position-distance-previous">
         <source>Distance to previous</source>
@@ -1970,6 +1963,14 @@
     <message id="file-list-cannot-read-file-error">
         <source>Cannot read file &apos;%1&apos;</source>
         <translation>Nelze přečíst soubor &apos;%1&apos;</translation>
+    </message>
+    <message id="results-window-dialog-selected-position-time-previous">
+        <source>Time to previous</source>
+        <translation>Čas na předchozí</translation>
+    </message>
+    <message id="results-upload-finishing-error-dialog-text-unable">
+        <source>Unable to complete the results upload. Please check the api key, destination competition, uploaded files and try it again.</source>
+        <translation>Nelze dokončit upload výsledků. Zkontrolujte prosím API klíč, zvolenou soutěž, nahrané soubory a zkuste to znovu.</translation>
     </message>
 </context>
 <context>
