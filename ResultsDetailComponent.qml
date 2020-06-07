@@ -245,6 +245,8 @@ Rectangle {
 
             // recover tab status
             if (!tabPrevActived) tabView.activateTabByName(previousActive);
+        } else {
+            currentSelectedPositionsList.clear();
         }
     }
 
