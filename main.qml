@@ -1092,6 +1092,16 @@ ApplicationWindow {
                     }
                 }
 
+                MouseArea {
+                    anchors.fill: parent;
+                    acceptedButtons: Qt.RightButton
+                    enabled: (contestantsListModel.count == 0)
+
+                    onClicked: {
+                        createContestantMenu.popup();
+                    }
+                }
+
                 Component.onCompleted: {
                     selection.selectionChanged.connect(rowSelected);
                 }
