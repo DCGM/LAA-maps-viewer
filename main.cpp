@@ -83,6 +83,7 @@ void myMessageHandler(QtMsgType type, const QMessageLogContext& context, const Q
 
 int main(int argc, char *argv[])
 {
+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QLoggingCategory::setFilterRules("qt.network.ssl.warning=false");  // disable SSL warnings
 
     QApplication app(argc, argv);
