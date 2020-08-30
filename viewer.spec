@@ -30,7 +30,6 @@ viewer is tool for viewing of LAA Competion tracks
 
 %install
 %cmake_install
-make DESTDIR=%{buildroot} install
 desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 
