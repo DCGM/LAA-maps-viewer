@@ -1,5 +1,5 @@
 Name:           viewer
-Version:        0.4
+Version:        0.5.1
 Release:        %(date +%Y%m%d%H)%{?dist}
 Summary:        viewer of LAA Competition tracks
 
@@ -26,9 +26,10 @@ viewer is tool for viewing of LAA Competion tracks
 
 %build
 %cmake
-make %{?_smp_mflags}
+%cmake_build
 
 %install
+%cmake_install
 make DESTDIR=%{buildroot} install
 desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 
