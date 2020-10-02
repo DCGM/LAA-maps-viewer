@@ -29,6 +29,9 @@ execute_process(COMMAND
 add_definitions( -DGIT_VERSION="${GIT_VERSION}" )
 
 find_package(Qt5 COMPONENTS Core Quick Xml Widgets Charts LinguistTools REQUIRED)
+find_package(Qt5QuickCompiler)
+qtquick_compiler_add_resources(RESOURCES viewer.qrc)
+
 
 file(GLOB TS_FILES i18n/*.ts)
 
@@ -45,8 +48,8 @@ add_executable(viewer WIN32
   sortfilterproxymodel.cpp
   uploader.cpp
   worker.cpp
-  viewer.qrc
   viewer.rc
+  ${RESOURCES}
   ${TS_FILES}
 )
 
