@@ -207,17 +207,15 @@ Item {
         anchors.margins: 4
         Connections {
             target: loaderTextEdit.item
-            function onNewValue() {
+            function onNewValue(value) {
 
                 switch (styleData.role) {
 
                     case "startTime":
-
                         changeModel(styleData.row, styleData.role, value)
                         break;
 
                     case "speed":
-
                         changeModel(styleData.row, styleData.role, parseInt(value))
                         break;
 
@@ -257,7 +255,6 @@ Item {
                 text: getTextForRole(styleData.row, styleData.role, styleData.value);
 
                 onAccepted: {
-
                     newValue(text);
                 }
 
