@@ -1127,22 +1127,21 @@ ApplicationWindow {
 
                         timer.running = false;
 
+                        console.log("validApiKey: readyState " + http.readyState + " status: "+ http.status + " " +http.statusText)
+
                         if (http.readyState === XMLHttpRequest.DONE) {
 
-                            console.log("validApiKey request DONE: " + http.status + "  " + url + " " + http.responseText)
+                            console.log("validApiKey request DONE: " + http.status + " " +http.statusText + "  " + url + " " + http.responseText)
 
                             if (http.status === 200) {
 
-
                                 try{
-
 
                                     var result = JSON.parse(http.responseText);
                                     var resultStatus = (result.status !== undefined && result.status === 0);
                                     apiKeyStatus = resultStatus  ? "ok" : "nok";
 
                                     if (resultStatus) {
-
                                         userNameValidity.text = result.message.firstname + " " + result.message.surname;
                                         userKeyValidity.text  = String(result.message.valid_until).replace(/\./g, "-");
                                     } else {
@@ -1159,7 +1158,7 @@ ApplicationWindow {
                             // Connection error
                             else {
 
-                                console.error("validApiKey http status: " + http.status)
+                                console.error("validApiKey http status: " + http.status + " " +http.statusText)
 
                                 userNameValidity.text = "";
                                 userKeyValidity.text = "";
@@ -1167,8 +1166,8 @@ ApplicationWindow {
                                 // Set and show error dialog
                                 //% "Connection error dialog title"
                                 errMessageDialog.title = qsTrId("valid-apikey-connection-error-dialog-title")
-                                //% "Can not validate Api key on the server. Please check the network connection and try it again."
-                                errMessageDialog.text = qsTrId("valid-apikey-connection-error-dialog-text")
+                                //% "Can not validate Api key on the server. Please check the network connection and try it again. %1"
+                                errMessageDialog.text = qsTrId("valid-apikey-connection-error-dialog-text").arg(http.status + " " + http.statusText)
                                 errMessageDialog.standardButtons = StandardButton.Close
                                 errMessageDialog.showDialog();
                             }

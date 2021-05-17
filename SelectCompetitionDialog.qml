@@ -363,9 +363,9 @@ ApplicationWindow {
 
             var status;
 
-            if (http.readyState === XMLHttpRequest.DONE) {
+            console.log("getContestants: readyState " + http.readyState + " status: "+ http.status + " " +http.statusText)
 
-                console.log("getContestants request DONE: " + http.status)
+            if (http.readyState === XMLHttpRequest.DONE) {
 
                 if (http.status === 200) {
 
@@ -467,13 +467,13 @@ ApplicationWindow {
                 // Connection error
                 else {
 
-                    console.log("ERR getContestants http status: " + http.status)
+                    console.error("ERR getContestants http status: " + http.status + " " + http.statusText)
 
                     // Set and show error dialog
                     //% "Connection error dialog title"
                     errMessageDialog.title = qsTrId("contestant-download-connection-error-dialog-title")
-                    //% "Can not download registrations for selected competition. Please check the network connection and try it again."
-                    errMessageDialog.text = qsTrId("contestant-download-connection-error-dialog-text")
+                    //% "Can not download registrations for selected competition. Please check the network connection and try it again. %1"
+                    errMessageDialog.text = qsTrId("contestant-download-connection-error-dialog-text").arg(http.status + " " + http.statusText)
                     errMessageDialog.standardButtons = StandardButton.Close
                     errMessageDialog.showDialog();
                 }
@@ -506,13 +506,13 @@ ApplicationWindow {
 
             timer.running = false;
 
-            if (http.readyState === XMLHttpRequest.DONE) {
+            console.log("getCompetitionsData: readyState " + http.readyState + " status: "+ http.status + " " +http.statusText)
 
-                console.log("getCompetitionsData request DONE: " + http.status)
+            if (http.readyState === XMLHttpRequest.DONE) {
 
                 if (http.status === 200) {
 
-                    try{
+                    try {
                         var result = (http.responseText);
 
 //                        console.log(result)
@@ -591,13 +591,13 @@ ApplicationWindow {
                 // Connection error
                 else {
 
-                    console.log("ERR getCompetitionsData http status: " + http.status)
+                    console.error("ERR getCompetitionsData http status: " + http.status + " " + http.statusText)
 
                     // Set and show error dialog
                     //% "Connection error dialog title"
                     errMessageDialog.title = qsTrId("competitions-download-connection-error-dialog-title")
-                    //% "Can not download competitions list from server. Please check the network connection and try it again."
-                    errMessageDialog.text = qsTrId("competitions-download-connection-error-dialog-text")
+                    //% "Can not download competitions list from server. Please check the network connection and try it again. %1"
+                    errMessageDialog.text = qsTrId("competitions-download-connection-error-dialog-text").arg(http.status + " " + http.statusText)
                     errMessageDialog.standardButtons = StandardButton.Close
                     errMessageDialog.showDialog();
                 }

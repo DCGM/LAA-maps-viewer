@@ -666,8 +666,9 @@
         <translation>Chyba připojení</translation>
     </message>
     <message id="valid-apikey-connection-error-dialog-text">
-        <source>Can not validate Api key on the server. Please check the network connection and try it again.</source>
-        <translation>Nelze se připojit na server. Zkontrolujte prosím připojení a zkuste to znovu.</translation>
+        <source>Can not validate Api key on the server. Please check the network connection and try it again. %1</source>
+        <oldsource>Can not validate Api key on the server. Please check the network connection and try it again.</oldsource>
+        <translation>Nelze se připojit na server. Zkontrolujte prosím připojení a zkuste to znovu. %1</translation>
     </message>
     <message id="competition-configuration-read-only-note">
         <source>Note: Online state - read-only</source>
@@ -968,8 +969,9 @@
         <translation>Chyba připojení</translation>
     </message>
     <message id="contestant-download-connection-error-dialog-text">
-        <source>Can not download registrations for selected competition. Please check the network connection and try it again.</source>
-        <translation>Nelze stáhnout přihlášky pro zadanou soutěž. Zkontrolujte prosím připojení a zkuste to později.</translation>
+        <source>Can not download registrations for selected competition. Please check the network connection and try it again. %1</source>
+        <oldsource>Can not download registrations for selected competition. Please check the network connection and try it again.</oldsource>
+        <translation>Nelze stáhnout přihlášky pro zadanou soutěž. Zkontrolujte prosím připojení a zkuste to později. %1</translation>
     </message>
     <message id="competitions-download-access-error-dialog-title">
         <source>Access error dialog title</source>
@@ -984,8 +986,9 @@
         <translation>Chyba připojení</translation>
     </message>
     <message id="competitions-download-connection-error-dialog-text">
-        <source>Can not download competitions list from server. Please check the network connection and try it again.</source>
-        <translation>Nelze stáhnout seznam soutěží ze serveru. Zkontrolujte prosím připojení a zkuste to později.</translation>
+        <source>Can not download competitions list from server. Please check the network connection and try it again. %1</source>
+        <oldsource>Can not download competitions list from server. Please check the network connection and try it again.</oldsource>
+        <translation>Nelze stáhnout seznam soutěží ze serveru. Zkontrolujte prosím připojení a zkuste to později. %1</translation>
     </message>
     <message id="competition-type-navigation-along-known-track">
         <source>Navigation along known track</source>
@@ -1736,8 +1739,9 @@
         <translation>Chyba připojení</translation>
     </message>
     <message id="results-upload-connection-error-dialog-text">
-        <source>Unable to connect to the server. Please check the network connection and try it again.</source>
-        <translation>Nelze se připojit na server. Zkontrolujte prosím připojení a zkuste to znovu.</translation>
+        <source>Unable to connect to the server. Please check the network connection and try it again. %1</source>
+        <oldsource>Unable to connect to the server. Please check the network connection and try it again.</oldsource>
+        <translation>Nelze se připojit na server. Zkontrolujte prosím připojení a zkuste to znovu. %1</translation>
     </message>
     <message id="results-upload-finishing-error-dialog-title">
         <source>Results upload error</source>

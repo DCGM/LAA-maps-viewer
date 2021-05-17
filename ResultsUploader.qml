@@ -143,6 +143,8 @@ Item {
 
             timer.running = false;
 
+            console.log("initCompetitionFileStorage: readyState " + http.readyState + " status: "+ http.status + " " +http.statusText)
+
             if (http.readyState === XMLHttpRequest.DONE) {
 
                 if (http.status === 200) {
@@ -206,13 +208,13 @@ Item {
                 // Connection error
                 else {
 
-                    console.error("initCompetitionFileStorage http status: " + http.status)
+                    console.error("initCompetitionFileStorage http status: " + http.status + " " + http.statusText)
 
                     // Set and show error dialog
                     //% "Connection error dialog title"
                     errMessageDialog.title = qsTrId("results-upload-connection-error-dialog-title")
-                    //% "Unable to connect to the server. Please check the network connection and try it again."
-                    errMessageDialog.text = qsTrId("results-upload-connection-error-dialog-text")
+                    //% "Unable to connect to the server. Please check the network connection and try it again. %1"
+                    errMessageDialog.text = qsTrId("results-upload-connection-error-dialog-text").arg(http.status + " " + http.statusText)
                     errMessageDialog.standardButtons = StandardButton.Close
                     //errMessageDialog.showDialog();
                     errMessageDialog.open();
@@ -240,6 +242,8 @@ Item {
                         });
 
         http.onreadystatechange = function() {
+
+            console.log("callUploadFinish: readyState " + http.readyState + " status: "+ http.status + " " +http.statusText)
 
             var status;
 
@@ -293,13 +297,13 @@ Item {
                 // Connection error
                 else {
 
-                    console.error("ERR callUploadFinish http status: " + http.status + " " + http.responseText)
+                    console.error("ERR callUploadFinish http status: " + http.status + " " + http.statusText + " " + http.responseText)
 
                     // Set and show error dialog
                     //% "Connection error dialog title"
                     errMessageDialog.title = qsTrId("results-upload-connection-error-dialog-title")
-                    //% "Unable to connect to the server. Please check the network connection and try it again."
-                    errMessageDialog.text = qsTrId("results-upload-connection-error-dialog-text")
+                    //% "Unable to connect to the server. Please check the network connection and try it again. %1"
+                    errMessageDialog.text = qsTrId("results-upload-connection-error-dialog-text").arg(http.status + " " + http.statusText)
                     errMessageDialog.standardButtons = StandardButton.Close
                     errMessageDialog.showDialog();
                     uploaderDialog.finishRunning  = false;
