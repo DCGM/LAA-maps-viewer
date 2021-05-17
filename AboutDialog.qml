@@ -71,7 +71,7 @@ ApplicationWindow {
                 textFormat: Text.RichText
                 /*% "
                 Authors: <br/>
-                Jozef Mlich, Adam Siroky, Pavel Zemcik, <a href=\"http://www.fit.vutbr.cz/\">FIT VUT Brno</a> <br/> <br/>
+                Jozef Mlich, Adam Siroky, Pavel Zemcik, <a href=\"https://www.fit.vutbr.cz/\">FIT VUT Brno</a> <br/> <br/>
 
                 Licence: <br/>
 

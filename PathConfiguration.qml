@@ -116,7 +116,7 @@ ApplicationWindow {
         if (visible) {
 
             // get last known api_key
-            prev_api_base_url = config.get("api_base_url", "http://ppt.laacr.cz");
+            prev_api_base_url = config.get("api_base_url", "https://ppt.laacr.cz");
             prevApi_key = config.get("api_key", "");
             prevUserNameValidity = config.get("userNameValidity", "");
             prevUserKeyValidity = config.get("userKeyValidity", "");

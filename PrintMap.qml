@@ -27,7 +27,6 @@ Rectangle {
     property bool showRuler: false
     property real rulerDistance: -1;
 
-    //    property string url: "http://a.tile.openstreetmap.org/%(zoom)d/%(x)d/%(y)d.png";
     property string url: "";
 
     property variant polygonCache;

@@ -796,7 +796,7 @@
     <message id="about-licence">
         <source>
                 Authors: &lt;br/&gt;
-                Jozef Mlich, Adam Siroky, Pavel Zemcik, &lt;a href=&quot;http://www.fit.vutbr.cz/&quot;&gt;FIT VUT Brno&lt;/a&gt; &lt;br/&gt; &lt;br/&gt;
+                Jozef Mlich, Adam Siroky, Pavel Zemcik, &lt;a href=&quot;https://www.fit.vutbr.cz/&quot;&gt;FIT VUT Brno&lt;/a&gt; &lt;br/&gt; &lt;br/&gt;
 
                 Licence: &lt;br/&gt;
 
@@ -832,7 +832,7 @@
                 </source>
         <oldsource>
                 Authors: &lt;br/&gt;
-                Jozef Mlich, Adam Siroky, Pavel Zemcik, &lt;a href=\&quot;http://www.fit.vutbr.cz/\&quot;&gt;FIT VUT Brno&lt;/a&gt; &lt;br/&gt; &lt;br/&gt;
+                Jozef Mlich, Adam Siroky, Pavel Zemcik, &lt;a href=\&quot;https://www.fit.vutbr.cz/\&quot;&gt;FIT VUT Brno&lt;/a&gt; &lt;br/&gt; &lt;br/&gt;
 
                 Licence: &lt;br/&gt;
 
@@ -868,7 +868,7 @@
                 </oldsource>
         <translation>
                 Authors: &lt;br/&gt;
-                Jozef Mlich, Adam Siroky, Pavel Zemcik, &lt;a href=\&quot;http://www.fit.vutbr.cz/\&quot;&gt;FIT VUT Brno&lt;/a&gt; &lt;br/&gt; &lt;br/&gt;
+                Jozef Mlich, Adam Siroky, Pavel Zemcik, &lt;a href=\&quot;https://www.fit.vutbr.cz/\&quot;&gt;FIT VUT Brno&lt;/a&gt; &lt;br/&gt; &lt;br/&gt;
 
                 Licence: &lt;br/&gt;
 
