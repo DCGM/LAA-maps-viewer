@@ -1116,6 +1116,7 @@ ApplicationWindow {
                     var http = new XMLHttpRequest();
 
                     http.open(method, url + "?api_key=" + api_key, true);
+                    console.log("url = " + url + " method = " + method + " api_key = " + api_key)
 
                     // set timeout
                     var timer = Qt.createQmlObject("import QtQuick 2.9; Timer {interval: 5000; repeat: false; running: true;}", pathConfiguration, "MyTimer");
