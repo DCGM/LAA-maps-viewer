@@ -137,6 +137,9 @@ int main(int argc, char *argv[])
     qDebug() << "Starting build " << QString::fromLocal8Bit(GIT_VERSION) << " "<< QString::fromLocal8Bit(__DATE__) << " " <<  QString::fromLocal8Bit(__TIME__);
     qDebug() << "Qt" << qVersion();
     qDebug() << QSslSocket::supportsSsl() << QSslSocket::sslLibraryBuildVersionString() << QSslSocket::sslLibraryVersionString();
+    if (!QSslSocket::supportsSsl()) {
+        qFatal("SSL is not installed");
+    }
 
     NetworkAccessManagerFactory namFactory;
 
