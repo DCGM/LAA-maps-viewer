@@ -84,7 +84,6 @@ void myMessageHandler(QtMsgType type, const QMessageLogContext& context, const Q
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    QLoggingCategory::setFilterRules("qt.network.ssl.warning=false");  // disable SSL warnings
 
     QApplication app(argc, argv);
 
@@ -94,8 +93,14 @@ int main(int argc, char *argv[])
 
     qInstallMessageHandler(myMessageHandler);
 
+    qDebug() << "Starting build " << QString::fromLocal8Bit(GIT_VERSION) << " "<< QString::fromLocal8Bit(__DATE__) << " " <<  QString::fromLocal8Bit(__TIME__) << "Qt:" << qVersion();
+    qDebug() << "supportsSsl" <<QSslSocket::supportsSsl() << "build version:"<< QSslSocket::sslLibraryBuildVersionString() << "library version:" << QSslSocket::sslLibraryVersionString();
+    if (!QSslSocket::supportsSsl()) {
+        qFatal("SSL is not installed");
+    }
+
 #if defined(Q_OS_LINUX)
-    qDebug() << QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QDir::separator() +"viewer.log";
+    qDebug() << QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QDir::separator() + "viewer.log";
 #endif
 
     QQmlApplicationEngine engine;
@@ -133,13 +138,6 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("builddate", QString::fromLocal8Bit(__DATE__));
     engine.rootContext()->setContextProperty("buildtime", QString::fromLocal8Bit(__TIME__));
     engine.rootContext()->setContextProperty("version", QString::fromLocal8Bit(GIT_VERSION));
-
-    qDebug() << "Starting build " << QString::fromLocal8Bit(GIT_VERSION) << " "<< QString::fromLocal8Bit(__DATE__) << " " <<  QString::fromLocal8Bit(__TIME__);
-    qDebug() << "Qt" << qVersion();
-    qDebug() << QSslSocket::supportsSsl() << QSslSocket::sslLibraryBuildVersionString() << QSslSocket::sslLibraryVersionString();
-    if (!QSslSocket::supportsSsl()) {
-        qFatal("SSL is not installed");
-    }
 
     NetworkAccessManagerFactory namFactory;
 
