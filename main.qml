@@ -984,7 +984,7 @@ ApplicationWindow {
 
         Item {
             id: splitViewIgcResults
-            width: 1090;
+            width: Math.min(Math.max(applicationWindow.width *0.9, 100) , 1090);
             height: parent.height
             visible: mainViewMenuTables.checked
 
