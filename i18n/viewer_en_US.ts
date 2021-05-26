@@ -2001,6 +2001,17 @@
     </message>
 </context>
 <context>
+    <name>QMessageBox</name>
+    <message>
+        <source>SSL is not installed</source>
+        <translation>SSL is not installed</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation>Error</translation>
+    </message>
+</context>
+<context>
     <name>Uploader</name>
     <message>
         <source>Connection Refused</source>

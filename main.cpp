@@ -3,12 +3,13 @@
 #include <QFile>
 #include <QTextStream>
 #include <QObject>
+#include <QTranslator>
 
 #include <QQmlApplicationEngine>
 #include <QtQml>
 #include <QQuickWindow>
 #include <QLoggingCategory>
-
+#include <QtWidgets>
 
 //#include "qtquick2applicationviewer.h"
 //#include "igc.h"
@@ -96,6 +97,7 @@ int main(int argc, char *argv[])
     qDebug() << "Starting build " << QString::fromLocal8Bit(GIT_VERSION) << " "<< QString::fromLocal8Bit(__DATE__) << " " <<  QString::fromLocal8Bit(__TIME__) << "Qt:" << qVersion();
     qDebug() << "supportsSsl" <<QSslSocket::supportsSsl() << "build version:"<< QSslSocket::sslLibraryBuildVersionString() << "library version:" << QSslSocket::sslLibraryVersionString();
     if (!QSslSocket::supportsSsl()) {
+        QMessageBox::critical(NULL, QMessageBox::tr("Error"), QMessageBox::tr("SSL is not installed"), QMessageBox::Ok);
         qFatal("SSL is not installed");
     }
 

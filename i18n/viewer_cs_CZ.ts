@@ -2005,6 +2005,17 @@
     </message>
 </context>
 <context>
+    <name>QMessageBox</name>
+    <message>
+        <source>SSL is not installed</source>
+        <translation>SSL není nainstalováno</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation>Chyba</translation>
+    </message>
+</context>
+<context>
     <name>Uploader</name>
     <message>
         <source>Connection Refused</source>
