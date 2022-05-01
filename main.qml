@@ -3182,8 +3182,9 @@ ApplicationWindow {
         for (i = 0; i < contestantsListModel.count; i++) {
             item = contestantsListModel.get(i);
 
-            if (item.scorePoints1000 >= 0)
+            if (item.scorePoints1000 >= 0) {
                 pushIfNotExistScorePoints(item.category, item.scorePoints1000);
+            }
         }
 
         // sort arrays
@@ -3196,7 +3197,6 @@ ApplicationWindow {
             item = contestantsListModel.get(i);
 
             if (item.scorePoints1000 >= 0) {
-
                 item.classOrder = categoriesScorePoints[item.category].indexOf(item.scorePoints1000) + 1;
             }
             else {
@@ -3208,8 +3208,9 @@ ApplicationWindow {
     // function push score points value into class array of not exist
     function pushIfNotExistScorePoints (category, score) {
 
-        if (categoriesScorePoints[category].indexOf(score) === -1)
+        if (categoriesScorePoints[category].indexOf(score) === -1) {
             categoriesScorePoints[category].push(parseInt(score));
+        }
     }
 
     // function calculate score points for one gate

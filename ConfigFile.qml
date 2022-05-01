@@ -63,7 +63,9 @@ Item {
         } catch (err) {
                 console.warn("Error get table in database: " + err);
         };
-        result = result.trim();
+        if (typeof result === "string") {
+            result = result.trim();
+        }
         console.log("config.get: " + key + " : " + result)
         return result;
     }
