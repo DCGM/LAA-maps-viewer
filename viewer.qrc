@@ -20,6 +20,7 @@
         <file>src/qml/components/HorizontalDelimeter.qml</file>
         <file>src/qml/components/NativeTextInput.qml</file>
         <file>src/qml/components/Ruler.qml</file>
+        <file>src/qml/components/PinchMapControls.qml</file>
         <file>src/qml/CirclingResultsTableItemDelegate.qml</file>
         <file>src/qml/ConfigFile.qml</file>
         <file>src/qml/main.qml</file>
@@ -62,6 +63,7 @@
         <file>images/noimage.png</file>
         <file>images/ic_error_red_48dp_1x.png</file>
         <file>images/ic_add_black_24dp_1x.png</file>
+        <file>images/ic_remove_black_24dp_1x.png</file>
         <file>images/target-indicator-cross.png</file>
         <file>images/Triangle_Green.png</file>
         <file>images/Diamond_Blue.png</file>

@@ -490,7 +490,6 @@ Rectangle {
 
     }
 
-
     Rectangle {
         id: scaleBar
         anchors.right: parent.right
