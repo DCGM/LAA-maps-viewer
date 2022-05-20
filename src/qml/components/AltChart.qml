@@ -113,11 +113,15 @@ Canvas {
 
 
     MouseArea {
+        id: mouse
         anchors.fill: parent;
         onClicked: {
+            if (canvas.gpsModel === undefined) {
+                return;
+            }
 
-            var xCoord = igc.count*mouse.x/width;
-            xClicked(xCoord);
+            var xCoord = canvas.gpsModel.count*mouse.x/width;
+            canvas.xClicked(xCoord);
         }
     }
 }

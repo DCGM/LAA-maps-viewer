@@ -8,8 +8,6 @@ Image {
     property real azimuth: 0
     property real mapx;
     property real mapy;
-//    width: 46
-//    height: 46
     x: mapx + targetPoint[0] - width/2
     y: mapy + targetPoint[1] - height/2
     source: "qrc:///images/"+waypointType+".png"
