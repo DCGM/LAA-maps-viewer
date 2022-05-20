@@ -68,7 +68,7 @@ install(FILES ${QM_FILES}
 install(FILES "viewer.desktop"
     DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/applications")
 
-install(FILES "viewer64.ico" "viewer64.png"
+install(FILES "images/viewer64.ico" "images/viewer64.png"
     DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/applications/64x64")
 
 install(TARGETS viewer RUNTIME
