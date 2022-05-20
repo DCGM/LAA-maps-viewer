@@ -5066,11 +5066,12 @@ ApplicationWindow {
     }
 
     function compareBy21thColumn(a, b) {
-
         if (parseInt(a[21]) === parseInt(b[21])) {
-            return 0;
-        }
-        else {
+            if (parseInt(a[20]) === parseInt(b[20])) {
+                return 0;
+            }
+            return (parseInt(a[20]) > parseInt(b[20])) ? -1 : 1;
+        } else {
             return (parseInt(a[21]) > parseInt(b[21])) ? -1 : 1;
         }
     }
