@@ -17,7 +17,6 @@
         <file>src/qml/components/NativeText.qml</file>
         <file>src/qml/components/Spacer.qml</file>
         <file>src/qml/components/Header.qml</file>
-        <file>src/qml/components/SimpleMapObject.qml</file>
         <file>src/qml/components/HorizontalDelimeter.qml</file>
         <file>src/qml/components/NativeTextInput.qml</file>
         <file>src/qml/components/Ruler.qml</file>
