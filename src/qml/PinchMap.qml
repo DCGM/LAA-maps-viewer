@@ -501,21 +501,21 @@ Rectangle {
 
 
         if ((baseUrl === undefined) || (baseUrl === "")) {
-            return Qt.resolvedUrl("./data/noimage-disabled.png")
+            return Qt.resolvedUrl("qrc:///images/noimage-disabled.png")
         }
 
         if (tx < 0 || tx > maxTileNo) {
             if (!first) {
                 return "";
             }
-            return Qt.resolvedUrl("./data/noimage.png")
+            return Qt.resolvedUrl("qrc:///images/noimage.png")
         }
 
         if (ty < 0 || ty > maxTileNo) {
             if (!first) {
                 return "";
             }
-            return Qt.resolvedUrl("./data/noimage.png")
+            return Qt.resolvedUrl("qrc:///images/noimage.png")
         }
 
 
@@ -601,7 +601,7 @@ Rectangle {
                 Image {
                     anchors.fill: parent;
                     visible: mapTileVisible && (img.status === Image.Null)
-                    source: "./data/noimage.png"
+                    source: "qrc:///images/noimage.png"
                 }
 
                 Image {

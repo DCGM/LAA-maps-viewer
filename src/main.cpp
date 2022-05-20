@@ -158,7 +158,7 @@ int main(int argc, char *argv[])
 
     QObject *topLevel = engine.rootObjects().value(0);
     QQuickWindow *window = qobject_cast<QQuickWindow *>(topLevel);
-    window->setIcon(QIcon(":/viewer64.png"));
+    window->setIcon(QIcon(":/images/viewer64.png"));
     window->show();
     return app.exec();
 

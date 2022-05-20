@@ -141,8 +141,8 @@ ApplicationWindow {
                             Layout.margins: 2
                             mipmap: true
                             fillMode: Image.PreserveAspectFit
-                            source: (parseInt(uploadState, 10) === 0) ? "./data/ic_check_circle_black_48dp/ic_check_circle_black_48dp/web/ic_check_circle_black_48dp_1x.png"
-                                                                      : "./data/ic_error_red_48dp/ic_error_red_48dp/web/ic_error_red_48dp_1x.png"
+                            source: (parseInt(uploadState, 10) === 0) ? "qrc:///images/ic_check_circle_black_48dp_1x.png"
+                                                                      : "qrc:///images/ic_error_red_48dp_1x.png"
                         }
                     }
                 }

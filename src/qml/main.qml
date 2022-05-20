@@ -1618,7 +1618,7 @@ ApplicationWindow {
                             radius: 3
 
                             MyImage {
-                                source: "./data/ic_my_location_black_24dp/ic_my_location_black_24dp/web/ic_my_location_black_24dp_1x.png"
+                                source: "qrc:///images/ic_my_location_black_24dp_1x.png"
                                 onMouse_clicked: map.setCenterLatLon(map.currentPositionLat, map.currentPositionLon)
 
                             }
@@ -1655,7 +1655,7 @@ ApplicationWindow {
                                     radius: 3
 
                                     MyImage {
-                                        source: "./data/ic_add_black_24dp/ic_add_black_24dp/web/ic_add_black_24dp_1x.png"
+                                        source: "qrc:///images/ic_add_black_24dp_1x.png"
                                         onMouse_clicked: map.zoomIn();
                                     }
                                 }
@@ -1673,7 +1673,7 @@ ApplicationWindow {
                                     radius: 3
 
                                     MyImage {
-                                        source: "./data/ic_remove_black_24dp/ic_remove_black_24dp/web/ic_remove_black_24dp_1x.png"
+                                        source: "qrc:///images/ic_remove_black_24dp_1x.png"
                                         onMouse_clicked: map.zoomOut();
                                     }
                                 }

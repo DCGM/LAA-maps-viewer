@@ -136,13 +136,13 @@ ApplicationWindow {
                 height: parent.height-40
                 fillMode: Image.PreserveAspectFit
                 anchors.verticalCenter: parent.verticalCenter
-                source: "./data/logo-laa.png"
+                source: "qrc:///images/logo-laa.png"
             }
             Image {
                 height: parent.height-40
                 fillMode: Image.PreserveAspectFit
                 anchors.verticalCenter: parent.verticalCenter
-                source: "./data/logo_fit.png"
+                source: "qrc:///images/logo_fit.png"
             }
         }
 

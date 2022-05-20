@@ -233,14 +233,5 @@ signals:
 
 };
 
-class FilteredIgcFile : public QAbstractListModel {
-
-    // copyCroppedIgc(IGC, TIME)
-
-//    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
-//    int rowCount(const QModelIndex &parent = QModelIndex()) const;
-
-};
-
 #endif  // IGC__H
 

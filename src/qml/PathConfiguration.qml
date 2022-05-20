@@ -551,7 +551,7 @@ ApplicationWindow {
                         Image {
                             anchors.fill: parent
                             fillMode: Image.PreserveAspectFit
-                            source: "./data/ic_warning_black_48dp/ic_warning_black_48dp/web/ic_warning_black_48dp_1x.png"
+                            source: "qrc:///images/ic_warning_black_48dp_1x.png"
                             opacity: 0.7
                             mipmap: true
                             visible: (!trackFileExist)
@@ -707,7 +707,7 @@ ApplicationWindow {
                         Image {
                             anchors.fill: parent
                             fillMode: Image.PreserveAspectFit
-                            source: "./data/ic_warning_black_48dp/ic_warning_black_48dp/web/ic_warning_black_48dp_1x.png"
+                            source: "qrc:///images/ic_warning_black_48dp_1x.png"
                             opacity: 0.7
                             mipmap: true
                             visible: (!contestantFileExist && contestantsDownloadedString === "")
@@ -1041,9 +1041,9 @@ ApplicationWindow {
                         fillMode: Image.PreserveAspectFit
                         mipmap: true
                         //visible: apiKeyStatus !== "unknown"
-                        source: apiKeyStatus === "ok" ? "./data/ic_check_circle_black_48dp/ic_check_circle_black_48dp/web/ic_check_circle_black_48dp_1x.png"
-                                                      : ((apiKeyStatus === "nok") ? "./data/ic_error_red_48dp/ic_error_red_48dp/web/ic_error_red_48dp_1x.png"
-                                                                                  : "./data/ic_help_black_48dp/ic_help_black_48dp/web/ic_help_black_48dp_1x.png")
+                        source: apiKeyStatus === "ok" ? "qrc:///images/ic_check_circle_black_48dp_1x.png"
+                                                      : ((apiKeyStatus === "nok") ? "qrc:///images/ic_error_red_48dp_1x.png"
+                                                                                  : "qrc:///images/ic_help_black_48dp_1x.png")
 
                     }
                 }
@@ -1197,7 +1197,7 @@ ApplicationWindow {
             spacing: 10;
 
             Image {
-                source: "./data/emblem_readonly.png"
+                source: "qrc://images/emblem_readonly.png"
                 //http://findicons.com/icon/115472/emblem_readonly?id=115472#
                 visible: pathConfiguration.online && tabView.competitionTabAlias.visible
                 mipmap: true

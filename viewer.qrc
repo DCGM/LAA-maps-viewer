@@ -1,7 +1,5 @@
 <RCC>
     <qresource prefix="/">
-
-        <file>viewer64.png</file>
         <file>src/qml/csv.js</file>
         <file>src/qml/Spacer.qml</file>
         <file>src/qml/IGCChooseDialog.qml</file>
@@ -37,7 +35,6 @@
         <file>src/qml/CirclingResultsTableItemDelegate.qml</file>
         <file>src/qml/AboutDialog.qml</file>
         <file>src/qml/MPieSlice.qml</file>
-        <file>src/qml/SimpleMapObject.qml</file>
         <file>src/qml/md5.js</file>
         <file>src/qml/ContestantsDelegate.qml</file>
         <file>src/qml/main.qml</file>
@@ -46,137 +43,25 @@
         <file>src/qml/RefreshDialogListViewWithCheckBox.qml</file>
         <file>src/qml/geom.js</file>
 
-        <file>data/emblem_readonly.png</file>
-        <file>data/position-indicator.png</file>
-        <file>data/Radio_Beacon.png</file>
-        <file>data/ic_warning_black_48dp/ic_warning_black_48dp/android/drawable-xxhdpi/ic_warning_black_48dp.png</file>
-        <file>data/ic_warning_black_48dp/ic_warning_black_48dp/android/drawable-xxxhdpi/ic_warning_black_48dp.png</file>
-        <file>data/ic_warning_black_48dp/ic_warning_black_48dp/android/drawable-xhdpi/ic_warning_black_48dp.png</file>
-        <file>data/ic_warning_black_48dp/ic_warning_black_48dp/android/drawable-hdpi/ic_warning_black_48dp.png</file>
-        <file>data/ic_warning_black_48dp/ic_warning_black_48dp/android/drawable-mdpi/ic_warning_black_48dp.png</file>
-        <file>data/ic_warning_black_48dp/ic_warning_black_48dp/web/ic_warning_black_48dp_2x.png</file>
-        <file>data/ic_warning_black_48dp/ic_warning_black_48dp/web/ic_warning_black_48dp_1x.png</file>
-        <file>data/ic_warning_black_48dp/ic_warning_black_48dp/ios/ic_warning_48pt.imageset/ic_warning_48pt_2x.png</file>
-        <file>data/ic_warning_black_48dp/ic_warning_black_48dp/ios/ic_warning_48pt.imageset/Contents.json</file>
-        <file>data/ic_warning_black_48dp/ic_warning_black_48dp/ios/ic_warning_48pt.imageset/ic_warning_48pt_3x.png</file>
-        <file>data/ic_warning_black_48dp/ic_warning_black_48dp/ios/ic_warning_48pt.imageset/ic_warning_48pt.png</file>
-        <file>data/Ultralight_Area.png</file>
-        <file>data/ic_error_black_48dp/ic_error_black_48dp/android/drawable-xxhdpi/ic_error_black_48dp.png</file>
-        <file>data/ic_error_black_48dp/ic_error_black_48dp/android/drawable-xxxhdpi/ic_error_black_48dp.png</file>
-        <file>data/ic_error_black_48dp/ic_error_black_48dp/android/drawable-xhdpi/ic_error_black_48dp.png</file>
-        <file>data/ic_error_black_48dp/ic_error_black_48dp/android/drawable-hdpi/ic_error_black_48dp.png</file>
-        <file>data/ic_error_black_48dp/ic_error_black_48dp/android/drawable-mdpi/ic_error_black_48dp.png</file>
-        <file>data/ic_error_black_48dp/ic_error_black_48dp/web/ic_error_black_48dp_1x.png</file>
-        <file>data/ic_error_black_48dp/ic_error_black_48dp/web/ic_error_black_48dp_2x.png</file>
-        <file>data/ic_error_black_48dp/ic_error_black_48dp/ios/ic_error_48pt.imageset/ic_error_48pt_3x.png</file>
-        <file>data/ic_error_black_48dp/ic_error_black_48dp/ios/ic_error_48pt.imageset/ic_error_48pt_2x.png</file>
-        <file>data/ic_error_black_48dp/ic_error_black_48dp/ios/ic_error_48pt.imageset/Contents.json</file>
-        <file>data/ic_error_black_48dp/ic_error_black_48dp/ios/ic_error_48pt.imageset/ic_error_48pt.png</file>
-        <file>data/logo-laa.png</file>
-        <file>data/Triangle_Red.png</file>
-        <file>data/ic_error_red_48dp/ic_error_red_48dp/android/drawable-xxhdpi/ic_error_black_48dp.png</file>
-        <file>data/ic_error_red_48dp/ic_error_red_48dp/android/drawable-xxxhdpi/ic_error_black_48dp.png</file>
-        <file>data/ic_error_red_48dp/ic_error_red_48dp/android/drawable-xhdpi/ic_error_black_48dp.png</file>
-        <file>data/ic_error_red_48dp/ic_error_red_48dp/android/drawable-hdpi/ic_error_black_48dp.png</file>
-        <file>data/ic_error_red_48dp/ic_error_red_48dp/android/drawable-mdpi/ic_error_black_48dp.png</file>
-        <file>data/ic_error_red_48dp/ic_error_red_48dp/web/ic_error_red_48dp_1x.png</file>
-        <file>data/ic_error_red_48dp/ic_error_red_48dp/web/ic_error_red_48dp_2x.png</file>
-        <file>data/ic_error_red_48dp/ic_error_red_48dp/ios/ic_error_48pt.imageset/ic_error_48pt_3x.png</file>
-        <file>data/ic_error_red_48dp/ic_error_red_48dp/ios/ic_error_48pt.imageset/ic_error_48pt_2x.png</file>
-        <file>data/ic_error_red_48dp/ic_error_red_48dp/ios/ic_error_48pt.imageset/Contents.json</file>
-        <file>data/ic_error_red_48dp/ic_error_red_48dp/ios/ic_error_48pt.imageset/ic_error_48pt.png</file>
-        <file>data/ic_remove_black_24dp/ic_remove_black_24dp/android/drawable-xxhdpi/ic_remove_black_24dp.png</file>
-        <file>data/ic_remove_black_24dp/ic_remove_black_24dp/android/drawable-xxxhdpi/ic_remove_black_24dp.png</file>
-        <file>data/ic_remove_black_24dp/ic_remove_black_24dp/android/drawable-xhdpi/ic_remove_black_24dp.png</file>
-        <file>data/ic_remove_black_24dp/ic_remove_black_24dp/android/drawable-hdpi/ic_remove_black_24dp.png</file>
-        <file>data/ic_remove_black_24dp/ic_remove_black_24dp/android/drawable-mdpi/ic_remove_black_24dp.png</file>
-        <file>data/ic_remove_black_24dp/ic_remove_black_24dp/web/ic_remove_black_24dp_2x.png</file>
-        <file>data/ic_remove_black_24dp/ic_remove_black_24dp/web/ic_remove_black_24dp_1x.png</file>
-        <file>data/ic_remove_black_24dp/ic_remove_black_24dp/ios/ic_remove.imageset/ic_remove.png</file>
-        <file>data/ic_remove_black_24dp/ic_remove_black_24dp/ios/ic_remove.imageset/ic_remove_2x.png</file>
-        <file>data/ic_remove_black_24dp/ic_remove_black_24dp/ios/ic_remove.imageset/Contents.json</file>
-        <file>data/ic_remove_black_24dp/ic_remove_black_24dp/ios/ic_remove.imageset/ic_remove_3x.png</file>
-        <file>data/noimage-loading.png</file>
-        <file>data/ic_close_black_48dp/ic_close_black_48dp/android/drawable-xxhdpi/ic_close_black_48dp.png</file>
-        <file>data/ic_close_black_48dp/ic_close_black_48dp/android/drawable-xxxhdpi/ic_close_black_48dp.png</file>
-        <file>data/ic_close_black_48dp/ic_close_black_48dp/android/drawable-xhdpi/ic_close_black_48dp.png</file>
-        <file>data/ic_close_black_48dp/ic_close_black_48dp/android/drawable-hdpi/ic_close_black_48dp.png</file>
-        <file>data/ic_close_black_48dp/ic_close_black_48dp/android/drawable-mdpi/ic_close_black_48dp.png</file>
-        <file>data/ic_close_black_48dp/ic_close_black_48dp/web/ic_close_black_48dp_2x.png</file>
-        <file>data/ic_close_black_48dp/ic_close_black_48dp/web/ic_close_black_48dp_1x.png</file>
-        <file>data/ic_close_black_48dp/ic_close_black_48dp/ios/ic_close_48pt.imageset/ic_close_48pt_3x.png</file>
-        <file>data/ic_close_black_48dp/ic_close_black_48dp/ios/ic_close_48pt.imageset/Contents.json</file>
-        <file>data/ic_close_black_48dp/ic_close_black_48dp/ios/ic_close_48pt.imageset/ic_close_48pt_2x.png</file>
-        <file>data/ic_close_black_48dp/ic_close_black_48dp/ios/ic_close_48pt.imageset/ic_close_48pt.png</file>
-        <file>data/target-indicator-cross.png</file>
-        <file>data/position-indicator-red.png</file>
-        <file>data/ic_done_black_48dp/ic_done_black_48dp/android/drawable-xxhdpi/ic_done_black_48dp.png</file>
-        <file>data/ic_done_black_48dp/ic_done_black_48dp/android/drawable-xxxhdpi/ic_done_black_48dp.png</file>
-        <file>data/ic_done_black_48dp/ic_done_black_48dp/android/drawable-xhdpi/ic_done_black_48dp.png</file>
-        <file>data/ic_done_black_48dp/ic_done_black_48dp/android/drawable-hdpi/ic_done_black_48dp.png</file>
-        <file>data/ic_done_black_48dp/ic_done_black_48dp/android/drawable-mdpi/ic_done_black_48dp.png</file>
-        <file>data/ic_done_black_48dp/ic_done_black_48dp/web/ic_done_black_48dp_1x.png</file>
-        <file>data/ic_done_black_48dp/ic_done_black_48dp/web/ic_done_black_48dp_2x.png</file>
-        <file>data/ic_done_black_48dp/ic_done_black_48dp/ios/ic_done_48pt.imageset/ic_done_48pt.png</file>
-        <file>data/ic_done_black_48dp/ic_done_black_48dp/ios/ic_done_48pt.imageset/Contents.json</file>
-        <file>data/ic_done_black_48dp/ic_done_black_48dp/ios/ic_done_48pt.imageset/ic_done_48pt_2x.png</file>
-        <file>data/ic_done_black_48dp/ic_done_black_48dp/ios/ic_done_48pt.imageset/ic_done_48pt_3x.png</file>
-        <file>data/Airport15.png</file>
-        <file>data/noimage-cantload.png</file>
-        <file>data/target-indicator-cross-blue.png</file>
-        <file>data/Triangle_Green.png</file>
-        <file>data/Diamond_Blue.png</file>
-        <file>data/Diamond_Red.png</file>
-        <file>data/logo_fit.png</file>
-        <file>data/arrow.png</file>
-        <file>data/ic_my_location_black_24dp/ic_my_location_black_24dp/android/drawable-xxhdpi/ic_my_location_black_24dp.png</file>
-        <file>data/ic_my_location_black_24dp/ic_my_location_black_24dp/android/drawable-xxxhdpi/ic_my_location_black_24dp.png</file>
-        <file>data/ic_my_location_black_24dp/ic_my_location_black_24dp/android/drawable-xhdpi/ic_my_location_black_24dp.png</file>
-        <file>data/ic_my_location_black_24dp/ic_my_location_black_24dp/android/drawable-hdpi/ic_my_location_black_24dp.png</file>
-        <file>data/ic_my_location_black_24dp/ic_my_location_black_24dp/android/drawable-mdpi/ic_my_location_black_24dp.png</file>
-        <file>data/ic_my_location_black_24dp/ic_my_location_black_24dp/web/ic_my_location_black_24dp_1x.png</file>
-        <file>data/ic_my_location_black_24dp/ic_my_location_black_24dp/web/ic_my_location_black_24dp_2x.png</file>
-        <file>data/ic_my_location_black_24dp/ic_my_location_black_24dp/ios/ic_my_location.imageset/ic_my_location.png</file>
-        <file>data/ic_my_location_black_24dp/ic_my_location_black_24dp/ios/ic_my_location.imageset/ic_my_location_2x.png</file>
-        <file>data/ic_my_location_black_24dp/ic_my_location_black_24dp/ios/ic_my_location.imageset/Contents.json</file>
-        <file>data/ic_my_location_black_24dp/ic_my_location_black_24dp/ios/ic_my_location.imageset/ic_my_location_3x.png</file>
-        <file>data/Airport.png</file>
-        <file>data/ic_check_circle_black_48dp/ic_check_circle_black_48dp/android/drawable-xxhdpi/ic_check_circle_black_48dp.png</file>
-        <file>data/ic_check_circle_black_48dp/ic_check_circle_black_48dp/android/drawable-xxxhdpi/ic_check_circle_black_48dp.png</file>
-        <file>data/ic_check_circle_black_48dp/ic_check_circle_black_48dp/android/drawable-xhdpi/ic_check_circle_black_48dp.png</file>
-        <file>data/ic_check_circle_black_48dp/ic_check_circle_black_48dp/android/drawable-hdpi/ic_check_circle_black_48dp.png</file>
-        <file>data/ic_check_circle_black_48dp/ic_check_circle_black_48dp/android/drawable-mdpi/ic_check_circle_black_48dp.png</file>
-        <file>data/ic_check_circle_black_48dp/ic_check_circle_black_48dp/web/ic_check_circle_black_48dp_1x.png</file>
-        <file>data/ic_check_circle_black_48dp/ic_check_circle_black_48dp/web/ic_check_circle_black_48dp_2x.png</file>
-        <file>data/ic_check_circle_black_48dp/ic_check_circle_black_48dp/ios/ic_check_circle_48pt.imageset/ic_check_circle_48pt.png</file>
-        <file>data/ic_check_circle_black_48dp/ic_check_circle_black_48dp/ios/ic_check_circle_48pt.imageset/ic_check_circle_48pt_2x.png</file>
-        <file>data/ic_check_circle_black_48dp/ic_check_circle_black_48dp/ios/ic_check_circle_48pt.imageset/Contents.json</file>
-        <file>data/ic_check_circle_black_48dp/ic_check_circle_black_48dp/ios/ic_check_circle_48pt.imageset/ic_check_circle_48pt_3x.png</file>
-        <file>data/ic_add_black_24dp/ic_add_black_24dp/android/drawable-xxhdpi/ic_add_black_24dp.png</file>
-        <file>data/ic_add_black_24dp/ic_add_black_24dp/android/drawable-xxxhdpi/ic_add_black_24dp.png</file>
-        <file>data/ic_add_black_24dp/ic_add_black_24dp/android/drawable-xhdpi/ic_add_black_24dp.png</file>
-        <file>data/ic_add_black_24dp/ic_add_black_24dp/android/drawable-hdpi/ic_add_black_24dp.png</file>
-        <file>data/ic_add_black_24dp/ic_add_black_24dp/android/drawable-mdpi/ic_add_black_24dp.png</file>
-        <file>data/ic_add_black_24dp/ic_add_black_24dp/web/ic_add_black_24dp_2x.png</file>
-        <file>data/ic_add_black_24dp/ic_add_black_24dp/web/ic_add_black_24dp_1x.png</file>
-        <file>data/ic_add_black_24dp/ic_add_black_24dp/ios/ic_add.imageset/ic_add_2x.png</file>
-        <file>data/ic_add_black_24dp/ic_add_black_24dp/ios/ic_add.imageset/ic_add_3x.png</file>
-        <file>data/ic_add_black_24dp/ic_add_black_24dp/ios/ic_add.imageset/Contents.json</file>
-        <file>data/ic_add_black_24dp/ic_add_black_24dp/ios/ic_add.imageset/ic_add.png</file>
-        <file>data/noimage.png</file>
-        <file>data/Tall_Tower.png</file>
-        <file>data/ic_help_black_48dp/ic_help_black_48dp/android/drawable-xxhdpi/ic_help_black_48dp.png</file>
-        <file>data/ic_help_black_48dp/ic_help_black_48dp/android/drawable-xxxhdpi/ic_help_black_48dp.png</file>
-        <file>data/ic_help_black_48dp/ic_help_black_48dp/android/drawable-xhdpi/ic_help_black_48dp.png</file>
-        <file>data/ic_help_black_48dp/ic_help_black_48dp/android/drawable-hdpi/ic_help_black_48dp.png</file>
-        <file>data/ic_help_black_48dp/ic_help_black_48dp/android/drawable-mdpi/ic_help_black_48dp.png</file>
-        <file>data/ic_help_black_48dp/ic_help_black_48dp/web/ic_help_black_48dp_1x.png</file>
-        <file>data/ic_help_black_48dp/ic_help_black_48dp/web/ic_help_black_48dp_2x.png</file>
-        <file>data/ic_help_black_48dp/ic_help_black_48dp/ios/ic_help_48pt.imageset/ic_help_48pt.png</file>
-        <file>data/ic_help_black_48dp/ic_help_black_48dp/ios/ic_help_48pt.imageset/ic_help_48pt_3x.png</file>
-        <file>data/ic_help_black_48dp/ic_help_black_48dp/ios/ic_help_48pt.imageset/Contents.json</file>
-        <file>data/ic_help_black_48dp/ic_help_black_48dp/ios/ic_help_48pt.imageset/ic_help_48pt_2x.png</file>
-        <file>data/noimage-disabled.png</file>
 
+        <file>images/emblem_readonly.png</file>
+        <file>images/noimage-disabled.png</file>
+        <file>images/viewer64.png</file>
+        <file>images/target-indicator-cross-blue.png</file>
+        <file>images/ic_check_circle_black_48dp_1x.png</file>
+        <file>images/Diamond_Red.png</file>
+        <file>images/Airport15.png</file>
+        <file>images/ic_my_location_black_24dp_1x.png</file>
+        <file>images/logo-laa.png</file>
+        <file>images/ic_help_black_48dp_1x.png</file>
+        <file>images/Triangle_Red.png</file>
+        <file>images/ic_warning_black_48dp_1x.png</file>
+        <file>images/logo_fit.png</file>
+        <file>images/noimage.png</file>
+        <file>images/ic_error_red_48dp_1x.png</file>
+        <file>images/ic_add_black_24dp_1x.png</file>
+        <file>images/target-indicator-cross.png</file>
+        <file>images/Triangle_Green.png</file>
+        <file>images/Diamond_Blue.png</file>
     </qresource>
 </RCC>

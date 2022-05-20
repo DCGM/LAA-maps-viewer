@@ -289,15 +289,15 @@ Rectangle {
 
     function tileUrl(tx, ty) {
         if ((url === undefined) || (url === "")) {
-            return "./data/noimage-disabled.png"
+            return "qrc:///images/noimage-disabled.png"
         }
 
         if (tx < 0 || tx > maxTileNo) {
-            return "./data/noimage.png"
+            return "qrc:///images/noimage.png"
         }
 
         if (ty < 0 || ty > maxTileNo) {
-            return "./data/noimage.png"
+            return "qrc:///images/noimage.png"
         }
 
 
@@ -376,7 +376,7 @@ Rectangle {
                 }
                 Image {
                     visible: mapTileVisible && (img.status === Image.Null)
-                    source: "./data/noimage.png"
+                    source: "qrc:///images/noimage.png"
                 }
 
 
