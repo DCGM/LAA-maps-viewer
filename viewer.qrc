@@ -1,40 +1,51 @@
 <RCC>
     <qresource prefix="/">
+
         <file>viewer64.png</file>
-        <file>csv.js</file>
-        <file>Spacer.qml</file>
-        <file>IGCChooseDialog.qml</file>
-        <file>functions.js</file>
-        <file>PrintMap.qml</file>
-        <file>Waypoint.qml</file>
-        <file>MyTranslator.qml</file>
-        <file>CreateContestantTab.qml</file>
-        <file>SelectCompetitionDialog.qml</file>
-        <file>ModifiedContestantsDelegate.qml</file>
-        <file>NativeText.qml</file>
-        <file>PinchMap.qml</file>
-        <file>CalendarWindow.qml</file>
-        <file>MyImage.qml</file>
-        <file>AltChart.qml</file>
-        <file>ConfigFile.qml</file>
-        <file>ShadowElement.qml</file>
-        <file>MyReadOnlyTextField.qml</file>
-        <file>ResultsDetailComponent.qml</file>
-        <file>RefreshContestantsDialog.qml</file>
-        <file>HorizontalDelimeter.qml</file>
-        <file>ScoreListTableDelegate.qml</file>
-        <file>MySpinBox.qml</file>
-        <file>UploaderDialog.qml</file>
-        <file>NativeTextInput.qml</file>
-        <file>TextDialog.qml</file>
-        <file>Ruler.qml</file>
-        <file>Coordinate.qml</file>
-        <file>Header.qml</file>
-        <file>MyEditableTextField.qml</file>
-        <file>PathConfiguration.qml</file>
-        <file>PolyResultsTableItemDelegate.qml</file>
-        <file>CirclingResultsTableItemDelegate.qml</file>
-        <file>AboutDialog.qml</file>
+        <file>src/qml/csv.js</file>
+        <file>src/qml/Spacer.qml</file>
+        <file>src/qml/IGCChooseDialog.qml</file>
+        <file>src/qml/functions.js</file>
+        <file>src/qml/PrintMap.qml</file>
+        <file>src/qml/Waypoint.qml</file>
+        <file>src/qml/MyTranslator.qml</file>
+        <file>src/qml/CreateContestantTab.qml</file>
+        <file>src/qml/SelectCompetitionDialog.qml</file>
+        <file>src/qml/ModifiedContestantsDelegate.qml</file>
+        <file>src/qml/NativeText.qml</file>
+        <file>src/qml/PinchMap.qml</file>
+        <file>src/qml/CalendarWindow.qml</file>
+        <file>src/qml/MyImage.qml</file>
+        <file>src/qml/AltChart.qml</file>
+        <file>src/qml/ConfigFile.qml</file>
+        <file>src/qml/ShadowElement.qml</file>
+        <file>src/qml/MyReadOnlyTextField.qml</file>
+        <file>src/qml/ResultsDetailComponent.qml</file>
+        <file>src/qml/RefreshContestantsDialog.qml</file>
+        <file>src/qml/HorizontalDelimeter.qml</file>
+        <file>src/qml/ScoreListTableDelegate.qml</file>
+        <file>src/qml/MySpinBox.qml</file>
+        <file>src/qml/UploaderDialog.qml</file>
+        <file>src/qml/NativeTextInput.qml</file>
+        <file>src/qml/TextDialog.qml</file>
+        <file>src/qml/Ruler.qml</file>
+        <file>src/qml/Coordinate.qml</file>
+        <file>src/qml/Header.qml</file>
+        <file>src/qml/MyEditableTextField.qml</file>
+        <file>src/qml/PathConfiguration.qml</file>
+        <file>src/qml/PolyResultsTableItemDelegate.qml</file>
+        <file>src/qml/CirclingResultsTableItemDelegate.qml</file>
+        <file>src/qml/AboutDialog.qml</file>
+        <file>src/qml/MPieSlice.qml</file>
+        <file>src/qml/SimpleMapObject.qml</file>
+        <file>src/qml/md5.js</file>
+        <file>src/qml/ContestantsDelegate.qml</file>
+        <file>src/qml/main.qml</file>
+        <file>src/qml/ResultsUploader.qml</file>
+        <file>src/qml/TableHeaderVerticalSplitter.qml</file>
+        <file>src/qml/RefreshDialogListViewWithCheckBox.qml</file>
+        <file>src/qml/geom.js</file>
+
         <file>data/emblem_readonly.png</file>
         <file>data/position-indicator.png</file>
         <file>data/Radio_Beacon.png</file>
@@ -166,14 +177,6 @@
         <file>data/ic_help_black_48dp/ic_help_black_48dp/ios/ic_help_48pt.imageset/Contents.json</file>
         <file>data/ic_help_black_48dp/ic_help_black_48dp/ios/ic_help_48pt.imageset/ic_help_48pt_2x.png</file>
         <file>data/noimage-disabled.png</file>
-        <file>MPieSlice.qml</file>
-        <file>SimpleMapObject.qml</file>
-        <file>md5.js</file>
-        <file>ContestantsDelegate.qml</file>
-        <file>main.qml</file>
-        <file>ResultsUploader.qml</file>
-        <file>TableHeaderVerticalSplitter.qml</file>
-        <file>RefreshDialogListViewWithCheckBox.qml</file>
-        <file>geom.js</file>
+
     </qresource>
 </RCC>

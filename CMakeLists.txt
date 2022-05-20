@@ -36,18 +36,18 @@ qtquick_compiler_add_resources(RESOURCES viewer.qrc)
 file(GLOB TS_FILES i18n/*.ts)
 
 add_executable(viewer WIN32
-  customnetworkaccessmanager.cpp
-  filereader.cpp
-  igc.cpp
-  igcfiltered.cpp
-  imagesaver.cpp
-  main.cpp
-  networkaccessmanagerfactory.cpp
-  pdfwriter.cpp
-  resultscreater.cpp
-  sortfilterproxymodel.cpp
-  uploader.cpp
-  worker.cpp
+  src/customnetworkaccessmanager.cpp
+  src/filereader.cpp
+  src/igc.cpp
+  src/igcfiltered.cpp
+  src/imagesaver.cpp
+  src/main.cpp
+  src/networkaccessmanagerfactory.cpp
+  src/pdfwriter.cpp
+  src/resultscreater.cpp
+  src/sortfilterproxymodel.cpp
+  src/uploader.cpp
+  src/worker.cpp
   viewer.rc
   ${RESOURCES}
   ${TS_FILES}

@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QTime>
 #include <QtCore>
-#include <igc.h>
+#include "igc.h"
 
 class IgcFiltered : public QAbstractListModel
 {

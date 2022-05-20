@@ -21,8 +21,7 @@ BuildRequires:  cmake
 viewer is tool for viewing of LAA Competion tracks
 
 %prep
-%setup -q -n %{name}-%{version}
-
+%setup -q -n LAA-maps-viewer-master
 
 %build
 %cmake
