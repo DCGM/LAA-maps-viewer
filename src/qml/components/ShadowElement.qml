@@ -5,7 +5,7 @@ DropShadow {
     cached: true
     horizontalOffset: 3
     verticalOffset: 3
-    radius: 8.0
+    radius: 8
     samples: 16
     color: "#80000000"
     smooth: true
