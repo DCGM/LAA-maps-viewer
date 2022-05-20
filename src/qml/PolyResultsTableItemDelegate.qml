@@ -1,5 +1,6 @@
 import QtQuick 2.9
 import "functions.js" as F
+import "./components"
 
 Item {
 

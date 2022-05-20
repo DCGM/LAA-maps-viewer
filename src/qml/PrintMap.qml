@@ -2,6 +2,7 @@ import QtQuick 2.9
 import "functions.js" as F
 import "geom.js" as G
 import cz.mlich 1.0
+import "./components"
 
 Rectangle {
     id: pinchmap;

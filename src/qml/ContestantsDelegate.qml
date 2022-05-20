@@ -1,7 +1,7 @@
 import QtQuick 2.9
 import "functions.js" as F
 import QtQuick.Controls 1.4
-
+import "./components"
 
 Item {
     id: delegate

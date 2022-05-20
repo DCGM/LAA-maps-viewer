@@ -1,6 +1,7 @@
 import QtQuick 2.9
 import "functions.js" as F
 import "geom.js" as G
+import "./components"
 
 Item {
 

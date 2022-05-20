@@ -7,6 +7,7 @@ import QtCharts 2.2
 
 import "functions.js" as F
 import "geom.js" as G
+import "./components"
 
 Rectangle {
 

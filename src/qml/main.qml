@@ -8,7 +8,7 @@ import "functions.js" as F
 import "geom.js" as G
 import "csv.js" as CSVJS
 import "md5.js" as MD5
-
+import "./components"
 
 ApplicationWindow {
     id: applicationWindow
