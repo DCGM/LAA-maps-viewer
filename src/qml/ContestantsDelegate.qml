@@ -170,13 +170,6 @@ Item {
         anchors.verticalCenter: parent.verticalCenter
 
         anchors.margins: 4
-        Connections {
-            target: loaderFilenameButton.item
-            function onClicked() {
-                igcChooseDialog.crow = styleData.row;
-                igcChooseDialog.show();
-            }
-        }
         sourceComponent: styleData.role === "filename" ? filenameButton : null;
 
 
@@ -186,10 +179,11 @@ Item {
                 width: delegate.width - 10;
                 height: delegate.height - 4;
                 text: (styleData.value !== undefined) ? styleData.value : ""
-
-
 //                enabled: styleData.value >= 0
-
+                onClicked: {
+                    igcChooseDialog.crow = styleData.row;
+                    igcChooseDialog.show();
+                }
             }
         }
 
