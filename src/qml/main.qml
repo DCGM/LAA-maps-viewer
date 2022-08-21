@@ -596,6 +596,8 @@ ApplicationWindow {
 
             if (item.selected) {
                 contestantsListModel.append(item);
+                console.log("unmodifiedContestants contestantsListModel.append")
+
             }
         }
 
@@ -604,6 +606,8 @@ ApplicationWindow {
 
             if (item.selected) {
                 contestantsListModel.append(item);
+                console.log("removedContestants contestantsListModel.append")
+
             }
         }
 
@@ -612,6 +616,8 @@ ApplicationWindow {
 
             if (item.selected) {
                 contestantsListModel.append(item);
+                console.log("addedContestants contestantsListModel.append")
+
             }
         }
 
@@ -628,6 +634,7 @@ ApplicationWindow {
                 if(item.planeRegSelector) item.aircraft_registration = item.newAircraft_registration;
 
                 contestantsListModel.append(item);
+                console.log("updatedContestants contestantsListModel.append")
             }
         }
     }
@@ -1329,6 +1336,7 @@ ApplicationWindow {
 
                         // append into list model
                         contestantsListModel.append(new_contestant);
+                        console.log("contestantsListModel.append(new_contestant);")
                         row = contestantsListModel.count - 1;
 
 
@@ -2186,6 +2194,7 @@ ApplicationWindow {
                 new_contestant.copilotAvatarBase64 = (item.length >= 13 ? (item[12]) : "");
 
                 // append into list model
+                console.log("loadContestants: contestantsListModel.append("+item[2]+")")
                 contestantsListModel.append(new_contestant);
 
             }
@@ -2495,6 +2504,8 @@ ApplicationWindow {
                 curCnt.prevResultsFilename = (csvFileFromViewer ? resultsCSV[j][38] : "");
                 curCnt.prevResultsTrackHas = (csvFileFromViewer ? resultsCSV[j][30] : "");
                 curCnt.prevResultsClassify = (csvFileFromOffice ? (resultsCSV[j][19] === "yes" ? 0 : 1) : 0);
+
+                console.log(resultsCSV[j][0] + " " + (curCnt.prevResultsClassify ? "no" : "yes") + " " +resultsCSV[j][19])
 
                 curCnt.filename = (csvFileFromViewer && curCnt.filename === "" ? resultsCSV[j][38] : curCnt.filename);
 
@@ -4420,7 +4431,9 @@ ApplicationWindow {
             str += "\"" + Math.max(ct.scorePoints, 0) + "\";"
             str += "\"" + Math.max(ct.scorePoints1000, 0) + "\";"
 
-            console.log("classify " +  ct.classify + " " + ct.prevResultsClassify)
+            console.log(ct.name + " classify "
+                        + ((ct.classify === 0) ? "yes" : "no" ) + " "
+                        + ((ct.prevResultsClassify === 0) ? "yes" : "no" ))
             if (parseInt(ct.classify) === -1) {
                 ct.classify = ct.prevResultsClassify;
             }

@@ -94,16 +94,15 @@ Item {
         Connections {
             target: loaderCombobox.item
 
-            function onCategorySelected(newVal) {
+            onCategorySelected: {
                 changeModel(styleData.row, styleData.role, newVal)
             }
 
-            function onClassifyChanged(index) {
+            onClassifyChanged: {
                 changeModel(styleData.row, styleData.role, index)
             }
 
-            function onComboBoxSelected() {
-
+            onComboBoxSelected: {
                 selectRow(styleData.row);
             }
         }
@@ -205,7 +204,7 @@ Item {
         anchors.margins: 4
         Connections {
             target: loaderTextEdit.item
-            function onNewValue(value) {
+            onNewValue: {
 
                 switch (styleData.role) {
 

@@ -67,7 +67,7 @@ Item {
         anchors.margins: 4
         Connections {
             target: loaderEditor.item
-            function onNewValue(value) {
+            onNewValue: {
                 var num =0;
 
                 switch (styleData.role) {
