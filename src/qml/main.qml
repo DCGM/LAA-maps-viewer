@@ -820,17 +820,6 @@ ApplicationWindow {
         ListElement { //% "no"
             classify: qsTrId("scorelist-table-classify-no") }
 
-
-        function classifyToIndex(name) {
-            for (var i = 0; i < count; i++) {
-                var item = get(i);
-                if (item.text === name) {
-                    return i;
-                }
-            }
-            return 0;
-        }
-
         function getName(i) {
             if ((i >= 0) && (i < count)) {
                 var item = scoreListClassifyListModel.get(i)
