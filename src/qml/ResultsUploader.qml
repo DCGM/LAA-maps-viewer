@@ -132,10 +132,10 @@ Item {
 
         // set timeout
         var timer = Qt.createQmlObject("import QtQuick 2.9; Timer {interval: 5000; repeat: false; running: true;}", resultsUploader, "MyTimer");
-                        timer.triggered.connect(function(){
-
-                            http.abort();
-                        });
+        timer.triggered.connect(function(){
+            console.log("initCompetitionFileStorage http.abort();")
+            http.abort();
+        });
 
         http.onreadystatechange = function() {
 
@@ -236,10 +236,10 @@ Item {
 
         // set timeout
         var timer = Qt.createQmlObject("import QtQuick 2.9; Timer {interval: 60000; repeat: false; running: true;}", resultsUploader, "MyTimer");
-                        timer.triggered.connect(function(){
-                            console.log("callUploadFinish: http.abort() called")
-                            http.abort();
-                        });
+        timer.triggered.connect(function(){
+            console.log("callUploadFinish: http.abort() called")
+            http.abort();
+        });
 
         http.onreadystatechange = function() {
 

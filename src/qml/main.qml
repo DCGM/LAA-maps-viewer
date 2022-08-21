@@ -1628,6 +1628,7 @@ ApplicationWindow {
 
 
     function contestantsTableShowResultsDialog(row) {
+        console.log("contestantsTableShowResultsDialog " + row)
 
         if (tracks === undefined) {
             //% "Track file is missing"
@@ -1783,6 +1784,7 @@ ApplicationWindow {
                 return;
             }
             shoot = false;
+            console.log("writeAllTimer.triggered")
 
             if (genResultsDetailTimer.running
                     || computingTimer.running
@@ -3024,6 +3026,7 @@ ApplicationWindow {
 
     // recalculate score points to 1000
     function recalculateScoresTo1000() {
+        console.log("recalculateScoresTo1000()")
 
         if (tracks === undefined) {
             return;
@@ -4378,6 +4381,7 @@ ApplicationWindow {
     }
 
     function writeScoreManulaValToCSV() {
+        console.log("writeScoreManulaValToCSV()");
 
         if (contestantsTable.currentRow < 0)
             return;
@@ -4427,12 +4431,12 @@ ApplicationWindow {
             str += "\"" + Math.max(ct.scorePoints, 0) + "\";"
             str += "\"" + Math.max(ct.scorePoints1000, 0) + "\";"
 
+            console.log("classify " +  ct.classify + " " + ct.prevResultsClassify)
             if (parseInt(ct.classify) === -1) {
                 ct.classify = ct.prevResultsClassify;
             }
 
             var classify = ct.classify === 0 ? "yes" : "no";
-
             str += "\"" + classify + "\";"   //index 20
 
 
@@ -4617,6 +4621,7 @@ ApplicationWindow {
     }
 
     function writeCSV() {
+        console.log("writeCSV()")
 
         var str = "";
 

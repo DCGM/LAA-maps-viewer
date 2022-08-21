@@ -45,7 +45,10 @@ Item {
             Timer{
                 id:timer
                 interval: 200
-                onTriggered: mMouseArea.singleClick()
+                onTriggered: {
+                    console.log("mMouseArea.timer.triggered()")
+                    mMouseArea.singleClick()
+                }
             }
 
             onClicked: {
@@ -122,6 +125,7 @@ Item {
                 currentIndex: styleData.value === -1 ? 0 : styleData.value
 
                 onCurrentIndexChanged: {
+                    console.log("classifyChanged(currentIndex) " + currentIndex)
                     classifyChanged(currentIndex);
                 }
             }

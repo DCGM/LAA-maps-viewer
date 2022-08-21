@@ -1920,6 +1920,7 @@ Rectangle {
         curentContestant.aircraft_registration = resultsHeaderAircraftRegistration.text;
         curentContestant.aircraft_type = resultsHeaderAircraftType.text;
         curentContestant.classify = resultsHeaderClassify.value;
+        console.log("curentContestant.classify " + curentContestant.classify )
 
         // set tab active
         if (!tabPrevActived) tabView.activateTabByName("manVals");

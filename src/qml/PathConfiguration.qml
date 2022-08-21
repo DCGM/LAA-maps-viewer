@@ -1122,6 +1122,7 @@ ApplicationWindow {
                     // set timeout
                     var timer = Qt.createQmlObject("import QtQuick 2.9; Timer {interval: 5000; repeat: false; running: true;}", pathConfiguration, "MyTimer");
                     timer.triggered.connect(function(){
+                        console.log("validApiKey http.abort()")
                         http.abort();
                     });
 

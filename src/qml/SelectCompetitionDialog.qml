@@ -353,10 +353,10 @@ ApplicationWindow {
 
         // set timeout
         var timer = Qt.createQmlObject("import QtQuick 2.9; Timer {interval: 5000; repeat: false; running: true;}", competitionListWindow, "MyTimer");
-                        timer.triggered.connect(function(){
-
-                            http.abort();
-                        });
+        timer.triggered.connect(function(){
+            console.log("getContestants http.abort()")
+            http.abort();
+        });
 
 
         http.onreadystatechange = function() {
@@ -498,10 +498,10 @@ ApplicationWindow {
 
         // set timeout
         var timer = Qt.createQmlObject("import QtQuick 2.9; Timer {interval: 5000; repeat: false; running: true;}", competitionListWindow, "MyTimer");
-                        timer.triggered.connect(function(){
-
-                            http.abort();
-                        });
+        timer.triggered.connect(function(){
+            console.log("getCompetitionsData http.abort()")
+            http.abort();
+        });
 
         http.onreadystatechange = function() {
 
