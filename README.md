@@ -6,4 +6,4 @@ Application for evaluation of navigation competition tasks for purposes of [ppt.
 
 ![](docs/screenshot.jpg)
 
-Translate with [https://explore.transifex.com/dcgm/laa-maps-viewer/](Transifex) into your language.
+Translate with [Transifex](https://explore.transifex.com/dcgm/laa-maps-viewer/) into your language.
