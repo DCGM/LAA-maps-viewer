@@ -1,8 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="cs_CZ">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="cs_CZ">
 <context>
-    <name></name>
+    <name/>
     <message id="application-window-title">
         <source>Trajectory viewer</source>
         <oldsource>Viewer</oldsource>
@@ -462,11 +460,7 @@
     <message id="toolbar-igc-count" numerus="yes">
         <source>Fixes %n</source>
         <oldsource>Igc fixes %n</oldsource>
-        <translation>
-            <numerusform>Zaměření %n</numerusform>
-            <numerusform>Zaměření %n</numerusform>
-            <numerusform>Zaměření %n</numerusform>
-        </translation>
+        <translation><numerusform>%n GPS zaměření</numerusform><numerusform>%n GPS zaměření</numerusform><numerusform>%n GPS zaměření</numerusform><numerusform>%n GPS zaměření</numerusform></translation>
     </message>
     <message id="section-type-speed">
         <source>speed</source>
@@ -547,20 +541,12 @@
     <message id="toolbar-invalid-fixes" numerus="yes">
         <source>Invalid %n</source>
         <oldsource>Invalid/Trimmed %1/%2</oldsource>
-        <translation>
-            <numerusform>Chybných %n</numerusform>
-            <numerusform>Chybných %n</numerusform>
-            <numerusform>Chybných %n</numerusform>
-        </translation>
+        <translation><numerusform>Neplatné %n</numerusform><numerusform>Neplatné %n</numerusform><numerusform>Neplatných %n</numerusform><numerusform>Neplatných %n</numerusform></translation>
     </message>
     <message id="toolbar-trimmed-fixes" numerus="yes">
         <source>Trimmed takeoff %n</source>
         <oldsource>Trimmed %n</oldsource>
-        <translation>
-            <numerusform>Oříznutých vzlet %n</numerusform>
-            <numerusform>Oříznutých vzlet %n</numerusform>
-            <numerusform>Oříznutých vzlet %n</numerusform>
-        </translation>
+        <translation><numerusform>Oříznuto vzlet %n</numerusform><numerusform>Oříznuto vzlet %n</numerusform><numerusform>Oříznuto vzlet %n</numerusform><numerusform>Oříznuto vzlet %n</numerusform></translation>
     </message>
     <message id="main-file-menu-settings">
         <source>&amp;Settings</source>
@@ -1592,6 +1578,10 @@
         <source>Starting number</source>
         <translation>#</translation>
     </message>
+    <message id="html-startList-blank">
+        <source>Others</source>
+        <translation>Ostatní</translation>
+    </message>
     <message id="html-startList-startTimePrepTime">
         <source>Preparation time</source>
         <translation>Příprava</translation>
@@ -1599,10 +1589,6 @@
     <message id="html-startList-startTimeVBT">
         <source>VBT time</source>
         <translation>VBT</translation>
-    </message>
-    <message id="html-startList-blank">
-        <source>Others</source>
-        <translation>Ostatní</translation>
     </message>
     <message id="create-contestant-pilot-name">
         <source>Pilot name</source>
@@ -1676,13 +1662,13 @@
         <source>Refresh window title</source>
         <translation>Import posadek</translation>
     </message>
-    <message id="refresh-dialog-unmodified-crews-title %1/%2">
-        <source>Unmodified crews %1/%2</source>
-        <translation>Beze změny   %1/%2</translation>
-    </message>
     <message id="refresh-dialog-updated-crews-title %1/%2">
         <source>Updated crews %1/%2</source>
         <translation>Upravené   %1/%2</translation>
+    </message>
+    <message id="refresh-dialog-unmodified-crews-title %1/%2">
+        <source>Unmodified crews %1/%2</source>
+        <translation>Beze změny   %1/%2</translation>
     </message>
     <message id="refresh-dialog-added-crews-title %1/%2">
         <source>Added crews %1/%2</source>
@@ -1794,11 +1780,7 @@
     <message id="toolbar-trimmed-end-fixes" numerus="yes">
         <source>Trimmed landing %n</source>
         <oldsource>Trimmed langing %n</oldsource>
-        <translation>
-            <numerusform>Oříznutých přist. %n</numerusform>
-            <numerusform>Oříznutých přist. %n</numerusform>
-            <numerusform>Oříznutých přist. %n</numerusform>
-        </translation>
+        <translation><numerusform>Oříznuto přistání %n</numerusform><numerusform>Oříznuto přistání %n</numerusform><numerusform>Oříznuto přistání %n</numerusform><numerusform>Oříznuto přistání %n</numerusform></translation>
     </message>
     <message id="results-window-dialog-poly-results">
         <source>Polygons</source>
@@ -2019,99 +2001,99 @@
     <name>Uploader</name>
     <message>
         <source>Connection Refused</source>
-        <translation type="unfinished"></translation>
+        <translation>Spojení bylo odmítnuto</translation>
     </message>
     <message>
         <source>Remote Host Closed</source>
-        <translation type="unfinished"></translation>
+        <translation>Vzdálený hostitel zavřel spojení</translation>
     </message>
     <message>
         <source>Host Not Found</source>
-        <translation type="unfinished"></translation>
+        <translation>Hostitel nebyl nalezen</translation>
     </message>
     <message>
         <source>Timeout</source>
-        <translation type="unfinished"></translation>
+        <translation>Vypršel časový limit</translation>
     </message>
     <message>
         <source>Operation Canceled</source>
-        <translation type="unfinished"></translation>
+        <translation>Operace byla zrušena</translation>
     </message>
     <message>
         <source>Ssl Handshake Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyjednání spojení SSL selhalo</translation>
     </message>
     <message>
         <source>Temporary Network Failure</source>
-        <translation type="unfinished"></translation>
+        <translation>Síť je dočasně nedostupná</translation>
     </message>
     <message>
         <source>Proxy Connection Refused</source>
-        <translation type="unfinished"></translation>
+        <translation>Proxy odmítla spojení</translation>
     </message>
     <message>
         <source>Proxy Connection Closed</source>
-        <translation type="unfinished"></translation>
+        <translation>Proxy zavřela spojení</translation>
     </message>
     <message>
         <source>Proxy Not Found</source>
-        <translation type="unfinished"></translation>
+        <translation>Proxy nenalezena</translation>
     </message>
     <message>
         <source>Proxy Timeout</source>
-        <translation type="unfinished"></translation>
+        <translation>Vypršel časový limit přístupu k proxy</translation>
     </message>
     <message>
         <source>Proxy Authentication Required</source>
-        <translation type="unfinished"></translation>
+        <translation>Je vyžadované přihlášení k proxy</translation>
     </message>
     <message>
         <source>Access Denied</source>
-        <translation type="unfinished"></translation>
+        <translation>Přístup zamítnut</translation>
     </message>
     <message>
         <source>Operation Not Permitted</source>
-        <translation type="unfinished"></translation>
+        <translation>Operace není dovolena</translation>
     </message>
     <message>
         <source>Not Found</source>
-        <translation type="unfinished"></translation>
+        <translation>Nenalezeno</translation>
     </message>
     <message>
         <source>Authentication Required</source>
-        <translation type="unfinished"></translation>
+        <translation>Je vyžadováná autentizace</translation>
     </message>
     <message>
         <source>Content Re Send</source>
-        <translation type="unfinished"></translation>
+        <translation>Přeposlání obsahu</translation>
     </message>
     <message>
         <source>Unknown protocol</source>
-        <translation type="unfinished"></translation>
+        <translation>Neznámy protokol</translation>
     </message>
     <message>
         <source>Invalid Operation</source>
-        <translation type="unfinished"></translation>
+        <translation>Neplatná operace</translation>
     </message>
     <message>
         <source>Unknown Network Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Neznámá síťová chyba</translation>
     </message>
     <message>
         <source>Unknown Proxy Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Neznámá chyba proxy</translation>
     </message>
     <message>
         <source>Unknown Content Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Neznámá chyba obsahu</translation>
     </message>
     <message>
         <source>Protocol Failure</source>
-        <translation type="unfinished"></translation>
+        <translation>Selhání protokolu</translation>
     </message>
     <message>
         <source>Other Error %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Jiná chyba: %1</translation>
     </message>
 </context>
 </TS>
