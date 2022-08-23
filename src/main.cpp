@@ -118,11 +118,11 @@ int main(int argc, char *argv[])
     QTranslator translator;
 
     // custom components
-    if (translator.load(QLatin1String("viewer_") + QLocale::system().name(), "./")) {
+    if (translator.load(QLocale(), QLatin1String("viewer"), QLatin1String("_"), QLatin1String(".") )) {
         app.installTranslator(&translator);
         engine.rootContext()->setContextProperty("locale", QLocale::system().bcp47Name());
         qDebug() << QLocale::system().name() << QLocale::system().bcp47Name();
-    } else if (translator.load(QLatin1String("viewer_") + QLocale::system().name(), QLibraryInfo::location(QLibraryInfo::TranslationsPath))) {
+    } else if (translator.load(QLocale(), QLatin1String("viewer"), QLatin1String("_"), QString(QLibraryInfo::TranslationsPath) )) {
         app.installTranslator(&translator);
         engine.rootContext()->setContextProperty("locale", QLocale::system().bcp47Name());
         qDebug() << QLocale::system().name() << QLocale::system().bcp47Name() << QLibraryInfo::location(QLibraryInfo::TranslationsPath);
