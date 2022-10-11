@@ -1,12 +1,11 @@
 #ifndef NETWORKACCESSMANAGERFACTORY_H
 #define NETWORKACCESSMANAGERFACTORY_H
 
-#include <QtNetwork>
-#include <QQmlNetworkAccessManagerFactory>
 #include "customnetworkaccessmanager.h"
+#include <QQmlNetworkAccessManagerFactory>
+#include <QtNetwork>
 
-class NetworkAccessManagerFactory : public QQmlNetworkAccessManagerFactory
-{
+class NetworkAccessManagerFactory : public QQmlNetworkAccessManagerFactory {
 public:
     explicit NetworkAccessManagerFactory();
 
@@ -15,7 +14,6 @@ public:
         CustomNetworkAccessManager* manager = new CustomNetworkAccessManager(parent);
         return manager;
     }
-
 };
 
 #endif // NETWORKACCESSMANAGERFACTORY_H

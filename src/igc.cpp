@@ -1,13 +1,12 @@
 #include "igc.h"
 
-#include <QtCore>
-#include <QtAlgorithms>
 #include <QDebug>
 #include <QFile>
+#include <QtAlgorithms>
+#include <QtCore>
 
-
-
-QHash<int,QByteArray> IgcFile::roleNames() const {
+QHash<int, QByteArray> IgcFile::roleNames() const
+{
     QHash<int, QByteArray> roles;
     roles[typeRole] = "type";
     roles[timeRole] = "time";
@@ -19,27 +18,28 @@ QHash<int,QByteArray> IgcFile::roleNames() const {
     return roles;
 }
 
-
-IgcFile::IgcFile(QObject* object) : QAbstractListModel(object) {
-    //IgcFile::IgcFile(QObject* parent) : QObject(parent) {
-
+IgcFile::IgcFile(QObject* object)
+    : QAbstractListModel(object)
+{
+    // IgcFile::IgcFile(QObject* parent) : QObject(parent) {
 }
 
-int IgcFile::rowCount(const QModelIndex &parent) const {
+int IgcFile::rowCount(const QModelIndex& parent) const
+{
     Q_UNUSED(parent)
     return eventList.count();
-
 }
 
-QVariant IgcFile::data(const QModelIndex &index, int role) const {
+QVariant IgcFile::data(const QModelIndex& index, int role) const
+{
     if (index.row() < 0 || index.row() > eventList.count()) {
         return QVariant();
     }
 
     const IgcEvent* item = eventList[index.row()];
 
-    if (item->getEventType() != IgcEvent::FIX)  {
-        switch(role) {
+    if (item->getEventType() != IgcEvent::FIX) {
+        switch (role) {
         case typeRole:
             return item->getEventType();
             break;
@@ -49,10 +49,9 @@ QVariant IgcFile::data(const QModelIndex &index, int role) const {
         default:
             return QVariant();
         }
-
     }
 
-    Fix const* igcFix = static_cast<Fix const *>(item);
+    Fix const* igcFix = static_cast<Fix const*>(item);
 
     if (!igcFix->getValid()) {
         if (role == validRole) {
@@ -63,23 +62,29 @@ QVariant IgcFile::data(const QModelIndex &index, int role) const {
     }
 
     switch (role) {
-    case typeRole: return igcFix->getEventType();
-    case timeRole: return igcFix->getTimestamp();
-    case latRole: return igcFix->getLat();
-    case lonRole: return igcFix->getLon();
-    case altRole: return igcFix->getAlt();
-    case pressureAltRole: return igcFix->getPressureAlt();
-    case validRole: return igcFix->getValid();
+    case typeRole:
+        return igcFix->getEventType();
+    case timeRole:
+        return igcFix->getTimestamp();
+    case latRole:
+        return igcFix->getLat();
+    case lonRole:
+        return igcFix->getLon();
+    case altRole:
+        return igcFix->getAlt();
+    case pressureAltRole:
+        return igcFix->getPressureAlt();
+    case validRole:
+        return igcFix->getValid();
     }
-
 
     return QVariant();
 }
 
-
 /// Open a file with given path and
 /// load it.
-bool IgcFile::load(const QString& path, QTextCodec* codec) {
+bool IgcFile::load(const QString& path, QTextCodec* codec)
+{
     QUrl url(path);
 
     QFile f(url.path());
@@ -93,7 +98,8 @@ bool IgcFile::load(const QString& path, QTextCodec* codec) {
 }
 
 /// Load a file from opened QIODevice.
-bool IgcFile::load(QIODevice *dev, QTextCodec* codec) {
+bool IgcFile::load(QIODevice* dev, QTextCodec* codec)
+{
 
     clear();
 
@@ -111,11 +117,11 @@ bool IgcFile::load(QIODevice *dev, QTextCodec* codec) {
         return false;
     }
 
-//    if (previousRecord != 'A') {
-//        qDebug() << "IGC file must start with A record.";
-//        clear();
-//        return false;
-//    }
+    //    if (previousRecord != 'A') {
+    //        qDebug() << "IGC file must start with A record.";
+    //        clear();
+    //        return false;
+    //    }
 
     while (!file->atEnd()) {
         if (!loadOneRecord()) {
@@ -132,7 +138,8 @@ bool IgcFile::load(QIODevice *dev, QTextCodec* codec) {
 }
 
 /// Delete all loaded data.
-void IgcFile::clear() {
+void IgcFile::clear()
+{
     altimeterSetting_ = 0;
     competitionClass_ = QString();
     competitionId_ = QString();
@@ -144,7 +151,7 @@ void IgcFile::clear() {
     gliderType_ = QString();
     pilot_ = QString();
 
-    foreach(IgcEvent const* ev, eventList) {
+    foreach (IgcEvent const* ev, eventList) {
         delete ev;
     }
 
@@ -152,7 +159,8 @@ void IgcFile::clear() {
     emit eventsChanged();
 }
 
-bool IgcFile::loadOneRecord() {
+bool IgcFile::loadOneRecord()
+{
     buffer = file->readLine().trimmed();
 
     if (buffer.size() == 0 && !file->atEnd()) {
@@ -167,7 +175,8 @@ bool IgcFile::loadOneRecord() {
     return ret;
 }
 
-bool IgcFile::parseOneRecord() {
+bool IgcFile::parseOneRecord()
+{
     switch (buffer[0]) {
     case 'B':
         return processRecordB();
@@ -181,7 +190,8 @@ bool IgcFile::parseOneRecord() {
     }
 }
 
-QTime IgcFile::parseTimestamp(QByteArray bytes, bool* ok) {
+QTime IgcFile::parseTimestamp(QByteArray bytes, bool* ok)
+{
     if (bytes.size() != 6) {
         *ok = false;
         return QTime();
@@ -205,7 +215,8 @@ QTime IgcFile::parseTimestamp(QByteArray bytes, bool* ok) {
     return QTime(h, m, s);
 }
 
-qreal IgcFile::parseLatLon(QByteArray bytes, bool* ok) {
+qreal IgcFile::parseLatLon(QByteArray bytes, bool* ok)
+{
     if (bytes.size() != 8 && bytes.size() != 9) {
         *ok = false;
         return 0;
@@ -241,7 +252,8 @@ qreal IgcFile::parseLatLon(QByteArray bytes, bool* ok) {
     }
 }
 
-qreal IgcFile::parseDecimal(QByteArray bytes, bool* ok) {
+qreal IgcFile::parseDecimal(QByteArray bytes, bool* ok)
+{
     if (bytes.size() < 3) {
         *ok = false;
         return 0;
@@ -260,7 +272,8 @@ qreal IgcFile::parseDecimal(QByteArray bytes, bool* ok) {
     return whole + decimal / 100.0;
 }
 
-QDate IgcFile::parseDate(QByteArray bytes, bool* ok) {
+QDate IgcFile::parseDate(QByteArray bytes, bool* ok)
+{
     if (bytes.size() != 6) {
         *ok = false;
         return QDate();
@@ -287,8 +300,8 @@ QDate IgcFile::parseDate(QByteArray bytes, bool* ok) {
     return QDate(y, m, d);
 }
 
-
-bool IgcFile::processRecordB() {
+bool IgcFile::processRecordB()
+{
     bool ok = true;
 
     Fix* ret = new Fix;
@@ -329,7 +342,8 @@ bool IgcFile::processRecordB() {
     return true;
 }
 
-bool IgcFile::processRecordH() {
+bool IgcFile::processRecordH()
+{
     // char dataSource = buffer[1];
     QByteArray subtype = buffer.mid(2, 3);
     QByteArray data = buffer.mid(5);
@@ -383,7 +397,8 @@ bool IgcFile::processRecordH() {
     return true;
 }
 
-bool IgcFile::processRecordL() {
+bool IgcFile::processRecordL()
+{
     if (buffer.mid(1, 4) == "CU::") {
         // This is a special seeyou comment.
         // Causes the rest of line to be read as a new record.
@@ -403,10 +418,9 @@ QVariant IgcFile::get(int row)
 
     QMap<QString, QVariant> itemData;
     QHashIterator<int, QByteArray> hashItr(roleNames());
-    while(hashItr.hasNext()){
-        hashItr.next();      
-        itemData.insert(hashItr.value(),myidx.data(hashItr.key()).toString());
-
+    while (hashItr.hasNext()) {
+        hashItr.next();
+        itemData.insert(hashItr.value(), myidx.data(hashItr.key()).toString());
     }
     // Edit:
     // My C++ is sometimes a bit rusty, I was deleting item...
@@ -415,14 +429,13 @@ QVariant IgcFile::get(int row)
     return QVariant(itemData);
 }
 
-
 /// Comparator function for sorting events in the list according to timestamp.
-bool IgcFile::eventLessThan(const IgcEvent *e1, const IgcEvent *e2) {
+bool IgcFile::eventLessThan(const IgcEvent* e1, const IgcEvent* e2)
+{
     return e1->getTimestamp() < e2->getTimestamp();
 }
 
-IgcEvent::IgcEvent(): QObject(0) {
-
+IgcEvent::IgcEvent()
+    : QObject(0)
+{
 }
-
-

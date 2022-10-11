@@ -1,17 +1,15 @@
 #ifndef IGCFILTERED_H
 #define IGCFILTERED_H
 
+#include "igc.h"
 #include <QObject>
 #include <QTime>
 #include <QtCore>
-#include "igc.h"
 
-class IgcFiltered : public QAbstractListModel
-{
+class IgcFiltered : public QAbstractListModel {
     Q_OBJECT
 
 public:
-
     enum IgcEventRoles {
         typeRole = Qt::UserRole + 1,
         timeRole,
@@ -22,23 +20,19 @@ public:
         validRole
     };
 
-    explicit IgcFiltered(QObject *parent = 0);
+    explicit IgcFiltered(QObject* parent = 0);
     ~IgcFiltered();
 
-    Q_INVOKABLE bool load(const QString &path, const QTime after, const bool removeAfterLanding);
+    Q_INVOKABLE bool load(const QString& path, const QTime after, const bool removeAfterLanding);
     Q_INVOKABLE void clear();
     Q_INVOKABLE QVariant get(int row);
 
-
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
-    int rowCount(const QModelIndex &parent = QModelIndex()) const;
-    QHash<int,QByteArray> roleNames() const;
-
-
+    QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
+    int rowCount(const QModelIndex& parent = QModelIndex()) const;
+    QHash<int, QByteArray> roleNames() const;
 
     Q_PROPERTY(int count READ getCount NOTIFY eventsChanged)
     int getCount();
-
 
     Q_PROPERTY(int invalidCount READ getInvalidCount NOTIFY eventsChanged)
     Q_PROPERTY(int trimmedCount READ getTrimmedCount NOTIFY eventsChanged)
@@ -50,7 +44,6 @@ public:
 
     Q_INVOKABLE qreal getDistanceTo(qreal lat1, qreal lon1, qreal lat2, qreal lon2);
     Q_INVOKABLE qreal getBearingTo(qreal lat, qreal lon, qreal tlat, qreal tlon);
-
 
     Q_PROPERTY(QDate date READ date)
     QDate date() const { return igcFile->date(); }
@@ -94,14 +87,10 @@ public:
     Q_PROPERTY(QString pilot READ pilot)
     QString pilot() const { return igcFile->pilot(); }
 
-
-
 signals:
     void eventsChanged();
 
-
 public slots:
-
 
 private:
     IgcFile* igcFile;
@@ -109,7 +98,6 @@ private:
     int m_invalid_count;
     int m_trimmed_count;
     int m_trimmed_end_count;
-
 };
 
 #endif // IGCFILTERED_H

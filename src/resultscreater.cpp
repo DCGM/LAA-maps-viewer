@@ -15,28 +15,24 @@ const QString ResultsCreater::BLANK_USER_BASE64 = "iVBORw0KGgoAAAANSUhEUgAAALQAA
                                                   "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"
                                                   "tkv9p9vbq0XCgVFUeIY6UXX/SdYLnFIuBAQQoIx57zVal9cXjVb7cFgyBknhEB085plQwzDkHGWy+U21tZXV1fK5VKhUCjkc6Zpflzpd4/7nUzN9vFvgyBwXdey7X5v0Ol2a7V6s9WKIkoIURRyyx5QSjnnhqHn87nt7a1nu7u5XFYOO5bZrbeM4pDIytU0zff96tn5+flVfzhklMptgJOvdry5SDDKuOC6rq2vr+3u7FTK5VKpaJomhAghJLfHPbgw46wsnHPuul69Xq83mrV6o9lsyiXlyYtPGhtZRl1X19ZWXrzYX11ZAUAIPqeB0eewvOKQIAQBgGEYBYFfqzdOTs+6vT4AQCVELrPEB3VMhn1jjBVFkemUc7lcPp8rl0ulUiGXy+dyOXy3xipG58ULy7Zdx/VcbzAcdnrdXrdn205EKWOMjo6Sh7eOv4z7EcYYgnBjY31//9nKSkUfa2hpxxmTLLs4xLiLgRC5nttqt1utbqvd7g8GQRBihBWFTHpExvtiGKVMJhVSVaLrhmmapmlommYYhvxWPp8nBH9yO7K8iOe5YRhRymzHCYMgiiLP813Pc103iiI8Afj9zEUGZHDGM5nM2vrKSrlSqZSKhYKua4xzebTIktuMUT0suTgk0iQQQjDGruvWG83rWqPf73ueH0URm2i70sMEwO/2tnAu2/CoZ6CUKopSqZQJIR+LQ+6MEkLYtu04rhACIYwQRgjITD1x4rZ4d6f8olyRB4BjjA3DyJjmykp5e3trbXUFY+z7/iNaFZI8DnHcLjSENKLdXu+6Vq/VG8OhBaYMG28xaczvPiC9yx/HX4EQFvL558/3tne2MqYp+GhT62PoRm7zuMQhhAAQQkIwhDAKI9f3HccdDq1ut9tqd4fDYZyJK3ZW3nzz9/ypo/rjVn5ryCmXThjjQnBd08rlUrlcKhWLuVw2kzFN00AIUcqWze95dx6XOACYmIvGXX4Yhr1ev9PtDS3LcVzXdX3PD8MojEIZZ/XJjXF3SZYBxi1ejLNHym5KespVVdE1TdcNM2PmspliIV8qFvOFPCEkiqJ4b99jlMWoih6dOCa5cUVAiAkWQtiO02y2O52uZdmWZcvR381rfVA4O4SjQy8RgjJXHYLQMPRcLlsoFCrlyupqRdfVKGJSNxPfetw8bnHETGZipJQyRhnjUURt2xkOLdd1B7blOF4UhL7vM36/hEmYEN3QsxkzI+c8hpHNmvlsVmYdJYQQjCGE/KHiW1qeiDgmg2viKQUAMAxDz/PDMHQ9PwxDRml4/+QWCCFFVXVV1TRVommqqioAQMYY44wz/th7kE/yRMQxyeQMU05xkTQscqoLH+CuFoLLVRouD8kQN2dlwCd8pPKyLNnPkDiaRv6vnFNwCMEsUjP+8YLLE+MJiuNjZjgUeKpG4pP8JcTxl3qjM+Tp28aUB5OKI2UqqThSppKKI2UqqThSppKKI2UqqThSppKKI2UqqThSppKKI2UqqThSppKKI2UqqThSppKKI2UqqThSppKKI2UqqThSppKKI2UqqThSppKKI2UqqThSppKKI2UqqThSppKKI2UqqThSpvL/AR/D/5D3nv3NAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAABJRU5ErkJggg==";
 
-
-ResultsCreater::ResultsCreater(QObject *parent) : QObject(parent) {
-
+ResultsCreater::ResultsCreater(QObject* parent)
+    : QObject(parent)
+{
 }
 
-
-void ResultsCreater::createContinuousResultsHTML(const QString &filePath,
-                                                 const QStringList &resList,
-                                                 const int recordSize,
-                                                 const QString &competitionName,
-                                                 const QString &competitionType,
-                                                 const QString &competitionDirector,
-                                                 const QString &competitionDirectorAvatar,
-                                                 const QStringList &competitionArbitr,
-                                                 const QStringList &competitionArbitrAvatar,
-                                                 const QString &competitionDate,
-                                                 const QString &competitionRound,
-                                                 const QString &competitionGroupName) {
-
-
-
-
+void ResultsCreater::createContinuousResultsHTML(const QString& filePath,
+    const QStringList& resList,
+    const int recordSize,
+    const QString& competitionName,
+    const QString& competitionType,
+    const QString& competitionDirector,
+    const QString& competitionDirectorAvatar,
+    const QStringList& competitionArbitr,
+    const QStringList& competitionArbitrAvatar,
+    const QString& competitionDate,
+    const QString& competitionRound,
+    const QString& competitionGroupName)
+{
 
     QString html = "";
 
@@ -49,14 +45,14 @@ void ResultsCreater::createContinuousResultsHTML(const QString &filePath,
     // list size must be even
     // first half of the array are the classes names, second half is the content for each class
 
-    if (resList.size() % 2)  {
+    if (resList.size() % 2) {
         qDebug() << "ResultsCreater::createContinuousResultsHTML() resList.size() % 2 == 1" + QString::number(resList.size() % 2);
         return;
     }
 
     // get classes names
     int i;
-    for (i = 0; i < resList.size()/2; i++) {
+    for (i = 0; i < resList.size() / 2; i++) {
 
         classesNames.push_back(QString(resList.at(i)).remove("\""));
     }
@@ -75,34 +71,34 @@ void ResultsCreater::createContinuousResultsHTML(const QString &filePath,
     html += getResultsHTMLBodyHead(competitionName, competitionType, competitionDirector, competitionDirectorAvatar, competitionArbitr, competitionArbitrAvatar, competitionDate, competitionRound, competitionGroupName);
 
     header = QStringList() << ("html-continuous-results-order")
-                             << ("html-continuous-results-name")
-                             << ("html-results-ctnt-tg-shortcut")
-                             << ("html-results-ctnt-tp-shortcut")
-                             << ("html-results-ctnt-sg-shortcut")
-                             << ("html-results-ctnt-altLimits-shortcut")
-                             << ("html-results-ctnt-speedSec-shortcut")
-                             << ("html-results-ctnt-altSec-shortcut")
-                             << ("html-results-ctnt-spaceSec-shortcut")
-                             << ("html-results-ctnt-markersOk-shortcut")
-                             << ("html-results-ctnt-markersNok-shortcut")
-                             << ("html-results-ctnt-markersFalse-shortcut")
-                             << ("html-results-ctnt-photosOk-shortcut")
-                             << ("html-results-ctnt-photosNok-shortcut")
-                             << ("html-results-ctnt-photosFalse-shortcut")
-                             << ("html-results-ctnt-landing-shortcut")
-                             << ("html-results-ctnt-takeOfF-shortcut")
-                             //<< ("html-results-ctnt-circling-shortcut")
-                             << ("html-results-ctnt-opposite-shortcut")
-                             << ("html-results-ctnt-otherPoints-shortcut")
-                             << ("html-results-ctnt-otherPenalty-shortcut")
-                             << ("html-results-ctnt-points-shortcut")
-                             << ("html-results-ctnt-points1000-shortcut");
+                           << ("html-continuous-results-name")
+                           << ("html-results-ctnt-tg-shortcut")
+                           << ("html-results-ctnt-tp-shortcut")
+                           << ("html-results-ctnt-sg-shortcut")
+                           << ("html-results-ctnt-altLimits-shortcut")
+                           << ("html-results-ctnt-speedSec-shortcut")
+                           << ("html-results-ctnt-altSec-shortcut")
+                           << ("html-results-ctnt-spaceSec-shortcut")
+                           << ("html-results-ctnt-markersOk-shortcut")
+                           << ("html-results-ctnt-markersNok-shortcut")
+                           << ("html-results-ctnt-markersFalse-shortcut")
+                           << ("html-results-ctnt-photosOk-shortcut")
+                           << ("html-results-ctnt-photosNok-shortcut")
+                           << ("html-results-ctnt-photosFalse-shortcut")
+                           << ("html-results-ctnt-landing-shortcut")
+                           << ("html-results-ctnt-takeOfF-shortcut")
+                           //<< ("html-results-ctnt-circling-shortcut")
+                           << ("html-results-ctnt-opposite-shortcut")
+                           << ("html-results-ctnt-otherPoints-shortcut")
+                           << ("html-results-ctnt-otherPenalty-shortcut")
+                           << ("html-results-ctnt-points-shortcut")
+                           << ("html-results-ctnt-points1000-shortcut");
 
     // create legend, skip first two columns - order and name
     int skipCols = 2;
     QStringList headerLegend;
     for (int i = skipCols; i < header.size(); i++) {
-        headerLegend.push_back(header.at(i) + "-legend");    // add legend suffix for translation
+        headerLegend.push_back(header.at(i) + "-legend"); // add legend suffix for translation
     }
 
     // tr legend
@@ -161,9 +157,8 @@ void ResultsCreater::createContinuousResultsHTML(const QString &filePath,
 
                 if (col != 1) { // skip class
                     dataRow.push_back(QString(match.captured(0)).remove("\"") == "-1" ? "" : QString(match.captured(0)).remove("\""));
-                }
-                else {
-                   category = QString(match.captured(0)).remove("\"") == "-1" ? "" : QString(match.captured(0)).remove("\"");
+                } else {
+                    category = QString(match.captured(0)).remove("\"") == "-1" ? "" : QString(match.captured(0)).remove("\"");
                 }
             }
 
@@ -179,16 +174,14 @@ void ResultsCreater::createContinuousResultsHTML(const QString &filePath,
                 rows.append(dataRow);
                 dataRow.clear();
                 col = 0;
-            }
-            else {
+            } else {
                 col++;
             }
         }
 
         // echo table and spacer
-        html += getHTMLHorizontalTable(rows, QVector<double>{0.5,2.1,0.8,0.8,0.8,1.0,1.0,1.0,1.0});
-     }
-
+        html += getHTMLHorizontalTable(rows, QVector<double> { 0.5, 2.1, 0.8, 0.8, 0.8, 1.0, 1.0, 1.0, 1.0 });
+    }
 
     // add legend to html
     html += getPrintOnlyText(headerLegend.join(", "));
@@ -200,11 +193,11 @@ void ResultsCreater::createContinuousResultsHTML(const QString &filePath,
     file.writeUTF8(QUrl(filePath + ".html"), html.toUtf8());
 }
 
-
-void ResultsCreater::createStartListHTML(const QString &filename,
-                                         const QStringList &cntList,
-                                         const QString &competitionName,
-                                         const int utc_offset_sec) {
+void ResultsCreater::createStartListHTML(const QString& filename,
+    const QStringList& cntList,
+    const QString& competitionName,
+    const int utc_offset_sec)
+{
     Q_UNUSED(competitionName)
     QJsonDocument jsonResponse;
     QJsonObject jsonObject;
@@ -219,16 +212,16 @@ void ResultsCreater::createStartListHTML(const QString &filename,
     html += getHTMLBodyScript() + "\n";
 
     html += "<div class=\"container\">\n";
-/*
-    html += "<div class=\"row\">\n";
-    html += "   <div class=\"col-md-6\">\n";
-    html +=         competitionName + "\n";
-    html += "   </div>\n";
-    html += "   <div class=\"col-md-6\">\n";
-    html += "       <span class=\"pull-right\">" + QDate().currentDate().toString("dd.MM.yyyy") + "  " + QTime().currentTime().toString("hh:mm:ss") + "</span>\n";
-    html += "   </div>\n";
-    html += "</div>\n";
-*/
+    /*
+        html += "<div class=\"row\">\n";
+        html += "   <div class=\"col-md-6\">\n";
+        html +=         competitionName + "\n";
+        html += "   </div>\n";
+        html += "   <div class=\"col-md-6\">\n";
+        html += "       <span class=\"pull-right\">" + QDate().currentDate().toString("dd.MM.yyyy") + "  " + QTime().currentTime().toString("hh:mm:ss") + "</span>\n";
+        html += "   </div>\n";
+        html += "</div>\n";
+    */
 
     html += getHTMLH1(getTranslatedString("html-start-list-title"));
 
@@ -241,9 +234,7 @@ void ResultsCreater::createStartListHTML(const QString &filename,
                                                       << ("html-startList-startTimePrepTime")
                                                       << ("html-results-ctnt-startTime")
                                                       << ("html-startList-startTimeVBT")
-                                                      << ("html-results-note")
-                                                      ));
-
+                                                      << ("html-results-note")));
 
     for (int i = 0; i < cntList.size(); ++i) {
 
@@ -255,14 +246,13 @@ void ResultsCreater::createStartListHTML(const QString &filename,
                                   << jsonObject["category"].toString()
                                   << jsonObject["aircraft_registration"].toString()
                                   << QString::number(jsonObject["speed"].toInt())
-                                  << QTime(0,0,0).addSecs(addUtcToTime(QTime::fromString(jsonObject["startTimePrepTime"].toString(), "HH:mm:ss"), utc_offset_sec)).toString("HH:mm:ss")
-                                  << "<b>" + QTime(0,0,0).addSecs(addUtcToTime(QTime::fromString(jsonObject["startTime"].toString(), "HH:mm:ss"), utc_offset_sec)).toString("HH:mm:ss") + "</b>"
-                                  << QTime(0,0,0).addSecs(addUtcToTime(QTime::fromString(jsonObject["startTimeVBT"].toString(), "HH:mm:ss"), utc_offset_sec)).toString("HH:mm:ss")
-                                  << ""                
-                    );
+                                  << QTime(0, 0, 0).addSecs(addUtcToTime(QTime::fromString(jsonObject["startTimePrepTime"].toString(), "HH:mm:ss"), utc_offset_sec)).toString("HH:mm:ss")
+                                  << "<b>" + QTime(0, 0, 0).addSecs(addUtcToTime(QTime::fromString(jsonObject["startTime"].toString(), "HH:mm:ss"), utc_offset_sec)).toString("HH:mm:ss") + "</b>"
+                                  << QTime(0, 0, 0).addSecs(addUtcToTime(QTime::fromString(jsonObject["startTimeVBT"].toString(), "HH:mm:ss"), utc_offset_sec)).toString("HH:mm:ss")
+                                  << "");
     }
 
-    html += getHTMLHorizontalTable(rows, QVector<double>{0.2/9.0, 3.1/9.0, 0.4/9.0, 0.3/9.0, 0.4/9.0, 0.7/9.0, 0.7/9.0, 0.7/9.0, 2.5/9.0});
+    html += getHTMLHorizontalTable(rows, QVector<double> { 0.2 / 9.0, 3.1 / 9.0, 0.4 / 9.0, 0.3 / 9.0, 0.4 / 9.0, 0.7 / 9.0, 0.7 / 9.0, 0.7 / 9.0, 2.5 / 9.0 });
 
     html += "</div>\n";
     html += "</body>\n";
@@ -271,18 +261,19 @@ void ResultsCreater::createStartListHTML(const QString &filename,
     file.writeUTF8(QUrl(filename + ".html"), html.toUtf8());
 }
 
-void ResultsCreater::createContestantResultsHTML(const QString &filename,
-                                                 const QString &cntJSON,
-                                                 const QString &competitionName,
-                                                 const QString &competitionType,
-                                                 const QString &competitionDirector,
-                                                 const QString &competitionDirectorAvatar,
-                                                 const QStringList &competitionArbitr,
-                                                 const QStringList &competitionArbitrAvatar,
-                                                 const QString &competitionDate,
-                                                 const QString &competitionRound,
-                                                 const QString &competitionGroupName,
-                                                 const int utc_offset_sec) {
+void ResultsCreater::createContestantResultsHTML(const QString& filename,
+    const QString& cntJSON,
+    const QString& competitionName,
+    const QString& competitionType,
+    const QString& competitionDirector,
+    const QString& competitionDirectorAvatar,
+    const QStringList& competitionArbitr,
+    const QStringList& competitionArbitrAvatar,
+    const QString& competitionDate,
+    const QString& competitionRound,
+    const QString& competitionGroupName,
+    const int utc_offset_sec)
+{
     QString html = "";
     QStringList trackPointsList;
     QVector<QStringList> rows;
@@ -291,12 +282,13 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
     QJsonObject jsonObject = jsonResponse.object();
 
     // no results
-    if (jsonObject["name"].toString().length() == 1) return;
+    if (jsonObject["name"].toString().length() == 1)
+        return;
 
     int tg_time_measured = 0;
     bool sg_hit_measured = false;
     bool tp_hit_measured = false;
-    //QString point_alt_type = "";
+    // QString point_alt_type = "";
     int alt_measured = 0;
     double ctntSpeed = jsonObject["speed"].toDouble();
 
@@ -327,15 +319,15 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
     }
 
     rows.append(QStringList() << getTranslatedString("html-results-ctnt-category") << jsonObject["category"].toString());
-    rows.append(QStringList() << getTranslatedString("html-results-ctnt-startTime") << QTime(0,0,0).addSecs(addUtcToTime(QTime::fromString(jsonObject["startTime"].toString(), "HH:mm:ss"), utc_offset_sec)).toString("HH:mm:ss"));
+    rows.append(QStringList() << getTranslatedString("html-results-ctnt-startTime") << QTime(0, 0, 0).addSecs(addUtcToTime(QTime::fromString(jsonObject["startTime"].toString(), "HH:mm:ss"), utc_offset_sec)).toString("HH:mm:ss"));
     rows.append(QStringList() << getTranslatedString("html-results-ctnt-speed") << QString::number(jsonObject["speed"].toDouble()));
     rows.append(QStringList() << getTranslatedString("html-results-ctnt-aircraft-registration") << jsonObject["aircraft_registration"].toString());
     rows.append(QStringList() << getTranslatedString("html-results-ctnt-aircraft-type") << jsonObject["aircraft_type"].toString());
 
     rows.append(QStringList() << getTranslatedString("html-results-ctnt-classify") << (jsonObject["classify"].toDouble() == 0 ? getTranslatedString("hit-yes") : getTranslatedString("hit-no")));
     rows.append(QStringList() << getTranslatedString("html-results-ctnt-score-points") << (jsonObject["scorePoints"].toDouble() < 0 ? "" : QString::number(jsonObject["scorePoints"].toDouble())));
-    //rows.append(QStringList() << getTranslatedString("html-results-ctnt-score-points1000") << (jsonObject["scorePoints1000"].toDouble() < 0 ? "" : QString::number(jsonObject["scorePoints1000"].toDouble())));
-    //rows.append(QStringList() << getTranslatedString("html-results-ctnt-class-order") << (jsonObject["classOrder"].toDouble() < 0 ? "" : QString::number(jsonObject["classOrder"].toDouble())));
+    // rows.append(QStringList() << getTranslatedString("html-results-ctnt-score-points1000") << (jsonObject["scorePoints1000"].toDouble() < 0 ? "" : QString::number(jsonObject["scorePoints1000"].toDouble())));
+    // rows.append(QStringList() << getTranslatedString("html-results-ctnt-class-order") << (jsonObject["classOrder"].toDouble() < 0 ? "" : QString::number(jsonObject["classOrder"].toDouble())));
     html += getHTMLVerticalTable(rows);
 
     html += "   </div>";
@@ -343,9 +335,9 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
 
     // trajectory
     QUrl trajectoryImgUrl = QUrl(filename + ".png");
-//    if (!file.file_exists(trajectoryImgUrl)) {
-//        qDebug() << "Image \"" << trajectoryImgUrl << "\" doesn't exists";
-//    }
+    //    if (!file.file_exists(trajectoryImgUrl)) {
+    //        qDebug() << "Image \"" << trajectoryImgUrl << "\" doesn't exists";
+    //    }
     html += file.file_exists(trajectoryImgUrl) ? getHTMLResponsiveImage(getImageBase64(trajectoryImgUrl)) : "";
 
     html += "   </div>";
@@ -356,52 +348,30 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
     rows.append(QStringList() << getBoldText(getTranslatedString("html-results-point-type")) << getBoldText(getTranslatedString("html-results-inserted-value")) << getBoldText(getTranslatedString("html-results-score")));
 
     // markers
-    rows.append(QStringList() << getTranslatedString("html-results-markers") + " " + getItalicText(getTranslatedString("html-results-markers-legend")) <<
-                QString::number(jsonObject["markersOk"].toDouble()) + " / " +
-                QString::number(jsonObject["markersNok"].toDouble()) + " / " +
-                QString::number(jsonObject["markersFalse"].toDouble()) <<
-                QString::number(jsonObject["markersScore"].toDouble()));
+    rows.append(QStringList() << getTranslatedString("html-results-markers") + " " + getItalicText(getTranslatedString("html-results-markers-legend")) << QString::number(jsonObject["markersOk"].toDouble()) + " / " + QString::number(jsonObject["markersNok"].toDouble()) + " / " + QString::number(jsonObject["markersFalse"].toDouble()) << QString::number(jsonObject["markersScore"].toDouble()));
     // photos
-    rows.append(QStringList() << getTranslatedString("html-results-photos") + " " + getItalicText(getTranslatedString("html-results-markers-legend")) <<
-                QString::number(jsonObject["photosOk"].toDouble()) + " / " +
-                QString::number(jsonObject["photosNok"].toDouble()) + " / " +
-                QString::number(jsonObject["photosFalse"].toDouble()) <<
-                QString::number(jsonObject["photosScore"].toDouble()));
+    rows.append(QStringList() << getTranslatedString("html-results-photos") + " " + getItalicText(getTranslatedString("html-results-markers-legend")) << QString::number(jsonObject["photosOk"].toDouble()) + " / " + QString::number(jsonObject["photosNok"].toDouble()) + " / " + QString::number(jsonObject["photosFalse"].toDouble()) << QString::number(jsonObject["photosScore"].toDouble()));
     // take off
-    rows.append(QStringList() << getTranslatedString("html-results-take-off") + " " + getItalicText(getTranslatedString("html-results-take-off-legend")) <<
-                QTime(0,0,0).addSecs(addUtcToTime(QTime::fromString(jsonObject["startTime"].toString(), "HH:mm:ss"), utc_offset_sec)).toString("HH:mm:ss") + " / " +
-                (jsonObject["startTimeMeasured"].toString() == "" ? " - " : QTime(0,0,0).addSecs(addUtcToTime(QTime::fromString(jsonObject["startTimeMeasured"].toString(), "HH:mm:ss"), utc_offset_sec)).toString("HH:mm:ss")) + " / " +
-                (jsonObject["startTimeDifference"].toString() == "" ? " - " : jsonObject["startTimeDifference"].toString()) <<
-                QString::number(jsonObject["startTimeScore"].toDouble()));
+    rows.append(QStringList() << getTranslatedString("html-results-take-off") + " " + getItalicText(getTranslatedString("html-results-take-off-legend")) << QTime(0, 0, 0).addSecs(addUtcToTime(QTime::fromString(jsonObject["startTime"].toString(), "HH:mm:ss"), utc_offset_sec)).toString("HH:mm:ss") + " / " + (jsonObject["startTimeMeasured"].toString() == "" ? " - " : QTime(0, 0, 0).addSecs(addUtcToTime(QTime::fromString(jsonObject["startTimeMeasured"].toString(), "HH:mm:ss"), utc_offset_sec)).toString("HH:mm:ss")) + " / " + (jsonObject["startTimeDifference"].toString() == "" ? " - " : jsonObject["startTimeDifference"].toString()) << QString::number(jsonObject["startTimeScore"].toDouble()));
     // landing accurancy
-    rows.append(QStringList() << getTranslatedString("html-results-landing-accurancy") + " " + getItalicText(getTranslatedString("html-results-point-legend")) <<
-                QString::number(jsonObject["landingScore"].toDouble()) <<
-                QString::number(jsonObject["landingScore"].toDouble()));
+    rows.append(QStringList() << getTranslatedString("html-results-landing-accurancy") + " " + getItalicText(getTranslatedString("html-results-point-legend")) << QString::number(jsonObject["landingScore"].toDouble()) << QString::number(jsonObject["landingScore"].toDouble()));
     // circling
-    //rows.append(QStringList() << getTranslatedString("html-results-circling") + " " + getItalicText(getTranslatedString("html-results-count-legend")) <<
+    // rows.append(QStringList() << getTranslatedString("html-results-circling") + " " + getItalicText(getTranslatedString("html-results-count-legend")) <<
     //            QString::number(jsonObject["circlingCount"].toDouble()) <<
     //            QString::number(jsonObject["circlingScore"].toDouble()));
     // opposite dir flight
-    rows.append(QStringList() << getTranslatedString("html-results-opposite") + " " + getItalicText(getTranslatedString("html-results-count-legend")) <<
-                QString::number(jsonObject["oppositeCount"].toDouble()) <<
-                QString::number(jsonObject["oppositeScore"].toDouble()));
+    rows.append(QStringList() << getTranslatedString("html-results-opposite") + " " + getItalicText(getTranslatedString("html-results-count-legend")) << QString::number(jsonObject["oppositeCount"].toDouble()) << QString::number(jsonObject["oppositeScore"].toDouble()));
     // other points
-    rows.append(QStringList() << getTranslatedString("html-results-other-points") + " " + getItalicText(getTranslatedString("html-results-point-legend")) <<
-                QString::number(jsonObject["otherPoints"].toDouble()) <<
-                QString::number(jsonObject["otherPoints"].toDouble()));
+    rows.append(QStringList() << getTranslatedString("html-results-other-points") + " " + getItalicText(getTranslatedString("html-results-point-legend")) << QString::number(jsonObject["otherPoints"].toDouble()) << QString::number(jsonObject["otherPoints"].toDouble()));
     // other penalty
-    rows.append(QStringList() << getTranslatedString("html-results-other-penalty") + " " + getItalicText(getTranslatedString("html-results-point-legend")) <<
-                QString::number(jsonObject["otherPenalty"].toDouble()) <<
-                QString::number(jsonObject["otherPenalty"].toDouble() != 0 ? jsonObject["otherPenalty"].toDouble() * -1 : 0));
+    rows.append(QStringList() << getTranslatedString("html-results-other-penalty") + " " + getItalicText(getTranslatedString("html-results-point-legend")) << QString::number(jsonObject["otherPenalty"].toDouble()) << QString::number(jsonObject["otherPenalty"].toDouble() != 0 ? jsonObject["otherPenalty"].toDouble() * -1 : 0));
     // note
-    rows.append(QStringList() << getTranslatedString("html-results-note") <<
-                jsonObject["pointNote"].toString() <<
-                "-");
+    rows.append(QStringList() << getTranslatedString("html-results-note") << jsonObject["pointNote"].toString() << "-");
 
     html += getHTMLVerticalTable(rows);
 
     // track points
-    if(jsonObject["wptScoreDetails"].toString() != "") {
+    if (jsonObject["wptScoreDetails"].toString() != "") {
 
         trackPointsList = jsonObject["wptScoreDetails"].toString().split("; ");
 
@@ -424,8 +394,7 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
                                                           //<< ("html-results-point-alt-max")
                                                           << ("html-results-point-alt-measured")
                                                           //<< ("html-results-alt-score")
-                                                          << ("html-results-score")
-                                                          ));
+                                                          << ("html-results-score")));
 
         // track points content
         for (int k = 0; k < trackPointsList.size(); ++k) {
@@ -437,7 +406,7 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
             tp_hit_measured = jsonObject["tp_hit_manual"].toDouble() < 0 ? jsonObject["tp_hit_measured"].toBool() : jsonObject["tp_hit_manual"].toBool();
             alt_measured = jsonObject["alt_manual"].toDouble() < 0 ? jsonObject["alt_measured"].toDouble() : jsonObject["alt_manual"].toDouble();
 
-            //check point type
+            // check point type
             bool isTG = (int(jsonObject["type"].toDouble()) & 2) == 2;
             bool isTP = (int(jsonObject["type"].toDouble()) & 1) == 1;
             bool isSG = (int(jsonObject["type"].toDouble()) & 4) == 4;
@@ -447,8 +416,8 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
                                       << pointFlagToString(jsonObject["type"].toDouble())
                                       << QString::number(jsonObject["distance_from_vbt"].toDouble() / 1000, 'f', 2)
 
-                                      << (isTG ? "" : getFontColorStartTag("#bfbfbf")) + QTime(0,0,0).addSecs(addUtcToTime(jsonObject["tg_time_calculated"].toDouble(), utc_offset_sec)).toString("HH:mm:ss") + (isTG ? "" : getFontColorEndTag())
-                                      << (isTG ? "" : getFontColorStartTag("#bfbfbf")) + QTime(0,0,0).addSecs(addUtcToTime(tg_time_measured, utc_offset_sec)).toString() + (isTG ? "" : getFontColorEndTag())
+                                      << (isTG ? "" : getFontColorStartTag("#bfbfbf")) + QTime(0, 0, 0).addSecs(addUtcToTime(jsonObject["tg_time_calculated"].toDouble(), utc_offset_sec)).toString("HH:mm:ss") + (isTG ? "" : getFontColorEndTag())
+                                      << (isTG ? "" : getFontColorStartTag("#bfbfbf")) + QTime(0, 0, 0).addSecs(addUtcToTime(tg_time_measured, utc_offset_sec)).toString() + (isTG ? "" : getFontColorEndTag())
                                       << (isTP ? "" : getFontColorStartTag("#bfbfbf")) + (tp_hit_measured ? getTranslatedString("hit-yes") : getTranslatedString("hit-no")) + (isTP ? "" : getFontColorEndTag())
                                       << (isSG ? "" : getFontColorStartTag("#bfbfbf")) + (sg_hit_measured ? getTranslatedString("hit-yes") : getTranslatedString("hit-no")) + (isSG ? "" : getFontColorEndTag())
                                       << ((jsonObject["alt_min"].toDouble() < 0 ? "GND" : QString::number(jsonObject["alt_min"].toDouble())) + " - " + (jsonObject["alt_max"].toDouble() < 0 ? "FL 660" : QString::number(jsonObject["alt_max"].toDouble())))
@@ -457,11 +426,9 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
                                       << (isTG ? "" : getFontColorStartTag("#bfbfbf")) + (jsonObject["tg_score"].toDouble() < 0 ? "0" : QString::number(jsonObject["tg_score"].toDouble())) + (isTG ? "" : getFontColorEndTag())
                                       << (isTP ? "" : getFontColorStartTag("#bfbfbf")) + (jsonObject["tp_score"].toDouble() < 0 ? "0" : QString::number(jsonObject["tp_score"].toDouble())) + (isTP ? "" : getFontColorEndTag())
                                       << (isSG ? "" : getFontColorStartTag("#bfbfbf")) + (jsonObject["sg_score"].toDouble() < 0 ? "0" : QString::number(jsonObject["sg_score"].toDouble())) + (isSG ? "" : getFontColorEndTag())
-                                      << (altLimit ? "" : getFontColorStartTag("#bfbfbf")) + (jsonObject["alt_score"].toDouble() == -1 ? "0" : QString::number(jsonObject["alt_score"].toDouble())) + (altLimit ? "" : getFontColorEndTag())
-                        );
+                                      << (altLimit ? "" : getFontColorStartTag("#bfbfbf")) + (jsonObject["alt_score"].toDouble() == -1 ? "0" : QString::number(jsonObject["alt_score"].toDouble())) + (altLimit ? "" : getFontColorEndTag()));
         }
         html += getHTMLHorizontalTable(rows);
-
     }
 
     // speed sections
@@ -481,28 +448,25 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
                                                           << ("html-results-speed-sec-end-point")
                                                           << ("html-results-speed-sec-expected")
                                                           << ("html-results-speed-sec-measured")
-                                                          << ("html-results-score")
-                                                          ));
-
+                                                          << ("html-results-score")));
 
         // speed sections content
         while (i.hasNext()) {
             QRegularExpressionMatch match = i.next();
             if (match.hasMatch()) {
 
-                 jsonResponse = QJsonDocument::fromJson(match.captured(0).toUtf8());
-                 jsonObject = jsonResponse.object();
+                jsonResponse = QJsonDocument::fromJson(match.captured(0).toUtf8());
+                jsonObject = jsonResponse.object();
 
-                  rows.append(QStringList() << jsonObject["startPointName"].toString()
-                                            << jsonObject["endPointName"].toString()
-                                            << QString::number(ctntSpeed)
-                                            << (jsonObject["manualSpeed"].toDouble() < 0 ? QString::number(jsonObject["calculatedSpeed"].toDouble()) : QString::number(jsonObject["manualSpeed"].toDouble()))
-                                            << QString::number(jsonObject["speedSecScore"].toDouble())
-                                            );
+                rows.append(QStringList() << jsonObject["startPointName"].toString()
+                                          << jsonObject["endPointName"].toString()
+                                          << QString::number(ctntSpeed)
+                                          << (jsonObject["manualSpeed"].toDouble() < 0 ? QString::number(jsonObject["calculatedSpeed"].toDouble()) : QString::number(jsonObject["manualSpeed"].toDouble()))
+                                          << QString::number(jsonObject["speedSecScore"].toDouble()));
             }
         }
 
-        html += getHTMLHorizontalTable(rows, QVector<double>{1.0/7.0, 1.0/7.0, 1.0/7.0, 1.0/7.0, 1.0/7.0, 2.0/7.0});
+        html += getHTMLHorizontalTable(rows, QVector<double> { 1.0 / 7.0, 1.0 / 7.0, 1.0 / 7.0, 1.0 / 7.0, 1.0 / 7.0, 2.0 / 7.0 });
     }
 
     // altitude sections
@@ -524,28 +488,26 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
                                                           << ("html-results-alt-sec-min-time")
                                                           << ("html-results-alt-sec-max-count")
                                                           << ("html-results-alt-sec-max-time")
-                                                          << ("html-results-score")
-                                                          ));
+                                                          << ("html-results-score")));
         // alt sections content
         while (i.hasNext()) {
             QRegularExpressionMatch match = i.next();
             if (match.hasMatch()) {
 
-                 jsonResponse = QJsonDocument::fromJson(match.captured(0).toUtf8());
-                 jsonObject = jsonResponse.object();
+                jsonResponse = QJsonDocument::fromJson(match.captured(0).toUtf8());
+                jsonObject = jsonResponse.object();
 
-                  rows.append(QStringList() << jsonObject["startPointName"].toString()
-                                            << jsonObject["endPointName"].toString()
-                                            << (jsonObject["manualAltMinEntriesCount"].toDouble() < 0 ? QString::number(jsonObject["altMinEntriesCount"].toDouble()) : QString::number(jsonObject["manualAltMinEntriesCount"].toDouble()))
-                                            << (jsonObject["manualAltMinEntriesCount"].toDouble() < 0 ? (jsonObject["manualAltMinEntriesTime"].toDouble() < 0 ? QTime(0,0,0).addSecs(jsonObject["altMinEntriesTime"].toDouble()).toString("hh:mm:ss") : QTime(0,0,0).addSecs(jsonObject["manualAltMinEntriesTime"].toDouble()).toString("hh:mm:ss")) : "")
-                                            << (jsonObject["manualAltMaxEntriesCount"].toDouble() < 0 ? QString::number(jsonObject["altMaxEntriesCount"].toDouble()) : QString::number(jsonObject["manualAltMaxEntriesCount"].toDouble()))
-                                            << (jsonObject["manualAltMaxEntriesCount"].toDouble() < 0 ? (jsonObject["manualAltMaxEntriesTime"].toDouble() < 0 ? QTime(0,0,0).addSecs(jsonObject["altMaxEntriesTime"].toDouble()).toString("hh:mm:ss") : QTime(0,0,0).addSecs(jsonObject["manualAltMaxEntriesTime"].toDouble()).toString("hh:mm:ss")) : "")
-                                            << QString::number(jsonObject["altSecScore"].toDouble())
-                                            );
+                rows.append(QStringList() << jsonObject["startPointName"].toString()
+                                          << jsonObject["endPointName"].toString()
+                                          << (jsonObject["manualAltMinEntriesCount"].toDouble() < 0 ? QString::number(jsonObject["altMinEntriesCount"].toDouble()) : QString::number(jsonObject["manualAltMinEntriesCount"].toDouble()))
+                                          << (jsonObject["manualAltMinEntriesCount"].toDouble() < 0 ? (jsonObject["manualAltMinEntriesTime"].toDouble() < 0 ? QTime(0, 0, 0).addSecs(jsonObject["altMinEntriesTime"].toDouble()).toString("hh:mm:ss") : QTime(0, 0, 0).addSecs(jsonObject["manualAltMinEntriesTime"].toDouble()).toString("hh:mm:ss")) : "")
+                                          << (jsonObject["manualAltMaxEntriesCount"].toDouble() < 0 ? QString::number(jsonObject["altMaxEntriesCount"].toDouble()) : QString::number(jsonObject["manualAltMaxEntriesCount"].toDouble()))
+                                          << (jsonObject["manualAltMaxEntriesCount"].toDouble() < 0 ? (jsonObject["manualAltMaxEntriesTime"].toDouble() < 0 ? QTime(0, 0, 0).addSecs(jsonObject["altMaxEntriesTime"].toDouble()).toString("hh:mm:ss") : QTime(0, 0, 0).addSecs(jsonObject["manualAltMaxEntriesTime"].toDouble()).toString("hh:mm:ss")) : "")
+                                          << QString::number(jsonObject["altSecScore"].toDouble()));
             }
         }
 
-        html += getHTMLHorizontalTable(rows, QVector<double>{1, 1, 1, 1, 1, 1, 1});
+        html += getHTMLHorizontalTable(rows, QVector<double> { 1, 1, 1, 1, 1, 1, 1 });
     }
 
     // space sections
@@ -565,26 +527,24 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
                                                           << ("html-results-space-sec-end-point")
                                                           << ("html-results-space-sec-entries-count")
                                                           << ("html-results-space-sec-entries-time")
-                                                          << ("html-results-score")
-                                                          ));
+                                                          << ("html-results-score")));
         // alt sections content
         while (i.hasNext()) {
             QRegularExpressionMatch match = i.next();
             if (match.hasMatch()) {
 
-                 jsonResponse = QJsonDocument::fromJson(match.captured(0).toUtf8());
-                 jsonObject = jsonResponse.object();
+                jsonResponse = QJsonDocument::fromJson(match.captured(0).toUtf8());
+                jsonObject = jsonResponse.object();
 
-                  rows.append(QStringList() << jsonObject["startPointName"].toString()
-                                            << jsonObject["endPointName"].toString()
-                                            << (jsonObject["manualEntries_out"].toDouble() < 0 ? QString::number(jsonObject["entries_out"].toDouble()) : QString::number(jsonObject["manualEntries_out"].toDouble()))
-                                            << (jsonObject["manualEntries_out"].toDouble() < 0 ? (jsonObject["manualTime_spent_out"].toDouble() < 0 ? QTime(0,0,0).addSecs(jsonObject["time_spent_out"].toDouble()).toString("hh:mm:ss") : QTime(0,0,0).addSecs(jsonObject["manualTime_spent_out"].toDouble()).toString("hh:mm:ss")) : "")
-                                            << QString::number(jsonObject["spaceSecScore"].toDouble())
-                                            );
+                rows.append(QStringList() << jsonObject["startPointName"].toString()
+                                          << jsonObject["endPointName"].toString()
+                                          << (jsonObject["manualEntries_out"].toDouble() < 0 ? QString::number(jsonObject["entries_out"].toDouble()) : QString::number(jsonObject["manualEntries_out"].toDouble()))
+                                          << (jsonObject["manualEntries_out"].toDouble() < 0 ? (jsonObject["manualTime_spent_out"].toDouble() < 0 ? QTime(0, 0, 0).addSecs(jsonObject["time_spent_out"].toDouble()).toString("hh:mm:ss") : QTime(0, 0, 0).addSecs(jsonObject["manualTime_spent_out"].toDouble()).toString("hh:mm:ss")) : "")
+                                          << QString::number(jsonObject["spaceSecScore"].toDouble()));
             }
         }
 
-        html += getHTMLHorizontalTable(rows, QVector<double>{1.0/7.0, 1.0/7.0, 1.0/7.0, 1.0/7.0, 3.0/7.0});
+        html += getHTMLHorizontalTable(rows, QVector<double> { 1.0 / 7.0, 1.0 / 7.0, 1.0 / 7.0, 1.0 / 7.0, 3.0 / 7.0 });
     }
 
     html += "</div>\n";
@@ -594,7 +554,8 @@ void ResultsCreater::createContestantResultsHTML(const QString &filename,
     file.writeUTF8(QUrl(filename + ".html"), html.toUtf8());
 }
 
-const inline QString ResultsCreater::getFontColorStartTag(QString color) {
+const inline QString ResultsCreater::getFontColorStartTag(QString color)
+{
 
     if (color == "#bfbfbf") // grey color
         return "<span style=\"color:" + color + "\" class=\"greyText !important\">";
@@ -602,37 +563,40 @@ const inline QString ResultsCreater::getFontColorStartTag(QString color) {
         return "<span style=\"color:" + color + "\">";
 }
 
-const inline QString ResultsCreater::getFontColorEndTag() {
+const inline QString ResultsCreater::getFontColorEndTag()
+{
 
     return "</span>";
 }
 
-const inline QString ResultsCreater::getBoldText(const QString text) {
+const inline QString ResultsCreater::getBoldText(const QString text)
+{
 
     return "<b>" + text + "</b>";
 }
 
-const inline QString ResultsCreater::getItalicText(const QString text) {
+const inline QString ResultsCreater::getItalicText(const QString text)
+{
 
     return "<i>" + text + "</i>";
 }
 
-const QString ResultsCreater::getItalicGreyText(const QString text) {
+const QString ResultsCreater::getItalicGreyText(const QString text)
+{
 
     return getItalicText(getFontColorStartTag("#bfbfbf") + text + getFontColorEndTag());
 }
 
-
-
-const QString ResultsCreater::getResultsHTMLBodyHead(const QString &competitionName,
-                                                     const QString &competitionType,
-                                                     const QString &competitionDirector,
-                                                     const QString &competitionDirectorAvatar,
-                                                     const QStringList &competitionArbitr,
-                                                     const QStringList &competitionArbitrAvatar,
-                                                     const QString &competitionDate,
-                                                     const QString &competitionRound,
-                                                     const QString &competitionGroupName) {
+const QString ResultsCreater::getResultsHTMLBodyHead(const QString& competitionName,
+    const QString& competitionType,
+    const QString& competitionDirector,
+    const QString& competitionDirectorAvatar,
+    const QStringList& competitionArbitr,
+    const QStringList& competitionArbitrAvatar,
+    const QString& competitionDate,
+    const QString& competitionRound,
+    const QString& competitionGroupName)
+{
 
     QString html = "";
     QVector<QStringList> rows;
@@ -662,9 +626,8 @@ const QString ResultsCreater::getResultsHTMLBodyHead(const QString &competitionN
         rows.append(QStringList() << getTranslatedString("html-results-competition-director") << ("<table>" + getUserTableRowRecordWithAvatar(competitionDirectorAvatar, competitionDirector) + "</table>"));
     }
 
-
     // push each arbitr with avatar into table
-    for(int i = 0; i < competitionArbitr.size(); i++) {
+    for (int i = 0; i < competitionArbitr.size(); i++) {
 
         QString avatar = i < competitionArbitrAvatar.size() ? competitionArbitrAvatar.at(i) : BLANK_USER_BASE64;
         QString label = (i == 0 ? getTranslatedString("html-results-competition-arbitr") : "");
@@ -695,10 +658,10 @@ const QString ResultsCreater::getResultsHTMLBodyHead(const QString &competitionN
     html += "</div>\n";
 
     return html;
-
 }
 
-const QString ResultsCreater::getHTMLHorizontalTable(QVector<QStringList> &rows, const QVector<double> &preferedColumnsWidth) {
+const QString ResultsCreater::getHTMLHorizontalTable(QVector<QStringList>& rows, const QVector<double>& preferedColumnsWidth)
+{
 
     QString htmlTable = "";
     QStringList rowItem;
@@ -723,14 +686,13 @@ const QString ResultsCreater::getHTMLHorizontalTable(QVector<QStringList> &rows,
 
             if (preferedColumnsWidth.size() == rowItem.size()) {
 
-                columnWidthString = " style=\"width: " + QString::number(preferedColumnsWidth.at(j) * 100/rowItem.size()) + "%\"";
+                columnWidthString = " style=\"width: " + QString::number(preferedColumnsWidth.at(j) * 100 / rowItem.size()) + "%\"";
             }
 
             if (i == 0)
-                htmlTable += "   <th" + (columnWidthString != "" ? columnWidthString : (j == (rowItem.size()-1) ? headerLastColColSpan : "")) + ">" + rowItem.at(j) + "</th>\n";
+                htmlTable += "   <th" + (columnWidthString != "" ? columnWidthString : (j == (rowItem.size() - 1) ? headerLastColColSpan : "")) + ">" + rowItem.at(j) + "</th>\n";
             else
                 htmlTable += "   <td" + columnWidthString + ">" + rowItem.at(j) + "</td>\n";
-
         }
 
         htmlTable += "</tr>\n";
@@ -743,7 +705,8 @@ const QString ResultsCreater::getHTMLHorizontalTable(QVector<QStringList> &rows,
     return htmlTable;
 }
 
-const QString ResultsCreater::getHTMLVerticalTable(QVector<QStringList> &rows) {
+const QString ResultsCreater::getHTMLVerticalTable(QVector<QStringList>& rows)
+{
 
     QString htmlTable = "";
     QStringList rowItem;
@@ -760,7 +723,6 @@ const QString ResultsCreater::getHTMLVerticalTable(QVector<QStringList> &rows) {
         for (int j = 0; j < rowItem.size(); ++j) {
 
             htmlTable += "   <td>" + rowItem.at(j) + "</td>\n";
-
         }
 
         htmlTable += "</tr>\n";
@@ -773,158 +735,169 @@ const QString ResultsCreater::getHTMLVerticalTable(QVector<QStringList> &rows) {
     return htmlTable;
 }
 
-const inline QString ResultsCreater::getHTMLH1(const QString text) {
+const inline QString ResultsCreater::getHTMLH1(const QString text)
+{
 
     return "<h1>" + text + "</h1>";
 }
 
-const inline QString ResultsCreater::getHTMLH2(const QString text) {
+const inline QString ResultsCreater::getHTMLH2(const QString text)
+{
 
     return "<h2>" + text + "</h2>";
 }
 
-const inline QString ResultsCreater::getHTMLH3(const QString text) {
+const inline QString ResultsCreater::getHTMLH3(const QString text)
+{
 
     return "<h3>" + text + "</h3>";
 }
 
-const inline QString ResultsCreater::getHTMLHeader(const QString title) {
+const inline QString ResultsCreater::getHTMLHeader(const QString title)
+{
 
-    return
-        "<head>\n"
-          "<meta charset=\"UTF-8\">\n"
-          "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n"
-          "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no\" />\n"
-          "<meta name=\"description\" content=\"\">\n"
-          "<meta name=\"author\" content=\"Letecká Amaterská Asociace ČR\">\n"
-          "<meta property=\"og:title\" content=\"" + title + "\"/>\n"
+    return "<head>\n"
+           "<meta charset=\"UTF-8\">\n"
+           "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n"
+           "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no\" />\n"
+           "<meta name=\"description\" content=\"\">\n"
+           "<meta name=\"author\" content=\"Letecká Amaterská Asociace ČR\">\n"
+           "<meta property=\"og:title\" content=\""
+        + title + "\"/>\n"
 
-          "<title>" + title + "</title>\n"
+                  "<title>"
+        + title + "</title>\n"
 
-          "<!-- Bootstrap core CSS -->\n"
-          "<link rel=\"stylesheet\" type=\"text/css\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css\">\n"
-          "<link href=\"../bin/viewer+/x64/www/css/style.css\" rel=\"stylesheet\">\n"
-          "<link href=\"../bin/viewer+/x86/www/css/style.css\" rel=\"stylesheet\">\n"
+                  "<!-- Bootstrap core CSS -->\n"
+                  "<link rel=\"stylesheet\" type=\"text/css\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css\">\n"
+                  "<link href=\"../bin/viewer+/x64/www/css/style.css\" rel=\"stylesheet\">\n"
+                  "<link href=\"../bin/viewer+/x86/www/css/style.css\" rel=\"stylesheet\">\n"
 
+                  "<style>"
+                  "@media print {"
+                  ".table-startlist > tbody > tr > td, .table-startlist > tbody > tr > th, .table-startlist > tfoot > tr > td, .table-startlist > tfoot > tr > th, .table-startlist > thead > tr > td, .table-startlist > thead > tr > th"
+                  "{"
+                  "padding: 3px;"
+                  "}"
+                  ".greyText {"
+                  "color: #ccc !important;"
+                  "},"
 
-        "<style>"
-        "@media print {"
-          ".table-startlist > tbody > tr > td, .table-startlist > tbody > tr > th, .table-startlist > tfoot > tr > td, .table-startlist > tfoot > tr > th, .table-startlist > thead > tr > td, .table-startlist > thead > tr > th"
-          "{"
-            "padding: 3px;"
-          "}"
-            ".greyText {"
-                "color: #ccc !important;"
-            "},"
+                  ".col-xs-1,"
+                  ".col-xs-2,"
+                  ".col-xs-3,"
+                  ".col-xs-4,"
+                  ".col-xs-5,"
+                  ".col-xs-6,"
+                  ".col-xs-7,"
+                  ".col-xs-8,"
+                  ".col-xs-9,"
+                  ".col-xs-10,"
+                  ".col-xs-11,"
+                  ".col-xs-12 {"
+                  "   float: none;"
+                  "   width: 100%;"
+                  "}"
 
-            ".col-xs-1,"
-            ".col-xs-2,"
-            ".col-xs-3,"
-            ".col-xs-4,"
-            ".col-xs-5,"
-            ".col-xs-6,"
-            ".col-xs-7,"
-            ".col-xs-8,"
-            ".col-xs-9,"
-            ".col-xs-10,"
-            ".col-xs-11,"
-            ".col-xs-12 {"
-            "   float: none;"
-            "   width: 100%;"
-            "}"
+                  ".container {"
+                  "   width: auto;"
+                  "}"
+                  "}"
+                  "</style>"
 
-            ".container {"
-            "   width: auto;"
-            "}"
-        "}"
-        "</style>"
-
-        "</head>\n"
-        "\n"
-    ;
+                  "</head>\n"
+                  "\n";
 }
 
-const inline QString ResultsCreater::getHTMLBodyScript() {
+const inline QString ResultsCreater::getHTMLBodyScript()
+{
 
-    return
-            "<!-- Placed at the end of the document so the pages load faster -->\n"
+    return "<!-- Placed at the end of the document so the pages load faster -->\n"
 
-            "<script>\n"
-            "<type=\"text/javascript\" src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js\">\n"
-            "<type=\"text/javascript\" src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js\">\n"
-            "<type=\"text/javascript\" src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/selectize.min.js\">\n"
+           "<script>\n"
+           "<type=\"text/javascript\" src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js\">\n"
+           "<type=\"text/javascript\" src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js\">\n"
+           "<type=\"text/javascript\" src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/selectize.min.js\">\n"
 
-            "<type=\"text/javascript\" src=\"../bin/viewer+/x86/www/js/jquery.min.js\">\n"
-            "<type=\"text/javascript\" src=\"../bin/viewer+/x86/www/js/bootstrap.min.js\">\n"
-            "<type=\"text/javascript\" src=\"../bin/viewer+/x86/www/js/selectize.min.js\">\n"
+           "<type=\"text/javascript\" src=\"../bin/viewer+/x86/www/js/jquery.min.js\">\n"
+           "<type=\"text/javascript\" src=\"../bin/viewer+/x86/www/js/bootstrap.min.js\">\n"
+           "<type=\"text/javascript\" src=\"../bin/viewer+/x86/www/js/selectize.min.js\">\n"
 
-            "<type=\"text/javascript\" src=\"../bin/viewer+/x64/www/js/jquery.min.js\">\n"
-            "<type=\"text/javascript\" src=\"../bin/viewer+/x64/www/js/bootstrap.min.js\">\n"
-            "<type=\"text/javascript\" src=\"../bin/viewer+/x64/www/js/selectize.min.js\">\n"
-            "</script>\n"
+           "<type=\"text/javascript\" src=\"../bin/viewer+/x64/www/js/jquery.min.js\">\n"
+           "<type=\"text/javascript\" src=\"../bin/viewer+/x64/www/js/bootstrap.min.js\">\n"
+           "<type=\"text/javascript\" src=\"../bin/viewer+/x64/www/js/selectize.min.js\">\n"
+           "</script>\n"
 
-            "<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->\n"
-            "\n"
-    ;
+           "<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->\n"
+           "\n";
 }
 
-const inline QString ResultsCreater::getImageBase64(const QUrl &image) {
+const inline QString ResultsCreater::getImageBase64(const QUrl& image)
+{
 
     return QString(file.read(image).toBase64());
 }
 
-const inline QString ResultsCreater::getHTMLResponsiveImage(const QString &base64) {
+const inline QString ResultsCreater::getHTMLResponsiveImage(const QString& base64)
+{
 
     return "<img class=\"img-responsive\" src=\"data:image/png;base64," + base64 + "\">";
 }
 
-const inline QString ResultsCreater::getHTMLRoundedImage(const QString &base64, const QString heightPx, const QString widthPx) {
+const inline QString ResultsCreater::getHTMLRoundedImage(const QString& base64, const QString heightPx, const QString widthPx)
+{
 
     return "<img style=\"height: " + heightPx + "; width: " + widthPx + ";\" class=\"img-rounded\" src=\"data:image/png;base64," + base64 + "\">";
 }
 
-const inline QString ResultsCreater::getHTMLStartTableTag() {
+const inline QString ResultsCreater::getHTMLStartTableTag()
+{
 
     return "<table class=\"table table-striped table-startlist\">";
 }
 
-const inline QString ResultsCreater::getHTMLEndTableTag() {
+const inline QString ResultsCreater::getHTMLEndTableTag()
+{
 
     return "</table>";
 }
 
-const inline QString ResultsCreater::getHTMLSpace(const int spaceInPx) {
+const inline QString ResultsCreater::getHTMLSpace(const int spaceInPx)
+{
 
     return "<div class=\"col-xs-12\" style=\"height:" + QString::number(spaceInPx) + "px;\"></div>";
 }
 
-const inline QString ResultsCreater::getUserTableRowRecordWithAvatar(const QString &avatarBase64,
-                                                                     const QString &name) {
+const inline QString ResultsCreater::getUserTableRowRecordWithAvatar(const QString& avatarBase64,
+    const QString& name)
+{
 
     QString avatar = avatarBase64 == "" ? BLANK_USER_BASE64 : avatarBase64;
 
     return "<tr><td style=\"width:50px; height:42px\">" + getHTMLRoundedImage(avatar, "40px", "40px") + "</td><td>" + name + "</td></tr>";
 }
 
-const inline QString ResultsCreater::getHeaderItemWithHelp(const QString shortcut, const QString help) {
+const inline QString ResultsCreater::getHeaderItemWithHelp(const QString shortcut, const QString help)
+{
 
     return "<abbr class=\"hidden-print\" title=\"" + help + "\">" + shortcut + "</abbr><span class=\"visible-print-inline\">" + shortcut + "</span>";
 }
 
-const inline QString ResultsCreater::getPrintOnlyText(const QString text) {
+const inline QString ResultsCreater::getPrintOnlyText(const QString text)
+{
 
     return "<span class=\"visible-print-inline\">" + text + "</span>";
 }
 
-
-const QStringList ResultsCreater::getTranslatedStringList(QStringList sourceList) {
+const QStringList ResultsCreater::getTranslatedStringList(QStringList sourceList)
+{
 
     // load qml component, used for localization
     QVariant returnedValue;
     QStringList translatedList;
     QQmlEngine engine;
     QQmlComponent component(&engine, QStringLiteral("qrc:/src/qml/components/MyTranslator.qml"));
-    QObject *object = component.create();
+    QObject* object = component.create();
 
     for (int i = 0; i < sourceList.length(); i++) {
 
@@ -937,65 +910,64 @@ const QStringList ResultsCreater::getTranslatedStringList(QStringList sourceList
     return translatedList;
 }
 
-
-
-const QString ResultsCreater::getTranslatedString(QString sourceString) {
+const QString ResultsCreater::getTranslatedString(QString sourceString)
+{
 
     return getTranslatedStringList(QStringList() << sourceString).join("");
 }
 
-
-int ResultsCreater::timeToSec(const QTime &time) {
+int ResultsCreater::timeToSec(const QTime& time)
+{
 
     return QTime(0, 0, 0).secsTo(time);
 }
 
-int ResultsCreater::addUtcToTime(const int timeSec, const int utcOffsetSec) {
+int ResultsCreater::addUtcToTime(const int timeSec, const int utcOffsetSec)
+{
 
     if (timeSec <= 0) {
         return 0;
-    }
-    else {
+    } else {
         return timeSec + utcOffsetSec;
     }
 }
 
-int ResultsCreater::addUtcToTime(const QTime &time, const int utcOffsetSec) {
+int ResultsCreater::addUtcToTime(const QTime& time, const int utcOffsetSec)
+{
 
     int timeSec = timeToSec(time);
 
     if (timeSec <= 0) {
         return 0;
-    }
-    else {
+    } else {
         return timeSec + utcOffsetSec;
     }
 }
 
-
-int ResultsCreater::subUtcFromTime(const int timeSec, const int utcOffsetSec) {
+int ResultsCreater::subUtcFromTime(const int timeSec, const int utcOffsetSec)
+{
 
     if (timeSec <= 0) {
         return 0;
-    }
-    else {
+    } else {
         return timeSec - utcOffsetSec;
     }
 }
 
-int ResultsCreater::subUtcFromTime(const QTime &time, const int utcOffsetSec) {
+int ResultsCreater::subUtcFromTime(const QTime& time, const int utcOffsetSec)
+{
 
     int timeSec = timeToSec(time);
 
     if (timeSec <= 0) {
         return 0;
-    }
-    else {
+    } else {
         return timeSec - utcOffsetSec;
     }
 }
 
-QString ResultsCreater::pointFlagToString(const unsigned int f) {
+QString ResultsCreater::pointFlagToString(const unsigned int f)
+{
 
     // original functions was in function.js and ScoreListTableDelegate.qml
 
@@ -1008,7 +980,7 @@ QString ResultsCreater::pointFlagToString(const unsigned int f) {
     if (nMask > 0x7fffffff) {
         return "ERR - invalid mask value1";
     }
-    for (int nShifted = nMask; nShifted; ) {
+    for (int nShifted = nMask; nShifted;) {
 
         arr.push_back(bool(nShifted & 1));
         nShifted >>= 1;
@@ -1026,7 +998,7 @@ QString ResultsCreater::pointFlagToString(const unsigned int f) {
         // "SG"
         str.push_back("track-list-delegate-sg-short");
     }
-    if (arr[3]){
+    if (arr[3]) {
         // "ALT_MIN"
         str.push_back("track-list-delegate-alt_min-short");
     }

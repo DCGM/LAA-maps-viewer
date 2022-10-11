@@ -1,8 +1,10 @@
-#include <QDebug>
 #include "igcfiltered.h"
 #include "igc.h"
+#include <QDebug>
 
-IgcFiltered::IgcFiltered(QObject *parent) :  QAbstractListModel(parent) {
+IgcFiltered::IgcFiltered(QObject* parent)
+    : QAbstractListModel(parent)
+{
 
     igcFile = new IgcFile();
     m_invalid_count = 0;
@@ -10,35 +12,35 @@ IgcFiltered::IgcFiltered(QObject *parent) :  QAbstractListModel(parent) {
     m_trimmed_end_count = 0;
 }
 
-IgcFiltered::~IgcFiltered() {
+IgcFiltered::~IgcFiltered()
+{
     delete igcFile;
-
 }
 
-qreal IgcFiltered::getDistanceTo(qreal lat, qreal lon, qreal tlat, qreal tlon) {
+qreal IgcFiltered::getDistanceTo(qreal lat, qreal lon, qreal tlat, qreal tlon)
+{
 
-    qreal dlat = pow(sin((tlat-lat) * (M_PI/180.0) / 2), 2);
-    qreal dlon = pow(sin((tlon-lon) * (M_PI/180.0) / 2), 2);
-    qreal a = dlat + cos(lat * (M_PI/180.0)) * cos(tlat * (M_PI/180.0)) * dlon;
-    qreal c = 2 * atan2(sqrt(a), sqrt(1-a));
+    qreal dlat = pow(sin((tlat - lat) * (M_PI / 180.0) / 2), 2);
+    qreal dlon = pow(sin((tlon - lon) * (M_PI / 180.0) / 2), 2);
+    qreal a = dlat + cos(lat * (M_PI / 180.0)) * cos(tlat * (M_PI / 180.0)) * dlon;
+    qreal c = 2 * atan2(sqrt(a), sqrt(1 - a));
     return 6371000.0 * c;
 }
 
-qreal IgcFiltered::getBearingTo(qreal lat, qreal lon, qreal tlat, qreal tlon) {
-    qreal lat1 = lat * (M_PI/180.0);
-    qreal lat2 = tlat * (M_PI/180.0);
+qreal IgcFiltered::getBearingTo(qreal lat, qreal lon, qreal tlat, qreal tlon)
+{
+    qreal lat1 = lat * (M_PI / 180.0);
+    qreal lat2 = tlat * (M_PI / 180.0);
 
-    qreal dlon = (tlon - lon) * (M_PI/180.0);
+    qreal dlon = (tlon - lon) * (M_PI / 180.0);
     qreal y = sin(dlon) * cos(lat2);
     qreal x = cos(lat1) * sin(lat2) - sin(lat1) * cos(lat2) * cos(dlon);
-    return fmod((360 + (atan2(y, x)) * (180.0/M_PI)), 360.0);
+    return fmod((360 + (atan2(y, x)) * (180.0 / M_PI)), 360.0);
 }
 
-
-
-bool IgcFiltered::load(const QString &path, const QTime after, const bool removeAfterLanding) {
+bool IgcFiltered::load(const QString& path, const QTime after, const bool removeAfterLanding)
+{
     igcFile->load(path);
-
 
     QList<IgcEvent*> events = igcFile->events();
     filtered_events.clear();
@@ -64,7 +66,7 @@ bool IgcFiltered::load(const QString &path, const QTime after, const bool remove
             m_trimmed_count++;
             continue;
         }
-        Fix const* igcFix = static_cast<Fix const *>(*it);
+        Fix const* igcFix = static_cast<Fix const*>(*it);
 
         if (!igcFix->getValid()) {
             m_invalid_count++;
@@ -90,16 +92,15 @@ bool IgcFiltered::load(const QString &path, const QTime after, const bool remove
         } else {
             filtered_events.append((*it));
         }
-
     }
-
 
     emit eventsChanged();
 
     return false;
 }
 
-void IgcFiltered::clear() {
+void IgcFiltered::clear()
+{
     filtered_events.clear();
     m_invalid_count = 0;
     m_trimmed_count = 0;
@@ -107,20 +108,21 @@ void IgcFiltered::clear() {
     emit eventsChanged();
 }
 
-int IgcFiltered::getCount() {
+int IgcFiltered::getCount()
+{
     return filtered_events.count();
 }
 
-
-QVariant IgcFiltered::data(const QModelIndex &index, int role) const {
+QVariant IgcFiltered::data(const QModelIndex& index, int role) const
+{
     if (index.row() < 0 || index.row() > filtered_events.count()) {
         return QVariant();
     }
 
     const IgcEvent* item = filtered_events[index.row()];
 
-    if (item->getEventType() != IgcEvent::FIX)  {
-        switch(role) {
+    if (item->getEventType() != IgcEvent::FIX) {
+        switch (role) {
         case typeRole:
             return item->getEventType();
             break;
@@ -130,10 +132,9 @@ QVariant IgcFiltered::data(const QModelIndex &index, int role) const {
         default:
             return QVariant();
         }
-
     }
 
-    Fix const* igcFix = static_cast<Fix const *>(item);
+    Fix const* igcFix = static_cast<Fix const*>(item);
 
     if (!igcFix->getValid()) {
         if (role == validRole) {
@@ -144,34 +145,40 @@ QVariant IgcFiltered::data(const QModelIndex &index, int role) const {
     }
 
     switch (role) {
-    case typeRole: return igcFix->getEventType();
-    case timeRole: return igcFix->getTimestamp();
-    case latRole: return igcFix->getLat();
-    case lonRole: return igcFix->getLon();
-    case altRole: return igcFix->getAlt();
-    case pressureAltRole: return igcFix->getPressureAlt();
-    case validRole: return igcFix->getValid();
+    case typeRole:
+        return igcFix->getEventType();
+    case timeRole:
+        return igcFix->getTimestamp();
+    case latRole:
+        return igcFix->getLat();
+    case lonRole:
+        return igcFix->getLon();
+    case altRole:
+        return igcFix->getAlt();
+    case pressureAltRole:
+        return igcFix->getPressureAlt();
+    case validRole:
+        return igcFix->getValid();
     }
-
 
     return QVariant();
 }
 
-int IgcFiltered::rowCount(const QModelIndex &parent) const {
+int IgcFiltered::rowCount(const QModelIndex& parent) const
+{
     Q_UNUSED(parent)
     return filtered_events.count();
-
 }
 
-QVariant IgcFiltered::get(int row) {
+QVariant IgcFiltered::get(int row)
+{
     QModelIndex myidx = index(row);
 
     QMap<QString, QVariant> itemData;
     QHashIterator<int, QByteArray> hashItr(roleNames());
-    while(hashItr.hasNext()){
+    while (hashItr.hasNext()) {
         hashItr.next();
-        itemData.insert(hashItr.value(),myidx.data(hashItr.key()).toString());
-
+        itemData.insert(hashItr.value(), myidx.data(hashItr.key()).toString());
     }
     // Edit:
     // My C++ is sometimes a bit rusty, I was deleting item...
@@ -180,8 +187,8 @@ QVariant IgcFiltered::get(int row) {
     return QVariant(itemData);
 }
 
-
-QHash<int,QByteArray> IgcFiltered::roleNames() const {
+QHash<int, QByteArray> IgcFiltered::roleNames() const
+{
     QHash<int, QByteArray> roles;
     roles[typeRole] = "type";
     roles[timeRole] = "time";

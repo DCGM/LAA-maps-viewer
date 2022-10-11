@@ -6,24 +6,30 @@
 /// A single event from the igc file.
 /// the field type determines which subclass of Event
 /// this is.
-class IgcEvent: public QObject {
+class IgcEvent : public QObject {
     Q_OBJECT
 
     Q_PROPERTY(EventType eventType READ getEventType WRITE setEventType NOTIFY eventTypeChanged)
     Q_PROPERTY(QTime time READ getTimestamp WRITE setTimestamp NOTIFY timestampChanged)
 
 public:
-
     enum EventType {
         FIX = 1,
         PILOT_EVENT = 2
     };
 
-    void setTimestamp(QTime _timestamp) { m_timestamp = _timestamp; emit timestampChanged(); }
-    void setEventType(EventType _type) { m_type = _type; emit eventTypeChanged(); }
+    void setTimestamp(QTime _timestamp)
+    {
+        m_timestamp = _timestamp;
+        emit timestampChanged();
+    }
+    void setEventType(EventType _type)
+    {
+        m_type = _type;
+        emit eventTypeChanged();
+    }
     QTime getTimestamp() const { return m_timestamp; }
     EventType getEventType() const { return m_type; }
-
 
     IgcEvent();
 
@@ -36,7 +42,6 @@ private:
 signals:
     void eventTypeChanged();
     void timestampChanged();
-
 };
 
 /// GPS fix event.
@@ -63,30 +68,47 @@ signals:
     void pressureAltChanged();
 
 public:
-
-    void setLat(qreal _lat) { m_lat = _lat; emit latChanged(); }
-    void setLon(qreal _lon) { m_lon = _lon; emit lonChanged(); }
-    void setAlt(qreal _alt) { m_alt = _alt; emit altChanged(); }
-    void setPressureAlt (qreal _pressureAlt ) { m_pressureAlt = _pressureAlt; emit pressureAltChanged(); }
-    void setValid(bool _valid) { m_valid = _valid; emit validChanged(); }
+    void setLat(qreal _lat)
+    {
+        m_lat = _lat;
+        emit latChanged();
+    }
+    void setLon(qreal _lon)
+    {
+        m_lon = _lon;
+        emit lonChanged();
+    }
+    void setAlt(qreal _alt)
+    {
+        m_alt = _alt;
+        emit altChanged();
+    }
+    void setPressureAlt(qreal _pressureAlt)
+    {
+        m_pressureAlt = _pressureAlt;
+        emit pressureAltChanged();
+    }
+    void setValid(bool _valid)
+    {
+        m_valid = _valid;
+        emit validChanged();
+    }
 
     qreal getLat() const { return m_lat; }
     qreal getLon() const { return m_lon; }
     qreal getAlt() const { return m_alt; }
     qreal getPressureAlt() const { return m_pressureAlt; }
     bool getValid() const { return m_valid; }
-
 };
 
 /// Pilot event.
-struct PilotEvent : public IgcEvent {};
+struct PilotEvent : public IgcEvent { };
 
 /// A class that loads an IGC file.
 class IgcFile : public QAbstractListModel {
-//class IgcFile : public QObject {
+    // class IgcFile : public QObject {
     Q_OBJECT
 public:
-
     enum IgcEventRoles {
         typeRole = Qt::UserRole + 1,
         timeRole,
@@ -96,16 +118,14 @@ public:
         pressureAltRole,
         validRole
     };
-    QHash<int,QByteArray> roleNames() const;
-
+    QHash<int, QByteArray> roleNames() const;
 
     IgcFile(QObject* object = 0);
     ~IgcFile() { clear(); }
 
-    Q_INVOKABLE bool load(const QString &path, QTextCodec *codec = 0);
-    bool load(QIODevice *file, QTextCodec *codec = 0);
+    Q_INVOKABLE bool load(const QString& path, QTextCodec* codec = 0);
+    bool load(QIODevice* file, QTextCodec* codec = 0);
     Q_INVOKABLE void clear();
-
 
     int getCount() { return rowCount(); }
     Q_INVOKABLE QVariant get(int row);
@@ -155,15 +175,14 @@ public:
 
     /// Return a const reference to the event map.
 
-//    Q_PROPERTY(QList<IgcEvent*> events READ events NOTIFY eventsChanged)
+    //    Q_PROPERTY(QList<IgcEvent*> events READ events NOTIFY eventsChanged)
     Q_PROPERTY(int count READ getCount NOTIFY eventsChanged)
     QList<IgcEvent*> events() const { return eventList; }
 
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
-    int rowCount(const QModelIndex &parent = QModelIndex()) const;
+    QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
+    int rowCount(const QModelIndex& parent = QModelIndex()) const;
 
-
-//    const EventList events() const { return eventList; }
+    //    const EventList events() const { return eventList; }
 
 private:
     /// Load record into the buffer and parse it.
@@ -213,7 +232,7 @@ private:
 
     char previousRecord;
     QIODevice* file;
-    QTextCodec *activeCodec;
+    QTextCodec* activeCodec;
 
     /// Data extracted from IGC headers.
     /// \{
@@ -230,8 +249,6 @@ private:
     /// \}
 signals:
     void eventsChanged();
-
 };
 
-#endif  // IGC__H
-
+#endif // IGC__H

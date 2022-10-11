@@ -1,33 +1,33 @@
 #include <QApplication>
-#include <QtDebug>
 #include <QFile>
-#include <QTextStream>
 #include <QObject>
+#include <QTextStream>
 #include <QTranslator>
+#include <QtDebug>
 
-#include <QQmlApplicationEngine>
-#include <QtQml>
-#include <QQuickWindow>
 #include <QLoggingCategory>
+#include <QQmlApplicationEngine>
+#include <QQuickWindow>
+#include <QtQml>
 #include <QtWidgets>
 
 //#include "qtquick2applicationviewer.h"
 //#include "igc.h"
-#include "igcfiltered.h"
 #include "filereader.h"
-#include "networkaccessmanagerfactory.h"
+#include "igcfiltered.h"
 #include "imagesaver.h"
+#include "networkaccessmanagerfactory.h"
 #include "pdfwriter.h"
-#include "sortfilterproxymodel.h"
 #include "resultscreater.h"
-#include "worker.h"
+#include "sortfilterproxymodel.h"
 #include "uploader.h"
-
+#include "worker.h"
 
 // turns on logging of context (file+line number) in c++
 #define QT_MESSAGELOGCONTEXT
 
-void myMessageHandler(QtMsgType type, const QMessageLogContext& context, const QString& msg) {
+void myMessageHandler(QtMsgType type, const QMessageLogContext& context, const QString& msg)
+{
     QString txt;
 
     QDateTime now = QDateTime::currentDateTime();
@@ -38,8 +38,8 @@ void myMessageHandler(QtMsgType type, const QMessageLogContext& context, const Q
     if (!QDir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)).exists()) {
         QDir().mkpath(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation));
     }
-    QFile outFile(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QDir::separator() +"viewer.log");
-#elif (defined (Q_OS_WIN) || defined (Q_OS_WIN32) || defined (Q_OS_WIN64))
+    QFile outFile(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QDir::separator() + "viewer.log");
+#elif (defined(Q_OS_WIN) || defined(Q_OS_WIN32) || defined(Q_OS_WIN64))
     QFile outFile("viewer.log");
 #else
     QFile outfile("viewer.log");
@@ -51,7 +51,6 @@ void myMessageHandler(QtMsgType type, const QMessageLogContext& context, const Q
         std_err << "Cannot open log file" << endl;
     }
     QTextStream ts(&outFile);
-
 
     switch (type) {
     case QtDebugMsg:
@@ -74,15 +73,13 @@ void myMessageHandler(QtMsgType type, const QMessageLogContext& context, const Q
         txt = QString("%1 [O]: %2:%3 @ %4(): %5").arg(now.toString(Qt::ISODate)).arg(context.file).arg(context.line).arg(context.function).arg(msg);
         std_err << txt << endl;
         break;
-
     }
     ts << txt << endl;
 
     outFile.close();
 }
 
-
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
@@ -94,8 +91,8 @@ int main(int argc, char *argv[])
 
     qInstallMessageHandler(myMessageHandler);
 
-    qDebug() << "Starting build " << QString::fromLocal8Bit(GIT_VERSION) << " "<< QString::fromLocal8Bit(__DATE__) << " " <<  QString::fromLocal8Bit(__TIME__) << "Qt:" << qVersion();
-    qDebug() << "supportsSsl" <<QSslSocket::supportsSsl() << "build version:"<< QSslSocket::sslLibraryBuildVersionString() << "library version:" << QSslSocket::sslLibraryVersionString();
+    qDebug() << "Starting build " << QString::fromLocal8Bit(GIT_VERSION) << " " << QString::fromLocal8Bit(__DATE__) << " " << QString::fromLocal8Bit(__TIME__) << "Qt:" << qVersion();
+    qDebug() << "supportsSsl" << QSslSocket::supportsSsl() << "build version:" << QSslSocket::sslLibraryBuildVersionString() << "library version:" << QSslSocket::sslLibraryVersionString();
     if (!QSslSocket::supportsSsl()) {
         QMessageBox::critical(NULL, QMessageBox::tr("Error"), QMessageBox::tr("SSL is not installed"), QMessageBox::Ok);
         qFatal("SSL is not installed");
@@ -118,11 +115,11 @@ int main(int argc, char *argv[])
     QTranslator translator;
 
     // custom components
-    if (translator.load(QLocale(), QLatin1String("viewer"), QLatin1String("_"), QLatin1String(".") )) {
+    if (translator.load(QLocale(), QLatin1String("viewer"), QLatin1String("_"), QLatin1String("."))) {
         app.installTranslator(&translator);
         engine.rootContext()->setContextProperty("locale", QLocale::system().bcp47Name());
         qDebug() << QLocale::system().name() << QLocale::system().bcp47Name();
-    } else if (translator.load(QLocale(), QLatin1String("viewer"), QLatin1String("_"), QString(QLibraryInfo::TranslationsPath) )) {
+    } else if (translator.load(QLocale(), QLatin1String("viewer"), QLatin1String("_"), QString(QLibraryInfo::TranslationsPath))) {
         app.installTranslator(&translator);
         engine.rootContext()->setContextProperty("locale", QLocale::system().bcp47Name());
         qDebug() << QLocale::system().name() << QLocale::system().bcp47Name() << QLibraryInfo::location(QLibraryInfo::TranslationsPath);
@@ -135,7 +132,7 @@ int main(int argc, char *argv[])
             app.installTranslator(&translator);
         }
 
-        engine.rootContext()->setContextProperty("locale","en");
+        engine.rootContext()->setContextProperty("locale", "en");
     }
     engine.rootContext()->setContextProperty("builddate", QString::fromLocal8Bit(__DATE__));
     engine.rootContext()->setContextProperty("buildtime", QString::fromLocal8Bit(__TIME__));
@@ -145,21 +142,20 @@ int main(int argc, char *argv[])
 
     engine.setNetworkAccessManagerFactory(&namFactory);
     engine.rootContext()->setContextProperty("QStandardPathsHomeLocation", QStandardPaths::standardLocations(QStandardPaths::HomeLocation)[0]);
-    engine.rootContext()->setContextProperty("QStandardPathsApplicationFilePath", QFileInfo( QCoreApplication::applicationFilePath() ).dir().absolutePath() );
+    engine.rootContext()->setContextProperty("QStandardPathsApplicationFilePath", QFileInfo(QCoreApplication::applicationFilePath()).dir().absolutePath());
 
     engine.load(QUrl(QStringLiteral("qrc:/src/qml/main.qml")));
     if (engine.rootObjects().isEmpty()) {
         return -1;
     }
 
-    //engine.setOfflineStoragePath( QFileInfo( QCoreApplication::applicationFilePath() ).dir().absolutePath());
-    //QString str = engine.offlineStoragePath();
-    //qDebug() << "setOfflineStoragePath: " << str;
+    // engine.setOfflineStoragePath( QFileInfo( QCoreApplication::applicationFilePath() ).dir().absolutePath());
+    // QString str = engine.offlineStoragePath();
+    // qDebug() << "setOfflineStoragePath: " << str;
 
-    QObject *topLevel = engine.rootObjects().value(0);
-    QQuickWindow *window = qobject_cast<QQuickWindow *>(topLevel);
+    QObject* topLevel = engine.rootObjects().value(0);
+    QQuickWindow* window = qobject_cast<QQuickWindow*>(topLevel);
     window->setIcon(QIcon(":/images/viewer64.png"));
     window->show();
     return app.exec();
-
 }
