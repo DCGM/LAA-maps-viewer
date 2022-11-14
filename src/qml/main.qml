@@ -156,6 +156,8 @@ ApplicationWindow {
                     if (checked) {
                         map.url = "";
                         map.url_subdomains = [];
+                        map.maxZoomLevel = 19
+
                     }
                 }
 
@@ -174,6 +176,7 @@ ApplicationWindow {
                 onCheckedChanged: {
                     if (checked) {
                         setLocalPath()
+
                     }
                 }
 
@@ -183,6 +186,9 @@ ApplicationWindow {
                     var homepath = QStandardPathsHomeLocation+"/Maps/OSM/"
                     var binpath = QStandardPathsApplicationFilePath +"/../Maps/OSM/";
                     map.url_subdomains = [];
+                    map.maxZoomLevel = 19
+
+
                     if (file_reader.is_dir_and_exists_local(binpath)) {
                         map.url = "file:///"+binpath + "%(zoom)d/%(x)d/%(y)d.png"
                     } else if (file_reader.is_dir_and_exists_local(homepath)) {
@@ -209,6 +215,8 @@ ApplicationWindow {
                     if (checked) {
                         map.url = "https://%(s)d.tile.openstreetmap.org/%(zoom)d/%(x)d/%(y)d.png";
                         map.url_subdomains = ['a','b', 'c'];
+                        map.maxZoomLevel = 19
+
                     }
                 }
 
@@ -228,6 +236,8 @@ ApplicationWindow {
                     if (checked) {
                         map.url = "https://%(s)d.google.com/vt/lyrs=m@248407269&hl=x-local&x=%(x)d&y=%(y)d&z=%(zoom)d&s=Galileo"
                         map.url_subdomains = ['mt0','mt1','mt2','mt3']
+                        map.maxZoomLevel = 19
+
                     }
                 }
 
@@ -248,6 +258,8 @@ ApplicationWindow {
                     if (checked) {
                         map.url = "https://%(s)d.google.com/vt/lyrs=t,r&x=%(x)d&y=%(y)d&z=%(zoom)d"
                         map.url_subdomains = ['mt0','mt1','mt2','mt3']
+                        map.maxZoomLevel = 19
+
                     }
                 }
 
@@ -267,10 +279,31 @@ ApplicationWindow {
                     if (checked) {
                         map.url = 'https://%(s)d.google.com/vt/lyrs=s&x=%(x)d&y=%(y)d&z=%(zoom)d';
                         map.url_subdomains = ['mt0','mt1','mt2','mt3']
+                        map.maxZoomLevel = 19
+
                     }
                 }
 
                 shortcut: "Ctrl+6"
+            }
+            MenuItem {
+                id: mapDLMap
+                //% "Databáze letišť"
+                text: qsTrId("main-map-menu-databaze-letist")
+                exclusiveGroup: mapTypeExclusive
+                checkable: true;
+                onTriggered: {
+                    config.set("v2_mapTypeExclusive", "main-map-menu-databaze-letist");
+                }
+                onCheckedChanged: {
+                    if (checked) {
+                        map.url = 'https://dl.cz/api/resources/map/actual/Z%(zoom)d/%(y)d/%(x)d.png';
+                        map.url_subdomains = []
+                        map.maxZoomLevel = 13
+                    }
+                }
+
+                shortcut: "Ctrl+7"
             }
             MenuItem {
                 id: mapCustom
@@ -289,7 +322,7 @@ ApplicationWindow {
                     }
                 }
 
-                shortcut: "Ctrl+7"
+                shortcut: "Ctrl+8"
             }
 
             ExclusiveGroup {
