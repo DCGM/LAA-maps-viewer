@@ -1978,6 +1978,10 @@
         <source>t_max</source>
         <translation>t_max</translation>
     </message>
+    <message id="main-map-menu-databaze-letist">
+        <source>Databáze letišť</source>
+        <translation>Databáze letišť</translation>
+    </message>
 </context>
 <context>
     <name>CalendarWindow</name>
