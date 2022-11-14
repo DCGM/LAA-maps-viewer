@@ -30,8 +30,8 @@ add_definitions( -DGIT_VERSION="${GIT_VERSION}" )
 
 find_package(Qt5 COMPONENTS Core Quick Xml Widgets Charts LinguistTools REQUIRED)
 find_package(Qt5QuickCompiler)
-#qtquick_compiler_add_resources(RESOURCES viewer.qrc)
-qt5_add_resources(RESOURCES viewer.qrc)
+qtquick_compiler_add_resources(RESOURCES viewer.qrc)
+#qt5_add_resources(RESOURCES viewer.qrc)
 
 
 file(GLOB TS_FILES i18n/*.ts)
