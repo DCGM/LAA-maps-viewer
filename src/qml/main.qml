@@ -286,25 +286,7 @@ ApplicationWindow {
 
                 shortcut: "Ctrl+6"
             }
-            MenuItem {
-                id: mapDLMap
-                //% "Databáze letišť"
-                text: qsTrId("main-map-menu-databaze-letist")
-                exclusiveGroup: mapTypeExclusive
-                checkable: true;
-                onTriggered: {
-                    config.set("v2_mapTypeExclusive", "main-map-menu-databaze-letist");
-                }
-                onCheckedChanged: {
-                    if (checked) {
-                        map.url = 'https://dl.cz/api/resources/map/actual/Z%(zoom)d/%(y)d/%(x)d.png';
-                        map.url_subdomains = []
-                        map.maxZoomLevel = 13
-                    }
-                }
 
-                shortcut: "Ctrl+7"
-            }
             MenuItem {
                 id: mapCustom
                 //% "Custom tile layer"
@@ -322,8 +304,38 @@ ApplicationWindow {
                     }
                 }
 
+                shortcut: "Ctrl+7"
+            }
+
+            MenuItem {
+                //% "Databáze letišť"
+                text: qsTrId("main-map-menu-databaze-letist")
+                exclusiveGroup: mapTypeExclusive
+                checkable: true;
+                property string homePath: QStandardPathsHomeLocation+"/Maps/DL/"
+                property string binPath: QStandardPathsApplicationFilePath +"/../Maps/DL/"
+                visible: file_reader.is_dir_and_exists_local(binPath) || file_reader.is_dir_and_exists_local(homePath)
+                onTriggered: {
+
+                    map.url_subdomains = [];
+                    map.maxZoomLevel = 19
+                    if (file_reader.is_dir_and_exists_local(binPath)) {
+                        console.log("local map " + binPath)
+                        map.url = Qt.resolvedUrl("file:///"+binPath) + "%(zoom)d/%(x)d/%(y)d.png"
+                    } else if (file_reader.is_dir_and_exists_local(homePath)) {
+                        console.log("local map " + homePath)
+                        map.url = Qt.resolvedUrl("file:///"+homePath) + "%(zoom)d/%(x)d/%(y)d.png"
+                    } else {
+                        map.url = "";
+                        console.warn("local map not found")
+                    }
+
+                    map.url_subdomains = []
+                    map.maxZoomLevel = 13
+                }
                 shortcut: "Ctrl+8"
             }
+
 
             ExclusiveGroup {
                 id: mapTypeSecondaryExclusive
