@@ -1857,6 +1857,8 @@ Rectangle {
         id: attributionText
         anchors.bottom: parent.bottom
         anchors.left: parent.left
+        anchors.right: parent.right
+        horizontalAlignment: Text.AlignLeft
         anchors.leftMargin: 5
         anchors.bottomMargin: 2
         font.pixelSize: 12
