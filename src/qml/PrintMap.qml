@@ -32,7 +32,6 @@ Rectangle {
 
     property variant polygonCache;
 
-    property int earthRadius: 6371000
     property bool needsUpdate: false
 
 
@@ -206,7 +205,7 @@ Rectangle {
     }
 
     function getMetersPerPixel(lat) {
-        return Math.cos(lat * Math.PI / 180.0) * 2.0 * Math.PI * earthRadius / (256 * (maxTileNo + 1))
+        return Math.cos(lat * Math.PI / 180.0) * 2.0 * Math.PI * G.earth_radius / (256 * (maxTileNo + 1))
     }
 
     function deg2rad(deg) {

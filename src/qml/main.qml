@@ -157,6 +157,7 @@ ApplicationWindow {
                         map.url = "";
                         map.url_subdomains = [];
                         map.maxZoomLevel = 19
+                        map.attribution = ""
 
                     }
                 }
@@ -187,7 +188,7 @@ ApplicationWindow {
                     var binpath = QStandardPathsApplicationFilePath +"/../Maps/OSM/";
                     map.url_subdomains = [];
                     map.maxZoomLevel = 19
-
+                    map.attribution = ""
 
                     if (file_reader.is_dir_and_exists_local(binpath)) {
                         map.url = "file:///"+binpath + "%(zoom)d/%(x)d/%(y)d.png"
@@ -216,6 +217,9 @@ ApplicationWindow {
                         map.url = "https://%(s)d.tile.openstreetmap.org/%(zoom)d/%(x)d/%(y)d.png";
                         map.url_subdomains = ['a','b', 'c'];
                         map.maxZoomLevel = 19
+                        map.attribution = "data &copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a> contributors, " +
+                        "<a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, "
+                        "Imagery © <a href=\"http://mapbox.com\">Mapbox</a>"
 
                     }
                 }
@@ -237,6 +241,7 @@ ApplicationWindow {
                         map.url = "https://%(s)d.google.com/vt/lyrs=m@248407269&hl=x-local&x=%(x)d&y=%(y)d&z=%(zoom)d&s=Galileo"
                         map.url_subdomains = ['mt0','mt1','mt2','mt3']
                         map.maxZoomLevel = 19
+                        map.attribution = "data &copy; Google"
 
                     }
                 }
@@ -259,6 +264,7 @@ ApplicationWindow {
                         map.url = "https://%(s)d.google.com/vt/lyrs=t,r&x=%(x)d&y=%(y)d&z=%(zoom)d"
                         map.url_subdomains = ['mt0','mt1','mt2','mt3']
                         map.maxZoomLevel = 19
+                        map.attribution = "data &copy; Google"
 
                     }
                 }
@@ -280,6 +286,7 @@ ApplicationWindow {
                         map.url = 'https://%(s)d.google.com/vt/lyrs=s&x=%(x)d&y=%(y)d&z=%(zoom)d';
                         map.url_subdomains = ['mt0','mt1','mt2','mt3']
                         map.maxZoomLevel = 19
+                        map.attribution = "data &copy; Google"
 
                     }
                 }
@@ -301,6 +308,8 @@ ApplicationWindow {
                     if (checked) {
                         mapurl_dialog.open();
                         map.url_subdomains = [];
+                        map.attribution = ""
+
                     }
                 }
 
@@ -332,6 +341,7 @@ ApplicationWindow {
 
                     map.url_subdomains = []
                     map.maxZoomLevel = 13
+                    map.attribution = "&copy; Databáze Letišť"
                 }
                 shortcut: "Ctrl+8"
             }
@@ -355,6 +365,7 @@ ApplicationWindow {
                     if (checked) {
                         map.airspaceUrl = ""
                         map.mapAirspaceVisible = false;
+                        map.airspaceAttribution = ""
                     }
                 }
             }
@@ -372,6 +383,7 @@ ApplicationWindow {
                     if (checked) {
                         map.airspaceUrl = "https://skylines.aero/mapproxy/tiles/1.0.0/airspace+airports/EPSG3857/%(zoom)d/%(x)d/%(y)d.png"
                         map.mapAirspaceVisible = true;
+                        map.airspaceAttribution = "&copy; skylines.aero"
                     }
                 }
             }
@@ -395,6 +407,8 @@ ApplicationWindow {
                     var homepath = QStandardPathsHomeLocation+"/Maps/airspace/tiles/"
                     var binpath = QStandardPathsApplicationFilePath +"/../Maps/airspace/tiles/";
                     map.url_subdomains = [];
+                    map.airspaceAttribution = ""
+
                     if (file_reader.is_dir_and_exists_local(binpath)) {
                         map.airspaceUrl = "file:///"+binpath + "%(zoom)d/%(x)d/%(y)d.png"
                         map.mapAirspaceVisible = true;
