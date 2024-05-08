@@ -94,8 +94,8 @@ Item {
 
     function uploadResults(id) {
 
+        api_key_value = config.get("api_key", "");
         // remove all files and inti upload
-
         initCompetitionFileStorage(pathConfiguration.base_url + "/competitionFilesInit.php", id, api_key_value)
     }
 
