@@ -20,7 +20,7 @@ jobs:
         target: 'desktop'
         arch: 'win64_msvc2019_64'
         modules: 'qtcharts'
-        tools: 'tools_opensslv3_x64,qt.tools.opensslv3.win_x64,3.0.12'
+        tools: 'tools_opensslv3_x64,3.0.12-1,qt.tools.opensslv3.win_x64'
 
 
     - name: Build
