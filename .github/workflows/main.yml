@@ -8,7 +8,7 @@ jobs:
     strategy:
       matrix:
         os: [windows-2019]
-        version: ['5.15.2']
+        version: ['5.15.6']
     steps:
     - uses: actions/checkout@v1
 
@@ -20,7 +20,7 @@ jobs:
         target: 'desktop'
         arch: 'win64_msvc2019_64'
         modules: 'qtcharts'
-        tools: 'tools_openssl_x64,1.1.1-10,qt.tools.openssl.win_x64'
+        tools: 'tools_opensslv3_x64,qt.tools.opensslv3.win_x64'
 
     - name: Build
       if: startsWith(matrix.os, 'windows')
