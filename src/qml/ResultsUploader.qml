@@ -272,7 +272,7 @@ Item {
                                 //% "Results upload error"
                                 errMessageDialog.title = qsTrId("results-upload-finishing-error-dialog-title")
                                 //% "Unable to complete the results upload. Please check the api key, destination competition, uploaded files and try it again."
-                                errMessageDialog.text = qsTrId("results-upload-finishing-error-dialog-text-unable")
+                                errMessageDialog.text = qsTrId("results-upload-finishing-error-dialog-text-unable") + "\n" + response.message + "\n" + JSON.stringify(response.data)
                                 errMessageDialog.standardButtons = StandardButton.Close
                                 errMessageDialog.showDialog();
                                 uploaderDialog.finishRunning  = false;
