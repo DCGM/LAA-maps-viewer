@@ -1,5 +1,5 @@
 Name:           viewer
-Version:        0.5.1
+Version:        0.5.4
 Release:        %(date +%Y%m%d%H)%{?dist}
 Summary:        viewer of LAA Competition tracks
 
